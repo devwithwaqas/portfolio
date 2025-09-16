@@ -1,0 +1,30 @@
+{
+  "name": "portfolio-vue",
+  "version": "1.0.0",
+  "description": "Waqas Ahmad Portfolio - Vue.js SPA",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@vueup/vue-quill": "^1.2.0",
+    "quill": "^2.0.3",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "vite": "^4.4.5"
+  },
+  "keywords": [
+    "portfolio",
+    "vue",
+    "spa",
+    "developer"
+  ],
+  "author": "Waqas Ahmad",
+  "license": "MIT"
+}
