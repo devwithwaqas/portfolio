@@ -4,12 +4,12 @@
 
     <nav id="navmenu" class="navmenu" :class="{ 'mobile-nav-open': mobileMenuOpen }">
       <ul>
-        <li><a href="#hero" class="nav-link" :class="{ active: activeSection === 'hero' }" @click="scrollToSection('hero', $event)"><i class="bi bi-house navicon"></i><span>Home</span></a></li>
-        <li><a href="#about" class="nav-link" :class="{ active: activeSection === 'about' }" @click="scrollToSection('about', $event)"><i class="bi bi-person navicon"></i><span>About</span></a></li>
-        <li><a href="#resume" class="nav-link" :class="{ active: activeSection === 'resume' }" @click="scrollToSection('resume', $event)"><i class="bi bi-file-earmark-text navicon"></i><span>Resume</span></a></li>
-        <li><a href="#portfolio" class="nav-link" :class="{ active: activeSection === 'portfolio' }" @click="scrollToSection('portfolio', $event)"><i class="bi bi-images navicon"></i><span>Portfolio</span></a></li>
-        <li><a href="#services" class="nav-link" :class="{ active: activeSection === 'services' }" @click="scrollToSection('services', $event)"><i class="bi bi-hdd-stack navicon"></i><span>Services</span></a></li>
-        <li><a href="#contact" class="nav-link" :class="{ active: activeSection === 'contact' }" @click="scrollToSection('contact', $event)"><i class="bi bi-envelope navicon"></i><span>Contact</span></a></li>
+        <li><a href="#hero" class="nav-link" :class="{ active: activeSection === 'hero' }" @click="scrollToSection('hero', $event)"><i class="fas fa-home navicon"></i><span>Home</span></a></li>
+        <li><a href="#about" class="nav-link" :class="{ active: activeSection === 'about' }" @click="scrollToSection('about', $event)"><i class="fas fa-user-circle navicon"></i><span>About</span></a></li>
+        <li><a href="#resume" class="nav-link" :class="{ active: activeSection === 'resume' }" @click="scrollToSection('resume', $event)"><i class="fas fa-file-alt navicon"></i><span>Resume</span></a></li>
+        <li><a href="#portfolio" class="nav-link" :class="{ active: activeSection === 'portfolio' }" @click="scrollToSection('portfolio', $event)"><i class="fas fa-briefcase navicon"></i><span>Portfolio</span></a></li>
+        <li><a href="#services" class="nav-link" :class="{ active: activeSection === 'services' }" @click="scrollToSection('services', $event)"><i class="fas fa-cogs navicon"></i><span>Services</span></a></li>
+        <li><a href="#contact" class="nav-link" :class="{ active: activeSection === 'contact' }" @click="scrollToSection('contact', $event)"><i class="fas fa-envelope navicon"></i><span>Contact</span></a></li>
       </ul>
     </nav>
   </header>

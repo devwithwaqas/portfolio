@@ -299,7 +299,7 @@ h6 {
   height: 56px;
   width: 100%;
   overflow: hidden;
-  transition: 0.3s;
+  transition: color 0.3s ease, background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   border: 2px solid rgba(0, 0, 0, 0.08); /* match hover border width */
   box-sizing: border-box; /* keep width consistent with hover */
@@ -333,12 +333,13 @@ h6 {
 
 .navmenu a:hover:not(.active),
 .navmenu li:hover>a:not(.active) {
-  color: white;
+  color: white !important;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: 2px solid #ffffff;
   border-radius: 28px;
   box-sizing: border-box;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22), 0 6px 20px rgba(102, 126, 234, 0.4);
+  transition: color 0.3s ease, background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Active (selected) state: show ONLY glowing circle, no purple pill */
@@ -362,6 +363,73 @@ h6 {
               0 0 10px 2px rgba(57, 255, 20, 0.90),
               0 0 22px 8px rgba(57, 255, 20, 0.60),
               0 0 44px 12px rgba(0, 255, 170, 0.40),
+              0 8px 16px rgba(0,0,0,0.20);
+}
+
+/* Unique glow effects for each navigation button when active */
+/* Home - Warm Golden Glow with Cream Fill */
+.navmenu li:nth-child(1).active .navicon,
+.navmenu li:nth-child(1) .active .navicon {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 0 8px 2px rgba(255, 193, 7, 0.8),
+              0 0 16px 6px rgba(255, 193, 7, 0.6),
+              0 0 24px 8px rgba(255, 193, 7, 0.4),
+              0 8px 16px rgba(0,0,0,0.20);
+}
+
+/* About - Fresh Emerald Glow with Mint Fill */
+.navmenu li:nth-child(2).active .navicon,
+.navmenu li:nth-child(2) .active .navicon {
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 0 8px 2px rgba(16, 185, 129, 0.8),
+              0 0 16px 6px rgba(16, 185, 129, 0.6),
+              0 0 24px 8px rgba(16, 185, 129, 0.4),
+              0 8px 16px rgba(0,0,0,0.20);
+}
+
+/* Resume - Vibrant Red Glow with Rose Fill */
+.navmenu li:nth-child(3).active .navicon,
+.navmenu li:nth-child(3) .active .navicon {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 0 8px 2px rgba(255, 107, 107, 0.8),
+              0 0 16px 6px rgba(255, 107, 107, 0.6),
+              0 0 24px 8px rgba(255, 107, 107, 0.4),
+              0 8px 16px rgba(0,0,0,0.20);
+}
+
+/* Portfolio - Royal Purple Glow with Lavender Fill */
+.navmenu li:nth-child(4).active .navicon,
+.navmenu li:nth-child(4) .active .navicon {
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 0 8px 2px rgba(142, 45, 226, 0.8),
+              0 0 16px 6px rgba(142, 45, 226, 0.6),
+              0 0 24px 8px rgba(142, 45, 226, 0.4),
+              0 8px 16px rgba(0,0,0,0.20);
+}
+
+/* Services - Cool Blue Glow with Sky Fill */
+.navmenu li:nth-child(5).active .navicon,
+.navmenu li:nth-child(5) .active .navicon {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 0 8px 2px rgba(0, 114, 255, 0.8),
+              0 0 16px 6px rgba(0, 114, 255, 0.6),
+              0 0 24px 8px rgba(0, 114, 255, 0.4),
+              0 8px 16px rgba(0,0,0,0.20);
+}
+
+/* Contact - Bright Orange Glow with Peach Fill */
+.navmenu li:nth-child(6).active .navicon,
+.navmenu li:nth-child(6) .active .navicon {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 0 8px 2px rgba(243, 156, 18, 0.8),
+              0 0 16px 6px rgba(243, 156, 18, 0.6),
+              0 0 24px 8px rgba(243, 156, 18, 0.4),
               0 8px 16px rgba(0,0,0,0.20);
 }
 
@@ -450,6 +518,49 @@ h6 {
   transform: translateY(-1px);
 }
 
+/* Hover effects for navigation buttons - no glow, just subtle changes */
+/* Home - Simple hover with cream fill */
+.navmenu li:nth-child(1):hover .navicon {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* About - Simple hover with mint fill */
+.navmenu li:nth-child(2):hover .navicon {
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Resume - Simple hover with rose fill */
+.navmenu li:nth-child(3):hover .navicon {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Portfolio - Simple hover with lavender fill */
+.navmenu li:nth-child(4):hover .navicon {
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Services - Simple hover with sky fill */
+.navmenu li:nth-child(5):hover .navicon {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Contact - Simple hover with peach fill */
+.navmenu li:nth-child(6):hover .navicon {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 2px 8px rgba(0,0,0,0.15);
+}
+
 /* Shrink icon circle slightly when hovered/active to fit inside pill */
 @media (min-width: 992px) {
   .navmenu a:hover .navicon,
@@ -478,17 +589,133 @@ h6 {
 .navmenu li:nth-child(5) { --icon-color: #0072ff; }
 .navmenu li:nth-child(6) { --icon-color: #f39c12; }
 
+/* Enhanced Font Awesome Icons with Themed Colors */
+.navmenu .navicon {
+  font-size: 20px !important;
+  transition: all 0.3s ease;
+}
+
+/* Home - Golden House Icon */
+.navmenu li:nth-child(1) .navicon {
+  color: #ffb703 !important;
+  text-shadow: 0 0 8px rgba(255, 193, 7, 0.5);
+}
+
+/* About - Emerald User Icon */
+.navmenu li:nth-child(2) .navicon {
+  color: #10b981 !important;
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+/* Resume - Red Document Icon */
+.navmenu li:nth-child(3) .navicon {
+  color: #ff6b6b !important;
+  text-shadow: 0 0 8px rgba(255, 107, 107, 0.5);
+}
+
+/* Portfolio - Purple Briefcase Icon */
+.navmenu li:nth-child(4) .navicon {
+  color: #8e2de2 !important;
+  text-shadow: 0 0 8px rgba(142, 45, 226, 0.5);
+}
+
+/* Services - Blue Cogs Icon */
+.navmenu li:nth-child(5) .navicon {
+  color: #0072ff !important;
+  text-shadow: 0 0 8px rgba(0, 114, 255, 0.5);
+}
+
+/* Contact - Orange Envelope Icon */
+.navmenu li:nth-child(6) .navicon {
+  color: #f39c12 !important;
+  text-shadow: 0 0 8px rgba(243, 156, 18, 0.5);
+}
+
+/* Simple hover effects for icons - no glow or scaling */
+.navmenu li:nth-child(1):hover .navicon {
+  color: #ffb703 !important;
+  text-shadow: none;
+  transform: none;
+}
+
+.navmenu li:nth-child(2):hover .navicon {
+  color: #10b981 !important;
+  text-shadow: none;
+  transform: none;
+}
+
+.navmenu li:nth-child(3):hover .navicon {
+  color: #ff6b6b !important;
+  text-shadow: none;
+  transform: none;
+}
+
+.navmenu li:nth-child(4):hover .navicon {
+  color: #8e2de2 !important;
+  text-shadow: none;
+  transform: none;
+}
+
+.navmenu li:nth-child(5):hover .navicon {
+  color: #0072ff !important;
+  text-shadow: none;
+  transform: none;
+}
+
+.navmenu li:nth-child(6):hover .navicon {
+  color: #f39c12 !important;
+  text-shadow: none;
+  transform: none;
+}
+
+/* Active state icon enhancements */
+.navmenu li:nth-child(1).active .navicon,
+.navmenu li:nth-child(1) .active .navicon {
+  color: #ffb703 !important;
+  text-shadow: 0 0 15px rgba(255, 193, 7, 1);
+  transform: scale(1.15);
+}
+
+.navmenu li:nth-child(2).active .navicon,
+.navmenu li:nth-child(2) .active .navicon {
+  color: #10b981 !important;
+  text-shadow: 0 0 15px rgba(16, 185, 129, 1);
+  transform: scale(1.15);
+}
+
+.navmenu li:nth-child(3).active .navicon,
+.navmenu li:nth-child(3) .active .navicon {
+  color: #ff6b6b !important;
+  text-shadow: 0 0 15px rgba(255, 107, 107, 1);
+  transform: scale(1.15);
+}
+
+.navmenu li:nth-child(4).active .navicon,
+.navmenu li:nth-child(4) .active .navicon {
+  color: #8e2de2 !important;
+  text-shadow: 0 0 15px rgba(142, 45, 226, 1);
+  transform: scale(1.15);
+}
+
+.navmenu li:nth-child(5).active .navicon,
+.navmenu li:nth-child(5) .active .navicon {
+  color: #0072ff !important;
+  text-shadow: 0 0 15px rgba(0, 114, 255, 1);
+  transform: scale(1.15);
+}
+
+.navmenu li:nth-child(6).active .navicon,
+.navmenu li:nth-child(6) .active .navicon {
+  color: #f39c12 !important;
+  text-shadow: 0 0 15px rgba(243, 156, 18, 1);
+  transform: scale(1.15);
+}
+
 
 /*--------------------------------------------------------------
-# Sidenav Desktop: Contact button initial text color
-# Prevents dark-to-white flash on hover by starting as white
+# Sidenav Desktop: All navigation buttons now have consistent text colors
+# Removed contact-specific styling for consistency
 --------------------------------------------------------------*/
-@media (min-width: 992px) {
-  .navmenu a[href="#contact"],
-  .navmenu a[href="#contact"]:focus {
-    color: var(--contrast-color);
-  }
-}
 
 /*--------------------------------------------------------------
 # Global Footer
