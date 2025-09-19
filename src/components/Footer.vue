@@ -619,11 +619,19 @@ export default {
   .get-in-touch-btn {
     font-size: 0.9rem !important; /* Override inline style for tablet */
   }
+  
+  .footer-nav-link {
+    font-size: 0.9rem !important; /* Footer navigation links - tablet size */
+  }
 }
 
 @media (max-width: 576px) {
   .get-in-touch-btn {
     font-size: 1.17rem !important; /* Override inline style for mobile - increased by 30% */
+  }
+  
+  .footer-nav-link {
+    font-size: 1.17rem !important; /* Footer navigation links - mobile size increased by 30% */
   }
 }
 

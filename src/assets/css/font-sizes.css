@@ -220,6 +220,10 @@
   font-size: 1rem; /* Get In Touch button text */
 }
 
+.footer .footer-nav-link {
+  font-size: 1rem; /* Footer navigation links text */
+}
+
 /* ========================================
    SECTION TITLES (Additional)
    ======================================== */
@@ -580,6 +584,10 @@ h6 { font-size: 13px; }
     font-size: 0.9rem; /* Get In Touch button text - reduced for tablet */
   }
 
+  .footer .footer-nav-link {
+    font-size: 0.9rem; /* Footer navigation links text - reduced for tablet */
+  }
+
   /* ========================================
      SECTION TITLES - TABLET
      ======================================== */
@@ -900,6 +908,10 @@ h6 { font-size: 13px; }
 
   .footer .get-in-touch-btn {
     font-size: 1.17rem; /* Get In Touch button text - increased by 30% for mobile */
+  }
+
+  .footer .footer-nav-link {
+    font-size: 1.17rem; /* Footer navigation links text - increased by 30% for mobile */
   }
 
   /* ========================================
