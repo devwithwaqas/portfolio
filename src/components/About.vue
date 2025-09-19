@@ -4,10 +4,10 @@
       <!-- About Card -->
       <div class="row justify-content-center">
         <div class="col-12">
-          <div class="card" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1); padding: 40px;">
+          <div class="card" style="background: linear-gradient(135deg, rgba(60, 20, 120, 0.15) 0%, rgba(50, 15, 100, 0.1) 50%, rgba(40, 10, 80, 0.05) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(80, 30, 140, 0.3); border-radius: 20px; box-shadow: 0 20px 50px rgba(60, 20, 120, 0.2); padding: 10px;">
             
             <!-- Card Header -->
-            <div class="card-header fancy-3d-header" style="margin: -40px -40px 30px -40px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
+            <div class="card-header fancy-3d-header" style="margin: -10px -10px 30px -10px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
               <h3 style="color: white; margin: 0; font-weight: 700; font-size: 1.5rem; text-align: center;">👨‍💻 About Me</h3>
             </div>
 
@@ -29,7 +29,7 @@
                   </div>
                 </div>
                 <div class="col-lg-8 content">
-                  <div style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); padding: 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); border: 1px solid #e9ecef; position: relative; overflow: hidden;">
+                  <div class="about-me-main-card" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); padding: 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); border: 1px solid #e9ecef; position: relative; overflow: hidden;">
                     <!-- Animated Background Pattern -->
                     <div style="position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: linear-gradient(45deg, rgba(5, 99, 187, 0.06) 25%, transparent 25%), linear-gradient(-45deg, rgba(5, 99, 187, 0.06) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(5, 99, 187, 0.06) 75%), linear-gradient(-45deg, transparent 75%, rgba(5, 99, 187, 0.06) 75%); background-size: 30px 30px; background-position: 0 0, 0 15px, 15px -15px, -15px 0px; opacity: 0.3; animation: patternMove 30s linear infinite;"></div>
                     
@@ -102,7 +102,7 @@
                         </div>
                       </div>
                       
-                      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 15px; margin-top: 25px; box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);">
+                      <div style="background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%); color: white; padding: 25px; border-radius: 15px; margin-top: 25px; box-shadow: 0 15px 35px rgba(60, 20, 120, 0.4);">
                         <h5 style="color: white; margin-bottom: 15px; font-weight: 600;">💼 Professional Summary</h5>
                         <p style="color: rgba(255, 255, 255, 0.9); margin: 0; line-height: 1.6;">
                           A cohesive team player with technical expertise, innovation, analytical & problem-solving attitude, planning, communication, and interpersonal skills. Senior Azure Cloud Developer / Architect (8+ years) with expertise in Azure Functions, App Services, Service Fabric, Key Vault, App Insights, CI/CD, branching strategies, build/release policies, and Cloud App Identity Management.

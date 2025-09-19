@@ -5,10 +5,10 @@
       <!-- Services Card -->
       <div class="row justify-content-center">
         <div class="col-12">
-          <div class="card" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1); padding: 40px;">
+          <div class="card" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1); padding: 10px;">
             
             <!-- Card Header -->
-            <div class="card-header fancy-3d-header" style="margin: -40px -40px 30px -40px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
+            <div class="card-header fancy-3d-header" style="margin: -10px -10px 30px -10px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
               <h3 style="color: white; margin: 0; font-weight: 700; font-size: 1.5rem; text-align: center;">🛠️ Professional Services</h3>
             </div>
 

@@ -176,21 +176,922 @@ h6 {
 }
 
 /*--------------------------------------------------------------
-# Navigation Layout - Prevent content blocking
+# Global Header
 --------------------------------------------------------------*/
-
-/* Ensure main content doesn't get blocked by navigation */
-@media (min-width: 1200px) {
-  main {
-    margin-left: 200px;
-  }
+.header {
+  color: var(--default-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 0 15px;
+  transition: all ease-in-out 0.3s;
+  overflow-y: auto;
+  z-index: 997;
+  min-width: 200px;
 }
 
 @media (max-width: 1199px) {
-  main {
+  .header {
+    background-color: var(--background-color);
+    border-right: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    width: 220px;
+    left: -100%;
+    transition: left 0.3s ease;
+    padding: 18px 12px;
+  }
+  
+  .header~main {
     margin-left: 0;
   }
+
+  .header~main .hero {
+    margin-left: 0;
+    width: 100vw;
+  }
+  
+  /* Mobile navigation improvements - reduced spacing, larger icons */
+  .navmenu ul {
+    width: 100%;
+    padding: 10px 0;
+  }
+  
+  .navmenu a {
+    max-width: 100%;
+    justify-content: flex-start;
+    padding: 6px 10px;
+    margin: 1px 0;
+  }
+  
+  .navmenu a span {
+    display: block;
+    padding: 0 0 0 10px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  
+  .navmenu a .navicon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
 }
+
+/* Better mobile navigation for smaller screens */
+@media (max-width: 768px) {
+  .header {
+    width: 200px;
+    left: -100%;
+    padding: 15px 10px;
+  }
+  
+  .header.header-show {
+    left: 0;
+  }
+  
+  .navmenu ul {
+    padding: 8px 0;
+  }
+  
+  .navmenu a {
+    padding: 4px 8px;
+    margin: 1px 0;
+  }
+  
+  .navmenu a .navicon {
+    width: 44px;
+    height: 44px;
+  }
+  
+  /* Mobile-specific gradient backgrounds for navicons */
+  .navmenu li:nth-child(1) a .navicon,
+  .navmenu li:nth-child(1) .navicon {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%) !important;
+    box-shadow: 0 0 0 1px rgba(255, 193, 7, 0.2),
+                0 2px 4px rgba(0,0,0,0.1) !important;
+  }
+  
+  .navmenu li:nth-child(2) a .navicon,
+  .navmenu li:nth-child(2) .navicon {
+    background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%) !important;
+    box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2),
+                0 2px 4px rgba(0,0,0,0.1) !important;
+  }
+  
+  .navmenu li:nth-child(3) a .navicon,
+  .navmenu li:nth-child(3) .navicon {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important;
+    box-shadow: 0 0 0 1px rgba(255, 107, 107, 0.2),
+                0 2px 4px rgba(0,0,0,0.1) !important;
+  }
+  
+  .navmenu li:nth-child(4) a .navicon,
+  .navmenu li:nth-child(4) .navicon {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%) !important;
+    box-shadow: 0 0 0 1px rgba(142, 45, 226, 0.2),
+                0 2px 4px rgba(0,0,0,0.1) !important;
+  }
+  
+  .navmenu li:nth-child(5) a .navicon,
+  .navmenu li:nth-child(5) .navicon {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    box-shadow: 0 0 0 1px rgba(0, 114, 255, 0.2),
+                0 2px 4px rgba(0,0,0,0.1) !important;
+  }
+  
+  .navmenu li:nth-child(6) a .navicon,
+  .navmenu li:nth-child(6) .navicon {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%) !important;
+    box-shadow: 0 0 0 1px rgba(243, 156, 18, 0.2),
+                0 2px 4px rgba(0,0,0,0.1) !important;
+  }
+  
+  /* Mobile-specific active state glows - matching desktop exactly - ULTRA SPECIFIC */
+  .navmenu li:nth-child(1).active a .navicon,
+  .navmenu li:nth-child(1).active .navicon,
+  .navmenu li:nth-child(1).active a i,
+  .navmenu li:nth-child(1).active i {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(255, 193, 7, 0.8),
+                0 0 16px 6px rgba(255, 193, 7, 0.6),
+                0 0 24px 8px rgba(255, 193, 7, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+  
+  .navmenu li:nth-child(2).active a .navicon,
+  .navmenu li:nth-child(2).active .navicon {
+    background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(16, 185, 129, 0.8),
+                0 0 16px 6px rgba(16, 185, 129, 0.6),
+                0 0 24px 8px rgba(16, 185, 129, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+  
+  .navmenu li:nth-child(3).active a .navicon,
+  .navmenu li:nth-child(3).active .navicon {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(255, 107, 107, 0.8),
+                0 0 16px 6px rgba(255, 107, 107, 0.6),
+                0 0 24px 8px rgba(255, 107, 107, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+  
+  .navmenu li:nth-child(4).active a .navicon,
+  .navmenu li:nth-child(4).active .navicon {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(142, 45, 226, 0.8),
+                0 0 16px 6px rgba(142, 45, 226, 0.6),
+                0 0 24px 8px rgba(142, 45, 226, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+  
+  .navmenu li:nth-child(5).active a .navicon,
+  .navmenu li:nth-child(5).active .navicon {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(0, 114, 255, 0.8),
+                0 0 16px 6px rgba(0, 114, 255, 0.6),
+                0 0 24px 8px rgba(0, 114, 255, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+  
+  .navmenu li:nth-child(6).active a .navicon,
+  .navmenu li:nth-child(6).active .navicon {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(243, 156, 18, 0.8),
+                0 0 16px 6px rgba(243, 156, 18, 0.6),
+                0 0 24px 8px rgba(243, 156, 18, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+  
+  .navmenu a span {
+    font-size: 14px;
+    padding: 0 0 0 8px;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    width: 180px;
+    padding: 12px 8px;
+  }
+  
+  .navmenu ul {
+    padding: 6px 0;
+  }
+  
+  .navmenu a {
+    padding: 3px 6px;
+    margin: 1px 0;
+  }
+  
+  .navmenu a .navicon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  
+  .navmenu a span {
+    font-size: 13px;
+    padding: 0 0 0 6px;
+    font-weight: 600;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .header~main {
+    margin-left: 200px;
+  }
+
+  .header~main .hero {
+    margin-left: -200px;
+    width: 100vw;
+  }
+}
+
+@media (min-width: 1600px) {
+  .header~main {
+    margin-left: 200px;
+  }
+
+  .header~main .hero {
+    margin-left: -200px;
+    width: 100vw;
+  }
+}
+
+.header.header-show {
+  left: 0;
+}
+
+.header .header-toggle {
+  color: var(--contrast-color);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 9999;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.header .header-toggle:hover {
+  color: var(--contrast-color);
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+/* Prevent side header from intercepting clicks over main content on desktop */
+@media (min-width: 1200px) {
+  .header {
+    pointer-events: none;
+  }
+  .header .navmenu,
+  .header .header-toggle,
+  .header a,
+  .header button,
+  .header input,
+  .header select,
+  .header textarea {
+    pointer-events: auto;
+  }
+}
+
+/*--------------------------------------------------------------
+# Navigation Menu
+--------------------------------------------------------------*/
+.navmenu {
+  padding: 0;
+  z-index: 9997;
+}
+
+.navmenu ul {
+  list-style: none;
+  padding: 0 0 20px 0;
+  margin: 0;
+  /* Desktop column width for nav; slightly wider to avoid cramped labels */
+  width: 180px;
+}
+
+.navmenu a,
+.navmenu a:focus {
+  color: var(--nav-color);
+  font-family: var(--nav-font);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  margin-bottom: 8px;
+  font-size: 15px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  height: 56px;
+  width: 100%;
+  overflow: hidden;
+  transition: color 0.3s ease, background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(0, 0, 0, 0.08); /* match hover border width */
+  box-sizing: border-box; /* keep width consistent with hover */
+}
+
+.navmenu a i,
+.navmenu a:focus i {
+  font-size: 20px;
+}
+
+.navmenu a span,
+.navmenu a:focus span {
+  padding: 0 5px 0 7px;
+  font-weight: 500;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .navmenu a,
+  .navmenu a:focus {
+    max-width: 56px;
+  }
+
+  .navmenu a span,
+  .navmenu a:focus span {
+    display: none;
+  }
+}
+
+.navmenu a:hover:not(.active),
+.navmenu li:hover>a:not(.active) {
+  color: white !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 2px solid #ffffff;
+  border-radius: 28px;
+  box-sizing: border-box;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22), 0 6px 20px rgba(102, 126, 234, 0.4);
+  transition: color 0.3s ease, background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Active (selected) state: show ONLY glowing circle, no purple pill */
+.navmenu .active,
+.navmenu .active:focus {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  margin-left: 12px;   /* move the whole active item forward */
+  margin-right: 12px;
+  overflow: visible;   /* let glow extend beyond button bounds */
+  color: white !important; /* Fix active text color */
+}
+
+/* Ensure glow still renders in active state - but don't override specific button glows */
+.navmenu .active .navicon,
+.navmenu .active:focus .navicon {
+  color: var(--icon-color, #9aa0a6) !important;
+  /* background: #ffffff; - Removed to allow gradient backgrounds */
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 0 10px 2px rgba(57, 255, 20, 0.90),
+              0 0 22px 8px rgba(57, 255, 20, 0.60),
+              0 0 44px 12px rgba(0, 255, 170, 0.40),
+              0 8px 16px rgba(0,0,0,0.20);
+}
+
+/* Fix active link text color */
+.navmenu .active span,
+.navmenu .active:focus span {
+  color: white !important;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+
+/* Desktop-specific active glow effects - prevent mobile override */
+@media (min-width: 769px) {
+  /* Unique glow effects for each navigation button when active */
+  /* Home - Warm Golden Glow with Cream Fill */
+  .navmenu li:nth-child(1).active .navicon,
+  .navmenu li:nth-child(1) .active .navicon {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(255, 193, 7, 0.8),
+                0 0 16px 6px rgba(255, 193, 7, 0.6),
+                0 0 24px 8px rgba(255, 193, 7, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+
+  /* About - Fresh Emerald Glow with Mint Fill */
+  .navmenu li:nth-child(2).active .navicon,
+  .navmenu li:nth-child(2) .active .navicon {
+    background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(16, 185, 129, 0.8),
+                0 0 16px 6px rgba(16, 185, 129, 0.6),
+                0 0 24px 8px rgba(16, 185, 129, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+
+  /* Resume - Vibrant Red Glow with Rose Fill */
+  .navmenu li:nth-child(3).active .navicon,
+  .navmenu li:nth-child(3) .active .navicon {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(255, 107, 107, 0.8),
+                0 0 16px 6px rgba(255, 107, 107, 0.6),
+                0 0 24px 8px rgba(255, 107, 107, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+
+  /* Portfolio - Royal Purple Glow with Lavender Fill */
+  .navmenu li:nth-child(4).active .navicon,
+  .navmenu li:nth-child(4) .active .navicon {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(142, 45, 226, 0.8),
+                0 0 16px 6px rgba(142, 45, 226, 0.6),
+                0 0 24px 8px rgba(142, 45, 226, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+
+  /* Services - Cool Blue Glow with Sky Fill */
+  .navmenu li:nth-child(5).active .navicon,
+  .navmenu li:nth-child(5) .active .navicon {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(0, 114, 255, 0.8),
+                0 0 16px 6px rgba(0, 114, 255, 0.6),
+                0 0 24px 8px rgba(0, 114, 255, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+
+  /* Contact - Bright Orange Glow with Peach Fill */
+  .navmenu li:nth-child(6).active .navicon,
+  .navmenu li:nth-child(6) .active .navicon {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(243, 156, 18, 0.8),
+                0 0 16px 6px rgba(243, 156, 18, 0.6),
+                0 0 24px 8px rgba(243, 156, 18, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+
+  /* Override active glows when hovering - remove all active effects */
+  .navmenu li:nth-child(1).active:hover .navicon,
+  .navmenu li:nth-child(1).active:hover a .navicon,
+  .navmenu li:nth-child(1).active:hover i,
+  .navmenu li:nth-child(1).active:hover a i {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    color: white !important;
+    width: 36px !important;
+    height: 36px !important;
+    scale: 1 !important;
+  }
+
+  .navmenu li:nth-child(2).active:hover .navicon,
+  .navmenu li:nth-child(2).active:hover a .navicon,
+  .navmenu li:nth-child(2).active:hover i,
+  .navmenu li:nth-child(2).active:hover a i {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    color: white !important;
+    width: 36px !important;
+    height: 36px !important;
+    scale: 1 !important;
+  }
+
+  .navmenu li:nth-child(3).active:hover .navicon,
+  .navmenu li:nth-child(3).active:hover a .navicon,
+  .navmenu li:nth-child(3).active:hover i,
+  .navmenu li:nth-child(3).active:hover a i {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    color: white !important;
+    width: 36px !important;
+    height: 36px !important;
+    scale: 1 !important;
+  }
+
+  .navmenu li:nth-child(4).active:hover .navicon,
+  .navmenu li:nth-child(4).active:hover a .navicon,
+  .navmenu li:nth-child(4).active:hover i,
+  .navmenu li:nth-child(4).active:hover a i {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    color: white !important;
+    width: 36px !important;
+    height: 36px !important;
+    scale: 1 !important;
+  }
+
+  .navmenu li:nth-child(5).active:hover .navicon,
+  .navmenu li:nth-child(5).active:hover a .navicon,
+  .navmenu li:nth-child(5).active:hover i,
+  .navmenu li:nth-child(5).active:hover a i {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    color: white !important;
+    width: 36px !important;
+    height: 36px !important;
+    scale: 1 !important;
+  }
+
+  .navmenu li:nth-child(6).active:hover .navicon,
+  .navmenu li:nth-child(6).active:hover a .navicon,
+  .navmenu li:nth-child(6).active:hover i,
+  .navmenu li:nth-child(6).active:hover a i {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    color: white !important;
+    width: 36px !important;
+    height: 36px !important;
+    scale: 1 !important;
+  }
+}
+
+/* Hovering the active item should behave exactly like non-active buttons on hover */
+.navmenu .active:hover {
+  color: white !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border: 2px solid #ffffff !important;
+  border-radius: 28px !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22), 0 6px 20px rgba(102, 126, 234, 0.4) !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  overflow: hidden !important;
+  height: 56px !important;
+  width: 100% !important;
+  padding: 10px 18px !important;
+  margin-bottom: 8px !important;
+}
+
+/* Remove glow effects when hovering active buttons */
+.navmenu a.active:hover *,
+.navmenu li:nth-child(1) a.active:hover *,
+.navmenu li:nth-child(2) a.active:hover *,
+.navmenu li:nth-child(3) a.active:hover *,
+.navmenu li:nth-child(4) a.active:hover *,
+.navmenu li:nth-child(5) a.active:hover *,
+.navmenu li:nth-child(6) a.active:hover * {
+  text-shadow: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.navmenu a:hover,
+.navmenu li:hover>a {
+  max-width: 100%;
+  color: var(--contrast-color);
+  justify-content: flex-start;
+}
+
+.navmenu a:hover span,
+.navmenu li:hover>a span {
+  display: block;
+}
+
+/* Desktop: auto-adjust hovered/active button width with consistent gutters */
+@media (min-width: 992px) {
+  .header .navmenu a:hover:not(.active),
+  .header .navmenu li:hover>a:not(.active) {
+    width: calc(100% - 24px) !important;      /* keep visual 12px left/right gutters */
+    max-width: calc(100% - 24px) !important;  /* ensure consistent gutters */
+    min-width: 0 !important;
+    margin-left: 12px;
+    margin-right: 12px;
+    padding-left: 14px;           /* add breathing room before text */
+    padding-right: 24px;          /* wider right gutter to avoid crowding */
+    gap: 12px;                    /* space between icon and text */
+  }
+  .header .navmenu .active:hover {
+    width: calc(100% - 24px) !important;   /* keep visual 12px left/right gutters */
+    max-width: calc(100% - 24px) !important;
+    min-width: 0 !important;
+    margin-left: 12px;
+    margin-right: 12px;
+    padding-left: 14px;
+    padding-right: 24px;
+    gap: 12px;
+  }
+}
+
+/* Colorful gradient icons on hover/active */
+.navmenu a .navicon {
+  width: 42px;
+  height: 42px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  line-height: 1;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  vertical-align: middle;
+  color: var(--icon-color, #9aa0a6);
+  /* background: #ffffff; - Removed to allow gradient backgrounds */
+  border: 2px solid #e6edf7;          /* visible border when not selected */
+  box-shadow: 0 0 0 1px rgba(93, 100, 148, 0.25), 0 2px 6px rgba(0,0,0,0.12);
+  transition: box-shadow 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.navmenu a:hover .navicon,
+.navmenu .active .navicon,
+.navmenu .active:focus .navicon,
+.navmenu li:hover>a .navicon {
+  color: var(--icon-color, #9aa0a6) !important;
+  /* background-image: none !important; - Removed to allow gradient backgrounds */
+  /* -webkit-background-clip: initial !important; - Removed to allow gradient backgrounds */
+  /* background-clip: initial !important; - Removed to allow gradient backgrounds */
+  /* background: #ffffff; - Removed to allow gradient backgrounds */
+  border: 3px solid #ffffff;
+  /* neon green glow */
+  box-shadow: 0 0 0 2px #ffffff,
+              0 0 10px 2px rgba(57, 255, 20, 0.90),
+              0 0 22px 8px rgba(57, 255, 20, 0.60),
+              0 0 44px 12px rgba(0, 255, 170, 0.40),
+              0 8px 16px rgba(0,0,0,0.20);
+  transform: translateY(-1px);
+}
+
+/* Hover effects for navigation buttons - no glow, just subtle changes */
+/* Home - Simple hover with cream fill */
+.navmenu li:nth-child(1):hover .navicon {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* About - Simple hover with mint fill */
+.navmenu li:nth-child(2):hover .navicon {
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Resume - Simple hover with rose fill */
+.navmenu li:nth-child(3):hover .navicon {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Portfolio - Simple hover with lavender fill */
+.navmenu li:nth-child(4):hover .navicon {
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Services - Simple hover with sky fill */
+.navmenu li:nth-child(5):hover .navicon {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Contact - Simple hover with peach fill */
+.navmenu li:nth-child(6):hover .navicon {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%) !important;
+  box-shadow: 0 0 0 2px #ffffff,
+              0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Shrink icon circle slightly when hovered/active to fit inside pill */
+@media (min-width: 992px) {
+  .navmenu a:hover .navicon,
+  .navmenu .active .navicon,
+  .navmenu .active:focus .navicon,
+  .navmenu li:hover>a .navicon {
+    width: 36px;
+    height: 36px;
+    transform: translateX(2px) translateY(-1px);
+  }
+  /* Active: push circle further right to mimic pill offset */
+  .navmenu .active .navicon,
+  .navmenu .active:focus .navicon {
+    transform: translateY(-1px);
+  }
+}
+
+/* (Border applied globally now; no desktop-only override needed) */
+
+/* Per-item gradient palettes */
+/* Brand-like default colors per item (visible in normal state) */
+.navmenu li:nth-child(1) { --icon-color: #ffb703; }
+.navmenu li:nth-child(2) { --icon-color: #10b981; }
+.navmenu li:nth-child(3) { --icon-color: #ff6b6b; }
+.navmenu li:nth-child(4) { --icon-color: #8e2de2; }
+.navmenu li:nth-child(5) { --icon-color: #0072ff; }
+.navmenu li:nth-child(6) { --icon-color: #f39c12; }
+
+/* Subtle background colors for all navigation buttons when non-active - CACHE BUST 2024 */
+/* Home - Cream background */
+.navmenu li:nth-child(1) a .navicon,
+.navmenu li:nth-child(1) .navicon {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%) !important;
+  box-shadow: 0 0 0 1px rgba(255, 193, 7, 0.2),
+              0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* About - Mint background */
+.navmenu li:nth-child(2) a .navicon,
+.navmenu li:nth-child(2) .navicon {
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%) !important;
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2),
+              0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Resume - Rose background */
+.navmenu li:nth-child(3) a .navicon,
+.navmenu li:nth-child(3) .navicon {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important;
+  box-shadow: 0 0 0 1px rgba(255, 107, 107, 0.2),
+              0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Portfolio - Lavender background */
+.navmenu li:nth-child(4) a .navicon,
+.navmenu li:nth-child(4) .navicon {
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%) !important;
+  box-shadow: 0 0 0 1px rgba(142, 45, 226, 0.2),
+              0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Services - Sky background (already has this, but ensuring consistency) */
+.navmenu li:nth-child(5) a .navicon,
+.navmenu li:nth-child(5) .navicon {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+  box-shadow: 0 0 0 1px rgba(0, 114, 255, 0.2),
+              0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Contact - Peach background */
+.navmenu li:nth-child(6) a .navicon,
+.navmenu li:nth-child(6) .navicon {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%) !important;
+  box-shadow: 0 0 0 1px rgba(243, 156, 18, 0.2),
+              0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Enhanced Font Awesome Icons with Themed Colors */
+.navmenu .navicon {
+  font-size: 20px !important;
+  transition: all 0.3s ease;
+}
+
+/* Home - Golden House Icon */
+.navmenu li:nth-child(1) .navicon {
+  color: #ffb703 !important;
+  text-shadow: 0 0 8px rgba(255, 193, 7, 0.5);
+}
+
+/* About - Emerald User Icon */
+.navmenu li:nth-child(2) .navicon {
+  color: #10b981 !important;
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+/* Resume - Red Document Icon */
+.navmenu li:nth-child(3) .navicon {
+  color: #ff6b6b !important;
+  text-shadow: 0 0 8px rgba(255, 107, 107, 0.5);
+}
+
+/* Portfolio - Purple Briefcase Icon */
+.navmenu li:nth-child(4) .navicon {
+  color: #8e2de2 !important;
+  text-shadow: 0 0 8px rgba(142, 45, 226, 0.5);
+}
+
+/* Services - Blue Cogs Icon */
+.navmenu li:nth-child(5) .navicon {
+  color: #0072ff !important;
+  text-shadow: 0 0 8px rgba(0, 114, 255, 0.5);
+}
+
+/* Contact - Orange Envelope Icon */
+.navmenu li:nth-child(6) .navicon {
+  color: #f39c12 !important;
+  text-shadow: 0 0 8px rgba(243, 156, 18, 0.5);
+}
+
+/* Simple hover effects for icons - no glow or scaling */
+.navmenu li:nth-child(1):hover .navicon {
+  color: #ffb703 !important;
+  text-shadow: none;
+  transform: none;
+}
+
+.navmenu li:nth-child(2):hover .navicon {
+  color: #10b981 !important;
+  text-shadow: none;
+  transform: none;
+}
+
+.navmenu li:nth-child(3):hover .navicon {
+  color: #ff6b6b !important;
+  text-shadow: none;
+  transform: none;
+}
+
+.navmenu li:nth-child(4):hover .navicon {
+  color: #8e2de2 !important;
+  text-shadow: none;
+  transform: none;
+}
+
+.navmenu li:nth-child(5):hover .navicon {
+  color: #0072ff !important;
+  text-shadow: none;
+  transform: none;
+}
+
+.navmenu li:nth-child(6):hover .navicon {
+  color: #f39c12 !important;
+  text-shadow: none;
+  transform: none;
+}
+
+/* Active state icon enhancements */
+.navmenu li:nth-child(1).active .navicon,
+.navmenu li:nth-child(1) .active .navicon {
+  color: #ffb703 !important;
+  text-shadow: 0 0 15px rgba(255, 193, 7, 1);
+  transform: scale(1.15);
+}
+
+.navmenu li:nth-child(2).active .navicon,
+.navmenu li:nth-child(2) .active .navicon {
+  color: #10b981 !important;
+  text-shadow: 0 0 15px rgba(16, 185, 129, 1);
+  transform: scale(1.15);
+}
+
+.navmenu li:nth-child(3).active .navicon,
+.navmenu li:nth-child(3) .active .navicon {
+  color: #ff6b6b !important;
+  text-shadow: 0 0 15px rgba(255, 107, 107, 1);
+  transform: scale(1.15);
+}
+
+.navmenu li:nth-child(4).active .navicon,
+.navmenu li:nth-child(4) .active .navicon {
+  color: #8e2de2 !important;
+  text-shadow: 0 0 15px rgba(142, 45, 226, 1);
+  transform: scale(1.15);
+}
+
+.navmenu li:nth-child(5).active .navicon,
+.navmenu li:nth-child(5) .active .navicon {
+  color: #0072ff !important;
+  text-shadow: 0 0 15px rgba(0, 114, 255, 1);
+  transform: scale(1.15);
+}
+
+.navmenu li:nth-child(6).active .navicon,
+.navmenu li:nth-child(6) .active .navicon {
+  color: #f39c12 !important;
+  text-shadow: 0 0 15px rgba(243, 156, 18, 1);
+  transform: scale(1.15);
+}
+
+
+/*--------------------------------------------------------------
+# Sidenav Desktop: All navigation buttons now have consistent text colors
+# Removed contact-specific styling for consistency
+--------------------------------------------------------------*/
 
 /*--------------------------------------------------------------
 # Global Footer
@@ -238,8 +1139,8 @@ h6 {
 /* Global application for any card-header marked with fancy-3d-header */
 .card-header.fancy-3d-header,
 .text-card .card-header.fancy-3d-header {
-  background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%);
-  border-bottom: 2px solid rgba(80, 30, 140, 0.6);
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  border-bottom: 2px solid #3f51c6;
   position: relative;
   box-shadow: 0 16px 36px rgba(90, 111, 216, 0.45), 0 6px 14px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 -2px 8px rgba(0,0,0,0.15);
   transform: translateZ(0);
@@ -280,8 +1181,8 @@ h6 {
                Heat Exchanger diagram, and future diagrams
    ============================================== */
 .diagram-button-header.fancy-3d-toolbar {
-  background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%) !important;
-  border: 1px solid rgba(80, 30, 140, 0.6);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border: 1px solid rgba(255,255,255,0.25);
   border-radius: 12px;
   padding: 12px 16px;
   box-shadow: 0 16px 34px rgba(102,126,234,0.45), 0 6px 14px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.25) !important;
@@ -518,7 +1419,7 @@ h6 {
   right: 15px;
   bottom: -15px;
   z-index: 99999;
-  background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   width: 44px;
   height: 44px;
   border-radius: 50px;
@@ -539,7 +1440,7 @@ h6 {
 }
 
 .scroll-top:hover {
-  background: linear-gradient(135deg, rgba(80, 30, 140, 0.9) 0%, rgba(70, 25, 120, 0.95) 50%, rgba(60, 20, 100, 1) 100%);
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
   color: var(--contrast-color);
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
@@ -1282,6 +2183,8 @@ section,
   backdrop-filter: blur(10px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
+
+
 
 /*--------------------------------------------------------------
 # Services Section
@@ -2701,8 +3604,153 @@ section,
 
 /* Mobile active glows - simple like desktop */
 @media (max-width: 768px) {
+  .navmenu li:nth-child(1).active .navicon,
+  .navmenu li:nth-child(1) .active .navicon {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(255, 193, 7, 0.8),
+                0 0 16px 6px rgba(255, 193, 7, 0.6),
+                0 0 24px 8px rgba(255, 193, 7, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+
+  .navmenu li:nth-child(2).active .navicon,
+  .navmenu li:nth-child(2) .active .navicon {
+    background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(16, 185, 129, 0.8),
+                0 0 16px 6px rgba(16, 185, 129, 0.6),
+                0 0 24px 8px rgba(16, 185, 129, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+
+  .navmenu li:nth-child(3).active .navicon,
+  .navmenu li:nth-child(3) .active .navicon {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(255, 107, 107, 0.8),
+                0 0 16px 6px rgba(255, 107, 107, 0.6),
+                0 0 24px 8px rgba(255, 107, 107, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+
+  .navmenu li:nth-child(4).active .navicon,
+  .navmenu li:nth-child(4) .active .navicon {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(142, 45, 226, 0.8),
+                0 0 16px 6px rgba(142, 45, 226, 0.6),
+                0 0 24px 8px rgba(142, 45, 226, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+
+  .navmenu li:nth-child(5).active .navicon,
+  .navmenu li:nth-child(5) .active .navicon {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(0, 114, 255, 0.8),
+                0 0 16px 6px rgba(0, 114, 255, 0.6),
+                0 0 24px 8px rgba(0, 114, 255, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
+
+  .navmenu li:nth-child(6).active .navicon,
+  .navmenu li:nth-child(6) .active .navicon {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%) !important;
+    box-shadow: 0 0 0 2px #ffffff,
+                0 0 8px 2px rgba(243, 156, 18, 0.8),
+                0 0 16px 6px rgba(243, 156, 18, 0.6),
+                0 0 24px 8px rgba(243, 156, 18, 0.4),
+                0 8px 16px rgba(0,0,0,0.20) !important;
+  }
 
   /* Mobile: Override active glows when hovering - remove all active effects */
+  .navmenu li:nth-child(1).active:hover .navicon,
+  .navmenu li:nth-child(1).active:hover a .navicon {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    color: white !important;
+    width: 36px !important;
+    height: 36px !important;
+    scale: 1 !important;
+  }
 
+  .navmenu li:nth-child(2).active:hover .navicon,
+  .navmenu li:nth-child(2).active:hover a .navicon,
+  .navmenu li:nth-child(2).active:hover i,
+  .navmenu li:nth-child(2).active:hover a i {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    color: white !important;
+    width: 36px !important;
+    height: 36px !important;
+    scale: 1 !important;
+  }
+
+  .navmenu li:nth-child(3).active:hover .navicon,
+  .navmenu li:nth-child(3).active:hover a .navicon,
+  .navmenu li:nth-child(3).active:hover i,
+  .navmenu li:nth-child(3).active:hover a i {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    color: white !important;
+    width: 36px !important;
+    height: 36px !important;
+    scale: 1 !important;
+  }
+
+  .navmenu li:nth-child(4).active:hover .navicon,
+  .navmenu li:nth-child(4).active:hover a .navicon,
+  .navmenu li:nth-child(4).active:hover i,
+  .navmenu li:nth-child(4).active:hover a i {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    color: white !important;
+    width: 36px !important;
+    height: 36px !important;
+    scale: 1 !important;
+  }
+
+  .navmenu li:nth-child(5).active:hover .navicon,
+  .navmenu li:nth-child(5).active:hover a .navicon,
+  .navmenu li:nth-child(5).active:hover i,
+  .navmenu li:nth-child(5).active:hover a i {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    color: white !important;
+    width: 36px !important;
+    height: 36px !important;
+    scale: 1 !important;
+  }
+
+  .navmenu li:nth-child(6).active:hover .navicon,
+  .navmenu li:nth-child(6).active:hover a .navicon,
+  .navmenu li:nth-child(6).active:hover i,
+  .navmenu li:nth-child(6).active:hover a i {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    text-shadow: none !important;
+    color: white !important;
+    width: 36px !important;
+    height: 36px !important;
+    scale: 1 !important;
+  }
 }
 
