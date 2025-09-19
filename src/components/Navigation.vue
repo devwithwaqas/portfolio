@@ -5,63 +5,69 @@
     <nav id="navmenu" class="navmenu">
       <div class="nav-header">
         <div class="logo-section">
-              <div class="logo-icon">
-                <img src="/assets/img/waqas-microsoft-profile.jpg" alt="Waqas Ahmed" class="profile-image">
-              </div>
+          <div class="logo-icon">
+            <img src="/assets/img/waqas-microsoft-profile.jpg" alt="Waqas Ahmed" class="profile-image">
+          </div>
         </div>
       </div>
-      
+
       <ul>
-        <li><a href="#hero" class="nav-link" :class="{ active: activeSection === 'hero' }" @click="scrollToSection('hero', $event)">
-          <div class="icon-wrapper home-icon">
-            <i class="fas fa-house navicon"></i>
-          </div>
-          <span>Home</span>
-          <div class="active-indicator" v-if="activeSection === 'hero'"></div>
-        </a></li>
-        <li><a href="#about" class="nav-link" :class="{ active: activeSection === 'about' }" @click="scrollToSection('about', $event)">
-          <div class="icon-wrapper about-icon">
-            <i class="fas fa-user-circle navicon"></i>
-          </div>
-          <span>About</span>
-          <div class="active-indicator" v-if="activeSection === 'about'"></div>
-        </a></li>
-        <li><a href="#resume" class="nav-link" :class="{ active: activeSection === 'resume' }" @click="scrollToSection('resume', $event)">
-          <div class="icon-wrapper resume-icon">
-            <i class="fas fa-file-lines navicon"></i>
-          </div>
-          <span>Resume</span>
-          <div class="active-indicator" v-if="activeSection === 'resume'"></div>
-        </a></li>
-        <li><a href="#portfolio" class="nav-link" :class="{ active: activeSection === 'portfolio' }" @click="scrollToSection('portfolio', $event)">
-          <div class="icon-wrapper portfolio-icon">
-            <i class="fas fa-briefcase navicon"></i>
-          </div>
-          <span>Portfolio</span>
-          <div class="active-indicator" v-if="activeSection === 'portfolio'"></div>
-        </a></li>
-        <li><a href="#services" class="nav-link" :class="{ active: activeSection === 'services' }" @click="scrollToSection('services', $event)">
-          <div class="icon-wrapper services-icon">
-            <i class="fas fa-gear navicon"></i>
-          </div>
-          <span>Services</span>
-          <div class="active-indicator" v-if="activeSection === 'services'"></div>
-        </a></li>
-        <li><a href="#contact" class="nav-link" :class="{ active: activeSection === 'contact' }" @click="scrollToSection('contact', $event)">
-          <div class="icon-wrapper contact-icon">
-            <i class="fas fa-paper-plane navicon"></i>
-          </div>
-          <span>Contact</span>
-          <div class="active-indicator" v-if="activeSection === 'contact'"></div>
-        </a></li>
-      </ul>
-      
-          <div class="nav-footer">
-            <div class="theme-toggle">
-              <i class="fas fa-moon"></i>
-              <span>Dark Theme</span>
+        <li><a href="#hero" class="nav-link" :class="{ active: activeSection === 'hero' }"
+            @click="scrollToSection('hero', $event)">
+            <div class="icon-wrapper home-icon">
+              <i class="fas fa-house navicon"></i>
             </div>
-          </div>
+            <span>Home</span>
+            <div class="active-indicator" v-if="activeSection === 'hero'"></div>
+          </a></li>
+        <li><a href="#about" class="nav-link" :class="{ active: activeSection === 'about' }"
+            @click="scrollToSection('about', $event)">
+            <div class="icon-wrapper about-icon">
+              <i class="fas fa-user-circle navicon"></i>
+            </div>
+            <span>About</span>
+            <div class="active-indicator" v-if="activeSection === 'about'"></div>
+          </a></li>
+        <li><a href="#resume" class="nav-link" :class="{ active: activeSection === 'resume' }"
+            @click="scrollToSection('resume', $event)">
+            <div class="icon-wrapper resume-icon">
+              <i class="fas fa-file-lines navicon"></i>
+            </div>
+            <span>Resume</span>
+            <div class="active-indicator" v-if="activeSection === 'resume'"></div>
+          </a></li>
+        <li><a href="#portfolio" class="nav-link" :class="{ active: activeSection === 'portfolio' }"
+            @click="scrollToSection('portfolio', $event)">
+            <div class="icon-wrapper portfolio-icon">
+              <i class="fas fa-briefcase navicon"></i>
+            </div>
+            <span>Portfolio</span>
+            <div class="active-indicator" v-if="activeSection === 'portfolio'"></div>
+          </a></li>
+        <li><a href="#services" class="nav-link" :class="{ active: activeSection === 'services' }"
+            @click="scrollToSection('services', $event)">
+            <div class="icon-wrapper services-icon">
+              <i class="fas fa-gear navicon"></i>
+            </div>
+            <span>Services</span>
+            <div class="active-indicator" v-if="activeSection === 'services'"></div>
+          </a></li>
+        <li><a href="#contact" class="nav-link" :class="{ active: activeSection === 'contact' }"
+            @click="scrollToSection('contact', $event)">
+            <div class="icon-wrapper contact-icon">
+              <i class="fas fa-paper-plane navicon"></i>
+            </div>
+            <span>Contact</span>
+            <div class="active-indicator" v-if="activeSection === 'contact'"></div>
+          </a></li>
+      </ul>
+
+      <div class="nav-footer">
+        <div class="theme-toggle">
+          <i class="fas fa-moon"></i>
+          <span>Dark Theme</span>
+        </div>
+      </div>
     </nav>
   </header>
 </template>
@@ -165,28 +171,28 @@ export default {
 
 /* Desktop Navigation */
 @media (min-width: 1200px) {
-      .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 200px;
-        background: 
-          linear-gradient(135deg, rgba(60, 20, 120, 0.6) 0%, rgba(50, 15, 100, 0.65) 50%, rgba(40, 10, 80, 0.7) 100%),
-          radial-gradient(circle at 20% 20%, rgba(80, 30, 140, 0.2) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(90, 35, 150, 0.12) 0%, transparent 50%);
-        backdrop-filter: blur(40px) saturate(130%) brightness(0.85);
-        -webkit-backdrop-filter: blur(40px) saturate(130%) brightness(0.85);
-        z-index: 997;
-        padding: 0;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border-right: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 
-          0 0 0 1px rgba(255, 255, 255, 0.05),
-          0 12px 40px rgba(0, 0, 0, 0.3),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1),
-          inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-      }
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 200px;
+    background: 
+      linear-gradient(135deg, rgba(60, 20, 120, 0.6) 0%, rgba(50, 15, 100, 0.65) 50%, rgba(40, 10, 80, 0.7) 100%),
+      radial-gradient(circle at 20% 20%, rgba(80, 30, 140, 0.2) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(90, 35, 150, 0.12) 0%, transparent 50%);
+    backdrop-filter: blur(40px) saturate(130%) brightness(0.85);
+    -webkit-backdrop-filter: blur(40px) saturate(130%) brightness(0.85);
+    z-index: 997;
+    padding: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.05), 
+      0 12px 40px rgba(0, 0, 0, 0.3), 
+      inset 0 1px 0 rgba(255, 255, 255, 0.1), 
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  }
 
   .navmenu {
     height: 100%;
@@ -207,29 +213,29 @@ export default {
     margin-bottom: 8px;
   }
 
-      .logo-icon {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-        box-shadow: 
-          0 0 0 3px rgba(102, 126, 234, 0.8),
-          0 0 20px rgba(102, 126, 234, 0.6),
-          0 0 40px rgba(118, 75, 162, 0.4),
-          0 0 60px rgba(255, 107, 107, 0.3),
-          inset 0 0 20px rgba(255, 255, 255, 0.1);
-        overflow: hidden;
-        border: 2px solid rgba(102, 126, 234, 0.9);
-        background: 
-          linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 30%, rgba(255, 107, 107, 0.1) 60%, rgba(0, 184, 148, 0.05) 100%),
-          radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.2) 0%, transparent 60%),
-          radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-        position: relative;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      }
+  .logo-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 
+      0 0 0 3px rgba(102, 126, 234, 0.8), 
+      0 0 20px rgba(102, 126, 234, 0.6), 
+      0 0 40px rgba(118, 75, 162, 0.4), 
+      0 0 60px rgba(255, 107, 107, 0.3), 
+      inset 0 0 20px rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    border: 2px solid rgba(102, 126, 234, 0.9);
+    background: 
+      linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 30%, rgba(255, 107, 107, 0.1) 60%, rgba(0, 184, 148, 0.05) 100%),
+      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.2) 0%, transparent 60%),
+      radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
   .logo-icon::before {
     content: '';
@@ -253,13 +259,13 @@ export default {
     left: -3px;
     right: -3px;
     bottom: -3px;
-    background: linear-gradient(45deg, 
-      rgba(102, 126, 234, 0.7) 0%, 
-      rgba(118, 75, 162, 0.7) 20%, 
-      rgba(255, 107, 107, 0.7) 40%, 
-      rgba(0, 184, 148, 0.7) 60%, 
-      rgba(253, 203, 110, 0.7) 80%, 
-      rgba(102, 126, 234, 0.7) 100%);
+    background: linear-gradient(45deg,
+        rgba(102, 126, 234, 0.7) 0%,
+        rgba(118, 75, 162, 0.7) 20%,
+        rgba(255, 107, 107, 0.7) 40%,
+        rgba(0, 184, 148, 0.7) 60%,
+        rgba(253, 203, 110, 0.7) 80%,
+        rgba(102, 126, 234, 0.7) 100%);
     border-radius: 33px;
     z-index: -1;
     opacity: 0;
@@ -268,20 +274,25 @@ export default {
   }
 
   @keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
-      .logo-icon:hover {
-        transform: scale(1.15) rotate(5deg);
-        box-shadow: 
-          0 0 0 4px rgba(102, 126, 234, 1),
-          0 0 30px rgba(102, 126, 234, 0.8),
-          0 0 60px rgba(118, 75, 162, 0.6),
-          0 0 90px rgba(255, 107, 107, 0.5),
-          0 0 120px rgba(0, 184, 148, 0.4),
-          inset 0 0 30px rgba(255, 255, 255, 0.2);
-      }
+  .logo-icon:hover {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 
+      0 0 0 4px rgba(102, 126, 234, 1), 
+      0 0 30px rgba(102, 126, 234, 0.8), 
+      0 0 60px rgba(118, 75, 162, 0.6), 
+      0 0 90px rgba(255, 107, 107, 0.5), 
+      0 0 120px rgba(0, 184, 148, 0.4), 
+      inset 0 0 30px rgba(255, 255, 255, 0.2);
+  }
 
   .logo-icon:hover::after {
     opacity: 1;
@@ -297,25 +308,25 @@ export default {
     z-index: 2;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     filter: 
-      drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))
-      drop-shadow(0 0 20px rgba(255, 255, 255, 0.4))
-      drop-shadow(0 0 40px rgba(102, 126, 234, 0.3))
+      drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)) 
+      drop-shadow(0 0 20px rgba(255, 255, 255, 0.4)) 
+      drop-shadow(0 0 40px rgba(102, 126, 234, 0.3)) 
       drop-shadow(0 0 60px rgba(118, 75, 162, 0.2));
   }
 
   .logo-icon:hover .profile-image {
     transform: scale(1.05) rotate(2deg);
     filter: 
-      drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4))
-      drop-shadow(0 0 25px rgba(255, 255, 255, 0.6))
-      drop-shadow(0 0 50px rgba(102, 126, 234, 0.5))
-      drop-shadow(0 0 75px rgba(118, 75, 162, 0.4))
+      drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4)) 
+      drop-shadow(0 0 25px rgba(255, 255, 255, 0.6)) 
+      drop-shadow(0 0 50px rgba(102, 126, 234, 0.5)) 
+      drop-shadow(0 0 75px rgba(118, 75, 162, 0.4)) 
       drop-shadow(0 0 100px rgba(255, 107, 107, 0.3));
   }
 
   .logo-text {
     color: rgba(255, 255, 255, 0.9);
-    font-size: 15px;
+    /* Font size handled by font-sizes.css */
     font-weight: 600;
   }
 
@@ -339,7 +350,7 @@ export default {
     border-radius: 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    font-size: 13px;
+    /* Font size handled by font-sizes.css */
     font-weight: 500;
     margin: 0 12px;
     border-radius: 10px;
@@ -398,10 +409,7 @@ export default {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.08);
     transform: translateX(6px);
-    box-shadow: 
-      0 4px 16px rgba(0, 0, 0, 0.08),
-      0 0 0 1px rgba(255, 255, 255, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
   }
 
@@ -543,7 +551,7 @@ export default {
   }
 
   .navicon {
-    font-size: 16px;
+    /* Font size handled by font-sizes.css */
     color: white;
     transition: all 0.3s ease;
     position: relative;
@@ -561,8 +569,15 @@ export default {
   }
 
   @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.6;
+    }
   }
 
   .nav-footer {
@@ -580,7 +595,7 @@ export default {
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 8px;
     color: rgba(255, 255, 255, 0.7);
-    font-size: 12px;
+    /* Font size handled by font-sizes.css */
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -596,7 +611,7 @@ export default {
 
   .theme-toggle i {
     margin-right: 6px;
-    font-size: 14px;
+    /* Font size handled by font-sizes.css */
   }
 
   /* Hide hamburger on desktop */
@@ -607,33 +622,33 @@ export default {
 
 /* Mobile Navigation */
 @media (max-width: 1199px) {
-      .header {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        bottom: 0;
-        width: 220px;
-        background: 
-          linear-gradient(135deg, rgba(60, 20, 120, 0.6) 0%, rgba(50, 15, 100, 0.65) 50%, rgba(40, 10, 80, 0.7) 100%),
-          radial-gradient(circle at 20% 20%, rgba(80, 30, 140, 0.2) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(90, 35, 150, 0.12) 0%, transparent 50%);
-        backdrop-filter: blur(40px) saturate(130%) brightness(0.85);
-        -webkit-backdrop-filter: blur(40px) saturate(130%) brightness(0.85);
-        z-index: 997;
-        padding: 0;
-        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border-right: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 
-          0 0 0 1px rgba(255, 255, 255, 0.05),
-          0 12px 40px rgba(0, 0, 0, 0.3),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1),
-          inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-      }
-  
+  .header {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    bottom: 0;
+    width: 220px;
+    background: 
+      linear-gradient(135deg, rgba(60, 20, 120, 0.6) 0%, rgba(50, 15, 100, 0.65) 50%, rgba(40, 10, 80, 0.7) 100%),
+      radial-gradient(circle at 20% 20%, rgba(80, 30, 140, 0.2) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(90, 35, 150, 0.12) 0%, transparent 50%);
+    backdrop-filter: blur(40px) saturate(130%) brightness(0.85);
+    -webkit-backdrop-filter: blur(40px) saturate(130%) brightness(0.85);
+    z-index: 997;
+    padding: 0;
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.05), 
+      0 12px 40px rgba(0, 0, 0, 0.3), 
+      inset 0 1px 0 rgba(255, 255, 255, 0.1), 
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  }
+
   .header.header-show {
     left: 0;
   }
-  
+
   /* Compact Glassmorphism Hamburger Button */
   .header-toggle {
     position: fixed !important;
@@ -651,22 +666,20 @@ export default {
     color: white !important;
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 10px !important;
-    font-size: 18px !important;
+    /* Font size handled by font-sizes.css */
     cursor: pointer !important;
-    box-shadow: 
-      0 6px 20px rgba(102, 126, 234, 0.15) !important,
-      inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15) !important, inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
-  
+
   .header-toggle:hover {
     background: rgba(102, 126, 234, 0.25) !important;
     transform: scale(1.05) !important;
     box-shadow: 
-      0 8px 25px rgba(102, 126, 234, 0.25) !important,
+      0 8px 25px rgba(102, 126, 234, 0.25) !important, 
       inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
   }
-  
+
   .navmenu {
     height: 100%;
     display: flex;
@@ -686,29 +699,29 @@ export default {
     margin-bottom: 8px;
   }
 
-      .logo-icon {
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-        box-shadow: 
-          0 0 0 3px rgba(102, 126, 234, 0.8),
-          0 0 20px rgba(102, 126, 234, 0.6),
-          0 0 40px rgba(118, 75, 162, 0.4),
-          0 0 60px rgba(255, 107, 107, 0.3),
-          inset 0 0 20px rgba(255, 255, 255, 0.1);
-        overflow: hidden;
-        border: 2px solid rgba(102, 126, 234, 0.9);
-        background: 
-          linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 30%, rgba(255, 107, 107, 0.1) 60%, rgba(0, 184, 148, 0.05) 100%),
-          radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.2) 0%, transparent 60%),
-          radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-        position: relative;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      }
+  .logo-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 
+      0 0 0 3px rgba(102, 126, 234, 0.8), 
+      0 0 20px rgba(102, 126, 234, 0.6), 
+      0 0 40px rgba(118, 75, 162, 0.4), 
+      0 0 60px rgba(255, 107, 107, 0.3), 
+      inset 0 0 20px rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    border: 2px solid rgba(102, 126, 234, 0.9);
+    background: 
+      linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 30%, rgba(255, 107, 107, 0.1) 60%, rgba(0, 184, 148, 0.05) 100%),
+      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.2) 0%, transparent 60%),
+      radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
   .logo-icon::before {
     content: '';
@@ -732,13 +745,13 @@ export default {
     left: -3px;
     right: -3px;
     bottom: -3px;
-    background: linear-gradient(45deg, 
-      rgba(102, 126, 234, 0.7) 0%, 
-      rgba(118, 75, 162, 0.7) 20%, 
-      rgba(255, 107, 107, 0.7) 40%, 
-      rgba(0, 184, 148, 0.7) 60%, 
-      rgba(253, 203, 110, 0.7) 80%, 
-      rgba(102, 126, 234, 0.7) 100%);
+    background: linear-gradient(45deg,
+        rgba(102, 126, 234, 0.7) 0%,
+        rgba(118, 75, 162, 0.7) 20%,
+        rgba(255, 107, 107, 0.7) 40%,
+        rgba(0, 184, 148, 0.7) 60%,
+        rgba(253, 203, 110, 0.7) 80%,
+        rgba(102, 126, 234, 0.7) 100%);
     border-radius: 33px;
     z-index: -1;
     opacity: 0;
@@ -746,16 +759,16 @@ export default {
     animation: rotate 3s linear infinite;
   }
 
-      .logo-icon:hover {
-        transform: scale(1.15) rotate(5deg);
-        box-shadow: 
-          0 0 0 4px rgba(102, 126, 234, 1),
-          0 0 30px rgba(102, 126, 234, 0.8),
-          0 0 60px rgba(118, 75, 162, 0.6),
-          0 0 90px rgba(255, 107, 107, 0.5),
-          0 0 120px rgba(0, 184, 148, 0.4),
-          inset 0 0 30px rgba(255, 255, 255, 0.2);
-      }
+  .logo-icon:hover {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 
+      0 0 0 4px rgba(102, 126, 234, 1), 
+      0 0 30px rgba(102, 126, 234, 0.8), 
+      0 0 60px rgba(118, 75, 162, 0.6), 
+      0 0 90px rgba(255, 107, 107, 0.5), 
+      0 0 120px rgba(0, 184, 148, 0.4), 
+      inset 0 0 30px rgba(255, 255, 255, 0.2);
+  }
 
   .logo-icon:hover::after {
     opacity: 1;
@@ -763,11 +776,11 @@ export default {
 
   .logo-text {
     color: rgba(255, 255, 255, 0.9);
-    font-size: 16px;
+    /* Font size handled by font-sizes.css */
     font-weight: 600;
   }
 
-  
+
   .navmenu ul {
     list-style: none;
     padding: 0;
@@ -787,7 +800,7 @@ export default {
     border-radius: 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    font-size: 14px;
+    /* Font size handled by font-sizes.css */
     font-weight: 500;
     margin: 0 12px;
     border-radius: 10px;
@@ -846,10 +859,7 @@ export default {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.08);
     transform: translateX(8px);
-    box-shadow: 
-      0 4px 16px rgba(0, 0, 0, 0.08),
-      0 0 0 1px rgba(255, 255, 255, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
   }
 
@@ -986,7 +996,7 @@ export default {
   }
 
   .navicon {
-    font-size: 18px;
+    /* Font size handled by font-sizes.css */
     color: white;
     transition: all 0.3s ease;
     position: relative;
@@ -1018,7 +1028,7 @@ export default {
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 10px;
     color: rgba(255, 255, 255, 0.7);
-    font-size: 13px;
+    /* Font size handled by font-sizes.css */
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -1034,7 +1044,7 @@ export default {
 
   .theme-toggle i {
     margin-right: 8px;
-    font-size: 16px;
+    /* Font size handled by font-sizes.css */
   }
 }
 
@@ -1043,20 +1053,20 @@ export default {
   .header {
     width: 240px;
   }
-  
+
   .navmenu a {
     padding: 10px 16px;
-    font-size: 13px;
+    /* Font size handled by font-sizes.css */
   }
-  
+
   .icon-wrapper {
     width: 32px;
     height: 32px;
     margin-right: 12px;
   }
-  
+
   .navicon {
-    font-size: 16px;
+    /* Font size handled by font-sizes.css */
   }
 }
 
@@ -1065,20 +1075,20 @@ export default {
   .header {
     width: 220px;
   }
-  
+
   .navmenu a {
     padding: 8px 14px;
-    font-size: 13px;
+    /* Font size handled by font-sizes.css */
   }
-  
+
   .icon-wrapper {
     width: 30px;
     height: 30px;
     margin-right: 10px;
   }
-  
+
   .navicon {
-    font-size: 15px;
+    /* Font size handled by font-sizes.css */
   }
 }
 </style>

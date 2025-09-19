@@ -23,9 +23,18 @@
                     <h4>🚀 Waqas Ahmad</h4>
                     <p><em><strong>Visionary Senior Software Engineer & Technical Lead</strong> with 16+ years of transformative experience in architecting enterprise-scale solutions. <strong>Cloud-native expert</strong> specializing in .NET Core, Azure Cloud, and microservices architecture. <strong>Proven leader</strong> who has delivered 100+ successful projects, mentored 50+ developers, and driven digital transformation across multiple industries.</em></p>
                     <ul>
-                      <li><strong>📍 Location:</strong> Selangor, Malaysia (🌐 Global remote capabilities)</li>
-                      <li><strong>📞 Contact:</strong> +60146806067</li>
-                      <li><strong>✉️ Email:</strong> devwithwaqas@gmail.com</li>
+                      <li>
+                        <strong>📍 Location:</strong>
+                        <div>Selangor, Malaysia (🌐 Global remote capabilities)</div>
+                      </li>
+                      <li>
+                        <strong>📞 Contact:</strong>
+                        <div>+60146806067</div>
+                      </li>
+                      <li>
+                        <strong>✉️ Email:</strong>
+                        <div>devwithwaqas@gmail.com</div>
+                      </li>
                     </ul>
                   </div><!-- End Resume Item -->
 
@@ -61,11 +70,26 @@
                     <h5>2022 - Present</h5>
                     <p><em>Independent Consultant, Remote/Global</em></p>
                     <ul>
-                      <li><strong>💼 Global Impact:</strong> Delivering cutting-edge software solutions to clients across 5+ countries, specializing in enterprise-scale applications</li>
-                      <li><strong>☁️ Cloud Excellence:</strong> Architecting and implementing Azure-based solutions that reduce infrastructure costs by 40% while improving performance</li>
-                      <li><strong>🔄 Full-Stack Mastery:</strong> Building complete applications from database design to user interface, ensuring seamless integration and optimal user experience</li>
-                      <li><strong>⚡ Rapid Delivery:</strong> Consistently delivering projects 25% faster than industry standards while maintaining 99.9% client satisfaction rate</li>
-                      <li><strong>🌐 Remote Innovation:</strong> Pioneering remote-first development practices, enabling seamless collaboration across time zones and cultures</li>
+                      <li>
+                        <strong>💼 Global Impact:</strong>
+                        <div>Delivering cutting-edge software solutions to clients across 5+ countries, specializing in enterprise-scale applications</div>
+                      </li>
+                      <li>
+                        <strong>☁️ Cloud Excellence:</strong>
+                        <div>Architecting and implementing Azure-based solutions that reduce infrastructure costs by 40% while improving performance</div>
+                      </li>
+                      <li>
+                        <strong>🔄 Full-Stack Mastery:</strong>
+                        <div>Building complete applications from database design to user interface, ensuring seamless integration and optimal user experience</div>
+                      </li>
+                      <li>
+                        <strong>⚡ Rapid Delivery:</strong>
+                        <div>Consistently delivering projects 25% faster than industry standards while maintaining 99.9% client satisfaction rate</div>
+                      </li>
+                      <li>
+                        <strong>🌐 Remote Innovation:</strong>
+                        <div>Pioneering remote-first development practices, enabling seamless collaboration across time zones and cultures</div>
+                      </li>
                     </ul>
                   </div><!-- End Resume Item -->
 
@@ -74,11 +98,26 @@
                     <h5>Jun 2021 – Aug 2022 (1 yr 3 mos)</h5>
                     <p><em>AirAsia Tech, Kuala Lumpur, Malaysia</em></p>
                     <ul>
-                      <li><strong>🎯 Aviation Domain Revamp:</strong> Led comprehensive revamp of airline domain applications with cutting-edge .NET Core + Angular technology stack</li>
-                      <li><strong>⚙️ DevOps Excellence:</strong> Built and standardized CI/CD pipelines and branching strategies, improving delivery timelines by 40-50%</li>
-                      <li><strong>📈 Performance Optimization:</strong> Optimized Entity Framework + LINQ queries for enhanced application performance and database efficiency</li>
-                      <li><strong>👥 Technical Leadership:</strong> Served as Tech Lead, guiding team on multi-tier .NET Core + Angular applications</li>
-                      <li><strong>☁️ Cloud Architecture:</strong> Designed scalable Azure Cloud Services architecture supporting real-time flight operations</li>
+                      <li>
+                        <strong>🎯 Aviation Domain Revamp:</strong>
+                        <div>Led comprehensive revamp of airline domain applications with cutting-edge .NET Core + Angular technology stack</div>
+                      </li>
+                      <li>
+                        <strong>⚙️ DevOps Excellence:</strong>
+                        <div>Built and standardized CI/CD pipelines and branching strategies, improving delivery timelines by 40-50%</div>
+                      </li>
+                      <li>
+                        <strong>📈 Performance Optimization:</strong>
+                        <div>Optimized Entity Framework + LINQ queries for enhanced application performance and database efficiency</div>
+                      </li>
+                      <li>
+                        <strong>👥 Technical Leadership:</strong>
+                        <div>Served as Tech Lead, guiding team on multi-tier .NET Core + Angular applications</div>
+                      </li>
+                      <li>
+                        <strong>☁️ Cloud Architecture:</strong>
+                        <div>Designed scalable Azure Cloud Services architecture supporting real-time flight operations</div>
+                      </li>
                     </ul>
                   </div><!-- End Resume Item -->
 
@@ -87,11 +126,26 @@
                     <h5>Feb 2020 – Jan 2021 (1 yr)</h5>
                     <p><em>Datacom, Kuala Lumpur, Malaysia</em></p>
                     <ul>
-                      <li><strong>🏗️ Microservices Architecture:</strong> Developed full-stack .NET & Power Apps with Azure Service Fabric microservices</li>
-                      <li><strong>☁️ Cloud Infrastructure:</strong> Designed SQL Server + Azure Cloud architecture and CI/CD pipelines</li>
-                      <li><strong>⚡ Performance Optimization:</strong> Optimized n-tier applications, LINQ queries, and performance algorithms</li>
-                      <li><strong>🔗 System Integration:</strong> Maintained BAT mobile app with SAP & Cherwell integrations</li>
-                      <li><strong>🔄 Agile Development:</strong> Implemented REST APIs and Agile methodologies for efficient project delivery</li>
+                      <li>
+                        <strong>🏗️ Microservices Architecture:</strong>
+                        <div>Developed full-stack .NET & Power Apps with Azure Service Fabric microservices</div>
+                      </li>
+                      <li>
+                        <strong>☁️ Cloud Infrastructure:</strong>
+                        <div>Designed SQL Server + Azure Cloud architecture and CI/CD pipelines</div>
+                      </li>
+                      <li>
+                        <strong>⚡ Performance Optimization:</strong>
+                        <div>Optimized n-tier applications, LINQ queries, and performance algorithms</div>
+                      </li>
+                      <li>
+                        <strong>🔗 System Integration:</strong>
+                        <div>Maintained BAT mobile app with SAP & Cherwell integrations</div>
+                      </li>
+                      <li>
+                        <strong>🔄 Agile Development:</strong>
+                        <div>Implemented REST APIs and Agile methodologies for efficient project delivery</div>
+                      </li>
                     </ul>
                   </div><!-- End Resume Item -->
 
@@ -100,11 +154,26 @@
                     <h5>Jul 2019 – Jan 2020 (7 mos)</h5>
                     <p><em>Syntronic – A Global Design House, Malaysia</em></p>
                     <ul>
-                      <li><strong>🔌 API Development:</strong> Developed ASP.NET Core REST APIs and SignalR for real-time communication</li>
-                      <li><strong>🚀 Modern Web Applications:</strong> Built Angular SPA with responsive design and optimal user experience</li>
-                      <li><strong>🐳 DevOps Automation:</strong> Implemented CI/CD automation with Azure DevOps + Docker containerization</li>
-                      <li><strong>☁️ Azure Services:</strong> Utilized Cosmos DB, Azure Functions, and Azure Storage for scalable solutions</li>
-                      <li><strong>🔄 Agile Practices:</strong> Active participation in Agile ceremonies and comprehensive code reviews</li>
+                      <li>
+                        <strong>🔌 API Development:</strong>
+                        <div>Developed ASP.NET Core REST APIs and SignalR for real-time communication</div>
+                      </li>
+                      <li>
+                        <strong>🚀 Modern Web Applications:</strong>
+                        <div>Built Angular SPA with responsive design and optimal user experience</div>
+                      </li>
+                      <li>
+                        <strong>🐳 DevOps Automation:</strong>
+                        <div>Implemented CI/CD automation with Azure DevOps + Docker containerization</div>
+                      </li>
+                      <li>
+                        <strong>☁️ Azure Services:</strong>
+                        <div>Utilized Cosmos DB, Azure Functions, and Azure Storage for scalable solutions</div>
+                      </li>
+                      <li>
+                        <strong>🔄 Agile Practices:</strong>
+                        <div>Active participation in Agile ceremonies and comprehensive code reviews</div>
+                      </li>
                     </ul>
                   </div><!-- End Resume Item -->
 
@@ -113,11 +182,26 @@
                     <h5>May 2018 – Jul 2019 (1 yr 3 mos)</h5>
                     <p><em>Iconic Control Sdn Bhd, Malaysia</em></p>
                     <ul>
-                      <li><strong>🏗️ Smart City Solutions:</strong> Designed and coded large-scale city-wide smart portal apps (transport, taxation, crime reporting)</li>
-                      <li><strong>🤖 AI & OCR Integration:</strong> Implemented AI OCR enforcement systems and GIS mapping solutions</li>
-                      <li><strong>🏛️ Architecture Excellence:</strong> Architected n-tier, SOLID, MVVM applications with best practices</li>
-                      <li><strong>🛠️ Modern Tech Stack:</strong> Utilized ASP.NET Core, Vue.js, GIS, and Entity Framework</li>
-                      <li><strong>👥 Team Leadership:</strong> Involved in team management & architecture design decisions</li>
+                      <li>
+                        <strong>🏗️ Smart City Solutions:</strong>
+                        <div>Designed and coded large-scale city-wide smart portal apps (transport, taxation, crime reporting)</div>
+                      </li>
+                      <li>
+                        <strong>🤖 AI & OCR Integration:</strong>
+                        <div>Implemented AI OCR enforcement systems and GIS mapping solutions</div>
+                      </li>
+                      <li>
+                        <strong>🏛️ Architecture Excellence:</strong>
+                        <div>Architected n-tier, SOLID, MVVM applications with best practices</div>
+                      </li>
+                      <li>
+                        <strong>🛠️ Modern Tech Stack:</strong>
+                        <div>Utilized ASP.NET Core, Vue.js, GIS, and Entity Framework</div>
+                      </li>
+                      <li>
+                        <strong>👥 Team Leadership:</strong>
+                        <div>Involved in team management & architecture design decisions</div>
+                      </li>
                     </ul>
                   </div><!-- End Resume Item -->
 
@@ -126,11 +210,26 @@
                     <h5>Nov 2012 – Mar 2018 (5 yrs 5 mos)</h5>
                     <p><em>Squad Cell, Malaysia</em></p>
                     <ul>
-                      <li><strong>🛒 E-commerce Excellence:</strong> Built comprehensive E-commerce, retail, inventory & business systems with .NET & Angular</li>
-                      <li><strong>📊 Data Analytics:</strong> Introduced Data-Analytics frameworks for product recommendations and business insights</li>
-                      <li><strong>🔔 Notification Services:</strong> Designed notification microservices (push, in-app, email) for enhanced user engagement</li>
-                      <li><strong>⚙️ DevOps Automation:</strong> Automated DevOps branching/build processes for efficient development workflows</li>
-                      <li><strong>👥 Technical Leadership:</strong> Led technical design & team mentoring for successful project delivery</li>
+                      <li>
+                        <strong>🛒 E-commerce Excellence:</strong>
+                        <div>Built comprehensive E-commerce, retail, inventory & business systems with .NET & Angular</div>
+                      </li>
+                      <li>
+                        <strong>📊 Data Analytics:</strong>
+                        <div>Introduced Data-Analytics frameworks for product recommendations and business insights</div>
+                      </li>
+                      <li>
+                        <strong>🔔 Notification Services:</strong>
+                        <div>Designed notification microservices (push, in-app, email) for enhanced user engagement</div>
+                      </li>
+                      <li>
+                        <strong>⚙️ DevOps Automation:</strong>
+                        <div>Automated DevOps branching/build processes for efficient development workflows</div>
+                      </li>
+                      <li>
+                        <strong>👥 Technical Leadership:</strong>
+                        <div>Led technical design & team mentoring for successful project delivery</div>
+                      </li>
                     </ul>
                   </div><!-- End Resume Item -->
 
@@ -139,11 +238,26 @@
                     <h5>Jun 2011 – Oct 2012 (1 yr 5 mos)</h5>
                     <p><em>GenITeam Solutions, Malaysia</em></p>
                     <ul>
-                      <li><strong>🎯 Physics Engine Innovation:</strong> Created first in-house physics engine for 2D games using advanced algorithms</li>
-                      <li><strong>🏆 Game Development Success:</strong> Developed Marine Defender game ranked #21 arcade worldwide</li>
-                      <li><strong>🗄️ Database Integration:</strong> Integrated SQL Server + XML with RPG games for data persistence</li>
-                      <li><strong>💰 Revenue Growth:</strong> Significantly increased company's game revenue through successful releases</li>
-                      <li><strong>🛠️ Technical Stack:</strong> Mastered .NET, Java, Box2D, SQL Server, XML for game development</li>
+                      <li>
+                        <strong>🎯 Physics Engine Innovation:</strong>
+                        <div>Created first in-house physics engine for 2D games using advanced algorithms</div>
+                      </li>
+                      <li>
+                        <strong>🏆 Game Development Success:</strong>
+                        <div>Developed Marine Defender game ranked #21 arcade worldwide</div>
+                      </li>
+                      <li>
+                        <strong>🗄️ Database Integration:</strong>
+                        <div>Integrated SQL Server + XML with RPG games for data persistence</div>
+                      </li>
+                      <li>
+                        <strong>💰 Revenue Growth:</strong>
+                        <div>Significantly increased company's game revenue through successful releases</div>
+                      </li>
+                      <li>
+                        <strong>🛠️ Technical Stack:</strong>
+                        <div>Mastered .NET, Java, Box2D, SQL Server, XML for game development</div>
+                      </li>
                     </ul>
                   </div><!-- End Resume Item -->
 
@@ -152,11 +266,26 @@
                     <h5>Jan 2008 – Jun 2011 (3 yrs 6 mos)</h5>
                     <p><em>DSOL (Kiics), Malaysia</em></p>
                     <ul>
-                      <li><strong>🌐 Web Solutions:</strong> Built comprehensive .NET web solutions and parental control software</li>
-                      <li><strong>⚡ Multi-threaded Applications:</strong> Developed high-performance multi-threaded applications for optimal user experience</li>
-                      <li><strong>📧 Communication Systems:</strong> Created mass email client & ad-SMS system for business communication</li>
-                      <li><strong>🚀 Startup Growth:</strong> Contributed significantly to startup growth, reduced manual work with automation</li>
-                      <li><strong>🏆 Recognition:</strong> Awarded Best Programmer – KICS Annual Ceremony for outstanding contributions</li>
+                      <li>
+                        <strong>🌐 Web Solutions:</strong>
+                        <div>Built comprehensive .NET web solutions and parental control software</div>
+                      </li>
+                      <li>
+                        <strong>⚡ Multi-threaded Applications:</strong>
+                        <div>Developed high-performance multi-threaded applications for optimal user experience</div>
+                      </li>
+                      <li>
+                        <strong>📧 Communication Systems:</strong>
+                        <div>Created mass email client & ad-SMS system for business communication</div>
+                      </li>
+                      <li>
+                        <strong>🚀 Startup Growth:</strong>
+                        <div>Contributed significantly to startup growth, reduced manual work with automation</div>
+                      </li>
+                      <li>
+                        <strong>🏆 Recognition:</strong>
+                        <div>Awarded Best Programmer – KICS Annual Ceremony for outstanding contributions</div>
+                      </li>
                     </ul>
                   </div><!-- End Resume Item -->
 
@@ -177,3 +306,7 @@ export default {
   name: 'Resume'
 }
 </script>
+
+<style scoped>
+/* Removed conflicting font size rules - now handled globally */
+</style>

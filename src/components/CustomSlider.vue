@@ -294,7 +294,7 @@ export default {
   border-radius: 50%;
   background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%);
   color: white;
-  font-size: 18px;
+  /* Font size handled by font-sizes.css */
   cursor: pointer;
   transition: all 0.3s ease;
   pointer-events: auto;
@@ -373,41 +373,41 @@ export default {
   }
   
   .slider-nav {
-    gap: 25px;
+    gap: 30px;
   }
   
   .slider-arrow {
-    width: 40px;
-    height: 40px;
-    font-size: 14px;
+    width: 55px;
+    height: 55px;
+    /* Font size handled by font-sizes.css */
   }
   
   .slider-dot {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .slider-controls {
-    gap: 12px;
-    margin-top: 12px;
-    padding: 12px 0;
+    gap: 15px;
+    margin-top: 15px;
+    padding: 15px 0;
   }
   
   .slider-nav {
-    gap: 20px;
+    gap: 25px;
   }
   
   .slider-arrow {
-    width: 35px;
-    height: 35px;
-    font-size: 12px;
+    width: 50px;
+    height: 50px;
+    /* Font size handled by font-sizes.css */
   }
   
   .slider-dot {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
   }
 }
 </style>

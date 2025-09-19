@@ -126,3 +126,7 @@ export default {
   name: 'Services'
 }
 </script>
+
+<style scoped>
+/* Removed conflicting font size rules - now handled globally */
+</style>

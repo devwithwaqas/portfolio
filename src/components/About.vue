@@ -8,7 +8,7 @@
             
             <!-- Card Header -->
             <div class="card-header fancy-3d-header" style="margin: -10px -10px 30px -10px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
-              <h3 style="color: white; margin: 0; font-weight: 700; font-size: 1.5rem; text-align: center;">👨‍💻 About Me</h3>
+              <h3 style="color: white; margin: 0; font-weight: 700; text-align: center;">👨‍💻 About Me</h3>
             </div>
 
             <!-- Card Body -->
@@ -35,7 +35,7 @@
                     
                     <div style="position: relative; z-index: 2;">
                       <h2 style="color: #0563bb; margin-bottom: 20px; font-weight: 600;">🚀 Senior Software Engineer &amp; Technical Lead</h2>
-                      <p class="fst-italic py-3" style="color: #45505b; font-size: 1.1rem; line-height: 1.6;">
+                      <p class="fst-italic py-3" style="color: #45505b; /* Font size handled by font-sizes.css */ line-height: 1.6;">
                         Proficient in enterprise applications architecture whether hybrid or platform specific either as services for company or products for the organizations. Currently engaged as Senior Software Engineer Full Stack (16+ years) / Technical Lead (8+ years overall as Technical Lead) in developing web / cloud based applications.
                       </p>
                       
@@ -44,25 +44,25 @@
                           <div style="background: rgba(5, 99, 187, 0.05); padding: 20px; border-radius: 15px; border-left: 4px solid #0563bb;">
                             <ul style="list-style: none; padding-left: 0; margin: 0;">
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-calendar-event" style="color: #0563bb; margin-right: 10px; font-size: 1.1rem; margin-top: 2px; flex-shrink: 0;"></i>
+                                <i class="bi bi-calendar-event" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
                                   <strong style="color: #0563bb;">Birthday:</strong> <span style="color: #45505b; margin-left: 5px;">September 21, 1987</span>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-globe" style="color: #0563bb; margin-right: 10px; font-size: 1.1rem; margin-top: 2px; flex-shrink: 0;"></i>
+                                <i class="bi bi-globe" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
                                   <strong style="color: #0563bb;">Website:</strong> <span style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word;">www.waqasahmad.com</span>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-telephone" style="color: #0563bb; margin-right: 10px; font-size: 1.1rem; margin-top: 2px; flex-shrink: 0;"></i>
+                                <i class="bi bi-telephone" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
                                   <strong style="color: #0563bb;">Phone:</strong> <span style="color: #45505b; margin-left: 5px;">+60146806067</span>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-geo-alt" style="color: #0563bb; margin-right: 10px; font-size: 1.1rem; margin-top: 2px; flex-shrink: 0;"></i>
+                                <i class="bi bi-geo-alt" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
                                   <strong style="color: #0563bb;">City:</strong> <span style="color: #45505b; margin-left: 5px;">Selangor, Malaysia</span>
                                 </div>
@@ -74,25 +74,25 @@
                           <div style="background: rgba(5, 99, 187, 0.05); padding: 20px; border-radius: 15px; border-left: 4px solid #0563bb;">
                             <ul style="list-style: none; padding-left: 0; margin: 0;">
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-person-badge" style="color: #0563bb; margin-right: 10px; font-size: 1.1rem; margin-top: 2px; flex-shrink: 0;"></i>
+                                <i class="bi bi-person-badge" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
                                   <strong style="color: #0563bb;">Age:</strong> <span style="color: #45505b; margin-left: 5px;">36</span>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-mortarboard" style="color: #0563bb; margin-right: 10px; font-size: 1.1rem; margin-top: 2px; flex-shrink: 0;"></i>
+                                <i class="bi bi-mortarboard" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
                                   <strong style="color: #0563bb;">Degree:</strong> <span style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word;">Bachelor's in Computer System Engineering</span>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-envelope" style="color: #0563bb; margin-right: 10px; font-size: 1.1rem; margin-top: 2px; flex-shrink: 0;"></i>
+                                <i class="bi bi-envelope" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
                                   <strong style="color: #0563bb;">Email:</strong> <span style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word;">devwithwaqas@gmail.com</span>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-briefcase" style="color: #0563bb; margin-right: 10px; font-size: 1.1rem; margin-top: 2px; flex-shrink: 0;"></i>
+                                <i class="bi bi-briefcase" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
                                   <strong style="color: #0563bb;">Freelance:</strong> <span style="color: #28a745; margin-left: 5px; font-weight: 600;">Available</span>
                                 </div>
@@ -125,3 +125,7 @@ export default {
   name: 'About'
 }
 </script>
+
+<style scoped>
+/* Removed conflicting font size rules - now handled globally */
+</style>

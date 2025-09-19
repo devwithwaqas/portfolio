@@ -9,7 +9,7 @@
             
             <!-- Card Header -->
             <div class="card-header fancy-3d-header" style="margin: -10px -10px 30px -10px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
-              <h3 style="color: white; margin: 0; font-weight: 700; font-size: 1.5rem; text-align: center;">🎨 Project Portfolio</h3>
+              <h3 style="color: white; margin: 0; font-weight: 700; text-align: center;">🎨 Project Portfolio</h3>
             </div>
 
             <!-- Card Body -->
@@ -37,11 +37,11 @@
                         
                         <!-- Polaroid Text Area -->
                         <div style="text-align: center; padding: 10px 0;">
-                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; font-size: 1.1rem; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🔥 Heat Exchanger Portal</h4>
-                          <p style="color: #7f8c8d; margin: 0 0 8px 0; font-size: 0.9rem; font-style: italic; font-family: 'Georgia', serif;">Enterprise Petroleum Management</p>
+                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; /* Font size handled by font-sizes.css */ font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🔥 Heat Exchanger Portal</h4>
+                          <p style="color: #7f8c8d; margin: 0 0 8px 0; /* Font size handled by font-sizes.css */ font-style: italic; font-family: 'Georgia', serif;">Enterprise Petroleum Management</p>
                           <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
-                            <a href="/assets/img/he1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
-                            <a href="heat-exchanger-portal.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
+                            <a href="/assets/img/he1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
+                            <a href="heat-exchanger-portal.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
                           </div>
                         </div>
                       </div>
@@ -64,11 +64,11 @@
                         
                         <!-- Polaroid Text Area -->
                         <div style="text-align: center; padding: 10px 0;">
-                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; font-size: 1.1rem; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">✈️ Air Asia ID90</h4>
-                          <p style="color: #7f8c8d; margin: 0 0 8px 0; font-size: 0.9rem; font-style: italic; font-family: 'Georgia', serif;">Allstars Portal & Refund System</p>
+                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; /* Font size handled by font-sizes.css */ font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">✈️ Air Asia ID90</h4>
+                          <p style="color: #7f8c8d; margin: 0 0 8px 0; /* Font size handled by font-sizes.css */ font-style: italic; font-family: 'Georgia', serif;">Allstars Portal & Refund System</p>
                           <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
-                            <a href="/assets/img/aa1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
-                            <a href="air-asia-id90.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
+                            <a href="/assets/img/aa1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
+                            <a href="air-asia-id90.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
                           </div>
                         </div>
                       </div>
@@ -91,11 +91,11 @@
                         
                         <!-- Polaroid Text Area -->
                         <div style="text-align: center; padding: 10px 0;">
-                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; font-size: 1.1rem; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🏢 BAT Inhouse App</h4>
-                          <p style="color: #7f8c8d; margin: 0 0 8px 0; font-size: 0.9rem; font-style: italic; font-family: 'Georgia', serif;">British American Tobacco Management</p>
+                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; /* Font size handled by font-sizes.css */ font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🏢 BAT Inhouse App</h4>
+                          <p style="color: #7f8c8d; margin: 0 0 8px 0; /* Font size handled by font-sizes.css */ font-style: italic; font-family: 'Georgia', serif;">British American Tobacco Management</p>
                           <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
-                            <a href="/assets/img/bat1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
-                            <a href="bat-inhouse-app.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
+                            <a href="/assets/img/bat1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
+                            <a href="bat-inhouse-app.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
                           </div>
                         </div>
                       </div>
@@ -118,11 +118,11 @@
                         
                         <!-- Polaroid Text Area -->
                         <div style="text-align: center; padding: 10px 0;">
-                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; font-size: 1.1rem; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🏙️ PJ Smart City</h4>
-                          <p style="color: #7f8c8d; margin: 0 0 8px 0; font-size: 0.9rem; font-style: italic; font-family: 'Georgia', serif;">Petaling Jaya Smart City Platform</p>
+                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; /* Font size handled by font-sizes.css */ font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🏙️ PJ Smart City</h4>
+                          <p style="color: #7f8c8d; margin: 0 0 8px 0; /* Font size handled by font-sizes.css */ font-style: italic; font-family: 'Georgia', serif;">Petaling Jaya Smart City Platform</p>
                           <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
-                            <a href="/assets/img/pj1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
-                            <a href="pj-smart-city.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
+                            <a href="/assets/img/pj1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
+                            <a href="pj-smart-city.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
                           </div>
                         </div>
                       </div>
@@ -145,11 +145,11 @@
                         
                         <!-- Polaroid Text Area -->
                         <div style="text-align: center; padding: 10px 0;">
-                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; font-size: 1.1rem; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">💳 G5 POS</h4>
-                          <p style="color: #7f8c8d; margin: 0 0 8px 0; font-size: 0.9rem; font-style: italic; font-family: 'Georgia', serif;">Squad Cell Point of Sale System</p>
+                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; /* Font size handled by font-sizes.css */ font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">💳 G5 POS</h4>
+                          <p style="color: #7f8c8d; margin: 0 0 8px 0; /* Font size handled by font-sizes.css */ font-style: italic; font-family: 'Georgia', serif;">Squad Cell Point of Sale System</p>
                           <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
-                            <a href="/assets/img/g51.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #FF6B35, #F7931E); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
-                            <a href="g5-pos.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #FF6B35, #F7931E); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
+                            <a href="/assets/img/g51.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #FF6B35, #F7931E); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
+                            <a href="g5-pos.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #FF6B35, #F7931E); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
                           </div>
                         </div>
                       </div>
@@ -172,11 +172,11 @@
                         
                         <!-- Polaroid Text Area -->
                         <div style="text-align: center; padding: 10px 0;">
-                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; font-size: 1.1rem; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🎮 Gamified Employee Management</h4>
-                          <p style="color: #7f8c8d; margin: 0 0 8px 0; font-size: 0.9rem; font-style: italic; font-family: 'Georgia', serif;">Syntronic Employee Engagement Platform</p>
+                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; /* Font size handled by font-sizes.css */ font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🎮 Gamified Employee Management</h4>
+                          <p style="color: #7f8c8d; margin: 0 0 8px 0; /* Font size handled by font-sizes.css */ font-style: italic; font-family: 'Georgia', serif;">Syntronic Employee Engagement Platform</p>
                           <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
-                            <a href="/assets/img/sf1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #11998e, #38ef7d); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
-                            <a href="gamified-employee-management.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #11998e, #38ef7d); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
+                            <a href="/assets/img/sf1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #11998e, #38ef7d); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
+                            <a href="gamified-employee-management.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #11998e, #38ef7d); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
                           </div>
                         </div>
                       </div>
@@ -199,11 +199,11 @@
                         
                         <!-- Polaroid Text Area -->
                         <div style="text-align: center; padding: 10px 0;">
-                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; font-size: 1.1rem; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🚗 Valet Parking</h4>
-                          <p style="color: #7f8c8d; margin: 0 0 8px 0; font-size: 0.9rem; font-style: italic; font-family: 'Georgia', serif;">Secure Parking UAE Management System</p>
+                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; /* Font size handled by font-sizes.css */ font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🚗 Valet Parking</h4>
+                          <p style="color: #7f8c8d; margin: 0 0 8px 0; /* Font size handled by font-sizes.css */ font-style: italic; font-family: 'Georgia', serif;">Secure Parking UAE Management System</p>
                           <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
-                            <a href="/assets/img/vp1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
-                            <a href="valet-parking.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
+                            <a href="/assets/img/vp1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
+                            <a href="valet-parking.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
                     </div>
                   </div>
                 </div>
@@ -226,11 +226,11 @@
                         
                         <!-- Polaroid Text Area -->
                         <div style="text-align: center; padding: 10px 0;">
-                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; font-size: 1.1rem; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🎮 Mobile Games Collection</h4>
-                          <p style="color: #7f8c8d; margin: 0 0 8px 0; font-size: 0.9rem; font-style: italic; font-family: 'Georgia', serif;">Geniteam Java & AndEngine Games</p>
+                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; /* Font size handled by font-sizes.css */ font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🎮 Mobile Games Collection</h4>
+                          <p style="color: #7f8c8d; margin: 0 0 8px 0; /* Font size handled by font-sizes.css */ font-style: italic; font-family: 'Georgia', serif;">Geniteam Java & AndEngine Games</p>
                           <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
-                            <a href="/assets/img/gd1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
-                            <a href="mobile-games.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
+                            <a href="/assets/img/gd1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
+                            <a href="mobile-games.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
                     </div>
                   </div>
                 </div>
@@ -253,11 +253,11 @@
                         
                         <!-- Polaroid Text Area -->
                         <div style="text-align: center; padding: 10px 0;">
-                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; font-size: 1.1rem; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🛡️ Confidential Insurance Clients</h4>
-                          <p style="color: #7f8c8d; margin: 0 0 8px 0; font-size: 0.9rem; font-style: italic; font-family: 'Georgia', serif;">Enterprise Insurance Management Platform</p>
+                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; /* Font size handled by font-sizes.css */ font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🛡️ Confidential Insurance Clients</h4>
+                          <p style="color: #7f8c8d; margin: 0 0 8px 0; /* Font size handled by font-sizes.css */ font-style: italic; font-family: 'Georgia', serif;">Enterprise Insurance Management Platform</p>
                           <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
-                            <a href="/assets/img/in1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
-                            <a href="chubb-insurance-applications.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
+                            <a href="/assets/img/in1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
+                            <a href="chubb-insurance-applications.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
                   </div>
                         </div>
                       </div>
@@ -280,11 +280,11 @@
                         
                         <!-- Polaroid Text Area -->
                         <div style="text-align: center; padding: 10px 0;">
-                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; font-size: 1.1rem; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🏠 UK Property Management Platform</h4>
-                          <p style="color: #7f8c8d; margin: 0 0 8px 0; font-size: 0.9rem; font-style: italic; font-family: 'Georgia', serif;">Azure-Based Residential Property Management System</p>
+                          <h4 style="color: #2c3e50; margin: 0 0 5px 0; font-weight: 700; /* Font size handled by font-sizes.css */ font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px;">🏠 UK Property Management Platform</h4>
+                          <p style="color: #7f8c8d; margin: 0 0 8px 0; /* Font size handled by font-sizes.css */ font-style: italic; font-family: 'Georgia', serif;">Azure-Based Residential Property Management System</p>
                           <div style="display: flex; justify-content: center; gap: 6px; margin-top: 12px;">
-                            <a href="/assets/img/gpc1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
-                            <a href="uk-property-management.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
+                            <a href="/assets/img/gpc1.jpg" data-gallery="portfolio-gallery" class="glightbox preview-link" style="background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-zoom-in"></i> Preview</a>
+                            <a href="uk-property-management.html" title="More Details" class="details-link" style="background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none; /* Font size handled by font-sizes.css */ font-weight: 600; transition: all 0.3s ease; border: none;" @mouseover="handleButtonHover" @mouseout="handleButtonLeave"><i class="bi bi-link-45deg"></i> Details</a>
                 </div>
               </div>
             </div>
@@ -374,3 +374,8 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/* Mobile font size improvements for Portfolio section */
+/* Removed conflicting font size rules - now handled globally */
+</style>

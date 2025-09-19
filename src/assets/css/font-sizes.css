@@ -1,0 +1,1050 @@
+/* ========================================
+   FONT SIZES - COMPLETE EXTRACTION
+   ALL FONT SIZE RULES FROM ALL COMPONENTS
+   ======================================== */
+
+/* ========================================
+   DESKTOP FONT SIZES (Default - 769px and above)
+   ======================================== */
+
+/* ========================================
+   NAVIGATION COMPONENT
+   ======================================== */
+.navmenu a {
+  font-size: 15px; /* Navigation menu links */
+}
+
+.navicon {
+  font-size: 18px; /* Navigation icons */
+}
+
+.logo-text {
+  font-size: 15px; /* Logo text in navigation */
+}
+
+.theme-toggle i {
+  font-size: 14px; /* Theme toggle icon */
+}
+
+/* ========================================
+   HERO SECTION
+   ======================================== */
+.hero h2 {
+  font-size: 48px; /* Main hero title "Waqas Ahmad" */
+}
+
+.hero p {
+  font-size: 24px; /* Hero subtitle text */
+}
+
+/* ========================================
+   SECTION HEADERS
+   ======================================== */
+.section-title h2 {
+  font-size: 2.5rem; /* Main section titles (About, Skills, etc.) */
+}
+
+.section-title p {
+  font-size: 1.1rem; /* Section subtitle text */
+}
+
+/* ========================================
+   CARD HEADERS
+   ======================================== */
+.card-header.fancy-3d-header h3,
+.text-card .card-header.fancy-3d-header h3 {
+  font-size: 1.5rem !important; /* Card headers (About Me, Technical Skills, etc.) */
+}
+
+/* ========================================
+   ABOUT COMPONENT
+   ======================================== */
+.about-header h3 {
+  font-size: 1.5rem; /* About section header */
+}
+
+.about-content p {
+  font-size: 1.1rem; /* About section paragraph text */
+}
+
+.about-content i {
+  font-size: 1.1rem; /* About section icons */
+}
+
+/* ========================================
+   SKILLS COMPONENT
+   ======================================== */
+.skill-info h5 {
+  font-size: 1rem; /* Skill category titles */
+}
+
+.skill-percentage {
+  font-size: 1rem; /* Skill percentage text */
+}
+
+/* ========================================
+   PORTFOLIO COMPONENT
+   ======================================== */
+.portfolio-header h3 {
+  font-size: 1.5rem; /* Portfolio section header */
+}
+
+.portfolio-item h4 {
+  font-size: 1.1rem; /* Portfolio project titles */
+}
+
+.portfolio-item p {
+  font-size: 0.9rem; /* Portfolio project descriptions */
+}
+
+.portfolio-item .btn {
+  font-size: 0.75rem; /* Portfolio action buttons */
+}
+
+/* ========================================
+   TESTIMONIALS COMPONENT
+   ======================================== */
+.testimonials-header h3 {
+  font-size: 1.5rem; /* Testimonials section header */
+}
+
+.testimonial-text {
+  font-size: 1.1rem; /* Testimonial quote text */
+}
+
+.testimonial-quote-icon {
+  font-size: 1.5rem; /* Quote icons (left/right) */
+}
+
+.testimonial-name {
+  font-size: 1.3rem; /* Testimonial author names */
+}
+
+.testimonial-title {
+  font-size: 1rem; /* Testimonial author titles */
+}
+
+.testimonial-star {
+  font-size: 1.2rem; /* Star rating icons */
+}
+
+/* ========================================
+   CONTACT COMPONENT
+   ======================================== */
+.contact-header h3 {
+  font-size: 1.5rem; /* Contact section header */
+}
+
+.info-card-icon {
+  font-size: 2.5rem; /* Contact card icons (phone, email, etc.) */
+}
+
+.info-card-content h4 {
+  font-size: 1.2rem; /* Contact card titles */
+}
+
+.form-title {
+  font-size: 2.4rem; /* Contact form header */
+}
+
+.form-subtitle {
+  font-size: 1.2rem; /* Contact form subtitle */
+}
+
+.form-input,
+.form-textarea {
+  font-size: 1rem; /* Contact form input fields */
+}
+
+.submit-btn {
+  font-size: 1.1rem; /* Contact form submit button */
+}
+
+/* ========================================
+   STATS COMPONENT
+   ======================================== */
+.stats-header h3 {
+  font-size: 1.5rem; /* Stats section header */
+}
+
+.stats-icon {
+  font-size: 3rem; /* Stats card icons */
+}
+
+.stats-number {
+  font-size: 2.5rem; /* Stats numbers (50, 100, etc.) */
+}
+
+/* ========================================
+   FOOTER COMPONENT
+   ======================================== */
+.footer-section h5 {
+  font-size: 1.2rem; /* Footer section headers */
+}
+
+.footer-section a {
+  font-size: 1.1rem; /* Footer navigation links */
+}
+
+/* ========================================
+   CUSTOM SLIDER COMPONENT
+   ======================================== */
+.slider-arrow {
+  font-size: 18px; /* Slider navigation arrows */
+}
+
+/* ========================================
+   FOOTER COMPONENT (Additional)
+   ======================================== */
+.footer {
+  font-size: 14px; /* Footer base text size */
+}
+
+.footer h3 {
+  font-size: 36px; /* Footer main title */
+}
+
+.footer p {
+  font-size: 15px; /* Footer paragraph text */
+}
+
+.footer .social-links a {
+  font-size: 16px; /* Footer social media icons */
+}
+
+.footer .credits {
+  font-size: 13px; /* Footer credits text */
+}
+
+.footer .get-in-touch-btn {
+  font-size: 1rem; /* Get In Touch button text */
+}
+
+/* ========================================
+   SECTION TITLES (Additional)
+   ======================================== */
+/* Section title font sizes are handled above in the main section titles */
+
+/* ========================================
+   PAGE TITLES
+   ======================================== */
+.page-title h1 {
+  font-size: 28px; /* Page title headers */
+}
+
+/* ========================================
+   HERO SECTION (Additional)
+   ======================================== */
+.hero .hero-subtitle {
+  font-size: 18px; /* Hero subtitle text */
+}
+
+.hero .social-links a {
+  font-size: 20px; /* Hero social media icons */
+}
+
+/* ========================================
+   ABOUT COMPONENT (Additional)
+   ======================================== */
+.about .content h2 {
+  font-size: 24px; /* About content section headers */
+}
+
+/* ========================================
+   RESUME COMPONENT (Additional)
+   ======================================== */
+.resume .resume-item h4 {
+  font-size: 18px; /* Resume item headers */
+}
+
+.resume .resume-item h5 {
+  font-size: 16px; /* Resume item subheaders */
+}
+
+/* ========================================
+   PORTFOLIO COMPONENT (Additional)
+   ======================================== */
+.portfolio .portfolio-item .portfolio-info h4 {
+  font-size: 18px; /* Portfolio item info headers */
+}
+
+/* ========================================
+   SERVICES COMPONENT (Additional)
+   ======================================== */
+.services .service-item h3 {
+  font-size: 22px; /* Service item headers */
+}
+
+/* ========================================
+   TESTIMONIALS COMPONENT (Additional)
+   ======================================== */
+.testimonials .testimonial-item h3 {
+  font-size: 20px; /* Testimonial item headers */
+}
+
+.testimonials .testimonial-item h4 {
+  font-size: 14px; /* Testimonial item subheaders */
+}
+
+/* ========================================
+   CONTACT COMPONENT (Additional)
+   ======================================== */
+.contact .info-item h3 {
+  font-size: 18px; /* Contact info item headers */
+}
+
+/* ========================================
+   PORTFOLIO DETAILS PAGE
+   ======================================== */
+.portfolio-details .portfolio-info h3 {
+  font-size: 22px; /* Portfolio details info headers */
+}
+
+.portfolio-details .portfolio-description h2 {
+  font-size: 26px; /* Portfolio details description headers */
+}
+
+.portfolio-details .portfolio-description .testimonial-item h3 {
+  font-size: 18px; /* Portfolio details testimonial headers */
+}
+
+.portfolio-details .portfolio-description .testimonial-item h4 {
+  font-size: 14px; /* Portfolio details testimonial subheaders */
+}
+
+/* ========================================
+   SERVICE DETAILS PAGE
+   ======================================== */
+.service-details .service-box h4 {
+  font-size: 20px; /* Service details box headers */
+}
+
+.service-details h3 {
+  font-size: 26px; /* Service details main headers */
+}
+
+/* ========================================
+   ARCHITECTURE DIAGRAM
+   ======================================== */
+.architecture-diagram-container h4 {
+  font-size: 1.4rem; /* Architecture diagram headers */
+}
+
+.architecture-textual h5 {
+  font-size: 1.1rem; /* Architecture textual headers */
+}
+
+/* ========================================
+   HTML HEADING TAGS (Global)
+   ======================================== */
+h1 { font-size: 22px; }
+h2 { font-size: 20px; }
+h3 { font-size: 18px; }
+h4 { font-size: 16px; }
+h5 { font-size: 14px; }
+h6 { font-size: 13px; }
+
+/* ========================================
+   TABLET FONT SIZES (768px and below)
+   ======================================== */
+
+@media (max-width: 768px) {
+  /* ========================================
+     HERO SECTION - TABLET
+     ======================================== */
+  .hero h2 {
+    font-size: 28px; /* Main hero title "Waqas Ahmad" */
+  }
+
+  .hero p {
+    font-size: 18px; /* Hero subtitle text */
+  }
+
+  /* ========================================
+     GLOBAL BODY TEXT - TABLET
+     ======================================== */
+  p { 
+    font-size: 16px !important; 
+    line-height: 1.6 !important; 
+  }
+  
+  .card-body p { 
+    font-size: 16px !important; 
+    line-height: 1.6 !important; 
+  }
+  
+  .about .content p { 
+    font-size: 16px !important; 
+    line-height: 1.6 !important; 
+  }
+  
+  .services .service-item p { 
+    font-size: 15px !important; 
+    line-height: 1.6 !important; 
+  }
+  
+  .testimonials .testimonial-item p { 
+    font-size: 16px !important; 
+    line-height: 1.6 !important; 
+  }
+  
+  .resume .resume-item p { 
+    font-size: 15px !important; 
+    line-height: 1.6 !important; 
+  }
+  
+  .portfolio .portfolio-item .portfolio-info p { 
+    font-size: 15px !important; 
+    line-height: 1.5 !important; 
+  }
+  
+  .contact .info-item p { 
+    font-size: 15px !important; 
+    line-height: 1.5 !important; 
+  }
+  
+  .section-title p { 
+    font-size: 16px !important; 
+    line-height: 1.6 !important; 
+  }
+  
+  .hero-subtitle { 
+    font-size: 16px !important; 
+    line-height: 1.6 !important; 
+  }
+
+  /* ========================================
+     CARD HEADERS - TABLET
+     ======================================== */
+  .card-header.fancy-3d-header h3 {
+    font-size: 1.3rem !important; /* Card headers - reduced for tablet */
+  }
+
+  /* ========================================
+     COMPONENT HEADERS - TABLET
+     ======================================== */
+  .about-header h3,
+  .portfolio-header h3,
+  .testimonials-header h3,
+  .contact-header h3,
+  .stats-header h3 {
+    font-size: 1.3rem !important; /* Component headers - reduced for tablet */
+  }
+
+  /* ========================================
+     NAVIGATION - TABLET
+     ======================================== */
+  .navmenu a {
+    font-size: 10.5px; /* Navigation menu links */
+  }
+
+  .navicon {
+    font-size: 12.6px; /* Navigation icons */
+  }
+
+  .theme-toggle i {
+    font-size: 9.8px; /* Theme toggle icon */
+  }
+
+  /* ========================================
+     FOOTER - TABLET
+     ======================================== */
+  .footer-section h5 {
+    font-size: 0.84rem; /* Footer section headers */
+  }
+
+  .footer-section a {
+    font-size: 0.77rem !important; /* Footer navigation links */
+  }
+
+  /* ========================================
+     CONTACT CARDS - TABLET
+     ======================================== */
+  .info-card-icon {
+    font-size: 1.4rem; /* Contact card icons */
+  }
+
+  .info-card-content h4 {
+    font-size: 0.84rem; /* Contact card titles */
+  }
+
+  /* ========================================
+     FORM ELEMENTS - TABLET
+     ======================================== */
+  .form-title {
+    font-size: 1.26rem; /* Contact form header */
+  }
+
+  /* ========================================
+     SKILLS - TABLET
+     ======================================== */
+  .skill-info h5 {
+    font-size: 0.9rem; /* Skill category titles */
+  }
+
+  .skill-percentage {
+    font-size: 0.9rem; /* Skill percentage text */
+  }
+
+  /* ========================================
+     PORTFOLIO - TABLET
+     ======================================== */
+  .portfolio-item h4 {
+    font-size: 0.77rem; /* Portfolio project titles */
+  }
+
+  .portfolio-item p {
+    font-size: 0.63rem; /* Portfolio project descriptions */
+  }
+
+  .portfolio-item .btn {
+    font-size: 0.525rem; /* Portfolio action buttons */
+  }
+
+  /* ========================================
+     ABOUT - TABLET
+     ======================================== */
+  .about-content p {
+    font-size: 0.77rem; /* About section paragraph text */
+  }
+
+  .about-content i {
+    font-size: 0.77rem; /* About section icons */
+  }
+
+  /* ========================================
+     TESTIMONIALS - TABLET
+     ======================================== */
+  .testimonial-text {
+    font-size: 0.77rem; /* Testimonial quote text */
+  }
+
+  .testimonial-quote-icon {
+    font-size: 1.05rem; /* Quote icons */
+  }
+
+  .testimonial-name {
+    font-size: 0.91rem; /* Testimonial author names */
+  }
+
+  .testimonial-title {
+    font-size: 0.7rem; /* Testimonial author titles */
+  }
+
+  .testimonial-star {
+    font-size: 0.84rem; /* Star rating icons */
+  }
+
+  /* ========================================
+     STATS - TABLET
+     ======================================== */
+  .stats-icon {
+    font-size: 2.1rem; /* Stats card icons */
+  }
+
+  .stats-number {
+    font-size: 1.75rem; /* Stats numbers */
+  }
+
+  /* ========================================
+     CUSTOM SLIDER - TABLET
+     ======================================== */
+  .slider-arrow {
+    font-size: 12.6px; /* Slider navigation arrows */
+  }
+
+  /* ========================================
+     FOOTER - TABLET
+     ======================================== */
+  .footer {
+    font-size: 12px; /* Footer base text size */
+  }
+
+  .footer h3 {
+    font-size: 25px; /* Footer main title */
+  }
+
+  .footer p {
+    font-size: 13px; /* Footer paragraph text */
+  }
+
+  .footer .social-links a {
+    font-size: 14px; /* Footer social media icons */
+  }
+
+  .footer .credits {
+    font-size: 11px; /* Footer credits text */
+  }
+
+  .footer .get-in-touch-btn {
+    font-size: 0.9rem; /* Get In Touch button text - reduced for tablet */
+  }
+
+  /* ========================================
+     SECTION TITLES - TABLET
+     ======================================== */
+  .section-title h2 {
+    font-size: 22px; /* Main section titles */
+  }
+
+  /* ========================================
+     PAGE TITLES - TABLET
+     ======================================== */
+  .page-title h1 {
+    font-size: 20px; /* Page title headers */
+  }
+
+  /* ========================================
+     HERO SECTION - TABLET
+     ======================================== */
+  .hero .hero-subtitle {
+    font-size: 16px; /* Hero subtitle text */
+  }
+
+  .hero .social-links a {
+    font-size: 18px; /* Hero social media icons */
+  }
+
+  /* ========================================
+     ABOUT - TABLET
+     ======================================== */
+  .about .content h2 {
+    font-size: 20px; /* About content section headers */
+  }
+
+  /* ========================================
+     RESUME - TABLET
+     ======================================== */
+  .resume .resume-item h4 {
+    font-size: 16px; /* Resume item headers */
+  }
+
+  .resume .resume-item h5 {
+    font-size: 14px; /* Resume item subheaders */
+  }
+
+  /* ========================================
+     PORTFOLIO - TABLET
+     ======================================== */
+  .portfolio .portfolio-item .portfolio-info h4 {
+    font-size: 16px; /* Portfolio item info headers */
+  }
+
+  /* ========================================
+     SERVICES - TABLET
+     ======================================== */
+  .services .service-item h3 {
+    font-size: 19px; /* Service item headers */
+  }
+
+  /* ========================================
+     TESTIMONIALS - TABLET
+     ======================================== */
+  .testimonials .testimonial-item h3 {
+    font-size: 18px; /* Testimonial item headers */
+  }
+
+  .testimonials .testimonial-item h4 {
+    font-size: 12px; /* Testimonial item subheaders */
+  }
+
+  /* ========================================
+     CONTACT - TABLET
+     ======================================== */
+  .contact .info-item h3 {
+    font-size: 16px; /* Contact info item headers */
+  }
+
+  /* ========================================
+     HTML HEADING TAGS - TABLET
+     ======================================== */
+  h1 { font-size: 20px; }
+  h2 { font-size: 18px; }
+  h3 { font-size: 16px; }
+  h4 { font-size: 14px; }
+  h5 { font-size: 13px; }
+  h6 { font-size: 12px; }
+}
+
+/* ========================================
+   SMALL MOBILE FONT SIZES (480px and below)
+   ======================================== */
+
+@media (max-width: 480px) {
+  /* ========================================
+     HERO SECTION - MOBILE
+     ======================================== */
+  .hero h2 {
+    font-size: 26px !important; /* Main hero title "Waqas Ahmad" */
+  }
+  
+  .hero p {
+    font-size: 16px !important; /* Hero subtitle text */
+  }
+
+  /* ========================================
+     GLOBAL BODY TEXT - MOBILE (Increased by 30%)
+     ======================================== */
+  p { 
+    font-size: 19.5px !important; /* 15px + 30% = 19.5px */
+    line-height: 1.6 !important; 
+  }
+  
+  .card-body p { 
+    font-size: 19.5px !important; /* 15px + 30% = 19.5px */
+    line-height: 1.6 !important; 
+  }
+  
+  .about .content p { 
+    font-size: 19.5px !important; /* 15px + 30% = 19.5px */
+    line-height: 1.6 !important; 
+  }
+  
+  .services .service-item p { 
+    font-size: 16.9px !important; /* 13px + 30% = 16.9px */
+    line-height: 1.6 !important; 
+  }
+  
+  .testimonials .testimonial-item p { 
+    font-size: 19.5px !important; /* 15px + 30% = 19.5px */
+    line-height: 1.6 !important; 
+  }
+  
+  .resume .resume-item p { 
+    font-size: 16.9px !important; /* 13px + 30% = 16.9px */
+    line-height: 1.6 !important; 
+  }
+  
+  .portfolio .portfolio-item .portfolio-info p { 
+    font-size: 16.9px !important; /* 13px + 30% = 16.9px */
+    line-height: 1.5 !important; 
+  }
+  
+  .contact .info-item p { 
+    font-size: 16.9px !important; /* 13px + 30% = 16.9px */
+    line-height: 1.5 !important; 
+  }
+  
+  .section-title p { 
+    font-size: 19.5px !important; /* 15px + 30% = 19.5px */
+    line-height: 1.6 !important; 
+  }
+  
+  .hero-subtitle { 
+    font-size: 19.5px !important; /* 15px + 30% = 19.5px */
+    line-height: 1.6 !important; 
+  }
+
+  /* ========================================
+     CARD HEADERS - MOBILE (Increased by 30%)
+     ======================================== */
+  .card-header.fancy-3d-header h3 {
+    font-size: 1.43rem !important; /* 1.1rem + 30% = 1.43rem */
+  }
+
+  /* ========================================
+     COMPONENT HEADERS - MOBILE (Increased by 30%)
+     ======================================== */
+  .about-header h3,
+  .portfolio-header h3,
+  .testimonials-header h3,
+  .contact-header h3,
+  .stats-header h3 {
+    font-size: 1.43rem !important; /* 1.1rem + 30% = 1.43rem */
+  }
+
+  /* ========================================
+     NAVIGATION - MOBILE
+     ======================================== */
+  .navmenu a {
+    font-size: 9.1px; /* Navigation menu links */
+  }
+
+  .navicon {
+    font-size: 11.2px; /* Navigation icons */
+  }
+
+  .theme-toggle i {
+    font-size: 9.8px; /* Theme toggle icon */
+  }
+
+  /* ========================================
+     FOOTER - MOBILE
+     ======================================== */
+  .footer-section h5 {
+    font-size: 0.84rem; /* Footer section headers */
+  }
+
+  .footer-section a {
+    font-size: 0.77rem !important; /* Footer navigation links */
+  }
+
+  /* ========================================
+     CONTACT CARDS - MOBILE
+     ======================================== */
+  .info-card-icon {
+    font-size: 1.4rem; /* Contact card icons */
+  }
+
+  .info-card-content h4 {
+    font-size: 0.7rem; /* Contact card titles */
+  }
+
+  /* ========================================
+     FORM ELEMENTS - MOBILE
+     ======================================== */
+  .form-title {
+    font-size: 0.98rem; /* Contact form header */
+  }
+
+  /* ========================================
+     SKILLS - MOBILE
+     ======================================== */
+  .skill-info h5 {
+    font-size: 0.85rem; /* Skill category titles */
+  }
+
+  .skill-percentage {
+    font-size: 0.85rem; /* Skill percentage text */
+  }
+
+  /* ========================================
+     PORTFOLIO - MOBILE
+     ======================================== */
+  .portfolio-item h4 {
+    font-size: 0.77rem; /* Portfolio project titles */
+  }
+
+  .portfolio-item p {
+    font-size: 0.63rem; /* Portfolio project descriptions */
+  }
+
+  .portfolio-item .btn {
+    font-size: 0.525rem; /* Portfolio action buttons */
+  }
+
+  /* ========================================
+     ABOUT - MOBILE
+     ======================================== */
+  .about-content p {
+    font-size: 0.77rem; /* About section paragraph text */
+  }
+
+  .about-content i {
+    font-size: 0.77rem; /* About section icons */
+  }
+
+  /* ========================================
+     TESTIMONIALS - MOBILE
+     ======================================== */
+  .testimonial-text {
+    font-size: 0.77rem; /* Testimonial quote text */
+  }
+
+  .testimonial-quote-icon {
+    font-size: 1.05rem; /* Quote icons */
+  }
+
+  .testimonial-name {
+    font-size: 0.91rem; /* Testimonial author names */
+  }
+
+  .testimonial-title {
+    font-size: 0.7rem; /* Testimonial author titles */
+  }
+
+  .testimonial-star {
+    font-size: 0.84rem; /* Star rating icons */
+  }
+
+  /* ========================================
+     STATS - MOBILE
+     ======================================== */
+  .stats-icon {
+    font-size: 2.1rem; /* Stats card icons */
+  }
+
+  .stats-number {
+    font-size: 1.75rem; /* Stats numbers */
+  }
+
+  /* ========================================
+     CUSTOM SLIDER - MOBILE
+     ======================================== */
+  .slider-arrow {
+    font-size: 14px; /* Slider navigation arrows */
+  }
+
+  /* ========================================
+     FOOTER - MOBILE
+     ======================================== */
+  .footer {
+    font-size: 11px; /* Footer base text size */
+  }
+
+  .footer h3 {
+    font-size: 22px; /* Footer main title */
+  }
+
+  .footer p {
+    font-size: 12px; /* Footer paragraph text */
+  }
+
+  .footer .social-links a {
+    font-size: 13px; /* Footer social media icons */
+  }
+
+  .footer .credits {
+    font-size: 10px; /* Footer credits text */
+  }
+
+  .footer .get-in-touch-btn {
+    font-size: 1.17rem; /* Get In Touch button text - increased by 30% for mobile */
+  }
+
+  /* ========================================
+     SECTION TITLES - MOBILE (Increased by 30%)
+     ======================================== */
+  .section-title h2 {
+    font-size: 26px; /* 20px + 30% = 26px */
+  }
+
+  /* ========================================
+     PAGE TITLES - MOBILE (Increased by 30%)
+     ======================================== */
+  .page-title h1 {
+    font-size: 23.4px; /* 18px + 30% = 23.4px */
+  }
+
+  /* ========================================
+     HERO SECTION - MOBILE (Increased by 30%)
+     ======================================== */
+  .hero .hero-subtitle {
+    font-size: 18.2px; /* 14px + 30% = 18.2px */
+  }
+
+  .hero .social-links a {
+    font-size: 20.8px; /* 16px + 30% = 20.8px */
+  }
+
+  /* ========================================
+     ABOUT - MOBILE (Increased by 30%)
+     ======================================== */
+  .about .content h2 {
+    font-size: 23.4px; /* 18px + 30% = 23.4px */
+  }
+
+  /* ========================================
+     RESUME - MOBILE (Increased by 30%)
+     ======================================== */
+  .resume .resume-item h4 {
+    font-size: 19.5px; /* 15px + 30% = 19.5px */
+  }
+
+  .resume .resume-item h5 {
+    font-size: 16.9px; /* 13px + 30% = 16.9px */
+  }
+
+  /* ========================================
+     PORTFOLIO - MOBILE (Increased by 30%)
+     ======================================== */
+  .portfolio .portfolio-item .portfolio-info h4 {
+    font-size: 19.5px; /* 15px + 30% = 19.5px */
+  }
+
+  /* ========================================
+     SERVICES - MOBILE (Increased by 30%)
+     ======================================== */
+  .services .service-item h3 {
+    font-size: 22.1px; /* 17px + 30% = 22.1px */
+  }
+
+  /* ========================================
+     TESTIMONIALS - MOBILE (Increased by 30%)
+     ======================================== */
+  .testimonials .testimonial-item h3 {
+    font-size: 20.8px; /* 16px + 30% = 20.8px */
+  }
+
+  .testimonials .testimonial-item h4 {
+    font-size: 14.3px; /* 11px + 30% = 14.3px */
+  }
+
+  /* ========================================
+     CONTACT - MOBILE (Increased by 30%)
+     ======================================== */
+  .contact .info-item h3 {
+    font-size: 19.5px; /* 15px + 30% = 19.5px */
+  }
+
+  /* ========================================
+     HTML HEADING TAGS - MOBILE (Increased by 30%)
+     ======================================== */
+  h1 { font-size: 23.4px; } /* 18px + 30% = 23.4px */
+  h2 { font-size: 20.8px; } /* 16px + 30% = 20.8px */
+  h3 { font-size: 19.5px; } /* 15px + 30% = 19.5px */
+  h4 { font-size: 16.9px; } /* 13px + 30% = 16.9px */
+  h5 { font-size: 15.6px; } /* 12px + 30% = 15.6px */
+  h6 { font-size: 14.3px; } /* 11px + 30% = 14.3px */
+}
+
+/* ========================================
+   LARGE MOBILE FONT SIZES (576px and below)
+   ======================================== */
+
+@media (max-width: 576px) {
+  /* ========================================
+     SKILLS - LARGE MOBILE
+     ======================================== */
+  .skill-info h5 {
+    font-size: 0.85rem; /* Skill category titles */
+  }
+
+  .skill-percentage {
+    font-size: 0.85rem; /* Skill percentage text */
+  }
+}
+
+/* ========================================
+   GLOBAL FONT SIZE OVERRIDES
+   ======================================== */
+
+/* ========================================
+   TABLET GLOBAL OVERRIDES (768px and below)
+   ======================================== */
+@media (max-width: 768px) {
+  * {
+    font-size: inherit !important;
+  }
+  
+  /* Ensure all paragraph text gets the larger size */
+  p, .text-content, .content, .card-body, .about, .services, .testimonials, .resume, .portfolio, .contact, .footer-section {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+  
+  /* Specific overrides for smaller text in certain sections */
+  .services .service-item, .resume .resume-item, .portfolio .portfolio-item .portfolio-info, .contact .info-item {
+    font-size: 15px !important;
+  }
+}
+
+/* ========================================
+   MOBILE GLOBAL OVERRIDES (480px and below) - Increased by 30%
+   ======================================== */
+@media (max-width: 480px) {
+  * {
+    font-size: inherit !important;
+  }
+  
+  /* Ensure all paragraph text gets the larger size */
+  p, .text-content, .content, .card-body, .about, .services, .testimonials, .resume, .portfolio, .contact, .footer-section {
+    font-size: 19.5px !important; /* 15px + 30% = 19.5px */
+    line-height: 1.6 !important;
+  }
+  
+  /* Specific overrides for smaller text in certain sections */
+  .services .service-item, .resume .resume-item, .portfolio .portfolio-item .portfolio-info, .contact .info-item {
+    font-size: 16.9px !important; /* 13px + 30% = 16.9px */
+  }
+}

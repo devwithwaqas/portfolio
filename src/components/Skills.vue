@@ -9,7 +9,7 @@
             
             <!-- Card Header -->
             <div class="card-header fancy-3d-header" style="margin: -10px -10px 30px -10px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
-              <h3 style="color: white; margin: 0; font-weight: 700; font-size: 1.5rem; text-align: center;">⚡ Technical Skills</h3>
+              <h3 style="color: white; margin: 0; font-weight: 700; text-align: center;">⚡ Technical Skills</h3>
             </div>
 
             <!-- Card Body -->
@@ -759,10 +759,22 @@
 export default {
   name: 'Skills',
   mounted() {
-    this.assignRandomGlowColors()
+    // Wait for DOM to be fully rendered
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.assignRandomGlowColors()
+      }, 100)
+      
+      // Fallback: try again after a longer delay
+      setTimeout(() => {
+        this.assignRandomGlowColors()
+      }, 1000)
+    })
   },
   methods: {
     assignRandomGlowColors() {
+      console.log('🎨 Assigning random glow colors to skill cards...')
+      
       // Array of bright, vibrant colors
       const colors = [
         { r: 0, g: 255, b: 255 },     // Cyan
@@ -794,17 +806,27 @@ export default {
 
       // Get all skill cards
       const skillCards = document.querySelectorAll('.skill-card')
+      console.log(`Found ${skillCards.length} skill cards`)
       
       skillCards.forEach((card, index) => {
         // Use modulo to cycle through colors if we have more cards than colors
         const colorIndex = index % colors.length
         const color = colors[colorIndex]
         
+        console.log(`Card ${index}: Setting color RGB(${color.r}, ${color.g}, ${color.b})`)
+        
         // Set CSS custom properties for this card
         card.style.setProperty('--glow-color-1', `rgba(${color.r}, ${color.g}, ${color.b}, 0.6)`)
         card.style.setProperty('--glow-color-2', `rgba(${color.r}, ${color.g}, ${color.b}, 0.3)`)
         card.style.setProperty('--border-color', `rgba(${color.r}, ${color.g}, ${color.b}, 0.7)`)
       })
+      
+      console.log('✅ Glow colors assigned successfully!')
+    },
+    
+    // Public method to manually trigger glow assignment
+    refreshGlowColors() {
+      this.assignRandomGlowColors()
     }
   }
 }
@@ -825,14 +847,9 @@ export default {
   justify-content: space-between;
 }
 
-.skill-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-  border-color: rgba(5, 99, 187, 0.5);
-}
-
 /* Dynamic glow effects for skill cards - will be set by JavaScript */
 .skill-card:hover {
+  transform: translateY(-5px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 40px var(--glow-color-1, rgba(255, 0, 150, 0.6)), 0 0 60px var(--glow-color-2, rgba(255, 0, 150, 0.3));
   border-color: var(--border-color, rgba(255, 0, 150, 0.7));
   transition: all 0.3s ease;
@@ -863,7 +880,7 @@ export default {
   color: #0563bb;
   font-weight: 600;
   margin-bottom: 10px;
-  font-size: 0.95rem;
+  /* Font size handled by font-sizes.css */
   line-height: 1.3;
 }
 
@@ -908,7 +925,7 @@ export default {
 .skill-percentage {
   color: #0563bb;
   font-weight: 600;
-  font-size: 0.9rem;
+  /* Font size handled by font-sizes.css */
   min-width: 35px;
 }
 
@@ -947,7 +964,7 @@ export default {
   color: #0563bb;
   font-weight: 600;
   margin: 0;
-  font-size: 1.1rem;
+  /* Font size handled by font-sizes.css */
 }
 
 /* Responsive Design */
@@ -966,7 +983,7 @@ export default {
   }
   
   .skill-info h5 {
-    font-size: 0.85rem;
+    /* Font size handled by font-sizes.css */ /* Reduced by 30% from test size */
   }
   
   /* Mobile: 2 cards per row instead of 1 */
@@ -987,11 +1004,11 @@ export default {
   }
   
   .skill-info h5 {
-    font-size: 0.8rem;
+    /* Font size handled by font-sizes.css */ /* Reduced by 30% from test size */
   }
   
   .skill-percentage {
-    font-size: 0.8rem;
+    /* Font size handled by font-sizes.css */ /* Reduced by 30% from test size */
   }
 }
 </style>

@@ -8,6 +8,11 @@
   - 05) Global Footer
   - 06) Preloader
   - 07) Scroll Top Button
+  - 08) Font Sizes (imported from font-sizes.css)
+*/
+
+/* Import Font Sizes */
+@import url('./font-sizes.css');
   - 08) Mobile-specific adjustments (AOS)
   - 09) Page Title & Breadcrumbs
   - 10) Global Sections & Section Titles
@@ -100,6 +105,137 @@ body {
   color: var(--default-color);
   background-color: var(--background-color);
   font-family: var(--default-font);
+}
+
+/* Global Justified Text - Microsoft Word style justification with NO HYPHENS */
+* {
+  -webkit-hyphens: none !important;
+  -moz-hyphens: none !important;
+  -ms-hyphens: none !important;
+  hyphens: none !important;
+}
+
+/* GLOBAL: Apply justified text to ALL paragraph text */
+p {
+  text-align: justify !important;
+  text-justify: inter-word !important;     /* Word-like justification using spacing */
+  -webkit-hyphens: none !important;        /* NO HYPHENS - WebKit browsers */
+  -moz-hyphens: none !important;           /* NO HYPHENS - Firefox */
+  -ms-hyphens: none !important;            /* NO HYPHENS - IE/Edge */
+  hyphens: none !important;                /* NO HYPHENS - Standard */
+  overflow-wrap: break-word !important;    /* Break long words when needed */
+  word-break: normal !important;           /* Keep natural word boundaries */
+}
+
+/* GLOBAL: Keep headings and structural elements left-aligned */
+h1, h2, h3, h4, h5, h6,
+strong, b, em, i, span, div, label,
+.nav-link, .btn, .badge, .alert {
+  text-align: left !important;
+  text-justify: auto !important;
+  hyphens: none !important;
+}
+
+/* Special handling for list items with bold headings and colons */
+li {
+  text-align: left !important;
+  text-justify: auto !important;
+  hyphens: none !important;
+}
+
+/* Justify text after colons in list items (for resume bullet points) */
+li strong:after {
+  content: "";
+}
+
+/* Resume list items - keep left-aligned to prevent uneven bullet points */
+.resume-item li,
+.about .content li {
+  text-align: left !important;
+  text-justify: auto !important;
+}
+
+/* Bold headings in list items stay left-aligned */
+.resume-item li strong,
+.about .content li strong {
+  text-align: left !important;
+  text-justify: auto !important;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Div content after bold headings gets justified text */
+.resume-item li div,
+.about .content li div {
+  text-align: justify !important;
+  text-justify: inter-word !important;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+/* Apply justified text to paragraph content in resume items */
+.resume-item p,
+.about .content p {
+  text-align: justify !important;
+  text-justify: inter-word !important;
+}
+
+/* GLOBAL: Mobile text justification - same rules as desktop */
+@media (max-width: 480px) {
+  p {
+    hyphens: none !important;              /* NO HYPHENS - Word-like justification only */
+    text-justify: inter-word !important;   /* Space-based justification like Word */
+  }
+  
+  h1, h2, h3, h4, h5, h6,
+  strong, b, em, i, span, div, label,
+  .nav-link, .btn, .badge, .alert {
+    text-align: left !important;
+    text-justify: auto !important;
+    hyphens: none !important;
+  }
+  
+  /* Resume list items - keep left-aligned to prevent uneven bullet points on mobile */
+  .resume-item li,
+  .about .content li {
+    text-align: left !important;
+    text-justify: auto !important;
+  }
+  
+  /* Bold headings in list items stay left-aligned on mobile */
+  .resume-item li strong,
+  .about .content li strong {
+    text-align: left !important;
+    text-justify: auto !important;
+    display: block;
+    margin-bottom: 4px;
+  }
+  
+  /* Div content after bold headings gets justified text on mobile */
+  .resume-item li div,
+  .about .content li div {
+    text-align: justify !important;
+    text-justify: inter-word !important;
+    margin-left: 0;
+    padding-left: 0;
+  }
+  
+  /* Apply justified text to paragraph content in resume items on mobile */
+  .resume-item p,
+  .about .content p {
+    text-align: justify !important;
+    text-justify: inter-word !important;
+  }
+}
+
+/* Keep explicitly centered text centered */
+.text-center p,
+.text-center li,
+.center p,
+.center li {
+  text-align: center !important;
+  text-justify: auto !important;
+  hyphens: none !important;
 }
 
 a {
@@ -198,7 +334,7 @@ h6 {
 .footer {
   color: var(--default-color);
   background-color: var(--background-color);
-  font-size: 14px;
+  /* Font size handled by font-sizes.css */
   text-align: center;
   padding: 30px 0; /* match ROI/container left edge */
   position: relative;
@@ -249,6 +385,7 @@ h6 {
 .text-card .card-header.fancy-3d-header h3 {
   color: #ffffff;
   text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+  /* Font size now handled by font-sizes.css */
 }
 
 .card-header.fancy-3d-header::before,
@@ -424,7 +561,7 @@ h6 {
 }
 
 .footer h3 {
-  font-size: 36px;
+  /* Font size handled by font-sizes.css */
   font-weight: 700;
   position: relative;
   padding: 0;
@@ -432,7 +569,7 @@ h6 {
 }
 
 .footer p {
-  font-size: 15px;
+  /* Font size handled by font-sizes.css */
   font-style: italic;
   padding: 0;
   margin: 0 0 30px 0;
@@ -443,7 +580,7 @@ h6 {
 }
 
 .footer .social-links a {
-  font-size: 16px;
+  /* Font size handled by font-sizes.css */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -469,7 +606,7 @@ h6 {
 }
 
 .footer .credits {
-  font-size: 13px;
+  /* Font size handled by font-sizes.css */
   padding-top: 5px;
 }
 
@@ -530,7 +667,7 @@ h6 {
 }
 
 .scroll-top i {
-  font-size: 24px;
+  /* Font size handled by font-sizes.css */
   color: var(--contrast-color);
   font-weight: 900;
   line-height: 1;
@@ -572,7 +709,7 @@ h6 {
 }
 
 .page-title h1 {
-  font-size: 28px;
+  /* Font size handled by font-sizes.css */
   font-weight: 700;
   margin: 0;
 }
@@ -583,7 +720,7 @@ h6 {
   list-style: none;
   padding: 0 0 10px 0;
   margin: 0;
-  font-size: 14px;
+  /* Font size handled by font-sizes.css */
   font-weight: 400;
 }
 
@@ -619,7 +756,7 @@ section,
 }
 
 .section-title h2 {
-  font-size: 32px;
+  /* Font size handled by font-sizes.css */
   font-weight: 700;
   margin-bottom: 20px;
   padding-bottom: 20px;
@@ -696,13 +833,13 @@ section,
 
 .hero h2 {
   margin: 0;
-  font-size: 64px;
+  /* Font size handled by font-sizes.css */
   font-weight: 700;
 }
 
 .hero p {
   margin: 5px 0 0 0;
-  font-size: 26px;
+  /* Font size handled by font-sizes.css */
 }
 
 .hero p span {
@@ -712,7 +849,7 @@ section,
 
 .hero .hero-subtitle {
   margin: 15px 0 0 0;
-  font-size: 18px;
+  /* Font size handled by font-sizes.css */
   font-weight: 500;
   color: var(--default-color);
   letter-spacing: 0.5px;
@@ -730,7 +867,7 @@ section,
 }
 
 .hero .social-links a {
-  font-size: 20px;
+  /* Font size handled by font-sizes.css */
   display: inline-block;
   color: color-mix(in srgb, var(--default-color), transparent 30%);
   line-height: 1;
@@ -743,13 +880,11 @@ section,
 }
 
 @media (max-width: 768px) {
-  .hero h2 {
-    font-size: 32px;
-  }
+  /* Hero font sizes now handled by font-sizes.css */
+}
 
-  .hero p {
-    font-size: 20px;
-  }
+@media (max-width: 480px) {
+  /* Hero font sizes now handled by font-sizes.css */
 }
 
 /*--------------------------------------------------------------
@@ -757,7 +892,7 @@ section,
 --------------------------------------------------------------*/
 .about .content h2 {
   font-weight: 700;
-  font-size: 24px;
+  /* Font size handled by font-sizes.css */
 }
 
 .about .content ul {
@@ -776,7 +911,7 @@ section,
 }
 
 .about .content ul i {
-  font-size: 16px;
+  /* Font size handled by font-sizes.css */
   margin-right: 5px;
   color: var(--accent-color);
   line-height: 0;
@@ -790,7 +925,7 @@ section,
   color: var(--contrast-color);
   width: 54px;
   height: 54px;
-  font-size: 24px;
+  /* Font size handled by font-sizes.css */
   border-radius: 50px;
   display: inline-flex;
   align-items: center;
@@ -808,7 +943,7 @@ section,
 }
 
 .stats .stats-item span {
-  font-size: 36px;
+  /* Font size handled by font-sizes.css */
   display: block;
   font-weight: 700;
   color: color-mix(in srgb, var(--default-color), transparent 20%);
@@ -818,7 +953,7 @@ section,
   padding: 0;
   margin: 0;
   color: color-mix(in srgb, var(--default-color), transparent 50%);
-  font-size: 16px;
+  /* Font size handled by font-sizes.css */
 }
 
 /*--------------------------------------------------------------
@@ -863,7 +998,7 @@ section,
 --------------------------------------------------------------*/
 .resume .resume-title {
   color: var(--heading-color);
-  font-size: 26px;
+  /* Font size handled by font-sizes.css */
   font-weight: 700;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -878,7 +1013,7 @@ section,
 
 .resume .resume-item h4 {
   line-height: 18px;
-  font-size: 18px;
+  /* Font size handled by font-sizes.css */
   font-weight: 600;
   text-transform: uppercase;
   color: color-mix(in srgb, var(--default-color), transparent 20%);
@@ -886,7 +1021,7 @@ section,
 }
 
 .resume .resume-item h5 {
-  font-size: 16px;
+  /* Font size handled by font-sizes.css */
   padding: 5px 15px;
   display: inline-block;
   font-weight: 600;
@@ -932,7 +1067,7 @@ section,
   display: inline-block;
   padding: 8px 20px 10px 20px;
   margin: 0;
-  font-size: 15px;
+  /* Font size handled by font-sizes.css */
   font-weight: 500;
   line-height: 1;
   margin-bottom: 5px;
@@ -957,7 +1092,7 @@ section,
 
 @media (max-width: 575px) {
   .portfolio .portfolio-filters li {
-    font-size: 14px;
+    /* Font size handled by font-sizes.css */
     margin: 0 0 10px 0;
   }
 }
@@ -1105,7 +1240,7 @@ section,
 .glightbox-container .gslide-title {
   color: white !important;
   font-weight: 800 !important;
-  font-size: 1.4rem !important;
+  /* Font size handled by font-sizes.css */
   margin-bottom: 8px !important;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
   text-align: center !important;
@@ -1131,7 +1266,7 @@ section,
 
 .glightbox-container .gslide-desc {
   color: rgba(255, 255, 255, 0.95) !important;
-  font-size: 1.1rem !important;
+  /* Font size handled by font-sizes.css */
   line-height: 1.5 !important;
   font-weight: 500 !important;
   text-align: center !important;
@@ -1180,11 +1315,11 @@ section,
   }
   
   .glightbox-container .gslide-title {
-    font-size: 1.2rem !important;
+    /* Font size handled by font-sizes.css */
   }
   
   .glightbox-container .gslide-desc {
-    font-size: 1rem !important;
+    /* Font size handled by font-sizes.css */
   }
   
   .glightbox-container .ginner-container {
@@ -1235,21 +1370,21 @@ section,
   padding: 8px 15px !important;
   border-radius: 20px !important;
   font-weight: 600 !important;
-  font-size: 0.9rem !important;
+  /* Font size handled by font-sizes.css */
   box-shadow: 0 5px 15px rgba(5, 99, 187, 0.3) !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   backdrop-filter: blur(10px) !important;
 }
 
 .portfolio .portfolio-item .portfolio-info h4 {
-  font-size: 18px;
+  /* Font size handled by font-sizes.css */
   font-weight: 600;
   padding-right: 50px;
 }
 
 .portfolio .portfolio-item .portfolio-info p {
   color: color-mix(in srgb, var(--default-color), transparent 30%);
-  font-size: 14px;
+  /* Font size handled by font-sizes.css */
   margin-bottom: 0;
   padding-right: 50px;
 }
@@ -1258,7 +1393,7 @@ section,
 .portfolio .portfolio-item .portfolio-info .details-link {
   position: absolute;
   right: 50px;
-  font-size: 24px;
+  /* Font size handled by font-sizes.css */
   top: calc(50% - 14px);
   color: color-mix(in srgb, var(--default-color), transparent 30%);
   transition: 0.3s;
@@ -1272,7 +1407,7 @@ section,
 
 .portfolio .portfolio-item .portfolio-info .details-link {
   right: 14px;
-  font-size: 28px;
+  /* Font size handled by font-sizes.css */
 }
 
 .portfolio .portfolio-item:hover .portfolio-info {
@@ -1308,7 +1443,7 @@ section,
 }
 
 .services .service-item .icon i {
-  font-size: 36px;
+  /* Font size handled by font-sizes.css */
   transition: 0.5s;
   position: relative;
 }
@@ -1327,12 +1462,12 @@ section,
 .services .service-item h3 {
   font-weight: 700;
   margin: 10px 0 15px 0;
-  font-size: 22px;
+  /* Font size handled by font-sizes.css */
 }
 
 .services .service-item p {
   line-height: 24px;
-  font-size: 14px;
+  /* Font size handled by font-sizes.css */
   margin-bottom: 0;
 }
 
@@ -1432,13 +1567,13 @@ section,
 }
 
 .testimonials .testimonial-item h3 {
-  font-size: 20px;
+  /* Font size handled by font-sizes.css */
   font-weight: bold;
   margin: 10px 0 5px 0;
 }
 
 .testimonials .testimonial-item h4 {
-  font-size: 14px;
+  /* Font size handled by font-sizes.css */
   color: color-mix(in srgb, var(--default-color), transparent 40%);
   margin: 0 0 10px 0;
 }
@@ -1451,7 +1586,7 @@ section,
 .testimonials .testimonial-item .quote-icon-left,
 .testimonials .testimonial-item .quote-icon-right {
   color: color-mix(in srgb, var(--accent-color), transparent 50%);
-  font-size: 26px;
+  /* Font size handled by font-sizes.css */
   line-height: 0;
 }
 
@@ -1503,7 +1638,7 @@ section,
 .contact .info-item i {
   color: var(--accent-color);
   background: color-mix(in srgb, var(--accent-color), transparent 92%);
-  font-size: 20px;
+  /* Font size handled by font-sizes.css */
   width: 44px;
   height: 44px;
   display: flex;
@@ -1516,7 +1651,7 @@ section,
 
 .contact .info-item h3 {
   padding: 0;
-  font-size: 18px;
+  /* Font size handled by font-sizes.css */
   font-weight: 700;
   margin-bottom: 5px;
 }
@@ -1524,7 +1659,7 @@ section,
 .contact .info-item p {
   padding: 0;
   margin-bottom: 0;
-  font-size: 14px;
+  /* Font size handled by font-sizes.css */
 }
 
 .contact .info-item:hover i {
@@ -1539,7 +1674,7 @@ section,
 .contact .php-email-form input[type=text],
 .contact .php-email-form input[type=email],
 .contact .php-email-form textarea {
-  font-size: 14px;
+  /* Font size handled by font-sizes.css */
   padding: 10px 15px;
   box-shadow: none;
   border-radius: 0;
@@ -1594,7 +1729,7 @@ section,
 .portfolio-details .swiper-button-next:after {
   color: rgba(255, 255, 255, 0.8);
   background-color: rgba(0, 0, 0, 0.15);
-  font-size: 24px;
+  /* Font size handled by font-sizes.css */
   border-radius: 50%;
   width: 48px;
   height: 48px;
@@ -1634,7 +1769,7 @@ section,
 }
 
 .portfolio-details .portfolio-info h3 {
-  font-size: 22px;
+  /* Font size handled by font-sizes.css */
   font-weight: 700;
   margin-bottom: 20px;
   padding-bottom: 20px;
@@ -1655,7 +1790,7 @@ section,
 .portfolio-details .portfolio-info ul {
   list-style: none;
   padding: 0;
-  font-size: 15px;
+  /* Font size handled by font-sizes.css */
 }
 
 .portfolio-details .portfolio-info ul li {
@@ -1668,7 +1803,7 @@ section,
   text-transform: uppercase;
   font-weight: 400;
   color: color-mix(in srgb, var(--default-color), transparent 50%);
-  font-size: 14px;
+  /* Font size handled by font-sizes.css */
 }
 
 .portfolio-details .portfolio-info .btn-visit {
@@ -1684,7 +1819,7 @@ section,
 }
 
 .portfolio-details .portfolio-description h2 {
-  font-size: 26px;
+  /* Font size handled by font-sizes.css */
   font-weight: 700;
   margin-bottom: 20px;
 }
@@ -1709,14 +1844,14 @@ section,
 }
 
 .portfolio-details .portfolio-description .testimonial-item h3 {
-  font-size: 18px;
+  /* Font size handled by font-sizes.css */
   font-weight: bold;
   margin: 15px 0 5px 0;
   padding-top: 20px;
 }
 
 .portfolio-details .portfolio-description .testimonial-item h4 {
-  font-size: 14px;
+  /* Font size handled by font-sizes.css */
   color: #6c757d;
   margin: 0;
 }
@@ -1724,7 +1859,7 @@ section,
 .portfolio-details .portfolio-description .testimonial-item .quote-icon-left,
 .portfolio-details .portfolio-description .testimonial-item .quote-icon-right {
   color: color-mix(in srgb, var(--accent-color), transparent 50%);
-  font-size: 26px;
+  /* Font size handled by font-sizes.css */
   line-height: 0;
 }
 
@@ -1761,7 +1896,7 @@ section,
 }
 
 .service-details .service-box h4 {
-  font-size: 20px;
+  /* Font size handled by font-sizes.css */
   font-weight: 700;
   border-bottom: 2px solid color-mix(in srgb, var(--default-color), transparent 92%);
   padding-bottom: 15px;
@@ -1783,7 +1918,7 @@ section,
 }
 
 .service-details .services-list a i {
-  font-size: 16px;
+  /* Font size handled by font-sizes.css */
   margin-right: 8px;
   color: var(--accent-color);
 }
@@ -1821,7 +1956,7 @@ section,
 }
 
 .service-details .download-catalog a i {
-  font-size: 24px;
+  /* Font size handled by font-sizes.css */
   margin-right: 8px;
   color: var(--accent-color);
 }
@@ -1838,7 +1973,7 @@ section,
 }
 
 .service-details .help-box .help-icon {
-  font-size: 48px;
+  /* Font size handled by font-sizes.css */
 }
 
 .service-details .help-box h4,
@@ -1851,18 +1986,18 @@ section,
 }
 
 .service-details h3 {
-  font-size: 26px;
+  /* Font size handled by font-sizes.css */
   font-weight: 700;
 }
 
 .service-details p {
-  font-size: 15px;
+  /* Font size handled by font-sizes.css */
 }
 
 .service-details ul {
   list-style: none;
   padding: 0;
-  font-size: 15px;
+  /* Font size handled by font-sizes.css */
 }
 
 .service-details ul li {
@@ -1872,7 +2007,7 @@ section,
 }
 
 .service-details ul i {
-  font-size: 20px;
+  /* Font size handled by font-sizes.css */
   margin-right: 8px;
   color: var(--accent-color);
 }
@@ -1900,7 +2035,7 @@ section,
   margin-bottom: 20px;
   text-align: center;
   font-weight: 600;
-  font-size: 1.4rem;
+  /* Font size handled by font-sizes.css */
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding-right: 200px; /* Make space for controls */
   position: relative;
@@ -1928,7 +2063,7 @@ section,
   border-radius: 6px;
   padding: 8px 12px;
   cursor: pointer;
-  font-size: 12px;
+  /* Font size handled by font-sizes.css */
   font-weight: 500;
   color: #495057;
   transition: all 0.3s ease;
@@ -1992,7 +2127,7 @@ section,
   color: #0ea2bd;
   font-weight: 600;
   margin-bottom: 15px;
-  font-size: 1.1rem;
+  /* Font size handled by font-sizes.css */
 }
 
 .architecture-textual .row {
@@ -2035,7 +2170,7 @@ section,
 
 .arch-text {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 12px;
+  /* Font size handled by font-sizes.css */
   font-weight: 600;
   text-anchor: middle;
   dominant-baseline: middle;
@@ -2045,7 +2180,7 @@ section,
 
 .arch-subtitle {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 10px;
+  /* Font size handled by font-sizes.css */
   font-weight: 400;
   text-anchor: middle;
   dominant-baseline: middle;
@@ -2091,7 +2226,7 @@ section,
 /* Icons and symbols */
 .arch-icon {
   font-family: 'Bootstrap Icons';
-  font-size: 16px;
+  /* Font size handled by font-sizes.css */
   text-anchor: middle;
   dominant-baseline: middle;
   fill: #495057;
@@ -2110,11 +2245,11 @@ section,
   }
   
   .arch-text {
-    font-size: 10px;
+    /* Font size handled by font-sizes.css */
   }
   
   .arch-subtitle {
-    font-size: 8px;
+    /* Font size handled by font-sizes.css */
   }
   
   .architecture-diagram-container h4 {
@@ -2166,7 +2301,7 @@ section,
     max-width: 40px !important;
     max-height: 40px !important;
     margin-right: 0 !important;
-    font-size: 1.1rem !important;
+    /* Font size handled by font-sizes.css */
   }
   
   /* Ensure testimonial initials stay rounded on mobile */
@@ -2242,7 +2377,7 @@ section,
     min-height: 40px !important;
     max-width: 40px !important;
     max-height: 40px !important;
-    font-size: 1rem !important;
+    /* Font size handled by font-sizes.css */
     border: none !important;
     outline: none !important;
   }
@@ -2333,7 +2468,7 @@ section,
     min-width: 0 !important;
     margin-left: 0 !important;
     padding: 10px 12px !important;
-    font-size: 12px !important;
+    /* Font size handled by font-sizes.css */
   }
 }
 
@@ -2371,7 +2506,7 @@ section,
   .diagram-button-header .btn {
     min-width: 96px !important;
     padding: 10px 14px !important;
-    font-size: 12px !important;
+    /* Font size handled by font-sizes.css */
     margin-left: 0 !important;
   }
 
@@ -2509,12 +2644,14 @@ section,
     padding: 8px 12px;
   }
   
-  h1 { font-size: 22px; }
-  h2 { font-size: 20px; }
-  h3 { font-size: 18px; }
-  h4 { font-size: 16px; }
-  h5 { font-size: 14px; }
-  h6 { font-size: 13px; }
+  h1 { /* Font size handled by font-sizes.css */ }
+  h2 { /* Font size handled by font-sizes.css */ }
+  h3 { /* Font size handled by font-sizes.css */ }
+  /* HTML heading font sizes handled by font-sizes.css */
+  
+  /* Card header font sizes now handled by font-sizes.css */
+  
+  /* Font sizes now handled by font-sizes.css */
 }
 
 @media (max-width: 480px) {
@@ -2530,12 +2667,14 @@ section,
     padding: 6px 8px;
   }
   
-  h1 { font-size: 20px; }
-  h2 { font-size: 18px; }
-  h3 { font-size: 16px; }
-  h4 { font-size: 14px; }
-  h5 { font-size: 13px; }
-  h6 { font-size: 12px; }
+  h1 { /* Font size handled by font-sizes.css */ }
+  h2 { /* Font size handled by font-sizes.css */ }
+  /* HTML heading font sizes handled by font-sizes.css */
+  h6 { /* Font size handled by font-sizes.css */ }
+  
+  /* Card header font sizes now handled by font-sizes.css */
+  
+  /* Font sizes now handled by font-sizes.css */
 }
 
 /* Animations for About section */
@@ -2577,7 +2716,7 @@ section,
 }
 
 .service-icon i {
-  font-size: 36px;
+  /* Font size handled by font-sizes.css */
   transition: 0.5s;
   position: relative;
   color: var(--accent-color);
@@ -2586,13 +2725,13 @@ section,
 .service-item h4 {
   font-weight: 700;
   margin: 10px 0 15px 0;
-  font-size: 22px;
+  /* Font size handled by font-sizes.css */
   color: var(--heading-color);
 }
 
 .service-item p {
   line-height: 24px;
-  font-size: 14px;
+  /* Font size handled by font-sizes.css */
   margin-bottom: 0;
   color: var(--default-color);
 }
@@ -2625,7 +2764,7 @@ section,
 
 .tech-item p {
   margin: 0;
-  font-size: 12px;
+  /* Font size handled by font-sizes.css */
   font-weight: 600;
   color: var(--heading-color);
 }
@@ -2673,13 +2812,13 @@ section,
 
 .portfolio-info h4 {
   margin: 0 0 10px 0;
-  font-size: 18px;
+  /* Font size handled by font-sizes.css */
   font-weight: 600;
 }
 
 .portfolio-info p {
   margin: 0 0 15px 0;
-  font-size: 14px;
+  /* Font size handled by font-sizes.css */
   opacity: 0.9;
 }
 
@@ -2690,7 +2829,7 @@ section,
 
 .portfolio-links a {
   color: white;
-  font-size: 20px;
+  /* Font size handled by font-sizes.css */
   transition: all 0.3s ease;
 }
 

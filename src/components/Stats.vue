@@ -8,7 +8,7 @@
             
             <!-- Card Header -->
             <div class="card-header fancy-3d-header" style="margin: -10px -10px 30px -10px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
-              <h3 style="color: white; margin: 0; font-weight: 700; font-size: 1.5rem; text-align: center;">📊 Professional Statistics</h3>
+              <h3 style="color: white; margin: 0; font-weight: 700; text-align: center;">📊 Professional Statistics</h3>
             </div>
 
             <!-- Card Body -->
@@ -20,9 +20,9 @@
                     <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%), linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%), linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; opacity: 0.3; animation: patternMove 20s linear infinite;"></div>
                     
                     <div style="position: relative; z-index: 2;">
-                      <i class="bi bi-emoji-smile" style="font-size: 3rem; color: white; margin-bottom: 15px; display: block;"></i>
+                      <i class="bi bi-emoji-smile" style="color: white; margin-bottom: 15px; display: flex; justify-content: center; align-items: center;"></i>
                       <div class="stats-item">
-                        <span data-purecounter-start="0" data-purecounter-end="50" data-purecounter-duration="1" class="purecounter" style="color: white; font-size: 2.5rem; font-weight: bold; display: block; margin-bottom: 5px;"></span>
+                        <span data-purecounter-start="0" data-purecounter-end="50" data-purecounter-duration="1" class="purecounter" style="color: white; font-weight: bold; display: block; margin-bottom: 5px;"></span>
                         <p style="color: rgba(255, 255, 255, 0.9); margin: 0; font-weight: 600;">Happy Clients</p>
                       </div>
                     </div>
@@ -35,9 +35,9 @@
                     <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%), linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%), linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; opacity: 0.3; animation: patternMove 20s linear infinite;"></div>
                     
                     <div style="position: relative; z-index: 2;">
-                      <i class="bi bi-journal-richtext" style="font-size: 3rem; color: white; margin-bottom: 15px; display: block;"></i>
+                      <i class="bi bi-journal-richtext" style="color: white; margin-bottom: 15px; display: flex; justify-content: center; align-items: center;"></i>
                       <div class="stats-item">
-                        <span data-purecounter-start="0" data-purecounter-end="100" data-purecounter-duration="1" class="purecounter" style="color: white; font-size: 2.5rem; font-weight: bold; display: block; margin-bottom: 5px;"></span>
+                        <span data-purecounter-start="0" data-purecounter-end="100" data-purecounter-duration="1" class="purecounter" style="color: white; /* Font size handled by font-sizes.css */ font-weight: bold; display: block; margin-bottom: 5px;"></span>
                         <p style="color: rgba(255, 255, 255, 0.9); margin: 0; font-weight: 600;">Projects</p>
                       </div>
                     </div>
@@ -50,9 +50,9 @@
                     <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%), linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%), linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; opacity: 0.3; animation: patternMove 20s linear infinite;"></div>
                     
                     <div style="position: relative; z-index: 2;">
-                      <i class="bi bi-headset" style="font-size: 3rem; color: white; margin-bottom: 15px; display: block;"></i>
+                      <i class="bi bi-headset" style="/* Font size handled by font-sizes.css */ color: white; margin-bottom: 15px; display: flex; justify-content: center; align-items: center;"></i>
                       <div class="stats-item">
-                        <span data-purecounter-start="0" data-purecounter-end="16" data-purecounter-duration="1" class="purecounter" style="color: white; font-size: 2.5rem; font-weight: bold; display: block; margin-bottom: 5px;"></span>
+                        <span data-purecounter-start="0" data-purecounter-end="16" data-purecounter-duration="1" class="purecounter" style="color: white; /* Font size handled by font-sizes.css */ font-weight: bold; display: block; margin-bottom: 5px;"></span>
                         <p style="color: rgba(255, 255, 255, 0.9); margin: 0; font-weight: 600;">Years Experience</p>
                       </div>
                     </div>
@@ -65,9 +65,9 @@
                     <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%), linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%), linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; opacity: 0.3; animation: patternMove 20s linear infinite;"></div>
                     
                     <div style="position: relative; z-index: 2;">
-                      <i class="bi bi-people" style="font-size: 3rem; color: white; margin-bottom: 15px; display: block;"></i>
+                      <i class="bi bi-people" style="/* Font size handled by font-sizes.css */ color: white; margin-bottom: 15px; display: flex; justify-content: center; align-items: center;"></i>
                       <div class="stats-item">
-                        <span data-purecounter-start="0" data-purecounter-end="8" data-purecounter-duration="1" class="purecounter" style="color: white; font-size: 2.5rem; font-weight: bold; display: block; margin-bottom: 5px;"></span>
+                        <span data-purecounter-start="0" data-purecounter-end="8" data-purecounter-duration="1" class="purecounter" style="color: white; /* Font size handled by font-sizes.css */ font-weight: bold; display: block; margin-bottom: 5px;"></span>
                         <p style="color: rgba(255, 255, 255, 0.9); margin: 0; font-weight: 600;">Years as Tech Lead</p>
                       </div>
                     </div>

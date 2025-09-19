@@ -9,7 +9,7 @@
             
             <!-- Card Header -->
             <div class="card-header fancy-3d-header" style="margin: -10px -10px 30px -10px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
-              <h3 style="color: white; margin: 0; font-weight: 700; font-size: 1.5rem; text-align: center;">📞 Get In Touch</h3>
+              <h3 style="color: white; margin: 0; font-weight: 700; text-align: center;">📞 Get In Touch</h3>
             </div>
 
             <!-- Card Body -->
@@ -84,103 +84,111 @@
                   </a>
                 </div>
 
-                    </div>
+              </div>
                     
-              <!-- Encouraging Header -->
-              <div class="row mt-5">
-                <div class="col-lg-12">
-                  <div class="contact-encouragement" data-aos="fade-up" data-aos-delay="550">
-                    <h4 class="encouragement-title">
-                      <i class="bi bi-chat-dots"></i>
-                      Let's Start a Conversation!
-                    </h4>
-                    <p class="encouragement-text">
-                      I'm excited to hear about your project! Whether you need a full-stack application, 
-                      cloud migration, or technical consultation, I'm here to help bring your ideas to life. 
-                      Tell me about your vision and let's discuss how we can work together to achieve your goals.
-                    </p>
-                          </div>
-                        </div>
-                      </div>
-                      
-              <!-- Contact Form -->
+              <!-- Clean Contact Form -->
               <div class="row mt-4">
                 <div class="col-lg-12">
-                  <form @submit.prevent="submitForm" class="contact-form" data-aos="fade-up" data-aos-delay="600">
-                    
-                    <!-- Form Row 1: Name and Email -->
-                    <div class="row">
-                      <div class="col-md-6 form-group">
-                        <input 
-                          type="text" 
-                          name="name" 
-                          class="form-control" 
-                          id="name" 
-                          placeholder="Your Name" 
-                          v-model="formData.name"
-                          required
-                        >
+                  <div class="clean-form-container" data-aos="fade-up" data-aos-delay="600">
+                    <form @submit.prevent="submitForm" class="clean-form" novalidate>
+                      
+                      <!-- Form Header -->
+                    <div class="form-header">
+                        <div class="header-icon-wrapper">
+                          <svg class="header-envelope-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
                         </div>
-                      <div class="col-md-6 form-group mt-3 mt-md-0">
-                        <input 
-                          type="email" 
-                          class="form-control" 
-                          name="email" 
-                          id="email" 
-                          placeholder="Your Email" 
-                          v-model="formData.email"
-                          required
-                        >
-                      </div>
+                        <h3 class="form-title">Send Me a Message</h3>
+                        <p class="form-subtitle">💬 Let's discuss your project and bring your ideas to life! 🚀</p>
                     </div>
-
-                    <!-- Form Row 2: Subject -->
-                    <div class="form-group mt-3">
-                      <input 
-                        type="text" 
-                        class="form-control" 
-                        name="subject" 
-                        id="subject" 
-                        placeholder="Subject" 
-                        v-model="formData.subject"
-                        required
-                      >
+                    
+                      <!-- Form Fields -->
+                      <div class="form-row">
+                        <div class="form-group">
+                          <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input 
+                              type="text" 
+                              name="name" 
+                              class="form-input" 
+                              id="name" 
+                              placeholder="Your Name" 
+                              v-model="formData.name"
+                              @input="clearValidationError('name')"
+                              required
+                              novalidate
+                            >
+                          </div>
+                          <div v-if="validationErrors.name" class="validation-message">{{ validationErrors.name }}</div>
+                        </div>
+                        <div class="form-group">
+                          <div class="input-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input 
+                              type="email" 
+                              class="form-input" 
+                              name="email" 
+                              id="email" 
+                              placeholder="Your Email" 
+                              v-model="formData.email"
+                              @input="clearValidationError('email')"
+                              required
+                              novalidate
+                            >
+                          </div>
+                          <div v-if="validationErrors.email" class="validation-message">{{ validationErrors.email }}</div>
+                        </div>
                       </div>
                       
-                    <!-- Form Row 3: Message Textarea -->
-                    <div class="form-group mt-3">
-                      <div class="message-container">
-                        <label class="message-label">
-                            <i class="bi bi-pencil-square"></i>
-                            Project Details & Requirements
-                          </label>
-                        <div class="message-wrapper">
+                      <div class="form-group">
+                        <div class="input-wrapper">
+                          <i class="fas fa-tag input-icon"></i>
+                          <input 
+                            type="text" 
+                            class="form-input" 
+                            name="subject" 
+                            id="subject" 
+                            placeholder="Subject" 
+                            v-model="formData.subject"
+                            @input="clearValidationError('subject')"
+                            required
+                            novalidate
+                          >
+                        </div>
+                        <div v-if="validationErrors.subject" class="validation-message">{{ validationErrors.subject }}</div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <div class="input-wrapper">
+                          <i class="fas fa-comment-dots input-icon"></i>
                           <textarea 
-                            class="form-control message-textarea"
+                            class="form-textarea"
                             name="message"
                             id="message"
-                            rows="8"
-                            placeholder="Tell me about your project, timeline, and any specific requirements..."
+                            placeholder="Tell me about your project..."
                             v-model="formData.message"
+                            @input="clearValidationError('message')"
                             required
+                            novalidate
                           ></textarea>
                           </div>
-                        </div>
+                        <div v-if="validationErrors.message" class="validation-message">{{ validationErrors.message }}</div>
                       </div>
                       
-                    <!-- Form Row 4: Submit Button -->
-                    <div class="text-center mt-4">
-                      <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="bi bi-send"></i>
-                        Send Message
+                      <div class="form-submit">
+                        <button type="submit" class="submit-btn">
+                          <i class="fas fa-paper-plane"></i>
+                          Send Message
                         </button>
                       </div>
-
+                      
                     </form>
                   </div>
                 </div>
-
               </div>
+            </div>
           </div>
         </div>
       </div>
@@ -194,6 +202,12 @@ export default {
   data() {
     return {
       formData: {
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      },
+      validationErrors: {
         name: '',
         email: '',
         subject: '',
@@ -222,9 +236,9 @@ export default {
             } else if (entry.target.classList.contains('whatsapp-card')) {
               entry.target.classList.add('contact-card-animate')
               console.log('Added animation to whatsapp card')
-            } else if (entry.target.classList.contains('contact-form')) {
+            } else if (entry.target.classList.contains('clean-form-container')) {
               entry.target.classList.add('contact-form-animate')
-              console.log('Added animation to contact form')
+              console.log('Added animation to clean form container')
             }
           }
         })
@@ -235,7 +249,7 @@ export default {
 
       // Wait for DOM to be ready
       this.$nextTick(() => {
-        const cards = document.querySelectorAll('.location-card, .phone-card, .email-card, .whatsapp-card, .contact-form')
+        const cards = document.querySelectorAll('.location-card, .phone-card, .email-card, .whatsapp-card, .clean-form-container')
         console.log('Found cards:', cards.length)
         cards.forEach(card => {
           console.log('Observing card:', card.className)
@@ -251,7 +265,58 @@ export default {
       const card = event.currentTarget
       card.style.transform = 'translateY(0) scale(1)'
     },
+    clearValidationError(field) {
+      if (this.validationErrors[field]) {
+        this.validationErrors[field] = ''
+      }
+    },
+    validateForm() {
+      this.validationErrors = {
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      }
+      
+      let isValid = true
+      
+      // Validate name
+      if (!this.formData.name.trim()) {
+        this.validationErrors.name = 'Name is required'
+        isValid = false
+      }
+      
+      // Validate email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!this.formData.email.trim()) {
+        this.validationErrors.email = 'Email is required'
+        isValid = false
+      } else if (!emailRegex.test(this.formData.email)) {
+        this.validationErrors.email = 'Please enter a valid email'
+        isValid = false
+      }
+      
+      // Validate subject
+      if (!this.formData.subject.trim()) {
+        this.validationErrors.subject = 'Subject is required'
+        isValid = false
+      }
+      
+      // Validate message
+      if (!this.formData.message.trim()) {
+        this.validationErrors.message = 'Message is required'
+        isValid = false
+      }
+      
+      return isValid
+    },
+    
     submitForm() {
+      if (!this.validateForm()) {
+        // Show custom validation messages
+        return
+      }
+      
       // Handle form submission
       console.log('Form submitted:', this.formData)
       
@@ -261,6 +326,13 @@ export default {
       
       // Reset form
       this.formData = {
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      }
+      
+      this.validationErrors = {
         name: '',
         email: '',
         subject: '',
@@ -280,7 +352,7 @@ export default {
   border-radius: 15px;
   padding: 25px 20px;
   text-align: center;
-  height: 200px;
+  height: 200px; /* Fixed height for equal card heights */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -297,28 +369,37 @@ export default {
 }
 
 .info-card-icon {
-  font-size: 2.5rem;
+  /* Font size handled by font-sizes.css */
   margin-bottom: 15px;
   color: #fff;
 }
 
+.info-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
 .info-card-content h4 {
   color: #fff;
-  font-size: 1.2rem;
+  /* Font size handled by font-sizes.css */
   font-weight: 600;
   margin-bottom: 8px;
 }
 
 .info-card-content p {
   color: rgba(255, 255, 255, 0.9);
-  font-size: 1rem;
+  /* Font size handled by font-sizes.css */
   margin-bottom: 5px;
   font-weight: 500;
 }
 
 .info-card-subtitle {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.85rem;
+  /* Font size handled by font-sizes.css */
   font-style: italic;
 }
 
@@ -382,7 +463,7 @@ export default {
 
 .location-card .info-card-icon {
   color: #A5D6A7 !important;
-  font-size: 2.5rem !important;
+  /* Font size handled by font-sizes.css */
   text-shadow: 0 0 10px rgba(165, 214, 167, 0.5) !important;
   position: relative;
   z-index: 1;
@@ -421,7 +502,7 @@ export default {
 
 .phone-card .info-card-icon {
   color: #90CAF9 !important;
-  font-size: 2.5rem !important;
+  /* Font size handled by font-sizes.css */
   text-shadow: 0 0 10px rgba(144, 202, 249, 0.5) !important;
   position: relative;
   z-index: 1;
@@ -460,7 +541,7 @@ export default {
 
 .email-card .info-card-icon {
   color: #FFCC02 !important;
-  font-size: 2.5rem !important;
+  /* Font size handled by font-sizes.css */
   text-shadow: 0 0 10px rgba(255, 204, 2, 0.5) !important;
   position: relative;
   z-index: 1;
@@ -499,115 +580,464 @@ export default {
 
 .whatsapp-card .info-card-icon {
   color: #81C784 !important;
-  font-size: 2.5rem !important;
+  /* Font size handled by font-sizes.css */
   text-shadow: 0 0 10px rgba(129, 199, 132, 0.5) !important;
   position: relative;
   z-index: 1;
 }
 
-/* Encouraging Header - LIGHTER GRADIENT */
-.contact-encouragement {
-  text-align: center;
-  margin-bottom: 30px;
-  padding: 40px;
-  background: linear-gradient(135deg, rgba(76, 95, 175, 0.85) 0%, rgba(88, 55, 120, 0.85) 50%, rgba(191, 144, 4, 0.7) 100%);
-  border-radius: 20px;
-  border: 3px solid rgba(76, 95, 175, 0.8);
-  box-shadow: 0 15px 35px rgba(76, 95, 175, 0.6), 0 0 20px rgba(191, 144, 4, 0.4);
-  backdrop-filter: blur(10px);
+
+/* ===== CLEAN CONTACT FORM ===== */
+
+/* Form Container */
+.clean-form-container {
   position: relative;
-  overflow: hidden;
-}
-
-.contact-encouragement::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  animation: shimmer 3s infinite;
-}
-
-@keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
-}
-
-.encouragement-title {
-  color: #ffffff;
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  position: relative;
-  z-index: 1;
-}
-
-.encouragement-title i {
-  color: #FFD700;
-  font-size: 2.5rem;
-  text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-.encouragement-text {
-  color: rgba(255, 255, 255, 0.95);
-  font-size: 1.2rem;
-  line-height: 1.7;
-  margin: 0;
-  max-width: 800px;
-  margin: 0 auto;
-  font-weight: 500;
-  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
-  position: relative;
-  z-index: 1;
-}
-
-/* Contact Form - LESS DARK GRADIENT with Transitions */
-.contact-form {
-  background: linear-gradient(135deg, rgba(76, 95, 175, 0.8) 0%, rgba(88, 55, 120, 0.8) 50%, rgba(191, 144, 4, 0.6) 100%);
-  padding: 40px;
-  border-radius: 20px;
-  border: 3px solid rgba(76, 95, 175, 0.7);
-  box-shadow: 0 20px 40px rgba(76, 95, 175, 0.5), 0 0 30px rgba(191, 144, 4, 0.3);
-  backdrop-filter: blur(15px);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
   opacity: 0;
   transform: translateY(30px);
+  transition: all 0.6s ease;
 }
 
-.contact-form:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 25px 50px rgba(76, 95, 175, 0.6), 0 0 40px rgba(191, 144, 4, 0.4);
+.clean-form-container.contact-form-animate {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
-.contact-form::before {
+/* Main Form */
+.clean-form {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%);
+  border: 2px solid rgba(102, 126, 234, 0.25);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 8px 20px rgba(102, 126, 234, 0.15),
+    0 3px 8px rgba(118, 75, 162, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.clean-form::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
-  animation: formShimmer 4s infinite;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.02) 50%, rgba(102, 126, 234, 0.01) 100%);
+  border-radius: 20px;
+  z-index: 0;
 }
 
-@keyframes formShimmer {
-  0%, 100% { transform: translateX(-100%) rotate(45deg); }
-  50% { transform: translateX(100%) rotate(45deg); }
+.clean-form::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 22px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.clean-form:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 12px 25px rgba(102, 126, 234, 0.2),
+    0 5px 12px rgba(118, 75, 162, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  border-color: rgba(102, 126, 234, 0.4);
+}
+
+.clean-form:hover::after {
+  opacity: 1;
+}
+
+/* Form Header */
+.form-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+  padding: 35px 20px;
+  overflow: hidden;
+}
+
+/* Header Icon Wrapper */
+.header-icon-wrapper {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-envelope-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  color: #667eea;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+  animation: envelopeIconFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(102, 126, 234, 0.2));
+  position: relative;
+}
+
+.header-envelope-icon::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 50%;
+  z-index: -1;
+  animation: envelopeIconGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes envelopeIconFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+@keyframes envelopeIconGlow {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+.form-title {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Font size handled by font-sizes.css */
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.form-subtitle {
+  color: #555;
+  /* Font size handled by font-sizes.css */
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Form Layout */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Input Wrapper */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  color: #667eea;
+  /* Font size handled by font-sizes.css */
+  z-index: 3;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 
+    0 3px 12px rgba(102, 126, 234, 0.15),
+    0 1px 4px rgba(118, 75, 162, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.input-wrapper:focus-within .input-icon {
+  color: #5a6fd8;
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 
+    0 4px 16px rgba(102, 126, 234, 0.25),
+    0 2px 8px rgba(118, 75, 162, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+/* Form Inputs */
+.form-input,
+.form-textarea {
+  width: 100%;
+  background: #fff;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  padding: 15px 20px 15px 60px;
+  color: #333;
+  /* Font size handled by font-sizes.css */
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 
+    0 0 0 3px rgba(102, 126, 234, 0.2),
+    0 0 20px rgba(102, 126, 234, 0.3),
+    0 4px 12px rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 1);
+  animation: inputGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes inputGlow {
+  0% {
+    box-shadow: 
+      0 0 0 3px rgba(102, 126, 234, 0.2),
+      0 0 20px rgba(102, 126, 234, 0.3),
+      0 4px 12px rgba(102, 126, 234, 0.1);
+  }
+  100% {
+    box-shadow: 
+      0 0 0 3px rgba(102, 126, 234, 0.3),
+      0 0 30px rgba(102, 126, 234, 0.5),
+      0 4px 12px rgba(102, 126, 234, 0.1);
+  }
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #999;
+  font-weight: 400;
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: none;
+  font-family: inherit;
+  line-height: 1.5;
+  overflow-y: auto;
+}
+
+/* Submit Button */
+.form-submit {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 15px 35px;
+  color: white;
+  /* Font size handled by font-sizes.css */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 
+    0 8px 25px rgba(102, 126, 234, 0.3),
+    0 4px 12px rgba(118, 75, 162, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.submit-btn:hover::before {
+  left: 100%;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 12px 35px rgba(102, 126, 234, 0.4),
+    0 6px 20px rgba(118, 75, 162, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.submit-btn:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 
+    0 6px 20px rgba(102, 126, 234, 0.3),
+    0 3px 10px rgba(118, 75, 162, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.submit-btn i {
+  /* Font size handled by font-sizes.css */
+}
+
+/* Autofill Styling */
+.form-input:-webkit-autofill,
+.form-input:-webkit-autofill:hover,
+.form-input:-webkit-autofill:focus,
+.form-input:-webkit-autofill:active,
+.form-textarea:-webkit-autofill,
+.form-textarea:-webkit-autofill:hover,
+.form-textarea:-webkit-autofill:focus,
+.form-textarea:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
+  box-shadow: 0 0 0 1000px #fff inset !important;
+  -webkit-text-fill-color: #333 !important;
+  background: #fff !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Custom Required Field Validation Styling */
+.form-input:invalid:not(:placeholder-shown),
+.form-textarea:invalid:not(:placeholder-shown) {
+  border-color: #667eea !important;
+  box-shadow: 
+    0 0 0 3px rgba(102, 126, 234, 0.1),
+    0 4px 12px rgba(102, 126, 234, 0.1) !important;
+}
+
+.form-input:invalid:not(:placeholder-shown)::after,
+.form-textarea:invalid:not(:placeholder-shown)::after {
+  content: '\f071';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #667eea;
+  /* Font size handled by font-sizes.css */
+  z-index: 4;
+  text-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+  animation: pulse-warning 2s infinite;
+}
+
+@keyframes pulse-warning {
+  0%, 100% { 
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+  50% { 
+    opacity: 0.7;
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
+/* Custom validation message styling */
+.validation-message {
+  display: block;
+  color: #dc3545;
+  /* Font size handled by font-sizes.css */
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(255, 107, 107, 0.08) 100%);
+  border: 2px solid rgba(220, 53, 69, 0.4);
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 
+    0 0 0 2px rgba(220, 53, 69, 0.2),
+    0 0 15px rgba(220, 53, 69, 0.3),
+    0 4px 12px rgba(220, 53, 69, 0.1);
+  position: relative;
+  animation: errorSlideIn 0.4s ease, errorGlow 2s ease-in-out infinite alternate;
+}
+
+.validation-message::before {
+  content: '\f071';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  margin-right: 8px;
+  color: #dc3545;
+  /* Font size handled by font-sizes.css */
+  text-shadow: 0 0 8px rgba(220, 53, 69, 0.5);
+  animation: errorIconPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes errorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes errorGlow {
+  0% {
+    box-shadow: 
+      0 0 0 2px rgba(220, 53, 69, 0.2),
+      0 0 15px rgba(220, 53, 69, 0.3),
+      0 4px 12px rgba(220, 53, 69, 0.1);
+    border-color: rgba(220, 53, 69, 0.4);
+  }
+  100% {
+    box-shadow: 
+      0 0 0 3px rgba(220, 53, 69, 0.3),
+      0 0 25px rgba(220, 53, 69, 0.5),
+      0 4px 12px rgba(220, 53, 69, 0.1);
+    border-color: rgba(220, 53, 69, 0.6);
+  }
+}
+
+@keyframes errorIconPulse {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 0 8px rgba(220, 53, 69, 0.5);
+  }
+  50% {
+    transform: scale(1.1);
+    text-shadow: 0 0 12px rgba(220, 53, 69, 0.7);
+  }
 }
 
 /* Scroll-triggered animations */
@@ -638,220 +1068,124 @@ export default {
   transition-delay: 0.4s;
 }
 
-.contact-form.contact-form-animate {
+.innovative-form-container.contact-form-animate {
   transition-delay: 0.5s;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-control {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  border-radius: 10px !important;
-  color: #fff !important;
-  padding: 12px 15px !important;
-  font-size: 1rem !important;
-  transition: all 0.3s ease !important;
-  display: block !important;
-  width: 100% !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-.form-control:focus {
-  background: rgba(255, 255, 255, 0.15) !important;
-  border-color: rgba(255, 255, 255, 0.4) !important;
-  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25) !important;
-  color: #fff !important;
-}
-
-.form-control::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
-}
-
-/* Override any conflicting CSS - LESS DARK INPUTS with Better UX */
-.contact-form input[type="text"],
-.contact-form input[type="email"],
-.contact-form textarea {
-  background: linear-gradient(135deg, rgba(76, 95, 175, 0.7) 0%, rgba(88, 55, 120, 0.7) 100%) !important;
-  border: 3px solid rgba(76, 95, 175, 0.5) !important;
-  border-radius: 15px !important;
-  color: #ffffff !important;
-  padding: 15px 20px !important;
-  font-size: 1rem !important;
-  display: block !important;
-  width: 100% !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  box-shadow: 0 10px 30px rgba(76, 95, 175, 0.2), 0 0 15px rgba(191, 144, 4, 0.1) !important;
-  min-height: 50px !important;
-  margin: 8px 0 !important;
-  font-weight: 500 !important;
-  transition: all 0.4s ease !important;
-  backdrop-filter: blur(10px) !important;
-  position: relative;
-  z-index: 1;
-}
-
-.contact-form input[type="text"]:focus,
-.contact-form input[type="email"]:focus,
-.contact-form textarea:focus {
-  background: linear-gradient(135deg, rgba(76, 95, 175, 0.8) 0%, rgba(88, 55, 120, 0.8) 100%) !important;
-  border-color: rgba(191, 144, 4, 0.7) !important;
-  box-shadow: 0 0 0 5px rgba(191, 144, 4, 0.3), 0 15px 40px rgba(76, 95, 175, 0.3), 0 0 25px rgba(191, 144, 4, 0.3) !important;
-  outline: none !important;
-  transform: translateY(-3px) scale(1.02) !important;
-  color: #ffffff !important;
-}
-
-/* Force autofill to use lighter theme - strongest override */
-.contact-form input:-webkit-autofill,
-.contact-form input:-webkit-autofill:hover,
-.contact-form input:-webkit-autofill:focus,
-.contact-form input:-webkit-autofill:active,
-.contact-form textarea:-webkit-autofill,
-.contact-form textarea:-webkit-autofill:hover,
-.contact-form textarea:-webkit-autofill:focus,
-.contact-form textarea:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px rgba(76, 95, 175, 0.7) inset !important;
-  -webkit-text-fill-color: #ffffff !important;
-  background: linear-gradient(135deg, rgba(76, 95, 175, 0.7) 0%, rgba(88, 55, 120, 0.7) 100%) !important;
-  background-color: rgba(76, 95, 175, 0.7) !important;
-  color: #ffffff !important;
-  transition: background-color 5000s ease-in-out 0s !important;
-}
-
-/* Alternative approach - disable autofill styling completely */
-.contact-form input[autocomplete],
-.contact-form textarea[autocomplete] {
-  -webkit-box-shadow: 0 0 0 1000px rgba(76, 95, 175, 0.7) inset !important;
-  -webkit-text-fill-color: #ffffff !important;
-  background: linear-gradient(135deg, rgba(76, 95, 175, 0.7) 0%, rgba(88, 55, 120, 0.7) 100%) !important;
-}
-
-.contact-form input[type="text"]::placeholder,
-.contact-form input[type="email"]::placeholder,
-.contact-form textarea::placeholder {
-  color: rgba(255, 255, 255, 0.7) !important;
-  font-weight: 500 !important;
-}
-
-/* Message Textarea */
-.message-container {
-  margin-top: 20px;
-}
-
-.message-label {
-  color: #fff;
-  font-weight: 600;
-  margin-bottom: 10px;
-  display: block;
-  font-size: 1.1rem;
-}
-
-.message-label i {
-  margin-right: 8px;
-  color: #007BFF;
-}
-
-.message-wrapper {
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.message-textarea {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  resize: vertical;
-  min-height: 200px;
-  font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.message-textarea:focus {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
-  color: #fff;
-}
-
-.message-textarea::placeholder {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-/* Submit Button - Less Dark Theme */
-.btn-primary {
-  background: linear-gradient(135deg, rgba(76, 95, 175, 0.8) 0%, rgba(88, 55, 120, 0.8) 50%, rgba(191, 144, 4, 0.6) 100%);
-  border: 2px solid rgba(76, 95, 175, 0.7);
-  border-radius: 25px;
-  padding: 15px 35px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(76, 95, 175, 0.3), 0 0 15px rgba(191, 144, 4, 0.2);
-  color: #ffffff;
-}
-
-.btn-primary:hover {
-  background: linear-gradient(135deg, rgba(66, 85, 155, 0.9) 0%, rgba(78, 45, 110, 0.9) 50%, rgba(171, 124, 4, 0.7) 100%);
-  border-color: rgba(191, 144, 4, 0.8);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(76, 95, 175, 0.5), 0 0 25px rgba(191, 144, 4, 0.3);
-  color: #ffffff;
-}
-
-.btn-primary i {
-  margin-right: 10px;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .contact-info-card {
-    height: 180px;
+    height: 180px; /* Fixed height for equal card heights */
     padding: 20px 15px;
   }
   
   .info-card-icon {
-    font-size: 2rem;
+    /* Font size handled by font-sizes.css */
   }
   
   .info-card-content h4 {
-    font-size: 1.1rem;
+    /* Font size handled by font-sizes.css */
   }
   
-  .info-card-content p {
-    font-size: 0.9rem;
+  /* Removed conflicting font size rules - now handled globally */
+  
+  .clean-form {
+    padding: 25px;
   }
   
-  .contact-form {
-    padding: 20px;
+  .header-envelope-icon {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+  
+  .form-title {
+    /* Font size handled by font-sizes.css */
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .form-subtitle {
+    /* Font size now handled globally - reduced by 30% */
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .form-input,
+  .form-textarea {
+    padding: 12px 15px 12px 55px;
+    /* Removed conflicting font size rules - now handled globally */
+  }
+  
+  .input-icon {
+    left: 12px;
+    padding: 6px;
+    /* Font size handled by font-sizes.css */
+  }
+  
+  .submit-btn {
+    padding: 12px 25px;
+    /* Removed conflicting font size rules - now handled globally */
   }
 }
 
 @media (max-width: 480px) {
   .contact-info-card {
-    height: 160px;
+    height: 160px; /* Fixed height for equal card heights */
     padding: 15px 10px;
   }
   
   .info-card-icon {
-    font-size: 1.8rem;
+    /* Font size handled by font-sizes.css */
   }
   
   .info-card-content h4 {
-    font-size: 1rem;
+    /* Font size handled by font-sizes.css */
   }
   
-  .info-card-content p {
-    font-size: 0.85rem;
+  /* Removed conflicting font size rules - now handled globally */
+  
+  .clean-form {
+    padding: 20px;
+    border-radius: 15px;
   }
   
-  .contact-form {
-    padding: 15px;
+  .header-envelope-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+  
+  .form-title {
+    /* Font size handled by font-sizes.css */
+    flex-direction: column;
+    gap: 3px;
+  }
+  
+  .form-subtitle {
+    /* Removed conflicting font size rules - now handled globally */
+    flex-direction: column;
+    gap: 3px;
+  }
+  
+  .form-input,
+  .form-textarea {
+    padding: 10px 12px 10px 50px;
+    /* Removed conflicting font size rules - now handled globally */
+  }
+  
+  .input-icon {
+    left: 10px;
+    padding: 5px;
+    /* Font size handled by font-sizes.css */
+  }
+  
+  .submit-btn {
+    padding: 10px 20px;
+    /* Removed conflicting font size rules - now handled globally */
   }
 }
 </style>
