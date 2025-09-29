@@ -1,6 +1,15 @@
 // Basic constants for the portfolio application
 export const APP_CONFIG = {
-  // Add any app-wide configuration here
+  fullName: "Waqas Ahmed",
+  location: "Malaysia",
+  linkedin: "https://linkedin.com/in/waqas-ahmed",
+  github: "https://github.com/waqas-ahmed",
+  contactLinks: {
+    email: "waqas@example.com",
+    phone: "+60 123 456 789",
+    linkedin: "https://linkedin.com/in/waqas-ahmed",
+    github: "https://github.com/waqas-ahmed"
+  }
 };
 
 export const ANIMATION_CONFIG = {
