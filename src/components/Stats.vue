@@ -119,11 +119,14 @@ export default {
   },
   methods: {
     startVueCounterAnimations() {
-      // VUE PROPER: Use animation configuration constants
+      // VUE PROPER: Use animation configuration constants with fallback
       const config = ANIMATION_CONFIG || {
         counter: { duration: 2000 }, 
         scrollAnimations: { threshold: 0.1 }
       }
+      
+      // Ensure counter config exists
+      const counterConfig = config.counter || { duration: 2000 }
       
       const statList = [
         { name: 'happyClients', value: this.stats.happyClients },
@@ -133,7 +136,7 @@ export default {
       ]
       
       statList.forEach((stat) => {
-        this.animateCounter(stat.value, stat.name, config.counter.duration)
+        this.animateCounter(stat.value, stat.name, counterConfig.duration)
       })
     },
     animateCounter(targetValue, property, duration = 2000) {

@@ -31,7 +31,13 @@ export const APP_CONFIG = {
 export const ANIMATION_CONFIG = {
   // Animation configuration
   duration: 300,
-  easing: 'ease-in-out'
+  easing: 'ease-in-out',
+  counter: {
+    duration: 2000
+  },
+  scrollAnimations: {
+    threshold: 0.1
+  }
 };
 
 export const COMPONENT_DEFAULTS = {
