@@ -680,10 +680,12 @@ export default {
           function stopAnim() { cancelAnimationFrame(raf); raf = null; }
 
           const card = document.querySelector('.epic-card');
-          const cardWrapper = document.querySelector('.card-wrapper');
           const borderOverlay = document.querySelector('.border-overlay');
           
-          if (card && cardWrapper && borderOverlay) {
+          if (card && borderOverlay) {
+            const cardWrapper = document.querySelector('.card-wrapper');
+            
+            if (cardWrapper) {
             const deviceType = this.getDeviceType();
             const hasHover = window.matchMedia('(hover: hover)').matches;
             const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
@@ -791,6 +793,7 @@ export default {
               
               // Store observer for cleanup
               this.borderResizeObserver = resizeObserver;
+            }
             }
           }
         });
