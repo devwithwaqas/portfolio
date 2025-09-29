@@ -98,7 +98,12 @@ export default {
   data() {
     return {
       // VUE PROPER: Import constants from centralized config
-      stats: APP_CONFIG.stats,
+      stats: APP_CONFIG.stats || {
+        happyClients: 50,
+        totalProjects: 75,
+        yearsExperience: 8,
+        yearsAsTechLead: 5
+      },
       // VUE-NATIVE: Replace external PureCounter with Vue reactive counters 
       animatedStats: {
         happyClients: 0,
@@ -115,7 +120,7 @@ export default {
   methods: {
     startVueCounterAnimations() {
       // VUE PROPER: Use animation configuration constants
-      const config = APP_CONFIG instanceof Object && 'stats' in APP_CONFIG ? ANIMATION_CONFIG : {
+      const config = ANIMATION_CONFIG || {
         counter: { duration: 2000 }, 
         scrollAnimations: { threshold: 0.1 }
       }
