@@ -1,15 +1,17 @@
 <template>
   <div id="app">
-    <!-- Navigation Component -->
+    <!-- Navigation Component - Fixed position -->
     <Navigation />
     
-    <!-- Main Content -->
-    <main>
-      <router-view />
-    </main>
-    
-    <!-- Footer Component -->
-    <Footer />
+    <!-- Main Content - Offset by navigation width -->
+    <div class="main-content">
+      <main>
+        <router-view />
+      </main>
+      
+      <!-- Footer Component -->
+      <Footer />
+    </div>
     
     <!-- Back to Top Button -->
     <BackToTop />

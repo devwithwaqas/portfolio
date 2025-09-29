@@ -2,17 +2,11 @@
   <section id="about" class="about section">
     <div class="container" data-aos="fade-up" data-aos-delay="100">
       <!-- About Card -->
-      <div class="row justify-content-center">
-        <div class="col-12">
-          <div class="card" style="background: linear-gradient(135deg, rgba(60, 20, 120, 0.15) 0%, rgba(50, 15, 100, 0.1) 50%, rgba(40, 10, 80, 0.05) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(80, 30, 140, 0.3); border-radius: 20px; box-shadow: 0 20px 50px rgba(60, 20, 120, 0.2); padding: 10px;">
-            
-            <!-- Card Header -->
-            <div class="card-header fancy-3d-header" style="margin: -10px -10px 30px -10px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
-              <h3 style="color: white; margin: 0; font-weight: 700; text-align: center;">👨‍💻 About Me</h3>
-            </div>
-
-            <!-- Card Body -->
-            <div class="card-body" style="padding: 0;">
+      <ReusableCard 
+        title="About Me" 
+        icon="👨‍💻"
+        body-padding="0"
+      >
               <div class="row gy-4 justify-content-center">
                 <div class="col-lg-4">
                   <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 25px; border-radius: 25px; box-shadow: 0 25px 60px rgba(240, 147, 251, 0.4); border: 3px solid rgba(255, 255, 255, 0.3); position: relative; overflow: hidden; transform: perspective(1000px) rotateY(-5deg);">
@@ -24,7 +18,7 @@
                     <div style="position: absolute; bottom: 15px; right: 15px; width: 15px; height: 15px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; animation: float 4s ease-in-out infinite reverse;"></div>
                     
                     <div style="position: relative; z-index: 2;">
-                      <img src="/assets/img/waqas-microsoft-profile.jpg" class="img-fluid" alt="Waqas Ahmad - Senior Software Engineer at Microsoft" style="border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); border: 4px solid rgba(255, 255, 255, 0.8); transform: scale(1.02); transition: all 0.3s ease;" @mouseover="$event.target.style.transform='scale(1.05)'" @mouseout="$event.target.style.transform='scale(1.02)'">
+                      <img src="/assets/img/waqas-microsoft-profile.jpg" class="img-fluid" :alt="`${fullName} - Senior Software Engineer at Microsoft`" style="border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); border: 4px solid rgba(255, 255, 255, 0.8); transform: scale(1.02); transition: all 0.3s ease;" @mouseover="$event.target.style.transform='scale(1.05)'" @mouseout="$event.target.style.transform='scale(1.02)'">
                     </div>
                   </div>
                 </div>
@@ -36,7 +30,7 @@
                     <div style="position: relative; z-index: 2;">
                       <h2 style="color: #0563bb; margin-bottom: 20px; font-weight: 600;">🚀 Senior Software Engineer &amp; Technical Lead</h2>
                       <p class="fst-italic py-3" style="color: #45505b; /* Font size handled by font-sizes.css */ line-height: 1.6;">
-                        Proficient in enterprise applications architecture whether hybrid or platform specific either as services for company or products for the organizations. Currently engaged as Senior Software Engineer Full Stack (16+ years) / Technical Lead (8+ years overall as Technical Lead) in developing web / cloud based applications.
+                        Proficient in enterprise applications architecture whether hybrid or platform specific either as services for company or products for the organizations. Currently engaged as Senior Software Engineer Full Stack ({{ totalExperience }}+ years) / Technical Lead ({{ techLeadExperience }}+ years overall as Technical Lead) in developing web / cloud based applications.
                       </p>
                       
                       <div class="row">
@@ -46,19 +40,19 @@
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
                                 <i class="bi bi-calendar-event" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
-                                  <strong style="color: #0563bb;">Birthday:</strong> <span style="color: #45505b; margin-left: 5px;">September 21, 1987</span>
+                                  <strong style="color: #0563bb;">Birthday:</strong> <span style="color: #45505b; margin-left: 5px;">{{ formattedBirthday }}</span>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
                                 <i class="bi bi-globe" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
-                                  <strong style="color: #0563bb;">Website:</strong> <span style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word;">www.waqasahmad.com</span>
+                                  <strong style="color: #0563bb;">Website:</strong> <a :href="contactLinks.website" target="_blank" style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word; text-decoration: none; transition: all 0.3s ease;" @mouseover="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.4)'" @mouseout="$event.target.style.color='#45505b'; $event.target.style.textShadow='none'">www.waqasahmad.com</a>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
                                 <i class="bi bi-telephone" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
-                                  <strong style="color: #0563bb;">Phone:</strong> <span style="color: #45505b; margin-left: 5px;">+60146806067</span>
+                                  <strong style="color: #0563bb;">Phone:</strong> <a :href="contactLinks.phone" style="color: #45505b; margin-left: 5px; text-decoration: none;">{{ phone }}</a>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
@@ -76,7 +70,7 @@
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
                                 <i class="bi bi-person-badge" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
-                                  <strong style="color: #0563bb;">Age:</strong> <span style="color: #45505b; margin-left: 5px;">36</span>
+                                  <strong style="color: #0563bb;">Age:</strong> <span style="color: #45505b; margin-left: 5px;">{{ currentAge }}</span>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
@@ -88,7 +82,7 @@
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
                                 <i class="bi bi-envelope" style="color: #0563bb; margin-right: 10px; /* Font size handled by font-sizes.css */ margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
-                                  <strong style="color: #0563bb;">Email:</strong> <span style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word;">devwithwaqas@gmail.com</span>
+                                  <strong style="color: #0563bb;">Email:</strong> <a :href="contactLinks.email" style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word; text-decoration: none;">{{ email }}</a>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
@@ -105,24 +99,45 @@
                       <div style="background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%); color: white; padding: 25px; border-radius: 15px; margin-top: 25px; box-shadow: 0 15px 35px rgba(60, 20, 120, 0.4);">
                         <h5 style="color: white; margin-bottom: 15px; font-weight: 600;">💼 Professional Summary</h5>
                         <p style="color: rgba(255, 255, 255, 0.9); margin: 0; line-height: 1.6;">
-                          A cohesive team player with technical expertise, innovation, analytical & problem-solving attitude, planning, communication, and interpersonal skills. Senior Azure Cloud Developer / Architect (8+ years) with expertise in Azure Functions, App Services, Service Fabric, Key Vault, App Insights, CI/CD, branching strategies, build/release policies, and Cloud App Identity Management.
+                          A cohesive team player with technical expertise, innovation, analytical & problem-solving attitude, planning, communication, and interpersonal skills. Senior Azure Cloud Developer / Architect ({{ totalExperience }}+ years) with expertise in Azure Functions, App Services, Service Fabric, Key Vault, App Insights, CI/CD, branching strategies, build/release policies, and Cloud App Identity Management.
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div><!-- End Card Body -->
-          </div><!-- End Card -->
-        </div>
-      </div>
+      </ReusableCard>
     </div>
   </section>
 </template>
 
 <script>
+import { APP_CONFIG } from '../config/constants.js'
+import ReusableCard from './ReusableCard.vue'
+
 export default {
-  name: 'About'
+  name: 'About',
+  components: {
+    ReusableCard
+  },
+  data() {
+    return {
+      // VUE PROPER: Import constants instead of deleted personalData.js
+      ...APP_CONFIG
+    }
+  },
+  computed: {
+    currentAge() {
+      const today = new Date()
+      const birth = new Date(1986, 8, 5) // Month is 0-indexed
+      let age = today.getFullYear() - birth.getFullYear()
+      const monthDiff = today.getMonth() - birth.getMonth()
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--
+      }
+      return age
+    }
+  }
 }
 </script>
 

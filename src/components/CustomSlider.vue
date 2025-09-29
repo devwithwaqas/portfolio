@@ -137,30 +137,17 @@ export default {
       this.goToSlide(prevIndex)
     },
     updateHeight() {
-      this.$nextTick(() => {
-        const activeSlide = this.$refs.slideRefs
-        const track = this.$refs.sliderTrack
-        if (activeSlide && track) {
-          // Reset height to auto to get natural height
-          activeSlide.style.height = 'auto'
-          track.style.height = 'auto'
-          
-          // Force a reflow
-          activeSlide.offsetHeight
-          track.offsetHeight
-          
-          // Get the natural height
-          const naturalHeight = activeSlide.scrollHeight
-          
-          // Set the height to just the content height (no extra padding)
-          this.currentHeight = naturalHeight
-          
-          // Apply the height to the track
-          track.style.height = `${this.currentHeight}px`
-          
-          // console.log(`📏 Slide ${this.currentIndex} height: ${naturalHeight}px`)
+      // VUE-NATIVE: No forced reflows - use computed properties or Vue reactive approach
+      const activeSlide = this.$refs.slideRefs
+      const track = this.$refs.sliderTrack
+      if (activeSlide && track) {
+        // Vue handles height changes reactively with v-style or computed height
+        const estimatedHeight = activeSlide.offsetHeight || 300
+        if (Math.abs(estimatedHeight - this.currentHeight) > 10) {
+          // VUE REACTIVE: height change handled by :style="{ height: currentHeight + 'px' }"
+          this.currentHeight = estimatedHeight
         }
-      })
+      }
     },
     startAutoplay() {
       if (this.autoplay && this.slides.length > 1) {
@@ -177,8 +164,13 @@ export default {
     },
     setupResizeObserver() {
       if (window.ResizeObserver) {
+        // Debounce resize observer calls to prevent excessive updates
+        let resizeTimeout
         this.resizeObserver = new ResizeObserver(() => {
-          this.updateHeight()
+          clearTimeout(resizeTimeout)
+          resizeTimeout = setTimeout(() => {
+            this.updateHeight()
+          }, 16) // ~60fps throttling
         })
         
         // Observe the single active slide
@@ -197,10 +189,10 @@ export default {
   watch: {
     currentIndex() {
       this.$emit('slide-change', this.currentIndex)
-      // Delay height update to allow transition to complete
-      setTimeout(() => {
+      // Use requestAnimationFrame for better performance timing
+      requestAnimationFrame(() => {
         this.updateHeight()
-      }, 100)
+      })
     }
   }
 }
@@ -346,7 +338,7 @@ export default {
 }
 
 /* Mobile pagination dots fix - prevent vertical squeezing */
-@media (max-width: 768px) {
+@media (pointer: coarse) and (max-width: 768px) {
   .slider-pagination {
     flex-direction: row !important;
     justify-content: center !important;
@@ -365,7 +357,7 @@ export default {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (pointer: coarse) and (max-width: 768px) {
   .slider-controls {
     gap: 15px;
     margin-top: 15px;
@@ -388,7 +380,7 @@ export default {
   }
 }
 
-@media (max-width: 480px) {
+@media (pointer: coarse) and (max-width: 480px) {
   .slider-controls {
     gap: 15px;
     margin-top: 15px;

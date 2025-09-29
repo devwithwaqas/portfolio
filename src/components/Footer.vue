@@ -1,5 +1,5 @@
 <template>
-  <footer id="footer" class="footer" style="background: linear-gradient(135deg, rgba(60, 20, 120, 0.6) 0%, rgba(50, 15, 100, 0.65) 50%, rgba(40, 10, 80, 0.7) 100%), radial-gradient(circle at 20% 20%, rgba(80, 30, 140, 0.2) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(90, 35, 150, 0.12) 0%, transparent 50%); backdrop-filter: blur(40px) saturate(130%) brightness(0.85); -webkit-backdrop-filter: blur(40px) saturate(130%) brightness(0.85); border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 50px 0 30px 0; margin-top: 60px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 12px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.2);">
+  <footer id="footer" class="footer footer-main">
     
     <div class="container">
       <!-- Main Footer Content -->
@@ -7,21 +7,21 @@
         <!-- About Section -->
         <div class="col-lg-3 col-md-6 mb-4">
           <div class="footer-section">
-            <h5 style="color: #ffffff; font-weight: 700; margin-bottom: 20px; text-shadow: 0 0 10px rgba(102, 126, 234, 0.3);">
-              <i class="bi bi-person-circle me-2" style="color: #667eea;"></i>About Me
+            <h5 class="footer-section-title">
+              <i class="bi bi-person-circle me-2 footer-icon-purple"></i>About Me
             </h5>
-            <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.6; margin-bottom: 20px;">
+            <p class="footer-description-text">
               Senior Software Engineer passionate about delivering high-quality solutions with expertise in .NET, Azure Cloud, and enterprise architecture.
             </p>
             <div class="contact-info">
-              <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 8px;">
-                <i class="bi bi-geo-alt-fill me-2" style="color: #667eea;"></i>Selangor, Malaysia
-              </p>
-              <a href="mailto:devwithwaqas@gmail.com" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; margin-bottom: 8px; transition: all 0.3s ease;" @mouseover="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.4)'" @mouseout="$event.target.style.color='rgba(255, 255, 255, 0.7)'; $event.target.style.textShadow='none'">
-                <i class="bi bi-envelope-fill me-2" style="color: #667eea;"></i>devwithwaqas@gmail.com
+              <div class="contact-info-item footer-contact-text">
+                <i class="bi bi-geo-alt-fill me-2 footer-icon-purple"></i>{{ location }}
+              </div>
+              <a :href="contactLinks.email" class="contact-info-item contact-link footer-contact-link" @mouseover="handleContactHover" @mouseout="handleContactOut">
+                <i class="bi bi-envelope-fill me-2 footer-icon-purple"></i>{{ email }}
               </a>
-              <a href="tel:+60146806067" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; display: block; transition: all 0.3s ease;" @mouseover="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.4)'" @mouseout="$event.target.style.color='rgba(255, 255, 255, 0.7)'; $event.target.style.textShadow='none'">
-                <i class="bi bi-telephone-fill me-2" style="color: #667eea;"></i>+60146806067
+              <a :href="contactLinks.phone" class="contact-info-item contact-link footer-contact-link" @mouseover="handleContactHover" @mouseout="handleContactOut">
+                <i class="bi bi-telephone-fill me-2 footer-icon-purple"></i>{{ phone }}
               </a>
             </div>
                   </div>
@@ -30,8 +30,8 @@
         <!-- Quick Links -->
         <div class="col-lg-3 col-md-6 mb-4">
           <div class="footer-section">
-            <h5 style="color: #ffffff; font-weight: 700; margin-bottom: 20px; text-shadow: 0 0 10px rgba(102, 126, 234, 0.3);">
-              <i class="bi bi-link-45deg me-2" style="color: #667eea;"></i>Quick Links
+            <h5 class="footer-section-title">
+              <i class="bi bi-link-45deg me-2 footer-icon-purple"></i>Quick Links
             </h5>
             <ul class="footer-nav-links">
               <li>
@@ -81,24 +81,24 @@
         <!-- Services -->
         <div class="col-lg-2 col-md-6 mb-4">
           <div class="footer-section">
-            <h5 style="color: #ffffff; font-weight: 700; margin-bottom: 20px; text-shadow: 0 0 10px rgba(102, 126, 234, 0.3);">
-              <i class="bi bi-gear-fill me-2" style="color: #667eea;"></i>Services
+            <h5 class="footer-section-title">
+              <i class="bi bi-gear-fill me-2 footer-icon-purple"></i>Services
             </h5>
-            <ul style="list-style: none; padding: 0; margin: 0;">
-              <li style="margin-bottom: 8px; color: rgba(255, 255, 255, 0.7);">
-                <i class="bi bi-check-circle me-2" style="color: #27ae60;"></i>Web Development
+            <ul class="footer-list">
+              <li class="footer-list-item">
+                <i class="bi bi-check-circle me-2 footer-list-icon"></i>Web Development
               </li>
-              <li style="margin-bottom: 8px; color: rgba(255, 255, 255, 0.7);">
-                <i class="bi bi-check-circle me-2" style="color: #27ae60;"></i>Cloud Solutions
+              <li class="footer-list-item">
+                <i class="bi bi-check-circle me-2 footer-list-icon"></i>Cloud Solutions
               </li>
-              <li style="margin-bottom: 8px; color: rgba(255, 255, 255, 0.7);">
-                <i class="bi bi-check-circle me-2" style="color: #27ae60;"></i>Enterprise Architecture
+              <li class="footer-list-item">
+                <i class="bi bi-check-circle me-2 footer-list-icon"></i>Enterprise Architecture
               </li>
-              <li style="margin-bottom: 8px; color: rgba(255, 255, 255, 0.7);">
-                <i class="bi bi-check-circle me-2" style="color: #27ae60;"></i>API Development
+              <li class="footer-list-item">
+                <i class="bi bi-check-circle me-2 footer-list-icon"></i>API Development
               </li>
-              <li style="margin-bottom: 8px; color: rgba(255, 255, 255, 0.7);">
-                <i class="bi bi-check-circle me-2" style="color: #27ae60;"></i>Database Design
+              <li class="footer-list-item">
+                <i class="bi bi-check-circle me-2 footer-list-icon"></i>Database Design
               </li>
             </ul>
           </div>
@@ -107,42 +107,42 @@
         <!-- Social & Contact -->
         <div class="col-lg-3 col-md-6 mb-4">
           <div class="footer-section">
-            <h5 style="color: #ffffff; font-weight: 700; margin-bottom: 20px; text-shadow: 0 0 10px rgba(102, 126, 234, 0.3);">
-              <i class="bi bi-share me-2" style="color: #667eea;"></i>Connect With Me
+            <h5 class="footer-section-title">
+              <i class="bi bi-share me-2 footer-icon-purple"></i>Connect With Me
             </h5>
             <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">
               Let's collaborate and build something amazing together!
             </p>
             <div class="social-links">
-              <a href="https://linkedin.com/in/waqas-ahmad-dev" target="_blank" class="social-btn linkedin">
+              <a :href="linkedin" target="_blank" class="social-btn linkedin">
                 <i class="bi bi-linkedin"></i>
               </a>
-              <a href="https://github.com/waqas-ahmad-dev" target="_blank" class="social-btn github">
+              <a :href="github" target="_blank" class="social-btn github">
                 <i class="bi bi-github"></i>
               </a>
-              <a href="https://twitter.com/waqas_ahmad_dev" target="_blank" class="social-btn twitter">
-                <i class="bi bi-twitter-x"></i>
+              <a :href="portfolio" class="social-btn portfolio">
+                <i class="bi bi-briefcase"></i>
               </a>
-              <a href="mailto:devwithwaqas@gmail.com" class="social-btn email">
+              <a :href="contactLinks.email" class="social-btn email">
                 <i class="bi bi-envelope"></i>
               </a>
             </div>
-            <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; width: 100%;">
-              <router-link to="/contact" class="get-in-touch-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-block; font-size: 1rem;" @mouseover="$event.target.style.transform='translateY(-2px) scale(1.05)'" @mouseout="$event.target.style.transform='translateY(0) scale(1)'">
-                <i class="bi bi-chat-dots me-2"></i>Get In Touch
-              </router-link>
+            <div class="footer-button-wrapper">
+              <router-link to="/contact" class="get-in-touch-btn footer-main-button" @mouseover="handleButtonHover" @mouseout="handleButtonOut">
+              <i class="bi bi-chat-dots me-2"></i>Get In Touch
+            </router-link>
             </div>
+          </div>
           </div>
         </div>
       </div>
-    </div>
 
     <!-- Bottom Section - Outside container for full width -->
-    <div class="copyright-section">
+      <div class="copyright-section">
       <div class="container">
         <p class="copyright-text">
-          © 2024 <strong style="color: #ffffff; text-shadow: 0 0 8px rgba(102, 126, 234, 0.4);">Waqas Ahmad</strong>. All rights reserved.<br>
-          Designed with <span class="heart">❤️</span> by <a href="https://bootstrapmade.com/" style="color: #667eea; text-decoration: none; font-weight: 500; text-shadow: 0 0 8px rgba(102, 126, 234, 0.3);" @mouseover="$event.target.style.color='#ffffff'; $event.target.style.textShadow='0 0 12px rgba(102, 126, 234, 0.6)'" @mouseout="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.3)'">BootstrapMade</a>
+          © 2024 <strong class="footer-copyright-name">{{ fullName }}</strong>. All rights reserved.<br>
+          Designed with <span class="heart">❤️</span> by <a href="https://bootstrapmade.com/" class="footer-bootstrap-link" @mouseover="handleBootstrapHover" @mouseout="handleBootstrapOut">BootstrapMade</a>
         </p>
       </div>
     </div>
@@ -150,12 +150,164 @@
 </template>
 
 <script>
+import { APP_CONFIG } from '../config/constants.js'
+
 export default {
-  name: 'Footer'
+  name: 'Footer',
+  data() {
+    return {
+      // VUE PROPER: Import constants instead of deleted personalData.js
+      ...APP_CONFIG
+    }
+  },
+  methods: {
+    handleContactHover(event) {
+      event.target.style.color = '#a855f7'
+      event.target.style.textShadow = '0 0 8px rgba(168, 85, 247, 0.4)'
+    },
+    handleContactOut(event) {
+      event.target.style.color = 'rgba(255, 255, 255, 0.7)'
+      event.target.style.textShadow = 'none'
+    },
+    handleBootstrapHover(event) {
+      event.target.style.color = '#ffffff'
+      event.target.style.textShadow = '0 0 12px rgba(102, 126, 234, 0.6)'
+    },
+    handleBootstrapOut(event) {
+      event.target.style.color = '#667eea'
+      event.target.style.textShadow = '0 0 8px rgba(102, 126, 234, 0.3)'
+    },
+    handleButtonHover(event) {
+      event.target.style.transform = 'translateY(-2px) scale(1.05)'
+      event.target.style.boxShadow = '0 6px 20px rgba(168, 85, 247, 0.4)'
+    },
+    handleButtonOut(event) {
+      event.target.style.transform = 'translateY(0) scale(1)'
+      event.target.style.boxShadow = '0 4px 15px rgba(168, 85, 247, 0.3)'
+    }
+  }
 }
 </script>
 
 <style scoped>
+.footer-main {
+  background: linear-gradient(135deg, rgba(20, 0, 40, 0.9) 0%, rgba(15, 0, 30, 0.95) 50%, rgba(10, 0, 20, 1) 100%), radial-gradient(circle at 20% 20%, rgba(40, 10, 80, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(50, 15, 100, 0.08) 0%, transparent 50%);
+  backdrop-filter: blur(40px) saturate(130%) brightness(0.6);
+  -webkit-backdrop-filter: blur(40px) saturate(130%) brightness(0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 50px 0 30px 0;
+  margin-top: 60px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Footer Section Styles */
+.footer-section-title {
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+.footer-icon-purple {
+  color: #a855f7;
+}
+
+.footer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-list-item {
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-list-icon {
+  color: #27ae60;
+}
+
+/* Footer text patterns */
+.footer-description-text {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.footer-contact-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.7rem;
+  
+  /* Desktop (fine pointer + hover) - smaller for desktop narrower viewports */
+  @media (hover: hover) and (pointer: fine) {
+    font-size: 0.65rem !important;
+  }
+  
+  /* Medium desktop - even smaller */
+  @media (hover: hover) and (pointer: fine) and (min-width: 992px) and (max-width: 1199px) {
+    font-size: 0.6rem !important;
+  }
+  
+  /* Large desktop - small */
+  @media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
+    font-size: 0.6rem !important;
+  }
+}
+
+.footer-contact-link {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.7rem;
+  
+  /* Desktop (fine pointer + hover) - smaller for desktop narrower viewports */
+  @media (hover: hover) and (pointer: fine) {
+    font-size: 0.65rem !important;
+  }
+  
+  /* Medium desktop - even smaller */
+  @media (hover: hover) and (pointer: fine) and (min-width: 992px) and (max-width: 1199px) {
+    font-size: 0.6rem !important;
+  }
+  
+  /* Large desktop - small */
+  @media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
+    font-size: 0.6rem !important;
+  }
+}
+
+.footer-copyright-name {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+}
+
+.footer-bootstrap-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  text-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+}
+
+.footer-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.footer-main-button {
+  background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+}
+
 /* Footer Layout - Account for Fixed Navigation */
 .footer {
   position: relative;
@@ -164,10 +316,10 @@ export default {
 }
 
 /* Desktop Layout - Account for Fixed Navigation Sidebar */
-@media (min-width: 1200px) {
+@media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
   .footer {
-    margin-left: 200px; /* Account for navigation width */
-    width: calc(100vw - 200px);
+    margin-left: 0; /* Use Bootstrap grid instead */
+    width: 100%;
   }
   
   .container {
@@ -185,7 +337,7 @@ export default {
 }
 
 /* Tablet Layout - Full width since navigation is hidden */
-@media (max-width: 1199.98px) {
+@media (pointer: coarse) or (max-width: 1199.98px) {
   .footer {
     margin-left: calc(-50vw + 50%);
     width: 100vw;
@@ -205,7 +357,7 @@ export default {
 }
 
 /* Tablet adjustments */
-@media (max-width: 991.98px) {
+@media (pointer: coarse) and (max-width: 991.98px) {
   .container {
     padding: 0 15px;
   }
@@ -217,7 +369,7 @@ export default {
 }
 
 /* Mobile adjustments */
-@media (max-width: 767.98px) {
+@media (pointer: coarse) and (max-width: 767.98px) {
   .container {
     padding: 0 10px;
   }
@@ -235,10 +387,61 @@ export default {
   .contact-info p {
     margin-bottom: 6px !important;
   }
+
+  .contact-info-item {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 4px;
+    display: block;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    /* Font size handled by font-sizes.css */
+  }
+
+  .contact-link:hover {
+    color: #667eea !important;
+    text-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+  }
   
   /* Center social links on mobile */
   .social-links {
     justify-content: center;
+  }
+}
+
+/* Responsive font sizes for contact info - 30% bigger */
+@media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
+  .contact-info-item {
+    font-size: 0.78rem !important; /* Desktop - 0.6rem + 30% = 0.78rem */
+  }
+  
+  /* Override for contact text specifically on desktop */
+  .contact-info-item.footer-contact-text,
+  .contact-info-item.footer-contact-link {
+    font-size: 0.6rem !important; /* Smaller for desktop */
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 992px) and (max-width: 1199px) {
+  .contact-info-item {
+    font-size: 0.845rem !important; /* Large tablet - 0.65rem + 30% = 0.845rem */
+  }
+  
+  /* Override for contact text specifically on medium desktop */
+  .contact-info-item.footer-contact-text,
+  .contact-info-item.footer-contact-link {
+    font-size: 0.6rem !important; /* Smaller for medium desktop */
+  }
+}
+
+@media (pointer: coarse) and (min-width: 768px) and (max-width: 991px) {
+  .contact-info-item {
+    font-size: 0.91rem !important; /* Tablet - 0.7rem + 30% = 0.91rem */
+  }
+}
+
+@media (pointer: coarse) and (max-width: 767px) {
+  .contact-info-item {
+    font-size: 0.975rem !important; /* Mobile - 0.75rem + 30% = 0.975rem */
   }
 }
 
@@ -545,17 +748,17 @@ export default {
   box-shadow: 0 8px 25px rgba(51, 51, 51, 0.4);
 }
 
-.social-btn.twitter {
-  background: rgba(29, 161, 242, 0.1);
-  color: #1da1f2;
-  border-color: rgba(29, 161, 242, 0.3);
+.social-btn.portfolio {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  border-color: rgba(102, 126, 234, 0.3);
 }
 
-.social-btn.twitter:hover {
-  background: #1da1f2;
+.social-btn.portfolio:hover {
+  background: #667eea;
   color: white;
   transform: translateY(-3px) scale(1.1);
-  box-shadow: 0 8px 25px rgba(29, 161, 242, 0.4);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 .social-btn.email {

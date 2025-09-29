@@ -54,20 +54,8 @@ export default {
     Contact
   },
   mounted() {
-    // Handle hash navigation when page loads
-    this.$nextTick(() => {
-      if (this.$route.hash) {
-        setTimeout(() => {
-          const element = document.querySelector(this.$route.hash)
-          if (element) {
-            element.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            })
-          }
-        }, 300)
-      }
-    })
+    // VUE ROUTER: Hash navigation is already handled by router/index.js scrollBehavior
+    // No need to duplicate DOM manipulation here - Vue Router handles this properly
   }
 }
 </script>

@@ -7,20 +7,26 @@ const routes = [
     name: 'Home',
     component: Home
   },
+  // Redirect any old routes to home with hash
   {
     path: '/portfolio',
-    name: 'Portfolio',
-    component: () => import('../views/Portfolio.vue')
+    redirect: '/#portfolio'
   },
   {
     path: '/services',
-    name: 'Services',
-    component: () => import('../views/Services.vue')
+    redirect: '/#services'
   },
   {
     path: '/contact',
-    name: 'Contact',
-    component: () => import('../views/Contact.vue')
+    redirect: '/#contact'
+  },
+  {
+    path: '/about',
+    redirect: '/#about'
+  },
+  {
+    path: '/resume',
+    redirect: '/#resume'
   }
 ]
 

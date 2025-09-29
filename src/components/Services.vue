@@ -3,21 +3,15 @@
     <div class="container" data-aos="fade-up" data-aos-delay="100">
       
       <!-- Services Card -->
-      <div class="row justify-content-center">
-        <div class="col-12">
-          <div class="card" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1); padding: 10px;">
-            
-            <!-- Card Header -->
-            <div class="card-header fancy-3d-header" style="margin: -10px -10px 30px -10px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
-              <h3 style="color: white; margin: 0; font-weight: 700; font-size: 1.5rem; text-align: center;">🛠️ Professional Services</h3>
-            </div>
-
-            <!-- Card Body -->
-            <div class="card-body" style="padding: 0;">
+      <ReusableCard 
+        title="Professional Services" 
+        icon="🛠️"
+        body-padding="0"
+      >
 
               <div class="row gy-4">
 
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="100">
                   <div class="service-item item-cyan position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +26,7 @@
                   </div>
                 </div><!-- End Service Item -->
 
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="200">
                   <div class="service-item item-orange position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +41,7 @@
                   </div>
                 </div><!-- End Service Item -->
 
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="300">
                   <div class="service-item item-teal position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -62,7 +56,7 @@
                   </div>
                 </div><!-- End Service Item -->
 
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="400">
                   <div class="service-item item-red position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +72,7 @@
                   </div>
                 </div><!-- End Service Item -->
 
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="500">
                   <div class="service-item item-indigo position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -94,7 +88,7 @@
                   </div>
                 </div><!-- End Service Item -->
 
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="600">
                   <div class="service-item item-pink position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -112,18 +106,20 @@
 
               </div>
 
-            </div><!-- End Card Body -->
-          </div><!-- End Card -->
-        </div>
-      </div>
+      </ReusableCard>
 
     </div>
   </section><!-- /Services Section -->
 </template>
 
 <script>
+import ReusableCard from './ReusableCard.vue'
+
 export default {
-  name: 'Services'
+  name: 'Services',
+  components: {
+    ReusableCard
+  }
 }
 </script>
 

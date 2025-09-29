@@ -29,8 +29,12 @@
 /* ========================================
    HERO SECTION
    ======================================== */
-.hero h2 {
-  font-size: 48px; /* Main hero title "Waqas Ahmad" */
+.hero-title {
+  font-size: 28px !important; /* Main hero title "Waqas Ahmad" */
+}
+
+.hero-title .title-name {
+  font-size: 28px !important; /* Main hero title "Waqas Ahmad" */
 }
 
 .hero p {
@@ -141,6 +145,17 @@
 
 .info-card-content h4 {
   font-size: 1.2rem; /* Contact card titles */
+}
+
+.info-card-content p {
+  font-size: 1rem; /* Contact card content text */
+}
+
+/* Footer contact info */
+.contact-info p,
+.contact-info a,
+.contact-info-item {
+  font-size: 1.2rem !important; /* Footer contact info - all same size */
 }
 
 .form-title {
@@ -349,15 +364,19 @@ h5 { font-size: 14px; }
 h6 { font-size: 13px; }
 
 /* ========================================
-   TABLET FONT SIZES (768px and below)
+   TABLET FONT SIZES (Touch devices)
    ======================================== */
 
-@media (max-width: 768px) {
+@media (pointer: coarse) {
   /* ========================================
      HERO SECTION - TABLET
      ======================================== */
-  .hero h2 {
-    font-size: 28px; /* Main hero title "Waqas Ahmad" */
+  .hero-title {
+    font-size: 28px !important; /* Main hero title "Waqas Ahmad" */
+  }
+  
+  .hero-title .title-name {
+    font-size: 28px !important; /* Main hero title "Waqas Ahmad" */
   }
 
   .hero p {
@@ -472,6 +491,17 @@ h6 { font-size: 13px; }
     font-size: 0.84rem; /* Contact card titles */
   }
 
+  .info-card-content p {
+    font-size: 0.84rem; /* Contact card content text */
+  }
+
+  /* Footer contact info */
+  .contact-info p,
+  .contact-info a,
+  .contact-info-item {
+    font-size: 1rem !important; /* Footer contact info - all same size */
+  }
+
   /* ========================================
      FORM ELEMENTS - TABLET
      ======================================== */
@@ -503,6 +533,23 @@ h6 { font-size: 13px; }
 
   .portfolio-item .btn {
     font-size: 0.525rem; /* Portfolio action buttons */
+  }
+
+  /* Epic Card Elements - Tablet */
+  .epic-buttons .button {
+    font-size: 12px !important; /* Epic card action buttons */
+  }
+
+  .project-title {
+    font-size: 1.1rem !important; /* Epic card project title */
+  }
+
+  .project-subtitle {
+    font-size: 0.9rem !important; /* Epic card project subtitle */
+  }
+
+  .built-with-text {
+    font-size: 0.8rem !important; /* Epic card "Built with" text */
   }
 
   /* ========================================
@@ -675,14 +722,18 @@ h6 { font-size: 13px; }
 }
 
 /* ========================================
-   SMALL MOBILE FONT SIZES (480px and below)
+   SMALL MOBILE FONT SIZES (Small touch devices)
    ======================================== */
 
-@media (max-width: 480px) {
+@media (pointer: coarse) and (max-width: 480px) {
   /* ========================================
      HERO SECTION - MOBILE
      ======================================== */
-  .hero h2 {
+  .hero-title {
+    font-size: 26px !important; /* Main hero title "Waqas Ahmad" */
+  }
+  
+  .hero-title .title-name {
     font-size: 26px !important; /* Main hero title "Waqas Ahmad" */
   }
   
@@ -798,6 +849,17 @@ h6 { font-size: 13px; }
     font-size: 0.7rem; /* Contact card titles */
   }
 
+  .info-card-content p {
+    font-size: 0.7rem; /* Contact card content text */
+  }
+
+  /* Footer contact info */
+  .contact-info p,
+  .contact-info a,
+  .contact-info-item {
+    font-size: 0.9rem !important; /* Footer contact info - all same size */
+  }
+
   /* ========================================
      FORM ELEMENTS - MOBILE
      ======================================== */
@@ -829,6 +891,23 @@ h6 { font-size: 13px; }
 
   .portfolio-item .btn {
     font-size: 0.525rem; /* Portfolio action buttons */
+  }
+
+  /* Epic Card Elements - Mobile */
+  .epic-buttons .button {
+    font-size: 10px !important; /* Epic card action buttons */
+  }
+
+  .project-title {
+    font-size: 0.9rem !important; /* Epic card project title - smaller for mobile */
+  }
+
+  .project-subtitle {
+    font-size: 0.7rem !important; /* Epic card project subtitle - smaller for mobile */
+  }
+
+  .built-with-text {
+    font-size: 0.6rem !important; /* Epic card "Built with" text - smaller for mobile */
   }
 
   /* ========================================
@@ -1001,10 +1080,10 @@ h6 { font-size: 13px; }
 }
 
 /* ========================================
-   LARGE MOBILE FONT SIZES (576px and below)
+   LARGE MOBILE FONT SIZES (Touch devices)
    ======================================== */
 
-@media (max-width: 576px) {
+@media (pointer: coarse) and (max-width: 576px) {
   /* ========================================
      SKILLS - LARGE MOBILE
      ======================================== */
@@ -1022,9 +1101,9 @@ h6 { font-size: 13px; }
    ======================================== */
 
 /* ========================================
-   TABLET GLOBAL OVERRIDES (768px and below)
+   TABLET GLOBAL OVERRIDES (Touch devices)
    ======================================== */
-@media (max-width: 768px) {
+@media (pointer: coarse) {
   * {
     font-size: inherit !important;
   }
@@ -1042,9 +1121,9 @@ h6 { font-size: 13px; }
 }
 
 /* ========================================
-   MOBILE GLOBAL OVERRIDES (480px and below) - Increased by 30%
+   MOBILE GLOBAL OVERRIDES (Small touch devices) - Increased by 30%
    ======================================== */
-@media (max-width: 480px) {
+@media (pointer: coarse) and (max-width: 480px) {
   * {
     font-size: inherit !important;
   }

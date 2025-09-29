@@ -3,25 +3,19 @@
     <div class="container" data-aos="fade-up" data-aos-delay="100">
       
       <!-- Resume Card -->
-      <div class="row justify-content-center">
-        <div class="col-12">
-          <div class="card" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1); padding: 10px;">
-            
-            <!-- Card Header -->
-            <div class="card-header fancy-3d-header" style="margin: -10px -10px 30px -10px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
-              <h3 style="color: white; margin: 0; font-weight: 700; font-size: 1.5rem; text-align: center;">📋 Professional Resume</h3>
-            </div>
-
-            <!-- Card Body -->
-            <div class="card-body" style="padding: 0;">
+      <ReusableCard 
+        title="Professional Resume" 
+        icon="📋"
+        body-padding="0"
+      >
               <div class="row">
 
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                   <h3 class="resume-title">Summary</h3>
 
                   <div class="resume-item pb-0">
-                    <h4>🚀 Waqas Ahmad</h4>
-                    <p><em><strong>Visionary Senior Software Engineer & Technical Lead</strong> with 16+ years of transformative experience in architecting enterprise-scale solutions. <strong>Cloud-native expert</strong> specializing in .NET Core, Azure Cloud, and microservices architecture. <strong>Proven leader</strong> who has delivered 100+ successful projects, mentored 50+ developers, and driven digital transformation across multiple industries.</em></p>
+                    <h4>🚀 {{ fullName }}</h4>
+                    <p><em><strong>Visionary Senior Software Engineer & Technical Lead</strong> with {{ totalExperience }}+ years of transformative experience in architecting enterprise-scale solutions. <strong>Cloud-native expert</strong> specializing in .NET Core, Azure Cloud, and microservices architecture. <strong>Proven leader</strong> who has delivered 100+ successful projects, mentored 50+ developers, and driven digital transformation across multiple industries.</em></p>
                     <ul>
                       <li>
                         <strong>📍 Location:</strong>
@@ -29,11 +23,11 @@
                       </li>
                       <li>
                         <strong>📞 Contact:</strong>
-                        <div>+60146806067</div>
+                        <div><a :href="`tel:${phone}`" style="color: #0563bb; text-decoration: none; transition: all 0.3s ease;" @mouseover="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.4)'" @mouseout="$event.target.style.color='#0563bb'; $event.target.style.textShadow='none'">{{ phone }}</a></div>
                       </li>
                       <li>
                         <strong>✉️ Email:</strong>
-                        <div>devwithwaqas@gmail.com</div>
+                        <div><a :href="`mailto:${email}`" style="color: #0563bb; text-decoration: none; transition: all 0.3s ease;" @mouseover="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.4)'" @mouseout="$event.target.style.color='#0563bb'; $event.target.style.textShadow='none'">{{ email }}</a></div>
                       </li>
                     </ul>
                   </div><!-- End Resume Item -->
@@ -292,18 +286,39 @@
                 </div>
 
               </div>
-            </div><!-- End Card Body -->
-          </div><!-- End Card -->
-        </div>
-      </div>
+      </ReusableCard>
 
     </div>
   </section><!-- /Resume Section -->
 </template>
 
 <script>
+import { APP_CONFIG } from '../config/constants.js'
+import ReusableCard from './ReusableCard.vue'
+
 export default {
-  name: 'Resume'
+  name: 'Resume',
+  components: {
+    ReusableCard
+  },
+  data() {
+    return {
+      // VUE PROPER: Import constants instead of deleted personalData.js
+      ...APP_CONFIG
+    }
+  },
+  computed: {
+    currentAge() {
+      const today = new Date()
+      const birth = new Date(1986, 8, 5) // Month is 0-indexed
+      let age = today.getFullYear() - birth.getFullYear()
+      const monthDiff = today.getMonth() - birth.getMonth()
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--
+      }
+      return age
+    }
+  }
 }
 </script>
 

@@ -1,206 +1,284 @@
 <template>
   <section id="contact" class="contact section">
-    <div class="container" data-aos="fade" data-aos-delay="100">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
       
       <!-- Contact Card -->
-      <div class="row justify-content-center">
-        <div class="col-12">
-          <div class="card" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1); padding: 10px;">
-            
-            <!-- Card Header -->
-            <div class="card-header fancy-3d-header" style="margin: -10px -10px 30px -10px; padding: 25px 40px; border-radius: 20px 20px 0 0; border: none;">
-              <h3 style="color: white; margin: 0; font-weight: 700; text-align: center;">📞 Get In Touch</h3>
-            </div>
-
-            <!-- Card Body -->
-            <div class="card-body" style="padding: 0;">
-              <div class="row gy-4">
-                
-                <!-- Contact Info Cards -->
+      <ReusableCard 
+        title="Get In Touch" 
+        icon="📞"
+        body-padding="0"
+      >
+              <div class="row gy-4 justify-content-center">
                 
                 <!-- Location Card -->
                 <div class="col-lg-3 col-md-6 col-sm-12">
-                  <div class="contact-info-card location-card" data-aos="fade-up" data-aos-delay="200" @mouseover="handleCardHover" @mouseout="handleCardLeave">
-                    <div class="info-card-icon">
+                  <div class="contact-item">
+                    <div class="parent">
+                      <div class="card location-card" :class="{ 'contact-card-animate': cardAnimations['card-0'] }">
+                        <div class="logo">
+                          <span class="circle circle1"></span>
+                          <span class="circle circle2"></span>
+                          <span class="circle circle3"></span>
+                          <span class="circle circle4"></span>
+                          <span class="circle circle5">
                       <i class="bi bi-geo-alt-fill"></i>
+                          </span>
+                        </div>
+                        <div class="glass"></div>
+                        <div class="content">
+                          <span class="title">📍 Location</span>
+                          <span class="text">{{ location }}</span>
+                          <span class="subtitle">Available for remote work worldwide</span>
+                        </div>
+                        <div class="bottom">
+                          <div class="social-buttons-container">
+                            <button class="social-button social-button1">
+                              <i class="bi bi-geo-alt"></i>
+                            </button>
+                          </div>
+                        </div>
                     </div>
-                    <div class="info-card-content">
-                      <h4>📍 Location</h4>
-                      <p>Selangor, Malaysia</p>
-                      <span class="info-card-subtitle">Available for remote work worldwide</span>
                     </div>
-                    <div class="info-card-glow"></div>
                   </div>
                 </div>
 
                 <!-- Phone Card -->
                 <div class="col-lg-3 col-md-6 col-sm-12">
-                  <a href="tel:+60146806067" class="contact-link">
-                  <div class="contact-info-card phone-card" data-aos="fade-up" data-aos-delay="300" @mouseover="handleCardHover" @mouseout="handleCardLeave">
-                    <div class="info-card-icon">
+                  <div class="contact-item">
+                    <a :href="contactLinks.phone" class="contact-link">
+                      <div class="parent">
+                        <div class="card phone-card" :class="{ 'contact-card-animate': cardAnimations['card-1'] }">
+                          <div class="logo">
+                            <span class="circle circle1"></span>
+                            <span class="circle circle2"></span>
+                            <span class="circle circle3"></span>
+                            <span class="circle circle4"></span>
+                            <span class="circle circle5">
                       <i class="bi bi-telephone-fill"></i>
+                            </span>
+                          </div>
+                          <div class="glass"></div>
+                          <div class="content">
+                            <span class="title">📞 Phone</span>
+                            <span class="text">{{ phone }}</span>
+                            <span class="subtitle">Call me anytime</span>
+                          </div>
+                          <div class="bottom">
+                            <div class="social-buttons-container">
+                              <button class="social-button social-button1">
+                                <i class="bi bi-telephone"></i>
+                              </button>
+                            </div>
+                          </div>
                     </div>
-                    <div class="info-card-content">
-                      <h4>📞 Call Me</h4>
-                      <p>+60146806067</p>
-                      <span class="info-card-subtitle">Available 9 AM - 6 PM (MYT)</span>
                     </div>
-                    <div class="info-card-glow"></div>
+                    </a>
                   </div>
-                  </a>
                 </div>
 
                 <!-- Email Card -->
                 <div class="col-lg-3 col-md-6 col-sm-12">
-                  <a href="mailto:devwithwaqas@gmail.com" class="contact-link">
-                  <div class="contact-info-card email-card" data-aos="fade-up" data-aos-delay="400" @mouseover="handleCardHover" @mouseout="handleCardLeave">
-                    <div class="info-card-icon">
+                  <div class="contact-item">
+                    <a :href="contactLinks.email" class="contact-link">
+                      <div class="parent">
+                        <div class="card email-card" :class="{ 'contact-card-animate': cardAnimations['card-2'] }">
+                          <div class="logo">
+                            <span class="circle circle1"></span>
+                            <span class="circle circle2"></span>
+                            <span class="circle circle3"></span>
+                            <span class="circle circle4"></span>
+                            <span class="circle circle5">
                       <i class="bi bi-envelope-fill"></i>
+                            </span>
+                          </div>
+                          <div class="glass"></div>
+                          <div class="content">
+                            <span class="title">✉️ Email</span>
+                            <span class="text">{{ email }}</span>
+                            <span class="subtitle">Send me a message</span>
+                          </div>
+                          <div class="bottom">
+                            <div class="social-buttons-container">
+                              <button class="social-button social-button1">
+                                <i class="bi bi-envelope"></i>
+                              </button>
+                            </div>
+                          </div>
                     </div>
-                    <div class="info-card-content">
-                        <h4>📧 Email Me</h4>
-                      <p>devwithwaqas@gmail.com</p>
-                      <span class="info-card-subtitle">I'll respond within 24 hours</span>
                     </div>
-                    <div class="info-card-glow"></div>
+                    </a>
                   </div>
-                  </a>
                 </div>
 
                 <!-- WhatsApp Card -->
                 <div class="col-lg-3 col-md-6 col-sm-12">
-                  <a href="https://wa.me/60146806067" target="_blank" class="contact-link">
-                  <div class="contact-info-card whatsapp-card" data-aos="fade-up" data-aos-delay="500" @mouseover="handleCardHover" @mouseout="handleCardLeave">
-                    <div class="info-card-icon">
+                  <div class="contact-item">
+                    <a :href="contactLinks.whatsapp" class="contact-link">
+                      <div class="parent">
+                        <div class="card whatsapp-card" :class="{ 'contact-card-animate': cardAnimations['card-3'] }">
+                          <div class="logo">
+                            <span class="circle circle1"></span>
+                            <span class="circle circle2"></span>
+                            <span class="circle circle3"></span>
+                            <span class="circle circle4"></span>
+                            <span class="circle circle5">
+                              <i class="bi bi-whatsapp"></i>
+                            </span>
+                          </div>
+                          <div class="glass"></div>
+                          <div class="content">
+                            <span class="title">💬 WhatsApp</span>
+                            <span class="text">{{ phone }}</span>
+                            <span class="subtitle">Chat me on WhatsApp</span>
+                          </div>
+                          <div class="bottom">
+                            <div class="social-buttons-container">
+                              <button class="social-button social-button1">
                       <i class="bi bi-whatsapp"></i>
+                              </button>
+                            </div>
+                          </div>
                     </div>
-                    <div class="info-card-content">
-                      <h4>💬 WhatsApp</h4>
-                        <p>+60146806067</p>
-                        <span class="info-card-subtitle">Quick chat and voice calls</span>
                     </div>
-                    <div class="info-card-glow"></div>
+                    </a>
                   </div>
-                  </a>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="col-12">
+                  <div class="contact-form-wrapper">
+                    <div class="clean-form-container" :class="{ 'contact-form-animate': cardAnimations['card-4'] }" data-aos="fade-up" data-aos-delay="600">
+                      <form @submit.prevent="submitForm" class="clean-form" novalidate>
+                        
+                        <!-- Form Header -->
+                    <div class="form-header">
+                          <h3 class="form-title">Let's Build Something Amazing Together! 🚀</h3>
+                          <p class="form-subtitle">Share your vision, I will bring it to life! 👨‍💻✨</p>
+                    </div>
+                    
+                        <div class="row g-3">
+                          <!-- Name Field -->
+                          <div class="col-md-6">
+                            <div class="form-field-group">
+                              <label for="name" class="form-label">💼 Name <span class="required">*</span></label>
+                              <input 
+                                v-model="formData.name" 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                class="form-control"
+                                :class="{ 'is-invalid': validationErrors.name }"
+                                placeholder="Your full name"
+                                required 
+                              />
+                              <div v-if="validationErrors.name" class="invalid-feedback">{{ validationErrors.name }}</div>
+                            </div>
+                          </div>
+
+                          <!-- Email Field -->
+                          <div class="col-md-6">
+                            <div class="form-field-group">
+                              <label for="email" class="form-label">📧 Email <span class="required">*</span></label>
+                              <input 
+                                v-model="formData.email" 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                class="form-control"
+                                :class="{ 'is-invalid': validationErrors.email }"
+                                placeholder="your.email@example.com"
+                                required 
+                              />
+                              <div v-if="validationErrors.email" class="invalid-feedback">{{ validationErrors.email }}</div>
+                        </div>
+                          </div>
+
+                          <!-- Subject Field -->
+                          <div class="col-12">
+                            <div class="form-field-group">
+                              <label for="subject" class="form-label">🏷️ Subject <span class="required">*</span></label>
+                              <input 
+                                v-model="formData.subject" 
+                                type="text" 
+                                id="subject" 
+                                name="subject" 
+                                class="form-control"
+                                :class="{ 'is-invalid': validationErrors.subject }"
+                                placeholder="What's this about?"
+                                required 
+                              />
+                              <div v-if="validationErrors.subject" class="invalid-feedback">{{ validationErrors.subject }}</div>
+                        </div>
+                      </div>
+                      
+                          <!-- Message Field -->
+                          <div class="col-12">
+                            <div class="form-field-group">
+                              <label for="message" class="form-label">💭 Message <span class="required">*</span></label>
+                              <textarea 
+                                v-model="formData.message" 
+                                id="message" 
+                                name="message" 
+                                class="form-control"
+                                :class="{ 'is-invalid': validationErrors.message }"
+                                placeholder="Tell me about your project, requirements, timeline, or anything else you'd like to discuss..."
+                                rows="5"
+                                required
+                              ></textarea>
+                              <div v-if="validationErrors.message" class="invalid-feedback">{{ validationErrors.message }}</div>
+                        </div>
+                      </div>
+                      
+                          <!-- Submit Button -->
+                          <div class="col-12">
+                            <div class="epic-buttons">
+                              <button type="submit" class="button submit-btn" :disabled="isLoading">
+                                <span v-if="!isLoading" class="button_lg">
+                                  <span class="button_sl"></span>
+                                  <span class="button_text">Send Message</span>
+                                </span>
+                                <span v-else class="button_lg button-loading">
+                                  <span class="button_sl"></span>
+                                  <span class="button_text">Sending...</span>
+                                </span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Success Message -->
+                        <div v-if="successMessage" class="alert alert-success mt-3" role="alert">
+                          <i class="bi bi-check-circle"></i> {{ successMessage }}
+                      </div>
+                      
+                        <!-- Error Message -->
+                        <div v-if="errorMessage" class="alert alert-danger mt-3" role="alert">
+                          <i class="bi bi-exclamation-triangle"></i> {{ errorMessage }}
+                      </div>
+                    </form>
+                      </div>
+                  </div>
                 </div>
 
               </div>
-                    
-              <!-- Clean Contact Form -->
-              <div class="row mt-4">
-                <div class="col-lg-12">
-                  <div class="clean-form-container" data-aos="fade-up" data-aos-delay="600">
-                    <form @submit.prevent="submitForm" class="clean-form" novalidate>
-                      
-                      <!-- Form Header -->
-                    <div class="form-header">
-                        <div class="header-icon-wrapper">
-                          <svg class="header-envelope-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
-                        </div>
-                        <h3 class="form-title">Send Me a Message</h3>
-                        <p class="form-subtitle">💬 Let's discuss your project and bring your ideas to life! 🚀</p>
-                    </div>
-                    
-                      <!-- Form Fields -->
-                      <div class="form-row">
-                        <div class="form-group">
-                          <div class="input-wrapper">
-                            <i class="fas fa-user input-icon"></i>
-                            <input 
-                              type="text" 
-                              name="name" 
-                              class="form-input" 
-                              id="name" 
-                              placeholder="Your Name" 
-                              v-model="formData.name"
-                              @input="clearValidationError('name')"
-                              required
-                              novalidate
-                            >
-                          </div>
-                          <div v-if="validationErrors.name" class="validation-message">{{ validationErrors.name }}</div>
-                        </div>
-                        <div class="form-group">
-                          <div class="input-wrapper">
-                            <i class="fas fa-envelope input-icon"></i>
-                            <input 
-                              type="email" 
-                              class="form-input" 
-                              name="email" 
-                              id="email" 
-                              placeholder="Your Email" 
-                              v-model="formData.email"
-                              @input="clearValidationError('email')"
-                              required
-                              novalidate
-                            >
-                          </div>
-                          <div v-if="validationErrors.email" class="validation-message">{{ validationErrors.email }}</div>
-                        </div>
-                      </div>
-                      
-                      <div class="form-group">
-                        <div class="input-wrapper">
-                          <i class="fas fa-tag input-icon"></i>
-                          <input 
-                            type="text" 
-                            class="form-input" 
-                            name="subject" 
-                            id="subject" 
-                            placeholder="Subject" 
-                            v-model="formData.subject"
-                            @input="clearValidationError('subject')"
-                            required
-                            novalidate
-                          >
-                        </div>
-                        <div v-if="validationErrors.subject" class="validation-message">{{ validationErrors.subject }}</div>
-                      </div>
-                      
-                      <div class="form-group">
-                        <div class="input-wrapper">
-                          <i class="fas fa-comment-dots input-icon"></i>
-                          <textarea 
-                            class="form-textarea"
-                            name="message"
-                            id="message"
-                            placeholder="Tell me about your project..."
-                            v-model="formData.message"
-                            @input="clearValidationError('message')"
-                            required
-                            novalidate
-                          ></textarea>
-                          </div>
-                        <div v-if="validationErrors.message" class="validation-message">{{ validationErrors.message }}</div>
-                      </div>
-                      
-                      <div class="form-submit">
-                        <button type="submit" class="submit-btn">
-                          <i class="fas fa-paper-plane"></i>
-                          Send Message
-                        </button>
-                      </div>
-                      
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </ReusableCard>
     </div>
   </section>
 </template>
 
 <script>
+import ReusableCard from './ReusableCard.vue'
+import { APP_CONFIG, COMPONENT_DEFAULTS, ANIMATION_CONFIG } from '../config/constants.js'
+
 export default {
   name: 'Contact',
+  components: {
+    ReusableCard
+  },
   data() {
     return {
+      ...APP_CONFIG,
+      contactLinks: APP_CONFIG.contactLinks,
       formData: {
         name: '',
         email: '',
@@ -212,6 +290,16 @@ export default {
         email: '',
         subject: '',
         message: ''
+      },
+      isLoading: false,
+      successMessage: '',
+      errorMessage: '',
+      cardAnimations: {
+        'card-0': false, // location-card
+        'card-1': false, // phone-card
+        'card-2': false, // email-card
+        'card-3': false, // whatsapp-card
+        'card-4': false  // clean-form-container
       }
     }
   },
@@ -220,972 +308,554 @@ export default {
   },
   methods: {
     setupScrollAnimations() {
+      const config = ANIMATION_CONFIG.scrollAnimations
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            console.log('Element intersecting:', entry.target.className)
-            if (entry.target.classList.contains('location-card')) {
-              entry.target.classList.add('contact-card-animate')
-              console.log('Added animation to location card')
-            } else if (entry.target.classList.contains('phone-card')) {
-              entry.target.classList.add('contact-card-animate')
-              console.log('Added animation to phone card')
-            } else if (entry.target.classList.contains('email-card')) {
-              entry.target.classList.add('contact-card-animate')
-              console.log('Added animation to email card')
-            } else if (entry.target.classList.contains('whatsapp-card')) {
-              entry.target.classList.add('contact-card-animate')
-              console.log('Added animation to whatsapp card')
-            } else if (entry.target.classList.contains('clean-form-container')) {
-              entry.target.classList.add('contact-form-animate')
-              console.log('Added animation to clean form container')
+            const cardIndex = entry.target.dataset.cardId
+            if (cardIndex && cardIndex in this.cardAnimations) {
+              // Use requestAnimationFrame to avoid forced reflows
+              window.requestAnimationFrame(() => {
+                this.cardAnimations[cardIndex] = true
+              })
             }
+            observer.unobserve(entry.target)
           }
         })
       }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: config.threshold,
+        rootMargin: config.rootMargin
       })
 
-      // Wait for DOM to be ready
       this.$nextTick(() => {
-        const cards = document.querySelectorAll('.location-card, .phone-card, .email-card, .whatsapp-card, .clean-form-container')
-        console.log('Found cards:', cards.length)
-        cards.forEach(card => {
-          console.log('Observing card:', card.className)
-          observer.observe(card)
+        const cardTypes = ['location-card', 'phone-card', 'email-card', 'whatsapp-card', 'clean-form-container']
+        cardTypes.forEach(selector => {
+          this.$el.querySelectorAll(selector).forEach((card, index) => {
+            card.dataset.cardId = `card-${index}`
+            observer.observe(card)
+          })
         })
       })
     },
     handleCardHover(event) {
-      const card = event.currentTarget
-      card.style.transform = 'translateY(-5px) scale(1.02)'
+      // Add any hover effects if needed
     },
-    handleCardLeave(event) {
-      const card = event.currentTarget
-      card.style.transform = 'translateY(0) scale(1)'
-    },
-    clearValidationError(field) {
-      if (this.validationErrors[field]) {
-        this.validationErrors[field] = ''
+    async submitForm() {
+      this.clearMessages()
+      if (this.validateForm()) {
+        this.isLoading = true
+        try {
+          // Simulate form submission - replace with actual implementation
+          await new Promise(resolve => setTimeout(resolve, 2000))
+          this.successMessage = 'Message sent successfully! I\'ll get back to you soon 🎉'
+          this.formData = { name: '', email: '', subject: '', message: '' }
+        } catch (error) {
+          this.errorMessage = 'Oops! Something went wrong. Please try again later.'
+        } finally {
+          this.isLoading = false
+        }
       }
     },
     validateForm() {
-      this.validationErrors = {
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      }
-      
+      this.validationErrors = {}
       let isValid = true
-      
-      // Validate name
+
       if (!this.formData.name.trim()) {
         this.validationErrors.name = 'Name is required'
         isValid = false
       }
-      
-      // Validate email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      if (!this.formData.email.trim()) {
-        this.validationErrors.email = 'Email is required'
-        isValid = false
-      } else if (!emailRegex.test(this.formData.email)) {
-        this.validationErrors.email = 'Please enter a valid email'
+      if (!this.formData.email.trim() || !this.isValidEmail(this.formData.email)) {
+        this.validationErrors.email = 'Valid email is required'
         isValid = false
       }
-      
-      // Validate subject
       if (!this.formData.subject.trim()) {
         this.validationErrors.subject = 'Subject is required'
         isValid = false
       }
-      
-      // Validate message
       if (!this.formData.message.trim()) {
         this.validationErrors.message = 'Message is required'
         isValid = false
       }
-      
+
       return isValid
     },
-    
-    submitForm() {
-      if (!this.validateForm()) {
-        // Show custom validation messages
-        return
-      }
-      
-      // Handle form submission
-      console.log('Form submitted:', this.formData)
-      
-      // Here you would typically send the data to your backend
-      // For now, just show a success message
-      alert('Message sent successfully! I\'ll get back to you soon.')
-      
-      // Reset form
-      this.formData = {
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      }
-      
-      this.validationErrors = {
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      }
+    isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      return emailRegex.test(email)
+    },
+    clearMessages() {
+      this.successMessage = ''
+      this.errorMessage = ''
     }
   }
 }
 </script>
 
 <style scoped>
-/* Contact Info Cards */
-.contact-info-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  padding: 25px 20px;
-  text-align: center;
-  height: 200px; /* Fixed height for equal card heights */
+/* Contact Card Body */
+.contact-item {
+  width: 100%;
+  padding: 10px;
+  height: 220px; /* Increased height to prevent icon cutting */
+  min-height: 220px; /* Increased consistent fixed height */
+  margin-bottom: 20px;
+}
+
+.contact-item .parent {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.contact-info-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-}
-
-.info-card-icon {
-  /* Font size handled by font-sizes.css */
-  margin-bottom: 15px;
-  color: #fff;
-}
-
-.info-card-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  flex: 1;
-}
-
-.info-card-content h4 {
-  color: #fff;
-  /* Font size handled by font-sizes.css */
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.info-card-content p {
-  color: rgba(255, 255, 255, 0.9);
-  /* Font size handled by font-sizes.css */
-  margin-bottom: 5px;
-  font-weight: 500;
-}
-
-.info-card-subtitle {
-  color: rgba(255, 255, 255, 0.7);
-  /* Font size handled by font-sizes.css */
-  font-style: italic;
-}
-
-.info-card-glow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.contact-info-card:hover .info-card-glow {
-  opacity: 1;
-}
-
-/* Contact Links */
 .contact-link {
   text-decoration: none;
   color: inherit;
   display: block;
-}
-
-.contact-link:hover {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Location Card - Dark Indigo to Medium Purple Gradient */
-.location-card {
-  background: linear-gradient(135deg, rgba(25, 42, 86, 0.9) 0%, rgba(63, 81, 181, 0.8) 50%, rgba(103, 58, 183, 0.7) 100%);
-  border: 2px solid rgba(63, 81, 181, 0.6);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.location-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
 }
 
-.location-card:hover::before {
-  left: 100%;
+/* Location Card Styles */
+.location-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 15px;
+  padding: 15px;
+  color: white;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .location-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(25, 42, 86, 0.4);
+  transform: translateY(-10px);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
 }
 
-.location-card .info-card-icon {
-  color: #A5D6A7 !important;
-  /* Font size handled by font-sizes.css */
-  text-shadow: 0 0 10px rgba(165, 214, 167, 0.5) !important;
-  position: relative;
-  z-index: 1;
-}
-
-/* Phone Card - Very Dark Blue to Medium Blue Gradient */
 .phone-card {
-  background: linear-gradient(135deg, rgba(5, 30, 70, 0.9) 0%, rgba(13, 71, 161, 0.8) 50%, rgba(33, 150, 243, 0.7) 100%);
-  border: 2px solid rgba(33, 150, 243, 0.6);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.phone-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border: none;
+  border-radius: 15px;
+  padding: 15px;
+  color: white;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.phone-card:hover::before {
-  left: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .phone-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(5, 30, 70, 0.4);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
 }
 
-.phone-card .info-card-icon {
-  color: #90CAF9 !important;
-  /* Font size handled by font-sizes.css */
-  text-shadow: 0 0 10px rgba(144, 202, 249, 0.5) !important;
-  position: relative;
-  z-index: 1;
-}
-
-/* Email Card - Very Dark Orange to Medium Orange Gradient */
 .email-card {
-  background: linear-gradient(135deg, rgba(120, 40, 0, 0.9) 0%, rgba(230, 81, 0, 0.8) 50%, rgba(255, 152, 0, 0.7) 100%);
-  border: 2px solid rgba(255, 152, 0, 0.6);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.email-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+  border: none;
+  border-radius: 15px;
+  padding: 15px;
+  color: white;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.email-card:hover::before {
-  left: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .email-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(120, 40, 0, 0.4);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
 }
 
-.email-card .info-card-icon {
-  color: #FFCC02 !important;
-  /* Font size handled by font-sizes.css */
-  text-shadow: 0 0 10px rgba(255, 204, 2, 0.5) !important;
-  position: relative;
-  z-index: 1;
-}
-
-/* WhatsApp Card - Very Dark Green to Medium Green Gradient */
 .whatsapp-card {
-  background: linear-gradient(135deg, rgba(8, 50, 20, 0.9) 0%, rgba(19, 115, 51, 0.8) 50%, rgba(37, 211, 102, 0.7) 100%);
-  border: 2px solid rgba(37, 211, 102, 0.6);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.whatsapp-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  border: none;
+  border-radius: 15px;
+  padding: 15px;
+  color: white;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.whatsapp-card:hover::before {
-  left: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .whatsapp-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(8, 50, 20, 0.4);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
 }
 
-.whatsapp-card .info-card-icon {
-  color: #81C784 !important;
-  /* Font size handled by font-sizes.css */
-  text-shadow: 0 0 10px rgba(129, 199, 132, 0.5) !important;
+.logo {
   position: relative;
-  z-index: 1;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.circle {
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: pulse 2s infinite;
+}
+.circle1 { width: 12px; height: 12px; background: rgba(255,255,255,0.8); position: absolute; animation-delay: 0s; }
+.circle2 { width: 20px; height: 20px; background: rgba(255,255,255,0.6); position: absolute; animation-delay: 0.5s; }
+.circle3 { width: 28px; height: 28px; background: rgba(255,255,255,0.4); position: absolute; animation-delay: 1s; }
+.circle4 { width: 36px; height: 36px; background: rgba(255,255,255,0.3); position: absolute; animation-delay: 1.5s; }
+.circle5 { width: 40px; height: 40px; background: rgba(255,255,255,0.2); position: absolute; animation-delay: 2s; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #333; }
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 0.3; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
 
-/* ===== CLEAN CONTACT FORM ===== */
+.content {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.title {
+  font-size: 0.84rem; /* Following font-sizes.css standard for contact card titles */
+  display: block;
+  margin-bottom: 3px;
+  opacity: 0.9;
+}
+.text {
+  font-size: 0.75rem; /* Reduced for compact fit */
+  font-weight: 600;
+  display: block;
+  margin-bottom: 3px;
+  word-break: break-all; /* Break long emails/numbers to fit */
+}
+.subtitle {
+  font-size: 0.7rem; /* Following font-sizes.css standard for contact card subtitles */
+  opacity: 0.8;
+  display: block;
+}
 
-/* Form Container */
+.bottom {
+  text-align: center;
+}
+.social-button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 1rem; /* Following font-sizes.css standard for icon sizes */
+  background: rgba(255,255,255,0.2);
+  transition: all 0.3s ease;
+}
+.social-button:hover {
+  background: rgba(255,255,255,0.4);
+  transform: scale(1.1);
+}
+
+/* Form Styles */
 .clean-form-container {
-  position: relative;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s ease;
-}
-
-.clean-form-container.contact-form-animate {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-}
-
-/* Main Form */
-.clean-form {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%);
-  border: 2px solid rgba(102, 126, 234, 0.25);
+  background: linear-gradient(135deg, #4a148c 0%, #6a1b9a 100%);
   border-radius: 20px;
-  padding: 40px;
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.1),
-    0 8px 20px rgba(102, 126, 234, 0.15),
-    0 3px 8px rgba(118, 75, 162, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
+  padding: 15px; /* EXACT internal card padding match */
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+  width: 100% !important; /* Force full width */
+  height: auto; /* Let it grow naturally */
+  min-height: auto; /* No minimum height constraint */
+  overflow: visible; /* Prevent clipping */
 }
 
-.clean-form::before {
+/* Form header icon removed - cleaner design */
+
+/* Contact form wrapper - EXACT match to contact-item */
+.contact-form-wrapper {
+  width: 100%;
+  padding: 10px; /* EXACT contact-item padding match */
+  display: block;
+  height: auto; /* No height restrictions for the form */
+  min-height: auto;
+  margin-bottom: 20px; /* EXACT contact-item margin match */
+  box-sizing: border-box;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 25px;
+  color: white;
+}
+.form-header h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  background: linear-gradient(135deg, #ffffff 0%, #e8f4fd 50%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(255,255,255,0.3);
+}
+.form-header p {
+  font-size: 14px;
+  opacity: 0.95;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-bottom: 0;
+}
+.form-field-group {
+  margin-bottom: 20px;
+}
+.form-label {
+  color: white;
+  margin-bottom: 8px;
+  display: block;
+}
+.form-control {
+  padding: 12px 15px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.9);
+}
+/* Epic Button Wrapper - EXACT MATCH FROM PORTFOLIO */
+.epic-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Submit Button - EXACT Portfolio Style */
+.submit-btn {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* EXACT PORTFOLIO BUTTON STYLING */
+.button_lg {
+  position: relative;
+  display: block;
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #0f1923;
+  overflow: hidden;
+  box-shadow: inset 0px 0px 0px 1px transparent;
+}
+
+.button_lg::before {
   content: '';
+  display: block;
   position: absolute;
   top: 0;
   left: 0;
+  width: 2px;
+  height: 2px;
+  background-color: #0f1923;
+}
+
+.button_lg::after {
+  content: '';
+  display: block;
+  position: absolute;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.02) 50%, rgba(102, 126, 234, 0.01) 100%);
-  border-radius: 20px;
-  z-index: 0;
+  width: 4px;
+  height: 4px;
+  background-color: #0f1923;
+  transition: all .2s ease;
 }
 
-.clean-form::after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-  border-radius: 22px;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.clean-form:hover {
-  transform: translateY(-5px) scale(1.01);
-  box-shadow: 
-    0 25px 50px rgba(0, 0, 0, 0.15),
-    0 12px 25px rgba(102, 126, 234, 0.2),
-    0 5px 12px rgba(118, 75, 162, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  border-color: rgba(102, 126, 234, 0.4);
-}
-
-.clean-form:hover::after {
-  opacity: 1;
-}
-
-/* Form Header */
-.form-header {
-  text-align: center;
-  margin-bottom: 40px;
-  position: relative;
-  z-index: 1;
-  padding: 35px 20px;
-  overflow: hidden;
-}
-
-/* Header Icon Wrapper */
-.header-icon-wrapper {
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.header-envelope-icon {
-  width: 3.5rem;
-  height: 3.5rem;
-  color: #667eea;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
-  animation: envelopeIconFloat 3s ease-in-out infinite;
-  filter: drop-shadow(0 4px 8px rgba(102, 126, 234, 0.2));
-  position: relative;
-}
-
-.header-envelope-icon::before {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-  border-radius: 50%;
-  z-index: -1;
-  animation: envelopeIconGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes envelopeIconFloat {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(1deg);
-  }
-}
-
-@keyframes envelopeIconGlow {
-  0% {
-    opacity: 0.3;
-    transform: scale(0.8);
-  }
-  100% {
-    opacity: 0.6;
-    transform: scale(1.1);
-  }
-}
-
-.form-title {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  /* Font size handled by font-sizes.css */
-  font-weight: 700;
-  margin-bottom: 15px;
-  text-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.form-subtitle {
-  color: #555;
-  /* Font size handled by font-sizes.css */
-  margin: 0;
-  font-weight: 500;
-  line-height: 1.6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-/* Form Layout */
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-/* Input Wrapper */
-.input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.input-icon {
-  position: absolute;
-  left: 15px;
-  color: #667eea;
-  /* Font size handled by font-sizes.css */
-  z-index: 3;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
-  padding: 8px;
-  border-radius: 8px;
-  box-shadow: 
-    0 3px 12px rgba(102, 126, 234, 0.15),
-    0 1px 4px rgba(118, 75, 162, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(102, 126, 234, 0.2);
-}
-
-.input-wrapper:focus-within .input-icon {
-  color: #5a6fd8;
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 
-    0 4px 16px rgba(102, 126, 234, 0.25),
-    0 2px 8px rgba(118, 75, 162, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  border-color: rgba(102, 126, 234, 0.3);
-}
-
-/* Form Inputs */
-.form-input,
-.form-textarea {
-  width: 100%;
-  background: #fff;
-  border: 2px solid #e1e5e9;
-  border-radius: 8px;
-  padding: 15px 20px 15px 60px;
-  color: #333;
-  /* Font size handled by font-sizes.css */
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.form-input:focus,
-.form-textarea:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 
-    0 0 0 3px rgba(102, 126, 234, 0.2),
-    0 0 20px rgba(102, 126, 234, 0.3),
-    0 4px 12px rgba(102, 126, 234, 0.1);
-  background: rgba(255, 255, 255, 1);
-  animation: inputGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes inputGlow {
-  0% {
-    box-shadow: 
-      0 0 0 3px rgba(102, 126, 234, 0.2),
-      0 0 20px rgba(102, 126, 234, 0.3),
-      0 4px 12px rgba(102, 126, 234, 0.1);
-  }
-  100% {
-    box-shadow: 
-      0 0 0 3px rgba(102, 126, 234, 0.3),
-      0 0 30px rgba(102, 126, 234, 0.5),
-      0 4px 12px rgba(102, 126, 234, 0.1);
-  }
-}
-
-.form-input::placeholder,
-.form-textarea::placeholder {
-  color: #999;
-  font-weight: 400;
-}
-
-.form-textarea {
-  min-height: 120px;
-  resize: none;
-  font-family: inherit;
-  line-height: 1.5;
-  overflow-y: auto;
-}
-
-/* Submit Button */
-.form-submit {
-  text-align: center;
-  margin-top: 30px;
-}
-
-.submit-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  border-radius: 12px;
-  padding: 15px 35px;
-  color: white;
-  /* Font size handled by font-sizes.css */
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 
-    0 8px 25px rgba(102, 126, 234, 0.3),
-    0 4px 12px rgba(118, 75, 162, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  position: relative;
-  overflow: hidden;
-}
-
-.submit-btn::before {
-  content: '';
+.button_sl {
+  display: block;
   position: absolute;
   top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.6s ease;
+  bottom: -1px;
+  left: -8px;
+  width: 0;
+  transform: skew(-15deg);
+  transition: all .2s ease;
 }
 
-.submit-btn:hover::before {
-  left: 100%;
+.button_text {
+  position: relative;
+}
+
+.button:hover {
+  color: #0f1923;
+}
+
+.button:hover .button_sl {
+  width: calc(100% + 15px);
+}
+
+.button:hover .button_lg::after {
+  background-color: #fff;
+}
+
+/* Submit Button Colors - Perfect Form Theme Match */
+.submit-btn .button_lg {
+  background-color: #e91e63; /* Bright pink initial color for visibility */
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.submit-btn .button_sl {
+  background-color: #ff4081; /* Vibrant pink accent that complements dark purple form */
 }
 
 .submit-btn:hover {
-  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 
-    0 12px 35px rgba(102, 126, 234, 0.4),
-    0 6px 20px rgba(118, 75, 162, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  background-color: #9c27b0; /* Lighter purple on hover */
 }
 
-.submit-btn:active {
-  transform: translateY(-1px) scale(0.98);
-  box-shadow: 
-    0 6px 20px rgba(102, 126, 234, 0.3),
-    0 3px 10px rgba(118, 75, 162, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+.submit-btn:hover .button_lg::after {
+  background-color: #ffffff;
 }
 
-.submit-btn i {
-  /* Font size handled by font-sizes.css */
-}
-
-/* Autofill Styling */
-.form-input:-webkit-autofill,
-.form-input:-webkit-autofill:hover,
-.form-input:-webkit-autofill:focus,
-.form-input:-webkit-autofill:active,
-.form-textarea:-webkit-autofill,
-.form-textarea:-webkit-autofill:hover,
-.form-textarea:-webkit-autofill:focus,
-.form-textarea:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
-  box-shadow: 0 0 0 1000px #fff inset !important;
-  -webkit-text-fill-color: #333 !important;
-  background: #fff !important;
-  transition: background-color 5000s ease-in-out 0s !important;
-}
-
-/* Custom Required Field Validation Styling */
-.form-input:invalid:not(:placeholder-shown),
-.form-textarea:invalid:not(:placeholder-shown) {
-  border-color: #667eea !important;
-  box-shadow: 
-    0 0 0 3px rgba(102, 126, 234, 0.1),
-    0 4px 12px rgba(102, 126, 234, 0.1) !important;
-}
-
-.form-input:invalid:not(:placeholder-shown)::after,
-.form-textarea:invalid:not(:placeholder-shown)::after {
-  content: '\f071';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #667eea;
-  /* Font size handled by font-sizes.css */
-  z-index: 4;
-  text-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
-  animation: pulse-warning 2s infinite;
-}
-
-@keyframes pulse-warning {
-  0%, 100% { 
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-  }
-  50% { 
-    opacity: 0.7;
-    transform: translateY(-50%) scale(1.1);
-  }
-}
-
-/* Custom validation message styling */
-.validation-message {
-  display: block;
-  color: #dc3545;
-  /* Font size handled by font-sizes.css */
-  margin-top: 8px;
-  padding: 10px 14px;
-  background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(255, 107, 107, 0.08) 100%);
-  border: 2px solid rgba(220, 53, 69, 0.4);
-  border-radius: 8px;
+/* Form validation styling - bright red for purple background */
+.invalid-feedback {
+  color: #ff0000 !important;
   font-weight: 600;
-  box-shadow: 
-    0 0 0 2px rgba(220, 53, 69, 0.2),
-    0 0 15px rgba(220, 53, 69, 0.3),
-    0 4px 12px rgba(220, 53, 69, 0.1);
-  position: relative;
-  animation: errorSlideIn 0.4s ease, errorGlow 2s ease-in-out infinite alternate;
+  font-size: 0.9rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin-top: 5px;
+  display: block;
 }
 
-.validation-message::before {
-  content: '\f071';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  margin-right: 8px;
-  color: #dc3545;
-  /* Font size handled by font-sizes.css */
-  text-shadow: 0 0 8px rgba(220, 53, 69, 0.5);
-  animation: errorIconPulse 1.5s ease-in-out infinite;
+.alert.alert-danger {
+  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+  color: white;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+  border-radius: 8px;
 }
 
-@keyframes errorSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-15px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
+/* Removed red border styling - keeping only warning labels */
 
-@keyframes errorGlow {
-  0% {
-    box-shadow: 
-      0 0 0 2px rgba(220, 53, 69, 0.2),
-      0 0 15px rgba(220, 53, 69, 0.3),
-      0 4px 12px rgba(220, 53, 69, 0.1);
-    border-color: rgba(220, 53, 69, 0.4);
-  }
-  100% {
-    box-shadow: 
-      0 0 0 3px rgba(220, 53, 69, 0.3),
-      0 0 25px rgba(220, 53, 69, 0.5),
-      0 4px 12px rgba(220, 53, 69, 0.1);
-    border-color: rgba(220, 53, 69, 0.6);
-  }
-}
-
-@keyframes errorIconPulse {
-  0%, 100% {
-    transform: scale(1);
-    text-shadow: 0 0 8px rgba(220, 53, 69, 0.5);
-  }
-  50% {
-    transform: scale(1.1);
-    text-shadow: 0 0 12px rgba(220, 53, 69, 0.7);
-  }
-}
-
-/* Scroll-triggered animations */
+/* Animation Classes - PURE CSS ONLY */
 .contact-card-animate {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
+  animation: slideInUp 0.5s ease-out;
 }
 
 .contact-form-animate {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
+  animation: fadeInScale 0.7s ease-out;
 }
 
-/* Staggered animation delays */
-.location-card.contact-card-animate {
-  transition-delay: 0.1s;
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.phone-card.contact-card-animate {
-  transition-delay: 0.2s;
-}
-
-.email-card.contact-card-animate {
-  transition-delay: 0.3s;
-}
-
-.whatsapp-card.contact-card-animate {
-  transition-delay: 0.4s;
-}
-
-.innovative-form-container.contact-form-animate {
-  transition-delay: 0.5s;
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .contact-info-card {
-    height: 180px; /* Fixed height for equal card heights */
-    padding: 20px 15px;
-  }
-  
-  .info-card-icon {
-    /* Font size handled by font-sizes.css */
-  }
-  
-  .info-card-content h4 {
-    /* Font size handled by font-sizes.css */
-  }
-  
-  /* Removed conflicting font size rules - now handled globally */
-  
-  .clean-form {
-    padding: 25px;
-  }
-  
-  .header-envelope-icon {
-    width: 2.8rem;
-    height: 2.8rem;
-  }
-  
-  .form-title {
-    /* Font size handled by font-sizes.css */
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .form-subtitle {
-    /* Font size now handled globally - reduced by 30% */
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-  
-  .form-input,
-  .form-textarea {
-    padding: 12px 15px 12px 55px;
-    /* Removed conflicting font size rules - now handled globally */
-  }
-  
-  .input-icon {
-    left: 12px;
-    padding: 6px;
-    /* Font size handled by font-sizes.css */
-  }
-  
-  .submit-btn {
-    padding: 12px 25px;
-    /* Removed conflicting font size rules - now handled globally */
+
+/* ========================================
+   TABLET AND MOBILE FONT SIZES (Following font-sizes.css)
+   ======================================== */
+
+/* ========================================
+   TABLET CONTACT HEIGHT FOR 4-CARD PER ROW LAYOUT
+   ======================================== */
+
+/* Ensure proper height for 4 cards per row on tablets (iPad Pro and large tablets) */
+/* When col-lg-3 causes 4 cards per row on enhanced tablet screens */
+@media (min-width: 1024px) and (max-width: 1366px) {
+  .contact-item {
+    height: 280px !important; /* Increased height to prevent icon cutting on 4-card layouts */
+    min-height: 280px !important;
   }
 }
 
-@media (max-width: 480px) {
-  .contact-info-card {
-    height: 160px; /* Fixed height for equal card heights */
-    padding: 15px 10px;
+/* Additional safety for devices where 4 cards fit tightly */
+@media (min-width: 1024px) {
+  /* Only apply additional height when contact cards are forced to be narrow by CSS */
+  body[data-device="tablet"] .contact-item,
+  body.tablet .contact-item,
+  body.devicestate-tablet .contact-item {
+    height: 280px !important;
+    min-height: 280px !important;
+  }
+}
+
+@media (pointer: coarse) {
+  /* Contact card titles, content, subtitles follow standard sizing */
+  .contact-item .title {
+    font-size: 0.84rem; /* Tablets follow same sizing */
   }
   
-  .info-card-icon {
-    /* Font size handled by font-sizes.css */
+  .contact-item .text {
+    font-size: 0.7rem; /* Further reduced to fit better */
   }
   
-  .info-card-content h4 {
-    /* Font size handled by font-sizes.css */
+  .contact-item .subtitle {
+    font-size: 0.6rem; /* Even smaller for better fit */
   }
   
-  /* Removed conflicting font size rules - now handled globally */
-  
-  .clean-form {
-    padding: 20px;
-    border-radius: 15px;
+  .contact-item .social-button {
+    font-size: 0.7rem; /* Smaller for tablet */
   }
-  
-  .header-envelope-icon {
-    width: 2.2rem;
-    height: 2.2rem;
-  }
-  
-  .form-title {
-    /* Font size handled by font-sizes.css */
-    flex-direction: column;
-    gap: 3px;
-  }
-  
-  .form-subtitle {
-    /* Removed conflicting font size rules - now handled globally */
-    flex-direction: column;
-    gap: 3px;
-  }
-  
-  .form-input,
-  .form-textarea {
-    padding: 10px 12px 10px 50px;
-    /* Removed conflicting font size rules - now handled globally */
-  }
-  
-  .input-icon {
-    left: 10px;
+}
+
+@media (pointer: coarse) and (max-width: 768px) {
+  .contact-item {
     padding: 5px;
-    /* Font size handled by font-sizes.css */
   }
   
-  .submit-btn {
-    padding: 10px 20px;
-    /* Removed conflicting font size rules - now handled globally */
+  /* Form wrapper matches contact-item padding on mobile */
+  .contact-form-wrapper {
+    padding: 5px;
+  }
+}
+
+@media (pointer: coarse) and (max-width: 480px) {
+  /* Small mobile sizes - keeping compact */
+  .contact-item .title {
+    font-size: 0.9rem; /* Smaller for mobile fit */
+  }
+  
+  .contact-item .text {
+    font-size: 0.8rem; /* Even smaller for mobile to fit numbers/emails */
+  }
+  
+  .contact-item .subtitle {
+    font-size: 0.7rem; /* Smaller for mobile */
+  }
+  
+  .contact-item .social-button {
+    font-size: 0.8rem; /* Smaller for mobile */
+  }
+  
+  .contact-item {
+    padding: 2px;
+  }
+  
+  /* Form wrapper matches contact-item padding on small mobile */
+  .contact-form-wrapper {
+    padding: 2px;
   }
 }
 </style>
