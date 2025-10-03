@@ -1,0 +1,389 @@
+<template>
+  <div class="col-lg-3 col-md-6 col-sm-12">
+    <div class="contact-card-wrapper">
+      <a :href="link" class="contact-card-link" :target="link.startsWith('http') ? '_blank' : '_self'">
+        <div class="elegant-card">
+          <!-- Decorative Star Background -->
+          <div class="star-decoration">
+            <svg
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="1"
+              fill="none"
+              viewBox="0 0 24 24"
+              class="star-svg"
+              height="200"
+              width="200"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+          
+          <!-- Animated Circle Background -->
+          <div class="circle-bg"></div>
+          
+          <!-- Card Header -->
+          <div class="card-header-section">
+            <div class="emoji-wrapper">
+              <img :src="emojiUrl" :alt="emoji" class="emoji-3d">
+            </div>
+            <p class="label-text">{{ label }}</p>
+          </div>
+          
+          <!-- Icon Container -->
+          <div class="icon-container">
+            <i :class="iconClass + ' main-icon'" :style="iconStyle"></i>
+          </div>
+          
+          <!-- Card Content -->
+          <div class="card-content">
+            <div class="info-row main-info">
+              <p class="info-value">{{ value }}</p>
+            </div>
+            <div class="info-row subtitle-info">
+              <p class="info-subtitle">{{ subtitle }}</p>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'ContactCard',
+  props: {
+    iconClass: {
+      type: String,
+      required: true
+    },
+    iconColor: {
+      type: String,
+      required: true
+    },
+    hoverColor: {
+      type: String,
+      default: ''
+    },
+    emoji: {
+      type: String,
+      required: true
+    },
+    label: {
+      type: String,
+      required: true
+    },
+    value: {
+      type: String,
+      required: true
+    },
+    subtitle: {
+      type: String,
+      required: true
+    },
+    link: {
+      type: String,
+      required: true
+    }
+  },
+  computed: {
+    iconStyle() {
+      return {
+        color: this.iconColor
+      }
+    },
+    emojiUrl() {
+      // Convert emoji to codepoint for CDN URL
+      const codePoint = this.emoji.codePointAt(0).toString(16).toLowerCase()
+      
+      // Using Twemoji CDN (Twitter's high-quality emoji images)
+      return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/${codePoint}.png`
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* Card Wrapper */
+.contact-card-wrapper {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+  isolation: isolate;
+  transform: translateZ(0);
+}
+
+.contact-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.contact-card-link:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Elegant Card Container */
+.elegant-card {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(30, 10, 60, 0.95) 0%, rgba(20, 5, 40, 0.98) 50%, rgba(15, 0, 30, 1) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 2px solid rgba(167, 139, 250, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+              0 4px 16px rgba(124, 58, 237, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  cursor: pointer;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.elegant-card:hover {
+  transform: translateY(-4px) translateZ(0);
+  border-color: rgba(167, 139, 250, 0.6);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5),
+              0 8px 24px rgba(124, 58, 237, 0.4),
+              inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Decorative Star */
+.star-decoration {
+  position: absolute;
+  left: -40%;
+  top: 0;
+  transition: all 0.3s ease;
+  opacity: 0.15;
+}
+
+.elegant-card:hover .star-decoration {
+  transform: rotate(12deg) scale(1.5);
+  opacity: 0.25;
+}
+
+.star-svg {
+  fill: rgba(167, 139, 250, 0.4);
+}
+
+/* Animated Circle Background */
+.circle-bg {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  height: 110%;
+  width: 110%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(109, 40, 217, 0.1) 50%, transparent 70%);
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.elegant-card:hover .circle-bg {
+  top: 58%;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.25) 0%, rgba(109, 40, 217, 0.15) 50%, transparent 70%);
+}
+
+/* Card Header */
+.card-header-section {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.emoji-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.2) 0%, rgba(124, 58, 237, 0.3) 100%);
+  border: 2px solid rgba(167, 139, 250, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.elegant-card:hover .emoji-wrapper {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(124, 58, 237, 0.4) 100%);
+  border-color: rgba(167, 139, 250, 0.6);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5),
+              inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.emoji-3d {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.label-text {
+  /* Font size managed by font-sizes.css */
+  font-weight: 600;
+  margin: 0;
+  background: linear-gradient(135deg, #00ffff 0%, #00ff88 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Icon Container */
+.icon-container {
+  position: relative;
+  z-index: 10;
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(167, 139, 250, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.elegant-card:hover .icon-container {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(167, 139, 250, 0.6);
+  transform: scale(1.05);
+}
+
+.main-icon {
+  font-size: 48px;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 12px currentColor);
+}
+
+.elegant-card:hover .main-icon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 20px currentColor);
+}
+
+/* Card Content */
+.card-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.info-value {
+  /* Font size managed by font-sizes.css */
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  padding: 0 8px;
+}
+
+.info-subtitle {
+  /* Font size managed by font-sizes.css */
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  background: linear-gradient(135deg, #ffeb3b 0%, #ff9800 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+/* Responsive Design */
+@media (pointer: coarse) and (max-width: 768px) {
+  .elegant-card {
+    height: 360px;
+    padding: 28px 20px;
+    gap: 16px;
+  }
+  
+  .emoji-wrapper {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .emoji-3d {
+    width: 26px;
+    height: 26px;
+  }
+  
+  .icon-container {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .main-icon {
+    font-size: 42px;
+  }
+  
+  /* Font sizes managed by font-sizes.css */
+}
+
+@media (pointer: coarse) and (max-width: 480px) {
+  .elegant-card {
+    height: 340px;
+    padding: 24px 16px;
+    gap: 14px;
+  }
+  
+  .emoji-wrapper {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .emoji-3d {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .icon-container {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .main-icon {
+    font-size: 36px;
+  }
+  
+  /* Font sizes managed by font-sizes.css */
+}
+</style>

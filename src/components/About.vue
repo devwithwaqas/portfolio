@@ -8,21 +8,7 @@
         body-padding="0"
       >
               <div class="row gy-4 justify-content-center">
-                <div class="col-lg-4">
-                  <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 25px; border-radius: 25px; box-shadow: 0 25px 60px rgba(240, 147, 251, 0.4); border: 3px solid rgba(255, 255, 255, 0.3); position: relative; overflow: hidden; transform: perspective(1000px) rotateY(-5deg);">
-                    <!-- Animated Background Pattern -->
-                    <div style="position: absolute; top: 0; right: 0; width: 150px; height: 150px; background: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%), linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.15) 75%), linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.15) 75%); background-size: 25px 25px; background-position: 0 0, 0 12px, 12px -12px, -12px 0px; opacity: 0.4; animation: patternMove 25s linear infinite;"></div>
-                    
-                    <!-- Floating Elements -->
-                    <div style="position: absolute; top: 10px; left: 10px; width: 20px; height: 20px; background: rgba(255, 255, 255, 0.3); border-radius: 50%; animation: float 3s ease-in-out infinite;"></div>
-                    <div style="position: absolute; bottom: 15px; right: 15px; width: 15px; height: 15px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; animation: float 4s ease-in-out infinite reverse;"></div>
-                    
-                    <div style="position: relative; z-index: 2;">
-                      <img src="/assets/img/waqas-microsoft-profile.jpg" class="img-fluid" :alt="`${fullName} - Senior Software Engineer at Microsoft`" style="border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); border: 4px solid rgba(255, 255, 255, 0.8); transform: scale(1.02); transition: all 0.3s ease;" @mouseover="$event.target.style.transform='scale(1.05)'" @mouseout="$event.target.style.transform='scale(1.02)'">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-8 content">
+                <div class="col-lg-12 content">
                   <div class="about-me-main-card" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); padding: 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); border: 1px solid #e9ecef; position: relative; overflow: hidden;">
                     <!-- Animated Background Pattern -->
                     <div style="position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: linear-gradient(45deg, rgba(5, 99, 187, 0.06) 25%, transparent 25%), linear-gradient(-45deg, rgba(5, 99, 187, 0.06) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(5, 99, 187, 0.06) 75%), linear-gradient(-45deg, transparent 75%, rgba(5, 99, 187, 0.06) 75%); background-size: 30px 30px; background-position: 0 0, 0 15px, 15px -15px, -15px 0px; opacity: 0.3; animation: patternMove 30s linear infinite;"></div>
@@ -129,7 +115,7 @@ export default {
   computed: {
     currentAge() {
       const today = new Date()
-      const birth = new Date(1986, 8, 5) // Month is 0-indexed
+      const birth = new Date(1987, 8, 21) // September 21, 1987 - Month is 0-indexed
       let age = today.getFullYear() - birth.getFullYear()
       const monthDiff = today.getMonth() - birth.getMonth()
       if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {

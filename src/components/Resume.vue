@@ -310,13 +310,29 @@ export default {
   computed: {
     currentAge() {
       const today = new Date()
-      const birth = new Date(1986, 8, 5) // Month is 0-indexed
+      const birth = new Date(1987, 8, 21) // September 21, 1987 - Month is 0-indexed
       let age = today.getFullYear() - birth.getFullYear()
       const monthDiff = today.getMonth() - birth.getMonth()
       if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
         age--
       }
       return age
+    },
+    calculatedTotalExperience() {
+      // Calculate total experience from first job (Jan 1, 2008) to present
+      const startDate = new Date(2008, 0, 1) // January 1, 2008
+      const today = new Date()
+      const diffTime = Math.abs(today - startDate)
+      const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365.25))
+      return diffYears
+    },
+    calculatedTechLeadExperience() {
+      // Tech Lead experience: From midway Squad Cell career (around 2015) to present
+      const techLeadStartDate = new Date(2015, 0, 1) // Midway through Squad Cell career
+      const today = new Date()
+      const diffTime = Math.abs(today - techLeadStartDate)
+      const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365.25))
+      return diffYears
     }
   }
 }

@@ -6,7 +6,7 @@
         icon="📬"
         body-padding="0"
       >
-              <div class="row gy-3 gx-2">
+              <div class="row gy-4">
                 <!-- Location Card -->
                 <ContactCard 
                   iconClass="bi bi-geo-alt-fill"
@@ -22,7 +22,7 @@
                 <ContactCard 
                   iconClass="bi bi-telephone-fill"
                   iconColor="#00ff88"
-                  emoji="☎️"
+                  emoji="📞"
                   label="Phone"
                   :value="phone"
                   subtitle="Call me anytime"
@@ -33,7 +33,7 @@
                 <ContactCard 
                   iconClass="bi bi-envelope-fill"
                   iconColor="#ff1744"
-                  emoji="📧"
+                  emoji="✉️"
                   label="Email"
                   :value="email"
                   subtitle="Send me a message"

@@ -26,6 +26,9 @@
     
     <!-- Contact Section -->
     <Contact />
+    
+    <!-- Back to Top Button -->
+    <BackToTop />
   </div>
 </template>
 
@@ -39,6 +42,7 @@ import Portfolio from '../components/Portfolio.vue'
 import Services from '../components/Services.vue'
 import Testimonials from '../components/Testimonials.vue'
 import Contact from '../components/Contact.vue'
+import BackToTop from '../components/BackToTop.vue'
 
 export default {
   name: 'Home',
@@ -51,7 +55,8 @@ export default {
     Portfolio,
     Services,
     Testimonials,
-    Contact
+    Contact,
+    BackToTop
   },
   mounted() {
     // VUE ROUTER: Hash navigation is already handled by router/index.js scrollBehavior

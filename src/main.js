@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 
 // Import CSS
+import './assets/css/font-sizes.css'
 import './assets/css/main.css'
 
 const app = createApp(App)
@@ -192,28 +193,50 @@ class AnimationController {
   }
 
   setupScrollDetection() {
-    // SIMPLIFIED: Minimal scroll pause without forced reflows  
+    // Check if mobile device
+    const isMobile = /Mobi|Android|iPhone|iPod/i.test(navigator.userAgent)
+    
+    // MOBILE: Disable aggressive animation pausing to prevent rendering issues
+    if (isMobile) {
+      window.addEventListener('scroll', () => {
+        if (!this.isScrolling) {
+          this.isScrolling = true
+          requestAnimationFrame(() => {
+            document.body.classList.add('scrolling')
+          })
+        }
+        
+        if (this.scrollTimeout) {
+          clearTimeout(this.scrollTimeout)
+        }
+        
+        this.scrollTimeout = setTimeout(() => {
+          this.isScrolling = false
+          requestAnimationFrame(() => {
+            document.body.classList.remove('scrolling')
+          })
+        }, 100)
+      }, { passive: true })
+      return // Skip heavy animation pausing on mobile
+    }
+    
+    // DESKTOP: Full animation pause/resume  
     window.addEventListener('scroll', () => {
       if (!this.isScrolling) {
         this.isScrolling = true
-        // VUE: Use requestAnimationFrame for DOM class manipulation 
         requestAnimationFrame(() => {
           document.body.classList.add('scrolling')
           document.documentElement.classList.add('vue-scrolling')
         })
-        // ONLY pause essential animations - no complex DOM manipulation
         this.pauseAnimations()
       }
       
-      // Clear existing timeout
       if (this.scrollTimeout) {
         clearTimeout(this.scrollTimeout)
       }
       
-      // Simple timeout for scroll end
       this.scrollTimeout = setTimeout(() => {
         this.isScrolling = false
-        // VUE: Use requestAnimationFrame for DOM class manipulation
         requestAnimationFrame(() => {
           document.body.classList.remove('scrolling') 
           document.documentElement.classList.remove('vue-scrolling')

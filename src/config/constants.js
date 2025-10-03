@@ -1,30 +1,30 @@
 // Basic constants for the portfolio application
 export const APP_CONFIG = {
-  fullName: "Waqas Ahmed",
-  location: "Malaysia",
-  linkedin: "https://linkedin.com/in/waqas-ahmed",
-  github: "https://github.com/waqas-ahmed",
-  email: "waqas@example.com",
-  phone: "+60 123 456 789",
+  fullName: "Waqas Ahmad",
+  location: "Kuala Lumpur, Malaysia",
+  linkedin: "https://www.linkedin.com/in/waqas1430/",
+  github: "https://github.com/devwithwaqas",
+  email: "devwithwaqas@gmail.com",
+  phone: "+60146806067",
   portfolio: "#portfolio",
   contactLinks: {
-    email: "mailto:waqas@example.com",
-    phone: "tel:+60123456789",
-    linkedin: "https://linkedin.com/in/waqas-ahmed",
-    github: "https://github.com/waqas-ahmed",
+    email: "mailto:devwithwaqas@gmail.com",
+    phone: "tel:+60146806067",
+    linkedin: "https://www.linkedin.com/in/waqas1430/",
+    github: "https://github.com/devwithwaqas",
     website: "https://www.waqasahmad.com",
-    whatsapp: "https://wa.me/60123456789"
+    whatsapp: "https://wa.me/60146806067"
   },
-  // About section data
-  totalExperience: 8,
-  techLeadExperience: 5,
-  formattedBirthday: "January 15, 1990",
-  // Stats data
+  // About section data - Will be calculated dynamically from work experience
+  totalExperience: 17, // Calculated from Jan 1, 2008 to present
+  techLeadExperience: 9, // Calculated from midway Squad Cell career (2015) to present
+  formattedBirthday: "September 21, 1987",
+  // Stats data - Calculated from actual work experience
   stats: {
     happyClients: 50,
     totalProjects: 75,
-    yearsExperience: 8,
-    yearsAsTechLead: 5
+    yearsExperience: 17, // Jan 1, 2008 to present
+    yearsAsTechLead: 9 // Midway Squad Cell career (2015) to present
   }
 };
 

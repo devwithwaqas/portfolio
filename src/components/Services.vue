@@ -9,7 +9,7 @@
         body-padding="0"
       >
 
-              <div class="row gy-4">
+              <div class="services-grid">
 
                 <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="100">
                   <div class="service-item item-cyan position-relative">

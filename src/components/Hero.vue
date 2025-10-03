@@ -1,130 +1,117 @@
 <template>
   <section id="hero" class="hero section">
-    <!-- Animated Background -->
-    <div class="hero-background">
-      <div class="gradient-overlay"></div>
-      <div class="floating-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-        <div class="shape shape-4"></div>
-        <div class="shape shape-5"></div>
-      </div>
-    </div>
-    
-    <div class="container" data-aos="zoom-out">
-      <div class="row justify-content-center">
-        <div class="col-lg-10">
-          <!-- Profile Section -->
-          <div class="hero-profile">
-            <div class="profile-image-container">
-              <img src="/assets/img/waqas-microsoft-profile.jpg" :alt="fullName" class="profile-image">
-              <div class="profile-glow"></div>
-              <div class="profile-ring"></div>
-            </div>
+    <div class="container">
+      <div class="row">
+        <!-- Profile Card -->
+        <div class="hero-profile-side">
+          <div class="profile-image-container-side">
+            <img src="/assets/img/waqas-microsoft-profile.jpg" :alt="fullName" class="profile-image-side">
+          </div>
+        </div>
+        
+        <!-- Content Section -->
+        <div class="hero-content">
+          <div class="hero-typed">
+            <span class="typed-label">Hi, I'm</span>
           </div>
           
-          <!-- Content Section -->
-          <div class="hero-content">
-            <div class="hero-badge">
-              <i class="fas fa-code"></i>
-              <span>Available for Projects</span>
-            </div>
-            
-            <h1 class="hero-title">
-              <span class="title-line">Hello, I'm</span>
-              <span class="title-name">{{ fullName }}</span>
-            </h1>
-            
-            <div class="hero-typed">
-              <span class="typed-label">I'm a</span>
-              <span class="typed" data-typed-items="Senior Software Engineer, Technical Lead, Full Stack Developer, Azure Cloud Expert, Microservices Architect, API Development Specialist, DevOps Engineer, Enterprise Solution Architect">Senior Software Engineer</span>
-              <span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span>
-            </div>
-            
-            <p class="hero-description">
-              🚀 Crafting Scalable Microservices | 🔌 Building Robust APIs | ☁️ Azure Cloud Solutions | ⚡ DevOps Excellence
-            </p>
-            
-            <!-- Action Buttons -->
-            <div class="hero-actions">
-              <a href="#about" class="btn btn-primary">
-                <i class="fas fa-user"></i>
-                <span>About Me</span>
-              </a>
-              <a href="#portfolio" class="btn btn-secondary">
-                <i class="fas fa-briefcase"></i>
-                <span>My Work</span>
-              </a>
-            </div>
-            
-            <!-- Social Links -->
-            <div class="hero-social">
-              <a :href="linkedin" class="social-link linkedin" target="_blank">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-              <a :href="github" class="social-link github" target="_blank">
-                <i class="fab fa-github"></i>
-              </a>
-              <a :href="contactLinks.email" class="social-link email">
-                <i class="fas fa-envelope"></i>
-              </a>
-              <a :href="contactLinks.whatsapp" class="social-link whatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i>
-              </a>
-            </div>
+          <h1 class="hero-name">
+            <span class="name-text">Waqas Ahmad</span>
+          </h1>
+          
+          <h2 class="hero-title">
+            <span class="title-prefix">I craft</span>
+            <span class="title-name" data-typed-items="Scalable Microservices, Robust APIs, Cloud-Native Solutions, DevOps Excellence">{{ rotating }}</span>
+          </h2>
+          
+          <p class="hero-description">
+            <span class="emoji">🚀</span><span class="highlight-text">Building robust APIs</span><span class="emoji">☁️</span><span class="highlight-text">, cloud-native services</span><span class="emoji">⚙️</span><span class="highlight-text">, and DevOps pipelines</span><span class="emoji">🎯</span><span class="highlight-text"> — with a focus on reliability and scale.</span>
+          </p>
+          
+          <!-- Action Buttons -->
+          <div class="hero-actions">
+            <a href="#portfolio" class="btn btn-primary">
+              <i class="fas fa-briefcase"></i>
+              <span>View Projects</span>
+            </a>
+            <a href="#contact" class="btn btn-secondary">
+              <i class="fas fa-envelope"></i>
+              <span>Get in touch</span>
+            </a>
+          </div>
+          
+          <!-- Social Media -->
+          <div class="hero-social">
+            <a :href="linkedin" class="social-link linkedin" target="_blank" title="LinkedIn">
+              <i class="fab fa-linkedin-in"></i>
+              <span>LI</span>
+            </a>
+            <a :href="github" class="social-link github" target="_blank" title="GitHub">
+              <i class="fab fa-github"></i>
+              <span>GH</span>
+            </a>
+            <a :href="contactLinks.email" class="social-link email" title="Email">
+              <i class="fas fa-envelope"></i>
+              <span>EM</span>
+            </a>
+            <a :href="contactLinks.whatsapp" class="social-link whatsapp" target="_blank" title="WhatsApp">
+              <i class="fab fa-whatsapp"></i>
+              <span>WA</span>
+            </a>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- Scroll Indicator -->
-    <div class="scroll-indicator">
-      <div class="scroll-arrow" @click="scrollToNextSection">
-        <i class="fas fa-chevron-down"></i>
-      </div>
-    </div>
-  </section>
+            <!-- Scroll Hint -->
+            <div class="scroll-indicator">
+              <div class="scroll-arrow" @click="scrollToNextSection">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            
+            <!-- Rotating Rings -->
+            <div class="rings">
+              <div class="ring ring-1"></div>
+              <div class="ring ring-2"></div>
+              <div class="ring ring-3"></div>
+              <div class="ring ring-4"></div>
+            </div>
+          </section>
 </template>
 
 <script>
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { APP_CONFIG } from '../config/constants.js'
 
 export default {
   name: 'Hero',
   data() {
     return {
-      // VUE PROPER: Import constants instead of deleted personalData.js
-      ...APP_CONFIG
+      ...APP_CONFIG,
+      // Rotating text functionality
+      phrases: [
+        'Scalable Microservices',
+        'Robust APIs',
+        'Cloud-Native Solutions',
+        'DevOps Excellence',
+      ],
+      i: 0,
+      rotating: 'Scalable Microservices',
+      rotTimer: null
     }
   },
   mounted() {
-    // Wait for DOM to be ready and Typed.js to be loaded
-    this.$nextTick(() => {
-      setTimeout(() => {
-        if (typeof Typed !== 'undefined') {
-          const typedElement = document.querySelector('.typed')
-          if (typedElement && !typedElement.typed) {
-            new Typed('.typed', {
-              strings: [
-                'Senior Software Engineer',
-                'Technical Lead',
-                'Full Stack Developer',
-                'Azure Cloud Expert',
-                'Microservices Architect',
-                'API Development Specialist',
-                'DevOps Engineer',
-                'Enterprise Solution Architect'
-              ],
-              typeSpeed: 100,
-              backSpeed: 50,
-              backDelay: 2000,
-              loop: true
-            })
-          }
-        }
-      }, 100)
-    })
+    // Start rotating text
+    this.rotTimer = setInterval(() => {
+      this.i = (this.i + 1) % this.phrases.length
+      this.rotating = this.phrases[this.i]
+    }, 3000) // Change phrase every 3s
+  },
+  beforeUnmount() {
+    if (this.rotTimer) {
+      clearInterval(this.rotTimer)
+    }
   },
   methods: {
     scrollToNextSection() {
