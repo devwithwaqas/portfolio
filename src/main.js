@@ -470,7 +470,7 @@ class AnimationController {
   pauseJSAnimations() {
     // VUE: Wrap all style changes in RAF to avoid forced reflows
     requestAnimationFrame(() => {
-      // Pause Swiper autoplay
+      // Pause Swiper autoplay - Vue3-Carousel doesn't need pausing
       const swipers = document.querySelectorAll('.swiper')
       swipers.forEach(swiper => {
         if (swiper.swiper && swiper.swiper.autoplay) {
@@ -524,7 +524,7 @@ class AnimationController {
   resumeJSAnimations() {
     // VUE: Wrap all style changes in RAF to avoid forced reflows
     requestAnimationFrame(() => {
-      // Resume Swiper autoplay
+      // Resume Swiper autoplay - Vue3-Carousel doesn't need resuming
       const swipers = document.querySelectorAll('.swiper')
       swipers.forEach(swiper => {
         if (swiper.swiper && swiper.swiper.autoplay) {

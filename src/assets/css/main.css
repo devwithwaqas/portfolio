@@ -597,32 +597,60 @@ h6 {
 .text-hyphen { hyphens: auto !important; }
 
 /*--------------------------------------------------------------
-# Global content text justification (applies to index and others)
+# Global content text justification (applies to all sections)
 --------------------------------------------------------------*/
-.main p,
-.main li,
-.main .text-card .card-body p,
-.main .text-card .card-body li {
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: none;
-  overflow-wrap: break-word;
+/* Apply justified text to all body paragraphs and list items */
+.resume-item p,
+.resume-item li,
+.service-item p,
+.testimonial-text,
+.about p,
+.about li,
+.footer p,
+.project-description,
+.epic-card p,
+p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label) {
+  text-align: justify !important;
+  text-justify: inter-word !important;
+  hyphens: none !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
 }
 
-/* Keep explicitly centered blocks centered */
-.main .text-center p,
-.main .text-center li,
+/* Exclude headers, titles, labels, and explicitly centered content */
+h1, h2, h3, h4, h5, h6,
 .hero p,
-.hero li {
-  text-align: center;
+.hero li,
+.text-center,
+.text-center p,
+.text-center li,
+.resume-title,
+.project-title,
+.project-subtitle,
+.service-item h3,
+.service-item h4,
+.testimonial-name,
+.testimonial-title,
+.label-text,
+.info-value,
+.info-subtitle,
+.stat-label,
+.stat-value,
+.form-title,
+.form-subtitle {
+  text-align: inherit !important;
+  hyphens: none !important;
 }
 
+/* On small screens, allow hyphenation to reduce awkward spacing */
 @media (max-width: 576px) {
-  .main p,
-  .main li,
-  .main .text-card .card-body p,
-  .main .text-card .card-body li {
-    hyphens: auto;
+  .resume-item p,
+  .resume-item li,
+  .service-item p,
+  .testimonial-text,
+  .about p,
+  .about li {
+    hyphens: auto !important;
   }
 }
 
@@ -1732,6 +1760,7 @@ h2.hero-title .title-name,
 /*--------------------------------------------------------------
 # Skills Section
 --------------------------------------------------------------*/
+
 .skills .progress {
   height: 60px;
   display: block;
@@ -1836,7 +1865,8 @@ h2.hero-title .title-name,
   justify-content: center;
   column-gap: 0;
   row-gap: 0.5rem;
-  grid-auto-rows: 1fr;
+  grid-auto-rows: max-content; /* Allow different row heights */
+  align-items: stretch; /* Stretch cards within each row */
   width: 100%;
   max-width: 100%;
   padding: 0;
@@ -1870,9 +1900,11 @@ h2.hero-title .title-name,
 }
 
 .portfolio .isotope-container .epic-card {
-  height: 100%;
+  height: 100%; /* Force equal heights */
   width: 100%;
-  flex: 1;
+  flex: 1; /* Allow flex expansion */
+  display: flex;
+  flex-direction: column; /* Ensure proper flex layout */
 }
 
 /* Responsive grid columns - Explicit columns to prevent overflow */
@@ -1991,6 +2023,13 @@ h2.hero-title .title-name,
 .portfolio .portfolio-item:hover .portfolio-info .overlay {
   opacity: 1;
 }
+
+/* Prevent browser zoom globally */
+body {
+  touch-action: pan-y pan-x;
+}
+
+/* Custom Image Preview - Clean and Simple */
 
 /* Enhanced Glightbox Modal Styling */
 .glightbox-container {

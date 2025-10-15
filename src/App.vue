@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import Navigation from './components/Navigation.vue'
-import Footer from './components/Footer.vue'
-import BackToTop from './components/BackToTop.vue'
+import Navigation from './components/layout/Navigation.vue'
+import Footer from './components/layout/Footer.vue'
+import BackToTop from './components/layout/BackToTop.vue'
 
 export default {
   name: 'App',

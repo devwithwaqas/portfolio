@@ -33,16 +33,16 @@
 </template>
 
 <script>
-import Hero from '../components/Hero.vue'
-import About from '../components/About.vue'
-import Stats from '../components/Stats.vue'
-import Skills from '../components/Skills.vue'
-import Resume from '../components/Resume.vue'
-import Portfolio from '../components/Portfolio.vue'
-import Services from '../components/Services.vue'
-import Testimonials from '../components/Testimonials.vue'
-import Contact from '../components/Contact.vue'
-import BackToTop from '../components/BackToTop.vue'
+import Hero from '../components/home/Hero.vue'
+import About from '../components/home/About.vue'
+import Stats from '../components/home/Stats.vue'
+import Skills from '../components/home/Skills.vue'
+import Resume from '../components/home/Resume.vue'
+import Portfolio from '../components/home/Portfolio.vue'
+import Services from '../components/home/Services.vue'
+import Testimonials from '../components/home/Testimonials.vue'
+import Contact from '../components/home/Contact.vue'
+import BackToTop from '../components/layout/BackToTop.vue'
 
 export default {
   name: 'Home',

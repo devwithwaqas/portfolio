@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import HeatExchangerPage from '../views/projects/HeatExchangerPage.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/projects/heat-exchanger',
+    name: 'HeatExchanger',
+    component: HeatExchangerPage
   },
   // Redirect any old routes to home with hash
   {
