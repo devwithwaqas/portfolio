@@ -1,0 +1,212 @@
+<template>
+  <svg 
+    v-if="visible && highlights.length > 0" 
+    class="highlight-overlay"
+    :viewBox="`0 0 ${svgWidth} ${svgHeight}`"
+  >
+    <defs>
+      <!-- Glow filter for modern effects -->
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      
+      <!-- Pulse filter for breathing effect -->
+      <filter id="pulse" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+        <feMerge> 
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    
+    <rect 
+      v-for="(highlight, index) in highlights"
+      :key="index"
+      :x="highlight.x"
+      :y="highlight.y"
+      :width="highlight.width"
+      :height="highlight.height"
+      :class="getHighlightClass(highlight)"
+      :style="getHighlightStyle(highlight)"
+    />
+  </svg>
+</template>
+
+<script>
+export default {
+  name: 'HighlightOverlay',
+  props: {
+    visible: {
+      type: Boolean,
+      default: false
+    },
+    highlights: {
+      type: Array,
+      default: () => []
+    },
+    svgWidth: {
+      type: Number,
+      default: 2400
+    },
+    svgHeight: {
+      type: Number,
+      default: 2200
+    },
+    highlightStyle: {
+      type: String,
+      default: 'glow', // 'glow', 'pulse', 'dashed', 'solid'
+      validator: (value) => ['glow', 'pulse', 'dashed', 'solid'].includes(value)
+    },
+    highlightColor: {
+      type: String,
+      default: '#8b5cf6' // Purple
+    }
+  },
+  methods: {
+    getHighlightClass(highlight) {
+      const baseClass = 'highlight-rect'
+      const styleClass = `highlight-${this.highlightStyle}`
+      return `${baseClass} ${styleClass}`
+    },
+    
+    getHighlightStyle(highlight) {
+      return {
+        '--highlight-color': this.highlightColor,
+        '--highlight-rgb': this.hexToRgb(this.highlightColor)
+      }
+    },
+    
+    hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+      return result ? 
+        `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : 
+        '139, 92, 246' // Default purple
+    }
+  }
+}
+</script>
+
+<style scoped>
+.highlight-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  /* Ensure SVG scales with diagram */
+  object-fit: contain;
+}
+
+.highlight-rect {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Glow Effect - Modern bright glow with blinking */
+.highlight-glow {
+  fill: rgba(255, 255, 0, 0.25);
+  stroke: #ffeb3b;
+  stroke-width: 6;
+  filter: url(#glow) drop-shadow(0 0 15px #ffeb3b) drop-shadow(0 0 30px #ffeb3b) drop-shadow(0 0 45px #ffd700);
+  animation: glowPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  0% {
+    stroke-opacity: 0.8;
+    stroke-width: 6;
+    fill-opacity: 0.25;
+  }
+  100% {
+    stroke-opacity: 1;
+    stroke-width: 8;
+    fill-opacity: 0.4;
+  }
+}
+
+/* Pulse Effect - Breathing animation */
+.highlight-pulse {
+  fill: rgba(var(--highlight-rgb), 0.2);
+  stroke: var(--highlight-color);
+  stroke-width: 4;
+  filter: url(#pulse);
+  animation: pulseBreath 2s ease-in-out infinite;
+}
+
+@keyframes pulseBreath {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+/* Dashed Effect - Moving dashed border */
+.highlight-dashed {
+  fill: rgba(var(--highlight-rgb), 0.1);
+  stroke: var(--highlight-color);
+  stroke-width: 3;
+  stroke-dasharray: 15, 8;
+  animation: dashMove 1.5s linear infinite, dashPulse 2s ease-in-out infinite;
+}
+
+@keyframes dashMove {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 23;
+  }
+}
+
+@keyframes dashPulse {
+  0%, 100% {
+    stroke-opacity: 0.7;
+  }
+  50% {
+    stroke-opacity: 1;
+  }
+}
+
+/* Solid Effect - Clean solid border with subtle glow */
+.highlight-solid {
+  fill: rgba(var(--highlight-rgb), 0.2);
+  stroke: var(--highlight-color);
+  stroke-width: 4;
+  animation: solidGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes solidGlow {
+  0% {
+    stroke-opacity: 0.8;
+    filter: drop-shadow(0 0 5px rgba(var(--highlight-rgb), 0.5));
+  }
+  100% {
+    stroke-opacity: 1;
+    filter: drop-shadow(0 0 15px rgba(var(--highlight-rgb), 0.8));
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .highlight-rect {
+    stroke-width: 2;
+  }
+  
+  .highlight-glow,
+  .highlight-pulse,
+  .highlight-dashed,
+  .highlight-solid {
+    stroke-width: 2;
+  }
+}
+</style>

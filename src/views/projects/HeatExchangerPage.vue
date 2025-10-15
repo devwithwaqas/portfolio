@@ -47,6 +47,7 @@
       <DiagramViewer 
         title="🎯 Heat Exchanger Portal - Enterprise Microservices Architecture"
         diagramSrc="/assets/img/heat-exchanger-diagram.svg"
+        :narrationSteps="narrationSteps"
       />
       
       <!-- Architecture Overview -->
@@ -104,6 +105,7 @@ import EngineeringChallenges from '../../components/projects/EngineeringChalleng
 import PerformanceMetricsSection from '../../components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '../../components/projects/MetricsFramework.vue'
 import ROISection from '../../components/projects/ROISection.vue'
+import { heatExchangerNarrationSteps } from '../../config/heatExchangerNarration'
 
 export default {
   name: 'HeatExchangerPage',
@@ -123,6 +125,7 @@ export default {
   },
   data() {
     return {
+      narrationSteps: heatExchangerNarrationSteps,
       projectData: {
         title: '🔥 Heat Exchanger Portal - Mission Critical Petroleum Operations',
         description: 'Enterprise-grade .NET Core platform for one of the five biggest oil and gas companies in the world, hosted on OpenShift with comprehensive monitoring through Grafana and Prometheus. This mission-critical system manages Docker image repositories through Nexus and handles data responsible for millions to billions of dollars in maintenance costs.',
@@ -715,7 +718,7 @@ export default {
                 borderColor: '#0ea2bd',
                 backgroundColor: 'rgba(14, 162, 189, 0.2)',
                 borderWidth: 3,
-                fill: true,
+                fill: 'origin',
                 tension: 0.4,
                 pointRadius: 6,
                 pointHoverRadius: 8,
@@ -732,7 +735,7 @@ export default {
                 borderColor: '#28a745',
                 backgroundColor: 'rgba(40, 167, 69, 0.2)',
                 borderWidth: 3,
-                fill: true,
+                fill: 'origin',
                 tension: 0.4,
                 pointRadius: 6,
                 pointHoverRadius: 8,
