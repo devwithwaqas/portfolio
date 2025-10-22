@@ -52,3 +52,94 @@ export const COMPONENT_DEFAULTS = {
     ]
   }
 };
+
+// Technology Stack Categories - Standardized category names
+export const TECH_CATEGORIES = {
+  FRONTEND: 'frontend',
+  BACKEND: 'backend', 
+  DATABASE: 'database',
+  CLOUD: 'cloud',
+  DEVOPS: 'devops',
+  MONITORING: 'monitoring',
+  ANALYTICS: 'analytics',
+  API: 'api',
+  SECURITY: 'security',
+  COMMUNICATION: 'communication',
+  TESTING: 'testing'
+};
+
+// Technology Stack Category Labels - Display names for categories
+export const TECH_CATEGORY_LABELS = {
+  [TECH_CATEGORIES.FRONTEND]: 'Frontend & UI',
+  [TECH_CATEGORIES.BACKEND]: 'Backend Framework',
+  [TECH_CATEGORIES.DATABASE]: 'Database & Storage',
+  [TECH_CATEGORIES.CLOUD]: 'Cloud & Hosting',
+  [TECH_CATEGORIES.DEVOPS]: 'DevOps & CI/CD',
+  [TECH_CATEGORIES.MONITORING]: 'Monitoring & Analytics',
+  [TECH_CATEGORIES.ANALYTICS]: 'Analytics & Intelligence',
+  [TECH_CATEGORIES.API]: 'APIs & Integration',
+  [TECH_CATEGORIES.SECURITY]: 'Security & Authentication',
+  [TECH_CATEGORIES.COMMUNICATION]: 'Communication & Notifications',
+  [TECH_CATEGORIES.TESTING]: 'Testing & Quality Assurance'
+};
+
+// Project Component Icon Names - Standardized icon names for project components
+export const PROJECT_ICON_NAMES = {
+  PROJECT_OVERVIEW: 'project overview',
+  TECHNOLOGY_STACK: 'technology stack',
+  PROJECT_INFORMATION: 'project information',
+  ARCHITECTURE_OVERVIEW: 'architecture excellence',
+  ENGINEERING_CHALLENGES: 'engineering excellence',
+  PERFORMANCE_METRICS: 'performance metrics',
+  METRICS_FRAMEWORK: 'metrics framework',
+  PROJECT_GALLERY: 'project gallery',
+  ROI_SECTION: 'business impact'
+};
+
+// Project Information Categories - Standardized project categories
+export const PROJECT_CATEGORIES = {
+  ENTERPRISE_APPLICATIONS: 'Enterprise Applications',
+  EMPLOYEE_BENEFITS: 'Employee Travel Discount System',
+  WEB_APPLICATIONS: 'Web Applications',
+  MOBILE_APPLICATIONS: 'Mobile Applications',
+  DATA_PLATFORMS: 'Data Platforms',
+  INTEGRATION_SOLUTIONS: 'Integration Solutions'
+};
+
+// ROI Section Icon Names - Standardized ROI section icons
+export const ROI_ICON_NAMES = {
+  MAIN_ICON: 'target',
+  FINANCIAL_ICON: 'financial',
+  OPERATIONAL_ICON: 'operational',
+  SUCCESS_ICON: 'success'
+};
+
+// Debug Configuration - Set to true to enable logging for specific components
+export const DEBUG_CONFIG = {
+  // Project Components
+  DiagramViewer: false,
+  DiagramNarrator: false,
+  NarrationBubble: false,
+  HighlightOverlay: false,
+  
+  // Specific Issue Debugging
+  FullscreenDiagramIssue: false, // Enable for bubble, highlight, zoom debugging
+  
+  // Home Components
+  Hero: false,
+  About: false,
+  Stats: false,
+  Skills: false,
+  Resume: false,
+  Services: false,
+  Portfolio: false,
+  Contact: false,
+  
+  // Global
+  Navigation: false,
+  Footer: false,
+  
+  // Main.js
+  DeviceDetection: false,
+  AnimationController: false
+};

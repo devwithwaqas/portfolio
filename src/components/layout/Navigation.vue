@@ -109,6 +109,7 @@ export default {
     this.setupClickOutsideListener()
     this.setupSwipeGestures()
     this.setupViewportResizeListener()
+    this.setActiveSectionFromRoute()
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.updateActiveSection)
@@ -127,6 +128,10 @@ export default {
           this.$forceUpdate()
         })
       }
+    },
+    '$route'(to, from) {
+      // Update active section when route changes
+      this.setActiveSectionFromRoute()
     }
   },
   methods: {
@@ -135,6 +140,15 @@ export default {
     },
     closeMobileMenu() {
       this.mobileMenuOpen = false
+    },
+    setActiveSectionFromRoute() {
+      // Check if we're on a project page
+      if (this.$route.path.startsWith('/projects/')) {
+        this.activeSection = 'portfolio'
+      } else if (this.$route.path === '/') {
+        // If we're on the home page, let scroll spy handle it
+        this.activeSection = 'hero'
+      }
     },
     scrollToSection(sectionId, event) {
       event.preventDefault()

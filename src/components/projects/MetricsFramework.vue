@@ -13,20 +13,22 @@
       >
         <h4 class="category-title">
               <div class="category-icon-wrapper icon-wrapper-xl">
-                <i 
-                  v-if="getCategoryIconData(category.title).type === 'devicon'" 
-                  :class="[getDeviconClass(getCategoryIconData(category.title).src), 'category-icon', 'icon-xl']"
-                ></i>
                 <img 
-                  v-else-if="getCategoryIconData(category.title).type === 'local'" 
-                  :src="getCategoryIconData(category.title).src" 
+                  v-if="getCategoryIconData(category.icon).type === 'devicon'" 
+                  :src="getDeviconSvgUrl(getCategoryIconData(category.icon).src)"
+                  :alt="category.title"
+                  class="category-icon icon-img-xl"
+                />
+                <img 
+                  v-else-if="getCategoryIconData(category.icon).type === 'local'" 
+                  :src="getCategoryIconData(category.icon).src" 
                   :alt="category.title"
                   class="category-icon icon-img-xl"
                 />
                 <span 
                   v-else 
                   class="category-icon icon-xl"
-                >{{ category.icon }}</span>
+                >{{ getCategoryIconData(category.icon).src }}</span>
               </div>
           {{ category.title }}
         </h4>
@@ -40,14 +42,16 @@
           >
             <div class="metric-header">
               <div class="metric-icon-wrapper icon-wrapper-xl">
-                <i 
-                  v-if="getMetricIconData(metric.name).type === 'devicon'" 
-                  :class="[getDeviconClass(getMetricIconData(metric.name).src), 'metric-tech-icon', 'icon-xl']"
-                  :title="metric.name"
-                ></i>
                 <img 
-                  v-else-if="getMetricIconData(metric.name).type === 'local'" 
-                  :src="getMetricIconData(metric.name).src" 
+                  v-if="getMetricIconData(metric.icon).type === 'devicon'" 
+                  :src="getDeviconSvgUrl(getMetricIconData(metric.icon).src)"
+                  :alt="metric.name"
+                  class="metric-tech-icon icon-img-xl"
+                  :title="metric.name"
+                />
+                <img 
+                  v-else-if="getMetricIconData(metric.icon).type === 'local'" 
+                  :src="getMetricIconData(metric.icon).src" 
                   :alt="metric.name"
                   :title="metric.name"
                   class="metric-tech-icon icon-img-xl"
@@ -55,7 +59,7 @@
                 <span 
                   v-else 
                   class="metric-tech-icon icon-xl"
-                >{{ metric.icon }}</span>
+                >{{ getMetricIconData(metric.icon).src }}</span>
               </div>
               <strong class="metric-name">{{ metric.name }}</strong>
             </div>
@@ -64,10 +68,12 @@
               <div class="metric-detail">
                 <div class="detail-header">
                   <div class="detail-icon-wrapper icon-wrapper-xl">
-                    <i 
+                    <img 
                       v-if="getDetailIconData('measurement').type === 'devicon'" 
-                      :class="[getDeviconClass(getDetailIconData('measurement').src), 'detail-icon', 'icon-xl']"
-                    ></i>
+                      :src="getDeviconSvgUrl(getDetailIconData('measurement').src)"
+                      alt="measurement"
+                      class="detail-icon icon-img-xl"
+                    />
                     <img 
                       v-else-if="getDetailIconData('measurement').type === 'local'" 
                       :src="getDetailIconData('measurement').src" 
@@ -77,7 +83,7 @@
                     <span 
                       v-else 
                       class="detail-icon icon-xl"
-                    >📏</span>
+                    >{{ getDetailIconData('measurement').src }}</span>
                   </div>
                   <strong class="detail-label txt-label-md">Measurement Method</strong>
                 </div>
@@ -87,10 +93,12 @@
               <div class="metric-detail">
                 <div class="detail-header">
                   <div class="detail-icon-wrapper icon-wrapper-xl">
-                    <i 
+                    <img 
                       v-if="getDetailIconData('context').type === 'devicon'" 
-                      :class="[getDeviconClass(getDetailIconData('context').src), 'detail-icon', 'icon-xl']"
-                    ></i>
+                      :src="getDeviconSvgUrl(getDetailIconData('context').src)"
+                      alt="context"
+                      class="detail-icon icon-img-xl"
+                    />
                     <img 
                       v-else-if="getDetailIconData('context').type === 'local'" 
                       :src="getDetailIconData('context').src" 
@@ -100,7 +108,13 @@
                     <span 
                       v-else 
                       class="detail-icon icon-xl"
-                    >🎯</span>
+                    >
+                      <img v-if="getFrameworkIcon('target').type === 'local'" 
+                           :src="getFrameworkIcon('target').src" 
+                           :alt="getFrameworkIcon('target').alt" 
+                           class="icon-img-xl" />
+                      <span v-else class="icon-xl">{{ getFrameworkIcon('target').src }}</span>
+                    </span>
                   </div>
                   <strong class="detail-label txt-label-md">Project Context</strong>
                 </div>
@@ -110,10 +124,12 @@
               <div class="metric-detail">
                 <div class="detail-header">
                   <div class="detail-icon-wrapper icon-wrapper-xl">
-                    <i 
+                    <img 
                       v-if="getDetailIconData('validation').type === 'devicon'" 
-                      :class="[getDeviconClass(getDetailIconData('validation').src), 'detail-icon', 'icon-xl']"
-                    ></i>
+                      :src="getDeviconSvgUrl(getDetailIconData('validation').src)"
+                      alt="validation"
+                      class="detail-icon icon-img-xl"
+                    />
                     <img 
                       v-else-if="getDetailIconData('validation').type === 'local'" 
                       :src="getDetailIconData('validation').src" 
@@ -123,7 +139,13 @@
                     <span 
                       v-else 
                       class="detail-icon icon-xl"
-                    >✅</span>
+                    >
+                      <img v-if="getFrameworkIcon('validation').type === 'local'" 
+                           :src="getFrameworkIcon('validation').src" 
+                           :alt="getFrameworkIcon('validation').alt" 
+                           class="icon-img-xl" />
+                      <span v-else class="icon-xl">{{ getFrameworkIcon('validation').src }}</span>
+                    </span>
                   </div>
                   <strong class="detail-label txt-label-md">Improvement Validation</strong>
                 </div>
@@ -137,7 +159,13 @@
       <!-- Measurement Framework Section -->
       <div class="measurement-framework">
         <h4 class="framework-title">
-          <span class="framework-icon">📈</span>
+          <span class="framework-icon">
+            <img v-if="getFrameworkIcon('monitoring').type === 'local'" 
+                 :src="getFrameworkIcon('monitoring').src" 
+                 :alt="getFrameworkIcon('monitoring').alt" 
+                 class="icon-img-lg" />
+            <span v-else class="icon-lg">{{ getFrameworkIcon('monitoring').src }}</span>
+          </span>
           Measurement Framework & Validation
         </h4>
         <div class="framework-grid">
@@ -148,20 +176,22 @@
           >
             <div class="framework-item-header">
               <div class="framework-item-icon-wrapper icon-wrapper-xl">
-                <i 
-                  v-if="getFrameworkIconData(item.title).type === 'devicon'" 
-                  :class="[getDeviconClass(getFrameworkIconData(item.title).src), 'framework-item-icon', 'icon-xl']"
-                ></i>
                 <img 
-                  v-else-if="getFrameworkIconData(item.title).type === 'local'" 
-                  :src="getFrameworkIconData(item.title).src" 
+                  v-if="getFrameworkIconData(item).type === 'devicon'" 
+                  :src="getDeviconSvgUrl(getFrameworkIconData(item).src)"
+                  :alt="item.title"
+                  class="framework-item-icon icon-img-xl"
+                />
+                <img 
+                  v-else-if="getFrameworkIconData(item).type === 'local'" 
+                  :src="getFrameworkIconData(item).src" 
                   :alt="item.title"
                   class="framework-item-icon icon-img-xl"
                 />
                 <span 
                   v-else 
                   class="framework-item-icon icon-xl"
-                >{{ item.icon }}</span>
+                >{{ getFrameworkIconData(item).src }}</span>
               </div>
               <strong class="framework-item-title">{{ item.title }}</strong>
             </div>
@@ -176,7 +206,7 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
-import { resolveIcon, getDeviconClass as getDeviconClassUtil } from '../../utils/iconResolver.js'
+import { resolveIcon, getDeviconClass as getDeviconClassUtil, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
 
 export default {
   name: 'MetricsFramework',
@@ -186,7 +216,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '📈 Metrics & Measurement Framework'
+      default: 'Metrics & Measurement Framework'
     },
     introduction: {
       type: String,
@@ -222,17 +252,21 @@ export default {
       }
       return resolveIcon(iconMap[detailType] || detailType)
     },
-    getFrameworkIconData(frameworkTitle) {
-      // Map framework titles to icon names
-      const iconMap = {
-        'Baseline Establishment': 'baseline establishment',
-        'Continuous Monitoring': 'continuous monitoring',
-        'Validation Process': 'validation process'
+    getFrameworkIconData(frameworkItem) {
+      // Use icon property first, then fallback to title for intelligent mapping
+      if (frameworkItem.icon) {
+        return resolveIcon(frameworkItem.icon, frameworkItem.title)
       }
-      return resolveIcon(iconMap[frameworkTitle] || frameworkTitle)
+      return resolveIcon(frameworkItem.title)
     },
     getDeviconClass(iconName) {
       return getDeviconClassUtil(iconName)
+    },
+    getDeviconSvgUrl(iconName) {
+      return getDeviconSvgUrlUtil(iconName)
+    },
+    getFrameworkIcon(iconName) {
+      return resolveIcon(iconName)
     }
   }
 }

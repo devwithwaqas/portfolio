@@ -1,0 +1,1239 @@
+{
+  "svg_dimensions": {
+    "width": "5520",
+    "height": "3917.5",
+    "viewBox": "0 0 5520 3917"
+  },
+  "all_rectangles": [
+    {
+      "x": 417.0,
+      "y": 61.19,
+      "width": 196.92,
+      "height": 140.29,
+      "centerX": 515.46,
+      "centerY": 131.34,
+      "text": "AirAsia Employee Seeks staff fares",
+      "style": "stroke:#073B6F;stroke-width:2.5;",
+      "class": "",
+      "fill": "#08427B"
+    },
+    {
+      "x": 1069.96,
+      "y": 61.19,
+      "width": 240.99,
+      "height": 140.29,
+      "centerX": 1190.46,
+      "centerY": 131.34,
+      "text": "System Administrator Manages system",
+      "style": "stroke:#073B6F;stroke-width:2.5;",
+      "class": "",
+      "fill": "#08427B"
+    },
+    {
+      "x": 207.56,
+      "y": 451.49,
+      "width": 203.27,
+      "height": 97.75,
+      "centerX": 309.2,
+      "centerY": 500.37,
+      "text": "Web App [Angular] Employee booking",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 660.52,
+      "y": 451.49,
+      "width": 179.86,
+      "height": 97.75,
+      "centerX": 750.46,
+      "centerY": 500.37,
+      "text": "Mobile PWA [Angular PWA] Mobile experience",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 1090.16,
+      "y": 451.49,
+      "width": 200.58,
+      "height": 97.75,
+      "centerX": 1190.45,
+      "centerY": 500.37,
+      "text": "Admin Dashboard [Angular] Administrative",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 654.06,
+      "y": 799.24,
+      "width": 192.79,
+      "height": 97.75,
+      "centerX": 750.46,
+      "centerY": 848.12,
+      "text": "API Management [APIM] Edge gateway",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 672.71,
+      "y": 1146.99,
+      "width": 155.48,
+      "height": 97.75,
+      "centerX": 750.45,
+      "centerY": 1195.87,
+      "text": "App Gateway [App GW] Load balancer",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 133.88,
+      "y": 1494.75,
+      "width": 150.67,
+      "height": 97.75,
+      "centerX": 209.21,
+      "centerY": 1543.63,
+      "text": "Auth Service [.NET Core] Authentication",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 534.77,
+      "y": 1494.75,
+      "width": 183.85,
+      "height": 97.75,
+      "centerX": 626.7,
+      "centerY": 1543.63,
+      "text": "Booking Service [.NET Core] Booking logic",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 108.62,
+      "y": 1842.5,
+      "width": 161.15,
+      "height": 97.75,
+      "centerX": 189.2,
+      "centerY": 1891.38,
+      "text": "Flight Service [.NET Core] Flight data",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 519.34,
+      "y": 1842.5,
+      "width": 199.73,
+      "height": 97.75,
+      "centerX": 619.2,
+      "centerY": 1891.38,
+      "text": "Employee Service [.NET Core] Employee data",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 3984.45,
+      "y": 1842.5,
+      "width": 219.52,
+      "height": 97.75,
+      "centerX": 4094.21,
+      "centerY": 1891.38,
+      "text": "Notification Service [.NET Core] Notifications",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 4454.59,
+      "y": 1842.5,
+      "width": 174.25,
+      "height": 97.75,
+      "centerX": 4541.71,
+      "centerY": 1891.38,
+      "text": "Refund Service [.NET Core] Refunds",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 4878.35,
+      "y": 1842.5,
+      "width": 194.22,
+      "height": 97.75,
+      "centerX": 4975.46,
+      "centerY": 1891.38,
+      "text": "Analytics Service [.NET Core] Analytics",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 5322.09,
+      "y": 1842.5,
+      "width": 156.74,
+      "height": 97.75,
+      "centerX": 5400.46,
+      "centerY": 1891.38,
+      "text": "Audit Service [.NET Core] Audit logs",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 1993.64,
+      "y": 2190.25,
+      "width": 191.14,
+      "height": 97.75,
+      "centerX": 2089.21,
+      "centerY": 2239.13,
+      "text": "Service Bus [Azure Service Bus] Event queueing",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 2583.54,
+      "y": 2190.25,
+      "width": 148.84,
+      "height": 97.75,
+      "centerX": 2657.96,
+      "centerY": 2239.13,
+      "text": "App Insights [App Insights] Telemetry",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 2982.32,
+      "y": 2198.99,
+      "width": 168.75,
+      "height": 80.29,
+      "centerX": 3066.7,
+      "centerY": 2239.14,
+      "text": "AirAsia Flights Flight booking",
+      "style": "stroke:#8A8A8A;stroke-width:2.5;",
+      "class": "",
+      "fill": "#999999"
+    },
+    {
+      "x": 3400.46,
+      "y": 2198.99,
+      "width": 139.98,
+      "height": 80.29,
+      "centerX": 3470.45,
+      "centerY": 2239.14,
+      "text": "Google SSO OAuth SSO",
+      "style": "stroke:#8A8A8A;stroke-width:2.5;",
+      "class": "",
+      "fill": "#999999"
+    },
+    {
+      "x": 3791.01,
+      "y": 2198.99,
+      "width": 176.38,
+      "height": 80.29,
+      "centerX": 3879.2,
+      "centerY": 2239.14,
+      "text": "Teams API Teams messaging",
+      "style": "stroke:#8A8A8A;stroke-width:2.5;",
+      "class": "",
+      "fill": "#999999"
+    },
+    {
+      "x": 4217.85,
+      "y": 2198.99,
+      "width": 182.71,
+      "height": 80.29,
+      "centerX": 4309.2,
+      "centerY": 2239.14,
+      "text": "Email Service Email notifications",
+      "style": "stroke:#8A8A8A;stroke-width:2.5;",
+      "class": "",
+      "fill": "#999999"
+    },
+    {
+      "x": 4650.23,
+      "y": 2198.99,
+      "width": 172.96,
+      "height": 80.29,
+      "centerX": 4736.7,
+      "centerY": 2239.14,
+      "text": "SMS Gateway SMS notifications",
+      "style": "stroke:#8A8A8A;stroke-width:2.5;",
+      "class": "",
+      "fill": "#999999"
+    },
+    {
+      "x": 5073.2,
+      "y": 2198.99,
+      "width": 152.0,
+      "height": 80.29,
+      "centerX": 5149.2,
+      "centerY": 2239.14,
+      "text": "Push Service Mobile push",
+      "style": "stroke:#8A8A8A;stroke-width:2.5;",
+      "class": "",
+      "fill": "#999999"
+    },
+    {
+      "x": 2014.01,
+      "y": 2538.02,
+      "width": 140.38,
+      "height": 97.75,
+      "centerX": 2084.2,
+      "centerY": 2586.89,
+      "text": "Event Grid [Event Grid] Event routing",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 2575.61,
+      "y": 2538.02,
+      "width": 164.69,
+      "height": 97.75,
+      "centerX": 2657.96,
+      "centerY": 2586.89,
+      "text": "Azure Monitor [Monitor] Infrastructure",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 1988.31,
+      "y": 2885.77,
+      "width": 184.29,
+      "height": 97.75,
+      "centerX": 2080.46,
+      "centerY": 2934.64,
+      "text": "Azure Functions [Functions] Serverless",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 2422.75,
+      "y": 2885.77,
+      "width": 125.41,
+      "height": 97.75,
+      "centerX": 2485.45,
+      "centerY": 2934.64,
+      "text": "Grafana [Grafana] Dashboards",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 2798.61,
+      "y": 2885.77,
+      "width": 113.67,
+      "height": 97.75,
+      "centerX": 2855.45,
+      "centerY": 2934.64,
+      "text": "Power [Power BI] Reports",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 1988.09,
+      "y": 3233.52,
+      "width": 197.24,
+      "height": 97.75,
+      "centerX": 2086.71,
+      "centerY": 3282.39,
+      "text": "Stream Analytics [Stream] Realtime processing",
+      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 5296.97,
+      "y": 3761.9,
+      "width": 172.23,
+      "height": 20.37,
+      "centerX": 5383.08,
+      "centerY": 3772.09,
+      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
+      "style": "stroke:none;stroke-width:1.25;",
+      "class": "",
+      "fill": "#08427B"
+    },
+    {
+      "x": 5296.97,
+      "y": 3782.27,
+      "width": 172.23,
+      "height": 20.37,
+      "centerX": 5383.08,
+      "centerY": 3792.46,
+      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
+      "style": "stroke:none;stroke-width:1.25;",
+      "class": "",
+      "fill": "#1168BD"
+    },
+    {
+      "x": 5296.97,
+      "y": 3802.64,
+      "width": 172.23,
+      "height": 20.37,
+      "centerX": 5383.08,
+      "centerY": 3812.83,
+      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
+      "style": "stroke:none;stroke-width:1.25;",
+      "class": "",
+      "fill": "#438DD5"
+    },
+    {
+      "x": 5296.97,
+      "y": 3823.01,
+      "width": 172.23,
+      "height": 20.37,
+      "centerX": 5383.08,
+      "centerY": 3833.2,
+      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
+      "style": "stroke:none;stroke-width:1.25;",
+      "class": "",
+      "fill": "#686868"
+    },
+    {
+      "x": 5296.97,
+      "y": 3843.38,
+      "width": 172.23,
+      "height": 20.37,
+      "centerX": 5383.08,
+      "centerY": 3853.57,
+      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
+      "style": "stroke:none;stroke-width:1.25;",
+      "class": "",
+      "fill": "#999999"
+    },
+    {
+      "x": 5296.97,
+      "y": 3863.76,
+      "width": 172.23,
+      "height": 20.37,
+      "centerX": 5383.08,
+      "centerY": 3873.94,
+      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
+      "style": "stroke:none;stroke-width:1.25;",
+      "class": "",
+      "fill": "#B3B3B3"
+    }
+  ],
+  "all_groups": [
+    {
+      "id": "group_0",
+      "x": 3400.46,
+      "y": 2198.99,
+      "width": 139.98,
+      "height": 80.29,
+      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
+      "rect_count": 35,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_google_sso",
+      "x": 3400.46,
+      "y": 2198.99,
+      "width": 139.98,
+      "height": 80.29,
+      "text": "Google SSO OAuth SSO",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_airasia_flights",
+      "x": 2982.32,
+      "y": 2198.99,
+      "width": 168.75,
+      "height": 80.29,
+      "text": "AirAsia Flights Flight booking",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_sms_gateway",
+      "x": 4650.23,
+      "y": 2198.99,
+      "width": 172.96,
+      "height": 80.29,
+      "text": "SMS Gateway SMS notifications",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_email_service",
+      "x": 4217.85,
+      "y": 2198.99,
+      "width": 182.71,
+      "height": 80.29,
+      "text": "Email Service Email notifications",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_teams_api",
+      "x": 3791.01,
+      "y": 2198.99,
+      "width": 176.38,
+      "height": 80.29,
+      "text": "Teams API Teams messaging",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_push_service",
+      "x": 5073.2,
+      "y": 2198.99,
+      "width": 152.0,
+      "height": 80.29,
+      "text": "Push Service Mobile push",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_web_app",
+      "x": 207.56,
+      "y": 451.49,
+      "width": 203.27,
+      "height": 97.75,
+      "text": "Web App [Angular] Employee booking",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_mobile_pwa",
+      "x": 660.52,
+      "y": 451.49,
+      "width": 179.86,
+      "height": 97.75,
+      "text": "Mobile PWA [Angular PWA] Mobile experience",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_admin_dashboard",
+      "x": 1090.16,
+      "y": 451.49,
+      "width": 200.58,
+      "height": 97.75,
+      "text": "Admin Dashboard [Angular] Administrative",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_api_gateway",
+      "x": 654.06,
+      "y": 799.24,
+      "width": 192.79,
+      "height": 97.75,
+      "text": "API Management [APIM] Edge gateway",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_app_gateway",
+      "x": 672.71,
+      "y": 1146.99,
+      "width": 155.48,
+      "height": 97.75,
+      "text": "App Gateway [App GW] Load balancer",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_auth_service",
+      "x": 133.88,
+      "y": 1494.75,
+      "width": 150.67,
+      "height": 97.75,
+      "text": "Auth Service [.NET Core] Authentication",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_booking_service",
+      "x": 534.77,
+      "y": 1494.75,
+      "width": 183.85,
+      "height": 97.75,
+      "text": "Booking Service [.NET Core] Booking logic",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_flight_service",
+      "x": 108.62,
+      "y": 1842.5,
+      "width": 161.15,
+      "height": 97.75,
+      "text": "Flight Service [.NET Core] Flight data",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_employee_service",
+      "x": 519.34,
+      "y": 1842.5,
+      "width": 199.73,
+      "height": 97.75,
+      "text": "Employee Service [.NET Core] Employee data",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_notification_service",
+      "x": 3984.45,
+      "y": 1842.5,
+      "width": 219.52,
+      "height": 97.75,
+      "text": "Notification Service [.NET Core] Notifications",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_analytics_service",
+      "x": 4878.35,
+      "y": 1842.5,
+      "width": 194.22,
+      "height": 97.75,
+      "text": "Analytics Service [.NET Core] Analytics",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_refund_service",
+      "x": 4454.59,
+      "y": 1842.5,
+      "width": 174.25,
+      "height": 97.75,
+      "text": "Refund Service [.NET Core] Refunds",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_audit_service",
+      "x": 5322.09,
+      "y": 1842.5,
+      "width": 156.74,
+      "height": 97.75,
+      "text": "Audit Service [.NET Core] Audit logs",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_service_bus",
+      "x": 1993.64,
+      "y": 2190.25,
+      "width": 191.14,
+      "height": 97.75,
+      "text": "Service Bus [Azure Service Bus] Event queueing",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_event_grid",
+      "x": 2014.01,
+      "y": 2538.02,
+      "width": 140.38,
+      "height": 97.75,
+      "text": "Event Grid [Event Grid] Event routing",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_azure_functions",
+      "x": 1988.31,
+      "y": 2885.77,
+      "width": 184.29,
+      "height": 97.75,
+      "text": "Azure Functions [Functions] Serverless",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_stream_analytics",
+      "x": 1988.09,
+      "y": 3233.52,
+      "width": 197.24,
+      "height": 97.75,
+      "text": "Stream Analytics [Stream] Realtime processing",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_app_insights",
+      "x": 2583.54,
+      "y": 2190.25,
+      "width": 148.84,
+      "height": 97.75,
+      "text": "App Insights [App Insights] Telemetry",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_azure_monitor",
+      "x": 2575.61,
+      "y": 2538.02,
+      "width": 164.69,
+      "height": 97.75,
+      "text": "Azure Monitor [Monitor] Infrastructure",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_grafana",
+      "x": 2422.75,
+      "y": 2885.77,
+      "width": 125.41,
+      "height": 97.75,
+      "text": "Grafana [Grafana] Dashboards",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_power_bi",
+      "x": 2798.61,
+      "y": 2885.77,
+      "width": 113.67,
+      "height": 97.75,
+      "text": "Power [Power BI] Reports",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_employee",
+      "x": 417.0,
+      "y": 61.19,
+      "width": 196.92,
+      "height": 140.29,
+      "text": "AirAsia Employee Seeks staff fares",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    },
+    {
+      "id": "entity_admin",
+      "x": 1069.96,
+      "y": 61.19,
+      "width": 240.99,
+      "height": 140.29,
+      "text": "System Administrator Manages system",
+      "rect_count": 1,
+      "transform": "translate(0, 0)"
+    }
+  ],
+  "all_texts": [
+    {
+      "x": 2470.11,
+      "y": 33.38,
+      "text": "AirAsia ID90 - Fixed Layout C4 Architecture"
+    },
+    {
+      "x": 2966.7,
+      "y": 2173.99,
+      "text": "External Systems"
+    },
+    {
+      "x": 192.95,
+      "y": 426.49,
+      "text": "User Interface"
+    },
+    {
+      "x": 639.2,
+      "y": 774.24,
+      "text": "API Gateway"
+    },
+    {
+      "x": 94.2,
+      "y": 1469.75,
+      "text": "Core Services"
+    },
+    {
+      "x": 3969.2,
+      "y": 1817.5,
+      "text": "Support Services"
+    },
+    {
+      "x": 1972.95,
+      "y": 2165.25,
+      "text": "Event Processing"
+    },
+    {
+      "x": 1157.95,
+      "y": 3556.27,
+      "text": "Data Layer"
+    },
+    {
+      "x": 2407.95,
+      "y": 2165.25,
+      "text": "Monitoring"
+    },
+    {
+      "x": 3412.96,
+      "y": 2227.74,
+      "text": "Google"
+    },
+    {
+      "x": 3487.86,
+      "y": 2227.74,
+      "text": "SSO"
+    },
+    {
+      "x": 3424.22,
+      "y": 2263.25,
+      "text": "OAuth"
+    },
+    {
+      "x": 3482.33,
+      "y": 2263.25,
+      "text": "SSO"
+    },
+    {
+      "x": 2994.82,
+      "y": 2227.74,
+      "text": "AirAsia"
+    },
+    {
+      "x": 3070.86,
+      "y": 2227.74,
+      "text": "Flights"
+    },
+    {
+      "x": 3005.59,
+      "y": 2263.25,
+      "text": "Flight"
+    },
+    {
+      "x": 3059.93,
+      "y": 2263.25,
+      "text": "booking"
+    },
+    {
+      "x": 4669.45,
+      "y": 2227.74,
+      "text": "SMS"
+    },
+    {
+      "x": 4718.17,
+      "y": 2227.74,
+      "text": "Gateway"
+    },
+    {
+      "x": 4662.73,
+      "y": 2263.25,
+      "text": "SMS"
+    },
+    {
+      "x": 4704.48,
+      "y": 2263.25,
+      "text": "notifications"
+    },
+    {
+      "x": 4242.78,
+      "y": 2227.74,
+      "text": "Email"
+    },
+    {
+      "x": 4302.87,
+      "y": 2227.74,
+      "text": "Service"
+    },
+    {
+      "x": 4230.35,
+      "y": 2263.25,
+      "text": "Email"
+    },
+    {
+      "x": 4281.85,
+      "y": 2263.25,
+      "text": "notifications"
+    },
+    {
+      "x": 3827.58,
+      "y": 2227.74,
+      "text": "Teams"
+    },
+    {
+      "x": 3897.94,
+      "y": 2227.74,
+      "text": "API"
+    },
+    {
+      "x": 3803.51,
+      "y": 2263.25,
+      "text": "Teams"
+    },
+    {
+      "x": 3863.82,
+      "y": 2263.25,
+      "text": "messaging"
+    },
+    {
+      "x": 5085.7,
+      "y": 2227.74,
+      "text": "Push"
+    },
+    {
+      "x": 5139.95,
+      "y": 2227.74,
+      "text": "Service"
+    },
+    {
+      "x": 5097.87,
+      "y": 2263.25,
+      "text": "Mobile"
+    },
+    {
+      "x": 5159.51,
+      "y": 2263.25,
+      "text": "push"
+    },
+    {
+      "x": 265.0,
+      "y": 480.24,
+      "text": "Web"
+    },
+    {
+      "x": 314.8,
+      "y": 480.24,
+      "text": "App"
+    },
+    {
+      "x": 269.16,
+      "y": 498.29,
+      "text": "[Angular]"
+    },
+    {
+      "x": 220.06,
+      "y": 533.21,
+      "text": "Employee"
+    },
+    {
+      "x": 307.47,
+      "y": 533.21,
+      "text": "booking"
+    },
+    {
+      "x": 691.66,
+      "y": 480.24,
+      "text": "Mobile"
+    },
+    {
+      "x": 763.58,
+      "y": 480.24,
+      "text": "PWA"
+    },
+    {
+      "x": 688.23,
+      "y": 498.29,
+      "text": "[Angular"
+    },
+    {
+      "x": 766.68,
+      "y": 498.29,
+      "text": "PWA]"
+    },
+    {
+      "x": 673.02,
+      "y": 533.21,
+      "text": "Mobile"
+    },
+    {
+      "x": 734.67,
+      "y": 533.21,
+      "text": "experience"
+    },
+    {
+      "x": 1102.66,
+      "y": 480.24,
+      "text": "Admin"
+    },
+    {
+      "x": 1171.52,
+      "y": 480.24,
+      "text": "Dashboard"
+    },
+    {
+      "x": 1150.42,
+      "y": 498.29,
+      "text": "[Angular]"
+    },
+    {
+      "x": 1116.55,
+      "y": 533.21,
+      "text": "Administrative"
+    },
+    {
+      "x": 666.56,
+      "y": 827.99,
+      "text": "API"
+    },
+    {
+      "x": 705.54,
+      "y": 827.99,
+      "text": "Management"
+    },
+    {
+      "x": 722.05,
+      "y": 846.04,
+      "text": "[APIM]"
+    },
+    {
+      "x": 690.92,
+      "y": 880.96,
+      "text": "Edge"
+    },
+    {
+      "x": 738.03,
+      "y": 880.96,
+      "text": "gateway"
+    },
+    {
+      "x": 685.21,
+      "y": 1175.74,
+      "text": "App"
+    },
+    {
+      "x": 729.9,
+      "y": 1175.74,
+      "text": "Gateway"
+    },
+    {
+      "x": 710.02,
+      "y": 1193.79,
+      "text": "[App"
+    },
+    {
+      "x": 755.18,
+      "y": 1193.79,
+      "text": "GW]"
+    },
+    {
+      "x": 690.85,
+      "y": 1228.71,
+      "text": "Load"
+    },
+    {
+      "x": 736.79,
+      "y": 1228.71,
+      "text": "balancer"
+    },
+    {
+      "x": 146.38,
+      "y": 1523.5,
+      "text": "Auth"
+    },
+    {
+      "x": 199.29,
+      "y": 1523.5,
+      "text": "Service"
+    },
+    {
+      "x": 160.94,
+      "y": 1541.55,
+      "text": "[.NET"
+    },
+    {
+      "x": 211.74,
+      "y": 1541.55,
+      "text": "Core]"
+    },
+    {
+      "x": 146.4,
+      "y": 1576.47,
+      "text": "Authentication"
+    },
+    {
+      "x": 547.27,
+      "y": 1523.5,
+      "text": "Booking"
+    },
+    {
+      "x": 633.37,
+      "y": 1523.5,
+      "text": "Service"
+    },
+    {
+      "x": 578.43,
+      "y": 1541.55,
+      "text": "[.NET"
+    },
+    {
+      "x": 629.23,
+      "y": 1541.55,
+      "text": "Core]"
+    },
+    {
+      "x": 569.69,
+      "y": 1576.47,
+      "text": "Booking"
+    },
+    {
+      "x": 643.49,
+      "y": 1576.47,
+      "text": "logic"
+    },
+    {
+      "x": 121.12,
+      "y": 1871.25,
+      "text": "Flight"
+    },
+    {
+      "x": 184.52,
+      "y": 1871.25,
+      "text": "Service"
+    },
+    {
+      "x": 140.92,
+      "y": 1889.3,
+      "text": "[.NET"
+    },
+    {
+      "x": 191.73,
+      "y": 1889.3,
+      "text": "Core]"
+    },
+    {
+      "x": 142.95,
+      "y": 1924.22,
+      "text": "Flight"
+    },
+    {
+      "x": 197.29,
+      "y": 1924.22,
+      "text": "data"
+    },
+    {
+      "x": 531.84,
+      "y": 1871.25,
+      "text": "Employee"
+    },
+    {
+      "x": 633.81,
+      "y": 1871.25,
+      "text": "Service"
+    },
+    {
+      "x": 570.93,
+      "y": 1889.3,
+      "text": "[.NET"
+    },
+    {
+      "x": 621.74,
+      "y": 1889.3,
+      "text": "Core]"
+    },
+    {
+      "x": 556.42,
+      "y": 1924.22,
+      "text": "Employee"
+    },
+    {
+      "x": 643.83,
+      "y": 1924.22,
+      "text": "data"
+    },
+    {
+      "x": 3996.95,
+      "y": 1871.25,
+      "text": "Notification"
+    },
+    {
+      "x": 4118.72,
+      "y": 1871.25,
+      "text": "Service"
+    },
+    {
+      "x": 4045.93,
+      "y": 1889.3,
+      "text": "[.NET"
+    },
+    {
+      "x": 4096.74,
+      "y": 1889.3,
+      "text": "Core]"
+    },
+    {
+      "x": 4040.17,
+      "y": 1924.22,
+      "text": "Notifications"
+    },
+    {
+      "x": 4890.85,
+      "y": 1871.25,
+      "text": "Analytics"
+    },
+    {
+      "x": 4987.31,
+      "y": 1871.25,
+      "text": "Service"
+    },
+    {
+      "x": 4927.18,
+      "y": 1889.3,
+      "text": "[.NET"
+    },
+    {
+      "x": 4977.99,
+      "y": 1889.3,
+      "text": "Core]"
+    },
+    {
+      "x": 4936.73,
+      "y": 1924.22,
+      "text": "Analytics"
+    },
+    {
+      "x": 4467.09,
+      "y": 1871.25,
+      "text": "Refund"
+    },
+    {
+      "x": 4543.58,
+      "y": 1871.25,
+      "text": "Service"
+    },
+    {
+      "x": 4493.44,
+      "y": 1889.3,
+      "text": "[.NET"
+    },
+    {
+      "x": 4544.24,
+      "y": 1889.3,
+      "text": "Core]"
+    },
+    {
+      "x": 4507.07,
+      "y": 1924.22,
+      "text": "Refunds"
+    },
+    {
+      "x": 5334.59,
+      "y": 1871.25,
+      "text": "Audit"
+    },
+    {
+      "x": 5393.57,
+      "y": 1871.25,
+      "text": "Service"
+    },
+    {
+      "x": 5352.18,
+      "y": 1889.3,
+      "text": "[.NET"
+    }
+  ],
+  "statistics": {
+    "total_rectangles": 35,
+    "total_groups": 30,
+    "total_texts": 241,
+    "expected_components": 39
+  }
+}

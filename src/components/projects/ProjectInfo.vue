@@ -1,9 +1,60 @@
 <template>
   <ReusableCard :title="title" class="sidebar-sticky mb-4">
     <ul class="project-info-list">
-      <li v-for="(info, index) in items" :key="index">
-        <strong class="txt-label-md">{{ info.label }}</strong>
-        <span class="txt-p-sm">{{ info.value }}</span>
+      <li>
+        <strong class="txt-label-md">Category:</strong>
+        <div class="info-value">
+          <span class="info-icon">
+            <img :src="getIconData('enterprise').src" 
+                 :alt="getIconData('enterprise').alt" 
+                 class="icon-img-md" />
+          </span>
+          <span class="txt-p-sm">{{ category }}</span>
+        </div>
+      </li>
+      <li>
+        <strong class="txt-label-md">Client:</strong>
+        <div class="info-value">
+          <span class="info-icon">
+            <img :src="getIconData('client').src" 
+                 :alt="getIconData('client').alt" 
+                 class="icon-img-md" />
+          </span>
+          <span class="txt-p-sm">{{ client }}</span>
+        </div>
+      </li>
+      <li>
+        <strong class="txt-label-md">Project Date:</strong>
+        <div class="info-value">
+          <span class="info-icon">
+            <img :src="getIconData('calendar').src" 
+                 :alt="getIconData('calendar').alt" 
+                 class="icon-img-md" />
+          </span>
+          <span class="txt-p-sm">{{ projectDate }}</span>
+        </div>
+      </li>
+      <li>
+        <strong class="txt-label-md">Project URL:</strong>
+        <div class="info-value">
+          <span class="info-icon">
+            <img :src="getIconData('website').src" 
+                 :alt="getIconData('website').alt" 
+                 class="icon-img-md" />
+          </span>
+          <span class="txt-p-sm">{{ projectUrl }}</span>
+        </div>
+      </li>
+      <li>
+        <strong class="txt-label-md">Company Size:</strong>
+        <div class="info-value">
+          <span class="info-icon">
+            <img :src="getIconData('award').src" 
+                 :alt="getIconData('award').alt" 
+                 class="icon-img-md" />
+          </span>
+          <span class="txt-p-sm">{{ companySize }}</span>
+        </div>
       </li>
     </ul>
   </ReusableCard>
@@ -11,6 +62,7 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
+import { resolveIcon, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
 
 export default {
   name: 'ProjectInfo',
@@ -20,11 +72,36 @@ export default {
   props: {
     title: {
       type: String,
-      default: '📌 Project Information'
+      default: 'Project Information'
     },
-    items: {
-      type: Array,
+    category: {
+      type: String,
       required: true
+    },
+    client: {
+      type: String,
+      required: true
+    },
+    projectDate: {
+      type: String,
+      required: true
+    },
+    projectUrl: {
+      type: String,
+      required: true
+    },
+    companySize: {
+      type: String,
+      required: true
+    }
+  },
+  methods: {
+    getIconData(iconName) {
+      return resolveIcon(iconName)
+    },
+    
+    getDeviconSvgUrl(iconName) {
+      return getDeviconSvgUrlUtil(iconName)
     }
   }
 }
@@ -50,6 +127,19 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+.info-value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .project-info-list li:last-child {

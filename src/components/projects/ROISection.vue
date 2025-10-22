@@ -2,14 +2,32 @@
   <div class="roi-section" data-aos="fade-up">
     
     <!-- Main Title -->
-    <h3 class="roi-main-title txt-h3-2xl">🎯 {{ mainTitle }}</h3>
+    <h3 class="roi-main-title txt-h3-2xl">
+      <span v-if="mainIcon" class="title-icon">
+        <img v-if="getIconData(mainIcon).type === 'local'" 
+             :src="getIconData(mainIcon).src" 
+             :alt="getIconData(mainIcon).alt" 
+             class="icon-img-lg" />
+        <span v-else class="icon-lg">{{ getIconData(mainIcon).src }}</span>
+      </span>
+      {{ mainTitle }}
+    </h3>
     
     <!-- Business Impact Grid (2 columns) -->
     <div class="roi-impact-grid">
       
       <!-- Left Column: Cost Optimization -->
       <div class="impact-column">
-        <h4 class="impact-title txt-h4-lg">💰 {{ leftTitle }}</h4>
+        <h4 class="impact-title txt-h4-lg">
+          <span v-if="leftIcon" class="title-icon">
+            <img v-if="getIconData(leftIcon).type === 'local'" 
+                 :src="getIconData(leftIcon).src" 
+                 :alt="getIconData(leftIcon).alt" 
+                 class="icon-img-md" />
+            <span v-else class="icon-md">{{ getIconData(leftIcon).src }}</span>
+          </span>
+          {{ leftTitle }}
+        </h4>
         <div class="impact-items">
           <div v-for="(item, index) in leftItems" :key="index" class="impact-item">
             <strong class="txt-label-md">{{ item.label }}</strong> <span class="txt-p-sm">{{ item.value }}</span>
@@ -19,7 +37,16 @@
       
       <!-- Right Column: Operational Excellence -->
       <div class="impact-column">
-        <h4 class="impact-title txt-h4-lg">🚀 {{ rightTitle }}</h4>
+        <h4 class="impact-title txt-h4-lg">
+          <span v-if="rightIcon" class="title-icon">
+            <img v-if="getIconData(rightIcon).type === 'local'" 
+                 :src="getIconData(rightIcon).src" 
+                 :alt="getIconData(rightIcon).alt" 
+                 class="icon-img-md" />
+            <span v-else class="icon-md">{{ getIconData(rightIcon).src }}</span>
+          </span>
+          {{ rightTitle }}
+        </h4>
         <div class="impact-items">
           <div v-for="(item, index) in rightItems" :key="index" class="impact-item">
             <strong class="txt-label-md">{{ item.label }}</strong> <span class="txt-p-sm">{{ item.value }}</span>
@@ -31,7 +58,16 @@
     
     <!-- Success Metrics Cards -->
     <div class="success-metrics-section">
-      <h4 class="metrics-subtitle txt-h4-lg">🏆 {{ metricsTitle }}</h4>
+      <h4 class="metrics-subtitle txt-h4-lg">
+        <span v-if="metricsIcon" class="title-icon">
+          <img v-if="getIconData(metricsIcon).type === 'local'" 
+               :src="getIconData(metricsIcon).src" 
+               :alt="getIconData(metricsIcon).alt" 
+               class="icon-img-md" />
+          <span v-else class="icon-md">{{ getIconData(metricsIcon).src }}</span>
+        </span>
+        {{ metricsTitle }}
+      </h4>
       <div class="metrics-grid">
         <div 
           v-for="(metric, index) in metrics" 
@@ -49,6 +85,8 @@
 </template>
 
 <script>
+import { resolveIcon } from '../../utils/iconResolver.js'
+
 export default {
   name: 'ROISection',
   props: {
@@ -56,13 +94,25 @@ export default {
       type: String,
       default: 'Business Impact & ROI'
     },
+    mainIcon: {
+      type: String,
+      default: null
+    },
     leftTitle: {
       type: String,
       default: 'Cost Optimization'
     },
+    leftIcon: {
+      type: String,
+      default: null
+    },
     rightTitle: {
       type: String,
       default: 'Operational Excellence'
+    },
+    rightIcon: {
+      type: String,
+      default: null
     },
     leftItems: {
       type: Array,
@@ -76,9 +126,18 @@ export default {
       type: String,
       default: 'Project Success Metrics'
     },
+    metricsIcon: {
+      type: String,
+      default: null
+    },
     metrics: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    getIconData(iconName) {
+      return resolveIcon(iconName)
     }
   }
 }
@@ -124,6 +183,10 @@ export default {
   text-align: center;
   margin-bottom: 40px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 /* Business Impact Grid */
@@ -145,6 +208,9 @@ export default {
   font-weight: 600;
   margin-bottom: 5px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .impact-items {
@@ -180,6 +246,10 @@ export default {
   text-align: center;
   margin-bottom: 30px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 /* Metrics Grid */
@@ -258,5 +328,14 @@ export default {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
+}
+
+/* Title Icon Styling */
+.title-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  flex-shrink: 0;
 }
 </style>

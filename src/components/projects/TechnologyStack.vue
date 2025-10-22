@@ -12,12 +12,14 @@
         <div class="tech-category-card">
           <h4 class="tech-section-title">
             <div class="category-icon-wrapper icon-wrapper-xl">
-              <!-- Devicon -->
-              <i 
+              <!-- Devicon SVG -->
+              <img 
                 v-if="getCategoryIconData(category.icon).type === 'devicon'" 
-                :class="[getDeviconClass(getCategoryIconData(category.icon).src), 'category-icon', 'icon-xl']"
+                :src="getDeviconSvgUrl(getCategoryIconData(category.icon).src)"
+                :alt="category.name"
+                class="category-icon icon-img-xl"
                 :title="category.name"
-              ></i>
+              />
               <!-- Local Image -->
               <img 
                 v-else-if="getCategoryIconData(category.icon).type === 'local'" 
@@ -40,12 +42,14 @@
               class="tech-item"
             >
               <div class="tech-icon-wrapper icon-wrapper-xl">
-                <!-- Devicon -->
-                <i 
+                <!-- Devicon SVG -->
+                <img 
                   v-if="tech.iconData.type === 'devicon'" 
-                  :class="[getDeviconClass(tech.iconData.src), 'icon-xl']"
+                  :src="getDeviconSvgUrl(tech.iconData.src)"
+                  :alt="tech.name"
+                  class="icon-img-xl"
                   :title="tech.name"
-                ></i>
+                />
                 <!-- Local Image -->
                 <img 
                   v-else-if="tech.iconData.type === 'local'" 
@@ -74,19 +78,22 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
-import { resolveIcon, getDeviconClass as getDeviconClassUtil } from '../../utils/iconResolver.js'
+import { resolveIcon, getDeviconClass as getDeviconClassUtil, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
+import { TECH_CATEGORIES, TECH_CATEGORY_LABELS } from '../../config/constants.js'
 
-// Define all possible categories
+// Define all possible categories using constants
 const CATEGORIES = [
-  { key: 'frontend', name: 'Frontend', icon: 'frontend' },
-  { key: 'backend', name: 'Backend', icon: 'backend' },
-  { key: 'database', name: 'Databases', icon: 'database' },
-  { key: 'cloud', name: 'Cloud & Hosting', icon: 'cloud hosting' },
-  { key: 'devops', name: 'DevOps & CI/CD', icon: 'ci/cd pipeline' },
-  { key: 'monitoring', name: 'Monitoring & Analytics', icon: 'monitoring' },
-  { key: 'api', name: 'API & Integration', icon: 'api' },
-  { key: 'testing', name: 'Testing & Quality', icon: 'testing' },
-  { key: 'security', name: 'Security', icon: 'security' },
+  { key: TECH_CATEGORIES.FRONTEND, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.FRONTEND], icon: 'frontend' },
+  { key: TECH_CATEGORIES.BACKEND, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.BACKEND], icon: 'backend' },
+  { key: TECH_CATEGORIES.DATABASE, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.DATABASE], icon: 'database' },
+  { key: TECH_CATEGORIES.CLOUD, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.CLOUD], icon: 'cloud hosting' },
+  { key: TECH_CATEGORIES.DEVOPS, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.DEVOPS], icon: 'ci/cd pipeline' },
+  { key: TECH_CATEGORIES.MONITORING, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.MONITORING], icon: 'monitoring' },
+  { key: TECH_CATEGORIES.ANALYTICS, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.ANALYTICS], icon: 'analytics' },
+  { key: TECH_CATEGORIES.API, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.API], icon: 'api' },
+  { key: TECH_CATEGORIES.SECURITY, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.SECURITY], icon: 'security' },
+  { key: TECH_CATEGORIES.COMMUNICATION, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.COMMUNICATION], icon: 'communication' },
+  { key: TECH_CATEGORIES.TESTING, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.TESTING], icon: 'testing' },
   { key: 'other', name: 'Other Technologies', icon: 'services' }
 ]
 
@@ -98,7 +105,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '⚙️ Technology Stack'
+      default: 'Technology Stack'
     },
     technologies: {
       type: Array,
@@ -161,6 +168,9 @@ export default {
   methods: {
     getDeviconClass(iconName) {
       return getDeviconClassUtil(iconName)
+    },
+    getDeviconSvgUrl(iconName) {
+      return getDeviconSvgUrlUtil(iconName)
     },
     getCategoryIconData(iconName) {
       // Use iconResolver to get proper icons for categories

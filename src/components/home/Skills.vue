@@ -12,7 +12,7 @@
               <!-- Core Technologies -->
               <div class="row g-2 g-md-3 g-lg-4 mb-5">
                 <div class="col-12">
-                  <h3 class="text-center mb-4 txt-h3-2xl" style="color: #0563bb; font-weight: 600;">
+                  <h3 class="text-center mb-4 txt-h3-2xl skills-section-title">
                     <IconComponent icon-name="core technologies" fallback-emoji="🏆" size="lg" style="margin-right: 10px;" />
                     Core Technologies
                   </h3>
@@ -30,7 +30,7 @@
               <!-- Frontend Technologies -->
               <div class="row g-2 g-md-3 g-lg-4 mb-5">
                 <div class="col-12">
-                  <h3 class="text-center mb-4 txt-h3-2xl" style="color: #0563bb; font-weight: 600;">
+                  <h3 class="text-center mb-4 txt-h3-2xl skills-section-title">
                     <IconComponent icon-name="frontend technologies" fallback-emoji="🎨" size="lg" style="margin-right: 10px;" />
                     Frontend Technologies
                   </h3>
@@ -48,7 +48,7 @@
               <!-- Backend & Database -->
               <div class="row g-2 g-md-3 g-lg-4 mb-5">
                 <div class="col-12">
-                  <h3 class="text-center mb-4 txt-h3-2xl" style="color: #0563bb; font-weight: 600;">
+                  <h3 class="text-center mb-4 txt-h3-2xl skills-section-title">
                     <IconComponent icon-name="backend & database" fallback-emoji="⚙️" size="lg" style="margin-right: 10px;" />
                     Backend & Database
                   </h3>
@@ -66,7 +66,7 @@
               <!-- Cloud & DevOps -->
               <div class="row g-2 g-md-3 g-lg-4 mb-5">
                 <div class="col-12">
-                  <h3 class="text-center mb-4 txt-h3-2xl" style="color: #0563bb; font-weight: 600;">
+                  <h3 class="text-center mb-4 txt-h3-2xl skills-section-title">
                     <IconComponent icon-name="cloud & devops" fallback-emoji="☁️" size="lg" style="margin-right: 10px;" />
                     Cloud & DevOps
                   </h3>
@@ -84,7 +84,7 @@
               <!-- Additional Skills -->
               <div class="row g-2 g-md-3 g-lg-4">
                 <div class="col-12">
-                  <h3 class="text-center mb-4 txt-h3-2xl" style="color: #0563bb; font-weight: 600;">
+                  <h3 class="text-center mb-4 txt-h3-2xl skills-section-title">
                     <IconComponent icon-name="additional skills" fallback-emoji="🛠️" size="lg" style="margin-right: 10px;" />
                     Additional Skills
                   </h3>
@@ -170,13 +170,13 @@ export default {
     return {
       coreSkills: [
         { name: 'C# & .NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg', percentage: 95, category: 'BACKEND', level: 'EXPERT LEVEL' },
-        { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg', percentage: 90, category: 'DATABASE', level: 'EXPERT LEVEL' },
+        { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg', percentage: 90, category: 'DATABASE', level: 'EXPERT LEVEL' },
         { name: 'Angular', icon: '/assets/img/Icons/Angular.svg', percentage: 85, category: 'FRONTEND', level: 'ADVANCED' },
         { name: 'Azure Cloud & DevOps', icon: '/assets/img/Icons/Azure.svg', percentage: 90, category: 'CLOUD', level: 'EXPERT LEVEL' },
         { name: 'Microservices', icon: '/assets/img/Icons/Docker.svg', percentage: 85, category: 'ARCHITECTURE', level: 'ADVANCED' },
         { name: 'REST APIs', icon: '/assets/img/Icons/api.svg', percentage: 85, category: 'INTEGRATION', level: 'ADVANCED' },
         { name: 'GitHub & Version Control', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg', percentage: 85, category: 'VERSION CONTROL', level: 'ADVANCED' },
-        { name: 'Visual Studio', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-plain.svg', percentage: 90, category: 'IDE', level: 'EXPERT LEVEL' }
+        { name: 'Visual Studio', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-original.svg', percentage: 90, category: 'IDE', level: 'EXPERT LEVEL' }
       ],
       frontendSkills: [
         { name: 'HTML5 & CSS3', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg', percentage: 90, category: 'MARKUP', level: 'EXPERT LEVEL' },
@@ -250,6 +250,11 @@ export default {
 .category-icon {
   object-fit: contain;
   filter: drop-shadow(0 4px 8px rgba(5, 99, 187, 0.3));
+}
+
+.skills-section-title {
+  color: #0563bb;
+  font-weight: 600;
 }
 
 .category-header h5 {

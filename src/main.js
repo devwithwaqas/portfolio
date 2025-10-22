@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import { DEBUG_CONFIG } from './config/constants'
 
 // Import CSS
 import './assets/css/font-sizes.css'
@@ -287,26 +288,34 @@ class AnimationController {
       const windowRealWidth = realInnerWidth;
       
       // DEBUG: iPad Mini detection logging
-      console.log('🔍 DEVICE DETECTION DEBUG:');
-      console.log('Device Type:', deviceType);
-      console.log('Window Real Width:', windowRealWidth);
-      console.log('Screen Width:', screen.width);
-      console.log('Screen Height:', screen.height);
-      console.log('Is Actual Mobile:', isActualMobile);
-      console.log('User Agent:', ua);
+      if (DEBUG_CONFIG.DeviceDetection) {
+        console.log('🔍 DEVICE DETECTION DEBUG:');
+        console.log('Device Type:', deviceType);
+        console.log('Window Real Width:', windowRealWidth);
+        console.log('Screen Width:', screen.width);
+        console.log('Screen Height:', screen.height);
+        console.log('Is Actual Mobile:', isActualMobile);
+        console.log('User Agent:', ua);
+      }
       
       if (!isActualMobile && windowRealWidth >= 768 && windowRealWidth < 1200) { 
         document.body.classList.add('devicestate-tablet');
-        console.log('✅ Added devicestate-tablet class');
+        if (DEBUG_CONFIG.DeviceDetection) {
+          console.log('✅ Added devicestate-tablet class');
+        }
       }
       if (isActualMobile || windowRealWidth < 768) { 
         document.body.classList.add('devicestate-mobile');
-        console.log('✅ Added devicestate-mobile class');
+        if (DEBUG_CONFIG.DeviceDetection) {
+          console.log('✅ Added devicestate-mobile class');
+        }
       }
       
       // DEBUG: Final body classes and attributes
-      console.log('Final data-device:', document.body.getAttribute('data-device'));
-      console.log('Final body classes:', document.body.className);
+      if (DEBUG_CONFIG.DeviceDetection) {
+        console.log('Final data-device:', document.body.getAttribute('data-device'));
+        console.log('Final body classes:', document.body.className);
+      }
 
       // Inspect PROFESSIONAL STATISTICS specifically 
       setTimeout(() => {
@@ -317,6 +326,8 @@ class AnimationController {
   }
 
   debugStatsMobileOnly() {
+    if (!DEBUG_CONFIG.DeviceDetection) return;
+    
     console.log('%c🎯 PROFESSIONAL STATISTICS + MOBILE DEBUG:', 'color: #444; background: #f8f8f8; padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-weight: bold;');
 
     const statsSection = document.getElementById('stats');
@@ -681,6 +692,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Debug function for Skills section
 function debugSkillsTabletOnly() {
+  if (!DEBUG_CONFIG.DeviceDetection) return;
+  
   console.log('%c⚡ SKILLS SECTION + TABLET DEBUG:', 'color: #444; background: #f8f8f8; padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-weight: bold;');
 
   const skillsSection = document.getElementById('skills');

@@ -31,6 +31,8 @@
 /* highlight the currently narrated node */
 
 /* Heat Exchanger specific magnifier overlay removed in favor of unified .mag-overlay below */
+
+/* Devicon icons now use SVG images instead of CSS classes for better color support */
 /**
 * Template Name: MyResume
 * Template URL: https://bootstrapmade.com/free-html-bootstrap-template-my-resume/

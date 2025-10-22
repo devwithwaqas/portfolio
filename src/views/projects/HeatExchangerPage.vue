@@ -25,10 +25,19 @@
     <template #main-content-top>
       
       <!-- Project Overview -->
-      <ProjectOverview :content="overviewText" />
+      <ProjectOverview 
+        title="Project Overview"
+        :icon-name="PROJECT_ICON_NAMES.PROJECT_OVERVIEW"
+        :content="overviewText" 
+      />
       
       <!-- Technology Stack -->
-      <TechnologyStack :technologies="technologies" :columnsPerRow="2" />
+      <TechnologyStack 
+        title="Technology Stack"
+        :icon-name="PROJECT_ICON_NAMES.TECHNOLOGY_STACK"
+        :technologies="technologies" 
+        :columnsPerRow="2" 
+      />
         
     </template>
     
@@ -36,7 +45,15 @@
     <template #sidebar>
       
       <!-- Project Information -->
-      <ProjectInfo :items="projectInfo" />
+      <ProjectInfo 
+        title="Project Information"
+        :icon-name="PROJECT_ICON_NAMES.PROJECT_INFORMATION"
+        :category="PROJECT_CATEGORIES.ENTERPRISE_APPLICATIONS"
+        client="Confidential - Top 5 Oil & Gas Company"
+        projectDate="June 2021 - August 2022"
+        projectUrl="Internal Portal"
+        companySize="Global Fortune 500"
+      />
       
     </template>
     
@@ -45,31 +62,39 @@
       
       <!-- Architecture Diagram (Full Width) -->
       <DiagramViewer 
-        title="🎯 Heat Exchanger Portal - Enterprise Microservices Architecture"
+        title="Heat Exchanger Portal - Enterprise Microservices Architecture"
         diagramSrc="/assets/img/heat-exchanger-diagram.svg"
         :narrationSteps="narrationSteps"
       />
       
       <!-- Architecture Overview -->
       <ArchitectureOverview 
+        title="Architecture Overview"
+        :icon-name="PROJECT_ICON_NAMES.ARCHITECTURE_OVERVIEW"
         :architectureLayers="architectureLayers"
         :benefitsDescription="architectureBenefits"
       />
       
       <!-- Engineering Challenges -->
       <EngineeringChallenges 
+        title="Engineering Challenges"
+        :icon-name="PROJECT_ICON_NAMES.ENGINEERING_CHALLENGES"
         :challenges="challenges" 
         :businessImpact="businessImpactResults"
       />
       
       <!-- Enhanced Performance Metrics & Analytics -->
       <PerformanceMetricsSection 
+        title="Performance Metrics & Analytics"
+        :icon-name="PROJECT_ICON_NAMES.PERFORMANCE_METRICS"
         :stats="performanceStats"
         :charts="performanceCharts"
       />
       
       <!-- Metrics & Measurement Framework -->
       <MetricsFramework 
+        title="Metrics & Measurement Framework"
+        :icon-name="PROJECT_ICON_NAMES.METRICS_FRAMEWORK"
         :introduction="metricsIntroduction"
         :metricsCategories="metricsCategories"
         :frameworkItems="measurementFramework"
@@ -77,6 +102,14 @@
       
       <!-- ROI Section -->
       <ROISection 
+        mainTitle="ROI & Business Impact"
+        :mainIcon="ROI_ICON_NAMES.MAIN_ICON"
+        leftTitle="Financial Impact"
+        :leftIcon="ROI_ICON_NAMES.FINANCIAL_ICON"
+        rightTitle="Operational Impact"
+        :rightIcon="ROI_ICON_NAMES.OPERATIONAL_ICON"
+        metricsTitle="Success Metrics"
+        :metricsIcon="ROI_ICON_NAMES.SUCCESS_ICON"
         :leftItems="roiLeftItems"
         :rightItems="roiRightItems"
         :metrics="roiMetrics"
@@ -106,6 +139,7 @@ import PerformanceMetricsSection from '../../components/projects/PerformanceMetr
 import MetricsFramework from '../../components/projects/MetricsFramework.vue'
 import ROISection from '../../components/projects/ROISection.vue'
 import { heatExchangerNarrationSteps } from '../../config/heatExchangerNarration'
+import { TECH_CATEGORIES, PROJECT_ICON_NAMES, PROJECT_CATEGORIES, ROI_ICON_NAMES } from '../../config/constants.js'
 
 export default {
   name: 'HeatExchangerPage',
@@ -125,25 +159,30 @@ export default {
   },
   data() {
     return {
+      // Constants for template access
+      PROJECT_ICON_NAMES,
+      PROJECT_CATEGORIES,
+      TECH_CATEGORIES,
+      ROI_ICON_NAMES,
       narrationSteps: heatExchangerNarrationSteps,
       projectData: {
         title: '🔥 Heat Exchanger Portal - Mission Critical Petroleum Operations',
         description: 'Enterprise-grade .NET Core platform for one of the five biggest oil and gas companies in the world, hosted on OpenShift with comprehensive monitoring through Grafana and Prometheus. This mission-critical system manages Docker image repositories through Nexus and handles data responsible for millions to billions of dollars in maintenance costs.',
         tags: [
-          '🚀 Mission Critical',
-          '⚡ Real-time Processing',
-          '📊 Enterprise Scale',
-          '🔒 Zero Downtime'
+          'Mission Critical',
+          'Real-time Processing',
+          'Enterprise Scale',
+          'Zero Downtime'
         ],
         achievementsCol1: [
-          { emoji: '⚡', label: 'Performance', value: 'Minutes to seconds efficiency' },
-          { emoji: '💰', label: 'Cost Impact', value: 'Billions in maintenance costs' },
-          { emoji: '🔄', label: 'Real-time', value: 'Complex API integration' }
+          { emoji: 'performance', label: 'Performance', value: 'Minutes to seconds efficiency' },
+          { emoji: 'financial', label: 'Cost Impact', value: 'Billions in maintenance costs' },
+          { emoji: 'realtime', label: 'Real-time', value: 'Complex API integration' }
         ],
         achievementsCol2: [
-          { emoji: '🛡️', label: 'Mission Critical', value: 'Zero-downtime operation' },
-          { emoji: '📈', label: 'Scalability', value: 'Microservices architecture' },
-          { emoji: '🔒', label: 'Security', value: 'Enterprise-grade protection' }
+          { emoji: 'critical', label: 'Mission Critical', value: 'Zero-downtime operation' },
+          { emoji: 'scalability', label: 'Scalability', value: 'Microservices architecture' },
+          { emoji: 'security', label: 'Security', value: 'Enterprise-grade protection' }
         ]
       },
       galleryData: {
@@ -159,130 +198,125 @@ export default {
       overviewText: 'The Heat Exchanger Portal is a mission-critical .NET Core-based enterprise platform designed for one of the five biggest oil and gas companies in the world, managing billions of dollars in maintenance operations. Hosted on OpenShift container platform with comprehensive monitoring through Grafana and Prometheus, this system processes 2.5 million data points daily from heat exchanger sensors across multiple refineries. The platform integrates Nexus for Docker image management, Apache Kafka for real-time data ingestion (30,000+ messages/second), and advanced predictive maintenance algorithms that forecast equipment failures 24-48 hours in advance with 85% accuracy. Through aggressive optimization, the system achieved a 65% reduction in response times (from 2.3s to 0.8s) while maintaining 99.9% uptime and supporting 15,000+ concurrent users across multiple geographical locations.',
       technologies: [
         // Frontend
-        { name: 'Angular', description: 'Frontend framework', category: 'frontend' },
-        { name: 'Bootstrap', description: 'UI framework', category: 'frontend' },
-        { name: 'jQuery', description: 'JavaScript library', category: 'frontend' },
-        { name: 'PrimeNG', description: 'UI components', category: 'frontend' },
+        { name: 'Angular', description: 'Frontend framework', category: TECH_CATEGORIES.FRONTEND },
+        { name: 'Bootstrap', description: 'UI framework', category: TECH_CATEGORIES.FRONTEND },
+        { name: 'jQuery', description: 'JavaScript library', category: TECH_CATEGORIES.FRONTEND },
+        { name: 'PrimeNG', description: 'UI components', category: TECH_CATEGORIES.FRONTEND },
         
         // Backend
-        { name: '.NET Core', description: 'Primary application framework', category: 'backend' },
-        { name: 'MVC Architecture', description: 'Design pattern', category: 'backend' },
-        { name: 'Entity Framework', description: 'ORM', category: 'backend' },
-        { name: 'LINQ2SQL & Dapper', description: 'Data access', category: 'backend' },
-        { name: 'Multi-threading', description: 'Background jobs', category: 'backend' },
+        { name: '.NET Core', description: 'Primary application framework', category: TECH_CATEGORIES.BACKEND },
+        { name: 'MVC Architecture', description: 'Design pattern', category: TECH_CATEGORIES.BACKEND },
+        { name: 'Entity Framework', description: 'ORM', category: TECH_CATEGORIES.BACKEND },
+        { name: 'LINQ2SQL & Dapper', description: 'Data access', category: TECH_CATEGORIES.BACKEND },
+        { name: 'Multi-threading', description: 'Background jobs', category: TECH_CATEGORIES.BACKEND },
         
         // Databases
-        { name: 'SQL Server', description: 'Primary database', category: 'database' },
+        { name: 'SQL Server', description: 'Primary database', category: TECH_CATEGORIES.DATABASE },
         
         // Cloud & Hosting
-        { name: 'OpenShift', description: 'Container orchestration platform', category: 'cloud' },
-        { name: 'Docker', description: 'Containerization', category: 'cloud' },
+        { name: 'OpenShift', description: 'Container orchestration platform', category: TECH_CATEGORIES.CLOUD },
+        { name: 'Docker', description: 'Containerization', category: TECH_CATEGORIES.CLOUD },
         
         // DevOps & CI/CD
-        { name: 'CI/CD Pipelines', description: 'Automated deployment', category: 'devops' },
-        { name: 'Nexus', description: 'Docker image repository', category: 'devops' },
+        { name: 'CI/CD Pipelines', description: 'Automated deployment', category: TECH_CATEGORIES.DEVOPS },
+        { name: 'Nexus', description: 'Docker image repository', category: TECH_CATEGORIES.DEVOPS },
         
         // Monitoring & Analytics
-        { name: 'Grafana', description: 'Data visualization', category: 'monitoring' },
-        { name: 'Prometheus', description: 'Metrics collection', category: 'monitoring' },
+        { name: 'Grafana', description: 'Data visualization', category: TECH_CATEGORIES.MONITORING },
+        { name: 'Prometheus', description: 'Metrics collection', category: TECH_CATEGORIES.MONITORING },
         
         // API & Integration
-        { name: 'Swagger UI', description: 'API documentation', category: 'api' },
+        { name: 'OpenShift Gateway', description: 'API management platform', category: TECH_CATEGORIES.API },
+        { name: 'Integration Services', description: 'Enterprise integration layer', category: TECH_CATEGORIES.API },
+        { name: 'Swagger UI', description: 'API documentation', category: TECH_CATEGORIES.API },
         
         // Testing & Quality
-        { name: 'N-Unit', description: 'Testing framework', category: 'testing' }
-      ],
-      projectInfo: [
-        { label: 'Category:', value: '🏢 Enterprise Applications' },
-        { label: 'Client:', value: '🔒 Confidential - Top 5 Oil & Gas Company' },
-        { label: 'Project Date:', value: '📅 June 2021 - August 2022' },
-        { label: 'Project URL:', value: '🌐 Internal Portal' },
-        { label: 'Company Size:', value: '🏆 Global Fortune 500' }
+        { name: 'N-Unit', description: 'Testing framework', category: TECH_CATEGORIES.TESTING }
       ],
       architectureLayers: [
         {
-          icon: '🔹',
+          icon: 'diamond',
           title: 'Frontend Layer',
           description: 'The frontend layer provides a modern, responsive user interface designed for real-time monitoring and control of heat exchanger operations across multiple devices and locations.',
           features: [
             {
-              icon: '🌐',
+              icon: 'web',
               name: 'Angular S-P-A',
               description: 'Single-page application built with Angular framework featuring real-time dashboards, interactive charts, and WebSocket integration for live data updates. Includes role-based access control and customizable user interfaces for different user types (operators, engineers, managers).'
             },
             {
-              icon: '📱',
+              icon: 'mobile',
               name: 'Mobile Responsive',
               description: 'Cross-device compatibility ensuring seamless operation on tablets, smartphones, and desktop computers. Optimized for field operations with touch-friendly interfaces and offline capability for critical functions.'
             },
             {
-              icon: '⚡',
+              icon: 'realtime',
               name: 'SignalR Integration',
               description: 'Real-time bidirectional communication enabling instant data streaming, live alerts, and collaborative features. Supports multiple concurrent users with efficient connection management and automatic reconnection handling.'
             }
           ]
         },
         {
-          icon: '🔹',
+          icon: 'diamond',
           title: 'API Gateway Layer',
           description: 'The API Gateway serves as the central entry point for all client requests, providing security, routing, and load balancing capabilities while ensuring optimal performance and reliability.',
           features: [
             {
-              icon: '🚪',
+              icon: 'api',
               name: 'OpenShift Gateway',
               description: 'Enterprise-grade API management platform providing comprehensive authentication, authorization, rate limiting, and request routing. Includes API versioning, service discovery, and advanced security features like OAuth 2.0 and JWT token validation.'
             },
             {
-              icon: '⚖️',
+              icon: 'load_balancing',
               name: 'Load Balancing',
               description: 'Intelligent traffic distribution across multiple microservice instances using round-robin and health-check algorithms. Implements circuit breaker patterns and automatic failover to ensure high availability and fault tolerance.'
             },
             {
-              icon: '🔒',
+              icon: 'security',
               name: 'SSL Termination',
               description: 'End-to-end encryption with SSL/TLS termination at the gateway level, reducing backend processing overhead. Implements certificate management, cipher suite optimization, and security headers for enhanced protection.'
             }
           ]
         },
         {
-          icon: '🔹',
+          icon: 'diamond',
           title: 'Microservices Layer',
           description: 'The microservices architecture enables scalable, maintainable, and independently deployable services that handle specific business functions with high performance and reliability.',
           features: [
             {
-              icon: '⚙️',
+              icon: 'api',
               name: '.NET Core Web API',
               description: 'High-performance RESTful services built with ASP.NET Core featuring SignalR hubs for real-time communication, message queues for asynchronous processing, and comprehensive heat exchanger management services. Implements dependency injection, middleware pipeline, and cross-cutting concerns.'
             },
             {
-              icon: '🔄',
+              icon: 'data processing',
               name: 'Data Processing Engine',
               description: 'Advanced analytics engine providing real-time data processing, predictive maintenance algorithms, and performance optimization. Includes background job processing, event-driven architecture, and data mining capabilities for operational insights and trend analysis.'
             },
             {
-              icon: '🔗',
+              icon: 'integration',
               name: 'Integration Services',
               description: 'Comprehensive integration layer handling SAP system connectivity, third-party API management, and data synchronization. Features service discovery, API management, and event processing for seamless enterprise system integration.'
             },
             {
-              icon: '📊',
+              icon: 'analytics',
               name: 'Analytics Engine',
               description: 'Business intelligence platform providing advanced reporting services, data visualization, and performance metrics. Includes custom dashboard creation, real-time alerts, and comprehensive analytics for operational decision-making.'
             }
           ]
         },
         {
-          icon: '🔹',
+          icon: 'diamond',
           title: 'Monitoring & DevOps',
           description: 'Comprehensive monitoring and DevOps infrastructure ensuring system reliability, performance optimization, and streamlined deployment processes with full observability and automation.',
           features: [
             {
-              icon: '📈',
+              icon: 'monitoring',
               name: 'Grafana',
               description: 'Advanced visualization platform providing real-time dashboards, custom alerts, and comprehensive data visualization. Features interactive charts, multi-user support, and integration with various data sources for complete system monitoring.'
             },
             {
-              icon: '📊',
+              icon: 'analytics',
               name: 'Prometheus',
               description: 'Time-series database and monitoring system for metrics collection, performance monitoring, and alert management. Provides comprehensive observability with custom metrics, service discovery, and powerful querying capabilities.'
             },
@@ -292,46 +326,46 @@ export default {
               description: 'Enterprise artifact management system for Docker image storage, version control, and package management. Includes CI/CD integration, security scanning, and comprehensive artifact lifecycle management.'
             },
             {
-              icon: '🚀',
+              icon: 'deployment',
               name: 'CI/CD Pipeline',
               description: 'Automated deployment pipeline featuring continuous integration, quality gates, and release management. Implements automated testing, security scanning, and blue-green deployment strategies for zero-downtime updates.'
             }
           ]
         },
         {
-          icon: '🔹',
+          icon: 'diamond',
           title: 'Data Layer',
           description: 'Robust data storage and caching infrastructure designed for high availability, performance, and scalability to support enterprise-level operations and real-time data processing requirements.',
           features: [
             {
-              icon: '🗄️',
+              icon: 'database',
               name: 'SQL Server Enterprise',
               description: 'Enterprise-grade relational database with high availability setup, real-time replication, and advanced transaction management. Features data integrity controls, performance optimization, and comprehensive stored procedure support for complex business logic.'
             },
             {
-              icon: '⚡',
+              icon: 'cache',
               name: 'Redis Cache',
               description: 'High-performance in-memory caching solution providing session management, data caching, and real-time operations. Implements memory optimization, distributed caching, and advanced data structures for optimal performance.'
             },
             {
-              icon: '☁️',
+              icon: 'cloud',
               name: 'Azure Blob Storage',
               description: 'Scalable cloud storage for document management, media files, and backup solutions. Features CDN integration, file management capabilities, and comprehensive backup and recovery procedures.'
             }
           ]
         },
         {
-          icon: '🔹',
+          icon: 'diamond',
           title: 'Security & Compliance',
           description: 'Comprehensive security framework ensuring data protection, regulatory compliance, and enterprise-grade security measures to safeguard critical infrastructure and sensitive information.',
           features: [
             {
-              icon: '🔐',
+              icon: 'authentication and authorization',
               name: 'Authentication & Authorization',
               description: 'Multi-factor authentication system with SSO integration, role-based access control, and comprehensive user management. Implements encryption, audit logging, and advanced security protocols for enterprise-grade protection.'
             },
             {
-              icon: '🛡️',
+              icon: 'compliance',
               name: 'Compliance & Audit',
               description: 'Regulatory compliance framework with comprehensive audit trails, data governance, and risk management. Features policy enforcement, continuous monitoring, and automated compliance reporting for industry standards.'
             }
@@ -341,108 +375,108 @@ export default {
       architectureBenefits: 'This microservices-based architecture provides exceptional scalability, maintainability, and performance for enterprise heat exchanger management operations handling billions of dollars in assets. The layered approach ensures clear separation of concerns, enabling independent development, testing, and deployment of each component while maintaining 99.9% uptime and fault tolerance. Each microservice can scale independently based on demand, with the data processing engine handling 30,000+ messages per second through Apache Kafka, while the analytics engine provides real-time insights through Grafana dashboards. The architecture supports horizontal scaling from 3 to 20 pod instances automatically, ensuring optimal resource utilization and sub-second response times even under peak loads of 15,000+ concurrent users.',
       challenges: [
         {
-          icon: '🚀',
+          icon: 'performance',
           title: 'High-Volume Data Processing (2.5M Data Points/Day)',
           problem: 'Processing 2.5 million data points daily from multiple heat exchanger sensors with sub-second latency requirements.',
           solutions: [
             {
-              icon: '📡',
+              icon: 'data pipeline',
               name: 'Data Ingestion Pipeline',
               description: 'Implemented Apache Kafka distributed messaging system with 5-broker cluster configuration, handling 30,000+ messages per second with zero message loss through replication factor of 3. Data partitioning strategy across 12 partitions ensures parallel processing and fault tolerance. Producer acknowledgment settings guarantee exactly-once delivery semantics, while consumer groups enable horizontal scaling of data processors. Message retention policies maintain 7 days of historical data for replay and disaster recovery scenarios.'
             },
             {
-              icon: '⚙️',
+              icon: 'api',
               name: 'Parallel Processing',
               description: 'Multi-threaded .NET Core services leveraging async/await patterns and Task Parallel Library (TPL) for concurrent data stream processing. Implemented parallel LINQ (PLINQ) for data transformations, achieving 95% CPU utilization efficiency across 16-core servers. Background services process data asynchronously using Hangfire job scheduler, with automatic retry mechanisms and distributed locks preventing duplicate processing. Thread pool optimization and careful memory management ensure stable performance under sustained high loads.'
             },
             {
-              icon: '🗄️',
+              icon: 'database optimization',
               name: 'Database Optimization',
               description: 'SQL Server Enterprise with advanced indexing strategies (covering indexes, filtered indexes, columnstore indexes), table partitioning by date ranges for efficient historical data queries, and optimized bulk insert operations using Table-Valued Parameters (TVPs). Implemented stored procedures with execution plan optimization, reducing write latency from 500ms to 50ms per batch (90% improvement). Query performance tuning reduced complex analytical queries from 15 seconds to under 2 seconds.'
             },
             {
-              icon: '⚡',
+              icon: 'cache',
               name: 'Caching Strategy',
               description: 'Redis cluster deployment with 99.9% cache hit rate, storing frequently accessed heat exchanger sensor data, user sessions, and real-time metrics in-memory. Implemented distributed caching across multiple nodes with automatic failover, reducing primary database load by 70% and enabling sub-200ms data retrieval for critical operations. Cache invalidation strategies ensure data freshness while maintaining optimal performance.'
             }
           ]
         },
         {
-          icon: '📊',
+          icon: 'alerts',
           title: 'Advanced Alerting & Monitoring System',
           problem: 'Real-time alerting system for critical equipment failures with intelligent escalation and predictive maintenance capabilities.',
           solutions: [
             {
-              icon: '📈',
+              icon: 'monitoring',
               name: 'Grafana Alerting Engine',
               description: 'Custom alert rules with multi-threshold conditions, anomaly detection algorithms, and intelligent grouping reducing alert fatigue by 80%.'
             },
             {
-              icon: '🔔',
+              icon: 'escalation matrix',
               name: 'Escalation Matrix',
               description: 'Automated escalation system with SMS, email, and Slack notifications based on severity levels and response time SLAs.'
             },
             {
-              icon: '🤖',
+              icon: 'analytics',
               name: 'Predictive Analytics',
               description: 'Machine learning models predicting equipment failures 24-48 hours in advance with 85% accuracy, enabling proactive maintenance.'
             },
             {
-              icon: '📱',
+              icon: 'mobile',
               name: 'Mobile Alerts',
               description: 'Push notifications to mobile devices with actionable insights and one-click acknowledgment, reducing response time by 60%.'
             }
           ]
         },
         {
-          icon: '🔄',
+          icon: 'deployment',
           title: 'OpenShift Auto-Scaling & Load Management',
           problem: 'Dynamic scaling of microservices based on real-time load patterns while maintaining 99.9% uptime and optimal resource utilization.',
           solutions: [
             {
-              icon: '📊',
+              icon: 'analytics',
               name: 'Horizontal Pod Autoscaler (HPA)',
               description: 'Custom HPA configurations scaling pods from 3 to 20 instances based on CPU/memory metrics, with 30-second scaling response time.'
             },
             {
-              icon: '⚖️',
+              icon: 'load_balancing',
               name: 'Load Balancing Strategy',
               description: 'HAProxy load balancer with health checks, circuit breaker patterns, and intelligent traffic distribution across multiple regions.'
             },
             {
-              icon: '🛡️',
+              icon: 'compliance',
               name: 'Resource Management',
               description: 'Resource quotas and limits preventing resource exhaustion, with 95% resource utilization efficiency and automatic pod eviction for failed instances.'
             },
             {
-              icon: '🔄',
+              icon: 'deployment',
               name: 'Rolling Updates',
               description: 'Zero-downtime deployments with rolling update strategy, maintaining service availability during updates with automatic rollback on failures.'
             }
           ]
         },
         {
-          icon: '🔒',
+          icon: 'compliance',
           title: 'Enterprise Security & Compliance',
           problem: 'Implementing enterprise-grade security for critical infrastructure with regulatory compliance and audit requirements.',
           solutions: [
             {
-              icon: '🔐',
+              icon: 'multi factor authentication',
               name: 'Multi-Factor Authentication',
               description: 'Azure AD integration with SAML 2.0, OAuth 2.0, and JWT tokens, supporting SSO across multiple enterprise systems.'
             },
             {
-              icon: '🛡️',
+              icon: 'data encryption',
               name: 'Data Encryption',
               description: 'End-to-end encryption with AES-256, TLS 1.3 for data in transit, and encrypted storage for data at rest with key rotation policies.'
             },
             {
-              icon: '📋',
+              icon: 'compliance',
               name: 'Audit & Compliance',
               description: 'Comprehensive audit logging with SIEM integration, automated compliance reporting, and real-time security monitoring with threat detection.'
             },
             {
-              icon: '🚨',
+              icon: 'incident response',
               name: 'Incident Response',
               description: 'Automated incident response with playbooks, real-time threat intelligence, and 24/7 security operations center (SOC) integration.'
             }
@@ -453,25 +487,25 @@ export default {
       metricsIntroduction: 'The following performance matrices were established as key success indicators for the Heat Exchanger Portal project. Each metric was carefully defined, measured, and validated to demonstrate the system\'s effectiveness in improving operational efficiency and reducing costs.',
       metricsCategories: [
         {
-          icon: '⚡',
+          icon: 'performance',
           title: 'System Performance Metrics',
           metrics: [
             {
-              icon: '⚡',
+              icon: 'performance',
               name: 'Response Time Optimization (2.3s → 0.8s)',
               measurementMethod: 'API response time tracking using Application Insights and custom telemetry. Measured end-to-end request processing from client to database and back.',
               context: 'Critical for real-time heat exchanger monitoring where operators need immediate feedback on equipment status. Faster response times enable quicker decision-making during critical operations.',
               validation: 'Achieved through database query optimization, caching strategies, and microservices architecture that reduced processing overhead by 65%.'
             },
             {
-              icon: '📊',
+              icon: 'uptime',
               name: 'System Uptime (99.9%)',
               measurementMethod: 'Continuous monitoring using Prometheus and Grafana dashboards. Tracked service availability, health checks, and automated alerting for any downtime events.',
               context: 'Essential for mission-critical heat exchanger operations where any system downtime could result in equipment failures costing millions in maintenance and production losses.',
               validation: 'Achieved through OpenShift auto-scaling, load balancing, and zero-downtime deployment strategies that ensured continuous service availability.'
             },
             {
-              icon: '💾',
+              icon: 'data processing',
               name: 'Data Processing Throughput (2.5M Data Points/Day)',
               measurementMethod: 'Real-time data ingestion monitoring using Apache Kafka metrics and custom analytics dashboards. Tracked data processing rates, queue depths, and processing latency.',
               context: 'Heat exchangers generate massive amounts of sensor data requiring real-time processing for predictive maintenance and operational insights.',
@@ -480,25 +514,25 @@ export default {
           ]
         },
         {
-          icon: '💰',
+          icon: 'financial',
           title: 'Business Impact Metrics',
           metrics: [
             {
-              icon: '💰',
+              icon: 'financial',
               name: 'Maintenance Cost Reduction (40% - $4.2M Annual Savings)',
               measurementMethod: 'Comparative analysis of maintenance costs before and after system implementation over 24-month period. Tracked preventive vs. reactive maintenance ratios, equipment failure rates, emergency repair costs, and unplanned downtime expenses. Baseline annual maintenance costs of $10.5M reduced to $6.3M through predictive analytics.',
               context: 'For a major oil & gas refinery, heat exchanger failures can cost $150K-$250K per hour in downtime plus emergency repair costs averaging $500K per incident. Predictive maintenance enables planned servicing during scheduled shutdowns, eliminating costly emergency repairs and production losses.',
               validation: 'Achieved through machine learning models that predicted equipment failures 24-48 hours in advance with 85% accuracy, reducing emergency repairs from 48 incidents/year to 7 incidents/year. Shifted maintenance strategy from 70% reactive / 30% preventive to 15% reactive / 85% preventive, enabling scheduled maintenance during planned outages.'
             },
             {
-              icon: '⚡',
+              icon: 'performance',
               name: 'Processing Efficiency (65% Faster - 2.3s to 0.8s)',
               measurementMethod: 'Benchmark testing of data processing workflows before and after optimization, measuring end-to-end response times for critical operations. Tracked percentile distributions (P50, P95, P99) and monitored performance under various load conditions (normal, peak, stress).',
               context: 'In refinery operations, every second of delay in detecting heat exchanger anomalies can escalate into equipment damage or safety incidents. Faster processing enables operators to respond to critical temperature or pressure deviations within seconds rather than minutes, potentially preventing incidents that could cost $2M+ in equipment damage and production losses.',
               validation: 'Achieved through comprehensive optimization: database query tuning (15s → 2s for complex analytics), Redis caching (70% database load reduction), parallel processing (95% CPU efficiency), and Apache Kafka message queuing (30K messages/sec). Real-world validation showed consistent sub-second response times even under peak loads of 15K concurrent users.'
             },
             {
-              icon: '👥',
+              icon: 'scalability',
               name: 'Enterprise-Wide User Capacity (15K+ Concurrent Users)',
               measurementMethod: 'Load testing using JMeter simulating realistic user behavior patterns, real-time session monitoring via Application Insights, and stress testing under 200% normal load. Tracked active connections, response times under load, memory consumption per user, and system resource utilization across distributed pods.',
               context: 'Global oil & gas operations require 24/7 access for operations teams, engineers, managers, and executives across multiple refineries, regions, and time zones. Previous system limited to 3,000 concurrent users, causing access bottlenecks during critical incidents and shift changes, potentially delaying emergency responses.',
@@ -509,17 +543,17 @@ export default {
       ],
       measurementFramework: [
         {
-          icon: '🔍',
+          icon: 'measurement',
           title: 'Baseline Establishment',
           description: 'Established performance baselines using historical data and manual measurements before system implementation to ensure accurate improvement tracking.'
         },
         {
-          icon: '📊',
+          icon: 'monitoring',
           title: 'Continuous Monitoring',
           description: 'Implemented real-time monitoring dashboards using Grafana and Prometheus to track performance metrics continuously throughout the project lifecycle.'
         },
         {
-          icon: '✅',
+          icon: 'validation',
           title: 'Validation Process',
           description: 'Performance improvements were validated through A/B testing, user feedback, and comparative analysis against industry benchmarks and project objectives.'
         }
@@ -547,7 +581,7 @@ export default {
           id: 'dataProcessingChart',
           type: 'doughnut',
           title: 'Data Processing Distribution',
-          icon: '🔄',
+          icon: 'data processing',
           width: 'half',
           data: {
             labels: ['Real-time Processing', 'Batch Analytics', 'Predictive Maintenance', 'Data Storage'],
@@ -615,7 +649,7 @@ export default {
           id: 'performanceChart',
           type: 'polarArea',
           title: 'Performance Optimization Impact',
-          icon: '⚡',
+          icon: 'performance',
           width: 'half',
           data: {
             labels: ['Response Time', 'Throughput', 'Resource Usage', 'Scalability'],
@@ -707,7 +741,7 @@ export default {
           id: 'loadTrendsChart',
           type: 'line',
           title: 'System Resource Utilization Trends',
-          icon: '📈',
+          icon: 'monitoring',
           width: 'half',
           data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -829,7 +863,7 @@ export default {
           id: 'errorRateChart',
           type: 'bar',
           title: 'Error Rate Analysis by Category',
-          icon: '🎯',
+          icon: 'target',
           width: 'half',
           data: {
             labels: ['API Errors', 'Database Errors', 'Network Errors', 'Auth Errors', 'Validation Errors'],
@@ -917,7 +951,7 @@ export default {
           id: 'monthlyMetricsChart',
           type: 'bar',
           title: 'Monthly Performance Trends - Response Time vs Throughput',
-          icon: '📊',
+          icon: 'analytics',
           width: 'full',
           data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],

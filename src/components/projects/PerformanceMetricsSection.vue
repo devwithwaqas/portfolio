@@ -2,7 +2,7 @@
   <div class="performance-metrics-section" data-aos="fade-up">
     
     <!-- Main Title -->
-    <h3 class="metrics-main-title txt-h3-2xl">📊 Enhanced Performance Metrics & Analytics</h3>
+    <h3 class="metrics-main-title txt-h3-2xl">Enhanced Performance Metrics & Analytics</h3>
     <p class="performance-subtitle txt-p-md">Real-time system performance monitoring and advanced analytics dashboard</p>
     
     <!-- Stats Cards Row (4 columns) -->
@@ -28,7 +28,20 @@
         :class="getChartColumnClass(chart.width)"
       >
         <div class="chart-container">
-          <h4 class="chart-title txt-h4-lg">{{ chart.icon }} {{ chart.title }}</h4>
+          <h4 class="chart-title txt-h4-lg chart-title-with-icon">
+            <span class="chart-icon icon-xl">
+              <img v-if="getChartIcon(chart.icon).type === 'local'" 
+                   :src="getChartIcon(chart.icon).src" 
+                   :alt="getChartIcon(chart.icon).alt" 
+                   class="icon-img-xl" />
+              <img v-else-if="getChartIcon(chart.icon).type === 'devicon'" 
+                   :src="getDeviconSvgUrl(getChartIcon(chart.icon).src)"
+                   :alt="getChartIcon(chart.icon).alt"
+                   class="icon-img-xl" />
+              <span v-else class="icon-xl">{{ getChartIcon(chart.icon).src }}</span>
+            </span>
+            <span class="chart-title-text">{{ chart.title }}</span>
+          </h4>
           <div class="chart-canvas-wrapper">
             <canvas :id="chart.id"></canvas>
           </div>
@@ -59,6 +72,7 @@ import {
   Title,
   Tooltip
 } from 'chart.js'
+import { resolveIcon, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
 
 // Register only the components we need
 Chart.register(
@@ -115,6 +129,14 @@ export default {
         return 'col-12'
       }
       return 'col-md-6 col-12'
+    },
+    
+    getChartIcon(iconName) {
+      return resolveIcon(iconName)
+    },
+    
+    getDeviconSvgUrl(iconName) {
+      return getDeviconSvgUrlUtil(iconName)
     },
     
     initializeCharts() {
@@ -268,6 +290,21 @@ export default {
   margin-bottom: 20px;
 }
 
+.chart-title-with-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.chart-icon {
+  flex-shrink: 0;
+}
+
+.chart-title-text {
+  flex: 1;
+}
+
 .chart-canvas-wrapper {
   position: relative;
   height: 350px;
@@ -285,9 +322,6 @@ export default {
     gap: 15px;
   }
   
-  .stat-value {
-    /* Font size managed by font-sizes.css */
-  }
   
   .chart-container {
     padding: 20px;

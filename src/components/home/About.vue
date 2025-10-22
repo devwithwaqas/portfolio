@@ -14,7 +14,7 @@
                     <div style="position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: linear-gradient(45deg, rgba(5, 99, 187, 0.06) 25%, transparent 25%), linear-gradient(-45deg, rgba(5, 99, 187, 0.06) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(5, 99, 187, 0.06) 75%), linear-gradient(-45deg, transparent 75%, rgba(5, 99, 187, 0.06) 75%); background-size: 30px 30px; background-position: 0 0, 0 15px, 15px -15px, -15px 0px; opacity: 0.3; animation: patternMove 30s linear infinite;"></div>
                     
                     <div style="position: relative; z-index: 2;">
-                      <h2 class="txt-h2-3xl" style="color: #0563bb; margin-bottom: 20px; font-weight: 600;">🚀 Senior Software Engineer &amp; Technical Lead</h2>
+                      <h2 class="txt-h2-3xl about-main-title">🚀 Senior Software Engineer &amp; Technical Lead</h2>
                       <p class="fst-italic py-3 txt-p-lg" style="color: #45505b; line-height: 1.6;">
                         Proficient in enterprise applications architecture whether hybrid or platform specific either as services for company or products for the organizations. Currently engaged as Senior Software Engineer Full Stack ({{ totalExperience }}+ years) / Technical Lead ({{ techLeadExperience }}+ years overall as Technical Lead) in developing web / cloud based applications.
                       </p>
@@ -129,4 +129,10 @@ export default {
 
 <style scoped>
 /* Removed conflicting font size rules - now handled globally */
+
+.about-main-title {
+  color: #0563bb;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
 </style>

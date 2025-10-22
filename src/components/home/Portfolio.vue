@@ -145,7 +145,7 @@ export default {
           title: 'Air Asia ID90',
           subtitle: 'Allstars Portal & Refund System',
           bannerImage: '/assets/img/aa1.jpg',
-          detailsLink: 'air-asia-id90.html',
+          detailsLink: '/projects/airasia-id90',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
             { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },

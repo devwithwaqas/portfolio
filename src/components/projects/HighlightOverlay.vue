@@ -3,6 +3,7 @@
     v-if="visible && highlights.length > 0" 
     class="highlight-overlay"
     :viewBox="`0 0 ${svgWidth} ${svgHeight}`"
+    preserveAspectRatio="xMidYMid meet"
   >
     <defs>
       <!-- Glow filter for modern effects -->
@@ -100,8 +101,6 @@ export default {
   height: 100%;
   pointer-events: none;
   z-index: 1000;
-  /* Ensure SVG scales with diagram */
-  object-fit: contain;
 }
 
 .highlight-rect {

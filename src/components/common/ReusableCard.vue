@@ -9,7 +9,7 @@
           <div class="header-particles">
             <span class="particle" v-for="n in 5" :key="n"></span>
           </div>
-          <h3 class="header-title-enhanced" :style="titleStyle">
+          <h3 class="header-title-enhanced txt-h3-2xl" :style="titleStyle">
             <!-- Icon Resolver Support -->
             <span v-if="iconName && iconData" class="title-icon icon-wrapper-lg">
               <i v-if="iconData.type === 'devicon'" :class="deviconClass + ' icon-lg'"></i>

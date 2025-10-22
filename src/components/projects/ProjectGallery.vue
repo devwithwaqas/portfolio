@@ -5,28 +5,51 @@
     <div class="gallery-carousel-container">
       
       <!-- Section Title - Inside Card -->
-      <h3 class="gallery-title txt-h3-2xl">📸 {{ title }}</h3>
+      <h3 class="gallery-title txt-h3-2xl">{{ title }}</h3>
       
-      <!-- Vue3 Carousel -->
-      <Carousel 
-        :items-to-show="1"
-        :autoplay="3500"
-        :wrap-around="true"
-        :transition="1500"
-        :pause-autoplay-on-hover="true"
-        class="gallery-carousel"
-      >
-        <Slide v-for="(image, index) in images" :key="index">
-          <div class="carousel-slide">
-            <img :src="image" :alt="`${projectName} Screenshot ${index + 1}`" />
+      <!-- Custom Cool Carousel -->
+      <div class="custom-cool-carousel">
+        <div class="carousel-container" ref="carouselContainer">
+          <div 
+            class="carousel-track" 
+            :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
+          >
+            <div 
+              v-for="(image, index) in images" 
+              :key="index"
+              class="carousel-slide"
+              :class="{ 
+                'active': index === currentIndex,
+                'prev': index === currentIndex - 1,
+                'next': index === currentIndex + 1
+              }"
+            >
+              <img :src="image" :alt="`${projectName} Screenshot ${index + 1}`" />
+            </div>
           </div>
-        </Slide>
+        </div>
 
-        <template #addons>
-          <Navigation />
-          <Pagination />
-        </template>
-      </Carousel>
+        <!-- Custom Navigation -->
+        <div class="custom-navigation">
+          <button class="nav-btn prev-btn" @click="goToPrevious" :disabled="currentIndex === 0">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="nav-btn next-btn" @click="goToNext" :disabled="currentIndex === images.length - 1">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <!-- Custom Pagination - Overlay on image -->
+        <div class="custom-pagination-overlay">
+          <button
+            v-for="(image, index) in images"
+            :key="index"
+            class="pagination-dot"
+            :class="{ active: index === currentIndex }"
+            @click="goToSlide(index)"
+          ></button>
+        </div>
+      </div>
       
     </div>
     
@@ -34,17 +57,8 @@
 </template>
 
 <script>
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
-import 'vue3-carousel/dist/carousel.css'
-
 export default {
   name: 'ProjectGallery',
-  components: {
-    Carousel,
-    Slide,
-    Pagination,
-    Navigation
-  },
   props: {
     title: {
       type: String,
@@ -57,6 +71,64 @@ export default {
     images: {
       type: Array,
       required: true
+    }
+  },
+  data() {
+    return {
+      currentIndex: 0,
+      autoplayInterval: null,
+      isTransitioning: false
+    }
+  },
+  mounted() {
+    this.startAutoplay()
+  },
+  beforeUnmount() {
+    this.stopAutoplay()
+  },
+  methods: {
+    goToNext() {
+      if (this.isTransitioning) return
+      this.isTransitioning = true
+      if (this.currentIndex < this.images.length - 1) {
+        this.currentIndex++
+      } else {
+        this.currentIndex = 0 // Loop back to start
+      }
+      setTimeout(() => {
+        this.isTransitioning = false
+      }, 800)
+    },
+    goToPrevious() {
+      if (this.isTransitioning) return
+      this.isTransitioning = true
+      if (this.currentIndex > 0) {
+        this.currentIndex--
+      } else {
+        this.currentIndex = this.images.length - 1 // Loop to end
+      }
+      setTimeout(() => {
+        this.isTransitioning = false
+      }, 800)
+    },
+    goToSlide(index) {
+      if (this.isTransitioning) return
+      this.isTransitioning = true
+      this.currentIndex = index
+      setTimeout(() => {
+        this.isTransitioning = false
+      }, 800)
+    },
+    startAutoplay() {
+      this.autoplayInterval = setInterval(() => {
+        this.goToNext()
+      }, 4000)
+    },
+    stopAutoplay() {
+      if (this.autoplayInterval) {
+        clearInterval(this.autoplayInterval)
+        this.autoplayInterval = null
+      }
     }
   }
 }
@@ -139,22 +211,41 @@ export default {
   75% { transform: translate(-10%, -5%) rotate(270deg); }
 }
 
-/* Carousel Wrapper */
-.gallery-carousel {
+/* Custom Cool Carousel */
+.custom-cool-carousel {
   width: 100%;
   max-width: 900px;
   height: 500px;
+  margin: 0 auto;
   position: relative;
+  overflow: hidden;
   border-radius: 12px;
-  overflow: visible;
 }
 
-.carousel-slide {
+.carousel-container {
   width: 100%;
   height: 100%;
   position: relative;
-  border-radius: 0;
   overflow: hidden;
+  border-radius: 12px;
+}
+
+.carousel-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  perspective: 1000px;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  transform-style: preserve-3d;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .carousel-slide img {
@@ -162,99 +253,142 @@ export default {
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 0;
+  border-radius: 12px;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-style: preserve-3d;
 }
 
-/* Override Vue3-Carousel default styles - Keep it simple */
-:deep(.carousel) {
-  background: transparent !important;
-  border-radius: 12px !important;
-  overflow: hidden !important;
+/* Cool flip transition effects */
+.carousel-slide.active {
+  transform: scale(1) rotateY(0deg) rotateX(0deg);
+  z-index: 3;
+  opacity: 1;
 }
 
-:deep(.carousel__viewport) {
-  height: 500px !important;
-  background: transparent !important;
-  border-radius: 12px !important;
-  overflow: hidden !important;
+.carousel-slide.prev {
+  transform: scale(0.8) rotateY(90deg) rotateX(10deg) translateZ(-100px);
+  opacity: 0.3;
+  z-index: 1;
 }
 
-:deep(.carousel__track) {
-  height: 500px !important;
-  background: transparent !important;
+.carousel-slide.next {
+  transform: scale(0.8) rotateY(-90deg) rotateX(-10deg) translateZ(-100px);
+  opacity: 0.3;
+  z-index: 1;
 }
 
-:deep(.carousel__slide) {
-  padding: 0 !important;
-  background: transparent !important;
-  height: 500px !important;
+.carousel-slide.active img {
+  transform: scale(1) rotateY(0deg);
+  filter: brightness(1) contrast(1) saturate(1);
 }
 
-/* Navigation Buttons - Positioned relative to carousel only */
-:deep(.carousel__prev),
-:deep(.carousel__next) {
-  background: rgba(30, 15, 50, 0.9) !important;
-  width: 45px !important;
-  height: 45px !important;
-  border-radius: 8px !important;
-  backdrop-filter: blur(10px) !important;
-  border: 2px solid rgba(139, 92, 246, 0.5) !important;
-  transition: all 0.3s ease !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
-  position: absolute !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  z-index: 10 !important;
+.carousel-slide.prev img,
+.carousel-slide.next img {
+  transform: scale(1.2) rotateY(0deg);
+  filter: brightness(0.6) contrast(0.8) saturate(0.7) blur(2px);
 }
 
-:deep(.carousel__prev) {
-  left: 10px !important;
+.carousel-slide:hover img {
+  transform: scale(1.05) rotateY(0deg);
+  filter: brightness(1.1) contrast(1.1) saturate(1.1);
 }
 
-:deep(.carousel__next) {
-  right: 10px !important;
+/* Custom Navigation */
+.custom-navigation {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+  pointer-events: none;
+  z-index: 10;
 }
 
-:deep(.carousel__prev:hover),
-:deep(.carousel__next:hover) {
-  background: rgba(139, 92, 246, 0.5) !important;
-  border-color: rgba(139, 92, 246, 0.8) !important;
-  box-shadow: 0 0 25px rgba(139, 92, 246, 0.5) !important;
-  transform: translateY(-50%) scale(1.05) !important;
+.nav-btn {
+  background: rgba(30, 15, 50, 0.9);
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(139, 92, 246, 0.5);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 10;
+  pointer-events: all;
+  color: rgba(255, 255, 255, 0.95);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-:deep(.carousel__icon) {
-  width: 20px !important;
-  height: 20px !important;
-  fill: rgba(255, 255, 255, 0.95) !important;
+.nav-btn:hover:not(:disabled) {
+  background: rgba(139, 92, 246, 0.7);
+  border-color: rgba(139, 92, 246, 1);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.8);
+  transform: scale(1.1);
 }
 
-/* Pagination */
-:deep(.carousel__pagination) {
-  padding: 20px 0 0 0 !important;
-  display: flex !important;
-  gap: 8px !important;
-  justify-content: center !important;
+.nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
-:deep(.carousel__pagination-button) {
-  width: 14px !important;
-  height: 14px !important;
-  border-radius: 50% !important;
-  background: rgba(255, 255, 255, 0.8) !important;
-  border: 2px solid rgba(139, 92, 246, 0.5) !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  transition: all 0.4s ease !important;
+.nav-btn i {
+  font-size: 16px;
 }
 
-:deep(.carousel__pagination-button--active) {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 1), rgba(168, 85, 247, 1)) !important;
-  width: 40px !important;
-  border-radius: 8px !important;
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.8), 0 0 40px rgba(168, 85, 247, 0.4) !important;
-  border-color: rgba(168, 85, 247, 0.8) !important;
+/* Custom Pagination - Overlay on image */
+.custom-pagination-overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  z-index: 15;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 16px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
 }
+
+.pagination-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  padding: 0;
+  margin: 0;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.pagination-dot.active {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 1), rgba(168, 85, 247, 1));
+  width: 32px;
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.9), 0 0 30px rgba(168, 85, 247, 0.5);
+  border-color: rgba(168, 85, 247, 1);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.9), 0 0 30px rgba(168, 85, 247, 0.5); 
+  }
+  50% { 
+    box-shadow: 0 0 25px rgba(139, 92, 246, 1), 0 0 45px rgba(168, 85, 247, 0.7); 
+  }
+}
+
 
 /* Tablet */
 @media (pointer: coarse) and (min-width: 768px) and (max-width: 1199px) {
@@ -263,7 +397,7 @@ export default {
     min-height: auto;
   }
   
-  .gallery-carousel {
+  .custom-cool-carousel {
     max-width: 750px;
     height: 420px;
   }
@@ -272,19 +406,9 @@ export default {
     height: 420px;
   }
   
-  :deep(.carousel__viewport),
-  :deep(.carousel__track) {
-    height: 420px !important;
-  }
-  
-  :deep(.carousel__slide) {
-    height: 420px !important;
-  }
-  
-  :deep(.carousel__prev),
-  :deep(.carousel__next) {
-    width: 40px !important;
-    height: 40px !important;
+  .nav-btn {
+    width: 40px;
+    height: 40px;
   }
 }
 
@@ -296,7 +420,7 @@ export default {
     gap: 15px;
   }
   
-  .gallery-carousel {
+  .custom-cool-carousel {
     max-width: 100%;
     height: 300px;
   }
@@ -305,24 +429,13 @@ export default {
     height: 300px;
   }
   
-  :deep(.carousel__viewport),
-  :deep(.carousel__track) {
-    height: 300px !important;
+  .nav-btn {
+    width: 35px;
+    height: 35px;
   }
   
-  :deep(.carousel__slide) {
-    height: 300px !important;
-  }
-  
-  :deep(.carousel__prev),
-  :deep(.carousel__next) {
-    width: 35px !important;
-    height: 35px !important;
-  }
-  
-  :deep(.carousel__icon) {
-    width: 14px !important;
-    height: 14px !important;
+  .nav-btn i {
+    font-size: 14px;
   }
 }
 </style>

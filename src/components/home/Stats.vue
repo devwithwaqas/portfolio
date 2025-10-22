@@ -9,7 +9,7 @@
       >
         <div class="row mb-5 g-4">
             <div class="col-12">
-              <div class="text-center mb-4 txt-h3-xl" style="color: #0563bb; font-weight: 600;">
+              <div class="text-center mb-4 txt-h3-xl stats-section-title">
                 <IconComponent icon-name="professional statistics" fallback-emoji="📊" size="lg" style="margin-right: 10px;" />
                 Professional Statistics
               </div>
@@ -94,6 +94,11 @@ export default {
 <style scoped>
 /* All stat card styling now handled by StatCard.vue component */
 /* This file only contains Stats section-specific overrides if needed */
+
+.stats-section-title {
+  color: #0563bb;
+  font-weight: 600;
+}
 
 /* Responsive adjustments for row/card-body */
 @media (pointer: coarse) and (max-width: 768px) {

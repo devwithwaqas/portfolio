@@ -4,13 +4,19 @@
       
       <!-- Challenge Items -->
       <div v-for="(challenge, index) in challenges" :key="index" class="challenge-layer">
-        <h4 class="challenge-layer-title">
+        <h4 class="challenge-layer-title txt-h4-xl">
           <div class="challenge-layer-icon-wrapper icon-wrapper-xl">
-            <span class="challenge-layer-icon icon-xl">{{ challenge.icon }}</span>
+            <span class="challenge-layer-icon icon-xl">
+              <img v-if="getChallengeIcon(challenge.icon).type === 'local'" 
+                   :src="getChallengeIcon(challenge.icon).src" 
+                   :alt="getChallengeIcon(challenge.icon).alt" 
+                   class="icon-img-xl" />
+              <span v-else class="icon-xl">{{ getChallengeIcon(challenge.icon).src }}</span>
+            </span>
           </div>
           {{ challenge.title }}
         </h4>
-        <p class="challenge-description"><strong>Challenge:</strong> {{ challenge.problem }}</p>
+        <p class="challenge-description txt-p-md"><strong class="txt-span-lg">Challenge:</strong> {{ challenge.problem }}</p>
         
         <!-- Solutions -->
         <div class="solutions-grid">
@@ -22,14 +28,16 @@
             <div class="solution-header">
               <!-- Tech Icon -->
               <div class="solution-icon-wrapper icon-wrapper-xl">
-                <i 
-                  v-if="getSolutionIconData(solution.name).type === 'devicon'" 
-                  :class="[getDeviconClass(getSolutionIconData(solution.name).src), 'solution-tech-icon', 'icon-xl']"
-                  :title="solution.name"
-                ></i>
                 <img 
-                  v-else-if="getSolutionIconData(solution.name).type === 'local'" 
-                  :src="getSolutionIconData(solution.name).src" 
+                  v-if="getSolutionIconData(solution).type === 'devicon'" 
+                  :src="getDeviconSvgUrl(getSolutionIconData(solution).src)"
+                  :alt="solution.name"
+                  class="solution-tech-icon icon-img-xl"
+                  :title="solution.name"
+                />
+                <img 
+                  v-else-if="getSolutionIconData(solution).type === 'local'" 
+                  :src="getSolutionIconData(solution).src" 
                   :alt="solution.name"
                   :title="solution.name"
                   class="solution-tech-icon icon-img-xl"
@@ -37,22 +45,28 @@
                 <span 
                   v-else 
                   class="solution-tech-icon icon-xl"
-                >{{ solution.icon }}</span>
+                >{{ getSolutionIconData(solution).src }}</span>
               </div>
-              <strong class="solution-name">{{ solution.name }}:</strong>
+              <strong class="solution-name txt-span-lg">{{ solution.name }}:</strong>
             </div>
-            <p class="solution-description">{{ solution.description }}</p>
+            <p class="solution-description txt-p-sm">{{ solution.description }}</p>
           </div>
         </div>
       </div>
       
       <!-- Business Impact & Results -->
       <div class="business-impact">
-        <h4 class="impact-title">
-          <span class="impact-icon">🎯</span>
+        <h4 class="impact-title txt-h4-xl">
+          <span class="impact-icon">
+            <img v-if="getChallengeIcon('target').type === 'local'" 
+                 :src="getChallengeIcon('target').src" 
+                 :alt="getChallengeIcon('target').alt" 
+                 class="icon-img-lg" />
+            <span v-else class="icon-lg">{{ getChallengeIcon('target').src }}</span>
+          </span>
           Business Impact & Results
         </h4>
-        <p class="impact-description">{{ businessImpact }}</p>
+        <p class="impact-description txt-p-md">{{ businessImpact }}</p>
       </div>
       
     </div>
@@ -61,7 +75,7 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
-import { resolveIcon, getDeviconClass as getDeviconClassUtil } from '../../utils/iconResolver.js'
+import { resolveIcon, getDeviconClass as getDeviconClassUtil, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
 
 export default {
   name: 'EngineeringChallenges',
@@ -71,7 +85,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '⚡ Engineering Challenges & Solutions'
+      default: 'Engineering Challenges & Solutions'
     },
     challenges: {
       type: Array,
@@ -83,12 +97,21 @@ export default {
     }
   },
   methods: {
-    getSolutionIconData(solutionName) {
-      // Pass the full solution name to resolveIcon
-      return resolveIcon(solutionName)
+    getSolutionIconData(solution) {
+      // Use icon property first, then fallback to name for intelligent mapping
+      if (solution.icon) {
+        return resolveIcon(solution.icon, solution.name)
+      }
+      return resolveIcon(solution.name)
     },
     getDeviconClass(iconName) {
       return getDeviconClassUtil(iconName)
+    },
+    getDeviconSvgUrl(iconName) {
+      return getDeviconSvgUrlUtil(iconName)
+    },
+    getChallengeIcon(iconName) {
+      return resolveIcon(iconName)
     }
   }
 }
@@ -223,9 +246,6 @@ export default {
     padding-bottom: 20px;
   }
   
-  .challenge-layer-title {
-    /* Font size managed by font-sizes.css */
-  }
   
   .solution-item {
     padding: 12px;
@@ -236,8 +256,5 @@ export default {
     margin: 0;
   }
   
-  .impact-title {
-    /* Font size managed by font-sizes.css */
-  }
 }
 </style>

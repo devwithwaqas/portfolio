@@ -207,6 +207,16 @@
             });
           });
         }, 100);
+      },
+      onClose: () => {
+        // Clean up narration state when GLightbox closes
+        try {
+          if (window.hxNarratorPro && typeof window.hxNarratorPro.stop === 'function') {
+            window.hxNarratorPro.stop();
+          }
+        } catch (e) {
+          console.warn('Error cleaning up narration on GLightbox close:', e);
+        }
       }
     });
   }

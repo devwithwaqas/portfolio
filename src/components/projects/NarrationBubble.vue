@@ -17,7 +17,7 @@
       <p class="bubble-description txt-p-md">{{ step.description }}</p>
       <div class="bubble-footer">
         <div class="bubble-progress">
-          <span class="txt-label-sm">Step {{ stepIndex + 1 }} of {{ totalSteps }}</span>
+          <span class="txt-label-sm step-counter">Step {{ (stepIndex || 0) + 1 }} of {{ totalSteps || 0 }}</span>
           <span v-if="isAutoPlaying" class="txt-label-sm auto-play-indicator">
             <i class="bi bi-play-circle-fill"></i> Auto
           </span>
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { DEBUG_CONFIG } from '@/config/constants'
+
 export default {
   name: 'NarrationBubble',
   props: {
@@ -60,11 +62,11 @@ export default {
       type: Number,
       default: 0
     },
-    isAutoPlaying: {
+    isNarrating: {
       type: Boolean,
       default: false
     },
-    isNarrating: {
+    isAutoPlaying: {
       type: Boolean,
       default: false
     },
@@ -72,11 +74,11 @@ export default {
       type: Number,
       default: 0
     },
-    speechProgress: {
+    estimatedTimeRemaining: {
       type: Number,
       default: 0
     },
-    estimatedTimeRemaining: {
+    speechProgress: {
       type: Number,
       default: 0
     },
@@ -87,10 +89,15 @@ export default {
   },
   data() {
     return {
-      bubbleStyle: {}
+      bubbleStyle: {},
+      // Debug flag to control console logging
+      debugMode: false
     }
   },
   computed: {
+    DEBUG() {
+      return DEBUG_CONFIG.FullscreenDiagramIssue
+    },
     progressBarWidth() {
       return `${this.speechProgress}%`
     }
@@ -106,23 +113,13 @@ export default {
         }
       }
     },
-    containerElement: {
-      immediate: true,
-      handler() {
-        if (this.visible) {
-          this.$nextTick(() => {
-            this.updateBubblePosition()
-          })
-        }
-      }
-    },
     step: {
       immediate: true,
       deep: true,
       handler(newVal) {
         if (newVal && this.visible) {
           this.$nextTick(() => {
-            console.log('[NarrationBubble] Step changed, recalculating position')
+            this.debugLog('Step changed, recalculating position')
             this.updateBubblePosition()
           })
         }
@@ -133,7 +130,7 @@ export default {
       handler(newVal) {
         if (this.visible) {
           this.$nextTick(() => {
-            console.log('[NarrationBubble] Step index changed to:', newVal)
+            this.debugLog('Step index changed to:', newVal)
             this.updateBubblePosition()
           })
         }
@@ -141,168 +138,105 @@ export default {
     }
   },
   methods: {
-    updateBubblePosition() {
-      if (!this.containerElement || !this.step || !this.step.highlights || this.step.highlights.length === 0) {
-        // Fallback to default positioning if no highlights
-        this.positionBubbleDefault()
-        return
-      }
-      
-      // Get the first highlight area (primary focus)
-      const highlight = this.step.highlights[0]
-      
-      // Calculate the best position to avoid covering the highlight
-      const bestPosition = this.calculateBestPosition(highlight)
-      
-      console.log(`[NarrationBubble] Positioning bubble at ${bestPosition.position}: left: ${bestPosition.left}px, top: ${bestPosition.top}px`)
-      
-      this.bubbleStyle = {
-        position: 'fixed',
-        left: `${bestPosition.left}px`,
-        top: `${bestPosition.top}px`,
-        zIndex: 10000
+    // Debug logging helper
+    debugLog(message, ...args) {
+      if (this.debugMode) {
+        console.log(`[NarrationBubble] ${message}`, ...args)
       }
     },
     
-    calculateBestPosition(highlight) {
-      const containerRect = this.containerElement.getBoundingClientRect()
+    debugWarn(message, ...args) {
+      if (this.debugMode) {
+        console.warn(`[NarrationBubble] ${message}`, ...args)
+      }
+    },
+
+    updateBubblePosition() {
+      if (!this.visible || !this.step) return
       
-      // Calculate highlight position in screen coordinates
-      const svgWidth = containerRect.width
-      const svgHeight = containerRect.height
-      
-      // Convert SVG coordinates to screen coordinates
-      const scaleX = svgWidth / 2400  // Assuming SVG viewBox width is 2400
-      const scaleY = svgHeight / 2200 // Assuming SVG viewBox height is 2200
-      
-      const highlightScreenX = containerRect.left + (highlight.x * scaleX)
-      const highlightScreenY = containerRect.top + (highlight.y * scaleY)
-      const highlightScreenWidth = highlight.width * scaleX
-      const highlightScreenHeight = highlight.height * scaleY
-      
-      // Bubble dimensions
       const bubbleWidth = 400
       const bubbleHeight = 200
       const padding = 20
+      const toolbarHeight = 100
       
-      // Define possible positions (priority order)
-      const positions = [
-        {
-          name: 'right',
-          left: highlightScreenX + highlightScreenWidth + padding,
-          top: highlightScreenY + (highlightScreenHeight / 2) - (bubbleHeight / 2)
-        },
-        {
-          name: 'left',
-          left: highlightScreenX - bubbleWidth - padding,
-          top: highlightScreenY + (highlightScreenHeight / 2) - (bubbleHeight / 2)
-        },
-        {
-          name: 'bottom',
-          left: highlightScreenX + (highlightScreenWidth / 2) - (bubbleWidth / 2),
-          top: highlightScreenY + highlightScreenHeight + padding
-        },
-        {
-          name: 'top',
-          left: highlightScreenX + (highlightScreenWidth / 2) - (bubbleWidth / 2),
-          top: highlightScreenY - bubbleHeight - padding
-        },
-        {
-          name: 'top-right',
-          left: highlightScreenX + highlightScreenWidth + padding,
-          top: highlightScreenY - bubbleHeight - padding
-        },
-        {
-          name: 'top-left',
-          left: highlightScreenX - bubbleWidth - padding,
-          top: highlightScreenY - bubbleHeight - padding
-        },
-        {
-          name: 'bottom-right',
-          left: highlightScreenX + highlightScreenWidth + padding,
-          top: highlightScreenY + highlightScreenHeight + padding
-        },
-        {
-          name: 'bottom-left',
-          left: highlightScreenX - bubbleWidth - padding,
-          top: highlightScreenY + highlightScreenHeight + padding
+      // Get highlight position in SVG coordinates to determine which half it's in
+      let highlightSide = 'center'
+      if (this.step.highlights && this.step.highlights.length > 0) {
+        const highlight = this.step.highlights[0]
+        const highlightCenterX = highlight.x + highlight.width / 2
+        
+        // Get actual SVG dimensions from parent DiagramViewer
+        let svgWidth = 2403  // Default HeatExchanger width
+        if (this.containerElement) {
+          const svg = this.containerElement.querySelector('svg')
+          if (svg) {
+            const viewBox = svg.getAttribute('viewBox')
+            if (viewBox) {
+              const [, , width] = viewBox.split(' ').map(Number)
+              svgWidth = width
+            }
+          }
         }
-      ]
+        
+        const diagramCenter = svgWidth / 2
+        
+        // Use the same logic as DiagramViewer to determine highlight side
+        if (highlightCenterX < diagramCenter) {
+          highlightSide = 'left'  // Highlight is in left half of diagram
+        } else {
+          highlightSide = 'right' // Highlight is in right half of diagram
+        }
+      }
       
-      // Score each position based on available space and visibility
-      const scoredPositions = positions.map(pos => {
-        const score = this.scorePosition(pos, bubbleWidth, bubbleHeight, highlightScreenX, highlightScreenY, highlightScreenWidth, highlightScreenHeight)
-        return { ...pos, score }
-      })
+      // Position bubble opposite to highlight side
+      if (highlightSide === 'left') {
+        // Highlight is in left half, position bubble on right side
+        this.bubbleStyle = {
+          position: 'fixed',
+          right: `${padding}px`,
+          top: `${toolbarHeight + padding}px`,
+          zIndex: 10001,
+          maxWidth: `${bubbleWidth}px`,
+          minWidth: '300px',
+          maxHeight: 'calc(100vh - 140px)',
+          overflowY: 'auto'
+        }
+      } else if (highlightSide === 'right') {
+        // Highlight is in right half, position bubble on left side
+        this.bubbleStyle = {
+          position: 'fixed',
+          left: `${padding}px`,
+          top: `${toolbarHeight + padding}px`,
+          zIndex: 10001,
+          maxWidth: `${bubbleWidth}px`,
+          minWidth: '300px',
+          maxHeight: 'calc(100vh - 140px)',
+          overflowY: 'auto'
+        }
+      } else {
+        // Default to top-right if we can't determine
+        this.bubbleStyle = {
+          position: 'fixed',
+          right: `${padding}px`,
+          top: `${toolbarHeight + padding}px`,
+          zIndex: 10001,
+          maxWidth: `${bubbleWidth}px`,
+          minWidth: '300px',
+          maxHeight: 'calc(100vh - 140px)',
+          overflowY: 'auto'
+        }
+      }
       
-      // Sort by score (highest first)
-      scoredPositions.sort((a, b) => b.score - a.score)
-      
-      // Return the best position with constraints applied
-      const bestPos = scoredPositions[0]
-      return {
-        position: bestPos.name,
-        left: Math.max(10, Math.min(window.innerWidth - bubbleWidth - 10, bestPos.left)),
-        top: Math.max(10, Math.min(window.innerHeight - bubbleHeight - 10, bestPos.top))
+      if (this.DEBUG) {
+        this.debugLog('Dynamic positioning:', {
+          highlightSide: highlightSide,
+          bubblePosition: highlightSide === 'left' ? 'right' : 'left',
+          highlightCenterX: this.step.highlights?.[0] ? this.step.highlights[0].x + this.step.highlights[0].width / 2 : 'none',
+          svgWidth: this.containerElement ? this.containerElement.querySelector('svg')?.getAttribute('viewBox')?.split(' ')[2] : 'default',
+          diagramCenter: this.containerElement ? this.containerElement.querySelector('svg')?.getAttribute('viewBox')?.split(' ')[2] / 2 : 1201.5
+        })
       }
     },
-    
-    scorePosition(pos, bubbleWidth, bubbleHeight, highlightX, highlightY, highlightWidth, highlightHeight) {
-      let score = 100
-      
-      // Check if position is within viewport
-      const isInViewportX = pos.left >= 0 && (pos.left + bubbleWidth) <= window.innerWidth
-      const isInViewportY = pos.top >= 0 && (pos.top + bubbleHeight) <= window.innerHeight
-      
-      if (!isInViewportX) score -= 50
-      if (!isInViewportY) score -= 50
-      
-      // Check if bubble overlaps with highlight
-      const bubbleRight = pos.left + bubbleWidth
-      const bubbleBottom = pos.top + bubbleHeight
-      const highlightRight = highlightX + highlightWidth
-      const highlightBottom = highlightY + highlightHeight
-      
-      const overlapsX = !(bubbleRight < highlightX || pos.left > highlightRight)
-      const overlapsY = !(bubbleBottom < highlightY || pos.top > highlightBottom)
-      
-      if (overlapsX && overlapsY) {
-        score -= 80 // Heavy penalty for covering the highlight
-      }
-      
-      // Prefer right and bottom positions (more natural reading flow)
-      if (pos.name === 'right') score += 20
-      if (pos.name === 'bottom') score += 15
-      if (pos.name === 'bottom-right') score += 10
-      
-      // Prefer positions with more space
-      const spaceLeft = pos.left
-      const spaceRight = window.innerWidth - (pos.left + bubbleWidth)
-      const spaceTop = pos.top
-      const spaceBottom = window.innerHeight - (pos.top + bubbleHeight)
-      
-      const minSpace = Math.min(spaceLeft, spaceRight, spaceTop, spaceBottom)
-      score += Math.min(minSpace / 10, 20) // Bonus for having space (capped at 20)
-      
-      return score
-    },
-    
-    positionBubbleDefault() {
-      if (!this.containerElement) return
-      
-      const containerRect = this.containerElement.getBoundingClientRect()
-      
-      // Default: position on the right side of the screen, vertically centered
-      const bubbleLeft = Math.min(window.innerWidth - 450, containerRect.right + 20)
-      const bubbleTop = Math.max(100, Math.min(window.innerHeight - 300, containerRect.top + 100))
-      
-      this.bubbleStyle = {
-        position: 'fixed',
-        left: `${bubbleLeft}px`,
-        top: `${bubbleTop}px`,
-        zIndex: 10000
-      }
-    }
   }
 }
 </script>
@@ -323,6 +257,7 @@ export default {
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   pointer-events: none;
   animation: bubbleIn 0.3s ease-out;
+  z-index: 10000;
 }
 
 @keyframes bubbleIn {
@@ -354,14 +289,14 @@ export default {
 .bubble-title {
   color: #ffffff;
   margin: 0;
-  flex: 1;
   font-weight: 600;
+  line-height: 1.3;
 }
 
 .bubble-description {
-  color: #e0e7ff;
+  color: #e0e0e0;
   margin: 0 0 16px 0;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .bubble-footer {
@@ -376,21 +311,25 @@ export default {
   margin-bottom: 8px;
 }
 
-.auto-play-indicator {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #2ed573;
+.step-counter {
+  color: #ffffff;
   font-weight: 500;
 }
 
-.auto-play-indicator i {
-  font-size: 14px;
+.auto-play-indicator {
+  color: #22c55e;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-/* Dynamic Speech Progress Bar */
+.auto-play-indicator i {
+  font-size: 0.8rem;
+}
+
+/* Speech Progress Bar */
 .speech-progress-container {
-  margin-top: 12px;
+  margin-top: 8px;
 }
 
 .speech-progress-bar {

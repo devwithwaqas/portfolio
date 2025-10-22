@@ -62,7 +62,9 @@ export default {
       speechStartTime: null,
       progressInterval: null,
       currentTime: Date.now(), // Add reactive time trigger
-      containerElement: null // Container element for bubble positioning
+      containerElement: null, // Container element for bubble positioning
+      // Debug flag to control console logging
+      debugMode: false
     }
   },
   computed: {
@@ -109,6 +111,19 @@ export default {
     window.removeEventListener('keydown', this.handleKeyPress)
   },
   methods: {
+    // Debug logging helper
+    debugLog(message, ...args) {
+      if (this.debugMode) {
+        console.log(`[DiagramNarrator] ${message}`, ...args)
+      }
+    },
+    
+    debugWarn(message, ...args) {
+      if (this.debugMode) {
+        console.warn(`[DiagramNarrator] ${message}`, ...args)
+      }
+    },
+
     handleKeyPress(event) {
       if (!this.isNarrating) return
       
@@ -141,7 +156,7 @@ export default {
       }
     },
     start() {
-      console.log('[DiagramNarrator] Starting narration with auto-play')
+      this.debugLog('Starting narration with auto-play')
       this.isNarrating = true
       this.isAutoPlaying = true
       this.currentStepIndex = 0
@@ -150,14 +165,14 @@ export default {
       this.speakCurrentStep()
     },
     pause() {
-      console.log('[DiagramNarrator] Pausing auto-play')
+      this.debugLog('Pausing auto-play')
       this.isAutoPlaying = false
       this.stopSpeaking()
     },
     resume() {
-      console.log('[DiagramNarrator] Resuming auto-play')
+      this.debugLog('Resuming auto-play')
       if (!this.isNarrating) {
-        console.log('[DiagramNarrator] Not narrating, starting narration instead')
+        this.debugLog('Not narrating, starting narration instead')
         this.start()
         return
       }
@@ -165,7 +180,7 @@ export default {
       this.speakCurrentStep()
     },
     stop() {
-      console.log('[DiagramNarrator] Stopping narration')
+      this.debugLog('Stopping narration')
       this.isNarrating = false
       this.isAutoPlaying = false
       this.currentStepIndex = 0
@@ -173,7 +188,7 @@ export default {
       this.$emit('narration-stopped')
     },
     next() {
-      console.log('[DiagramNarrator] Next step (manual)')
+      this.debugLog('Next step (manual)')
       if (this.currentStepIndex < this.narrationSteps.length - 1) {
         this.currentStepIndex++
         this.speakCurrentStep()
@@ -182,20 +197,20 @@ export default {
       }
     },
     previous() {
-      console.log('[DiagramNarrator] Previous step (manual)')
+      this.debugLog('Previous step (manual)')
       if (this.currentStepIndex > 0) {
         this.currentStepIndex--
         this.speakCurrentStep()
       }
     },
     advanceToNextStep() {
-      console.log('[DiagramNarrator] Auto-advancing to next step')
+      this.debugLog('Auto-advancing to next step')
       if (this.currentStepIndex < this.narrationSteps.length - 1) {
         this.currentStepIndex++
         this.$emit('step-changed', this.currentStepIndex, this.currentStep)
         this.speakCurrentStep()
       } else {
-        console.log('[DiagramNarrator] Reached last step, stopping')
+        this.debugLog('Reached last step, stopping')
         this.stop()
       }
     },
@@ -204,7 +219,7 @@ export default {
       
       // Stop any ongoing speech from previous step
       if (window.speechSynthesis.speaking) {
-        console.log('[DiagramNarrator] Canceling previous speech')
+        this.debugLog('Canceling previous speech')
         window.speechSynthesis.cancel()
       }
       
@@ -222,11 +237,11 @@ export default {
       const charactersPerSecond = 14.62
       this.estimatedDuration = characterCount / charactersPerSecond
       
-      console.log('[DiagramNarrator] Title:', speechTitle)
-      console.log('[DiagramNarrator] Description:', speechDescription.substring(0, 50) + '...')
-      console.log('[DiagramNarrator] Full text:', fullText)
-      console.log('[DiagramNarrator] Total character count:', characterCount, 'Estimated duration:', this.estimatedDuration.toFixed(1), 'seconds')
-      console.log('[DiagramNarrator] Rate used:', charactersPerSecond, 'characters/second')
+      this.debugLog('Title:', speechTitle)
+      this.debugLog('Description:', speechDescription.substring(0, 50) + '...')
+      this.debugLog('Full text:', fullText)
+      this.debugLog('Total character count:', characterCount, 'Estimated duration:', this.estimatedDuration.toFixed(1), 'seconds')
+      this.debugLog('Rate used:', charactersPerSecond, 'characters/second')
       
       // Use Web Speech API for text-to-speech
       if ('speechSynthesis' in window) {
@@ -243,12 +258,12 @@ export default {
           this.currentUtterance.voice = this.selectedVoice
         }
           
-          console.log('[DiagramNarrator] Speaking:', this.currentUtterance.text.substring(0, 50) + '...')
-          console.log('[DiagramNarrator] Full text length:', this.currentUtterance.text.length, 'characters')
+          this.debugLog('Speaking:', this.currentUtterance.text.substring(0, 50) + '...')
+          this.debugLog('Full text length:', this.currentUtterance.text.length, 'characters')
           
           // Log when speech starts
           this.currentUtterance.onstart = () => {
-            console.log('[DiagramNarrator] Speech started')
+            this.debugLog('Speech started')
             this.speechStartTime = Date.now()
             this.speechProgress = 0
             this.startProgressTracking()
@@ -256,7 +271,7 @@ export default {
           
           // When speech ends, auto-advance to next step if auto-playing
           this.currentUtterance.onend = () => {
-            console.log('[DiagramNarrator] Speech finished naturally')
+            this.debugLog('Speech finished naturally')
             this.stopProgressTracking()
             this.speechProgress = 100
             
@@ -267,11 +282,11 @@ export default {
           }
           
           this.currentUtterance.onerror = (event) => {
-            console.log('[DiagramNarrator] Speech event:', event.error, '- This is normal during navigation')
+            this.debugLog('Speech event:', event.error, '- This is normal during navigation')
             this.stopProgressTracking()
             // Don't advance on "interrupted" errors - they're expected during navigation
             if (event.error !== 'interrupted' && this.isAutoPlaying && this.isNarrating) {
-              console.log('[DiagramNarrator] Real error, advancing to next step')
+              this.debugLog('Real error, advancing to next step')
               this.advanceToNextStep()
             }
           }
@@ -279,12 +294,12 @@ export default {
           window.speechSynthesis.speak(this.currentUtterance)
         }, 100)
       } else {
-        console.warn('[DiagramNarrator] Speech synthesis not supported')
+        this.debugWarn('Speech synthesis not supported')
       }
     },
     stopSpeaking() {
       if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
-        console.log('[DiagramNarrator] Stopping speech (user action)')
+        this.debugLog('Stopping speech (user action)')
         window.speechSynthesis.cancel()
         this.currentUtterance = null
       }
@@ -302,42 +317,42 @@ export default {
 
     // New methods for navigation and voice control
     next() {
-      console.log('[DiagramNarrator] Next button pressed, current index:', this.currentStepIndex)
+      this.debugLog('Next button pressed, current index:', this.currentStepIndex)
       if (this.currentStepIndex < this.narrationSteps.length - 1) {
         // Stop current speech first
         this.stopSpeaking()
         // Wait a moment for speech to fully stop
         setTimeout(() => {
           this.currentStepIndex++
-          console.log('[DiagramNarrator] Advanced to step:', this.currentStepIndex + 1)
+          this.debugLog('Advanced to step:', this.currentStepIndex + 1)
           this.$emit('step-changed', this.currentStepIndex, this.currentStep)
           this.speakCurrentStep()
         }, 200)
       } else {
-        console.log('[DiagramNarrator] Already at last step')
+        this.debugLog('Already at last step')
       }
     },
 
     previous() {
-      console.log('[DiagramNarrator] Previous button pressed, current index:', this.currentStepIndex)
+      this.debugLog('Previous button pressed, current index:', this.currentStepIndex)
       if (this.currentStepIndex > 0) {
         // Stop current speech first
         this.stopSpeaking()
         // Wait a moment for speech to fully stop
         setTimeout(() => {
           this.currentStepIndex--
-          console.log('[DiagramNarrator] Moved back to step:', this.currentStepIndex + 1)
+          this.debugLog('Moved back to step:', this.currentStepIndex + 1)
           this.$emit('step-changed', this.currentStepIndex, this.currentStep)
           this.speakCurrentStep()
         }, 200)
       } else {
-        console.log('[DiagramNarrator] Already at first step')
+        this.debugLog('Already at first step')
       }
     },
 
     stopSpeaking() {
       if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-        console.log('[DiagramNarrator] Stopping current speech immediately')
+        this.debugLog('Stopping current speech immediately')
         window.speechSynthesis.cancel()
         // Clear any pending utterances
         this.currentUtterance = null
@@ -346,7 +361,7 @@ export default {
 
     setVoice(voice) {
       this.selectedVoice = voice
-      console.log('[DiagramNarrator] Voice set to:', voice?.name || 'Default')
+      this.debugLog('Voice set to:', voice?.name || 'Default')
     },
     
     startProgressTracking() {

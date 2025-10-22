@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import HeatExchangerPage from '../views/projects/HeatExchangerPage.vue'
+import AirAsiaID90Page from '../views/projects/AirAsiaID90Page.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/projects/heat-exchanger',
     name: 'HeatExchanger',
     component: HeatExchangerPage
+  },
+  {
+    path: '/projects/airasia-id90',
+    name: 'AirAsiaID90',
+    component: AirAsiaID90Page
   },
   // Redirect any old routes to home with hash
   {

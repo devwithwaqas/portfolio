@@ -1,0 +1,352 @@
+[
+  {
+    "type": "rectangle",
+    "x": 417.0,
+    "y": 61.2,
+    "width": 196.9,
+    "height": 140.3,
+    "text": "AirAsia Employee Seeks staff fares",
+    "fill": "#08427B",
+    "stroke": "stroke:#073B6F;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 1070.0,
+    "y": 61.2,
+    "width": 241.0,
+    "height": 140.3,
+    "text": "System Administrator Manages system",
+    "fill": "#08427B",
+    "stroke": "stroke:#073B6F;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 207.6,
+    "y": 451.5,
+    "width": 203.3,
+    "height": 97.8,
+    "text": "Web App [Angular] Employee booking",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 660.5,
+    "y": 451.5,
+    "width": 179.9,
+    "height": 97.8,
+    "text": "Mobile PWA [Angular PWA] Mobile",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 1090.2,
+    "y": 451.5,
+    "width": 200.6,
+    "height": 97.8,
+    "text": "Admin Dashboard [Angular] Administrative",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 654.1,
+    "y": 799.2,
+    "width": 192.8,
+    "height": 97.8,
+    "text": "API Management [APIM] Edge gateway",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 672.7,
+    "y": 1147.0,
+    "width": 155.5,
+    "height": 97.8,
+    "text": "App Gateway [App GW] Load",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 133.9,
+    "y": 1494.8,
+    "width": 150.7,
+    "height": 97.8,
+    "text": "Auth Service [.NET Core] Authentication",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 534.8,
+    "y": 1494.8,
+    "width": 183.9,
+    "height": 97.8,
+    "text": "Booking Service [.NET Core] Booking",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 108.6,
+    "y": 1842.5,
+    "width": 161.1,
+    "height": 97.8,
+    "text": "Flight Service [.NET Core] Flight",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 519.3,
+    "y": 1842.5,
+    "width": 199.7,
+    "height": 97.8,
+    "text": "Employee Service [.NET Core] Employee",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 3984.4,
+    "y": 1842.5,
+    "width": 219.5,
+    "height": 97.8,
+    "text": "Notification Service [.NET Core] Notifications",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 4454.6,
+    "y": 1842.5,
+    "width": 174.2,
+    "height": 97.8,
+    "text": "Refund Service [.NET Core] Refunds",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 4878.4,
+    "y": 1842.5,
+    "width": 194.2,
+    "height": 97.8,
+    "text": "Analytics Service [.NET Core] Analytics",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 5322.1,
+    "y": 1842.5,
+    "width": 156.7,
+    "height": 97.8,
+    "text": "Audit Service [.NET Core] Audit",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 1993.6,
+    "y": 2190.3,
+    "width": 191.1,
+    "height": 97.8,
+    "text": "Service Bus [Azure Service Bus]",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 2583.5,
+    "y": 2190.3,
+    "width": 148.8,
+    "height": 97.8,
+    "text": "App Insights [App Insights] Telemetry",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 2982.3,
+    "y": 2199.0,
+    "width": 168.8,
+    "height": 80.3,
+    "text": "AirAsia Flights Flight booking",
+    "fill": "#999999",
+    "stroke": "stroke:#8A8A8A;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 3400.5,
+    "y": 2199.0,
+    "width": 140.0,
+    "height": 80.3,
+    "text": "Google SSO OAuth SSO",
+    "fill": "#999999",
+    "stroke": "stroke:#8A8A8A;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 3791.0,
+    "y": 2199.0,
+    "width": 176.4,
+    "height": 80.3,
+    "text": "Teams API Teams messaging",
+    "fill": "#999999",
+    "stroke": "stroke:#8A8A8A;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 4217.9,
+    "y": 2199.0,
+    "width": 182.7,
+    "height": 80.3,
+    "text": "Email Service Email notifications",
+    "fill": "#999999",
+    "stroke": "stroke:#8A8A8A;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 4650.2,
+    "y": 2199.0,
+    "width": 173.0,
+    "height": 80.3,
+    "text": "SMS Gateway SMS notifications",
+    "fill": "#999999",
+    "stroke": "stroke:#8A8A8A;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 5073.2,
+    "y": 2199.0,
+    "width": 152.0,
+    "height": 80.3,
+    "text": "Push Service Mobile push",
+    "fill": "#999999",
+    "stroke": "stroke:#8A8A8A;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 2014.0,
+    "y": 2538.0,
+    "width": 140.4,
+    "height": 97.8,
+    "text": "Event Grid [Event Grid] Event",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 2575.6,
+    "y": 2538.0,
+    "width": 164.7,
+    "height": 97.8,
+    "text": "Azure Monitor [Monitor] Infrastructure",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 1988.3,
+    "y": 2885.8,
+    "width": 184.3,
+    "height": 97.8,
+    "text": "Azure Functions [Functions] Serverless",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 2422.8,
+    "y": 2885.8,
+    "width": 125.4,
+    "height": 97.8,
+    "text": "Grafana [Grafana] Dashboards",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 2798.6,
+    "y": 2885.8,
+    "width": 113.7,
+    "height": 97.8,
+    "text": "Power [Power BI] Reports",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 1988.1,
+    "y": 3233.5,
+    "width": 197.2,
+    "height": 97.8,
+    "text": "Stream Analytics [Stream] Realtime processing",
+    "fill": "#438DD5",
+    "stroke": "stroke:#3C7FC0;stroke-width:2.5;"
+  },
+  {
+    "type": "rectangle",
+    "x": 5297.0,
+    "y": 3761.9,
+    "width": 172.2,
+    "height": 20.4,
+    "text": "person",
+    "fill": "#08427B",
+    "stroke": "stroke:none;stroke-width:1.25;"
+  },
+  {
+    "type": "rectangle",
+    "x": 5297.0,
+    "y": 3782.3,
+    "width": 172.2,
+    "height": 20.4,
+    "text": "system",
+    "fill": "#1168BD",
+    "stroke": "stroke:none;stroke-width:1.25;"
+  },
+  {
+    "type": "rectangle",
+    "x": 5297.0,
+    "y": 3802.6,
+    "width": 172.2,
+    "height": 20.4,
+    "text": "container",
+    "fill": "#438DD5",
+    "stroke": "stroke:none;stroke-width:1.25;"
+  },
+  {
+    "type": "rectangle",
+    "x": 5297.0,
+    "y": 3823.0,
+    "width": 172.2,
+    "height": 20.4,
+    "text": "external person",
+    "fill": "#686868",
+    "stroke": "stroke:none;stroke-width:1.25;"
+  },
+  {
+    "type": "rectangle",
+    "x": 5297.0,
+    "y": 3843.4,
+    "width": 172.2,
+    "height": 20.4,
+    "text": "external system",
+    "fill": "#999999",
+    "stroke": "stroke:none;stroke-width:1.25;"
+  },
+  {
+    "type": "rectangle",
+    "x": 5297.0,
+    "y": 3863.8,
+    "width": 172.2,
+    "height": 20.4,
+    "text": "external container",
+    "fill": "#B3B3B3",
+    "stroke": "stroke:none;stroke-width:1.25;"
+  }
+]

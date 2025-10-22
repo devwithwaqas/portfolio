@@ -28,15 +28,10 @@
 ====================================================================
 */
 
-/* highlight the currently narrated node */
-.hx-narrate-focus {
-  outline: 3px solid #f59e0b;
-  outline-offset: 2px;
-  stroke: #f59e0b !important;
-  stroke-width: 3 !important;
-  filter: drop-shadow(0 0 6px rgba(245,158,11,.6));
-}
+/* Legacy highlight styles removed - now using unified HighlightService */
 /* Heat Exchanger specific magnifier overlay removed in favor of unified .mag-overlay below */
+
+/* Devicon icons now use SVG images instead of CSS classes for better color support */
 /**
 * Template Name: MyResume
 * Template URL: https://bootstrapmade.com/free-html-bootstrap-template-my-resume/

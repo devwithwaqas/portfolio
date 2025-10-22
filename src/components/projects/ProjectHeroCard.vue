@@ -15,6 +15,13 @@
           :key="index" 
           class="tag-badge txt-label-sm"
         >
+          <span v-if="getTagIcon(tag)" class="tag-icon">
+            <img v-if="getTagIcon(tag).type === 'local'" 
+                 :src="getTagIcon(tag).src" 
+                 :alt="getTagIcon(tag).alt" 
+                 class="icon-img-xs" />
+            <span v-else class="icon-xs">{{ getTagIcon(tag).src }}</span>
+          </span>
           {{ tag }}
         </span>
       </div>
@@ -27,7 +34,13 @@
             :key="index" 
             class="achievement-item"
           >
-            <span class="achievement-emoji icon-lg">{{ achievement.emoji }}</span>
+            <span class="achievement-emoji icon-lg">
+              <img v-if="getAchievementIcon(achievement.emoji).type === 'local'" 
+                   :src="getAchievementIcon(achievement.emoji).src" 
+                   :alt="getAchievementIcon(achievement.emoji).alt" 
+                   class="icon-img-lg" />
+              <span v-else class="icon-lg">{{ getAchievementIcon(achievement.emoji).src }}</span>
+            </span>
             <span class="achievement-label txt-label-md">{{ achievement.label }}:</span>
             <span class="achievement-value txt-p-md">{{ achievement.value }}</span>
           </div>
@@ -39,7 +52,13 @@
             :key="index" 
             class="achievement-item"
           >
-            <span class="achievement-emoji icon-lg">{{ achievement.emoji }}</span>
+            <span class="achievement-emoji icon-lg">
+              <img v-if="getAchievementIcon(achievement.emoji).type === 'local'" 
+                   :src="getAchievementIcon(achievement.emoji).src" 
+                   :alt="getAchievementIcon(achievement.emoji).alt" 
+                   class="icon-img-lg" />
+              <span v-else class="icon-lg">{{ getAchievementIcon(achievement.emoji).src }}</span>
+            </span>
             <span class="achievement-label txt-label-md">{{ achievement.label }}:</span>
             <span class="achievement-value txt-p-md">{{ achievement.value }}</span>
           </div>
@@ -51,6 +70,8 @@
 </template>
 
 <script>
+import { resolveIcon } from '../../utils/iconResolver.js'
+
 export default {
   name: 'ProjectHeroCard',
   props: {
@@ -73,6 +94,28 @@ export default {
     achievementsCol2: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    getTagIcon(tagText) {
+      // Map tag text to icon names
+      const tagIconMap = {
+        'Mission Critical': 'critical',
+        'Real-time Processing': 'realtime',
+        'Enterprise Scale': 'enterprise',
+        'Zero Downtime': 'uptime',
+        'Revolutionary Employee Benefits': 'award',
+        '90% Flight Discounts': 'financial',
+        'Machine Learning Analytics': 'analytics',
+        'Last-Minute Bookings': 'realtime',
+        '90% Employee Discount': 'financial',
+        'Refund Management': 'automation'
+      }
+      const iconName = tagIconMap[tagText]
+      return iconName ? resolveIcon(iconName) : null
+    },
+    getAchievementIcon(iconName) {
+      return resolveIcon(iconName)
     }
   }
 }
@@ -209,6 +252,13 @@ export default {
   white-space: nowrap;
 }
 
+.tag-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .tag-badge:hover {
   background: rgba(139, 92, 246, 0.3);
   border-color: rgba(139, 92, 246, 0.6);
@@ -232,7 +282,7 @@ export default {
 
 .achievement-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
   padding: 12px;
   background: rgba(255, 255, 255, 0.05);

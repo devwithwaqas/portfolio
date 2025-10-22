@@ -4,13 +4,19 @@
       
       <!-- Architecture Layers -->
       <div v-for="(layer, index) in architectureLayers" :key="index" class="architecture-layer">
-        <h4 class="layer-title">
+        <h4 class="txt-h4-xl layer-title">
           <div class="layer-icon-wrapper icon-wrapper-xl">
-            <span class="layer-icon icon-xl">{{ layer.icon }}</span>
+            <span class="layer-icon icon-xl">
+              <img v-if="getLayerIcon(layer.icon).type === 'local'" 
+                   :src="getLayerIcon(layer.icon).src" 
+                   :alt="getLayerIcon(layer.icon).alt" 
+                   class="icon-img-xl" />
+              <span v-else class="icon-xl">{{ getLayerIcon(layer.icon).src }}</span>
+            </span>
           </div>
-          {{ layer.title }}
+          <span class="layer-title-text">{{ layer.title }}</span>
         </h4>
-        <p class="layer-description">{{ layer.description }}</p>
+        <p class="txt-p-md">{{ layer.description }}</p>
         
         <!-- Layer Features -->
         <div class="layer-features">
@@ -22,14 +28,16 @@
             <div class="feature-header">
               <!-- Tech Icon -->
               <div class="tech-icon-wrapper icon-wrapper-xl">
-                <i 
-                  v-if="getFeatureIconData(feature.name).type === 'devicon'" 
-                  :class="[getDeviconClass(getFeatureIconData(feature.name).src), 'feature-tech-icon', 'icon-xl']"
-                  :title="feature.name"
-                ></i>
                 <img 
-                  v-else-if="getFeatureIconData(feature.name).type === 'local'" 
-                  :src="getFeatureIconData(feature.name).src" 
+                  v-if="getFeatureIconData(feature).type === 'devicon'" 
+                  :src="getDeviconSvgUrl(getFeatureIconData(feature).src)"
+                  :alt="feature.name"
+                  class="feature-tech-icon icon-img-xl"
+                  :title="feature.name"
+                />
+                <img 
+                  v-else-if="getFeatureIconData(feature).type === 'local'" 
+                  :src="getFeatureIconData(feature).src" 
                   :alt="feature.name"
                   :title="feature.name"
                   class="feature-tech-icon icon-img-xl"
@@ -37,22 +45,30 @@
                 <span 
                   v-else 
                   class="feature-tech-icon icon-xl"
-                >{{ feature.icon }}</span>
+                >{{ getFeatureIconData(feature).src }}</span>
               </div>
-              <strong class="feature-name">{{ feature.name }}:</strong>
+              <span class="feature-name">{{ feature.name }}:</span>
             </div>
-            <p class="feature-description">{{ feature.description }}</p>
+            <p class="txt-p-sm">{{ feature.description }}</p>
           </div>
         </div>
       </div>
       
       <!-- Architecture Benefits -->
       <div class="architecture-benefits">
-        <h4 class="benefits-title">
-          <span class="benefits-icon">🔹</span>
-          Architecture Benefits
+        <h4 class="txt-h4-xl layer-title">
+          <div class="layer-icon-wrapper icon-wrapper-xl">
+            <span class="benefits-icon icon-xl">
+              <img v-if="getLayerIcon('diamond').type === 'local'" 
+                   :src="getLayerIcon('diamond').src" 
+                   :alt="getLayerIcon('diamond').alt" 
+                   class="icon-img-xl" />
+              <span v-else class="icon-xl">{{ getLayerIcon('diamond').src }}</span>
+            </span>
+          </div>
+          <span class="layer-title-text">Architecture Benefits</span>
         </h4>
-        <p class="benefits-description">{{ benefitsDescription }}</p>
+        <p class="txt-p-md">{{ benefitsDescription }}</p>
       </div>
       
       
@@ -63,7 +79,7 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
-import { resolveIcon, getDeviconClass as getDeviconClassUtil } from '../../utils/iconResolver.js'
+import { resolveIcon, getDeviconClass as getDeviconClassUtil, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
 
 export default {
   name: 'ArchitectureOverview',
@@ -73,7 +89,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: '🏛️ Architecture Overview'
+      default: 'Architecture Overview'
     },
     architectureLayers: {
       type: Array,
@@ -85,13 +101,21 @@ export default {
     }
   },
   methods: {
-    getFeatureIconData(featureName) {
-      // Pass the full feature name to resolveIcon
-      // It will handle mapping (e.g., ".NET Core Web API" -> ".NET Core")
-      return resolveIcon(featureName)
+    getFeatureIconData(feature) {
+      // Use icon property first, then fallback to name for intelligent mapping
+      if (feature.icon) {
+        return resolveIcon(feature.icon, feature.name)
+      }
+      return resolveIcon(feature.name)
+    },
+    getLayerIcon(iconName) {
+      return resolveIcon(iconName)
     },
     getDeviconClass(iconName) {
       return getDeviconClassUtil(iconName)
+    },
+    getDeviconSvgUrl(iconName) {
+      return getDeviconSvgUrlUtil(iconName)
     }
   }
 }
@@ -134,6 +158,16 @@ export default {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+.layer-title-text {
+  flex: 1;
+}
+
+.feature-name {
+  color: #7c3aed;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
 .layer-description {
@@ -226,9 +260,6 @@ export default {
     padding-bottom: 20px;
   }
   
-  .layer-title {
-    /* Font size managed by font-sizes.css */
-  }
   
   .feature-item {
     padding: 12px;
