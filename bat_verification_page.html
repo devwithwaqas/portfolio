@@ -1,0 +1,2519 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAT Diagram - Enhanced Verification (44 Shapes + 8 Groups)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .summary {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .verification-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .shape-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .shape-card {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        .shape-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .shape-card.correct {
+            border-color: #28a745;
+            background: #f8fff9;
+        }
+        .shape-card.wrong {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+        .shape-card.rectangle {
+            border-left: 4px solid #4CAF50;
+        }
+        .shape-card.database {
+            border-left: 4px solid #FF9800;
+        }
+        .shape-card.group {
+            border-left: 4px solid #2196F3;
+        }
+        .shape-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .shape-id {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+        .status-checkboxes {
+            display: flex;
+            gap: 10px;
+        }
+        .status-checkbox {
+            transform: scale(1.1);
+        }
+        .coordinates {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9em;
+            margin: 10px 0;
+        }
+        .text-content {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            margin: 10px 0;
+            min-height: 30px;
+        }
+        .coordinate-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .coord-input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .submit-section {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .submit-btn {
+            background: #007bff;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .submit-btn:hover {
+            background: #0056b3;
+        }
+        .progress {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 20px;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            background: #28a745;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        .section-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+            color: #333;
+        }
+        .output-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .output-textarea {
+            width: 100%;
+            height: 200px;
+            font-family: monospace;
+            font-size: 0.9em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .status-label {
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .correct-label {
+            color: #28a745;
+        }
+        .wrong-label {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BAT Diagram - Enhanced Verification</h1>
+        
+        <div class="summary">
+            <h3>Summary</h3>
+            <p><strong>Total Individual Shapes:</strong> 51 (37 rectangles + 4 databases + 3 other components)</p>
+            <p><strong>Total Groups:</strong> 8</p>
+            <p><strong>Rectangles:</strong> 47</p>
+            <p><strong>Databases:</strong> 4</p>
+        </div>
+        
+        <div class="verification-form">
+            <h3>Instructions:</h3>
+            <ol>
+                <li>Review each shape/group below with their meaningful titles</li>
+                <li>Check "Correct" if coordinates are accurate, or "Wrong" if they need fixing</li>
+                <li>If "Wrong", update the coordinates in the input fields</li>
+                <li>Click "Generate Analysis" to see CSV output in the text area below</li>
+                <li>Copy the CSV data and paste it here for analysis</li>
+            </ol>
+        </div>
+        
+        <div class="progress">
+            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        </div>
+        
+        <form id="verificationForm">
+            <div class="section-title">Individual Shapes (51)</div>
+            <div class="shape-grid">
+
+                <div class="shape-card rectangle" id="card_0">
+                    <div class="shape-header">
+                        <div class="shape-id">angular_portal</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_0" value="correct" class="status-checkbox" onchange="updateStatus(0, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_0" value="wrong" class="status-checkbox" onchange="updateStatus(0, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 67.62<br>
+                        Y: 1285.13<br>
+                        Width: 677.26<br>
+                        Height: 317.14
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_0" value="67.62" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_0" value="1285.13" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_0" value="677.26" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_0" value="317.14" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Angular Portal - Unified Enterprise Interface
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_1">
+                    <div class="shape-header">
+                        <div class="shape-id">mobile_pwa</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_1" value="correct" class="status-checkbox" onchange="updateStatus(1, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_1" value="wrong" class="status-checkbox" onchange="updateStatus(1, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 67.62<br>
+                        Y: 1600.00<br>
+                        Width: 677.26<br>
+                        Height: 317.14
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_1" value="67.62" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_1" value="1600.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_1" value="677.26" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_1" value="317.14" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Mobile PWA - Progressive Web Application
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_2">
+                    <div class="shape-header">
+                        <div class="shape-id">admin_dashboard</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_2" value="correct" class="status-checkbox" onchange="updateStatus(2, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_2" value="wrong" class="status-checkbox" onchange="updateStatus(2, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 2505.38<br>
+                        Y: 1285.13<br>
+                        Width: 664.25<br>
+                        Height: 317.14
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_2" value="2505.38" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_2" value="1285.13" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_2" value="664.25" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_2" value="317.14" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Admin Dashboard - System Management Interface
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_3">
+                    <div class="shape-header">
+                        <div class="shape-id">analytics_dashboard</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_3" value="correct" class="status-checkbox" onchange="updateStatus(3, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_3" value="wrong" class="status-checkbox" onchange="updateStatus(3, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 3794.09<br>
+                        Y: 1285.13<br>
+                        Width: 643.04<br>
+                        Height: 317.14
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_3" value="3794.09" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_3" value="1285.13" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_3" value="643.04" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_3" value="317.14" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Analytics Dashboard - Business Intelligence Interface
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_4">
+                    <div class="shape-header">
+                        <div class="shape-id">azure_api_gateway</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_4" value="correct" class="status-checkbox" onchange="updateStatus(4, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_4" value="wrong" class="status-checkbox" onchange="updateStatus(4, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 2000.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_4" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_4" value="2000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_4" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_4" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Azure API Gateway - API Management
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_5">
+                    <div class="shape-header">
+                        <div class="shape-id">api_management</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_5" value="correct" class="status-checkbox" onchange="updateStatus(5, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_5" value="wrong" class="status-checkbox" onchange="updateStatus(5, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 2000.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_5" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_5" value="2000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_5" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_5" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        API Management (APIM) - Enterprise API Hub
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_6">
+                    <div class="shape-header">
+                        <div class="shape-id">application_gateway</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_6" value="correct" class="status-checkbox" onchange="updateStatus(6, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_6" value="wrong" class="status-checkbox" onchange="updateStatus(6, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1800.00<br>
+                        Y: 2000.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_6" value="1800.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_6" value="2000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_6" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_6" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Application Gateway - Load Balancer & WAF
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_7">
+                    <div class="shape-header">
+                        <div class="shape-id">security_gateway</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_7" value="correct" class="status-checkbox" onchange="updateStatus(7, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_7" value="wrong" class="status-checkbox" onchange="updateStatus(7, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 2200.00<br>
+                        Y: 2000.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_7" value="2200.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_7" value="2000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_7" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_7" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Security Gateway - Authentication & Authorization
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_8">
+                    <div class="shape-header">
+                        <div class="shape-id">azure_service_fabric</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_8" value="correct" class="status-checkbox" onchange="updateStatus(8, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_8" value="wrong" class="status-checkbox" onchange="updateStatus(8, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 2500.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_8" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_8" value="2500.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_8" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_8" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Azure Service Fabric - Microservices Platform
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_9">
+                    <div class="shape-header">
+                        <div class="shape-id">authentication_service</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_9" value="correct" class="status-checkbox" onchange="updateStatus(9, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_9" value="wrong" class="status-checkbox" onchange="updateStatus(9, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 2500.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_9" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_9" value="2500.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_9" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_9" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Authentication Service - Identity Management
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_10">
+                    <div class="shape-header">
+                        <div class="shape-id">itsm_service</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_10" value="correct" class="status-checkbox" onchange="updateStatus(10, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_10" value="wrong" class="status-checkbox" onchange="updateStatus(10, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1800.00<br>
+                        Y: 2500.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_10" value="1800.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_10" value="2500.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_10" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_10" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        IT Service Management - ITSM Platform
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_11">
+                    <div class="shape-header">
+                        <div class="shape-id">analytics_service</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_11" value="correct" class="status-checkbox" onchange="updateStatus(11, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_11" value="wrong" class="status-checkbox" onchange="updateStatus(11, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 2200.00<br>
+                        Y: 2500.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_11" value="2200.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_11" value="2500.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_11" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_11" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Analytics Service - Business Intelligence
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_12">
+                    <div class="shape-header">
+                        <div class="shape-id">integration_service</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_12" value="correct" class="status-checkbox" onchange="updateStatus(12, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_12" value="wrong" class="status-checkbox" onchange="updateStatus(12, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 2800.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_12" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_12" value="2800.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_12" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_12" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Integration Service - Enterprise Integration
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_13">
+                    <div class="shape-header">
+                        <div class="shape-id">notification_service</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_13" value="correct" class="status-checkbox" onchange="updateStatus(13, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_13" value="wrong" class="status-checkbox" onchange="updateStatus(13, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 2800.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_13" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_13" value="2800.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_13" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_13" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Notification Service - .NET Core Microservice
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_14">
+                    <div class="shape-header">
+                        <div class="shape-id">saga_orchestrator</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_14" value="correct" class="status-checkbox" onchange="updateStatus(14, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_14" value="wrong" class="status-checkbox" onchange="updateStatus(14, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1800.00<br>
+                        Y: 2800.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_14" value="1800.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_14" value="2800.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_14" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_14" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Saga Orchestrator - Workflow Management
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_15">
+                    <div class="shape-header">
+                        <div class="shape-id">audit_service</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_15" value="correct" class="status-checkbox" onchange="updateStatus(15, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_15" value="wrong" class="status-checkbox" onchange="updateStatus(15, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 2200.00<br>
+                        Y: 2800.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_15" value="2200.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_15" value="2800.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_15" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_15" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Audit Service - Compliance & Logging
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_16">
+                    <div class="shape-header">
+                        <div class="shape-id">monitoring_service</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_16" value="correct" class="status-checkbox" onchange="updateStatus(16, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_16" value="wrong" class="status-checkbox" onchange="updateStatus(16, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 3200.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_16" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_16" value="3200.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_16" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_16" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Monitoring Service - System Health
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_17">
+                    <div class="shape-header">
+                        <div class="shape-id">backup_service</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_17" value="correct" class="status-checkbox" onchange="updateStatus(17, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_17" value="wrong" class="status-checkbox" onchange="updateStatus(17, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 3200.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_17" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_17" value="3200.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_17" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_17" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Backup Service - Data Protection
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_18">
+                    <div class="shape-header">
+                        <div class="shape-id">reporting_service</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_18" value="correct" class="status-checkbox" onchange="updateStatus(18, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_18" value="wrong" class="status-checkbox" onchange="updateStatus(18, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1800.00<br>
+                        Y: 3200.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_18" value="1800.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_18" value="3200.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_18" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_18" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Reporting Service - Business Reports
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_19">
+                    <div class="shape-header">
+                        <div class="shape-id">azure_monitor</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_19" value="correct" class="status-checkbox" onchange="updateStatus(19, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_19" value="wrong" class="status-checkbox" onchange="updateStatus(19, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 2200.00<br>
+                        Y: 3200.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_19" value="2200.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_19" value="3200.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_19" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_19" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Azure Monitor - System Monitoring
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_20">
+                    <div class="shape-header">
+                        <div class="shape-id">azure_service_bus</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_20" value="correct" class="status-checkbox" onchange="updateStatus(20, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_20" value="wrong" class="status-checkbox" onchange="updateStatus(20, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 3600.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_20" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_20" value="3600.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_20" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_20" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Azure Service Bus - Message Broker
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_21">
+                    <div class="shape-header">
+                        <div class="shape-id">azure_event_grid</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_21" value="correct" class="status-checkbox" onchange="updateStatus(21, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_21" value="wrong" class="status-checkbox" onchange="updateStatus(21, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 3600.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_21" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_21" value="3600.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_21" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_21" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Azure Event Grid - Event Routing
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_22">
+                    <div class="shape-header">
+                        <div class="shape-id">azure_functions</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_22" value="correct" class="status-checkbox" onchange="updateStatus(22, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_22" value="wrong" class="status-checkbox" onchange="updateStatus(22, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1800.00<br>
+                        Y: 3600.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_22" value="1800.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_22" value="3600.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_22" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_22" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Azure Functions - Serverless Computing
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_23">
+                    <div class="shape-header">
+                        <div class="shape-id">stream_analytics</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_23" value="correct" class="status-checkbox" onchange="updateStatus(23, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_23" value="wrong" class="status-checkbox" onchange="updateStatus(23, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 2200.00<br>
+                        Y: 3600.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_23" value="2200.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_23" value="3600.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_23" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_23" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Stream Analytics - Real-time Processing
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_24">
+                    <div class="shape-header">
+                        <div class="shape-id">power_bi</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_24" value="correct" class="status-checkbox" onchange="updateStatus(24, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_24" value="wrong" class="status-checkbox" onchange="updateStatus(24, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 4000.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_24" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_24" value="4000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_24" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_24" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Power BI - Business Intelligence
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_25">
+                    <div class="shape-header">
+                        <div class="shape-id">azure_data_lake</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_25" value="correct" class="status-checkbox" onchange="updateStatus(25, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_25" value="wrong" class="status-checkbox" onchange="updateStatus(25, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 4000.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_25" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_25" value="4000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_25" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_25" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Azure Data Lake - Data Storage
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_26">
+                    <div class="shape-header">
+                        <div class="shape-id">sap_planet</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_26" value="correct" class="status-checkbox" onchange="updateStatus(26, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_26" value="wrong" class="status-checkbox" onchange="updateStatus(26, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 4400.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_26" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_26" value="4400.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_26" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_26" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        SAP Planet 8/9 - ERP Integration
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_27">
+                    <div class="shape-header">
+                        <div class="shape-id">cherwell_hr</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_27" value="correct" class="status-checkbox" onchange="updateStatus(27, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_27" value="wrong" class="status-checkbox" onchange="updateStatus(27, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 4400.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_27" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_27" value="4400.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_27" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_27" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Cherwell HR - Human Resources
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_28">
+                    <div class="shape-header">
+                        <div class="shape-id">cherwell_it</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_28" value="correct" class="status-checkbox" onchange="updateStatus(28, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_28" value="wrong" class="status-checkbox" onchange="updateStatus(28, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1800.00<br>
+                        Y: 4400.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_28" value="1800.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_28" value="4400.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_28" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_28" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Cherwell IT - IT Service Management
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_29">
+                    <div class="shape-header">
+                        <div class="shape-id">azure_ad</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_29" value="correct" class="status-checkbox" onchange="updateStatus(29, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_29" value="wrong" class="status-checkbox" onchange="updateStatus(29, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 2200.00<br>
+                        Y: 4400.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_29" value="2200.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_29" value="4400.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_29" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_29" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Azure AD - External Systems
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_30">
+                    <div class="shape-header">
+                        <div class="shape-id">power_apps</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_30" value="correct" class="status-checkbox" onchange="updateStatus(30, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_30" value="wrong" class="status-checkbox" onchange="updateStatus(30, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 4800.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_30" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_30" value="4800.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_30" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_30" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Power Apps - Low-Code Development
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_31">
+                    <div class="shape-header">
+                        <div class="shape-id">sharepoint</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_31" value="correct" class="status-checkbox" onchange="updateStatus(31, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_31" value="wrong" class="status-checkbox" onchange="updateStatus(31, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 4800.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_31" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_31" value="4800.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_31" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_31" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        SharePoint - Collaboration Platform
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_32">
+                    <div class="shape-header">
+                        <div class="shape-id">microsoft_teams</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_32" value="correct" class="status-checkbox" onchange="updateStatus(32, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_32" value="wrong" class="status-checkbox" onchange="updateStatus(32, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1800.00<br>
+                        Y: 4800.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_32" value="1800.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_32" value="4800.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_32" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_32" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Microsoft Teams - Communication Platform
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_33">
+                    <div class="shape-header">
+                        <div class="shape-id">security_compliance</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_33" value="correct" class="status-checkbox" onchange="updateStatus(33, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_33" value="wrong" class="status-checkbox" onchange="updateStatus(33, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 2200.00<br>
+                        Y: 4800.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_33" value="2200.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_33" value="4800.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_33" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_33" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Security & Compliance - Enterprise Security
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_34">
+                    <div class="shape-header">
+                        <div class="shape-id">cicd_pipeline</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_34" value="correct" class="status-checkbox" onchange="updateStatus(34, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_34" value="wrong" class="status-checkbox" onchange="updateStatus(34, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 5200.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_34" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_34" value="5200.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_34" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_34" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        CI/CD Pipeline - Build/Test/Deploy
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_35">
+                    <div class="shape-header">
+                        <div class="shape-id">artifact_registry</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_35" value="correct" class="status-checkbox" onchange="updateStatus(35, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_35" value="wrong" class="status-checkbox" onchange="updateStatus(35, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 5200.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_35" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_35" value="5200.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_35" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_35" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Artifact/Image Registry - Nexus
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_36">
+                    <div class="shape-header">
+                        <div class="shape-id">openshift</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_36" value="correct" class="status-checkbox" onchange="updateStatus(36, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_36" value="wrong" class="status-checkbox" onchange="updateStatus(36, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1800.00<br>
+                        Y: 5200.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_36" value="1800.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_36" value="5200.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_36" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_36" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        OpenShift (K8s) - Deploy/Scale/Rollouts
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_37">
+                    <div class="shape-header">
+                        <div class="shape-id">prometheus</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_37" value="correct" class="status-checkbox" onchange="updateStatus(37, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_37" value="wrong" class="status-checkbox" onchange="updateStatus(37, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 2200.00<br>
+                        Y: 5200.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_37" value="2200.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_37" value="5200.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_37" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_37" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Prometheus - Metrics & Alerts
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_38">
+                    <div class="shape-header">
+                        <div class="shape-id">grafana</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_38" value="correct" class="status-checkbox" onchange="updateStatus(38, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_38" value="wrong" class="status-checkbox" onchange="updateStatus(38, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 5600.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_38" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_38" value="5600.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_38" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_38" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Grafana - Dashboards
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_39">
+                    <div class="shape-header">
+                        <div class="shape-id">real_time_integration</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_39" value="correct" class="status-checkbox" onchange="updateStatus(39, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_39" value="wrong" class="status-checkbox" onchange="updateStatus(39, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 5600.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_39" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_39" value="5600.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_39" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_39" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Real-time Integration (SignalR/WebSocket)
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_40">
+                    <div class="shape-header">
+                        <div class="shape-id">integration_gateway</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_40" value="correct" class="status-checkbox" onchange="updateStatus(40, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_40" value="wrong" class="status-checkbox" onchange="updateStatus(40, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 6000.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_40" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_40" value="6000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_40" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_40" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Integration Gateway (Partner Routes)
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_41">
+                    <div class="shape-header">
+                        <div class="shape-id">openshift_api_gateway</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_41" value="correct" class="status-checkbox" onchange="updateStatus(41, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_41" value="wrong" class="status-checkbox" onchange="updateStatus(41, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 6000.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_41" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_41" value="6000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_41" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_41" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        OpenShift API Gateway (Ingress/WAF/TLS/JWT)
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_42">
+                    <div class="shape-header">
+                        <div class="shape-id">net_core_api</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_42" value="correct" class="status-checkbox" onchange="updateStatus(42, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_42" value="wrong" class="status-checkbox" onchange="updateStatus(42, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 6400.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_42" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_42" value="6400.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_42" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_42" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        .NET Core Web API (Orchestration/AuthZ/Cache)
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_43">
+                    <div class="shape-header">
+                        <div class="shape-id">data_processing_engine</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_43" value="correct" class="status-checkbox" onchange="updateStatus(43, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_43" value="wrong" class="status-checkbox" onchange="updateStatus(43, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 6400.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_43" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_43" value="6400.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_43" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_43" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Data Processing Engine (ETL/ELT/Streams/Batch)
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_44">
+                    <div class="shape-header">
+                        <div class="shape-id">analytics_engine</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_44" value="correct" class="status-checkbox" onchange="updateStatus(44, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_44" value="wrong" class="status-checkbox" onchange="updateStatus(44, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 6800.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_44" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_44" value="6800.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_44" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_44" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Analytics Engine (KPIs/Reports)
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_45">
+                    <div class="shape-header">
+                        <div class="shape-id">integration_services</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_45" value="correct" class="status-checkbox" onchange="updateStatus(45, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_45" value="wrong" class="status-checkbox" onchange="updateStatus(45, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1400.00<br>
+                        Y: 6800.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_45" value="1400.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_45" value="6800.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_45" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_45" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Integration Services (Adapters/Bus)
+                    </div>
+                </div>
+
+                <div class="shape-card rectangle" id="card_46">
+                    <div class="shape-header">
+                        <div class="shape-id">object_storage</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_46" value="correct" class="status-checkbox" onchange="updateStatus(46, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_46" value="wrong" class="status-checkbox" onchange="updateStatus(46, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Rectangle</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 1000.00<br>
+                        Y: 7200.00<br>
+                        Width: 300.00<br>
+                        Height: 200.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_46" value="1000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_46" value="7200.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_46" value="300.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_46" value="200.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Object Storage (Blob/Files)
+                    </div>
+                </div>
+
+                <div class="shape-card database" id="card_47">
+                    <div class="shape-header">
+                        <div class="shape-id">azure_sql_database</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_47" value="correct" class="status-checkbox" onchange="updateStatus(47, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_47" value="wrong" class="status-checkbox" onchange="updateStatus(47, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Database</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 10681.69<br>
+                        Y: 9175.10<br>
+                        Width: 461.62<br>
+                        Height: 368.07
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_47" value="10681.69" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_47" value="9175.10" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_47" value="461.62" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_47" value="368.07" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Azure SQL Database - Primary Database
+                    </div>
+                </div>
+
+                <div class="shape-card database" id="card_48">
+                    <div class="shape-header">
+                        <div class="shape-id">azure_cosmos_db</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_48" value="correct" class="status-checkbox" onchange="updateStatus(48, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_48" value="wrong" class="status-checkbox" onchange="updateStatus(48, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Database</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 11274.72<br>
+                        Y: 10168.16<br>
+                        Width: 488.06<br>
+                        Height: 317.14
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_48" value="11274.72" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_48" value="10168.16" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_48" value="488.06" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_48" value="317.14" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Azure Cosmos DB - NoSQL Database
+                    </div>
+                </div>
+
+                <div class="shape-card database" id="card_49">
+                    <div class="shape-header">
+                        <div class="shape-id">redis_cache</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_49" value="correct" class="status-checkbox" onchange="updateStatus(49, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_49" value="wrong" class="status-checkbox" onchange="updateStatus(49, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Database</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 10063.44<br>
+                        Y: 10168.16<br>
+                        Width: 585.62<br>
+                        Height: 317.14
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_49" value="10063.44" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_49" value="10168.16" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_49" value="585.62" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_49" value="317.14" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        Redis Cache - In-Memory Cache
+                    </div>
+                </div>
+
+                <div class="shape-card database" id="card_50">
+                    <div class="shape-header">
+                        <div class="shape-id">sql_server_enterprise</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_50" value="correct" class="status-checkbox" onchange="updateStatus(50, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_50" value="wrong" class="status-checkbox" onchange="updateStatus(50, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Database</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Coordinates:</strong><br>
+                        X: 875.44<br>
+                        Y: 1774.65<br>
+                        Width: 230.51<br>
+                        Height: 105.23
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_50" value="875.44" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_50" value="1774.65" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_50" value="230.51" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_50" value="105.23" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Component Title:</strong><br>
+                        SQL Server Enterprise (OLTP/Views/Backups)
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="section-title">Groups (8)</div>
+            <div class="shape-grid">
+
+                <div class="shape-card group" id="card_51">
+                    <div class="shape-header">
+                        <div class="shape-id">frontend_layer</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_51" value="correct" class="status-checkbox" onchange="updateStatus(51, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_51" value="wrong" class="status-checkbox" onchange="updateStatus(51, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Group</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Boundaries:</strong><br>
+                        X: 0.00<br>
+                        Y: 1000.00<br>
+                        Width: 5000.00<br>
+                        Height: 1000.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_51" value="0.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_51" value="1000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_51" value="5000.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_51" value="1000.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Group Title:</strong><br>
+                        Frontend Layer
+                    </div>
+                </div>
+
+                <div class="shape-card group" id="card_52">
+                    <div class="shape-header">
+                        <div class="shape-id">api_gateway_layer</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_52" value="correct" class="status-checkbox" onchange="updateStatus(52, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_52" value="wrong" class="status-checkbox" onchange="updateStatus(52, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Group</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Boundaries:</strong><br>
+                        X: 0.00<br>
+                        Y: 2000.00<br>
+                        Width: 5000.00<br>
+                        Height: 1000.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_52" value="0.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_52" value="2000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_52" value="5000.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_52" value="1000.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Group Title:</strong><br>
+                        API Gateway Layer
+                    </div>
+                </div>
+
+                <div class="shape-card group" id="card_53">
+                    <div class="shape-header">
+                        <div class="shape-id">azure_services_layer</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_53" value="correct" class="status-checkbox" onchange="updateStatus(53, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_53" value="wrong" class="status-checkbox" onchange="updateStatus(53, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Group</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Boundaries:</strong><br>
+                        X: 10000.00<br>
+                        Y: 6000.00<br>
+                        Width: 8000.00<br>
+                        Height: 4000.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_53" value="10000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_53" value="6000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_53" value="8000.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_53" value="4000.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Group Title:</strong><br>
+                        Azure Services Layer
+                    </div>
+                </div>
+
+                <div class="shape-card group" id="card_54">
+                    <div class="shape-header">
+                        <div class="shape-id">database_layer</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_54" value="correct" class="status-checkbox" onchange="updateStatus(54, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_54" value="wrong" class="status-checkbox" onchange="updateStatus(54, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Group</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Boundaries:</strong><br>
+                        X: 10000.00<br>
+                        Y: 9000.00<br>
+                        Width: 2000.00<br>
+                        Height: 2000.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_54" value="10000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_54" value="9000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_54" value="2000.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_54" value="2000.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Group Title:</strong><br>
+                        Database Layer
+                    </div>
+                </div>
+
+                <div class="shape-card group" id="card_55">
+                    <div class="shape-header">
+                        <div class="shape-id">monitoring_layer</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_55" value="correct" class="status-checkbox" onchange="updateStatus(55, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_55" value="wrong" class="status-checkbox" onchange="updateStatus(55, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Group</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Boundaries:</strong><br>
+                        X: 15000.00<br>
+                        Y: 1000.00<br>
+                        Width: 3000.00<br>
+                        Height: 2000.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_55" value="15000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_55" value="1000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_55" value="3000.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_55" value="2000.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Group Title:</strong><br>
+                        Monitoring & Observability
+                    </div>
+                </div>
+
+                <div class="shape-card group" id="card_56">
+                    <div class="shape-header">
+                        <div class="shape-id">integration_layer</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_56" value="correct" class="status-checkbox" onchange="updateStatus(56, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_56" value="wrong" class="status-checkbox" onchange="updateStatus(56, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Group</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Boundaries:</strong><br>
+                        X: 5000.00<br>
+                        Y: 4000.00<br>
+                        Width: 3000.00<br>
+                        Height: 2000.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_56" value="5000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_56" value="4000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_56" value="3000.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_56" value="2000.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Group Title:</strong><br>
+                        Integration Layer
+                    </div>
+                </div>
+
+                <div class="shape-card group" id="card_57">
+                    <div class="shape-header">
+                        <div class="shape-id">security_layer</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_57" value="correct" class="status-checkbox" onchange="updateStatus(57, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_57" value="wrong" class="status-checkbox" onchange="updateStatus(57, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Group</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Boundaries:</strong><br>
+                        X: 20000.00<br>
+                        Y: 1000.00<br>
+                        Width: 3000.00<br>
+                        Height: 2000.00
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_57" value="20000.00" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_57" value="1000.00" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_57" value="3000.00" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_57" value="2000.00" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Group Title:</strong><br>
+                        Security Layer
+                    </div>
+                </div>
+
+                <div class="shape-card group" id="card_58">
+                    <div class="shape-header">
+                        <div class="shape-id">platform_layer</div>
+                        <div class="status-checkboxes">
+                            <label class="status-label correct-label">
+                                <input type="radio" name="status_58" value="correct" class="status-checkbox" onchange="updateStatus(58, 'correct')">
+                                Correct
+                            </label>
+                            <label class="status-label wrong-label">
+                                <input type="radio" name="status_58" value="wrong" class="status-checkbox" onchange="updateStatus(58, 'wrong')">
+                                Wrong
+                            </label>
+                        </div>
+                    </div>
+                    <div style="color: #666; margin-bottom: 10px;">Type: Group</div>
+                    
+                    <div class="coordinates">
+                        <strong>Current Boundaries:</strong><br>
+                        X: 1555.69<br>
+                        Y: 117.85<br>
+                        Width: 281.25<br>
+                        Height: 820.46
+                    </div>
+                    
+                    <div class="coordinate-inputs">
+                        <input type="number" class="coord-input" id="x_58" value="1555.69" step="0.01" placeholder="X">
+                        <input type="number" class="coord-input" id="y_58" value="117.85" step="0.01" placeholder="Y">
+                        <input type="number" class="coord-input" id="w_58" value="281.25" step="0.01" placeholder="Width">
+                        <input type="number" class="coord-input" id="h_58" value="820.46" step="0.01" placeholder="Height">
+                    </div>
+                    
+                    <div class="text-content">
+                        <strong>Group Title:</strong><br>
+                        Platform & Delivery
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="output-section">
+                <h3>Analysis Output</h3>
+                <p>Click "Generate Analysis" to create CSV data for copy-paste analysis:</p>
+                <button type="button" class="submit-btn" onclick="generateAnalysis()">Generate Analysis</button>
+                <button type="button" class="submit-btn" onclick="generateJSON()">Generate JSON</button>
+                <textarea id="outputArea" class="output-textarea" placeholder="Click 'Generate Analysis' to see CSV output here..."></textarea>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function updateStatus(index, status) {
+            const card = document.getElementById(`card_${index}`);
+            card.classList.remove('correct', 'wrong');
+            card.classList.add(status);
+        }
+        
+        function updateProgress() {
+            const radios = document.querySelectorAll('input[type="radio"]:checked');
+            const total = document.querySelectorAll('input[type="radio"]').length / 2; // Divide by 2 because each item has 2 radios
+            const progress = (radios.length / total) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function generateAnalysis() {
+            const data = [];
+            const totalItems = 59;
+            
+            for (let i = 0; i < totalItems; i++) {
+                const correctRadio = document.querySelector(`input[name="status_${i}"][value="correct"]`);
+                const wrongRadio = document.querySelector(`input[name="status_${i}"][value="wrong"]`);
+                const x = parseFloat(document.getElementById(`x_${i}`).value);
+                const y = parseFloat(document.getElementById(`y_${i}`).value);
+                const w = parseFloat(document.getElementById(`w_${i}`).value);
+                const h = parseFloat(document.getElementById(`h_${i}`).value);
+                
+                let status = 'unknown';
+                if (correctRadio && correctRadio.checked) status = 'correct';
+                if (wrongRadio && wrongRadio.checked) status = 'wrong';
+                
+                const item = {
+                    index: i,
+                    type: i < 51 ? 'shape' : 'group',
+                    status: status,
+                    x: x,
+                    y: y,
+                    width: w,
+                    height: h
+                };
+                
+                data.push(item);
+            }
+            
+            // Generate CSV
+            let csv = 'Index,Type,Status,X,Y,Width,Height\n';
+            data.forEach(item => {
+                csv += `${item.index},${item.type},${item.status},${item.x},${item.y},${item.width},${item.height}\n`;
+            });
+            
+            document.getElementById('outputArea').value = csv;
+        }
+        
+        function generateJSON() {
+            const data = {
+                shapes: [],
+                groups: [],
+                summary: {
+                    total_verified: 0,
+                    total_correct: 0,
+                    total_wrong: 0
+                }
+            };
+            
+            const totalItems = 59;
+            
+            for (let i = 0; i < totalItems; i++) {
+                const correctRadio = document.querySelector(`input[name="status_${i}"][value="correct"]`);
+                const wrongRadio = document.querySelector(`input[name="status_${i}"][value="wrong"]`);
+                const x = parseFloat(document.getElementById(`x_${i}`).value);
+                const y = parseFloat(document.getElementById(`y_${i}`).value);
+                const w = parseFloat(document.getElementById(`w_${i}`).value);
+                const h = parseFloat(document.getElementById(`h_${i}`).value);
+                
+                let status = 'unknown';
+                if (correctRadio && correctRadio.checked) {
+                    status = 'correct';
+                    data.summary.total_correct++;
+                }
+                if (wrongRadio && wrongRadio.checked) {
+                    status = 'wrong';
+                    data.summary.total_wrong++;
+                }
+                
+                const item = {
+                    index: i,
+                    status: status,
+                    x: x,
+                    y: y,
+                    width: w,
+                    height: h
+                };
+                
+                if (i < 51) {
+                    data.shapes.push(item);
+                } else {
+                    data.groups.push(item);
+                }
+                
+                if (status !== 'unknown') data.summary.total_verified++;
+            }
+            
+            document.getElementById('outputArea').value = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>

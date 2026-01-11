@@ -111,17 +111,30 @@ export default {
     }
   },
   mounted() {
+    // Wait for DOM to be fully rendered before initializing charts
     this.$nextTick(() => {
-      this.initializeCharts()
+      // Add a small delay to ensure canvas elements are rendered
+      setTimeout(() => {
+        this.initializeCharts()
+      }, 100)
     })
   },
+  watch: {
+    charts: {
+      handler() {
+        // Re-initialize charts when the prop changes
+        this.destroyCharts()
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.initializeCharts()
+          }, 100)
+        })
+      },
+      deep: true
+    }
+  },
   beforeUnmount() {
-    // Destroy all chart instances to prevent memory leaks
-    this.chartInstances.forEach(chart => {
-      if (chart) {
-        chart.destroy()
-      }
-    })
+    this.destroyCharts()
   },
   methods: {
     getChartColumnClass(width) {
@@ -139,16 +152,53 @@ export default {
       return getDeviconSvgUrlUtil(iconName)
     },
     
+    destroyCharts() {
+      // Destroy all chart instances to prevent memory leaks
+      this.chartInstances.forEach(chart => {
+        if (chart) {
+          try {
+            chart.destroy()
+          } catch (error) {
+            console.warn('Error destroying chart:', error)
+          }
+        }
+      })
+      this.chartInstances = []
+    },
+    
     initializeCharts() {
       if (!this.charts || !Array.isArray(this.charts)) {
-        console.warn('PerformanceMetricsSection: charts prop is not defined or not an array')
+        console.warn('PerformanceMetricsSection: charts prop is not defined or not an array', this.charts)
         return
       }
       
-      this.charts.forEach(chartConfig => {
+      if (this.charts.length === 0) {
+        console.warn('PerformanceMetricsSection: charts array is empty')
+        return
+      }
+      
+      // Destroy existing charts first
+      this.destroyCharts()
+      
+      this.charts.forEach((chartConfig, index) => {
+        if (!chartConfig || !chartConfig.id) {
+          console.warn(`PerformanceMetricsSection: Chart at index ${index} is missing id`, chartConfig)
+          return
+        }
+        
         const canvas = document.getElementById(chartConfig.id)
-        if (canvas) {
+        if (!canvas) {
+          console.warn(`PerformanceMetricsSection: Canvas element with id "${chartConfig.id}" not found`)
+          return
+        }
+        
+        try {
           const ctx = canvas.getContext('2d')
+          if (!ctx) {
+            console.warn(`PerformanceMetricsSection: Could not get 2d context for canvas "${chartConfig.id}"`)
+            return
+          }
+          
           const chartInstance = new Chart(ctx, {
             type: chartConfig.type,
             data: chartConfig.data,
@@ -159,8 +209,17 @@ export default {
             }
           })
           this.chartInstances.push(chartInstance)
+          console.log(`PerformanceMetricsSection: Successfully initialized chart "${chartConfig.id}"`)
+        } catch (error) {
+          console.error(`PerformanceMetricsSection: Error initializing chart "${chartConfig.id}":`, error)
         }
       })
+      
+      if (this.chartInstances.length === 0) {
+        console.warn('PerformanceMetricsSection: No charts were successfully initialized')
+      } else {
+        console.log(`PerformanceMetricsSection: Successfully initialized ${this.chartInstances.length} chart(s)`)
+      }
     }
   }
 }
@@ -263,6 +322,30 @@ export default {
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(37, 99, 235, 0.95));
 }
 
+.stat-orange {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.9), rgba(234, 88, 12, 0.95));
+}
+
+.stat-teal {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.9), rgba(15, 118, 110, 0.95));
+}
+
+.stat-indigo {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(79, 70, 229, 0.95));
+}
+
+.stat-red {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), rgba(220, 38, 38, 0.95));
+}
+
+.stat-yellow {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.9), rgba(217, 119, 6, 0.95));
+}
+
+.stat-cyan {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.9), rgba(8, 145, 178, 0.95));
+}
+
 /* Charts Section */
 .charts-section {
   margin-top: 30px;
@@ -309,6 +392,12 @@ export default {
   position: relative;
   height: 350px;
   width: 100%;
+  min-height: 300px;
+}
+
+.chart-canvas-wrapper canvas {
+  max-width: 100%;
+  height: auto !important;
 }
 
 /* Responsive Design */

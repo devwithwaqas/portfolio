@@ -289,6 +289,14 @@ export default {
   background: linear-gradient(135deg, rgba(6, 182, 212, 0.9), rgba(8, 145, 178, 0.95));
 }
 
+.metric-blue {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(37, 99, 235, 0.95));
+}
+
+.metric-teal {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.9), rgba(15, 118, 110, 0.95));
+}
+
 .metric-value {
   font-weight: 700;
   color: #ffffff;

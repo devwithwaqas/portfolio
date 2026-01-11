@@ -9,8 +9,8 @@
         <CustomLoader />
       </div>
       
-      <!-- Toolbar in fullscreen -->
-      <div class="fullscreen-toolbar">
+      <!-- Toolbar in fullscreen (only show narration controls if narration is enabled) -->
+      <div v-if="showNarration" class="fullscreen-toolbar">
         <div class="toolbar-group">
           <button class="toolbar-btn" @click="$refs.narrator?.previous()" title="Previous">
             <img src="/assets/img/Icons/rewind.png" alt="Previous" class="icon-md">
@@ -38,7 +38,7 @@
             class="fullscreen-diagram-img"
           />
           <HighlightOverlay
-            v-if="narrationSteps.length > 0"
+            v-if="showNarration && narrationSteps.length > 0"
             :visible="isNarrating"
             :highlights="currentHighlights"
             :svg-width="svgWidth"
@@ -50,9 +50,9 @@
         </div>
       </div>
       
-      <!-- Narrator in fullscreen (contains bubble) -->
+      <!-- Narrator in fullscreen (contains bubble) - only show if narration is enabled -->
       <DiagramNarrator 
-        v-if="narrationSteps.length > 0"
+        v-if="showNarration && narrationSteps.length > 0"
         ref="narrator"
         :narrationSteps="narrationSteps"
         :svgElement="$refs.fullscreenWrapper"
@@ -72,7 +72,7 @@
     <div class="diagram-toolbar-compact">
       <div class="toolbar-main-row">
         <!-- View Controls (Left) -->
-        <div class="toolbar-group view-group">
+        <div class="toolbar-group view-group" :class="{ 'view-group-centered': !showNarration }">
           <button class="toolbar-btn primary" title="Zoom into diagram" @click="zoomIn">
             <img src="/assets/img/Icons/zoom in.png" alt="Zoom In" class="icon-md icon-wrapper-md">
           </button>
@@ -87,36 +87,36 @@
           </button>
         </div>
         
-        <!-- Narration Controls (Right) -->
-                <div class="toolbar-group narration-group">
-                  <button class="toolbar-btn control" title="Start narration" @click="startNarration">
-                    <img src="/assets/img/Icons/narration.png" alt="Narration" class="icon-md icon-wrapper-md">
-                  </button>
-                  <button class="toolbar-btn control" title="Previous step" @click="previousNarration">
-                    <img src="/assets/img/Icons/rewind.png" alt="Rewind" class="icon-md icon-wrapper-md">
-                  </button>
-                  <button class="toolbar-btn control" title="Play/Resume narration" @click="playNarration">
-                    <img src="/assets/img/Icons/play.png" alt="Play" class="icon-md icon-wrapper-md">
-                  </button>
-                  <button class="toolbar-btn control" title="Next step" @click="nextNarration">
-                    <img src="/assets/img/Icons/forward.png" alt="Forward" class="icon-md icon-wrapper-md">
-                  </button>
-                  <button class="toolbar-btn control" title="Pause narration" @click="pauseNarration">
-                    <img src="/assets/img/Icons/pause.png" alt="Pause" class="icon-md icon-wrapper-md">
-                  </button>
-                  <button class="toolbar-btn control" title="Stop narration" @click="stopNarration">
-                    <img src="/assets/img/Icons/stop.png" alt="Stop" class="icon-md icon-wrapper-md">
-                  </button>
-                  <button class="toolbar-btn control" title="Select voice" @click="toggleVoiceSelection">
-                    <img src="/assets/img/Icons/speech.png" alt="Voice" class="icon-md icon-wrapper-md">
-                  </button>
-                </div>
+        <!-- Narration Controls (Right) - only show if narration is enabled -->
+        <div v-if="showNarration" class="toolbar-group narration-group">
+          <button class="toolbar-btn control" title="Start narration" @click="startNarration">
+            <img src="/assets/img/Icons/narration.png" alt="Narration" class="icon-md icon-wrapper-md">
+          </button>
+          <button class="toolbar-btn control" title="Previous step" @click="previousNarration">
+            <img src="/assets/img/Icons/rewind.png" alt="Rewind" class="icon-md icon-wrapper-md">
+          </button>
+          <button class="toolbar-btn control" title="Play/Resume narration" @click="playNarration">
+            <img src="/assets/img/Icons/play.png" alt="Play" class="icon-md icon-wrapper-md">
+          </button>
+          <button class="toolbar-btn control" title="Next step" @click="nextNarration">
+            <img src="/assets/img/Icons/forward.png" alt="Forward" class="icon-md icon-wrapper-md">
+          </button>
+          <button class="toolbar-btn control" title="Pause narration" @click="pauseNarration">
+            <img src="/assets/img/Icons/pause.png" alt="Pause" class="icon-md icon-wrapper-md">
+          </button>
+          <button class="toolbar-btn control" title="Stop narration" @click="stopNarration">
+            <img src="/assets/img/Icons/stop.png" alt="Stop" class="icon-md icon-wrapper-md">
+          </button>
+          <button class="toolbar-btn control" title="Select voice" @click="toggleVoiceSelection">
+            <img src="/assets/img/Icons/speech.png" alt="Voice" class="icon-md icon-wrapper-md">
+          </button>
+        </div>
       </div>
       
       
-      <!-- Voice Selection Dropdown - Teleported to body -->
+      <!-- Voice Selection Dropdown - Teleported to body (only show if narration is enabled) -->
       <Teleport to="body">
-        <div v-if="showVoiceSelection" class="voice-selection-dropdown-global">
+        <div v-if="showNarration && showVoiceSelection" class="voice-selection-dropdown-global">
           <div class="voice-selection-header">
             <span class="txt-label-sm">Select Voice:</span>
             <button class="close-voice-btn" @click="toggleVoiceSelection">×</button>
@@ -159,7 +159,7 @@
           
           <!-- Highlight Overlay - positioned relative to diagram and transforms with zoom -->
           <HighlightOverlay
-            v-if="narrationSteps.length > 0"
+            v-if="showNarration && narrationSteps.length > 0"
             :visible="isNarrating"
             :highlights="currentHighlights"
             :svg-width="svgWidth"
@@ -225,6 +225,10 @@ export default {
     iconName: {
       type: String,
       default: 'architecture overview'
+    },
+    showNarration: {
+      type: Boolean,
+      default: true // Default to true for backward compatibility
     }
   },
   data() {
@@ -256,7 +260,7 @@ export default {
       // Loading state for fullscreen
       isFullscreenLoading: false,
       // Debug flag to control console logging
-      debugMode: false
+      debugMode: true
     }
   },
   computed: {
@@ -645,6 +649,11 @@ export default {
       setTimeout(() => {
         this.$nextTick(() => {
           if (this.isFullscreen && this.$refs.narrator) {
+            // Ensure base diagram dimensions are cached before starting narration
+            if (!this.baseDiagramWidth || !this.baseDiagramHeight) {
+              this.cacheBaseDiagramDimensions()
+            }
+            
             this.$refs.narrator.start()
             this.isNarrating = true
             this.updateHighlights()
@@ -662,6 +671,11 @@ export default {
       setTimeout(() => {
         this.$nextTick(() => {
           if (this.isFullscreen && this.$refs.narrator) {
+            // Ensure base diagram dimensions are cached before resuming narration
+            if (!this.baseDiagramWidth || !this.baseDiagramHeight) {
+              this.cacheBaseDiagramDimensions()
+            }
+            
             this.$refs.narrator.resume()
             this.isNarrating = true
             this.isFullscreenLoading = false
@@ -708,9 +722,42 @@ export default {
       if (this.isFullscreen && this.$refs.narrator) {
         const currentStep = this.$refs.narrator.currentStep
         if (currentStep && currentStep.highlights) {
+          this.debugLog('Updating highlights for step:', currentStep.title)
+          this.debugLog('Step description:', currentStep.description)
+          this.debugLog('Step highlights:', currentStep.highlights)
+          currentStep.highlights.forEach((highlight, index) => {
+            this.debugLog(`Highlight ${index}: x=${highlight.x}, y=${highlight.y}, width=${highlight.width}, height=${highlight.height}`)
+          })
           this.currentHighlights = currentStep.highlights
         } else {
           this.currentHighlights = []
+        }
+      }
+    },
+
+    // Cache base diagram dimensions
+    cacheBaseDiagramDimensions() {
+      if (this.$refs.fullscreenWrapper) {
+        const img = this.$refs.fullscreenWrapper?.querySelector('.fullscreen-diagram-img')
+        if (img && img.complete) {
+          // Calculate the actual rendered size accounting for aspect ratio and object-fit: contain
+          const containerRect = this.$refs.fullscreenWrapper.getBoundingClientRect()
+          const imgAspect = this.svgWidth / this.svgHeight
+          const containerAspect = containerRect.width / containerRect.height
+          
+          if (containerAspect > imgAspect) {
+            // Container is wider - image is limited by height
+            this.baseDiagramHeight = containerRect.height
+            this.baseDiagramWidth = containerRect.height * imgAspect
+          } else {
+            // Container is taller - image is limited by width
+            this.baseDiagramWidth = containerRect.width
+            this.baseDiagramHeight = containerRect.width / imgAspect
+          }
+          
+          this.debugLog('Cached base diagram size:', this.baseDiagramWidth, 'x', this.baseDiagramHeight)
+          this.debugLog('Container size:', containerRect.width, 'x', containerRect.height)
+          this.debugLog('SVG aspect:', imgAspect, 'Container aspect:', containerAspect)
         }
       }
     },
@@ -800,6 +847,8 @@ export default {
       this.debugLog('Step changed to:', stepIndex, currentStep)
       if (currentStep && currentStep.highlights) {
         this.currentHighlights = currentStep.highlights
+        // Update highlights with debug logging
+        this.updateHighlights()
         // Animate to highlight in fullscreen mode
         if (this.isFullscreen && this.currentHighlights.length > 0) {
           this.$nextTick(() => {
@@ -1159,6 +1208,10 @@ export default {
   flex: 1;
   justify-content: flex-start;
   border-left: 3px solid #667eea;
+}
+
+.toolbar-group.view-group.view-group-centered {
+  justify-content: center;
 }
 
 .toolbar-group.narration-group {

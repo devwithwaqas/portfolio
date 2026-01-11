@@ -321,7 +321,7 @@ export default {
               description: 'Time-series database and monitoring system for metrics collection, performance monitoring, and alert management. Provides comprehensive observability with custom metrics, service discovery, and powerful querying capabilities.'
             },
             {
-              icon: '📦',
+              icon: 'Nexus Repository',
               name: 'Nexus Repository',
               description: 'Enterprise artifact management system for Docker image storage, version control, and package management. Includes CI/CD integration, security scanning, and comprehensive artifact lifecycle management.'
             },

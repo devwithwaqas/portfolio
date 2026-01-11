@@ -1,0 +1,349 @@
+@startuml ValetParking_C4_HX_Style
+
+' ========================================
+' C4-PlantUML Color Overrides (MUST BE FIRST!)
+' Set these BEFORE including C4 library
+' ========================================
+
+!$PERSON_BG_COLOR = "#08427B"
+!$PERSON_BORDER_COLOR = "#073B6F"
+!$PERSON_FONT_COLOR = "#FFFFFF"
+
+!$SYSTEM_BG_COLOR = "#1168BD"
+!$SYSTEM_BORDER_COLOR = "#0B5394"
+
+!$CONTAINER_BG_COLOR = "#2D314A"
+!$CONTAINER_BORDER_COLOR = "#9CA3AF"
+
+!$EXTERNAL_PERSON_BG_COLOR = "#686868"
+!$EXTERNAL_PERSON_BORDER_COLOR = "#4A4A4A"
+
+!$EXTERNAL_SYSTEM_BG_COLOR = "#999999"
+!$EXTERNAL_SYSTEM_BORDER_COLOR = "#707070"
+
+!$EXTERNAL_CONTAINER_BG_COLOR = "#B3B3B3"
+!$EXTERNAL_CONTAINER_BORDER_COLOR = "#8C8C8C"
+
+!$LINK_COLOR = "#FF4D4F"
+
+' Also set font colors (required by C4)
+!$SYSTEM_FONT_COLOR = "#FFFFFF"
+!$CONTAINER_FONT_COLOR = "#FFFFFF"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' ========================================
+' HeatExchanger Color Scheme Applied
+' Light canvas + dark shapes + red connectors
+' ========================================
+
+' -------------------------
+' Basic layout settings
+' -------------------------
+skinparam backgroundColor #F7F9FC
+skinparam nodesep 200
+skinparam ranksep 200
+skinparam linetype ortho
+skinparam roundcorner 12
+skinparam dpi 300
+skinparam shadowing true
+
+' -------------------------
+' Typography
+' -------------------------
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 14
+skinparam defaultFontColor #111827
+skinparam titleFontSize 20
+skinparam titleFontColor #111827
+
+' -------------------------
+' Container styling (DARK shapes like HX)
+' -------------------------
+skinparam RectangleBackgroundColor #2D314A
+skinparam RectangleBorderColor #9CA3AF
+skinparam RectangleBorderThickness 1
+skinparam RectangleFontColor #FFFFFF
+skinparam RectangleFontSize 14
+skinparam RectangleFontStyle Bold
+skinparam RectanglePadding 15
+skinparam RectangleMinWidth 200
+skinparam RectangleMinHeight 60
+
+' -------------------------
+' Busy container styling (for generic Container elements)
+' -------------------------
+skinparam component {
+    BackgroundColor #2D314A
+    BorderColor #9CA3AF
+    BorderThickness 1
+    FontColor #FFFFFF
+    FontSize 14
+    FontStyle Bold
+    Padding 15
+    MinWidth 300
+    MinHeight 60
+}
+
+' -------------------------
+' Package styling (LIGHT backgrounds like HX)
+' -------------------------
+skinparam PackageBorderColor #94A3B8
+skinparam PackageBorderThickness 2
+skinparam PackageFontColor #111827
+skinparam PackageFontSize 14
+skinparam PackageFontStyle Bold
+skinparam PackagePadding 20
+skinparam PackageBackgroundColor #EEF2FF
+
+' -------------------------
+' Database styling (GOLD theme like HX)
+' -------------------------
+skinparam DatabaseBackgroundColor #3C2F1B
+skinparam DatabaseBorderColor #D1A954
+skinparam DatabaseBorderThickness 1
+skinparam DatabaseFontColor #FFFFFF
+skinparam DatabaseFontSize 14
+skinparam DatabaseFontStyle Bold
+
+' -------------------------
+' Notes styling (DARK bubbles like HX)
+' -------------------------
+skinparam NoteBackgroundColor #1F2937
+skinparam NoteBorderColor #4B5563
+skinparam NoteBorderThickness 1
+skinparam NoteFontColor #FFFFFF
+skinparam NoteFontSize 14
+skinparam NoteFontStyle Bold
+skinparam NotePadding 10
+
+' -------------------------
+' Arrow styling (THICK RED like HX)
+' -------------------------
+skinparam ArrowColor #FF4D4F
+skinparam ArrowThickness 4
+skinparam ArrowFontSize 12
+skinparam ArrowFontColor #FFFFFF
+
+title Valet Parking - HeatExchanger Style C4 Architecture
+
+' Custom legend with actual colors used (aligned)
+legend right
+  |<back:#08427B>      </back>| **Person/Actor** (Dark Blue)
+  |<back:#EEF2FF>      </back>| **Packages/Layers** (Light Blue Background)
+  |<back:#1F2937>      </back>| **Link Labels** (Dark Gray Bubbles)
+  |<back:#FF4D4F>      </back>| **Connectors/Arrows** (Red)
+endlegend
+
+' -------------------------
+' Actors (top level)
+' -------------------------
+Person(parking_staff, "Parking Staff", "Uses desktop management interface to register vehicles, track entry/exit, manage billing, and control daily parking operations")
+
+Person(management, "Management/Admin", "Uses web dashboard to monitor parking operations, view analytics, and oversee revenue performance")
+
+Person(customer, "Customer", "Parks vehicle at DIFC parking facility and receives automated billing based on parking duration")
+
+System_Ext(payment_gateway, "Payment Gateway", "External payment processing service for secure transaction handling")
+
+' -------------------------
+' UI Layer (top center)
+' -------------------------
+package "Desktop & Web Interface" as UILayer {
+    Container(desktop_app, "Desktop Management Interface", "Windows Desktop Application", "Windows desktop application for parking operations staff providing vehicle registration, entry/exit tracking, billing management, and daily operations control. Features intuitive UI, real-time data synchronization, and comprehensive reporting capabilities.")
+
+    Container(web_dashboard, "Angular Web Dashboard", "Angular, Bootstrap, Chart.js", "Responsive web dashboard built with Angular and Bootstrap for real-time parking operations monitoring, analytics visualization, and management oversight. Features Chart.js integration for revenue analytics and operational insights.")
+}
+
+' -------------------------
+' Backend Services (center)
+' -------------------------
+package "Backend API Services" as BackendServices {
+    Container(parking_api, "Parking Operations API", "ASP.NET Core Web API, C#", "RESTful API services for vehicle registration, entry/exit tracking, parking duration calculation, and slot management. Features automated billing calculations, dynamic pricing, and comprehensive vehicle lifecycle management.")
+
+    Container(payment_api, "Payment Processing API", "ASP.NET Core Web API, C#", "Integrated payment gateway services supporting multiple payment methods, secure transaction processing, digital receipts, and payment reconciliation. Features PCI DSS compliance and secure tokenization.")
+
+    Container(billing_engine, "Automated Billing Engine", "ASP.NET Core Web API, C#", "Dynamic pricing and automated charge calculation engine based on parking duration, vehicle type, and pricing rules. Features configurable pricing tiers, special rate handling, and automated invoice generation.")
+
+    Container(signalr_hub, "SignalR Real-Time Hub", "SignalR, WebSocket", "Real-time communication hub for instant updates, status notifications, and live data synchronization between desktop interface, web dashboard, and backend services. Features WebSocket connections and automatic reconnection.")
+}
+
+' -------------------------
+' Data Layer (bottom-center)
+' -------------------------
+package "Data Layer" as DataLayer {
+    ContainerDb(parking_db, "Parking Database", "SQL Server, Entity Framework Core", "Enterprise-grade relational database storing vehicle records, parking transactions, customer data, billing information, and operational logs. Features high availability, automated backups, and comprehensive data integrity.")
+
+    ContainerDb(redis_cache, "Redis Cache", "Redis, Azure Cache for Redis", "High-performance in-memory caching for frequently accessed parking data, active sessions, pricing information, and real-time operational state. Features intelligent cache invalidation and sub-millisecond data access.")
+}
+
+' -------------------------
+' Cloud Infrastructure (right side)
+' -------------------------
+package "Azure Cloud Infrastructure" as CloudInfra {
+    System_Ext(azure_app_service, "Azure App Service", "Cloud hosting platform for scalable API deployment with auto-scaling and load balancing")
+    
+    System_Ext(azure_functions, "Azure Functions", "Serverless compute for background processing, scheduled tasks, and event-driven operations")
+    
+    System_Ext(azure_blob, "Azure Blob Storage", "Cloud storage for documents, receipts, reports, and archival data")
+    
+    System_Ext(azure_monitoring, "Azure Application Insights", "Application performance monitoring and analytics platform")
+}
+
+' ========================================
+' Relationships
+' ========================================
+
+' Actors to UI
+parking_staff --> desktop_app
+note on link
+  Uses for operations
+end note
+
+management --> web_dashboard
+note on link
+  Monitors operations
+end note
+
+' UI to Backend Services
+desktop_app --> parking_api
+note on link
+  API calls
+end note
+
+desktop_app --> signalr_hub
+note on link
+  Real-time updates
+end note
+
+web_dashboard --> parking_api
+note on link
+  API calls
+end note
+
+web_dashboard --> signalr_hub
+note on link
+  Real-time updates
+end note
+
+' Backend Services to Payment Gateway
+payment_api --> payment_gateway
+note on link
+  Payment processing
+end note
+
+' Backend Services to Real-Time Hub
+parking_api --> signalr_hub
+note on link
+  Sends updates
+end note
+
+billing_engine --> signalr_hub
+note on link
+  Sends notifications
+end note
+
+' Backend Services to Databases
+parking_api --> parking_db
+note on link
+  Reads/Writes
+end note
+
+parking_api --> redis_cache
+note on link
+  Reads/Writes cache
+end note
+
+payment_api --> parking_db
+note on link
+  Reads/Writes
+end note
+
+billing_engine --> parking_db
+note on link
+  Reads/Writes
+end note
+
+billing_engine --> redis_cache
+note on link
+  Reads pricing cache
+end note
+
+signalr_hub --> redis_cache
+note on link
+  Manages sessions
+end note
+
+' Backend Services to Azure Cloud
+parking_api --> azure_app_service
+note on link
+  Deployed on
+end note
+
+payment_api --> azure_app_service
+note on link
+  Deployed on
+end note
+
+billing_engine --> azure_app_service
+note on link
+  Deployed on
+end note
+
+signalr_hub --> azure_app_service
+note on link
+  Deployed on
+end note
+
+parking_db --> azure_app_service
+note on link
+  Hosted on
+end note
+
+redis_cache --> azure_app_service
+note on link
+  Managed by
+end note
+
+parking_api --> azure_functions
+note on link
+  Triggers functions
+end note
+
+billing_engine --> azure_blob
+note on link
+  Stores documents
+end note
+
+parking_api --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+payment_api --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+billing_engine --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+signalr_hub --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+' Customer interaction (indirect through staff)
+customer --> parking_staff
+note on link
+  Parks vehicle
+end note
+
+' ========================================
+' Layout hints for better visualization
+' ========================================
+LAYOUT_TOP_DOWN()
+
+@enduml

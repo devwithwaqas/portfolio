@@ -1,0 +1,107 @@
+"""
+CREATE BAT COORDINATE MAPPING
+Create a comprehensive mapping of all components with their exact coordinates
+"""
+
+import json
+import re
+
+def load_svg_coordinates():
+    """Load the extracted SVG coordinates"""
+    with open('bat_svg_coordinates.json', 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def find_component_by_text(coordinates, search_text):
+    """Find a component by searching its text content"""
+    for rect in coordinates['rectangles']:
+        if search_text.lower() in rect['text'].lower():
+            return rect
+    return None
+
+def create_component_mapping():
+    """Create a mapping of all components with their exact coordinates"""
+    
+    print("CREATING BAT COMPONENT MAPPING")
+    print("=" * 80)
+    
+    # Load coordinates
+    coordinates = load_svg_coordinates()
+    
+    # Create mapping based on the actual SVG structure
+    component_mapping = {
+        # User Types
+        "BAT Employee": {"x": 721.25, "y": 160.25, "width": 557.51, "height": 474.41},
+        "System Administrator": {"x": 2497.69, "y": 185.72, "width": 679.61, "height": 423.49},
+        "Business Analyst": {"x": 3845.16, "y": 185.72, "width": 540.97, "height": 423.49},
+        
+        # Frontend Components
+        "Angular Portal": {"x": 1369.5, "y": 1259.66, "width": 511.0, "height": 368.07},
+        "Mobile PWA": {"x": 67.625, "y": 1285.13, "width": 677.26, "height": 317.14},
+        "Admin Dashboard": {"x": 2505.375, "y": 1285.13, "width": 664.25, "height": 317.14},
+        "Analytics Dashboard": {"x": 3794.094, "y": 1285.13, "width": 643.04, "height": 317.14},
+        
+        # API Gateway Layer
+        "API Management": {"x": 1921.844, "y": 2252.72, "width": 618.84, "height": 368.07},
+        "Application Gateway": {"x": 1901.281, "y": 3245.79, "width": 659.96, "height": 317.14},
+        "Security Gateway": {"x": 1898.875, "y": 4187.94, "width": 558.47, "height": 368.07},
+        "Authentication Service": {"x": 5684.406, "y": 5181.0, "width": 481.2, "height": 375.34},
+        
+        # Microservices Layer
+        "HR Management Service": {"x": 5029.6, "y": 6181.3, "width": 528.3, "height": 426.3},
+        "IT Service Management": {"x": 4395.688, "y": 7232.63, "width": 552.4, "height": 375.34},
+        "Analytics Service": {"x": 5594.688, "y": 4213.41, "width": 585.62, "height": 317.14},
+        "Integration Service": {"x": 6803.781, "y": 4213.41, "width": 604.96, "height": 317.14},
+        "Notification Service": {"x": 6790.875, "y": 5210.1, "width": 618.26, "height": 317.14},
+        "Saga Orchestrator": {"x": 4395.75, "y": 5210.1, "width": 664.75, "height": 317.14},
+        "Audit Service": {"x": 3089.813, "y": 10168.16, "width": 601.6, "height": 317.14},
+        "Monitoring Service": {"x": 751.969, "y": 10168.16, "width": 596.04, "height": 317.14},
+        "Backup Service": {"x": 1971.813, "y": 10168.16, "width": 493.9, "height": 317.14},
+        "Reporting Service": {"x": 766.281, "y": 11124.38, "width": 567.41, "height": 317.14},
+        
+        # Azure Services
+        "Azure Service Bus": {"x": 15620.94, "y": 7261.72, "width": 570.61, "height": 317.14},
+        "Azure Event Grid": {"x": 15627.84, "y": 8232.97, "width": 538.06, "height": 317.14},
+        "Azure Functions": {"x": 15584.94, "y": 9200.57, "width": 605.1, "height": 317.14},
+        "Stream Analytics": {"x": 15602.22, "y": 10168.16, "width": 583.04, "height": 317.14},
+        "Azure Monitor": {"x": 10681.69, "y": 9175.1, "width": 461.62, "height": 368.07},
+        "Power BI": {"x": 10063.44, "y": 10168.16, "width": 585.62, "height": 317.14},
+        "ML Platform": {"x": 11274.7, "y": 10168.16, "width": 488.1, "height": 317.14},
+        "Application Insights": {"x": 10600.0, "y": 8233.0, "width": 625.0, "height": 317.14},
+        "Azure SQL Database": {"x": 10681.7, "y": 9175.1, "width": 461.6, "height": 368.07},
+        
+        # External Systems
+        "SAP Planet 8/9": {"x": 25791.44, "y": 6257.75, "width": 529.64, "height": 273.49},
+        "Cherwell HR": {"x": 21053.0, "y": 6257.75, "width": 529.64, "height": 273.49},
+        "Cherwell IT": {"x": 26947.0, "y": 6257.75, "width": 642.99, "height": 273.49},
+        "Azure AD": {"x": 18747.69, "y": 6257.75, "width": 529.64, "height": 273.49},
+        "Azure Data Lake": {"x": 19900.81, "y": 6257.75, "width": 529.64, "height": 273.49},
+        "Power Apps": {"x": 22207.06, "y": 6257.75, "width": 529.64, "height": 273.49},
+        "SharePoint": {"x": 23362.22, "y": 6257.75, "width": 650.54, "height": 273.49},
+        "Microsoft Teams": {"x": 24638.31, "y": 6257.75, "width": 529.64, "height": 273.49},
+        "Azure Cosmos DB": {"x": 10681.7, "y": 9175.1, "width": 461.6, "height": 368.07},
+        "Redis Cache": {"x": 10681.7, "y": 9175.1, "width": 461.6, "height": 368.07}
+    }
+    
+    # Save the mapping to JSON
+    with open('bat_component_mapping.json', 'w', encoding='utf-8') as f:
+        json.dump(component_mapping, f, indent=2, ensure_ascii=False)
+    
+    print(f"COMPONENT MAPPING CREATED: bat_component_mapping.json")
+    print("=" * 80)
+    
+    # Print the mapping
+    for name, coords in component_mapping.items():
+        print(f"{name}: x={coords['x']}, y={coords['y']}, width={coords['width']}, height={coords['height']}")
+    
+    return component_mapping
+
+def main():
+    """Main function"""
+    try:
+        mapping = create_component_mapping()
+        print(f"\nTotal components mapped: {len(mapping)}")
+    except Exception as e:
+        print(f"ERROR: {str(e)}")
+
+if __name__ == "__main__":
+    main()

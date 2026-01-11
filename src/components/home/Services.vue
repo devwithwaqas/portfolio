@@ -19,9 +19,9 @@
                       </svg>
                       <i class="bi bi-activity icon-2xl"></i>
                     </div>
-                    <a href="#" class="stretched-link">
+                    <router-link to="/services/full-stack-development" class="stretched-link">
                       <h3 class="txt-h3-xl">Full Stack Development</h3>
-                    </a>
+                    </router-link>
                     <p class="txt-p-lg">End-to-end development of enterprise applications using .NET Core, Angular, SQL Server, and modern web technologies with focus on performance and scalability.</p>
                   </div>
                 </div><!-- End Service Item -->
@@ -34,9 +34,9 @@
                       </svg>
                       <i class="bi bi-broadcast icon-2xl"></i>
                     </div>
-                    <a href="#" class="stretched-link">
+                    <router-link to="/services/azure-cloud-architecture" class="stretched-link">
                       <h3 class="txt-h3-xl">Azure Cloud Architecture</h3>
-                    </a>
+                    </router-link>
                     <p class="txt-p-lg">Design and implementation of cloud-native solutions using Microsoft Azure services including App Services, Service Fabric, Functions, and comprehensive DevOps practices.</p>
                   </div>
                 </div><!-- End Service Item -->
@@ -49,9 +49,9 @@
                       </svg>
                       <i class="bi bi-easel icon-2xl"></i>
                     </div>
-                    <a href="#" class="stretched-link">
+                    <router-link to="/services/technical-leadership" class="stretched-link">
                       <h3 class="txt-h3-xl">Technical Leadership</h3>
-                    </a>
+                    </router-link>
                     <p class="txt-p-lg">Leading development teams, mentoring junior developers, conducting code reviews, and establishing best practices for software development and architecture.</p>
                   </div>
                 </div><!-- End Service Item -->
@@ -64,11 +64,10 @@
                       </svg>
                       <i class="bi bi-bounding-box-circles icon-2xl"></i>
                     </div>
-                    <a href="#" class="stretched-link">
+                    <router-link to="/services/microservices-architecture" class="stretched-link">
                       <h3 class="txt-h3-xl">Microservices Architecture</h3>
-                    </a>
+                    </router-link>
                     <p class="txt-p-lg">Design and implementation of scalable microservices-based applications using Azure Service Fabric, Docker containers, and modern architectural patterns.</p>
-                    <a href="#" class="stretched-link"></a>
                   </div>
                 </div><!-- End Service Item -->
 
@@ -80,11 +79,10 @@
                       </svg>
                       <i class="bi bi-calendar4-week icon-2xl"></i>
                     </div>
-                    <a href="#" class="stretched-link">
+                    <router-link to="/services/agile-project-management" class="stretched-link">
                       <h3 class="txt-h3-xl">Agile Project Management</h3>
-                    </a>
+                    </router-link>
                     <p class="txt-p-lg">Leading agile development teams, conducting sprint planning, retrospectives, and ensuring timely delivery of high-quality software products.</p>
-                    <a href="#" class="stretched-link"></a>
                   </div>
                 </div><!-- End Service Item -->
 
@@ -96,11 +94,25 @@
                       </svg>
                       <i class="bi bi-chat-square-text icon-2xl"></i>
                     </div>
-                    <a href="#" class="stretched-link">
+                    <router-link to="/services/database-design-optimization" class="stretched-link">
                       <h3 class="txt-h3-xl">Database Design & Optimization</h3>
-                    </a>
+                    </router-link>
                     <p class="txt-p-lg">Designing and optimizing SQL Server databases, implementing Entity Framework best practices, and ensuring high-performance data access patterns.</p>
-                    <a href="#" class="stretched-link"></a>
+                  </div>
+                </div><!-- End Service Item -->
+
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="700">
+                  <div class="service-item item-green position-relative">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,549.3722991689751C389.0592804438971,556.2456983379502,489.4712432158575,547.5389664669328,537.9192734346935,481.89889786622C585.2219514885476,417.5663521118492,575.478944496292,323.35089726936894,553.9536738515405,245.07346229196292C534.3115478042936,173.92172300513056,468.4901273242183,129.2447324196582,395.9583748389544,101.4807629332054C326.66090330228417,74.52904369530474,258.84405631176094,47.0361241972389,193.32584062364296,72.97765118725394C121.61183558270385,102.64194386828394,62.805066853699245,168.39738700839468,48.57481801355237,243.2276858284748C34.843463184063346,318.770070603455,76.69343916112496,389.8845919182082,125.22947124332185,445.7496916887154C170.7312796277747,498.6215593775528,230.57421082200815,542.7865861991532,300,549.3722991689751"></path>
+                      </svg>
+                      <i class="bi bi-phone icon-2xl"></i>
+                    </div>
+                    <router-link to="/services/mobile-development" class="stretched-link">
+                      <h3 class="txt-h3-xl">Mobile Development</h3>
+                    </router-link>
+                    <p class="txt-p-lg">Native and cross-platform mobile application development for iOS and Android. Whether you need Swift, Kotlin, React Native, Flutter, or Xamarin, I deliver high-performance mobile solutions.</p>
                   </div>
                 </div><!-- End Service Item -->
 

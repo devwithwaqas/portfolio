@@ -1,1239 +1,1179 @@
 {
   "svg_dimensions": {
-    "width": "5520",
-    "height": "3917.5",
-    "viewBox": "0 0 5520 3917"
+    "width": "5692.5",
+    "height": "4173.75",
+    "viewBox": "0 0 5692 4173"
   },
   "all_rectangles": [
     {
-      "x": 417.0,
-      "y": 61.19,
-      "width": 196.92,
-      "height": 140.29,
-      "centerX": 515.46,
-      "centerY": 131.34,
-      "text": "AirAsia Employee Seeks staff fares",
-      "style": "stroke:#073B6F;stroke-width:2.5;",
+      "x": 0.0,
+      "y": 0.0,
+      "width": 5692.5,
+      "height": 4173.75,
+      "centerX": 2846.25,
+      "centerY": 2086.88,
+      "text": "AirAsia ID90 - HeatExchanger Style C4 Architecture External Systems User Interface API Gateway Core ",
+      "style": "stroke:none;stroke-width:1.25;",
+      "class": "",
+      "fill": "#F7F9FC"
+    },
+    {
+      "x": 469.8,
+      "y": 64.1,
+      "width": 221.47,
+      "height": 169.39,
+      "centerX": 580.54,
+      "centerY": 148.8,
+      "text": "\u00abperson\u00bb AirAsia Employee Seeks staff fares",
+      "style": "stroke:#073B6F;stroke-width:1.25;",
       "class": "",
       "fill": "#08427B"
     },
     {
-      "x": 1069.96,
-      "y": 61.19,
-      "width": 240.99,
-      "height": 140.29,
-      "centerX": 1190.46,
-      "centerY": 131.34,
-      "text": "System Administrator Manages system",
-      "style": "stroke:#073B6F;stroke-width:2.5;",
+      "x": 1159.61,
+      "y": 64.1,
+      "width": 271.85,
+      "height": 169.39,
+      "centerX": 1295.54,
+      "centerY": 148.8,
+      "text": "\u00abperson\u00bb System Administrator Manages system",
+      "style": "stroke:#073B6F;stroke-width:1.25;",
       "class": "",
       "fill": "#08427B"
     },
     {
-      "x": 207.56,
-      "y": 451.49,
-      "width": 203.27,
-      "height": 97.75,
-      "centerX": 309.2,
-      "centerY": 500.37,
-      "text": "Web App [Angular] Employee booking",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 244.04,
+      "y": 483.5,
+      "width": 232.98,
+      "height": 126.86,
+      "centerX": 360.53,
+      "centerY": 546.93,
+      "text": "\u00abcontainer\u00bb Web App [Angular] Employee booking",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 660.52,
-      "y": 451.49,
-      "width": 179.86,
-      "height": 97.75,
-      "centerX": 750.46,
-      "centerY": 500.37,
-      "text": "Mobile PWA [Angular PWA] Mobile experience",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 726.45,
+      "y": 483.5,
+      "width": 205.67,
+      "height": 126.86,
+      "centerX": 829.29,
+      "centerY": 546.93,
+      "text": "\u00abcontainer\u00bb Mobile PWA [Angular PWA] Mobile experience",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 1090.16,
-      "y": 451.49,
-      "width": 200.58,
-      "height": 97.75,
-      "centerX": 1190.45,
-      "centerY": 500.37,
-      "text": "Admin Dashboard [Angular] Administrative",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 1182.7,
+      "y": 483.5,
+      "width": 225.66,
+      "height": 126.86,
+      "centerX": 1295.53,
+      "centerY": 546.93,
+      "text": "\u00abcontainer\u00bb Admin Dashboard [Angular] Administrative",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 654.06,
-      "y": 799.24,
-      "width": 192.79,
-      "height": 97.75,
-      "centerX": 750.46,
-      "centerY": 848.12,
-      "text": "API Management [APIM] Edge gateway",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 720.91,
+      "y": 860.35,
+      "width": 216.76,
+      "height": 126.86,
+      "centerX": 829.29,
+      "centerY": 923.78,
+      "text": "\u00abcontainer\u00bb API Management [APIM] Edge gateway",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 672.71,
-      "y": 1146.99,
-      "width": 155.48,
-      "height": 97.75,
-      "centerX": 750.45,
-      "centerY": 1195.87,
-      "text": "App Gateway [App GW] Load balancer",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 742.23,
+      "y": 1237.21,
+      "width": 174.12,
+      "height": 126.86,
+      "centerX": 829.29,
+      "centerY": 1300.64,
+      "text": "\u00abcontainer\u00bb App Gateway [App GW] Load balancer",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 133.88,
-      "y": 1494.75,
-      "width": 150.67,
-      "height": 97.75,
-      "centerX": 209.21,
-      "centerY": 1543.63,
-      "text": "Auth Service [.NET Core] Authentication",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 176.01,
+      "y": 1614.06,
+      "width": 171.55,
+      "height": 126.86,
+      "centerX": 261.79,
+      "centerY": 1677.49,
+      "text": "\u00abcontainer\u00bb Auth Service [.NET Core] Authentication",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 534.77,
-      "y": 1494.75,
-      "width": 183.85,
-      "height": 97.75,
-      "centerX": 626.7,
-      "centerY": 1543.63,
-      "text": "Booking Service [.NET Core] Booking logic",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 597.26,
+      "y": 1614.06,
+      "width": 206.54,
+      "height": 126.86,
+      "centerX": 700.53,
+      "centerY": 1677.49,
+      "text": "\u00abcontainer\u00bb Booking Service [.NET Core] Booking logic",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 108.62,
-      "y": 1842.5,
-      "width": 161.15,
-      "height": 97.75,
-      "centerX": 189.2,
-      "centerY": 1891.38,
-      "text": "Flight Service [.NET Core] Flight data",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 148.99,
+      "y": 1990.91,
+      "width": 180.6,
+      "height": 126.86,
+      "centerX": 239.29,
+      "centerY": 2054.34,
+      "text": "\u00abcontainer\u00bb Flight Service [.NET Core] Flight data",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 519.34,
-      "y": 1842.5,
-      "width": 199.73,
-      "height": 97.75,
-      "centerX": 619.2,
-      "centerY": 1891.38,
-      "text": "Employee Service [.NET Core] Employee data",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 579.44,
+      "y": 1990.91,
+      "width": 224.69,
+      "height": 126.86,
+      "centerX": 691.78,
+      "centerY": 2054.34,
+      "text": "\u00abcontainer\u00bb Employee Service [.NET Core] Employee data",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 3984.45,
-      "y": 1842.5,
-      "width": 219.52,
-      "height": 97.75,
-      "centerX": 4094.21,
-      "centerY": 1891.38,
-      "text": "Notification Service [.NET Core] Notifications",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 4069.39,
+      "y": 1990.91,
+      "width": 247.3,
+      "height": 126.86,
+      "centerX": 4193.04,
+      "centerY": 2054.34,
+      "text": "\u00abcontainer\u00bb Notification Service [.NET Core] Notifications",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 4454.59,
-      "y": 1842.5,
-      "width": 174.25,
-      "height": 97.75,
-      "centerX": 4541.71,
-      "centerY": 1891.38,
-      "text": "Refund Service [.NET Core] Refunds",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 4566.5,
+      "y": 1990.91,
+      "width": 195.57,
+      "height": 126.86,
+      "centerX": 4664.28,
+      "centerY": 2054.34,
+      "text": "\u00abcontainer\u00bb Refund Service [.NET Core] Refunds",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 4878.35,
-      "y": 1842.5,
-      "width": 194.22,
-      "height": 97.75,
-      "centerX": 4975.46,
-      "centerY": 1891.38,
-      "text": "Analytics Service [.NET Core] Analytics",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 5012.59,
+      "y": 1990.91,
+      "width": 218.39,
+      "height": 126.86,
+      "centerX": 5121.78,
+      "centerY": 2054.34,
+      "text": "\u00abcontainer\u00bb Analytics Service [.NET Core] Analytics",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 5322.09,
-      "y": 1842.5,
-      "width": 156.74,
-      "height": 97.75,
-      "centerX": 5400.46,
-      "centerY": 1891.38,
-      "text": "Audit Service [.NET Core] Audit logs",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 5481.51,
+      "y": 1990.91,
+      "width": 175.56,
+      "height": 126.86,
+      "centerX": 5569.29,
+      "centerY": 2054.34,
+      "text": "\u00abcontainer\u00bb Audit Service [.NET Core] Audit logs",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 1993.64,
-      "y": 2190.25,
+      "x": 2086.21,
+      "y": 2367.78,
       "width": 191.14,
-      "height": 97.75,
-      "centerX": 2089.21,
-      "centerY": 2239.13,
-      "text": "Service Bus [Azure Service Bus] Event queueing",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "height": 126.86,
+      "centerX": 2181.78,
+      "centerY": 2431.2,
+      "text": "\u00abcontainer\u00bb Service Bus [Azure Service Bus] Event queueing",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 2583.54,
-      "y": 2190.25,
-      "width": 148.84,
-      "height": 97.75,
-      "centerX": 2657.96,
-      "centerY": 2239.13,
-      "text": "App Insights [App Insights] Telemetry",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 2709.76,
+      "y": 2367.78,
+      "width": 166.53,
+      "height": 126.86,
+      "centerX": 2793.03,
+      "centerY": 2431.2,
+      "text": "\u00abcontainer\u00bb App Insights [App Insights] Telemetry",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 2982.32,
-      "y": 2198.99,
-      "width": 168.75,
-      "height": 80.29,
-      "centerX": 3066.7,
-      "centerY": 2239.14,
-      "text": "AirAsia Flights Flight booking",
-      "style": "stroke:#8A8A8A;stroke-width:2.5;",
+      "x": 3125.86,
+      "y": 2376.5,
+      "width": 211.86,
+      "height": 109.39,
+      "centerX": 3231.79,
+      "centerY": 2431.2,
+      "text": "\u00abexternal_system\u00bb AirAsia Flights Flight booking",
+      "style": "stroke:#707070;stroke-width:1.25;",
       "class": "",
       "fill": "#999999"
     },
     {
-      "x": 3400.46,
-      "y": 2198.99,
-      "width": 139.98,
-      "height": 80.29,
-      "centerX": 3470.45,
-      "centerY": 2239.14,
-      "text": "Google SSO OAuth SSO",
-      "style": "stroke:#8A8A8A;stroke-width:2.5;",
+      "x": 3587.11,
+      "y": 2376.5,
+      "width": 211.86,
+      "height": 109.39,
+      "centerX": 3693.04,
+      "centerY": 2431.2,
+      "text": "\u00abexternal_system\u00bb Google SSO OAuth SSO",
+      "style": "stroke:#707070;stroke-width:1.25;",
       "class": "",
       "fill": "#999999"
     },
     {
-      "x": 3791.01,
-      "y": 2198.99,
-      "width": 176.38,
-      "height": 80.29,
-      "centerX": 3879.2,
-      "centerY": 2239.14,
-      "text": "Teams API Teams messaging",
-      "style": "stroke:#8A8A8A;stroke-width:2.5;",
+      "x": 4048.36,
+      "y": 2376.5,
+      "width": 211.86,
+      "height": 109.39,
+      "centerX": 4154.29,
+      "centerY": 2431.2,
+      "text": "\u00abexternal_system\u00bb Teams API Teams messaging",
+      "style": "stroke:#707070;stroke-width:1.25;",
       "class": "",
       "fill": "#999999"
     },
     {
-      "x": 4217.85,
-      "y": 2198.99,
-      "width": 182.71,
-      "height": 80.29,
-      "centerX": 4309.2,
-      "centerY": 2239.14,
-      "text": "Email Service Email notifications",
-      "style": "stroke:#8A8A8A;stroke-width:2.5;",
+      "x": 4509.61,
+      "y": 2376.5,
+      "width": 211.86,
+      "height": 109.39,
+      "centerX": 4615.54,
+      "centerY": 2431.2,
+      "text": "\u00abexternal_system\u00bb Email Service Email notifications",
+      "style": "stroke:#707070;stroke-width:1.25;",
       "class": "",
       "fill": "#999999"
     },
     {
-      "x": 4650.23,
-      "y": 2198.99,
-      "width": 172.96,
-      "height": 80.29,
-      "centerX": 4736.7,
-      "centerY": 2239.14,
-      "text": "SMS Gateway SMS notifications",
-      "style": "stroke:#8A8A8A;stroke-width:2.5;",
+      "x": 4970.86,
+      "y": 2376.5,
+      "width": 211.86,
+      "height": 109.39,
+      "centerX": 5076.79,
+      "centerY": 2431.2,
+      "text": "\u00abexternal_system\u00bb SMS Gateway SMS notifications",
+      "style": "stroke:#707070;stroke-width:1.25;",
       "class": "",
       "fill": "#999999"
     },
     {
-      "x": 5073.2,
-      "y": 2198.99,
-      "width": 152.0,
-      "height": 80.29,
-      "centerX": 5149.2,
-      "centerY": 2239.14,
-      "text": "Push Service Mobile push",
-      "style": "stroke:#8A8A8A;stroke-width:2.5;",
+      "x": 5432.11,
+      "y": 2376.5,
+      "width": 211.86,
+      "height": 109.39,
+      "centerX": 5538.04,
+      "centerY": 2431.2,
+      "text": "\u00abexternal_system\u00bb Push Service Mobile push",
+      "style": "stroke:#707070;stroke-width:1.25;",
       "class": "",
       "fill": "#999999"
     },
     {
-      "x": 2014.01,
-      "y": 2538.02,
-      "width": 140.38,
-      "height": 97.75,
-      "centerX": 2084.2,
-      "centerY": 2586.89,
-      "text": "Event Grid [Event Grid] Event routing",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 2094.47,
+      "y": 2744.63,
+      "width": 159.61,
+      "height": 126.86,
+      "centerX": 2174.28,
+      "centerY": 2808.05,
+      "text": "\u00abcontainer\u00bb Event Grid [Event Grid] Event routing",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 2575.61,
-      "y": 2538.02,
-      "width": 164.69,
-      "height": 97.75,
-      "centerX": 2657.96,
-      "centerY": 2586.89,
-      "text": "Azure Monitor [Monitor] Infrastructure",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 2700.71,
+      "y": 2744.63,
+      "width": 184.65,
+      "height": 126.86,
+      "centerX": 2793.04,
+      "centerY": 2808.05,
+      "text": "\u00abcontainer\u00bb Azure Monitor [Monitor] Infrastructure",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 1988.31,
-      "y": 2885.77,
-      "width": 184.29,
-      "height": 97.75,
-      "centerX": 2080.46,
-      "centerY": 2934.64,
-      "text": "Azure Functions [Functions] Serverless",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 2060.76,
+      "y": 3121.49,
+      "width": 207.04,
+      "height": 126.86,
+      "centerX": 2164.28,
+      "centerY": 3184.92,
+      "text": "\u00abcontainer\u00bb Azure Functions [Functions] Serverless",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 2422.75,
-      "y": 2885.77,
-      "width": 125.41,
-      "height": 97.75,
-      "centerX": 2485.45,
-      "centerY": 2934.64,
-      "text": "Grafana [Grafana] Dashboards",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 2517.24,
+      "y": 3121.49,
+      "width": 144.1,
+      "height": 126.86,
+      "centerX": 2589.29,
+      "centerY": 3184.92,
+      "text": "\u00abcontainer\u00bb Grafana [Grafana] Dashboards",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 2798.61,
-      "y": 2885.77,
-      "width": 113.67,
-      "height": 97.75,
-      "centerX": 2855.45,
-      "centerY": 2934.64,
-      "text": "Power [Power BI] Reports",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 2910.99,
+      "y": 3121.49,
+      "width": 144.1,
+      "height": 126.86,
+      "centerX": 2983.04,
+      "centerY": 3184.92,
+      "text": "\u00abcontainer\u00bb Power [Power BI] Reports",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
+      "fill": "#2D314A"
     },
     {
-      "x": 1988.09,
-      "y": 3233.52,
-      "width": 197.24,
-      "height": 97.75,
-      "centerX": 2086.71,
-      "centerY": 3282.39,
-      "text": "Stream Analytics [Stream] Realtime processing",
-      "style": "stroke:#3C7FC0;stroke-width:2.5;",
+      "x": 2060.06,
+      "y": 3498.34,
+      "width": 225.95,
+      "height": 126.86,
+      "centerX": 2173.04,
+      "centerY": 3561.77,
+      "text": "\u00abcontainer\u00bb Stream Analytics [Stream] Realtime processing",
+      "style": "stroke:#9CA3AF;stroke-width:1.25;",
       "class": "",
-      "fill": "#438DD5"
-    },
-    {
-      "x": 5296.97,
-      "y": 3761.9,
-      "width": 172.23,
-      "height": 20.37,
-      "centerX": 5383.08,
-      "centerY": 3772.09,
-      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
-      "style": "stroke:none;stroke-width:1.25;",
-      "class": "",
-      "fill": "#08427B"
-    },
-    {
-      "x": 5296.97,
-      "y": 3782.27,
-      "width": 172.23,
-      "height": 20.37,
-      "centerX": 5383.08,
-      "centerY": 3792.46,
-      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
-      "style": "stroke:none;stroke-width:1.25;",
-      "class": "",
-      "fill": "#1168BD"
-    },
-    {
-      "x": 5296.97,
-      "y": 3802.64,
-      "width": 172.23,
-      "height": 20.37,
-      "centerX": 5383.08,
-      "centerY": 3812.83,
-      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
-      "style": "stroke:none;stroke-width:1.25;",
-      "class": "",
-      "fill": "#438DD5"
-    },
-    {
-      "x": 5296.97,
-      "y": 3823.01,
-      "width": 172.23,
-      "height": 20.37,
-      "centerX": 5383.08,
-      "centerY": 3833.2,
-      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
-      "style": "stroke:none;stroke-width:1.25;",
-      "class": "",
-      "fill": "#686868"
-    },
-    {
-      "x": 5296.97,
-      "y": 3843.38,
-      "width": 172.23,
-      "height": 20.37,
-      "centerX": 5383.08,
-      "centerY": 3853.57,
-      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
-      "style": "stroke:none;stroke-width:1.25;",
-      "class": "",
-      "fill": "#999999"
-    },
-    {
-      "x": 5296.97,
-      "y": 3863.76,
-      "width": 172.23,
-      "height": 20.37,
-      "centerX": 5383.08,
-      "centerY": 3873.94,
-      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
-      "style": "stroke:none;stroke-width:1.25;",
-      "class": "",
-      "fill": "#B3B3B3"
+      "fill": "#2D314A"
     }
   ],
   "all_groups": [
     {
       "id": "group_0",
-      "x": 3400.46,
-      "y": 2198.99,
-      "width": 139.98,
-      "height": 80.29,
-      "text": "AirAsia ID90 - Fixed Layout C4 Architecture External Systems User Interface API Gateway Core Service",
-      "rect_count": 35,
+      "x": 0.0,
+      "y": 0.0,
+      "width": 5692.5,
+      "height": 4173.75,
+      "text": "AirAsia ID90 - HeatExchanger Style C4 Architecture External Systems User Interface API Gateway Core ",
+      "rect_count": 30,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_google_sso",
-      "x": 3400.46,
-      "y": 2198.99,
-      "width": 139.98,
-      "height": 80.29,
-      "text": "Google SSO OAuth SSO",
+      "x": 3587.11,
+      "y": 2376.5,
+      "width": 211.86,
+      "height": 109.39,
+      "text": "\u00abexternal_system\u00bb Google SSO OAuth SSO",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_airasia_flights",
-      "x": 2982.32,
-      "y": 2198.99,
-      "width": 168.75,
-      "height": 80.29,
-      "text": "AirAsia Flights Flight booking",
+      "x": 3125.86,
+      "y": 2376.5,
+      "width": 211.86,
+      "height": 109.39,
+      "text": "\u00abexternal_system\u00bb AirAsia Flights Flight booking",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_sms_gateway",
-      "x": 4650.23,
-      "y": 2198.99,
-      "width": 172.96,
-      "height": 80.29,
-      "text": "SMS Gateway SMS notifications",
+      "x": 4970.86,
+      "y": 2376.5,
+      "width": 211.86,
+      "height": 109.39,
+      "text": "\u00abexternal_system\u00bb SMS Gateway SMS notifications",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_email_service",
-      "x": 4217.85,
-      "y": 2198.99,
-      "width": 182.71,
-      "height": 80.29,
-      "text": "Email Service Email notifications",
+      "x": 4509.61,
+      "y": 2376.5,
+      "width": 211.86,
+      "height": 109.39,
+      "text": "\u00abexternal_system\u00bb Email Service Email notifications",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_teams_api",
-      "x": 3791.01,
-      "y": 2198.99,
-      "width": 176.38,
-      "height": 80.29,
-      "text": "Teams API Teams messaging",
+      "x": 4048.36,
+      "y": 2376.5,
+      "width": 211.86,
+      "height": 109.39,
+      "text": "\u00abexternal_system\u00bb Teams API Teams messaging",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_push_service",
-      "x": 5073.2,
-      "y": 2198.99,
-      "width": 152.0,
-      "height": 80.29,
-      "text": "Push Service Mobile push",
+      "x": 5432.11,
+      "y": 2376.5,
+      "width": 211.86,
+      "height": 109.39,
+      "text": "\u00abexternal_system\u00bb Push Service Mobile push",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_web_app",
-      "x": 207.56,
-      "y": 451.49,
-      "width": 203.27,
-      "height": 97.75,
-      "text": "Web App [Angular] Employee booking",
+      "x": 244.04,
+      "y": 483.5,
+      "width": 232.98,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Web App [Angular] Employee booking",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_mobile_pwa",
-      "x": 660.52,
-      "y": 451.49,
-      "width": 179.86,
-      "height": 97.75,
-      "text": "Mobile PWA [Angular PWA] Mobile experience",
+      "x": 726.45,
+      "y": 483.5,
+      "width": 205.67,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Mobile PWA [Angular PWA] Mobile experience",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_admin_dashboard",
-      "x": 1090.16,
-      "y": 451.49,
-      "width": 200.58,
-      "height": 97.75,
-      "text": "Admin Dashboard [Angular] Administrative",
+      "x": 1182.7,
+      "y": 483.5,
+      "width": 225.66,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Admin Dashboard [Angular] Administrative",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_api_gateway",
-      "x": 654.06,
-      "y": 799.24,
-      "width": 192.79,
-      "height": 97.75,
-      "text": "API Management [APIM] Edge gateway",
+      "x": 720.91,
+      "y": 860.35,
+      "width": 216.76,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb API Management [APIM] Edge gateway",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_app_gateway",
-      "x": 672.71,
-      "y": 1146.99,
-      "width": 155.48,
-      "height": 97.75,
-      "text": "App Gateway [App GW] Load balancer",
+      "x": 742.23,
+      "y": 1237.21,
+      "width": 174.12,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb App Gateway [App GW] Load balancer",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_auth_service",
-      "x": 133.88,
-      "y": 1494.75,
-      "width": 150.67,
-      "height": 97.75,
-      "text": "Auth Service [.NET Core] Authentication",
+      "x": 176.01,
+      "y": 1614.06,
+      "width": 171.55,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Auth Service [.NET Core] Authentication",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_booking_service",
-      "x": 534.77,
-      "y": 1494.75,
-      "width": 183.85,
-      "height": 97.75,
-      "text": "Booking Service [.NET Core] Booking logic",
+      "x": 597.26,
+      "y": 1614.06,
+      "width": 206.54,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Booking Service [.NET Core] Booking logic",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_flight_service",
-      "x": 108.62,
-      "y": 1842.5,
-      "width": 161.15,
-      "height": 97.75,
-      "text": "Flight Service [.NET Core] Flight data",
+      "x": 148.99,
+      "y": 1990.91,
+      "width": 180.6,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Flight Service [.NET Core] Flight data",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_employee_service",
-      "x": 519.34,
-      "y": 1842.5,
-      "width": 199.73,
-      "height": 97.75,
-      "text": "Employee Service [.NET Core] Employee data",
+      "x": 579.44,
+      "y": 1990.91,
+      "width": 224.69,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Employee Service [.NET Core] Employee data",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_notification_service",
-      "x": 3984.45,
-      "y": 1842.5,
-      "width": 219.52,
-      "height": 97.75,
-      "text": "Notification Service [.NET Core] Notifications",
+      "x": 4069.39,
+      "y": 1990.91,
+      "width": 247.3,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Notification Service [.NET Core] Notifications",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_analytics_service",
-      "x": 4878.35,
-      "y": 1842.5,
-      "width": 194.22,
-      "height": 97.75,
-      "text": "Analytics Service [.NET Core] Analytics",
+      "x": 5012.59,
+      "y": 1990.91,
+      "width": 218.39,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Analytics Service [.NET Core] Analytics",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_refund_service",
-      "x": 4454.59,
-      "y": 1842.5,
-      "width": 174.25,
-      "height": 97.75,
-      "text": "Refund Service [.NET Core] Refunds",
+      "x": 4566.5,
+      "y": 1990.91,
+      "width": 195.57,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Refund Service [.NET Core] Refunds",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_audit_service",
-      "x": 5322.09,
-      "y": 1842.5,
-      "width": 156.74,
-      "height": 97.75,
-      "text": "Audit Service [.NET Core] Audit logs",
+      "x": 5481.51,
+      "y": 1990.91,
+      "width": 175.56,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Audit Service [.NET Core] Audit logs",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_service_bus",
-      "x": 1993.64,
-      "y": 2190.25,
+      "x": 2086.21,
+      "y": 2367.78,
       "width": 191.14,
-      "height": 97.75,
-      "text": "Service Bus [Azure Service Bus] Event queueing",
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Service Bus [Azure Service Bus] Event queueing",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_event_grid",
-      "x": 2014.01,
-      "y": 2538.02,
-      "width": 140.38,
-      "height": 97.75,
-      "text": "Event Grid [Event Grid] Event routing",
+      "x": 2094.47,
+      "y": 2744.63,
+      "width": 159.61,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Event Grid [Event Grid] Event routing",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_azure_functions",
-      "x": 1988.31,
-      "y": 2885.77,
-      "width": 184.29,
-      "height": 97.75,
-      "text": "Azure Functions [Functions] Serverless",
+      "x": 2060.76,
+      "y": 3121.49,
+      "width": 207.04,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Azure Functions [Functions] Serverless",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_stream_analytics",
-      "x": 1988.09,
-      "y": 3233.52,
-      "width": 197.24,
-      "height": 97.75,
-      "text": "Stream Analytics [Stream] Realtime processing",
+      "x": 2060.06,
+      "y": 3498.34,
+      "width": 225.95,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Stream Analytics [Stream] Realtime processing",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_app_insights",
-      "x": 2583.54,
-      "y": 2190.25,
-      "width": 148.84,
-      "height": 97.75,
-      "text": "App Insights [App Insights] Telemetry",
+      "x": 2709.76,
+      "y": 2367.78,
+      "width": 166.53,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb App Insights [App Insights] Telemetry",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_azure_monitor",
-      "x": 2575.61,
-      "y": 2538.02,
-      "width": 164.69,
-      "height": 97.75,
-      "text": "Azure Monitor [Monitor] Infrastructure",
+      "x": 2700.71,
+      "y": 2744.63,
+      "width": 184.65,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Azure Monitor [Monitor] Infrastructure",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_grafana",
-      "x": 2422.75,
-      "y": 2885.77,
-      "width": 125.41,
-      "height": 97.75,
-      "text": "Grafana [Grafana] Dashboards",
+      "x": 2517.24,
+      "y": 3121.49,
+      "width": 144.1,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Grafana [Grafana] Dashboards",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_power_bi",
-      "x": 2798.61,
-      "y": 2885.77,
-      "width": 113.67,
-      "height": 97.75,
-      "text": "Power [Power BI] Reports",
+      "x": 2910.99,
+      "y": 3121.49,
+      "width": 144.1,
+      "height": 126.86,
+      "text": "\u00abcontainer\u00bb Power [Power BI] Reports",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_employee",
-      "x": 417.0,
-      "y": 61.19,
-      "width": 196.92,
-      "height": 140.29,
-      "text": "AirAsia Employee Seeks staff fares",
+      "x": 469.8,
+      "y": 64.1,
+      "width": 221.47,
+      "height": 169.39,
+      "text": "\u00abperson\u00bb AirAsia Employee Seeks staff fares",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     },
     {
       "id": "entity_admin",
-      "x": 1069.96,
-      "y": 61.19,
-      "width": 240.99,
-      "height": 140.29,
-      "text": "System Administrator Manages system",
+      "x": 1159.61,
+      "y": 64.1,
+      "width": 271.85,
+      "height": 169.39,
+      "text": "\u00abperson\u00bb System Administrator Manages system",
       "rect_count": 1,
       "transform": "translate(0, 0)"
     }
   ],
   "all_texts": [
     {
-      "x": 2470.11,
-      "y": 33.38,
-      "text": "AirAsia ID90 - Fixed Layout C4 Architecture"
+      "x": 2471.59,
+      "y": 35.71,
+      "text": "AirAsia ID90 - HeatExchanger Style C4 Architecture"
     },
     {
-      "x": 2966.7,
-      "y": 2173.99,
+      "x": 3110.54,
+      "y": 2351.5,
       "text": "External Systems"
     },
     {
-      "x": 192.95,
-      "y": 426.49,
+      "x": 229.29,
+      "y": 458.5,
       "text": "User Interface"
     },
     {
-      "x": 639.2,
-      "y": 774.24,
+      "x": 705.54,
+      "y": 835.35,
       "text": "API Gateway"
     },
     {
-      "x": 94.2,
-      "y": 1469.75,
+      "x": 134.29,
+      "y": 1589.06,
       "text": "Core Services"
     },
     {
-      "x": 3969.2,
-      "y": 1817.5,
+      "x": 4054.29,
+      "y": 1965.91,
       "text": "Support Services"
     },
     {
-      "x": 1972.95,
-      "y": 2165.25,
+      "x": 2045.54,
+      "y": 2342.77,
       "text": "Event Processing"
     },
     {
-      "x": 1157.95,
-      "y": 3556.27,
+      "x": 1201.79,
+      "y": 3850.2,
       "text": "Data Layer"
     },
     {
-      "x": 2407.95,
-      "y": 2165.25,
+      "x": 2501.79,
+      "y": 2342.77,
       "text": "Monitoring"
     },
     {
-      "x": 3412.96,
-      "y": 2227.74,
+      "x": 3600.86,
+      "y": 2405.25,
+      "text": "\u00abexternal_system\u00bb"
+    },
+    {
+      "x": 3627.34,
+      "y": 2427.94,
       "text": "Google"
     },
     {
-      "x": 3487.86,
-      "y": 2227.74,
+      "x": 3712.93,
+      "y": 2427.94,
       "text": "SSO"
     },
     {
-      "x": 3424.22,
-      "y": 2263.25,
+      "x": 3639.1,
+      "y": 2469.27,
       "text": "OAuth"
     },
     {
-      "x": 3482.33,
-      "y": 2263.25,
+      "x": 3706.9,
+      "y": 2469.27,
       "text": "SSO"
     },
     {
-      "x": 2994.82,
-      "y": 2227.74,
+      "x": 3139.61,
+      "y": 2405.25,
+      "text": "\u00abexternal_system\u00bb"
+    },
+    {
+      "x": 3149.65,
+      "y": 2427.94,
       "text": "AirAsia"
     },
     {
-      "x": 3070.86,
-      "y": 2227.74,
+      "x": 3236.54,
+      "y": 2427.94,
       "text": "Flights"
     },
     {
-      "x": 3005.59,
-      "y": 2263.25,
+      "x": 3160.5,
+      "y": 2469.27,
       "text": "Flight"
     },
     {
-      "x": 3059.93,
-      "y": 2263.25,
+      "x": 3223.89,
+      "y": 2469.27,
       "text": "booking"
     },
     {
-      "x": 4669.45,
-      "y": 2227.74,
+      "x": 4984.61,
+      "y": 2405.25,
+      "text": "\u00abexternal_system\u00bb"
+    },
+    {
+      "x": 4999.93,
+      "y": 2427.94,
       "text": "SMS"
     },
     {
-      "x": 4718.17,
-      "y": 2227.74,
+      "x": 5055.6,
+      "y": 2427.94,
       "text": "Gateway"
     },
     {
-      "x": 4662.73,
-      "y": 2263.25,
+      "x": 4990.48,
+      "y": 2469.27,
       "text": "SMS"
     },
     {
-      "x": 4704.48,
-      "y": 2263.25,
+      "x": 5039.2,
+      "y": 2469.27,
       "text": "notifications"
     },
     {
-      "x": 4242.78,
-      "y": 2227.74,
+      "x": 4523.36,
+      "y": 2405.25,
+      "text": "\u00abexternal_system\u00bb"
+    },
+    {
+      "x": 4539.63,
+      "y": 2427.94,
       "text": "Email"
     },
     {
-      "x": 4302.87,
-      "y": 2227.74,
+      "x": 4608.3,
+      "y": 2427.94,
       "text": "Service"
     },
     {
-      "x": 4230.35,
-      "y": 2263.25,
+      "x": 4523.55,
+      "y": 2469.27,
       "text": "Email"
     },
     {
-      "x": 4281.85,
-      "y": 2263.25,
+      "x": 4583.63,
+      "y": 2469.27,
       "text": "notifications"
     },
     {
-      "x": 3827.58,
-      "y": 2227.74,
+      "x": 4062.11,
+      "y": 2405.25,
+      "text": "\u00abexternal_system\u00bb"
+    },
+    {
+      "x": 4095.3,
+      "y": 2427.94,
       "text": "Teams"
     },
     {
-      "x": 3897.94,
-      "y": 2227.74,
+      "x": 4175.71,
+      "y": 2427.94,
       "text": "API"
     },
     {
-      "x": 3803.51,
-      "y": 2263.25,
+      "x": 4065.98,
+      "y": 2469.27,
       "text": "Teams"
     },
     {
-      "x": 3863.82,
-      "y": 2263.25,
+      "x": 4136.34,
+      "y": 2469.27,
       "text": "messaging"
     },
     {
-      "x": 5085.7,
-      "y": 2227.74,
+      "x": 5445.86,
+      "y": 2405.25,
+      "text": "\u00abexternal_system\u00bb"
+    },
+    {
+      "x": 5465.47,
+      "y": 2427.94,
       "text": "Push"
     },
     {
-      "x": 5139.95,
-      "y": 2227.74,
+      "x": 5527.47,
+      "y": 2427.94,
       "text": "Service"
     },
     {
-      "x": 5097.87,
-      "y": 2263.25,
+      "x": 5478.15,
+      "y": 2469.27,
       "text": "Mobile"
     },
     {
-      "x": 5159.51,
-      "y": 2263.25,
+      "x": 5550.07,
+      "y": 2469.27,
       "text": "push"
     },
     {
-      "x": 265.0,
-      "y": 480.24,
+      "x": 302.23,
+      "y": 512.25,
+      "text": "\u00abcontainer\u00bb"
+    },
+    {
+      "x": 310.02,
+      "y": 534.94,
       "text": "Web"
     },
     {
-      "x": 314.8,
-      "y": 480.24,
+      "x": 366.93,
+      "y": 534.94,
       "text": "App"
     },
     {
-      "x": 269.16,
-      "y": 498.29,
+      "x": 320.49,
+      "y": 553.58,
       "text": "[Angular]"
     },
     {
-      "x": 220.06,
-      "y": 533.21,
+      "x": 256.54,
+      "y": 593.73,
       "text": "Employee"
     },
     {
-      "x": 307.47,
-      "y": 533.21,
+      "x": 358.51,
+      "y": 593.73,
       "text": "booking"
     },
     {
-      "x": 691.66,
-      "y": 480.24,
+      "x": 770.99,
+      "y": 512.25,
+      "text": "\u00abcontainer\u00bb"
+    },
+    {
+      "x": 762.09,
+      "y": 534.94,
       "text": "Mobile"
     },
     {
-      "x": 763.58,
-      "y": 480.24,
+      "x": 844.29,
+      "y": 534.94,
       "text": "PWA"
     },
     {
-      "x": 688.23,
-      "y": 498.29,
+      "x": 767.06,
+      "y": 553.58,
       "text": "[Angular"
     },
     {
-      "x": 766.68,
-      "y": 498.29,
+      "x": 845.51,
+      "y": 553.58,
       "text": "PWA]"
     },
     {
-      "x": 673.02,
-      "y": 533.21,
+      "x": 738.95,
+      "y": 593.73,
       "text": "Mobile"
     },
     {
-      "x": 734.67,
-      "y": 533.21,
+      "x": 810.87,
+      "y": 593.73,
       "text": "experience"
     },
     {
-      "x": 1102.66,
-      "y": 480.24,
+      "x": 1237.23,
+      "y": 512.25,
+      "text": "\u00abcontainer\u00bb"
+    },
+    {
+      "x": 1195.2,
+      "y": 534.94,
       "text": "Admin"
     },
     {
-      "x": 1171.52,
-      "y": 480.24,
+      "x": 1273.89,
+      "y": 534.94,
       "text": "Dashboard"
     },
     {
-      "x": 1150.42,
-      "y": 498.29,
+      "x": 1255.49,
+      "y": 553.58,
       "text": "[Angular]"
     },
     {
-      "x": 1116.55,
-      "y": 533.21,
+      "x": 1209.31,
+      "y": 593.73,
       "text": "Administrative"
     },
     {
-      "x": 666.56,
-      "y": 827.99,
+      "x": 770.99,
+      "y": 889.1,
+      "text": "\u00abcontainer\u00bb"
+    },
+    {
+      "x": 733.41,
+      "y": 911.79,
       "text": "API"
     },
     {
-      "x": 705.54,
-      "y": 827.99,
+      "x": 777.95,
+      "y": 911.79,
       "text": "Management"
     },
     {
-      "x": 722.05,
-      "y": 846.04,
+      "x": 800.88,
+      "y": 930.43,
       "text": "[APIM]"
     },
     {
-      "x": 690.92,
-      "y": 880.96,
+      "x": 759.83,
+      "y": 970.58,
       "text": "Edge"
     },
     {
-      "x": 738.03,
-      "y": 880.96,
+      "x": 814.8,
+      "y": 970.58,
       "text": "gateway"
     },
     {
-      "x": 685.21,
-      "y": 1175.74,
+      "x": 770.99,
+      "y": 1265.96,
+      "text": "\u00abcontainer\u00bb"
+    },
+    {
+      "x": 754.73,
+      "y": 1288.65,
       "text": "App"
     },
     {
-      "x": 729.9,
-      "y": 1175.74,
+      "x": 805.8,
+      "y": 1288.65,
       "text": "Gateway"
     },
     {
-      "x": 710.02,
-      "y": 1193.79,
+      "x": 788.85,
+      "y": 1307.29,
       "text": "[App"
     },
     {
-      "x": 755.18,
-      "y": 1193.79,
+      "x": 834.01,
+      "y": 1307.29,
       "text": "GW]"
     },
     {
-      "x": 690.85,
-      "y": 1228.71,
+      "x": 759.75,
+      "y": 1347.44,
       "text": "Load"
     },
     {
-      "x": 736.79,
-      "y": 1228.71,
+      "x": 813.35,
+      "y": 1347.44,
       "text": "balancer"
     },
     {
-      "x": 146.38,
-      "y": 1523.5,
+      "x": 203.49,
+      "y": 1642.81,
+      "text": "\u00abcontainer\u00bb"
+    },
+    {
+      "x": 189.97,
+      "y": 1665.5,
       "text": "Auth"
     },
     {
-      "x": 199.29,
-      "y": 1523.5,
+      "x": 250.45,
+      "y": 1665.5,
       "text": "Service"
     },
     {
-      "x": 160.94,
-      "y": 1541.55,
+      "x": 213.51,
+      "y": 1684.14,
       "text": "[.NET"
     },
     {
-      "x": 211.74,
-      "y": 1541.55,
+      "x": 264.32,
+      "y": 1684.14,
       "text": "Core]"
     },
     {
-      "x": 146.4,
-      "y": 1576.47,
+      "x": 188.51,
+      "y": 1724.29,
       "text": "Authentication"
     },
     {
-      "x": 547.27,
-      "y": 1523.5,
+      "x": 642.24,
+      "y": 1642.81,
+      "text": "\u00abcontainer\u00bb"
+    },
+    {
+      "x": 609.76,
+      "y": 1665.5,
       "text": "Booking"
     },
     {
-      "x": 633.37,
-      "y": 1523.5,
+      "x": 708.16,
+      "y": 1665.5,
       "text": "Service"
     },
     {
-      "x": 578.43,
-      "y": 1541.55,
+      "x": 652.26,
+      "y": 1684.14,
       "text": "[.NET"
     },
     {
-      "x": 629.23,
-      "y": 1541.55,
+      "x": 703.07,
+      "y": 1684.14,
       "text": "Core]"
     },
     {
-      "x": 569.69,
-      "y": 1576.47,
+      "x": 634.02,
+      "y": 1724.29,
       "text": "Booking"
     },
     {
-      "x": 643.49,
-      "y": 1576.47,
+      "x": 720.12,
+      "y": 1724.29,
       "text": "logic"
     },
     {
-      "x": 121.12,
-      "y": 1871.25,
+      "x": 180.99,
+      "y": 2019.66,
+      "text": "\u00abcontainer\u00bb"
+    },
+    {
+      "x": 161.49,
+      "y": 2042.35,
       "text": "Flight"
     },
     {
-      "x": 184.52,
-      "y": 1871.25,
+      "x": 233.94,
+      "y": 2042.35,
       "text": "Service"
     },
     {
-      "x": 140.92,
-      "y": 1889.3,
+      "x": 191.01,
+      "y": 2060.99,
       "text": "[.NET"
     },
     {
-      "x": 191.73,
-      "y": 1889.3,
+      "x": 241.82,
+      "y": 2060.99,
       "text": "Core]"
     },
     {
-      "x": 142.95,
-      "y": 1924.22,
+      "x": 185.33,
+      "y": 2101.14,
       "text": "Flight"
     },
     {
-      "x": 197.29,
-      "y": 1924.22,
+      "x": 248.73,
+      "y": 2101.14,
       "text": "data"
     },
     {
-      "x": 531.84,
-      "y": 1871.25,
+      "x": 633.48,
+      "y": 2019.66,
+      "text": "\u00abcontainer\u00bb"
+    },
+    {
+      "x": 591.94,
+      "y": 2042.35,
       "text": "Employee"
     },
     {
-      "x": 633.81,
-      "y": 1871.25,
+      "x": 708.48,
+      "y": 2042.35,
       "text": "Service"
     },
     {
-      "x": 570.93,
-      "y": 1889.3,
+      "x": 643.51,
+      "y": 2060.99,
       "text": "[.NET"
     },
     {
-      "x": 621.74,
-      "y": 1889.3,
+      "x": 694.32,
+      "y": 2060.99,
       "text": "Core]"
     },
     {
-      "x": 556.42,
-      "y": 1924.22,
+      "x": 618.54,
+      "y": 2101.14,
       "text": "Employee"
     },
     {
-      "x": 643.83,
-      "y": 1924.22,
+      "x": 720.51,
+      "y": 2101.14,
       "text": "data"
     },
     {
-      "x": 3996.95,
-      "y": 1871.25,
+      "x": 4134.74,
+      "y": 2019.66,
+      "text": "\u00abcontainer\u00bb"
+    },
+    {
+      "x": 4081.89,
+      "y": 2042.35,
       "text": "Notification"
     },
     {
-      "x": 4118.72,
-      "y": 1871.25,
+      "x": 4221.05,
+      "y": 2042.35,
       "text": "Service"
-    },
-    {
-      "x": 4045.93,
-      "y": 1889.3,
-      "text": "[.NET"
-    },
-    {
-      "x": 4096.74,
-      "y": 1889.3,
-      "text": "Core]"
-    },
-    {
-      "x": 4040.17,
-      "y": 1924.22,
-      "text": "Notifications"
-    },
-    {
-      "x": 4890.85,
-      "y": 1871.25,
-      "text": "Analytics"
-    },
-    {
-      "x": 4987.31,
-      "y": 1871.25,
-      "text": "Service"
-    },
-    {
-      "x": 4927.18,
-      "y": 1889.3,
-      "text": "[.NET"
-    },
-    {
-      "x": 4977.99,
-      "y": 1889.3,
-      "text": "Core]"
-    },
-    {
-      "x": 4936.73,
-      "y": 1924.22,
-      "text": "Analytics"
-    },
-    {
-      "x": 4467.09,
-      "y": 1871.25,
-      "text": "Refund"
-    },
-    {
-      "x": 4543.58,
-      "y": 1871.25,
-      "text": "Service"
-    },
-    {
-      "x": 4493.44,
-      "y": 1889.3,
-      "text": "[.NET"
-    },
-    {
-      "x": 4544.24,
-      "y": 1889.3,
-      "text": "Core]"
-    },
-    {
-      "x": 4507.07,
-      "y": 1924.22,
-      "text": "Refunds"
-    },
-    {
-      "x": 5334.59,
-      "y": 1871.25,
-      "text": "Audit"
-    },
-    {
-      "x": 5393.57,
-      "y": 1871.25,
-      "text": "Service"
-    },
-    {
-      "x": 5352.18,
-      "y": 1889.3,
-      "text": "[.NET"
     }
   ],
   "statistics": {
-    "total_rectangles": 35,
+    "total_rectangles": 30,
     "total_groups": 30,
-    "total_texts": 241,
+    "total_texts": 275,
     "expected_components": 39
   }
 }

@@ -116,6 +116,9 @@
 </template>
 
 <script>
+import emailjs from '@emailjs/browser'
+import { APP_CONFIG } from '../../config/constants.js'
+
 export default {
   name: 'ContactForm',
   data() {
@@ -130,6 +133,15 @@ export default {
       isLoading: false,
       successMessage: '',
       errorMessage: ''
+    }
+  },
+  computed: {
+    emailjsConfig() {
+      return APP_CONFIG.emailjs
+    },
+    isEmailjsConfigured() {
+      const config = this.emailjsConfig
+      return config.publicKey && config.serviceId && config.templateId
     }
   },
   methods: {
@@ -168,13 +180,35 @@ export default {
         return
       }
 
+      // Check if EmailJS is configured
+      if (!this.isEmailjsConfigured) {
+        this.errorMessage = 'Email service is not configured. Please email me directly at ' + APP_CONFIG.email
+        return
+      }
+
       this.isLoading = true
       this.successMessage = ''
       this.errorMessage = ''
 
       try {
-        // TODO: Replace with actual API endpoint
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        // Initialize EmailJS with public key
+        emailjs.init(this.emailjsConfig.publicKey)
+
+        // Prepare template parameters
+        const templateParams = {
+          from_name: this.formData.name,
+          from_email: this.formData.email,
+          subject: this.formData.subject,
+          message: this.formData.message,
+          to_email: APP_CONFIG.email // Recipient email
+        }
+
+        // Send email using EmailJS
+        await emailjs.send(
+          this.emailjsConfig.serviceId,
+          this.emailjsConfig.templateId,
+          templateParams
+        )
         
         this.successMessage = 'Thank you! Your message has been sent successfully. I will get back to you soon!'
         this.formData = {
@@ -184,7 +218,8 @@ export default {
           message: ''
         }
       } catch (error) {
-        this.errorMessage = 'Oops! Something went wrong. Please try again or email me directly.'
+        console.error('EmailJS Error:', error)
+        this.errorMessage = 'Oops! Something went wrong. Please try again or email me directly at ' + APP_CONFIG.email
       } finally {
         this.isLoading = false
       }

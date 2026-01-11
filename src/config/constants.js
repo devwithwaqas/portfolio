@@ -13,7 +13,14 @@ export const APP_CONFIG = {
     linkedin: "https://www.linkedin.com/in/waqas1430/",
     github: "https://github.com/devwithwaqas",
     website: "https://www.waqasahmad.com",
-    whatsapp: "https://wa.me/60146806067"
+    whatsapp: "https://wa.me/60146806067",
+    location: "https://www.google.com/maps/search/?api=1&query=Kuala+Lumpur,+Malaysia"
+  },
+  // EmailJS Configuration for Contact Form
+  emailjs: {
+    publicKey: 'HIrGCZA4UsU44mz7S', // Your EmailJS Public Key (found in Account > API Keys)
+    serviceId: 'service_t762oxc', // Your EmailJS Service ID (found in Email Services)
+    templateId: 'template_clfbq4g' // Your EmailJS Template ID (found in Email Templates)
   },
   // About section data - Will be calculated dynamically from work experience
   totalExperience: 17, // Calculated from Jan 1, 2008 to present
@@ -65,7 +72,9 @@ export const TECH_CATEGORIES = {
   API: 'api',
   SECURITY: 'security',
   COMMUNICATION: 'communication',
-  TESTING: 'testing'
+  TESTING: 'testing',
+  METHODOLOGY: 'methodology',
+  ARCHITECTURE: 'architecture'
 };
 
 // Technology Stack Category Labels - Display names for categories
@@ -80,7 +89,9 @@ export const TECH_CATEGORY_LABELS = {
   [TECH_CATEGORIES.API]: 'APIs & Integration',
   [TECH_CATEGORIES.SECURITY]: 'Security & Authentication',
   [TECH_CATEGORIES.COMMUNICATION]: 'Communication & Notifications',
-  [TECH_CATEGORIES.TESTING]: 'Testing & Quality Assurance'
+  [TECH_CATEGORIES.TESTING]: 'Testing & Quality Assurance',
+  [TECH_CATEGORIES.METHODOLOGY]: 'Methodology & Practices',
+  [TECH_CATEGORIES.ARCHITECTURE]: 'Architecture & Design'
 };
 
 // Project Component Icon Names - Standardized icon names for project components
@@ -103,7 +114,8 @@ export const PROJECT_CATEGORIES = {
   WEB_APPLICATIONS: 'Web Applications',
   MOBILE_APPLICATIONS: 'Mobile Applications',
   DATA_PLATFORMS: 'Data Platforms',
-  INTEGRATION_SOLUTIONS: 'Integration Solutions'
+  INTEGRATION_SOLUTIONS: 'Integration Solutions',
+  SMART_CITY_SOLUTIONS: 'Smart City Solutions'
 };
 
 // ROI Section Icon Names - Standardized ROI section icons

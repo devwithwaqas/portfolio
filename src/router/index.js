@@ -19,6 +19,47 @@ const routes = [
     name: 'AirAsiaID90',
     component: AirAsiaID90Page
   },
+  // Placeholder routes for projects not yet implemented
+  {
+    path: '/projects/bat-inhouse-app',
+    name: 'BATInhouseApp',
+    component: () => import('../views/projects/BATInhouseAppPage.vue')
+  },
+  {
+    path: '/projects/pj-smart-city',
+    name: 'PJSmartCity',
+    component: () => import('../views/projects/SmartCityPage.vue')
+  },
+  {
+    path: '/projects/gamified-employee-management',
+    name: 'GamifiedEmployeeManagement',
+    component: () => import('../views/projects/GamifiedEmployeeManagementPage.vue')
+  },
+    {
+      path: '/projects/valet-parking',
+      name: 'ValetParking',
+      component: () => import('../views/projects/ValetParkingPage.vue')
+    },
+  {
+    path: '/projects/mobile-games',
+    name: 'MobileGames',
+    component: () => import('../views/projects/MobileGamesPage.vue')
+  },
+  {
+    path: '/projects/uk-property-management',
+    name: 'UKPropertyManagement',
+    component: () => import('../views/projects/UKPropertyManagementPage.vue')
+  },
+  {
+    path: '/projects/g5-pos',
+    name: 'G5POS',
+    component: () => import('../views/projects/G5POSPage.vue')
+  },
+  {
+    path: '/projects/chubb-insurance-applications',
+    name: 'ChubbInsuranceApplications',
+    component: () => import('../views/projects/InsuranceClientsPage.vue')
+  },
   // Redirect any old routes to home with hash
   {
     path: '/portfolio',
@@ -28,6 +69,41 @@ const routes = [
     path: '/services',
     redirect: '/#services'
   },
+    {
+      path: '/services/full-stack-development',
+      name: 'FullStackDevelopment',
+      component: () => import('../views/services/FullStackDevelopmentPage.vue')
+    },
+    {
+      path: '/services/azure-cloud-architecture',
+      name: 'AzureCloudArchitecture',
+      component: () => import('../views/services/AzureCloudArchitecturePage.vue')
+    },
+    {
+      path: '/services/technical-leadership',
+      name: 'TechnicalLeadership',
+      component: () => import('../views/services/TechnicalLeadershipPage.vue')
+    },
+    {
+      path: '/services/microservices-architecture',
+      name: 'MicroservicesArchitecture',
+      component: () => import('../views/services/MicroservicesArchitecturePage.vue')
+    },
+    {
+      path: '/services/agile-project-management',
+      name: 'AgileProjectManagement',
+      component: () => import('../views/services/AgileProjectManagementPage.vue')
+    },
+    {
+      path: '/services/database-design-optimization',
+      name: 'DatabaseDesignOptimization',
+      component: () => import('../views/services/DatabaseDesignOptimizationPage.vue')
+    },
+    {
+      path: '/services/mobile-development',
+      name: 'MobileDevelopment',
+      component: () => import('../views/services/MobileDevelopmentPage.vue')
+    },
   {
     path: '/contact',
     redirect: '/#contact'

@@ -116,11 +116,11 @@ export default {
     },
     cardStyle() {
       return {
-        background: 'linear-gradient(135deg, rgba(40, 10, 80, 0.15) 0%, rgba(30, 5, 60, 0.1) 50%, rgba(20, 0, 40, 0.05) 100%)',
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 245, 255, 0.98) 50%, rgba(255, 255, 255, 0.95) 100%)',
         backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(80, 30, 140, 0.3)',
+        border: '1px solid rgba(139, 92, 246, 0.2)',
         borderRadius: '20px',
-        boxShadow: '0 20px 50px rgba(40, 10, 80, 0.2)',
+        boxShadow: '0 10px 40px rgba(139, 92, 246, 0.15), 0 0 20px rgba(168, 85, 247, 0.1)',
         padding: this.cardPadding
       }
     },

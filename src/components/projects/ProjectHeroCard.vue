@@ -1,5 +1,6 @@
 <template>
   <div class="project-hero-card" data-aos="fade-up">
+    
     <div class="hero-content">
       
       <!-- Title -->
@@ -109,7 +110,29 @@ export default {
         'Machine Learning Analytics': 'analytics',
         'Last-Minute Bookings': 'realtime',
         '90% Employee Discount': 'financial',
-        'Refund Management': 'automation'
+        'Refund Management': 'automation',
+        'Enterprise Application': 'enterprise',
+        'Microservices': 'microservices',
+        'Azure Service Fabric': 'azure service fabric',
+        'SAP Integration': 'integration',
+        'Enterprise Architecture': 'architecture',
+        'Large Scale Project': 'enterprise',
+        'Smart City Solutions': 'smart city',
+        'GIS Integration': 'gis',
+        'IoT Monitoring': 'iot',
+        'Municipal Management': 'municipal',
+        'Real-time Analytics': 'analytics',
+        'Urban Planning': 'urban planning',
+        'Point of Sale': 'ecommerce',
+        'F&B Management': 'enterprise',
+        'Restaurant Technology': 'services',
+        'Microservices': 'microservices',
+        'Real-time Processing': 'realtime',
+        'Multi-location': 'location',
+        'Gamification': 'automation',
+        'Employee Engagement': 'user',
+        'Performance Management': 'performance',
+        'Analytics': 'analytics'
       }
       const iconName = tagIconMap[tagText]
       return iconName ? resolveIcon(iconName) : null
@@ -354,5 +377,6 @@ export default {
     flex: 0 0 auto;
   }
 }
+
 </style>
 

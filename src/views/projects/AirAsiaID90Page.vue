@@ -197,7 +197,7 @@ export default {
       },
       technologies: [
         // Backend Framework
-        { name: "ASP.NET Core", description: "Web framework with .NET Core 7", category: TECH_CATEGORIES.BACKEND },
+        { name: "ASP.NET Core", description: "Web framework", category: TECH_CATEGORIES.BACKEND },
         { name: "C#", description: "Programming language", category: TECH_CATEGORIES.BACKEND },
         { name: "Entity Framework", description: "ORM for data access", category: TECH_CATEGORIES.BACKEND },
         { name: "Task Parallel Library", description: "TPL for parallel processing", category: TECH_CATEGORIES.BACKEND },
@@ -302,7 +302,7 @@ export default {
             {
               icon: 'api',
               name: '.NET Core Booking API',
-              description: 'High-performance RESTful services built with ASP.NET Core 7 featuring real-time booking processing, Azure Service Bus integration, and comprehensive employee flight management. Implements dependency injection, middleware pipeline, and cross-cutting concerns for ID90 workflows.'
+              description: 'High-performance RESTful services built with ASP.NET Core featuring real-time booking processing, Azure Service Bus integration, and comprehensive employee flight management. Implements dependency injection, middleware pipeline, and cross-cutting concerns for ID90 workflows.'
             },
             {
               icon: 'data processing',
@@ -447,7 +447,7 @@ export default {
             {
               icon: 'api',
               name: 'High-Performance .NET Core API Architecture',
-              description: 'Implemented optimized ASP.NET Core 7 API with async/await patterns, connection pooling (max 100 connections), and Entity Framework Core with compiled queries. Achieved 0.8s average response time through database query optimization, implementing read replicas for flight availability checks, and using Dapper for high-frequency operations. Added circuit breaker patterns and retry policies for external AirAsia system integration.'
+              description: 'Implemented optimized ASP.NET Core API with async/await patterns, connection pooling (max 100 connections), and Entity Framework Core with compiled queries. Achieved 0.8s average response time through database query optimization, implementing read replicas for flight availability checks, and using Dapper for high-frequency operations. Added circuit breaker patterns and retry policies for external AirAsia system integration.'
             },
             {
               icon: 'caching',

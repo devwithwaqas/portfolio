@@ -2507,6 +2507,18 @@ body {
   fill: #f3268c;
 }
 
+.services .service-item.item-green i {
+  color: #198754;
+}
+
+.services .service-item.item-green:hover .icon i {
+  color: #fff;
+}
+
+.services .service-item.item-green:hover .icon path {
+  fill: #198754;
+}
+
 /*--------------------------------------------------------------
 # Services Section
 --------------------------------------------------------------*/

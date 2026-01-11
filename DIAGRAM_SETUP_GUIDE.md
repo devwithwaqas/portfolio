@@ -50,7 +50,20 @@ Select-String -Path "your-diagram.svg" -Pattern 'viewBox="([^"]*)"'
 # Output: viewBox="0 0 2403 2205" → width=2403, height=2205
 ```
 
-### 3. Add SVG Diagram
+### 3. Generate SVG from PlantUML using Kroki.io
+```powershell
+# Generate SVG from PlantUML using Kroki.io API
+$pumlContent = Get-Content "YourDiagram.puml" -Raw
+$response = Invoke-WebRequest -Uri "https://kroki.io/plantuml/svg" -Method POST -Body $pumlContent -ContentType "text/plain"
+$response.Content | Out-File "YourDiagram.svg" -Encoding UTF8
+```
+
+**Alternative using curl (if available):**
+```bash
+curl -X POST "https://kroki.io/plantuml/svg" -H "Content-Type: text/plain" --data-binary "@YourDiagram.puml" -o "YourDiagram.svg"
+```
+
+### 4. Add SVG Diagram to Project
 ```bash
 # Add your diagram file
 cp your-diagram.svg public/assets/img/your-diagram.svg
@@ -61,7 +74,7 @@ cp your-diagram.svg public/assets/img/your-diagram.svg
 - Elements should have IDs for highlighting
 - Optimize file size for web
 
-### 4. Add Icons (Optional)
+### 5. Add Icons (Optional)
 ```bash
 # Add component icons
 cp component-icons/* public/assets/img/Icons/

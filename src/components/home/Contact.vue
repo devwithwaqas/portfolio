@@ -15,7 +15,7 @@
                   label="Location"
                   :value="location"
                   subtitle="Available for remote work worldwide"
-                  link="#"
+                  :link="contactLinks.location"
                 />
 
                 <!-- Phone Card -->

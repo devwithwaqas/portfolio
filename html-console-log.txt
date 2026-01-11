@@ -1,0 +1,702 @@
+ === PAGE LOADED, CALLING loadSVG ===
+ [vite] connecting...
+ === WINDOW LOAD EVENT TRIGGERED ===
+ === SVG DIMENSIONS ===
+ ViewBox: 0 0 20293 12756
+ Width: 20293.75px
+ Height: 12756.25px
+ =====================
+ === STARTING generateComponents ===
+ Containers found: Object
+ === RENDERING INDIVIDUAL COMPONENTS ===
+ allComponents length: 51
+ Creating individual component 0: 1. Municipal Web Portal
+ Calling updateSVGCropper for individual component 0
+ === updateSVGCropper called for index 0 ===
+ Component 0: 1. Municipal Web Portal, X=17146.6875, Y=160.2539, W=512.8601, H=474.4141
+ === COMPONENT 0 POSITIONING DEBUG ===
+ Component: X=17146.6875, Y=160.2539, W=512.8601, H=474.4141
+ ViewBox: X=16946.6875, Y=0, W=912.8601, H=874.4141
+ Component in View: X=200, Y=160.2539
+ Scales: X=0.3286, Y=0.2287
+ Component % of ViewBox: W=56.2%, H=54.3%
+ Final Border: Left=65.73px, Top=36.65px, W=168.55px, H=108.51px
+ Border % of Cropper: W=56.2%, H=54.3%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 1: 2. Mobile App
+ Calling updateSVGCropper for individual component 1
+ === updateSVGCropper called for index 1 ===
+ Component 1: 2. Mobile App, X=18285.1875, Y=160.2539, W=679.6143, H=474.4141
+ === COMPONENT 1 POSITIONING DEBUG ===
+ Component: X=18285.1875, Y=160.2539, W=679.6143, H=474.4141
+ ViewBox: X=18085.1875, Y=0, W=1079.6143, H=874.4141
+ Component in View: X=200, Y=160.2539
+ Scales: X=0.2779, Y=0.2287
+ Component % of ViewBox: W=62.9%, H=54.3%
+ Final Border: Left=55.58px, Top=36.65px, W=188.85px, H=108.51px
+ Border % of Cropper: W=62.9%, H=54.3%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 2: 3. Analytics Dashboard
+ Calling updateSVGCropper for individual component 2
+ === updateSVGCropper called for index 2 ===
+ Component 2: 3. Analytics Dashboard, X=15351, Y=185.7227, W=629.2419, H=423.4863
+ === COMPONENT 2 POSITIONING DEBUG ===
+ Component: X=15351, Y=185.7227, W=629.2419, H=423.4863
+ ViewBox: X=15151, Y=0, W=1029.2419, H=823.4863
+ Component in View: X=200, Y=185.7227
+ Scales: X=0.2915, Y=0.2429
+ Component % of ViewBox: W=61.1%, H=51.4%
+ Final Border: Left=58.30px, Top=45.11px, W=183.41px, H=102.85px
+ Border % of Cropper: W=61.1%, H=51.4%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 3: 4. Admin Portal
+ Calling updateSVGCropper for individual component 3
+ === updateSVGCropper called for index 3 ===
+ Component 3: 4. Admin Portal, X=19606.3125, Y=185.7227, W=549.9023, H=423.4863
+ === COMPONENT 3 POSITIONING DEBUG ===
+ Component: X=19606.3125, Y=185.7227, W=549.9023, H=423.4863
+ ViewBox: X=19406.3125, Y=0, W=886.6875, H=823.4863
+ Component in View: X=200, Y=185.7227
+ Scales: X=0.3383, Y=0.2429
+ Component % of ViewBox: W=62.0%, H=51.4%
+ Final Border: Left=67.67px, Top=45.11px, W=186.05px, H=102.85px
+ Border % of Cropper: W=62.0%, H=51.4%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 4: 5. Authentication Service
+ Calling updateSVGCropper for individual component 4
+ === updateSVGCropper called for index 4 ===
+ Component 4: 5. Authentication Service, X=14789.8125, Y=1259.6914, W=664.1357, H=368.0664
+ === COMPONENT 4 POSITIONING DEBUG ===
+ Component: X=14789.8125, Y=1259.6914, W=664.1357, H=368.0664
+ ViewBox: X=14589.8125, Y=1059.6914, W=1064.1357, H=768.0663999999999
+ Component in View: X=200, Y=200
+ Scales: X=0.2819, Y=0.2604
+ Component % of ViewBox: W=62.4%, H=47.9%
+ Final Border: Left=56.38px, Top=52.08px, W=187.23px, H=95.84px
+ Border % of Cropper: W=62.4%, H=47.9%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 5: 6. Authorization Service
+ Calling updateSVGCropper for individual component 5
+ === updateSVGCropper called for index 5 ===
+ Component 5: 6. Authorization Service, X=16078.125, Y=1259.6914, W=431.2744, H=368.0664
+ === COMPONENT 5 POSITIONING DEBUG ===
+ Component: X=16078.125, Y=1259.6914, W=431.2744, H=368.0664
+ ViewBox: X=15878.125, Y=1059.6914, W=831.2744, H=768.0663999999999
+ Component in View: X=200, Y=200
+ Scales: X=0.3609, Y=0.2604
+ Component % of ViewBox: W=51.9%, H=47.9%
+ Final Border: Left=72.18px, Top=52.08px, W=155.64px, H=95.84px
+ Border % of Cropper: W=51.9%, H=47.9%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 6: 7. Azure API Gateway
+ Calling updateSVGCropper for individual component 6
+ === updateSVGCropper called for index 6 ===
+ Component 6: 7. Azure API Gateway, X=17134.1875, Y=1285.1602, W=550.351, H=317.1387
+ === COMPONENT 6 POSITIONING DEBUG ===
+ Component: X=17134.1875, Y=1285.1602, W=550.351, H=317.1387
+ ViewBox: X=16934.1875, Y=1085.1602, W=950.351, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.3157, Y=0.2789
+ Component % of ViewBox: W=57.9%, H=44.2%
+ Final Border: Left=63.13px, Top=55.78px, W=173.73px, H=88.45px
+ Border % of Cropper: W=57.9%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 7: 8. Load Balancer
+ Calling updateSVGCropper for individual component 7
+ === updateSVGCropper called for index 7 ===
+ Component 7: 8. Load Balancer, X=18310.5313, Y=1285.1602, W=622.7051, H=317.1387
+ === COMPONENT 7 POSITIONING DEBUG ===
+ Component: X=18310.5313, Y=1285.1602, W=622.7051, H=317.1387
+ ViewBox: X=18110.5313, Y=1085.1602, W=1022.7051, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.2933, Y=0.2789
+ Component % of ViewBox: W=60.9%, H=44.2%
+ Final Border: Left=58.67px, Top=55.78px, W=182.66px, H=88.45px
+ Border % of Cropper: W=60.9%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 8: 9. Municipal Services API
+ Calling updateSVGCropper for individual component 8
+ === updateSVGCropper called for index 8 ===
+ Component 8: 9. Municipal Services API, X=19559.7188, Y=1285.1602, W=643.042, H=317.1387
+ === COMPONENT 8 POSITIONING DEBUG ===
+ Component: X=19559.7188, Y=1285.1602, W=643.042, H=317.1387
+ ViewBox: X=19359.7188, Y=1085.1602, W=933.2812000000013, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.3214, Y=0.2789
+ Component % of ViewBox: W=68.9%, H=44.2%
+ Final Border: Left=64.29px, Top=55.78px, W=206.70px, H=88.45px
+ Border % of Cropper: W=68.9%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 9: 10. GIS Services
+ Calling updateSVGCropper for individual component 9
+ === updateSVGCropper called for index 9 ===
+ Component 9: 10. GIS Services, X=17104.6563, Y=2252.7539, W=609.4391, H=368.0664
+ === COMPONENT 9 POSITIONING DEBUG ===
+ Component: X=17104.6563, Y=2252.7539, W=609.4391, H=368.0664
+ ViewBox: X=16904.6563, Y=2052.7539, W=1009.4391, H=768.0663999999999
+ Component in View: X=200, Y=200
+ Scales: X=0.2972, Y=0.2604
+ Component % of ViewBox: W=60.4%, H=47.9%
+ Final Border: Left=59.44px, Top=52.08px, W=181.12px, H=95.84px
+ Border % of Cropper: W=60.4%, H=47.9%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 10: 11. IoT Data Processing
+ Calling updateSVGCropper for individual component 10
+ === updateSVGCropper called for index 10 ===
+ Component 10: 11. IoT Data Processing, X=17079.4063, Y=3245.8164, W=659.9609, H=317.1387
+ === COMPONENT 10 POSITIONING DEBUG ===
+ Component: X=17079.4063, Y=3245.8164, W=659.9609, H=317.1387
+ ViewBox: X=16879.4063, Y=3045.8164, W=1059.9609, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.2830, Y=0.2789
+ Component % of ViewBox: W=62.3%, H=44.2%
+ Final Border: Left=56.61px, Top=55.78px, W=186.79px, H=88.45px
+ Border % of Cropper: W=62.3%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 11: 12. CCTV Monitoring
+ Calling updateSVGCropper for individual component 11
+ === updateSVGCropper called for index 11 ===
+ Component 11: 12. CCTV Monitoring, X=17183.25, Y=4187.9414, W=558.4717, H=368.0664
+ === COMPONENT 11 POSITIONING DEBUG ===
+ Component: X=17183.25, Y=4187.9414, W=558.4717, H=368.0664
+ ViewBox: X=16983.25, Y=3987.9413999999997, W=958.4717, H=768.0663999999999
+ Component in View: X=200, Y=200
+ Scales: X=0.3130, Y=0.2604
+ Component % of ViewBox: W=58.3%, H=47.9%
+ Final Border: Left=62.60px, Top=52.08px, W=174.80px, H=95.84px
+ Border % of Cropper: W=58.3%, H=47.9%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 12: 13. Event Processing
+ Calling updateSVGCropper for individual component 12
+ === updateSVGCropper called for index 12 ===
+ Component 12: 13. Event Processing, X=17206.2813, Y=5181.0039, W=481.2012, H=375.3418
+ === COMPONENT 12 POSITIONING DEBUG ===
+ Component: X=17206.2813, Y=5181.0039, W=481.2012, H=375.3418
+ ViewBox: X=17006.2813, Y=4981.0039, W=881.2012, H=775.3417999999999
+ Component in View: X=200, Y=200
+ Scales: X=0.3404, Y=0.2580
+ Component % of ViewBox: W=54.6%, H=48.4%
+ Final Border: Left=68.09px, Top=51.59px, W=163.82px, H=96.82px
+ Border % of Cropper: W=54.6%, H=48.4%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 13: 14. Notification Service
+ Calling updateSVGCropper for individual component 13
+ === updateSVGCropper called for index 13 ===
+ Component 13: 14. Notification Service, X=15975.6563, Y=5184.6602, W=604.9561, H=368.0664
+ === COMPONENT 13 POSITIONING DEBUG ===
+ Component: X=15975.6563, Y=5184.6602, W=604.9561, H=368.0664
+ ViewBox: X=15775.6563, Y=4984.6602, W=1004.9561, H=768.0663999999999
+ Component in View: X=200, Y=200
+ Scales: X=0.2985, Y=0.2604
+ Component % of ViewBox: W=60.2%, H=47.9%
+ Final Border: Left=59.70px, Top=52.08px, W=180.59px, H=95.84px
+ Border % of Cropper: W=60.2%, H=47.9%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 14: 15. Reporting Service
+ Calling updateSVGCropper for individual component 14
+ === updateSVGCropper called for index 14 ===
+ Component 14: 15. Reporting Service, X=16051.3438, Y=6181.3477, W=647.3389, H=317.1387
+ === COMPONENT 14 POSITIONING DEBUG ===
+ Component: X=16051.3438, Y=6181.3477, W=647.3389, H=317.1387
+ ViewBox: X=15851.3438, Y=5981.3477, W=1047.3389, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.2864, Y=0.2789
+ Component % of ViewBox: W=61.8%, H=44.2%
+ Final Border: Left=57.29px, Top=55.78px, W=185.42px, H=88.45px
+ Border % of Cropper: W=61.8%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 15: 16. Audit Service
+ Calling updateSVGCropper for individual component 15
+ === updateSVGCropper called for index 15 ===
+ Component 15: 16. Audit Service, X=17323.875, Y=6181.3477, W=545.9717, H=317.1387
+ === COMPONENT 15 POSITIONING DEBUG ===
+ Component: X=17323.875, Y=6181.3477, W=545.9717, H=317.1387
+ ViewBox: X=17123.875, Y=5981.3477, W=945.9717, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.3171, Y=0.2789
+ Component % of ViewBox: W=57.7%, H=44.2%
+ Final Border: Left=63.43px, Top=55.78px, W=173.15px, H=88.45px
+ Border % of Cropper: W=57.7%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 16: 17. SuperMap GIS Platform
+ Calling updateSVGCropper for individual component 16
+ === updateSVGCropper called for index 16 ===
+ Component 16: 17. SuperMap GIS Platform, X=69.5625, Y=6203.1914, W=529.6417, H=273.4863
+ === COMPONENT 16 POSITIONING DEBUG ===
+ Component: X=69.5625, Y=6203.1914, W=529.6417, H=273.4863
+ ViewBox: X=0, Y=6003.1914, W=929.6417, H=673.4863
+ Component in View: X=69.5625, Y=200
+ Scales: X=0.3227, Y=0.2970
+ Component % of ViewBox: W=57.0%, H=40.6%
+ Final Border: Left=22.45px, Top=59.39px, W=170.92px, H=81.22px
+ Border % of Cropper: W=57.0%, H=40.6%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 17: 18. Google Maps API
+ Calling updateSVGCropper for individual component 17
+ === updateSVGCropper called for index 17 ===
+ Component 17: 18. Google Maps API, X=6125.3125, Y=6203.1914, W=536.8896, H=273.4863
+ === COMPONENT 17 POSITIONING DEBUG ===
+ Component: X=6125.3125, Y=6203.1914, W=536.8896, H=273.4863
+ ViewBox: X=5925.3125, Y=6003.1914, W=936.8896, H=673.4863
+ Component in View: X=200, Y=200
+ Scales: X=0.3202, Y=0.2970
+ Component % of ViewBox: W=57.3%, H=40.6%
+ Final Border: Left=64.04px, Top=59.39px, W=171.92px, H=81.22px
+ Border % of Cropper: W=57.3%, H=40.6%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 18: 19. CCTV Network
+ Calling updateSVGCropper for individual component 18
+ === updateSVGCropper called for index 18 ===
+ Component 18: 19. CCTV Network, X=4893.8125, Y=6203.1914, W=606.1279, H=273.4863
+ === COMPONENT 18 POSITIONING DEBUG ===
+ Component: X=4893.8125, Y=6203.1914, W=606.1279, H=273.4863
+ ViewBox: X=4693.8125, Y=6003.1914, W=1006.1279, H=673.4863
+ Component in View: X=200, Y=200
+ Scales: X=0.2982, Y=0.2970
+ Component % of ViewBox: W=60.2%, H=40.6%
+ Final Border: Left=59.63px, Top=59.39px, W=180.73px, H=81.22px
+ Border % of Cropper: W=60.2%, H=40.6%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 19: 20. IoT Sensor Network
+ Calling updateSVGCropper for individual component 19
+ === updateSVGCropper called for index 19 ===
+ Component 19: 20. IoT Sensor Network, X=3738.3125, Y=6203.1914, W=529.6417, H=273.4863
+ === COMPONENT 19 POSITIONING DEBUG ===
+ Component: X=3738.3125, Y=6203.1914, W=529.6417, H=273.4863
+ ViewBox: X=3538.3125, Y=6003.1914, W=929.6417, H=673.4863
+ Component in View: X=200, Y=200
+ Scales: X=0.3227, Y=0.2970
+ Component % of ViewBox: W=57.0%, H=40.6%
+ Final Border: Left=64.54px, Top=59.39px, W=170.92px, H=81.22px
+ Border % of Cropper: W=57.0%, H=40.6%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 20: 21. Emergency Services
+ Calling updateSVGCropper for individual component 20
+ === updateSVGCropper called for index 20 ===
+ Component 20: 21. Emergency Services, X=2480.4063, Y=6203.1914, W=632.9376, H=273.4863
+ === COMPONENT 20 POSITIONING DEBUG ===
+ Component: X=2480.4063, Y=6203.1914, W=632.9376, H=273.4863
+ ViewBox: X=2280.4063, Y=6003.1914, W=1032.9376, H=673.4863
+ Component in View: X=200, Y=200
+ Scales: X=0.2904, Y=0.2970
+ Component % of ViewBox: W=61.3%, H=40.6%
+ Final Border: Left=58.09px, Top=59.39px, W=183.83px, H=81.22px
+ Border % of Cropper: W=61.3%, H=40.6%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 21: 22. Government Portal
+ Calling updateSVGCropper for individual component 21
+ === updateSVGCropper called for index 21 ===
+ Component 21: 22. Government Portal, X=1225.6875, Y=6203.1914, W=629.8828, H=273.4863
+ === COMPONENT 21 POSITIONING DEBUG ===
+ Component: X=1225.6875, Y=6203.1914, W=629.8828, H=273.4863
+ ViewBox: X=1025.6875, Y=6003.1914, W=1029.8827999999999, H=673.4863
+ Component in View: X=200, Y=200
+ Scales: X=0.2913, Y=0.2970
+ Component % of ViewBox: W=61.2%, H=40.6%
+ Final Border: Left=58.26px, Top=59.39px, W=183.48px, H=81.22px
+ Border % of Cropper: W=61.2%, H=40.6%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 22: 23. Data Analytics Engine
+ Calling updateSVGCropper for individual component 22
+ === updateSVGCropper called for index 22 ===
+ Component 22: 23. Data Analytics Engine, X=7288.5, Y=6203.1914, W=597.998, H=273.4863
+ === COMPONENT 22 POSITIONING DEBUG ===
+ Component: X=7288.5, Y=6203.1914, W=597.998, H=273.4863
+ ViewBox: X=7088.5, Y=6003.1914, W=997.998, H=673.4863
+ Component in View: X=200, Y=200
+ Scales: X=0.3006, Y=0.2970
+ Component % of ViewBox: W=59.9%, H=40.6%
+ Final Border: Left=60.12px, Top=59.39px, W=179.76px, H=81.22px
+ Border % of Cropper: W=59.9%, H=40.6%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 23: 24. Municipal Database
+ Calling updateSVGCropper for individual component 23
+ === updateSVGCropper called for index 23 ===
+ Component 23: 24. Municipal Database, X=15975.9063, Y=7123.5039, W=648.1934, H=375.3418
+ === COMPONENT 23 POSITIONING DEBUG ===
+ Component: X=15975.9063, Y=7123.5039, W=648.1934, H=375.3418
+ ViewBox: X=15775.9063, Y=6923.5039, W=1048.1934, H=775.3417999999999
+ Component in View: X=200, Y=200
+ Scales: X=0.2862, Y=0.2580
+ Component % of ViewBox: W=61.8%, H=48.4%
+ Final Border: Left=57.24px, Top=51.59px, W=185.52px, H=96.82px
+ Border % of Cropper: W=61.8%, H=48.4%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 24: 25. Spatial Data Warehouse
+ Calling updateSVGCropper for individual component 24
+ === updateSVGCropper called for index 24 ===
+ Component 24: 25. Spatial Data Warehouse, X=17250.25, Y=7152.5977, W=618.2617, H=317.1387
+ === COMPONENT 24 POSITIONING DEBUG ===
+ Component: X=17250.25, Y=7152.5977, W=618.2617, H=317.1387
+ ViewBox: X=17050.25, Y=6952.5977, W=1018.2617, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.2946, Y=0.2789
+ Component % of ViewBox: W=60.7%, H=44.2%
+ Final Border: Left=58.92px, Top=55.78px, W=182.15px, H=88.45px
+ Border % of Cropper: W=60.7%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 25: 26. Real-time Analytics
+ Calling updateSVGCropper for individual component 25
+ === updateSVGCropper called for index 25 ===
+ Component 25: 26. Real-time Analytics, X=2397, Y=7152.5977, W=599.762, H=317.1387
+ === COMPONENT 25 POSITIONING DEBUG ===
+ Component: X=2397, Y=7152.5977, W=599.762, H=317.1387
+ ViewBox: X=2197, Y=6952.5977, W=999.762, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.3001, Y=0.2789
+ Component % of ViewBox: W=60.0%, H=44.2%
+ Final Border: Left=60.01px, Top=55.78px, W=179.97px, H=88.45px
+ Border % of Cropper: W=60.0%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 26: 27. Performance Monitoring
+ Calling updateSVGCropper for individual component 26
+ === updateSVGCropper called for index 26 ===
+ Component 26: 27. Performance Monitoring, X=3622.9375, Y=7152.5977, W=585.376, H=317.1387
+ === COMPONENT 26 POSITIONING DEBUG ===
+ Component: X=3622.9375, Y=7152.5977, W=585.376, H=317.1387
+ ViewBox: X=3422.9375, Y=6952.5977, W=985.376, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.3045, Y=0.2789
+ Component % of ViewBox: W=59.4%, H=44.2%
+ Final Border: Left=60.89px, Top=55.78px, W=178.22px, H=88.45px
+ Border % of Cropper: W=59.4%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 27: 28. Data Lake Storage
+ Calling updateSVGCropper for individual component 27
+ === updateSVGCropper called for index 27 ===
+ Component 27: 28. Data Lake Storage, X=17282.5313, Y=8123.8477, W=584.9365, H=375.3418
+ === COMPONENT 27 POSITIONING DEBUG ===
+ Component: X=17282.5313, Y=8123.8477, W=584.9365, H=375.3418
+ ViewBox: X=17082.5313, Y=7923.8477, W=984.9365, H=775.3417999999999
+ Component in View: X=200, Y=200
+ Scales: X=0.3046, Y=0.2580
+ Component % of ViewBox: W=59.4%, H=48.4%
+ Final Border: Left=60.92px, Top=51.59px, W=178.16px, H=96.82px
+ Border % of Cropper: W=59.4%, H=48.4%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 28: 29. Cache Layer
+ Calling updateSVGCropper for individual component 28
+ === updateSVGCropper called for index 28 ===
+ Component 28: 29. Cache Layer, X=2397.4375, Y=8152.9414, W=555.1025, H=317.1387
+ === COMPONENT 28 POSITIONING DEBUG ===
+ Component: X=2397.4375, Y=8152.9414, W=555.1025, H=317.1387
+ ViewBox: X=2197.4375, Y=7952.9414, W=955.1025, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.3141, Y=0.2789
+ Component % of ViewBox: W=58.1%, H=44.2%
+ Final Border: Left=62.82px, Top=55.78px, W=174.36px, H=88.45px
+ Border % of Cropper: W=58.1%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 29: 30. Message Queue
+ Calling updateSVGCropper for individual component 29
+ === updateSVGCropper called for index 29 ===
+ Component 29: 30. Message Queue, X=13629.3438, Y=8152.9414, W=503.833, H=317.1387
+ === COMPONENT 29 POSITIONING DEBUG ===
+ Component: X=13629.3438, Y=8152.9414, W=503.833, H=317.1387
+ ViewBox: X=13429.3438, Y=7952.9414, W=903.8330000000001, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.3319, Y=0.2789
+ Component % of ViewBox: W=55.7%, H=44.2%
+ Final Border: Left=66.38px, Top=55.78px, W=167.23px, H=88.45px
+ Border % of Cropper: W=55.7%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 30: 31. Event Store
+ Calling updateSVGCropper for individual component 30
+ === updateSVGCropper called for index 30 ===
+ Component 30: 31. Event Store, X=14756.9687, Y=8152.9414, W=642.337, H=317.1387
+ === COMPONENT 30 POSITIONING DEBUG ===
+ Component: X=14756.9687, Y=8152.9414, W=642.337, H=317.1387
+ ViewBox: X=14556.9687, Y=7952.9414, W=1042.337, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.2878, Y=0.2789
+ Component % of ViewBox: W=61.6%, H=44.2%
+ Final Border: Left=57.56px, Top=55.78px, W=184.87px, H=88.45px
+ Border % of Cropper: W=61.6%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 31: 32. Configuration Service
+ Calling updateSVGCropper for individual component 31
+ === updateSVGCropper called for index 31 ===
+ Component 31: 32. Configuration Service, X=2396.3125, Y=9167.3477, W=557.3486, H=317.1387
+ === COMPONENT 31 POSITIONING DEBUG ===
+ Component: X=2396.3125, Y=9167.3477, W=557.3486, H=317.1387
+ ViewBox: X=2196.3125, Y=8967.3477, W=957.3486, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.3134, Y=0.2789
+ Component % of ViewBox: W=58.2%, H=44.2%
+ Final Border: Left=62.67px, Top=55.78px, W=174.65px, H=88.45px
+ Border % of Cropper: W=58.2%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 32: 33. Logging Service
+ Calling updateSVGCropper for individual component 32
+ === updateSVGCropper called for index 32 ===
+ Component 32: 33. Logging Service, X=18449.0625, Y=9167.3477, W=570.6055, H=317.1387
+ === COMPONENT 32 POSITIONING DEBUG ===
+ Component: X=18449.0625, Y=9167.3477, W=570.6055, H=317.1387
+ ViewBox: X=18249.0625, Y=8967.3477, W=970.6055, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.3091, Y=0.2789
+ Component % of ViewBox: W=58.8%, H=44.2%
+ Final Border: Left=61.82px, Top=55.78px, W=176.37px, H=88.45px
+ Border % of Cropper: W=58.8%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 33: 34. Health Check Service
+ Calling updateSVGCropper for individual component 33
+ === updateSVGCropper called for index 33 ===
+ Component 33: 34. Health Check Service, X=13650.4375, Y=9167.3477, W=499.1028, H=317.1387
+ === COMPONENT 33 POSITIONING DEBUG ===
+ Component: X=13650.4375, Y=9167.3477, W=499.1028, H=317.1387
+ ViewBox: X=13450.4375, Y=8967.3477, W=899.1028, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.3337, Y=0.2789
+ Component % of ViewBox: W=55.5%, H=44.2%
+ Final Border: Left=66.73px, Top=55.78px, W=166.53px, H=88.45px
+ Border % of Cropper: W=55.5%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 34: 35. Backup Service
+ Calling updateSVGCropper for individual component 34
+ === updateSVGCropper called for index 34 ===
+ Component 34: 35. Backup Service, X=14775, Y=9167.3477, W=624.9756, H=317.1387
+ === COMPONENT 34 POSITIONING DEBUG ===
+ Component: X=14775, Y=9167.3477, W=624.9756, H=317.1387
+ ViewBox: X=14575, Y=8967.3477, W=1024.9756, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.2927, Y=0.2789
+ Component % of ViewBox: W=61.0%, H=44.2%
+ Final Border: Left=58.54px, Top=55.78px, W=182.92px, H=88.45px
+ Border % of Cropper: W=61.0%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 35: 36. Security Service
+ Calling updateSVGCropper for individual component 35
+ === updateSVGCropper called for index 35 ===
+ Component 35: 36. Security Service, X=18455.9688, Y=10152.6602, W=538.0615, H=317.1387
+ === COMPONENT 35 POSITIONING DEBUG ===
+ Component: X=18455.9688, Y=10152.6602, W=538.0615, H=317.1387
+ ViewBox: X=18255.9688, Y=9952.6602, W=938.0615, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.3198, Y=0.2789
+ Component % of ViewBox: W=57.4%, H=44.2%
+ Final Border: Left=63.96px, Top=55.78px, W=172.08px, H=88.45px
+ Border % of Cropper: W=57.4%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 36: 37. Compliance Service
+ Calling updateSVGCropper for individual component 36
+ === updateSVGCropper called for index 36 ===
+ Component 36: 37. Compliance Service, X=14194.8438, Y=10152.6602, W=635.3302, H=317.1387
+ === COMPONENT 36 POSITIONING DEBUG ===
+ Component: X=14194.8438, Y=10152.6602, W=635.3302, H=317.1387
+ ViewBox: X=13994.8438, Y=9952.6602, W=1035.3301999999999, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.2898, Y=0.2789
+ Component % of ViewBox: W=61.4%, H=44.2%
+ Final Border: Left=57.95px, Top=55.78px, W=184.09px, H=88.45px
+ Border % of Cropper: W=61.4%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ Creating individual component 37: 38. Monitoring Service
+ Calling updateSVGCropper for individual component 37
+ === updateSVGCropper called for index 37 ===
+ Component 37: 38. Monitoring Service, X=18419.3125, Y=11094.7852, W=605.1025, H=317.1387
+ === COMPONENT 37 POSITIONING DEBUG ===
+ Component: X=18419.3125, Y=11094.7852, W=605.1025, H=317.1387
+ ViewBox: X=18219.3125, Y=10894.7852, W=1005.1025, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.2985, Y=0.2789
+ Component % of ViewBox: W=60.2%, H=44.2%
+ Final Border: Left=59.70px, Top=55.78px, W=180.61px, H=88.45px
+ Border % of Cropper: W=60.2%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ === INDIVIDUAL COMPONENTS RENDERED ===
+ === updateSVGCropper called for index 38 ===
+ Component 38: 39. SQL Server Municipal DB, X=18424.0938, Y=12036.9414, W=583.0353, H=317.1387
+ === COMPONENT 38 POSITIONING DEBUG ===
+ Component: X=18424.0938, Y=12036.9414, W=583.0353, H=317.1387
+ ViewBox: X=18224.0938, Y=11836.9414, W=983.0353, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.3052, Y=0.2789
+ Component % of ViewBox: W=59.3%, H=44.2%
+ Final Border: Left=61.04px, Top=55.78px, W=177.93px, H=88.45px
+ Border % of Cropper: W=59.3%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ === updateSVGCropper called for index 39 ===
+ Component 39: 40. PostGIS Spatial DB, X=15975.9063, Y=7123.5039, W=648.1934, H=375.3418
+ === COMPONENT 39 POSITIONING DEBUG ===
+ Component: X=15975.9063, Y=7123.5039, W=648.1934, H=375.3418
+ ViewBox: X=15775.9063, Y=6923.5039, W=1048.1934, H=775.3417999999999
+ Component in View: X=200, Y=200
+ Scales: X=0.2862, Y=0.2580
+ Component % of ViewBox: W=61.8%, H=48.4%
+ Final Border: Left=57.24px, Top=51.59px, W=185.52px, H=96.82px
+ Border % of Cropper: W=61.8%, H=48.4%
+ Cropper Size: 300x200px
+ ==========================================
+ === updateSVGCropper called for index 40 ===
+ Component 40: 41. Redis Cache DB, X=17250.25, Y=7152.5977, W=618.2617, H=317.1387
+ === COMPONENT 40 POSITIONING DEBUG ===
+ Component: X=17250.25, Y=7152.5977, W=618.2617, H=317.1387
+ ViewBox: X=17050.25, Y=6952.5977, W=1018.2617, H=717.1387
+ Component in View: X=200, Y=200
+ Scales: X=0.2946, Y=0.2789
+ Component % of ViewBox: W=60.7%, H=44.2%
+ Final Border: Left=58.92px, Top=55.78px, W=182.15px, H=88.45px
+ Border % of Cropper: W=60.7%, H=44.2%
+ Cropper Size: 300x200px
+ ==========================================
+ === updateSVGCropper called for index 41 ===
+ Component 41: 42. Document Store, X=17282.5313, Y=8123.8477, W=584.9365, H=375.3418
+ === COMPONENT 41 POSITIONING DEBUG ===
+ Component: X=17282.5313, Y=8123.8477, W=584.9365, H=375.3418
+ ViewBox: X=17082.5313, Y=7923.8477, W=984.9365, H=775.3417999999999
+ Component in View: X=200, Y=200
+ Scales: X=0.3046, Y=0.2580
+ Component % of ViewBox: W=59.4%, H=48.4%
+ Final Border: Left=60.92px, Top=51.59px, W=178.16px, H=96.82px
+ Border % of Cropper: W=59.4%, H=48.4%
+ Cropper Size: 300x200px
+ ==========================================
+ === updateSVGCropper called for index 42 ===
+ Component 42: 43. Smart City Frontend Portal, X=14789.8125, Y=160.2539, W=5000, H=1200
+ === COMPONENT 42 POSITIONING DEBUG ===
+ Component: X=14789.8125, Y=160.2539, W=5000, H=1200
+ ViewBox: X=14589.8125, Y=0, W=5400, H=1600
+ Component in View: X=200, Y=160.2539
+ Scales: X=0.0556, Y=0.1250
+ Component % of ViewBox: W=92.6%, H=75.0%
+ Final Border: Left=11.11px, Top=20.03px, W=277.78px, H=150.00px
+ Border % of Cropper: W=92.6%, H=75.0%
+ Cropper Size: 300x200px
+ ==========================================
+ === updateSVGCropper called for index 43 ===
+ Component 43: 44. SuperMap GIS Platform Integration, X=69.5625, Y=6203.1914, W=8000, H=1000
+ === COMPONENT 43 POSITIONING DEBUG ===
+ Component: X=69.5625, Y=6203.1914, W=8000, H=1000
+ ViewBox: X=0, Y=6003.1914, W=8400, H=1400
+ Component in View: X=69.5625, Y=200
+ Scales: X=0.0357, Y=0.1429
+ Component % of ViewBox: W=95.2%, H=71.4%
+ Final Border: Left=2.48px, Top=28.57px, W=285.71px, H=142.86px
+ Border % of Cropper: W=95.2%, H=71.4%
+ Cropper Size: 300x200px
+ ==========================================
+ === updateSVGCropper called for index 44 ===
+ Component 44: 45. .NET Core Municipal Services, X=14789.8125, Y=1259.6914, W=5000, H=4000
+ === COMPONENT 44 POSITIONING DEBUG ===
+ Component: X=14789.8125, Y=1259.6914, W=5000, H=4000
+ ViewBox: X=14589.8125, Y=1059.6914, W=5400, H=4400
+ Component in View: X=200, Y=200
+ Scales: X=0.0556, Y=0.0455
+ Component % of ViewBox: W=92.6%, H=90.9%
+ Final Border: Left=11.11px, Top=9.09px, W=277.78px, H=181.82px
+ Border % of Cropper: W=92.6%, H=90.9%
+ Cropper Size: 300x200px
+ ==========================================
+ === updateSVGCropper called for index 45 ===
+ Component 45: 46. Spatial Data Infrastructure, X=15975.9063, Y=7123.5039, W=2000, H=2000
+ === COMPONENT 45 POSITIONING DEBUG ===
+ Component: X=15975.9063, Y=7123.5039, W=2000, H=2000
+ ViewBox: X=15775.9063, Y=6923.5039, W=2400, H=2400
+ Component in View: X=200, Y=200
+ Scales: X=0.1250, Y=0.0833
+ Component % of ViewBox: W=83.3%, H=83.3%
+ Final Border: Left=25.00px, Top=16.67px, W=250.00px, H=166.67px
+ Border % of Cropper: W=83.3%, H=83.3%
+ Cropper Size: 300x200px
+ ==========================================
+ === updateSVGCropper called for index 46 ===
+ Component 46: 47. Smart City Monitoring Network, X=2396.3125, Y=7152.5977, W=3000, H=2000
+ === COMPONENT 46 POSITIONING DEBUG ===
+ Component: X=2396.3125, Y=7152.5977, W=3000, H=2000
+ ViewBox: X=2196.3125, Y=6952.5977, W=3400, H=2400
+ Component in View: X=200, Y=200
+ Scales: X=0.0882, Y=0.0833
+ Component % of ViewBox: W=88.2%, H=83.3%
+ Final Border: Left=17.65px, Top=16.67px, W=264.71px, H=166.67px
+ Border % of Cropper: W=88.2%, H=83.3%
+ Cropper Size: 300x200px
+ ==========================================
+ === updateSVGCropper called for index 47 ===
+ Component 47: 48. External Systems Integration, X=69.5625, Y=6203.1914, W=8000, H=1000
+smartcity_real_svg_verification.html:367 === COMPONENT 47 POSITIONING DEBUG ===
+smartcity_real_svg_verification.html:368 Component: X=69.5625, Y=6203.1914, W=8000, H=1000
+smartcity_real_svg_verification.html:369 ViewBox: X=0, Y=6003.1914, W=8400, H=1400
+smartcity_real_svg_verification.html:370 Component in View: X=69.5625, Y=200
+smartcity_real_svg_verification.html:371 Scales: X=0.0357, Y=0.1429
+smartcity_real_svg_verification.html:372 Component % of ViewBox: W=95.2%, H=71.4%
+smartcity_real_svg_verification.html:373 Final Border: Left=2.48px, Top=28.57px, W=285.71px, H=142.86px
+smartcity_real_svg_verification.html:374 Border % of Cropper: W=95.2%, H=71.4%
+smartcity_real_svg_verification.html:375 Cropper Size: 300x200px
+smartcity_real_svg_verification.html:376 ==========================================
+smartcity_real_svg_verification.html:320 === updateSVGCropper called for index 48 ===
+smartcity_real_svg_verification.html:327 Component 48: 49. Security & Compliance Layer, X=14789.8125, Y=1259.6914, W=5000, H=2000
+smartcity_real_svg_verification.html:367 === COMPONENT 48 POSITIONING DEBUG ===
+smartcity_real_svg_verification.html:368 Component: X=14789.8125, Y=1259.6914, W=5000, H=2000
+smartcity_real_svg_verification.html:369 ViewBox: X=14589.8125, Y=1059.6914, W=5400, H=2400
+smartcity_real_svg_verification.html:370 Component in View: X=200, Y=200
+smartcity_real_svg_verification.html:371 Scales: X=0.0556, Y=0.0833
+smartcity_real_svg_verification.html:372 Component % of ViewBox: W=92.6%, H=83.3%
+smartcity_real_svg_verification.html:373 Final Border: Left=11.11px, Top=16.67px, W=277.78px, H=166.67px
+smartcity_real_svg_verification.html:374 Border % of Cropper: W=92.6%, H=83.3%
+smartcity_real_svg_verification.html:375 Cropper Size: 300x200px
+smartcity_real_svg_verification.html:376 ==========================================
+smartcity_real_svg_verification.html:320 === updateSVGCropper called for index 49 ===
+smartcity_real_svg_verification.html:327 Component 49: 50. Data Processing & Analytics, X=2396.3125, Y=7152.5977, W=3000, H=3000
+smartcity_real_svg_verification.html:367 === COMPONENT 49 POSITIONING DEBUG ===
+smartcity_real_svg_verification.html:368 Component: X=2396.3125, Y=7152.5977, W=3000, H=3000
+smartcity_real_svg_verification.html:369 ViewBox: X=2196.3125, Y=6952.5977, W=3400, H=3400
+smartcity_real_svg_verification.html:370 Component in View: X=200, Y=200
+smartcity_real_svg_verification.html:371 Scales: X=0.0882, Y=0.0588
+smartcity_real_svg_verification.html:372 Component % of ViewBox: W=88.2%, H=88.2%
+smartcity_real_svg_verification.html:373 Final Border: Left=17.65px, Top=11.76px, W=264.71px, H=176.47px
+smartcity_real_svg_verification.html:374 Border % of Cropper: W=88.2%, H=88.2%
+smartcity_real_svg_verification.html:375 Cropper Size: 300x200px
+smartcity_real_svg_verification.html:376 ==========================================
+smartcity_real_svg_verification.html:320 === updateSVGCropper called for index 50 ===
+smartcity_real_svg_verification.html:327 Component 50: 51. Users Cluster, X=15301, Y=110.25389999999999, W=4905.214800000002, H=1542.045
+smartcity_real_svg_verification.html:367 === COMPONENT 50 POSITIONING DEBUG ===
+smartcity_real_svg_verification.html:368 Component: X=15301, Y=110.25389999999999, W=4905.214800000002, H=1542.045
+smartcity_real_svg_verification.html:369 ViewBox: X=15101, Y=0, W=5192, H=1942.045
+smartcity_real_svg_verification.html:370 Component in View: X=200, Y=110.25389999999999
+smartcity_real_svg_verification.html:371 Scales: X=0.0578, Y=0.1030
+smartcity_real_svg_verification.html:372 Component % of ViewBox: W=94.5%, H=79.4%
+smartcity_real_svg_verification.html:373 Final Border: Left=11.56px, Top=11.35px, W=283.43px, H=158.81px
+smartcity_real_svg_verification.html:374 Border % of Cropper: W=94.5%, H=79.4%
+smartcity_real_svg_verification.html:375 Cropper Size: 300x200px
+smartcity_real_svg_verification.html:376 ==========================================
+client:827 [vite] connected.

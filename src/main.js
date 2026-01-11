@@ -53,6 +53,24 @@ class AnimationController {
         animation-play-state: running !important;
       }
       
+      /* AOS Performance Optimizations */
+      [data-aos] {
+        will-change: transform, opacity;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+      }
+      
+      /* Optimize AOS animations for GPU acceleration */
+      [data-aos="fade-up"],
+      [data-aos="fade-down"],
+      [data-aos="fade-left"],
+      [data-aos="fade-right"] {
+        will-change: transform, opacity;
+        transform: translate3d(0, 0, 0);
+      }
+      
       .animations-paused .header,
       .animations-paused .navmenu,
       .animations-paused .header-toggle {
@@ -664,14 +682,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Global Animation Controller
     window.animationController = new AnimationController()
     
-    // LIGHT AOS: Use minimal global AOS for page transitions since managed by components
+    // OPTIMIZED AOS: Performance-optimized configuration to reduce forced reflows
     if (typeof AOS !== 'undefined') {
       requestAnimationFrame(() => {
         AOS.init({
-          duration: 1000,
-          easing: 'ease-in-out',
+          duration: 800, // Reduced duration for better performance
+          easing: 'ease-out', // More performant easing
           once: true,
-          mirror: false
+          mirror: false,
+          // Performance optimizations
+          offset: 50, // Reduced offset to trigger animations earlier
+          delay: 0, // No delay to prevent staggered performance issues
+          anchorPlacement: 'top-bottom', // More predictable triggering
+          // Disable expensive features
+          disable: false,
+          startEvent: 'DOMContentLoaded',
+          initClassName: 'aos-init',
+          animatedClassName: 'aos-animate',
+          useClassNames: false, // Disable class-based animations for better performance
+          disableMutationObserver: false,
+          debounceDelay: 50, // Debounce scroll events
+          throttleDelay: 99 // Throttle scroll events for better performance
         })
       })
     }

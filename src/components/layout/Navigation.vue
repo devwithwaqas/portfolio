@@ -101,18 +101,40 @@ export default {
       touchEndX: 0,
       touchEndY: 0,
       minSwipeDistance: 50,
+      intersectionObserver: null, // Store observer for cleanup
+      scrollTimeout: null, // Store scroll timeout for debouncing
     }
   },
   mounted() {
-    this.setupScrollSpy()
-    this.setupIntersectionObserver()
+    this.setActiveSectionFromRoute()
+    // Only set up scroll observers on home page
+    if (this.$route.path === '/') {
+      // Wait for DOM to be fully rendered before setting up observers
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.setupIntersectionObserver()
+          // Check initial scroll position to set active section
+          this.checkInitialScrollPosition()
+          // Add scroll listener as fallback
+          window.addEventListener('scroll', this.handleScroll, { passive: true })
+        }, 100)
+      })
+    }
     this.setupClickOutsideListener()
     this.setupSwipeGestures()
     this.setupViewportResizeListener()
-    this.setActiveSectionFromRoute()
   },
   beforeUnmount() {
-    window.removeEventListener('scroll', this.updateActiveSection)
+    // Clean up IntersectionObserver
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect()
+      this.intersectionObserver = null
+    }
+    // Clean up scroll listener
+    window.removeEventListener('scroll', this.handleScroll)
+    if (this.scrollTimeout) {
+      clearTimeout(this.scrollTimeout)
+    }
     document.removeEventListener('click', this.handleClickOutside)
     document.removeEventListener('touchstart', this.handleTapOutside)
     document.removeEventListener('touchstart', this.handleTouchStart)
@@ -123,10 +145,9 @@ export default {
   },
   watch: {
     activeSection(newSection, oldSection) {
+      // No need to force update - Vue's reactivity will handle this automatically
       if (newSection !== oldSection) {
-        this.$nextTick(() => {
-          this.$forceUpdate()
-        })
+        // Optional: Add any custom logic here if needed
       }
     },
     '$route'(to, from) {
@@ -145,6 +166,9 @@ export default {
       // Check if we're on a project page
       if (this.$route.path.startsWith('/projects/')) {
         this.activeSection = 'portfolio'
+      } else if (this.$route.path.startsWith('/services/')) {
+        // If we're on a service page, highlight Services
+        this.activeSection = 'services'
       } else if (this.$route.path === '/') {
         // If we're on the home page, let scroll spy handle it
         this.activeSection = 'hero'
@@ -163,24 +187,39 @@ export default {
         this.$router.push({ path: '/', hash: `#${sectionId}` })
       }
     },
-    setupScrollSpy() {
-      window.addEventListener('scroll', this.updateActiveSection)
-    },
     setupIntersectionObserver() {
       const sections = ['hero', 'about', 'resume', 'portfolio', 'services', 'contact']
       
+      // Store observer reference for cleanup
+      if (this.intersectionObserver) {
+        this.intersectionObserver.disconnect()
+      }
+      
       const observer = new IntersectionObserver((entries) => {
+        // Only update active section on home page
+        if (this.$route.path !== '/') return
+        
+        // Find the entry with the highest intersection ratio (most visible)
+        let mostVisible = null
+        let highestRatio = 0
+        
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const sectionId = entry.target.id
-            if (sections.includes(sectionId)) {
-              this.activeSection = sectionId
-            }
+          if (entry.isIntersecting && entry.intersectionRatio > highestRatio) {
+            highestRatio = entry.intersectionRatio
+            mostVisible = entry
           }
         })
+        
+        // If we have a visible section, update active section
+        if (mostVisible) {
+          const sectionId = mostVisible.target.id
+          if (sections.includes(sectionId)) {
+            this.activeSection = sectionId
+          }
+        }
       }, {
-        threshold: 0.5,
-        rootMargin: '-20% 0px -20% 0px'
+        threshold: [0, 0.1, 0.25, 0.5, 0.75, 1.0], // Multiple thresholds for better detection
+        rootMargin: '-10% 0px -10% 0px' // More lenient margin
       })
 
       sections.forEach(sectionId => {
@@ -189,20 +228,67 @@ export default {
           observer.observe(section)
         }
       })
-    },
-    updateActiveSection() {
-      const sections = ['hero', 'about', 'resume', 'portfolio', 'services', 'contact']
       
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i])
-        if (section) {
-          const rect = section.getBoundingClientRect()
-          if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+      // Store observer for cleanup
+      this.intersectionObserver = observer
+    },
+    checkInitialScrollPosition() {
+      // Only check scroll position on home page
+      if (this.$route.path !== '/') return
+      
+      // If we're at the top of the page, ensure hero is active
+      if (window.scrollY < 100) {
+        this.activeSection = 'hero'
+      } else {
+        // Check which section is currently in view
+        const sections = ['hero', 'about', 'resume', 'portfolio', 'services', 'contact']
+        const scrollPosition = window.scrollY + window.innerHeight / 3 // Check at 1/3 from top
+        
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const section = document.getElementById(sections[i])
+          if (section && section.offsetTop <= scrollPosition) {
             this.activeSection = sections[i]
             break
           }
         }
       }
+    },
+    handleScroll() {
+      // Only handle scroll on home page
+      if (this.$route.path !== '/') return
+      
+      // Debounced scroll handler as fallback
+      if (this.scrollTimeout) {
+        clearTimeout(this.scrollTimeout)
+      }
+      
+      this.scrollTimeout = setTimeout(() => {
+        const sections = ['hero', 'about', 'resume', 'portfolio', 'services', 'contact']
+        const scrollPosition = window.scrollY + window.innerHeight / 3
+        
+        // Find the section that's currently most visible
+        let currentSection = 'hero'
+        let maxVisibility = 0
+        
+        sections.forEach(sectionId => {
+          const section = document.getElementById(sectionId)
+          if (section) {
+            const rect = section.getBoundingClientRect()
+            const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0)
+            const visibility = visibleHeight / section.offsetHeight
+            
+            if (visibility > maxVisibility && rect.top <= window.innerHeight / 2) {
+              maxVisibility = visibility
+              currentSection = sectionId
+            }
+          }
+        })
+        
+        // Only update if different to avoid unnecessary reactivity
+        if (this.activeSection !== currentSection) {
+          this.activeSection = currentSection
+        }
+      }, 50) // Debounce scroll events
     },
     setupClickOutsideListener() {
       document.addEventListener('click', this.handleClickOutside)
@@ -293,9 +379,8 @@ export default {
       window.addEventListener('orientationchange', this.adjustButtonHeights)
     },
     adjustButtonHeights() {
-      this.$nextTick(() => {
-        this.$forceUpdate()
-      })
+      // No need to force update - Vue's reactivity will handle this automatically
+      // The NavButton components will update their heights based on CSS media queries
     },
     debounce(func, wait) {
       let timeout

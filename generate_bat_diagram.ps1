@@ -1,0 +1,559 @@
+# PowerShell script to generate BAT diagram SVG using Kroki.io with full content
+$pumlContent = @'
+@startuml BAT_InhouseApp_C4_HX_Style
+
+' ========================================
+' C4-PlantUML Color Overrides (MUST BE FIRST!)
+' Set these BEFORE including C4 library
+' ========================================
+
+!$PERSON_BG_COLOR = "#08427B"
+!$PERSON_BORDER_COLOR = "#073B6F"
+!$PERSON_FONT_COLOR = "#FFFFFF"
+
+!$SYSTEM_BG_COLOR = "#1168BD"
+!$SYSTEM_BORDER_COLOR = "#0B5394"
+
+!$CONTAINER_BG_COLOR = "#2D314A"
+!$CONTAINER_BORDER_COLOR = "#9CA3AF"
+
+!$EXTERNAL_PERSON_BG_COLOR = "#686868"
+!$EXTERNAL_PERSON_BORDER_COLOR = "#4A4A4A"
+
+!$EXTERNAL_SYSTEM_BG_COLOR = "#999999"
+!$EXTERNAL_SYSTEM_BORDER_COLOR = "#707070"
+
+!$EXTERNAL_CONTAINER_BG_COLOR = "#B3B3B3"
+!$EXTERNAL_CONTAINER_BORDER_COLOR = "#8C8C8C"
+
+!$LINK_COLOR = "#FF4D4F"
+
+' Also set font colors (required by C4)
+!$SYSTEM_FONT_COLOR = "#FFFFFF"
+!$CONTAINER_FONT_COLOR = "#FFFFFF"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' ========================================
+' HeatExchanger Color Scheme Applied
+' Light canvas + dark shapes + red connectors
+' ========================================
+
+' -------------------------
+' Basic layout settings
+' -------------------------
+skinparam backgroundColor #F7F9FC
+skinparam nodesep 200
+skinparam ranksep 200
+skinparam linetype ortho
+skinparam roundcorner 12
+skinparam dpi 300
+skinparam shadowing true
+
+' -------------------------
+' Typography
+' -------------------------
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 14
+skinparam defaultFontColor #111827
+skinparam titleFontSize 20
+skinparam titleFontColor #111827
+
+' -------------------------
+' Container styling (DARK shapes like HX)
+' -------------------------
+skinparam RectangleBackgroundColor #2D314A
+skinparam RectangleBorderColor #9CA3AF
+skinparam RectangleBorderThickness 1
+skinparam RectangleFontColor #FFFFFF
+skinparam RectangleFontSize 14
+skinparam RectangleFontStyle Bold
+skinparam RectanglePadding 15
+skinparam RectangleMinWidth 200
+skinparam RectangleMinHeight 60
+
+' -------------------------
+' Busy container styling
+' -------------------------
+skinparam component {
+    BackgroundColor #2D314A
+    BorderColor #9CA3AF
+    BorderThickness 1
+    FontColor #FFFFFF
+    FontSize 14
+    FontStyle Bold
+    Padding 15
+    MinWidth 300
+    MinHeight 60
+}
+
+' -------------------------
+' Package styling (LIGHT backgrounds like HX)
+' -------------------------
+skinparam PackageBorderColor #94A3B8
+skinparam PackageBorderThickness 2
+skinparam PackageFontColor #111827
+skinparam PackageFontSize 14
+skinparam PackageFontStyle Bold
+skinparam PackagePadding 20
+skinparam PackageBackgroundColor #EEF2FF
+
+' -------------------------
+' Database styling (GOLD theme like HX)
+' -------------------------
+skinparam DatabaseBackgroundColor #3C2F1B
+skinparam DatabaseBorderColor #D1A954
+skinparam DatabaseBorderThickness 1
+skinparam DatabaseFontColor #FFFFFF
+skinparam DatabaseFontSize 14
+skinparam DatabaseFontStyle Bold
+
+' -------------------------
+' Notes styling (DARK bubbles like HX)
+' -------------------------
+skinparam NoteBackgroundColor #1F2937
+skinparam NoteBorderColor #4B5563
+skinparam NoteBorderThickness 1
+skinparam NoteFontColor #FFFFFF
+skinparam NoteFontSize 14
+skinparam NoteFontStyle Bold
+skinparam NotePadding 10
+
+' -------------------------
+' Arrow styling (THICK RED like HX)
+' -------------------------
+skinparam ArrowColor #FF4D4F
+skinparam ArrowThickness 4
+skinparam ArrowFontSize 12
+skinparam ArrowFontColor #FFFFFF
+
+title BAT Inhouse App - HeatExchanger Style C4 Architecture
+
+' Custom legend with actual colors used (aligned)
+legend right
+  |<back:#08427B>      </back>| **Person/Actor** (Dark Blue)
+  |<back:#EEF2FF>      </back>| **Packages/Layers** (Light Blue Background)
+  |<back:#1F2937>      </back>| **Link Labels** (Dark Gray Bubbles)
+  |<back:#FF4D4F>      </back>| **Connectors/Arrows** (Red)
+endlegend
+
+' -------------------------
+' Actors (top level)
+' -------------------------
+Person(employee, "BAT Employee", "Accesses enterprise systems")
+Person(admin, "System Administrator", "Manages platform")
+Person(analyst, "Business Analyst", "Views analytics")
+
+' -------------------------
+' External Systems (left side)
+' -------------------------
+package "External Enterprise Systems" as ExternalSystems {
+    System_Ext(sap_planet, "SAP Planet 8/9", "ERP System")
+    System_Ext(cherwell_hr, "Cherwell HR", "HR Management")
+    System_Ext(cherwell_it, "Cherwell IT", "IT Service Management")
+    System_Ext(power_apps, "Power Apps", "Low-code Platform")
+    System_Ext(sharepoint, "SharePoint", "Document Management")
+    System_Ext(teams, "Microsoft Teams", "Communication")
+    System_Ext(azure_ad, "Azure AD", "Identity Provider")
+    System_Ext(data_lake, "Azure Data Lake", "Data Storage")
+}
+
+' -------------------------
+' UI Layer (top center)
+' -------------------------
+package "Enterprise Frontend Portal" as UILayer {
+    Container(angular_portal, "Angular Portal", "Angular", "Unified enterprise interface")
+    Container(mobile_pwa, "Mobile PWA", "Angular PWA", "Mobile enterprise access")
+    Container(admin_dashboard, "Admin Dashboard", "Angular", "Administrative interface")
+    Container(analytics_dashboard, "Analytics Dashboard", "Angular", "Business intelligence")
+}
+
+' -------------------------
+' API Gateway Layer (center)
+' -------------------------
+package "Azure API Gateway" as GatewayLayer {
+    Container(api_management, "API Management", "APIM", "API gateway with ARM templates")
+    Container(app_gateway, "Application Gateway", "App GW", "Load balancer & routing")
+    Container(security_gateway, "Security Gateway", "Security", "OAuth 2.0 & JWT validation")
+}
+
+' -------------------------
+' Core Microservices (center-right)
+' -------------------------
+package "Azure Service Fabric Microservices" as CoreServices {
+    Container(auth_service, "Authentication Service", ".NET Core", "OAuth 2.0 & JWT")
+    Container(hr_service, "HR Management Service", ".NET Core", "Employee data & workflows")
+    Container(it_service, "IT Service Management", ".NET Core", "IT support & tickets")
+    Container(analytics_service, "Analytics Service", ".NET Core", "Business intelligence")
+    Container(integration_service, "Integration Service", ".NET Core", "System integrations")
+    Container(notification_service, "Notification Service", ".NET Core", "Multi-channel alerts")
+    Container(saga_orchestrator, "Saga Orchestrator", ".NET Core", "Distributed transactions")
+}
+
+' -------------------------
+' Support Services (right)
+' -------------------------
+package "Support Services" as SupportServices {
+    Container(audit_service, "Audit Service", ".NET Core", "Compliance & logging")
+    Container(monitoring_service, "Monitoring Service", ".NET Core", "Health checks")
+    Container(backup_service, "Backup Service", ".NET Core", "Data protection")
+    Container(reporting_service, "Reporting Service", ".NET Core", "Business reports")
+}
+
+' -------------------------
+' Event Processing (bottom-left)
+' -------------------------
+package "Event Processing" as EventLayer {
+    Container(service_bus, "Azure Service Bus", "Service Bus", "Message queuing")
+    Container(event_grid, "Azure Event Grid", "Event Grid", "Event routing")
+    Container(azure_functions, "Azure Functions", "Functions", "Serverless processing")
+    Container(stream_analytics, "Stream Analytics", "Stream", "Real-time processing")
+}
+
+' -------------------------
+' Data Layer (bottom-center)
+' -------------------------
+package "Multi-Database Architecture" as DataLayer {
+    ContainerDb(sql_database, "Azure SQL Database", "SQL", "Transactional data")
+    ContainerDb(cosmos_db, "Azure Cosmos DB", "Cosmos", "Document storage")
+    ContainerDb(redis_cache, "Redis Cache", "Redis", "High-performance cache")
+    ContainerDb(data_lake_storage, "Data Lake Storage", "Data Lake", "Analytics data")
+}
+
+' -------------------------
+' Monitoring & Analytics (bottom-right)
+' -------------------------
+package "Monitoring & Analytics" as MonitoringLayer {
+    Container(app_insights, "Application Insights", "App Insights", "Application telemetry")
+    Container(azure_monitor, "Azure Monitor", "Monitor", "Infrastructure monitoring")
+    Container(power_bi, "Power BI", "Power BI", "Business intelligence")
+    Container(ml_platform, "ML Platform", "ML", "Machine learning")
+}
+
+' -------------------------
+' User interactions (simple, direct)
+' -------------------------
+employee --> angular_portal
+note on link
+  Access enterprise systems
+end note
+
+employee --> mobile_pwa
+note on link
+  Mobile access
+end note
+
+admin --> admin_dashboard
+note on link
+  System management
+end note
+
+analyst --> analytics_dashboard
+note on link
+  Business intelligence
+end note
+
+' -------------------------
+' UI to Gateway
+' -------------------------
+angular_portal --> api_management
+note on link
+  API calls
+end note
+
+mobile_pwa --> api_management
+note on link
+  API calls
+end note
+
+admin_dashboard --> api_management
+note on link
+  Admin API calls
+end note
+
+analytics_dashboard --> api_management
+note on link
+  Analytics API calls
+end note
+
+' -------------------------
+' Gateway to Services
+' -------------------------
+api_management --> app_gateway
+note on link
+  Route requests
+end note
+
+app_gateway --> security_gateway
+note on link
+  Security validation
+end note
+
+security_gateway --> auth_service
+note on link
+  Authentication
+end note
+
+app_gateway --> hr_service
+note on link
+  HR operations
+end note
+
+app_gateway --> it_service
+note on link
+  IT operations
+end note
+
+app_gateway --> analytics_service
+note on link
+  Analytics
+end note
+
+app_gateway --> integration_service
+note on link
+  System integration
+end note
+
+app_gateway --> notification_service
+note on link
+  Notifications
+end note
+
+app_gateway --> saga_orchestrator
+note on link
+  Transaction orchestration
+end note
+
+' -------------------------
+' Service interactions
+' -------------------------
+auth_service --> hr_service
+note on link
+  Employee validation
+end note
+
+hr_service --> it_service
+note on link
+  Cross-service data
+end note
+
+integration_service --> saga_orchestrator
+note on link
+  Distributed transactions
+end note
+
+saga_orchestrator --> hr_service
+note on link
+  HR transactions
+end note
+
+saga_orchestrator --> it_service
+note on link
+  IT transactions
+end note
+
+analytics_service --> notification_service
+note on link
+  Analytics alerts
+end note
+
+' -------------------------
+' External integrations
+' -------------------------
+integration_service --> sap_planet
+note on link
+  SAP integration
+end note
+
+integration_service --> cherwell_hr
+note on link
+  HR system integration
+end note
+
+integration_service --> cherwell_it
+note on link
+  IT system integration
+end note
+
+integration_service --> power_apps
+note on link
+  Power Platform integration
+end note
+
+integration_service --> sharepoint
+note on link
+  Document management
+end note
+
+integration_service --> teams
+note on link
+  Communication integration
+end note
+
+auth_service --> azure_ad
+note on link
+  Identity provider
+end note
+
+analytics_service --> data_lake
+note on link
+  Data lake integration
+end note
+
+' -------------------------
+' Event flows
+' -------------------------
+hr_service --> service_bus
+note on link
+  HR events
+end note
+
+it_service --> service_bus
+note on link
+  IT events
+end note
+
+analytics_service --> service_bus
+note on link
+  Analytics events
+end note
+
+notification_service --> service_bus
+note on link
+  Notification events
+end note
+
+service_bus --> event_grid
+note on link
+  Event routing
+end note
+
+event_grid --> azure_functions
+note on link
+  Trigger functions
+end note
+
+azure_functions --> stream_analytics
+note on link
+  Process streams
+end note
+
+stream_analytics --> cosmos_db
+note on link
+  Store processed data
+end note
+
+' -------------------------
+' Data access
+' -------------------------
+auth_service --> sql_database
+note on link
+  User data
+end note
+
+hr_service --> sql_database
+note on link
+  HR data
+end note
+
+it_service --> sql_database
+note on link
+  IT data
+end note
+
+analytics_service --> cosmos_db
+note on link
+  Analytics data
+end note
+
+integration_service --> redis_cache
+note on link
+  Cache integration data
+end note
+
+notification_service --> sql_database
+note on link
+  Notification data
+end note
+
+saga_orchestrator --> sql_database
+note on link
+  Transaction state
+end note
+
+analytics_service --> data_lake_storage
+note on link
+  Analytics storage
+end note
+
+audit_service --> sql_database
+note on link
+  Audit logs
+end note
+
+' -------------------------
+' Monitoring
+' -------------------------
+auth_service --> app_insights
+note on link
+  Auth metrics
+end note
+
+hr_service --> app_insights
+note on link
+  HR metrics
+end note
+
+it_service --> app_insights
+note on link
+  IT metrics
+end note
+
+analytics_service --> app_insights
+note on link
+  Analytics metrics
+end note
+
+integration_service --> app_insights
+note on link
+  Integration metrics
+end note
+
+notification_service --> app_insights
+note on link
+  Notification metrics
+end note
+
+saga_orchestrator --> app_insights
+note on link
+  Transaction metrics
+end note
+
+app_insights --> azure_monitor
+note on link
+  Aggregate metrics
+end note
+
+azure_monitor --> power_bi
+note on link
+  Business reports
+end note
+
+azure_monitor --> ml_platform
+note on link
+  ML insights
+end note
+
+@enduml
+'@
+
+# Generate SVG using Kroki.io
+$response = Invoke-WebRequest -Uri "https://kroki.io/plantuml/svg?skinparam-dpi=300" -Method POST -Body $pumlContent -ContentType "text/plain"
+$response.Content | Out-File "BAT_InhouseApp_C4_Diagram.svg" -Encoding UTF8
+
+# Copy to assets folder
+Copy-Item "BAT_InhouseApp_C4_Diagram.svg" "assets/img/BAT_InhouseApp_C4_Diagram.svg" -Force
+
+Write-Host "BAT Inhouse App C4 diagram generated successfully!"
+Write-Host "SVG file: assets/img/BAT_InhouseApp_C4_Diagram.svg"
+Write-Host "View at: http://localhost:5173/assets/img/BAT_InhouseApp_C4_Diagram.svg"

@@ -7,8 +7,8 @@
     >
       <div class="bubble-header">
         <img 
-          v-if="step.icon"
-          :src="`/assets/img/Icons/${step.icon}`"
+          v-if="resolvedIcon"
+          :src="resolvedIcon"
           alt="Icon"
           class="bubble-icon icon-2xl icon-wrapper-2xl"
         />
@@ -42,6 +42,7 @@
 
 <script>
 import { DEBUG_CONFIG } from '@/config/constants'
+import { resolveIcon, getDeviconSvgUrl } from '@/utils/iconResolver'
 
 export default {
   name: 'NarrationBubble',
@@ -91,7 +92,7 @@ export default {
     return {
       bubbleStyle: {},
       // Debug flag to control console logging
-      debugMode: false
+      debugMode: true
     }
   },
   computed: {
@@ -100,6 +101,29 @@ export default {
     },
     progressBarWidth() {
       return `${this.speechProgress}%`
+    },
+    resolvedIcon() {
+      if (!this.step) return null
+      
+      // Use the generic icon resolver
+      const iconText = this.step.icon || this.step.title || ''
+      
+      try {
+        const iconResult = resolveIcon(iconText, this.step.title)
+        
+        if (iconResult && iconResult.src) {
+          // Handle devicon types by generating the full CDN URL
+          if (iconResult.type === 'devicon') {
+            return getDeviconSvgUrl(iconResult.src)
+          }
+          // For local icons, use the src directly
+          return iconResult.src
+        }
+      } catch (error) {
+        console.warn('[NarrationBubble] Icon resolution failed:', error)
+      }
+      
+      return null
     }
   },
   watch: {

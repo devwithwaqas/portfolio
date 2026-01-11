@@ -26,6 +26,27 @@ This guide explains how to add new project pages to the portfolio using the modu
 
 **⚠️ Always verify component order against existing pages (HeatExchangerPage) to maintain consistency.**
 
+### 🎯 Technology Stack Standardization
+**CRITICAL**: Technology stack entries MUST follow this standardized format:
+
+```javascript
+technologies: [
+  // ✅ CORRECT: Use only name, description, category
+  { name: ".NET Core", description: "Enterprise-grade web framework", category: TECH_CATEGORIES.BACKEND },
+  { name: "Azure SQL Database", description: "Cloud database with optimized indexing", category: TECH_CATEGORIES.DATABASE },
+  { name: "Angular", description: "Frontend framework for enterprise applications", category: TECH_CATEGORIES.FRONTEND }
+]
+
+// ❌ WRONG: Never use explicit icon paths
+{ name: ".NET Core", description: "...", category: TECH_CATEGORIES.BACKEND, icon: "/assets/img/Icons/NET core.svg" }
+```
+
+**Icon Resolution System:**
+- **Automatic**: The `iconResolver.js` utility automatically finds the best icon for each technology
+- **Priority**: Devicon → Local Icons → Emoji Fallback
+- **No Manual Icons**: Never specify `icon` property in technology objects
+- **Consistent**: All project pages use the same icon resolution system
+
 ## 🏗️ Architecture
 
 ### Core Components

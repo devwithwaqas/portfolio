@@ -619,7 +619,7 @@ export default {
   margin-bottom: 12px;
 }
 
-/* Fancy bullet as inline element in flex container */
+/* Fancy bullet as inline element in flex container - PERFORMANCE OPTIMIZED */
 .fancy-bullet {
   display: inline-block;
   width: 8px;
@@ -633,7 +633,11 @@ export default {
     0 0 8px rgba(139, 92, 246, 0.7),
     0 0 15px rgba(139, 92, 246, 0.4),
     inset 0 0 4px rgba(255, 255, 255, 0.4);
-  animation: bulletPulse 2.5s ease-in-out infinite;
+  /* PERFORMANCE: Reduced animation frequency and added will-change for GPU acceleration */
+  animation: bulletPulse 4s ease-in-out infinite;
+  will-change: transform, opacity, box-shadow;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 @keyframes bulletPulse {
@@ -647,15 +651,15 @@ export default {
   }
   50% {
     opacity: 0.85;
-    transform: rotate(45deg) scale(1.2);
+    transform: rotate(45deg) scale(1.1); /* Reduced scale for better performance */
     box-shadow: 
-      0 0 12px rgba(139, 92, 246, 0.9),
-      0 0 25px rgba(139, 92, 246, 0.6),
-      inset 0 0 6px rgba(255, 255, 255, 0.5);
+      0 0 10px rgba(139, 92, 246, 0.8), /* Reduced shadow complexity */
+      0 0 20px rgba(139, 92, 246, 0.5),
+      inset 0 0 5px rgba(255, 255, 255, 0.4);
   }
 }
 
-/* Remove transform from icon wrappers in Resume to let flex handle alignment */
+/* PERFORMANCE: Optimize icon wrappers for GPU acceleration */
 .resume-item strong .icon-wrapper-xs,
 .resume-item strong .icon-wrapper-sm,
 .resume-item strong .icon-wrapper-md,
@@ -669,9 +673,12 @@ export default {
 .resume-item h4 .icon-wrapper-xl,
 .resume-item h4 .icon-wrapper-2xl {
   transform: none !important;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
-/* Preserve hover effects but without translateY */
+/* PERFORMANCE: Optimized hover effects with GPU acceleration */
 .resume-item strong .icon-wrapper-xs:hover,
 .resume-item strong .icon-wrapper-sm:hover,
 .resume-item strong .icon-wrapper-md:hover,
@@ -684,6 +691,19 @@ export default {
 .resume-item h4 .icon-wrapper-lg:hover,
 .resume-item h4 .icon-wrapper-xl:hover,
 .resume-item h4 .icon-wrapper-2xl:hover {
-  transform: scale(1.1) rotate(-3deg) !important;
+  transform: scale(1.05) rotate(-2deg) !important; /* Reduced scale and rotation for better performance */
+  transition: transform 0.2s ease-out; /* Added smooth transition */
+}
+
+/* PERFORMANCE: Reduce animation frequency for better performance */
+.resume-item {
+  contain: layout style paint; /* CSS containment for better performance */
+}
+
+/* PERFORMANCE: Optimize AOS animations in Resume section */
+.resume-item[data-aos] {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 </style>

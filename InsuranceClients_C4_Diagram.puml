@@ -1,0 +1,455 @@
+@startuml InsuranceClients_C4_HX_Style
+
+' ========================================
+' C4-PlantUML Color Overrides (MUST BE FIRST!)
+' Set these BEFORE including C4 library
+' ========================================
+
+!$PERSON_BG_COLOR = "#08427B"
+!$PERSON_BORDER_COLOR = "#073B6F"
+!$PERSON_FONT_COLOR = "#FFFFFF"
+
+!$SYSTEM_BG_COLOR = "#1168BD"
+!$SYSTEM_BORDER_COLOR = "#0B5394"
+
+!$CONTAINER_BG_COLOR = "#2D314A"
+!$CONTAINER_BORDER_COLOR = "#9CA3AF"
+
+!$EXTERNAL_PERSON_BG_COLOR = "#686868"
+!$EXTERNAL_PERSON_BORDER_COLOR = "#4A4A4A"
+
+!$EXTERNAL_SYSTEM_BG_COLOR = "#999999"
+!$EXTERNAL_SYSTEM_BORDER_COLOR = "#707070"
+
+!$EXTERNAL_CONTAINER_BG_COLOR = "#B3B3B3"
+!$EXTERNAL_CONTAINER_BORDER_COLOR = "#8C8C8C"
+
+!$LINK_COLOR = "#FF4D4F"
+
+' Also set font colors (required by C4)
+!$SYSTEM_FONT_COLOR = "#FFFFFF"
+!$CONTAINER_FONT_COLOR = "#FFFFFF"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' ========================================
+' HeatExchanger Color Scheme Applied
+' Light canvas + dark shapes + red connectors
+' ========================================
+
+' -------------------------
+' Basic layout settings
+' -------------------------
+skinparam backgroundColor #F7F9FC
+skinparam nodesep 200
+skinparam ranksep 200
+skinparam linetype ortho
+skinparam roundcorner 12
+skinparam dpi 300
+skinparam shadowing true
+
+' -------------------------
+' Typography
+' -------------------------
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 14
+skinparam defaultFontColor #111827
+skinparam titleFontSize 20
+skinparam titleFontColor #111827
+
+' -------------------------
+' Container styling (DARK shapes like HX)
+' -------------------------
+skinparam RectangleBackgroundColor #2D314A
+skinparam RectangleBorderColor #9CA3AF
+skinparam RectangleBorderThickness 1
+skinparam RectangleFontColor #FFFFFF
+skinparam RectangleFontSize 14
+skinparam RectangleFontStyle Bold
+skinparam RectanglePadding 15
+skinparam RectangleMinWidth 200
+skinparam RectangleMinHeight 60
+
+' -------------------------
+' Busy container styling (for generic Container elements)
+' -------------------------
+skinparam component {
+    BackgroundColor #2D314A
+    BorderColor #9CA3AF
+    BorderThickness 1
+    FontColor #FFFFFF
+    FontSize 14
+    FontStyle Bold
+    Padding 15
+    MinWidth 300
+    MinHeight 60
+}
+
+' -------------------------
+' Package styling (LIGHT backgrounds like HX)
+' -------------------------
+skinparam PackageBorderColor #94A3B8
+skinparam PackageBorderThickness 2
+skinparam PackageFontColor #111827
+skinparam PackageFontSize 14
+skinparam PackageFontStyle Bold
+skinparam PackagePadding 20
+skinparam PackageBackgroundColor #EEF2FF
+
+' -------------------------
+' Database styling (GOLD theme like HX)
+' -------------------------
+skinparam DatabaseBackgroundColor #3C2F1B
+skinparam DatabaseBorderColor #D1A954
+skinparam DatabaseBorderThickness 1
+skinparam DatabaseFontColor #FFFFFF
+skinparam DatabaseFontSize 14
+skinparam DatabaseFontStyle Bold
+
+' -------------------------
+' Notes styling (DARK bubbles like HX)
+' -------------------------
+skinparam NoteBackgroundColor #1F2937
+skinparam NoteBorderColor #4B5563
+skinparam NoteBorderThickness 1
+skinparam NoteFontColor #FFFFFF
+skinparam NoteFontSize 14
+skinparam NoteFontStyle Bold
+skinparam NotePadding 10
+
+' -------------------------
+' Arrow styling (THICK RED like HX)
+' -------------------------
+skinparam ArrowColor #FF4D4F
+skinparam ArrowThickness 4
+skinparam ArrowFontSize 12
+skinparam ArrowFontColor #FFFFFF
+
+title Confidential Insurance Clients - HeatExchanger Style C4 Architecture
+
+' Custom legend with actual colors used (aligned)
+legend right
+  |<back:#08427B>      </back>| **Person/Actor** (Dark Blue)
+  |<back:#EEF2FF>      </back>| **Packages/Layers** (Light Blue Background)
+  |<back:#1F2937>      </back>| **Link Labels** (Dark Gray Bubbles)
+  |<back:#FF4D4F>      </back>| **Connectors/Arrows** (Red)
+endlegend
+
+' -------------------------
+' Actors (top level)
+' -------------------------
+Person(customer, "Insurance Customer", "Manages policies, submits claims, views documents, and tracks claim status through customer portal")
+
+Person(agent, "Insurance Agent", "Creates policies, manages customers, processes claims, and monitors performance through agent dashboard")
+
+Person(admin, "System Administrator", "Manages system configuration, monitors performance, and oversees operations")
+
+System_Ext(regulatory_system, "Regulatory System", "External regulatory compliance system for insurance industry standards")
+
+' -------------------------
+' Frontend Applications (top center)
+' -------------------------
+package "Frontend Application Layer" as FrontendLayer {
+    Container(customer_portal, "Customer Portal", "Angular, TypeScript, Bootstrap", "Self-service customer interface enabling policyholders to manage policies, submit claims, view documents, and track claim status. Features secure authentication, document management, and payment processing.")
+
+    Container(agent_dashboard, "Agent Dashboard", "Angular, TypeScript, Bootstrap", "Comprehensive agent management tools providing policy creation, customer management, claims processing, and performance analytics. Features real-time updates and workflow management.")
+
+    Container(admin_portal, "Admin Portal", "Angular, TypeScript, Bootstrap", "System administration interface for configuration management, performance monitoring, and operational oversight.")
+}
+
+' ========================================
+' Backend API Services (center)
+' ========================================
+package "Backend API Services Layer" as BackendServices {
+    Container(policy_api, "Policy Management API", "ASP.NET Core Web API, C#", "RESTful API service handling policy creation, renewal processing, underwriting engine operations, and policy lifecycle management. Features automated policy generation, risk assessment, and premium calculation.")
+
+    Container(claims_api, "Claims Processing API", "ASP.NET Core Web API, C#", "Microservice handling claims intake, assessment engine operations, approval workflows, payment processing, and fraud detection. Features multi-channel claims submission and automated damage assessment.")
+
+    Container(underwriting_api, "Underwriting Engine API", "ASP.NET Core Web API, C#", "Microservice for automated risk assessment, premium calculation, and underwriting decision processing. Features automated underwriting workflows and risk evaluation.")
+
+    Container(document_api, "Document Management API", "ASP.NET Core Web API, C#", "Microservice for digital document processing, policy document generation, certificate management, and document storage. Features document versioning and secure document access.")
+
+    Container(auth_api, "Authentication & Authorization API", "ASP.NET Core Web API, JWT, OAuth 2.0", "Microservice handling authentication, authorization, and secure access control. Features JWT token management, role-based access control, and secure authentication protocols.")
+}
+
+' ========================================
+' Real-Time Communication
+' ========================================
+package "Real-Time Services" as RealtimeLayer {
+    Container(signalr_hub, "SignalR Real-Time Hub", "SignalR, WebSocket", "Real-time communication hub for live updates, notifications, and instant data synchronization. Features bidirectional communication and automatic reconnection.")
+}
+
+' ========================================
+' Data Layer (bottom-center)
+' ========================================
+package "Data Layer" as DataLayer {
+    ContainerDb(insurance_db, "Insurance Database", "SQL Server, Entity Framework Core", "Enterprise-grade relational database storing policy data, claims records, customer information, document metadata, and insurance transaction history. Features comprehensive data modeling and query optimization.")
+
+    ContainerDb(redis_cache, "Redis Cache", "Redis, Azure Cache for Redis", "High-performance in-memory data store for frequently accessed policy data, claims status, session management, and performance optimization. Features sub-millisecond data access.")
+}
+
+' -------------------------
+' External Systems (right side)
+' -------------------------
+package "External Systems" as ExternalSystems {
+    System_Ext(azure_app_service, "Azure App Service", "Cloud hosting platform for scalable microservices deployment with auto-scaling and load balancing")
+    
+    System_Ext(azure_sql, "Azure SQL Database", "Fully managed cloud database service with high availability and automated backups")
+    
+    System_Ext(azure_redis, "Azure Cache for Redis", "Managed Redis cache service providing high-performance caching")
+    
+    System_Ext(azure_key_vault, "Azure Key Vault", "Secure credential and secret management service for enterprise security")
+    
+    System_Ext(azure_devops, "Azure DevOps", "CI/CD pipeline and deployment automation platform")
+    
+    System_Ext(azure_monitoring, "Azure Application Insights", "Application performance monitoring and analytics platform")
+}
+
+' -------------------------
+' User interactions
+' -------------------------
+customer --> customer_portal
+note on link
+  Uses customer portal
+end note
+
+agent --> agent_dashboard
+note on link
+  Uses agent dashboard
+end note
+
+admin --> admin_portal
+note on link
+  Manages system
+end note
+
+' -------------------------
+' Frontend to Backend Services
+' -------------------------
+customer_portal --> policy_api
+note on link
+  API calls
+end note
+
+customer_portal --> claims_api
+note on link
+  Claims requests
+end note
+
+customer_portal --> document_api
+note on link
+  Document requests
+end note
+
+customer_portal --> auth_api
+note on link
+  Authentication
+end note
+
+customer_portal --> signalr_hub
+note on link
+  Real-time updates
+end note
+
+agent_dashboard --> policy_api
+note on link
+  Policy management
+end note
+
+agent_dashboard --> claims_api
+note on link
+  Claims processing
+end note
+
+agent_dashboard --> underwriting_api
+note on link
+  Underwriting operations
+end note
+
+agent_dashboard --> document_api
+note on link
+  Document access
+end note
+
+agent_dashboard --> auth_api
+note on link
+  Authentication
+end note
+
+agent_dashboard --> signalr_hub
+note on link
+  Real-time updates
+end note
+
+admin_portal --> policy_api
+note on link
+  System management
+end note
+
+admin_portal --> auth_api
+note on link
+  Authentication
+end note
+
+' -------------------------
+' Backend Services to Real-Time
+' -------------------------
+policy_api --> signalr_hub
+note on link
+  Sends notifications
+end note
+
+claims_api --> signalr_hub
+note on link
+  Claims updates
+end note
+
+underwriting_api --> signalr_hub
+note on link
+  Underwriting updates
+end note
+
+' -------------------------
+' Backend Services to Databases
+' -------------------------
+policy_api --> insurance_db
+note on link
+  Reads/Writes
+end note
+
+policy_api --> redis_cache
+note on link
+  Caches data
+end note
+
+claims_api --> insurance_db
+note on link
+  Reads/Writes
+end note
+
+claims_api --> redis_cache
+note on link
+  Caches data
+end note
+
+underwriting_api --> insurance_db
+note on link
+  Reads/Writes
+end note
+
+document_api --> insurance_db
+note on link
+  Reads/Writes
+end note
+
+auth_api --> insurance_db
+note on link
+  Reads/Writes
+end note
+
+signalr_hub --> redis_cache
+note on link
+  Manages sessions
+end note
+
+' -------------------------
+' Backend Services to External Azure Systems
+' -------------------------
+policy_api --> azure_app_service
+note on link
+  Deployed on
+end note
+
+claims_api --> azure_app_service
+note on link
+  Deployed on
+end note
+
+underwriting_api --> azure_app_service
+note on link
+  Deployed on
+end note
+
+document_api --> azure_app_service
+note on link
+  Deployed on
+end note
+
+auth_api --> azure_app_service
+note on link
+  Deployed on
+end note
+
+signalr_hub --> azure_app_service
+note on link
+  Deployed on
+end note
+
+insurance_db --> azure_sql
+note on link
+  Hosted on
+end note
+
+redis_cache --> azure_redis
+note on link
+  Managed by
+end note
+
+auth_api --> azure_key_vault
+note on link
+  Retrieves secrets
+end note
+
+policy_api --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+claims_api --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+underwriting_api --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+document_api --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+auth_api --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+' External Regulatory System Integration
+regulatory_system --> insurance_db
+note on link
+  Compliance data
+end note
+
+policy_api --> regulatory_system
+note on link
+  Compliance checks
+end note
+
+claims_api --> regulatory_system
+note on link
+  Compliance validation
+end note
+
+' CI/CD Integration
+azure_devops --> azure_app_service
+note on link
+  Deploys to
+end note
+
+' ========================================
+' Layout hints for better visualization
+' ========================================
+LAYOUT_TOP_DOWN()
+
+@enduml

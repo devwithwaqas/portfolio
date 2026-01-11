@@ -9,7 +9,7 @@ export const airasiaNarrationSteps = [
     "speechTitle": "Web Application",
     "description": "Angular-based responsive web application for employee booking",
     "speechDescription": "The Web Application serves as our primary user interface, meticulously crafted with Angular 15 and TypeScript for modern development practices. It delivers a responsive Progressive Web App experience that operates seamlessly across all devices and platforms. Employees can book flights in real-time with live flight data integration, and the system is fully integrated with Google Single Sign-On for secure employee authentication. The interface includes personalized dashboards, complete booking history management, and intuitive navigation for optimal user experience.",
-    "icon": "Angular.svg",
+    "icon": "angular",
     "position": {
       "x": 309,
       "y": 351
@@ -28,7 +28,7 @@ export const airasiaNarrationSteps = [
     "speechTitle": "Mobile Progressive Web App",
     "description": "Progressive Web App for mobile booking experience",
     "speechDescription": "The Mobile Progressive Web App provides a native-like mobile experience using cutting-edge Progressive Web App technology. It includes comprehensive offline capabilities for viewing booking history, push notifications for booking confirmations and updates, and is specifically optimized for mobile-first booking workflows. Built from the same codebase as the web application, ensuring complete consistency across all platforms while maintaining performance and user experience standards.",
-    "icon": "mobile.png",
+    "icon": "mobile",
     "position": {
       "x": 750,
       "y": 351
@@ -47,7 +47,7 @@ export const airasiaNarrationSteps = [
     "speechTitle": "Admin Dashboard",
     "description": "Administrative interface for system management",
     "speechDescription": "The Admin Dashboard provides a comprehensive administrative interface for complete system management and oversight. It enables real-time monitoring of booking patterns and system health, includes advanced employee management and access control features, and offers an analytics dashboard with detailed booking trends and insights. This ensures administrators have full control and visibility over the entire ID90 system with powerful management capabilities.",
-    "icon": "portal.png",
+    "icon": "portal",
     "position": {
       "x": 1190,
       "y": 351
@@ -66,7 +66,7 @@ export const airasiaNarrationSteps = [
     "speechTitle": "Azure Application Programming Interface Management",
     "description": "Edge gateway for authentication, routing, and API management",
     "speechDescription": "Azure Application Programming Interface Management serves as our enterprise-grade API gateway, providing sophisticated rate limiting, throttling, and comprehensive system protection. It handles API versioning, documentation management, request transformation, and enforces security policies with advanced features. This ensures consistent, secure access to all backend services while maintaining high performance and reliability standards.",
-    "icon": "api gateway.svg",
+    "icon": "api gateway",
     "position": {
       "x": 750,
       "y": 699
@@ -85,7 +85,7 @@ export const airasiaNarrationSteps = [
     "speechTitle": "Application Gateway",
     "description": "Load balancer and SSL termination point",
     "speechDescription": "Load balancer and Secure Sockets Layer termination point",
-    "icon": "gateway.png",
+    "icon": "gateway",
     "position": {
       "x": 750,
       "y": 1046
@@ -104,7 +104,7 @@ export const airasiaNarrationSteps = [
     "speechTitle": "Authentication Service",
     "description": "JWT-based authentication with Google SSO integration",
     "speechDescription": "The Authentication Service provides robust JSON Web Token-based authentication with seamless Google Single Sign-On integration. It implements comprehensive role-based access control for different employee types, manages sessions and token refresh mechanisms, and includes extensive audit logging for security compliance. This ensures secure and reliable authentication across the entire system.",
-    "icon": "authentication and authorization.png",
+    "icon": "authentication and authorization",
     "position": {
       "x": 209,
       "y": 1394
@@ -120,7 +120,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Booking Service is the core business logic engine that handles all employee flight booking operations. It processes complex discount calculations based on employee eligibility, manages booking confirmations and cancellations, integrates with external payment systems, and enforces business rules for ID90 discounts. The service coordinates with Flight Service for availability, Employee Service for validation, and Notification Service for confirmations, ensuring seamless end-to-end booking workflows.",
-    "icon": "services.png",
+    "icon": "services",
     "title": "Booking Service",
     "description": "Core booking logic and discount calculation engine",
     "position": {
@@ -138,7 +138,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Flight Data Service manages comprehensive flight availability and real-time updates from AirAsia flight systems. It provides live flight status and schedule information, handles seat inventory management, processes fare calculations with dynamic pricing, and maintains flight data synchronization. The service integrates with Redis Cache for performance optimization and AirAsia Flight Systems for real-time data, ensuring employees have access to the most current and accurate flight information.",
-    "icon": "aviation.png",
+    "icon": "aviation",
     "title": "Flight Data Service",
     "description": "Real-time flight availability and updates",
     "position": {
@@ -156,7 +156,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Employee Service manages comprehensive employee validation and profile management for the ID90 system. It validates employee eligibility and employment status, manages employee profiles and preferences, handles role-based access control, and integrates with HR systems for data synchronization. The service ensures accurate employee information and proper access control, supporting the entire booking workflow with employee validation.",
-    "icon": "user.png",
+    "icon": "user",
     "title": "Employee Service",
     "description": "Employee validation and profile management",
     "position": {
@@ -174,7 +174,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Notification Service orchestrates sophisticated multi-channel communications including Short Message Service, email, and push notifications. It uses advanced template-based messaging, includes comprehensive delivery tracking with retry mechanisms, integrates with Teams for operational alerts, and supports personalized notification preferences. The service ensures reliable and timely communication across all channels for booking confirmations, updates, and system alerts.",
-    "icon": "notification service.png",
+    "icon": "notification service",
     "title": "Notification Service",
     "description": "Multi-channel notification orchestration",
     "position": {
@@ -192,7 +192,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Analytics Service handles comprehensive real-time data processing and business intelligence for the ID90 system. It processes booking patterns and user behavior analytics, generates detailed reports and insights, provides data visualization capabilities, and supports predictive analytics for business optimization. The service enables data-driven decision making and business intelligence, helping AirAsia optimize their employee travel benefits program.",
-    "icon": "analytics.png",
+    "icon": "analytics",
     "title": "Analytics Service",
     "description": "Data processing and business intelligence",
     "position": {
@@ -210,7 +210,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Refund Service provides automated refund calculation and processing workflows for employee bookings. It handles complex refund policies and calculations, processes refund requests and approvals, integrates with payment systems for refund processing, and maintains comprehensive refund audit trails. The service ensures accurate and efficient refund management while maintaining compliance with AirAsia policies.",
-    "icon": "financial.png",
+    "icon": "financial",
     "title": "Refund Service",
     "description": "Automated refund processing and chargebacks",
     "position": {
@@ -228,7 +228,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Audit Service provides comprehensive audit logging and file storage management for the entire ID90 system. It logs all system activities and user actions, stores audit files and compliance documents, provides audit trail reporting and analysis, and ensures regulatory compliance requirements. The service maintains complete system transparency and compliance for enterprise-grade operations.",
-    "icon": "compliance.png",
+    "icon": "compliance",
     "title": "Audit Service",
     "description": "Comprehensive audit logging and file storage",
     "position": {
@@ -246,7 +246,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "Azure Service Bus provides reliable message queuing for our comprehensive event-driven architecture. It ensures message ordering and delivery guarantees, handles dead letter queues for failed messages, and provides a scalable infrastructure for event processing across the entire system. The service enables robust and reliable event-driven communication between all microservices.",
-    "icon": "azure service bus.png",
+    "icon": "azure service bus",
     "title": "Azure Service Bus",
     "description": "Event queueing and message orchestration",
     "position": {
@@ -264,7 +264,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "Event Grid provides intelligent event routing with advanced filtering and transformation capabilities. It routes events to appropriate handlers and services, provides event filtering and transformation, ensures reliable event delivery, and supports custom event schemas. The service enables sophisticated event-driven architecture patterns for real-time system coordination.",
-    "icon": "azure-event-grid.png",
+    "icon": "azure event grid",
     "title": "Event Grid",
     "description": "Event routing and topic management",
     "position": {
@@ -282,7 +282,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "Azure Functions provide serverless event handling with automatic scaling and cost optimization. They process events from Service Bus and Event Grid, handle business logic and data transformations, provide automatic scaling based on demand, and ensure cost-effective serverless computing. The functions enable efficient and scalable event processing for the ID90 system.",
-    "icon": "Azure Functions.png",
+    "icon": "azure functions",
     "title": "Azure Functions",
     "description": "Serverless event handlers and processing",
     "position": {
@@ -300,7 +300,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "Stream Analytics processes real-time booking data and generates comprehensive business insights. It analyzes streaming data from various sources, performs real-time aggregations and calculations, generates alerts and notifications, and provides data for business intelligence dashboards. The service enables real-time analytics and decision making for the ID90 system.",
-    "icon": "azure-stream-analytics.png",
+    "icon": "azure stream analytics",
     "title": "Stream Analytics",
     "description": "Real-time data stream processing",
     "position": {
@@ -321,7 +321,7 @@ export const airasiaNarrationSteps = [
     "speechTitle": "Azure Structured Query Language Database",
     "description": "Primary relational data store",
     "speechDescription": "Azure Structured Query Language Database serves as our primary relational data store with enterprise-grade high availability and automatic failover capabilities. It includes automated backups, point-in-time recovery, performance monitoring, and security features like Always Encrypted and Transparent Data Encryption. This ensures reliable and secure data storage.",
-    "icon": "Azure SQL Database.svg",
+    "icon": "azure sql database",
     "position": {
       "x": 1649,
       "y": 3481
@@ -337,7 +337,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "Redis provides high-performance caching for flight data and session management. It caches frequently accessed flight information, manages user sessions and authentication tokens, provides real-time data updates, and ensures sub-millisecond response times. The cache significantly improves system performance and user experience for the ID90 booking system.",
-    "icon": "Redis.svg",
+    "icon": "redis",
     "title": "Redis Cache",
     "description": "High-performance caching layer",
     "position": {
@@ -355,7 +355,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "Azure Blob Storage provides cost-effective file and document storage for audit snapshots and system documents. It stores audit files and compliance documents, provides automated lifecycle management for optimal storage costs, and ensures secure file access and retrieval. The storage enables efficient document and file management for the ID90 system.",
-    "icon": "azure blob storage.png",
+    "icon": "azure blob storage",
     "title": "Azure Blob Storage",
     "description": "File storage for documents and audit data",
     "position": {
@@ -376,7 +376,7 @@ export const airasiaNarrationSteps = [
     "speechTitle": "Azure Cosmos Database",
     "description": "NoSQL database for analytics and reporting",
     "speechDescription": "Cosmos Database stores analytics and reporting data with global distribution capabilities. It provides automatic scaling based on demand, supports multiple data models and APIs, ensures global distribution and multi-region support, and integrates with Stream Analytics for real-time data ingestion. This enables scalable and globally distributed analytics.",
-    "icon": "cosmos db.png",
+    "icon": "cosmos db",
     "position": {
       "x": 2048,
       "y": 3481
@@ -392,7 +392,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "Application Insights provides comprehensive telemetry and performance monitoring across the entire ID90 system. It tracks application performance and user behavior, provides detailed error tracking and diagnostics, generates performance reports and insights, and enables proactive issue detection and resolution. The service ensures optimal system performance and reliability.",
-    "icon": "insights.png",
+    "icon": "insights",
     "title": "Application Insights",
     "description": "Comprehensive application telemetry",
     "position": {
@@ -410,7 +410,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "Azure Monitor tracks infrastructure health and performance metrics comprehensively. It monitors system resources and performance, provides alerting and notification capabilities, generates infrastructure reports and insights, and ensures proactive system management. The service enables comprehensive infrastructure monitoring and management for the ID90 system.",
-    "icon": "continuous monitoring.png",
+    "icon": "continuous monitoring",
     "title": "Azure Monitor",
     "description": "Infrastructure monitoring and alerting",
     "position": {
@@ -428,7 +428,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "Grafana provides operational dashboards with real-time monitoring and alerting capabilities. It visualizes system metrics and performance data, provides customizable dashboards and reports, enables real-time alerting and notifications, and supports data source integration. The service enables comprehensive operational visibility and monitoring for the ID90 system.",
-    "icon": "Grafana.svg",
+    "icon": "grafana",
     "title": "Grafana",
     "description": "Operational dashboards and visualization",
     "position": {
@@ -446,7 +446,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "Power BI delivers business intelligence with executive dashboards and comprehensive reporting. It provides business metrics and key performance indicators, generates executive reports and insights, enables data visualization and analysis, and supports advanced analytics and forecasting. The service enables data-driven business decision making for the ID90 program.",
-    "icon": "power-bi-dashboard.png",
+    "icon": "power-bi-dashboard",
     "title": "Power BI",
     "description": "Business intelligence and reporting",
     "position": {
@@ -467,7 +467,7 @@ export const airasiaNarrationSteps = [
     "speechTitle": "Google Single Sign-On",
     "description": "Single sign-on authentication provider",
     "speechDescription": "Google Single Sign-On provides seamless employee authentication using industry-standard OAuth 2.0 and OpenID Connect protocols. It integrates with AirAsia corporate accounts, maintains security and compliance standards for enterprise authentication, and ensures smooth user experience with single sign-on capabilities. This simplifies authentication while maintaining security.",
-    "icon": "google sso.png",
+    "icon": "google sso",
     "position": {
       "x": 3470,
       "y": 2098
@@ -483,7 +483,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "AirAsia Flight Systems provide the core flight booking infrastructure with comprehensive real-time data and availability management. They manage seat inventory and flight status updates, integrate with our ID90 discount system for seamless employee bookings, and provide reliable flight data services. The systems ensure accurate and up-to-date flight information for employee bookings.",
-    "icon": "aviation.png",
+    "icon": "aviation",
     "title": "AirAsia Flight Systems",
     "description": "Core flight booking and management systems",
     "position": {
@@ -504,7 +504,7 @@ export const airasiaNarrationSteps = [
     "speechTitle": "Short Message Service Gateway",
     "description": "SMS notification delivery service",
     "speechDescription": "The Short Message Service Gateway delivers notifications through multi-region SMS providers with comprehensive delivery tracking and reporting capabilities. It uses template-based messaging, includes cost optimization and intelligent routing, and ensures reliable SMS delivery across different regions. This enables reliable SMS communication.",
-    "icon": "sms notification.png",
+    "icon": "sms notification",
     "position": {
       "x": 4736,
       "y": 2098
@@ -520,7 +520,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Email Service provides transactional email delivery with advanced template-based messaging capabilities. It includes comprehensive delivery tracking and analytics, integrates with corporate email systems, and maintains compliance with email regulations and standards. The service ensures reliable and compliant email communication for booking confirmations and updates.",
-    "icon": "email notification.png",
+    "icon": "email notification",
     "title": "Email Service",
     "description": "Transactional email delivery system",
     "position": {
@@ -541,7 +541,7 @@ export const airasiaNarrationSteps = [
     "speechTitle": "Teams Application Programming Interface",
     "description": "Microsoft Teams integration for notifications",
     "speechDescription": "The Teams Application Programming Interface integrates with Microsoft Teams for operational alerts and comprehensive notifications. It enables team channel messaging, integrates with monitoring systems, and provides automated incident notifications and alerts. This enables effective team communication and collaboration.",
-    "icon": "teams notification.png",
+    "icon": "teams notification",
     "position": {
       "x": 3879,
       "y": 2098
@@ -557,7 +557,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Push Notification Service delivers mobile push notifications across platforms with personalized targeting and comprehensive analytics. It includes delivery tracking and performance analytics, and integrates seamlessly with our mobile Progressive Web App. The service ensures effective mobile user engagement and communication for the ID90 system.",
-    "icon": "push notification.png",
+    "icon": "push notification",
     "title": "Push Notification Service",
     "description": "Mobile push notification delivery",
     "position": {
@@ -575,7 +575,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Booking Workflow orchestrates the complete employee flight booking process from authentication to confirmation. It coordinates between multiple services including authentication, flight search, employee validation, discount calculation, payment processing, and notification delivery. The workflow ensures seamless end-to-end booking experiences with proper error handling and rollback capabilities.",
-    "icon": "services.png",
+    "icon": "services",
     "title": "Complete Booking Workflow",
     "description": "End-to-end process from search to confirmation",
     "steps": [
@@ -708,7 +708,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Event Processing Workflow manages real-time event handling and system coordination. It processes booking events, flight updates, and system notifications through Azure Service Bus and Event Grid, triggers appropriate handlers and services, and ensures reliable event delivery. The workflow enables sophisticated event-driven architecture patterns for system coordination.",
-    "icon": "event-processing-workflow.png",
+    "icon": "event-processing-workflow",
     "title": "Event Processing Workflow",
     "description": "Real-time event processing and analytics",
     "steps": [
@@ -791,7 +791,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Monitoring Workflow provides comprehensive system health monitoring and alerting. It tracks application performance, infrastructure metrics, and business KPIs, generates alerts and notifications for issues, and provides operational dashboards and reports. The workflow enables proactive system management and ensures optimal performance and reliability.",
-    "icon": "monitoring-workflow.png",
+    "icon": "monitoring-workflow",
     "title": "Monitoring & Analytics Workflow",
     "description": "System monitoring and business intelligence",
     "steps": [
@@ -873,7 +873,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The User Interface Layer provides modern, responsive web and mobile applications for AirAsia employees. It includes Angular-based web applications, Progressive Web App for mobile devices, and administrative dashboards. The layer ensures consistent user experience across all platforms with real-time updates and offline capabilities.",
-    "icon": "frontend.png",
+    "icon": "frontend",
     "title": "User Interface Layer",
     "description": "Frontend applications for employee interaction",
     "components": [
@@ -909,7 +909,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Gateway Layer provides secure API management and routing for the entire ID90 system. It includes Azure API Management for API gateway functionality and Application Gateway for load balancing and SSL termination. The layer ensures secure, scalable, and reliable access to all backend services with comprehensive security policies.",
-    "icon": "api gateway.svg",
+    "icon": "api gateway",
     "title": "API Gateway & Security Layer",
     "description": "Edge security and API management",
     "components": [
@@ -949,7 +949,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Core Services Layer contains the primary business logic services for the ID90 system. It includes Authentication Service, Booking Service, Flight Service, and Employee Service. The layer handles core business operations including employee authentication, flight booking, discount calculation, and employee management with high availability and performance.",
-    "icon": "microservices.png",
+    "icon": "microservices",
     "title": "Core Business Services Layer",
     "description": "Core business logic and processing",
     "components": [
@@ -996,7 +996,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Support Services Layer provides auxiliary services that support the core business operations. It includes Notification Service, Analytics Service, Refund Service, and Audit Service. The layer ensures comprehensive support for notifications, analytics, refunds, and audit logging with enterprise-grade reliability and compliance.",
-    "icon": "services.png",
+    "icon": "services",
     "title": "Support Services Layer",
     "description": "Supporting services for business operations",
     "components": [
@@ -1043,7 +1043,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Event Processing Layer manages real-time event handling and system coordination. It includes Azure Service Bus, Event Grid, Azure Functions, and Stream Analytics. The layer enables event-driven architecture patterns with reliable message queuing, intelligent event routing, serverless processing, and real-time analytics.",
-    "icon": "azure service bus.png",
+    "icon": "azure service bus",
     "title": "Event Processing Layer",
     "description": "Real-time event processing and analytics",
     "components": [
@@ -1085,7 +1085,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Data Layer provides comprehensive data storage and caching capabilities. It includes Azure SQL Database for relational data, Redis Cache for high-performance caching, Blob Storage for file storage, and Cosmos DB for analytics data. The layer ensures reliable, scalable, and performant data management for the entire ID90 system.",
-    "icon": "database.png",
+    "icon": "database",
     "title": "Data Layer",
     "description": "Comprehensive data storage and management",
     "components": [
@@ -1127,7 +1127,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The Monitoring Layer provides comprehensive system monitoring and observability. It includes Application Insights for application telemetry, Azure Monitor for infrastructure monitoring, Grafana for operational dashboards, and Power BI for business intelligence. The layer ensures complete system visibility and proactive management.",
-    "icon": "monitoring.png",
+    "icon": "monitoring",
     "title": "Monitoring & Analytics Layer",
     "description": "System monitoring and business intelligence",
     "components": [
@@ -1169,7 +1169,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The External Systems Layer integrates with external services and systems. It includes Google SSO for authentication, AirAsia Flight Systems for flight data, SMS Gateway for notifications, Email Service for email delivery, Teams API for collaboration, and Push Service for mobile notifications. The layer ensures seamless integration with external systems.",
-    "icon": "integration.png",
+    "icon": "integration",
     "title": "External Systems Layer",
     "description": "Integration with external services and systems",
     "components": [
@@ -1213,7 +1213,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The AirAsia ID90 system implements a comprehensive microservices architecture with 8 distinct layers: User Interface, Gateway, Core Services, Support Services, Event Processing, Data, Monitoring, and External Systems. This architecture handles 3,000+ daily employee booking requests with 99.9% uptime, processes 90% flight discounts in real-time, and supports 50,000+ employees across 10 countries with enterprise-grade security and compliance.",
-    "icon": "architecture.png",
+    "icon": "architecture",
     "title": "System Architecture Overview",
     "description": "High-level system architecture and data flow",
     "flow": [
@@ -1341,7 +1341,7 @@ export const airasiaNarrationSteps = [
   },
   {
     "speechDescription": "The data flow in the ID90 system follows a sophisticated request-response pattern through multiple layers. Employee requests flow from the Angular frontend through the API Gateway for authentication, to core services for business logic, through event processing for coordination, to the data layer for storage, with comprehensive monitoring throughout. The system ensures sub-second response times with real-time updates and reliable event processing.",
-    "icon": "data processing.png",
+    "icon": "data processing",
     "title": "End-to-End Data Flow",
     "description": "Complete data flow from user request to system response",
     "flow": [

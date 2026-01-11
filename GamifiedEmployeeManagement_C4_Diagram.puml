@@ -1,0 +1,357 @@
+@startuml GamifiedEmployeeManagement_C4_HX_Style
+
+' ========================================
+' C4-PlantUML Color Overrides (MUST BE FIRST!)
+' Set these BEFORE including C4 library
+' ========================================
+
+!$PERSON_BG_COLOR = "#08427B"
+!$PERSON_BORDER_COLOR = "#073B6F"
+!$PERSON_FONT_COLOR = "#FFFFFF"
+
+!$SYSTEM_BG_COLOR = "#1168BD"
+!$SYSTEM_BORDER_COLOR = "#0B5394"
+
+!$CONTAINER_BG_COLOR = "#2D314A"
+!$CONTAINER_BORDER_COLOR = "#9CA3AF"
+
+!$EXTERNAL_PERSON_BG_COLOR = "#686868"
+!$EXTERNAL_PERSON_BORDER_COLOR = "#4A4A4A"
+
+!$EXTERNAL_SYSTEM_BG_COLOR = "#999999"
+!$EXTERNAL_SYSTEM_BORDER_COLOR = "#707070"
+
+!$EXTERNAL_CONTAINER_BG_COLOR = "#B3B3B3"
+!$EXTERNAL_CONTAINER_BORDER_COLOR = "#8C8C8C"
+
+!$LINK_COLOR = "#FF4D4F"
+
+' Also set font colors (required by C4)
+!$SYSTEM_FONT_COLOR = "#FFFFFF"
+!$CONTAINER_FONT_COLOR = "#FFFFFF"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' ========================================
+' HeatExchanger Color Scheme Applied
+' Light canvas + dark shapes + red connectors
+' ========================================
+
+' -------------------------
+' Basic layout settings
+' -------------------------
+skinparam backgroundColor #F7F9FC
+skinparam nodesep 200
+skinparam ranksep 200
+skinparam linetype ortho
+skinparam roundcorner 12
+skinparam dpi 300
+skinparam shadowing true
+
+' -------------------------
+' Typography
+' -------------------------
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 14
+skinparam defaultFontColor #111827
+skinparam titleFontSize 20
+skinparam titleFontColor #111827
+
+' -------------------------
+' Container styling (DARK shapes like HX)
+' -------------------------
+skinparam RectangleBackgroundColor #2D314A
+skinparam RectangleBorderColor #9CA3AF
+skinparam RectangleBorderThickness 1
+skinparam RectangleFontColor #FFFFFF
+skinparam RectangleFontSize 14
+skinparam RectangleFontStyle Bold
+skinparam RectanglePadding 15
+skinparam RectangleMinWidth 200
+skinparam RectangleMinHeight 60
+
+' -------------------------
+' Busy container styling
+' -------------------------
+skinparam component {
+    BackgroundColor #2D314A
+    BorderColor #9CA3AF
+    BorderThickness 1
+    FontColor #FFFFFF
+    FontSize 14
+    FontStyle Bold
+    Padding 15
+    MinWidth 300
+    MinHeight 60
+}
+
+' -------------------------
+' Package styling (LIGHT backgrounds like HX)
+' -------------------------
+skinparam PackageBorderColor #94A3B8
+skinparam PackageBorderThickness 2
+skinparam PackageFontColor #111827
+skinparam PackageFontSize 14
+skinparam PackageFontStyle Bold
+skinparam PackagePadding 20
+skinparam PackageBackgroundColor #EEF2FF
+
+' -------------------------
+' Database styling (GOLD theme like HX)
+' -------------------------
+skinparam DatabaseBackgroundColor #3C2F1B
+skinparam DatabaseBorderColor #D1A954
+skinparam DatabaseBorderThickness 1
+skinparam DatabaseFontColor #FFFFFF
+skinparam DatabaseFontSize 14
+skinparam DatabaseFontStyle Bold
+
+' -------------------------
+' Notes styling (DARK bubbles like HX)
+' -------------------------
+skinparam NoteBackgroundColor #1F2937
+skinparam NoteBorderColor #4B5563
+skinparam NoteBorderThickness 1
+skinparam NoteFontColor #FFFFFF
+skinparam NoteFontSize 14
+skinparam NoteFontStyle Bold
+skinparam NotePadding 10
+
+' -------------------------
+' Arrow styling (THICK RED like HX)
+' -------------------------
+skinparam ArrowColor #FF4D4F
+skinparam ArrowThickness 4
+skinparam ArrowFontSize 12
+skinparam ArrowFontColor #FFFFFF
+
+title Gamified Employee Management - HeatExchanger Style C4 Architecture
+
+' Custom legend with actual colors used (aligned)
+legend right
+  |<back:#08427B>      </back>| **Person/Actor** (Dark Blue)
+  |<back:#EEF2FF>      </back>| **Packages/Layers** (Light Blue Background)
+  |<back:#1F2937>      </back>| **Link Labels** (Dark Gray Bubbles)
+  |<back:#FF4D4F>      </back>| **Connectors/Arrows** (Red)
+endlegend
+
+' -------------------------
+' Actors (top level)
+' -------------------------
+Person(employee, "Employee", "Uses the gamified employee management platform to track goals, view achievements, participate in leaderboards, and redeem rewards")
+
+Person(admin, "Admin/Manager", "Manages employees, configures gamification rules, monitors performance metrics, and oversees engagement programs")
+
+System_Ext(hr_system, "HR System", "External HR system that provides employee data and organizational information")
+
+' -------------------------
+' UI Layer (top center)
+' -------------------------
+package "Employee Engagement Portal" as UILayer {
+    Container(web_portal, "Employee Engagement Portal", "Angular 12+, TypeScript, Bootstrap 5, PWA", "Modern web portal providing employees with unified access to gamification features, performance tracking, goals, achievements, and rewards. Features responsive design, real-time updates, and personalized dashboards.")
+}
+
+' ========================================
+' Backend Microservices (center)
+' ========================================
+package "Gamification Microservices" as BackendServices {
+    Container(gamification_api, "Gamification Rules Engine API", "ASP.NET Core Web API, C#", "Microservice handling gamification rules evaluation, point calculations, badge assignments, and achievement processing. Features event-driven architecture and dynamic rule configuration.")
+    
+    Container(leaderboard_api, "Leaderboard Generation API", "ASP.NET Core Web API, C#", "Microservice for dynamic leaderboard generation with multiple ranking criteria, time-based competitions, and team-based rankings. Features Redis-based caching for optimal performance.")
+    
+    Container(goal_api, "Goal Management API", "ASP.NET Core Web API, C#", "Microservice for goal management including goal hierarchies, progress tracking, and milestone management. Features event sourcing for accurate progress calculation.")
+    
+    Container(reward_api, "Reward Processing API", "ASP.NET Core Web API, C#", "Microservice handling reward redemption, reward catalog management, and reward distribution. Features integration with external reward providers.")
+    
+    Container(analytics_api, "Performance Analytics API", "ASP.NET Core Web API, C#", "Microservice providing comprehensive analytics and reporting capabilities. Features real-time performance tracking and engagement metrics visualization.")
+    
+    Container(auth_api, "Authentication & Authorization API", "ASP.NET Core Web API, JWT, OAuth 2.0", "Microservice handling authentication, authorization, and multi-tenant security. Features JWT token management and role-based access control.")
+}
+
+' ========================================
+' Real-Time Communication
+' ========================================
+package "Real-Time Services" as RealtimeLayer {
+    Container(real_time_hub, "SignalR Real-Time Hub", "SignalR, WebSocket", "Real-time communication hub for live performance updates, instant achievement notifications, and leaderboard rankings. Features bidirectional communication and automatic reconnection.")
+    
+    Container(event_bus, "Event Processing Bus", "Azure Service Bus", "Message queue for event-driven architecture handling achievement triggers, badge assignments, and reward processing. Features guaranteed message delivery and retry policies.")
+}
+
+' ========================================
+' Data Layer (bottom-center)
+' ========================================
+package "Data Layer" as DataLayer {
+    ContainerDb(employee_db, "Employee Database", "SQL Server, Entity Framework Core", "Enterprise-grade relational database storing employee profiles, performance records, goal definitions, achievements, badges, and historical gamification data. Features schema-per-tenant architecture for multi-tenant isolation.")
+    
+    ContainerDb(redis_cache, "Redis Cache", "Redis, Azure Cache for Redis", "High-performance in-memory data store for leaderboard data, active user sessions, real-time gamification state, and frequently accessed metrics. Features sub-millisecond data access.")
+}
+
+' -------------------------
+' External Systems (left side)
+' -------------------------
+package "External Systems" as ExternalSystems {
+    System_Ext(azure_app_service, "Azure App Service", "Cloud hosting platform for scalable microservices deployment with auto-scaling and load balancing")
+    System_Ext(azure_sql, "Azure SQL Database", "Fully managed cloud database service with high availability and automated backups")
+    System_Ext(azure_redis, "Azure Cache for Redis", "Managed Redis cache service providing high-performance caching with geo-replication")
+    System_Ext(azure_monitoring, "Azure Application Insights", "Application performance monitoring and analytics platform")
+}
+
+' -------------------------
+' User interactions
+' -------------------------
+employee --> web_portal
+note on link
+  Uses gamification features
+end note
+
+admin --> web_portal
+note on link
+  Manages system
+end note
+
+' -------------------------
+' UI to Backend Services
+' -------------------------
+web_portal --> gamification_api
+note on link
+  API calls
+end note
+
+web_portal --> leaderboard_api
+note on link
+  Leaderboard requests
+end note
+
+web_portal --> goal_api
+note on link
+  Goal management
+end note
+
+web_portal --> reward_api
+note on link
+  Reward processing
+end note
+
+web_portal --> analytics_api
+note on link
+  Analytics data
+end note
+
+web_portal --> auth_api
+note on link
+  Authentication
+end note
+
+web_portal --> real_time_hub
+note on link
+  Real-time updates
+end note
+
+' -------------------------
+' Backend Services to Real-Time
+' -------------------------
+gamification_api --> real_time_hub
+note on link
+  Sends notifications
+end note
+
+leaderboard_api --> real_time_hub
+note on link
+  Leaderboard updates
+end note
+
+goal_api --> real_time_hub
+note on link
+  Goal updates
+end note
+
+reward_api --> real_time_hub
+note on link
+  Reward notifications
+end note
+
+' -------------------------
+' Backend Services to Event Bus
+' -------------------------
+gamification_api --> event_bus
+note on link
+  Publishes events
+end note
+
+goal_api --> event_bus
+note on link
+  Publishes events
+end note
+
+event_bus --> gamification_api
+note on link
+  Consumes events
+end note
+
+event_bus --> leaderboard_api
+note on link
+  Triggers updates
+end note
+
+event_bus --> reward_api
+note on link
+  Triggers processing
+end note
+
+' -------------------------
+' Backend Services to Data Layer
+' -------------------------
+gamification_api --> employee_db
+note on link
+  Reads/Writes
+end note
+
+leaderboard_api --> employee_db
+note on link
+  Reads data
+end note
+
+leaderboard_api --> redis_cache
+note on link
+  Caches leaderboards
+end note
+
+goal_api --> employee_db
+note on link
+  Reads/Writes
+end note
+
+reward_api --> employee_db
+note on link
+  Reads/Writes
+end note
+
+analytics_api --> employee_db
+note on link
+  Reads data
+end note
+
+auth_api --> employee_db
+note on link
+  Reads/Writes
+end note
+
+real_time_hub --> redis_cache
+note on link
+  Manages sessions
+end note
+
+' -------------------------
+' External System Integration
+' -------------------------
+hr_system --> employee_db
+note on link
+  Syncs employee data
+end note
+
+auth_api --> hr_system
+note on link
+  Validates employee data
+end note
+
+@enduml

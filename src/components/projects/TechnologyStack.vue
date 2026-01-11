@@ -94,6 +94,8 @@ const CATEGORIES = [
   { key: TECH_CATEGORIES.SECURITY, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.SECURITY], icon: 'security' },
   { key: TECH_CATEGORIES.COMMUNICATION, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.COMMUNICATION], icon: 'communication' },
   { key: TECH_CATEGORIES.TESTING, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.TESTING], icon: 'testing' },
+  { key: TECH_CATEGORIES.METHODOLOGY, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.METHODOLOGY], icon: 'agile' },
+  { key: TECH_CATEGORIES.ARCHITECTURE, name: TECH_CATEGORY_LABELS[TECH_CATEGORIES.ARCHITECTURE], icon: 'architecture' },
   { key: 'other', name: 'Other Technologies', icon: 'services' }
 ]
 
@@ -151,7 +153,7 @@ export default {
         if (grouped[category]) {
           grouped[category].technologies.push({
             ...tech,
-            iconData: resolveIcon(tech.name)
+            iconData: tech.icon ? { type: 'local', src: tech.icon, alt: tech.name } : resolveIcon(tech.name)
           })
         }
       })

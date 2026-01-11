@@ -125,7 +125,8 @@ export default {
       touchStartX: 0,
       touchStartY: 0,
       touchMoved: false,
-      uniqueId: `epic-${Math.random().toString(36).substr(2, 9)}`
+      uniqueId: `epic-${Math.random().toString(36).substr(2, 9)}`,
+      resizeTimeout: null
     }
   },
   computed: {
@@ -156,6 +157,10 @@ export default {
       cancelAnimationFrame(this.animationFrame)
       this.animationFrame = null
     }
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout)
+      this.resizeTimeout = null
+    }
   },
   methods: {
     openPreview() {
@@ -182,17 +187,28 @@ export default {
         
         if (!card || !cardWrapper || !borderOverlay) return
         
+        // Cache for expensive operations
+        let cachedWrapperPadding = null
+        let lastCardSize = { width: 0, height: 0 }
+        
         // Calculate aspect ratio and adjust offsets dynamically
         function updateSVGPosition() {
           const rect = card.getBoundingClientRect()
-          const aspectRatio = rect.width / rect.height
           
-          // Get padding from CSS variable
-          const wrapperStyle = getComputedStyle(cardWrapper)
-          const wrapperPadding = parseFloat(wrapperStyle.getPropertyValue('--wrapper-padding')) || 20.25
+          // Skip update if size hasn't changed significantly (within 1px tolerance)
+          if (Math.abs(rect.width - lastCardSize.width) < 1 && Math.abs(rect.height - lastCardSize.height) < 1) {
+            return
+          }
+          lastCardSize = { width: rect.width, height: rect.height }
+          
+          // Cache wrapper padding to avoid repeated getComputedStyle calls
+          if (cachedWrapperPadding === null) {
+            const wrapperStyle = getComputedStyle(cardWrapper)
+            cachedWrapperPadding = parseFloat(wrapperStyle.getPropertyValue('--wrapper-padding')) || 20.25
+          }
           
           // Calculate desired stroke in pixels (105% of padding)
-          const desiredStrokePx = wrapperPadding * 1.05
+          const desiredStrokePx = cachedWrapperPadding * 1.05
           
           // Convert to viewBox units: (desiredPx / actualWidth) × viewboxWidth
           const viewboxWidth = 400
@@ -407,25 +423,31 @@ export default {
             // Add resize observer to recalculate SVG path when card size changes
             if (window.ResizeObserver) {
               const resizeObserver = new ResizeObserver(() => {
-                // Use RAF to batch all DOM updates and avoid forced reflows
-                requestAnimationFrame(() => {
-                  // Recalculate SVG position based on new aspect ratio
-                  updateSVGPosition()
-                  
-                  // Recalculate and update border path (viewBox is fixed, so path doesn't need to change)
-                  const adjustedD = buildPath()
-                  ;[track, seg1, seg2].forEach(el => el.setAttribute('d', adjustedD))
-                  
-                  // Update animation parameters
-                  const newP = track.getTotalLength()
-                  const newSEG_WANTED = Math.min(700, newP * 0.4)
-                  const newSEG_LEN = Math.min(newSEG_WANTED, newP * 0.3)
-                  const newGap = newP - newSEG_LEN
-                  const newDash = `${newSEG_LEN} ${newGap}`
-                  
-                  seg1.style.strokeDasharray = newDash
-                  seg2.style.strokeDasharray = newDash
-                })
+                // Debounce resize events to avoid excessive recalculations
+                if (vm.resizeTimeout) {
+                  clearTimeout(vm.resizeTimeout)
+                }
+                vm.resizeTimeout = setTimeout(() => {
+                  // Use RAF to batch all DOM updates and avoid forced reflows
+                  requestAnimationFrame(() => {
+                    // Recalculate SVG position based on new aspect ratio
+                    updateSVGPosition()
+                    
+                    // Recalculate and update border path (viewBox is fixed, so path doesn't need to change)
+                    const adjustedD = buildPath()
+                    ;[track, seg1, seg2].forEach(el => el.setAttribute('d', adjustedD))
+                    
+                    // Update animation parameters
+                    const newP = track.getTotalLength()
+                    const newSEG_WANTED = Math.min(700, newP * 0.4)
+                    const newSEG_LEN = Math.min(newSEG_WANTED, newP * 0.3)
+                    const newGap = newP - newSEG_LEN
+                    const newDash = `${newSEG_LEN} ${newGap}`
+                    
+                    seg1.style.strokeDasharray = newDash
+                    seg2.style.strokeDasharray = newDash
+                  })
+                }, 100) // 100ms debounce
               })
               
               // Observe the card element for size changes

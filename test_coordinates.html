@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Coordinate Test</title>
+</head>
+<body>
+    <h1>Smart City Coordinate Test</h1>
+    <div id="test"></div>
+    
+    <script>
+        // Test coordinates from JSON
+        const testCoords = {
+            x: 69.5625,
+            y: 6203.1914,
+            width: 529.6417,
+            height: 273.4863
+        };
+        
+        // SVG dimensions
+        const svgWidth = 20293;
+        const svgHeight = 12756;
+        
+        // Calculate what the scale should be
+        const viewBoxWidth = testCoords.width + 40; // 20px padding each side
+        const viewBoxHeight = testCoords.height + 40;
+        
+        const scaleX = 400 / viewBoxWidth;
+        const scaleY = 200 / viewBoxHeight;
+        
+        const highlightWidth = testCoords.width * scaleX;
+        const highlightHeight = testCoords.height * scaleY;
+        
+        document.getElementById('test').innerHTML = `
+            <h2>Test Coordinates:</h2>
+            <p>Original: x=${testCoords.x}, y=${testCoords.y}, w=${testCoords.width}, h=${testCoords.height}</p>
+            <p>SVG Size: ${svgWidth} x ${svgHeight}</p>
+            <p>ViewBox: ${viewBoxWidth} x ${viewBoxHeight}</p>
+            <p>Scale: ${scaleX.toFixed(4)} x ${scaleY.toFixed(4)}</p>
+            <p>Highlight Size: ${highlightWidth.toFixed(1)} x ${highlightHeight.toFixed(1)}</p>
+            <p>Highlight % of preview: ${(highlightWidth/400*100).toFixed(1)}% x ${(highlightHeight/200*100).toFixed(1)}%</p>
+        `;
+    </script>
+</body>
+</html>

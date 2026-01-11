@@ -158,7 +158,7 @@ export default {
           title: 'BAT Inhouse App',
           subtitle: 'British American Tobacco Management',
           bannerImage: '/assets/img/bat1.jpg',
-          detailsLink: 'bat-inhouse-app.html',
+          detailsLink: '/projects/bat-inhouse-app',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
             { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' },
@@ -170,7 +170,7 @@ export default {
           title: 'PJ Smart City',
           subtitle: 'Petaling Jaya Smart City Platform',
           bannerImage: '/assets/img/pj1.jpg',
-          detailsLink: 'pj-smart-city.html',
+          detailsLink: '/projects/pj-smart-city',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
             { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
@@ -182,7 +182,7 @@ export default {
           title: 'Gamified Employee Management',
           subtitle: 'Syntronic Employee Engagement Platform',
           bannerImage: '/assets/img/sf1.jpg',
-          detailsLink: 'gamified-employee-management.html',
+          detailsLink: '/projects/gamified-employee-management',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
             { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
@@ -194,7 +194,7 @@ export default {
           title: 'Valet Parking',
           subtitle: 'Secure Parking UAE Management System',
           bannerImage: '/assets/img/vp1.jpg',
-          detailsLink: 'valet-parking.html',
+          detailsLink: '/projects/valet-parking',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
             { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
@@ -206,7 +206,7 @@ export default {
           title: 'Mobile Games Collection',
           subtitle: 'Geniteam Java & AndEngine Games',
           bannerImage: '/assets/img/gd1.jpg',
-          detailsLink: 'mobile-games.html',
+          detailsLink: '/projects/mobile-games',
           techStack: [
             { name: 'Java', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg' },
             { name: 'Android', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg' }
@@ -216,7 +216,7 @@ export default {
           title: 'UK Property Management Platform',
           subtitle: 'Azure-Based Residential Property Management System',
           bannerImage: '/assets/img/gpc1.jpg',
-          detailsLink: 'uk-property-management.html',
+          detailsLink: '/projects/uk-property-management',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
             { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
@@ -228,7 +228,7 @@ export default {
           title: 'G5 POS',
           subtitle: 'Squad Cell Point of Sale System',
           bannerImage: '/assets/img/g51.jpg',
-          detailsLink: 'g5-pos.html',
+          detailsLink: '/projects/g5-pos',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
             { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' },
@@ -239,7 +239,7 @@ export default {
           title: 'Confidential Insurance Clients',
           subtitle: 'Enterprise Insurance Management Platform',
           bannerImage: '/assets/img/in1.jpg',
-          detailsLink: 'chubb-insurance-applications.html',
+          detailsLink: '/projects/chubb-insurance-applications',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
             { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
