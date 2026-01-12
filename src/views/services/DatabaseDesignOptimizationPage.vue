@@ -7,7 +7,7 @@
         title="Database Design & Optimization"
         icon-name="database"
         tagline="Designing and optimizing SQL Server databases, implementing Entity Framework best practices, and ensuring high-performance data access patterns. Build databases that scale, perform, and support your business needs."
-        hero-image="/assets/img/services/database-hero.jpg"
+        :hero-image="$assetPath('/assets/img/services/database-hero.jpg')"
         :benefits="heroBenefits"
         :badges="heroBadges"
         class="service-section-first"
@@ -32,7 +32,7 @@
         :steps="processSteps"
         timeline="2-6 weeks (typical database project)"
         :engagement-models="engagementModels"
-        process-image="/assets/img/services/database-process.jpg"
+        :process-image="$assetPath('/assets/img/services/database-process.jpg')"
       />
 
       <!-- Technologies -->
@@ -56,7 +56,7 @@
       <ServiceCTA
         cta-text="Ready to optimize your database performance or design a new database? Let's discuss how database design and optimization can improve your application performance and support your business growth."
         :show-contact-form="false"
-        cta-image="/assets/img/services/database-cta.jpg"
+        :cta-image="$assetPath('/assets/img/services/database-cta.jpg')"
         class="service-section-last"
       />
 

@@ -75,7 +75,7 @@
       <DiagramViewer 
         title="C4 Architecture Diagram"
         :icon-name="PROJECT_ICON_NAMES.ARCHITECTURE_OVERVIEW"
-        diagram-src="/assets/diagrams/GamifiedEmployeeManagement_C4_Diagram.svg"
+        :diagram-src="$assetPath('/assets/diagrams/GamifiedEmployeeManagement_C4_Diagram.svg')"
         :narration-steps="gamifiedEmployeeManagementNarrationSteps"
         :svg-width="12143"
         :svg-height="7346"

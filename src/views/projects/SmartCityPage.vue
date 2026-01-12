@@ -56,7 +56,7 @@
       <DiagramViewer 
         title="C4 Architecture Diagram"
         :icon-name="PROJECT_ICON_NAMES.ARCHITECTURE_OVERVIEW"
-        diagram-src="/assets/diagrams/SmartCity_C4_Diagram.svg"
+        :diagram-src="$assetPath('/assets/diagrams/SmartCity_C4_Diagram.svg')"
         :narration-steps="smartCityNarrationSteps"
         :svg-width="27681"
         :svg-height="11856"

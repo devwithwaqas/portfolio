@@ -13,19 +13,19 @@
       <div v-if="showNarration" class="fullscreen-toolbar">
         <div class="toolbar-group">
           <button class="toolbar-btn" @click="$refs.narrator?.previous()" title="Previous">
-            <img src="/assets/img/Icons/rewind.png" alt="Previous" class="icon-md">
+            <img :src="$assetPath('/assets/img/Icons/rewind.png')" alt="Previous" class="icon-md">
           </button>
           <button class="toolbar-btn" @click="$refs.narrator?.resume()" title="Play">
-            <img src="/assets/img/Icons/play.png" alt="Play" class="icon-md">
+            <img :src="$assetPath('/assets/img/Icons/play.png')" alt="Play" class="icon-md">
           </button>
           <button class="toolbar-btn" @click="$refs.narrator?.next()" title="Next">
-            <img src="/assets/img/Icons/forward.png" alt="Next" class="icon-md">
+            <img :src="$assetPath('/assets/img/Icons/forward.png')" alt="Next" class="icon-md">
           </button>
           <button class="toolbar-btn" @click="$refs.narrator?.pause()" title="Pause">
-            <img src="/assets/img/Icons/pause.png" alt="Pause" class="icon-md">
+            <img :src="$assetPath('/assets/img/Icons/pause.png')" alt="Pause" class="icon-md">
           </button>
           <button class="toolbar-btn" @click="stopNarration" title="Stop">
-            <img src="/assets/img/Icons/stop.png" alt="Stop" class="icon-md">
+            <img :src="$assetPath('/assets/img/Icons/stop.png')" alt="Stop" class="icon-md">
           </button>
         </div>
       </div>
@@ -74,41 +74,41 @@
         <!-- View Controls (Left) -->
         <div class="toolbar-group view-group" :class="{ 'view-group-centered': !showNarration }">
           <button class="toolbar-btn primary" title="Zoom into diagram" @click="zoomIn">
-            <img src="/assets/img/Icons/zoom in.png" alt="Zoom In" class="icon-md icon-wrapper-md">
+            <img :src="$assetPath('/assets/img/Icons/zoom in.png')" alt="Zoom In" class="icon-md icon-wrapper-md">
           </button>
           <button class="toolbar-btn primary" title="Zoom out of diagram" @click="zoomOut">
-            <img src="/assets/img/Icons/zoom out.png" alt="Zoom Out" class="icon-md icon-wrapper-md">
+            <img :src="$assetPath('/assets/img/Icons/zoom out.png')" alt="Zoom Out" class="icon-md icon-wrapper-md">
           </button>
           <button class="toolbar-btn primary" title="Fit diagram to initial size" @click="fitToInitialSize">
-            <img src="/assets/img/Icons/fit to view.png" alt="Fit to Initial Size" class="icon-md icon-wrapper-md">
+            <img :src="$assetPath('/assets/img/Icons/fit to view.png')" alt="Fit to Initial Size" class="icon-md icon-wrapper-md">
           </button>
           <button class="toolbar-btn primary" title="Reset view to default" @click="resetView">
-            <img src="/assets/img/Icons/reset view.png" alt="Reset View" class="icon-md icon-wrapper-md">
+            <img :src="$assetPath('/assets/img/Icons/reset view.png')" alt="Reset View" class="icon-md icon-wrapper-md">
           </button>
         </div>
         
         <!-- Narration Controls (Right) - only show if narration is enabled -->
         <div v-if="showNarration" class="toolbar-group narration-group">
           <button class="toolbar-btn control" title="Start narration" @click="startNarration">
-            <img src="/assets/img/Icons/narration.png" alt="Narration" class="icon-md icon-wrapper-md">
+            <img :src="$assetPath('/assets/img/Icons/narration.png')" alt="Narration" class="icon-md icon-wrapper-md">
           </button>
           <button class="toolbar-btn control" title="Previous step" @click="previousNarration">
-            <img src="/assets/img/Icons/rewind.png" alt="Rewind" class="icon-md icon-wrapper-md">
+            <img :src="$assetPath('/assets/img/Icons/rewind.png')" alt="Rewind" class="icon-md icon-wrapper-md">
           </button>
           <button class="toolbar-btn control" title="Play/Resume narration" @click="playNarration">
-            <img src="/assets/img/Icons/play.png" alt="Play" class="icon-md icon-wrapper-md">
+            <img :src="$assetPath('/assets/img/Icons/play.png')" alt="Play" class="icon-md icon-wrapper-md">
           </button>
           <button class="toolbar-btn control" title="Next step" @click="nextNarration">
-            <img src="/assets/img/Icons/forward.png" alt="Forward" class="icon-md icon-wrapper-md">
+            <img :src="$assetPath('/assets/img/Icons/forward.png')" alt="Forward" class="icon-md icon-wrapper-md">
           </button>
           <button class="toolbar-btn control" title="Pause narration" @click="pauseNarration">
-            <img src="/assets/img/Icons/pause.png" alt="Pause" class="icon-md icon-wrapper-md">
+            <img :src="$assetPath('/assets/img/Icons/pause.png')" alt="Pause" class="icon-md icon-wrapper-md">
           </button>
           <button class="toolbar-btn control" title="Stop narration" @click="stopNarration">
-            <img src="/assets/img/Icons/stop.png" alt="Stop" class="icon-md icon-wrapper-md">
+            <img :src="$assetPath('/assets/img/Icons/stop.png')" alt="Stop" class="icon-md icon-wrapper-md">
           </button>
           <button class="toolbar-btn control" title="Select voice" @click="toggleVoiceSelection">
-            <img src="/assets/img/Icons/speech.png" alt="Voice" class="icon-md icon-wrapper-md">
+            <img :src="$assetPath('/assets/img/Icons/speech.png')" alt="Voice" class="icon-md icon-wrapper-md">
           </button>
         </div>
       </div>
@@ -199,7 +199,15 @@ export default {
     },
     diagramSrc: {
       type: String,
-      default: '/assets/img/heat-exchanger-diagram.svg'
+      default: () => {
+        // Use assetPath for default value
+        const baseUrl = import.meta.env.BASE_URL || '/'
+        const cleanPath = '/assets/img/heat-exchanger-diagram.svg'.startsWith('/') 
+          ? '/assets/img/heat-exchanger-diagram.svg'.slice(1) 
+          : '/assets/img/heat-exchanger-diagram.svg'
+        const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
+        return `${base}${cleanPath}`
+      }
     },
     narrationSteps: {
       type: Array,

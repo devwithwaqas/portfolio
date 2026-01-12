@@ -7,7 +7,7 @@
         title="Technical Leadership"
         icon-name="leadership"
         tagline="Leading development teams, mentoring developers, establishing best practices, and driving technical excellence. From code reviews to architecture decisions, I help teams deliver high-quality software solutions."
-        hero-image="/assets/img/services/leadership-hero.jpg"
+        :hero-image="$assetPath('/assets/img/services/leadership-hero.jpg')"
         :benefits="heroBenefits"
         :badges="heroBadges"
         class="service-section-first"
@@ -32,7 +32,7 @@
         :steps="processSteps"
         timeline="Ongoing engagement (typically 3-6 months minimum)"
         :engagement-models="engagementModels"
-        process-image="/assets/img/services/leadership-process.jpg"
+        :process-image="$assetPath('/assets/img/services/leadership-process.jpg')"
       />
 
       <!-- Technologies -->
@@ -56,7 +56,7 @@
       <ServiceCTA
         cta-text="Ready to elevate your development team's performance? Let's discuss how technical leadership can transform your software development process and drive technical excellence."
         :show-contact-form="false"
-        cta-image="/assets/img/services/leadership-cta.jpg"
+        :cta-image="$assetPath('/assets/img/services/leadership-cta.jpg')"
         class="service-section-last"
       />
 

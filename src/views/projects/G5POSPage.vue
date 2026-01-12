@@ -56,7 +56,7 @@
       <DiagramViewer 
         title="C4 Architecture Diagram"
         :icon-name="PROJECT_ICON_NAMES.ARCHITECTURE_OVERVIEW"
-        diagram-src="/assets/diagrams/G5_POS_C4_Diagram.svg"
+        :diagram-src="$assetPath('/assets/diagrams/G5_POS_C4_Diagram.svg')"
         :narration-steps="g5POSNarrationSteps"
         :svg-width="17181"
         :svg-height="6890"

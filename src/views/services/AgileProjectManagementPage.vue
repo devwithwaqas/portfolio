@@ -7,7 +7,7 @@
         title="Agile Project Management"
         icon-name="agile"
         tagline="Leading agile development teams, conducting sprint planning, retrospectives, and ensuring timely delivery of high-quality software products. Transform your development process with proven agile methodologies."
-        hero-image="/assets/img/services/agile-hero.jpg"
+        :hero-image="$assetPath('/assets/img/services/agile-hero.jpg')"
         :benefits="heroBenefits"
         :badges="heroBadges"
         class="service-section-first"
@@ -32,7 +32,7 @@
         :steps="processSteps"
         timeline="Ongoing engagement (typically 3+ months)"
         :engagement-models="engagementModels"
-        process-image="/assets/img/services/agile-process.jpg"
+        :process-image="$assetPath('/assets/img/services/agile-process.jpg')"
       />
 
       <!-- Technologies -->
@@ -56,7 +56,7 @@
       <ServiceCTA
         cta-text="Ready to transform your development process with agile methodologies? Let's discuss how agile project management can improve your team's productivity, quality, and delivery speed."
         :show-contact-form="false"
-        cta-image="/assets/img/services/agile-cta.jpg"
+        :cta-image="$assetPath('/assets/img/services/agile-cta.jpg')"
         class="service-section-last"
       />
 

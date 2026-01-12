@@ -4,7 +4,7 @@
       <div v-for="(section, index) in formattedContent" :key="index" class="overview-section">
         <h4 v-if="section.isHeader" class="section-header txt-h4-xl">
           <div class="section-icon-wrapper icon-wrapper-xl">
-            <img src="/assets/img/Icons/diamond.png" alt="Diamond" class="diamond-icon icon-img-xl" />
+            <img :src="$assetPath('/assets/img/Icons/diamond.png')" alt="Diamond" class="diamond-icon icon-img-xl" />
           </div>
           {{ section.text }}
         </h4>

@@ -7,7 +7,7 @@
         title="Mobile Development"
         icon-name="mobile"
         tagline="Native and cross-platform mobile application development for iOS and Android. Whether you need native iOS (Swift/Objective-C), native Android (Kotlin/Java), React Native, Flutter, or Xamarin, I deliver high-performance mobile solutions that engage users and drive business growth."
-        hero-image="/assets/img/services/mobile-hero.jpg"
+        :hero-image="$assetPath('/assets/img/services/mobile-hero.jpg')"
         :benefits="heroBenefits"
         :badges="heroBadges"
         class="service-section-first"
@@ -32,7 +32,7 @@
         :steps="processSteps"
         timeline="8-16 weeks (typical mobile app project)"
         :engagement-models="engagementModels"
-        process-image="/assets/img/services/mobile-process.jpg"
+        :process-image="$assetPath('/assets/img/services/mobile-process.jpg')"
       />
 
       <!-- Technologies -->
@@ -56,7 +56,7 @@
       <ServiceCTA
         cta-text="Ready to build your mobile application? Whether you need native iOS, native Android, React Native, Flutter, or Xamarin, let's discuss your mobile app requirements and create a solution that delivers exceptional user experiences and drives your business forward."
         :show-contact-form="false"
-        cta-image="/assets/img/services/mobile-cta.jpg"
+        :cta-image="$assetPath('/assets/img/services/mobile-cta.jpg')"
         class="service-section-last"
       />
 

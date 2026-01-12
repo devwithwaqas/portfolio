@@ -64,7 +64,7 @@
       <DiagramViewer 
         title="C4 Architecture Diagram"
         :icon-name="PROJECT_ICON_NAMES.ARCHITECTURE_OVERVIEW"
-        diagram-src="/assets/diagrams/InsuranceClients_C4_Diagram.svg"
+        :diagram-src="$assetPath('/assets/diagrams/InsuranceClients_C4_Diagram.svg')"
         :narration-steps="insuranceClientsNarrationSteps"
         :svg-width="18428"
         :svg-height="9196"

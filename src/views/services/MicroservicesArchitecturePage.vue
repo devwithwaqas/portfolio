@@ -7,7 +7,7 @@
         title="Microservices Architecture"
         icon-name="microservices"
         tagline="Design and implementation of scalable microservices-based applications using Azure Service Fabric, Docker containers, and modern architectural patterns. Build systems that scale, evolve, and perform."
-        hero-image="/assets/img/services/microservices-hero.jpg"
+        :hero-image="$assetPath('/assets/img/services/microservices-hero.jpg')"
         :benefits="heroBenefits"
         :badges="heroBadges"
         class="service-section-first"
@@ -32,7 +32,7 @@
         :steps="processSteps"
         timeline="6-12 weeks (typical microservices implementation)"
         :engagement-models="engagementModels"
-        process-image="/assets/img/services/microservices-process.jpg"
+        :process-image="$assetPath('/assets/img/services/microservices-process.jpg')"
       />
 
       <!-- Technologies -->
@@ -56,7 +56,7 @@
       <ServiceCTA
         cta-text="Ready to build scalable microservices architecture? Let's discuss how microservices can transform your application architecture and enable independent scaling, deployment, and evolution."
         :show-contact-form="false"
-        cta-image="/assets/img/services/microservices-cta.jpg"
+        :cta-image="$assetPath('/assets/img/services/microservices-cta.jpg')"
         class="service-section-last"
       />
 

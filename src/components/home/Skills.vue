@@ -94,7 +94,7 @@
                 <div class="col-12 mb-5">
                   <div class="skill-category-card">
                     <div class="category-header">
-                      <img src="/assets/img/Icons/analytics.png" alt="Analytics" class="category-icon icon-img-lg" />
+                      <img :src="$assetPath('/assets/img/Icons/analytics.png')" alt="Analytics" class="category-icon icon-img-lg" />
                       <h5>📊 Data & Analytics</h5>
                     </div>
                     <div class="row">
@@ -113,7 +113,7 @@
                 <div class="col-12 mb-5">
                   <div class="skill-category-card">
                     <div class="category-header">
-                      <img src="/assets/img/Icons/pipelines.png" alt="Project Management" class="category-icon icon-img-lg" />
+                      <img :src="$assetPath('/assets/img/Icons/pipelines.png')" alt="Project Management" class="category-icon icon-img-lg" />
                       <h5>🎯 Project Management</h5>
                     </div>
                     <div class="row">
@@ -132,7 +132,7 @@
                 <div class="col-12">
                   <div class="skill-category-card">
                     <div class="category-header">
-                      <img src="/assets/img/Icons/power apps.png" alt="Microsoft Tools" class="category-icon icon-img-lg" />
+                      <img :src="$assetPath('/assets/img/Icons/power apps.png')" alt="Microsoft Tools" class="category-icon icon-img-lg" />
                       <h5>🛠️ Microsoft & Enterprise Tools</h5>
                     </div>
                     <div class="row">

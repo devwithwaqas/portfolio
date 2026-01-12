@@ -7,7 +7,7 @@
         title="Azure Cloud Architecture"
         icon-name="azure"
         tagline="Design and implementation of cloud-native solutions using Microsoft Azure. From architecture design to deployment, I deliver scalable, secure, and cost-effective cloud infrastructure that drives business growth."
-        hero-image="/assets/img/services/azure-hero.jpg"
+        :hero-image="$assetPath('/assets/img/services/azure-hero.jpg')"
         :benefits="heroBenefits"
         :badges="heroBadges"
         class="service-section-first"
@@ -32,7 +32,7 @@
         :steps="processSteps"
         timeline="4-8 weeks (typical cloud migration/architecture project)"
         :engagement-models="engagementModels"
-        process-image="/assets/img/services/azure-process.jpg"
+        :process-image="$assetPath('/assets/img/services/azure-process.jpg')"
       />
 
       <!-- Technologies -->
@@ -56,7 +56,7 @@
       <ServiceCTA
         cta-text="Ready to migrate to Azure or build cloud-native solutions? Let's discuss your cloud architecture needs and create a scalable, secure, and cost-effective solution that transforms your infrastructure."
         :show-contact-form="false"
-        cta-image="/assets/img/services/azure-cta.jpg"
+        :cta-image="$assetPath('/assets/img/services/azure-cta.jpg')"
         class="service-section-last"
       />
 

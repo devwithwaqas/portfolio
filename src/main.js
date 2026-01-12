@@ -2,12 +2,17 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { DEBUG_CONFIG } from './config/constants'
+import { assetPath } from './utils/assetPath.js'
 
 // Import CSS
 import './assets/css/font-sizes.css'
 import './assets/css/main.css'
 
 const app = createApp(App)
+
+// Add global asset path helper for use in templates
+app.config.globalProperties.$assetPath = assetPath
+
 app.use(router)
 app.mount('#app')
 

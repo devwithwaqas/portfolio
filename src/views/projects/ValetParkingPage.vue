@@ -64,7 +64,7 @@
       <DiagramViewer 
         title="C4 Architecture Diagram"
         :icon-name="PROJECT_ICON_NAMES.ARCHITECTURE_OVERVIEW"
-        diagram-src="/assets/diagrams/ValetParking_C4_Diagram.svg"
+        :diagram-src="$assetPath('/assets/diagrams/ValetParking_C4_Diagram.svg')"
         :narration-steps="valetParkingNarrationSteps"
         :svg-width="15087"
         :svg-height="8356"

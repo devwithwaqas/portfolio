@@ -5,16 +5,16 @@
       <!-- View Controls (Centered) -->
       <div class="toolbar-group view-group view-group-centered">
         <button class="toolbar-btn primary" title="Zoom into diagram" @click="$emit('zoomIn')">
-          <img src="/assets/img/Icons/zoom in.png" alt="Zoom In" class="icon-md icon-wrapper-md">
+          <img :src="$assetPath('/assets/img/Icons/zoom in.png')" alt="Zoom In" class="icon-md icon-wrapper-md">
         </button>
         <button class="toolbar-btn primary" title="Zoom out of diagram" @click="$emit('zoomOut')">
-          <img src="/assets/img/Icons/zoom out.png" alt="Zoom Out" class="icon-md icon-wrapper-md">
+          <img :src="$assetPath('/assets/img/Icons/zoom out.png')" alt="Zoom Out" class="icon-md icon-wrapper-md">
         </button>
         <button class="toolbar-btn primary" title="Fit diagram to initial size" @click="$emit('fitToInitialSize')">
-          <img src="/assets/img/Icons/fit to view.png" alt="Fit to Initial Size" class="icon-md icon-wrapper-md">
+          <img :src="$assetPath('/assets/img/Icons/fit to view.png')" alt="Fit to Initial Size" class="icon-md icon-wrapper-md">
         </button>
         <button class="toolbar-btn primary" title="Reset view to default" @click="$emit('resetView')">
-          <img src="/assets/img/Icons/reset view.png" alt="Reset View" class="icon-md icon-wrapper-md">
+          <img :src="$assetPath('/assets/img/Icons/reset view.png')" alt="Reset View" class="icon-md icon-wrapper-md">
         </button>
       </div>
     </div>

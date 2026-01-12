@@ -64,7 +64,7 @@
       <DiagramViewer 
         title="C4 Architecture Diagram"
         :icon-name="PROJECT_ICON_NAMES.ARCHITECTURE_OVERVIEW"
-        diagram-src="/assets/diagrams/MobileGames_C4_Diagram.svg"
+        :diagram-src="$assetPath('/assets/diagrams/MobileGames_C4_Diagram.svg')"
         :narration-steps="mobileGamesNarrationSteps"
         :svg-width="8637"
         :svg-height="6659"

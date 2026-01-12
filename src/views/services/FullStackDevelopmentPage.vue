@@ -7,7 +7,7 @@
         title="Full Stack Development"
         icon-name="full stack development"
         tagline="End-to-end development of enterprise applications tailored to your requirements. Whether you need Angular, Vue.js, React, or any modern frontend framework combined with robust .NET Core backends, I deliver scalable solutions that drive business growth."
-        hero-image="/assets/img/services/full-stack-hero.jpg"
+        :hero-image="$assetPath('/assets/img/services/full-stack-hero.jpg')"
         :benefits="heroBenefits"
         :badges="heroBadges"
         class="service-section-first"
@@ -32,7 +32,7 @@
         :steps="processSteps"
         timeline="8-12 weeks (typical project)"
         :engagement-models="engagementModels"
-        process-image="/assets/img/services/full-stack-process.jpg"
+        :process-image="$assetPath('/assets/img/services/full-stack-process.jpg')"
       />
 
       <!-- Technologies -->
@@ -56,7 +56,7 @@
       <ServiceCTA
         cta-text="Ready to build your full stack application? Whether you need Vue.js, React, Angular, or any modern frontend framework, let's discuss your project requirements and create a solution tailored to your needs that drives your business forward."
         :show-contact-form="false"
-        cta-image="/assets/img/services/full-stack-cta.jpg"
+        :cta-image="$assetPath('/assets/img/services/full-stack-cta.jpg')"
         class="service-section-last"
       />
 

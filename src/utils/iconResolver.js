@@ -4,6 +4,8 @@
  * Priority: 1. Devicon > 2. Local Icons > 3. Simple Icons/Other > 4. Emoji Fallback
  */
 
+import { assetPath } from './assetPath.js'
+
 // Comprehensive mapping of technology names to their icon sources
 const ICON_MAP = {
   // .NET Technologies
@@ -1388,13 +1390,13 @@ function findTechnologySpecificIcon(techName) {
           } else if (iconMapping.local) {
             return {
               type: 'local',
-              src: `/assets/img/Icons/${iconMapping.local}`,
+              src: assetPath(`/assets/img/Icons/${iconMapping.local}`),
               alt: techName
             }
           } else if (iconMapping.icon) {
             return {
               type: 'local',
-              src: `/assets/img/Icons/${iconMapping.icon}`,
+              src: assetPath(`/assets/img/Icons/${iconMapping.icon}`),
               alt: techName
             }
           }
@@ -1421,7 +1423,7 @@ export function resolveIcon(techName, fallbackName = null) {
   if (techName.toLowerCase() === 'postgis') {
     return {
       type: 'local',
-      src: '/assets/img/Icons/postgis.png',
+      src: assetPath('/assets/img/Icons/postgis.png'),
       alt: 'PostGIS'
     }
   }
@@ -1430,7 +1432,7 @@ export function resolveIcon(techName, fallbackName = null) {
   if (techName.toLowerCase() === 'chart.js') {
     return {
       type: 'local',
-      src: '/assets/img/Icons/chartsjs.png',
+      src: assetPath('/assets/img/Icons/chartsjs.png'),
       alt: 'Chart.js'
     }
   }
@@ -1443,7 +1445,7 @@ export function resolveIcon(techName, fallbackName = null) {
       lowerName === 'sound and audio management') {
     return {
       type: 'local',
-      src: '/assets/img/Icons/speech.png',
+      src: assetPath('/assets/img/Icons/speech.png'),
       alt: 'Sound & Audio Management'
     }
   }
@@ -1471,7 +1473,7 @@ export function resolveIcon(techName, fallbackName = null) {
       (normalized.includes('push notification') && normalized.includes('apns'))) {
     return {
       type: 'local',
-      src: '/assets/img/Icons/push notification.png',
+      src: assetPath('/assets/img/Icons/push notification.png'),
       alt: techName
     }
   }
@@ -1486,7 +1488,7 @@ export function resolveIcon(techName, fallbackName = null) {
       if (localIcon) {
         return {
           type: 'local',
-          src: `/assets/img/Icons/${localIcon}`,
+          src: assetPath(`/assets/img/Icons/${localIcon}`),
           alt: techName
         }
       }
@@ -1497,7 +1499,7 @@ export function resolveIcon(techName, fallbackName = null) {
       if (exactMatch.local) {
         return {
           type: 'local',
-          src: `/assets/img/Icons/${exactMatch.local}`,
+          src: assetPath(`/assets/img/Icons/${exactMatch.local}`),
           alt: techName
         }
       }
@@ -1514,7 +1516,7 @@ export function resolveIcon(techName, fallbackName = null) {
   if (bestLocalMatch) {
     return {
       type: 'local',
-      src: `/assets/img/Icons/${bestLocalMatch}`,
+      src: assetPath(`/assets/img/Icons/${bestLocalMatch}`),
       alt: techName
     }
   }

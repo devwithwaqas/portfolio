@@ -64,7 +64,7 @@
       <DiagramViewer 
         title="C4 Architecture Diagram"
         :icon-name="PROJECT_ICON_NAMES.ARCHITECTURE_OVERVIEW"
-        diagram-src="/assets/diagrams/UKPropertyManagement_C4_Diagram.svg"
+        :diagram-src="$assetPath('/assets/diagrams/UKPropertyManagement_C4_Diagram.svg')"
         :narration-steps="ukPropertyManagementNarrationSteps"
         :svg-width="20103"
         :svg-height="9146"
