@@ -75,6 +75,7 @@ import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
+import { assetPath } from '@/utils/assetPath.js'
 
 export default {
   name: 'FullStackDevelopmentPage',
@@ -101,9 +102,9 @@ export default {
 
     // Overview Banner Images (LinkedIn cover style - wide, short)
     const overviewBannerImages = ref([
-      '/assets/img/services/full-stack-banner-1.jpg',
-      '/assets/img/services/full-stack-banner-2.jpg',
-      '/assets/img/services/full-stack-banner-3.jpg'
+      assetPath('/assets/img/services/full-stack-banner-1.jpg'),
+      assetPath('/assets/img/services/full-stack-banner-2.jpg'),
+      assetPath('/assets/img/services/full-stack-banner-3.jpg')
     ])
 
     // Overview Content
@@ -284,7 +285,7 @@ export default {
         project: "G5 POS",
         link: "/projects/g5-pos",
         description: "Full stack restaurant management system with .NET Core backend and Angular frontend, handling 1M+ daily transactions across 50+ locations.",
-        image: "/assets/img/g51.jpg",
+        image: assetPath("/assets/img/g51.jpg"),
         metrics: {
           label: "Order Processing",
           value: "60% faster"
@@ -294,7 +295,7 @@ export default {
         project: "Gamified Employee Management",
         link: "/projects/gamified-employee-management",
         description: "Complete employee engagement platform with microservices architecture, real-time leaderboards, and comprehensive analytics.",
-        image: "/assets/img/sf1.jpg",
+        image: assetPath("/assets/img/sf1.jpg"),
         metrics: {
           label: "Engagement",
           value: "45% increase"
@@ -304,7 +305,7 @@ export default {
         project: "UK Property Management",
         link: "/projects/uk-property-management",
         description: "Azure-native property management platform managing 9,000+ properties with full stack Angular and .NET Core implementation.",
-        image: "/assets/img/gpc1.jpg",
+        image: assetPath("/assets/img/gpc1.jpg"),
         metrics: {
           label: "Properties Managed",
           value: "9,000+"

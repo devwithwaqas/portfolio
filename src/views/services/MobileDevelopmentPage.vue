@@ -75,6 +75,7 @@ import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
+import { assetPath } from '@/utils/assetPath.js'
 
 export default {
   name: 'MobileDevelopmentPage',
@@ -101,9 +102,9 @@ export default {
 
     // Overview Banner Images
     const overviewBannerImages = ref([
-      '/assets/img/services/mobile-banner-1.jpg',
-      '/assets/img/services/mobile-banner-2.jpg',
-      '/assets/img/services/mobile-banner-3.jpg'
+      assetPath('/assets/img/services/mobile-banner-1.jpg'),
+      assetPath('/assets/img/services/mobile-banner-2.jpg'),
+      assetPath('/assets/img/services/mobile-banner-3.jpg')
     ])
 
     // Overview Content
@@ -324,7 +325,7 @@ export default {
         project: "Mobile Games",
         link: "/projects/mobile-games",
         description: "Native Android game development with 2D graphics, physics engine, sound management, and Google Play integration. Achieved high user engagement and positive reviews.",
-        image: "/assets/img/in1.jpg",
+        image: assetPath("/assets/img/in1.jpg"),
         metrics: {
           label: "User Engagement",
           value: "High Ratings"
@@ -334,7 +335,7 @@ export default {
         project: "AirAsia ID90",
         link: "/projects/airasia-id90",
         description: "Enterprise employee travel discount system with mobile capabilities, real-time flight availability, and seamless booking experience for AirAsia employees.",
-        image: "/assets/img/airasia1.jpg",
+        image: assetPath("/assets/img/airasia1.jpg"),
         metrics: {
           label: "User Base",
           value: "Enterprise"

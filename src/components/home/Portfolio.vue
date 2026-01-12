@@ -118,6 +118,7 @@
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
 import EpicCard from '../common/EpicCard.vue'
+import { assetPath } from '../../utils/assetPath.js'
 
 export default {
   name: 'Portfolio',
@@ -131,7 +132,7 @@ export default {
         {
           title: 'Heat Exchanger Portal',
           subtitle: 'Enterprise Thermal Management',
-          bannerImage: '/assets/img/he1.jpg',
+          bannerImage: assetPath('/assets/img/he1.jpg'),
           detailsLink: '/projects/heat-exchanger',
           techStack: [
             { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
@@ -144,7 +145,7 @@ export default {
         {
           title: 'Air Asia ID90',
           subtitle: 'Allstars Portal & Refund System',
-          bannerImage: '/assets/img/aa1.jpg',
+          bannerImage: assetPath('/assets/img/aa1.jpg'),
           detailsLink: '/projects/airasia-id90',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
@@ -157,7 +158,7 @@ export default {
         {
           title: 'BAT Inhouse App',
           subtitle: 'British American Tobacco Management',
-          bannerImage: '/assets/img/bat1.jpg',
+          bannerImage: assetPath('/assets/img/bat1.jpg'),
           detailsLink: '/projects/bat-inhouse-app',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
@@ -169,7 +170,7 @@ export default {
         {
           title: 'PJ Smart City',
           subtitle: 'Petaling Jaya Smart City Platform',
-          bannerImage: '/assets/img/pj1.jpg',
+          bannerImage: assetPath('/assets/img/pj1.jpg'),
           detailsLink: '/projects/pj-smart-city',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
@@ -181,7 +182,7 @@ export default {
         {
           title: 'Gamified Employee Management',
           subtitle: 'Syntronic Employee Engagement Platform',
-          bannerImage: '/assets/img/sf1.jpg',
+          bannerImage: assetPath('/assets/img/sf1.jpg'),
           detailsLink: '/projects/gamified-employee-management',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
@@ -193,7 +194,7 @@ export default {
         {
           title: 'Valet Parking',
           subtitle: 'Secure Parking UAE Management System',
-          bannerImage: '/assets/img/vp1.jpg',
+          bannerImage: assetPath('/assets/img/vp1.jpg'),
           detailsLink: '/projects/valet-parking',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
@@ -205,7 +206,7 @@ export default {
         {
           title: 'Mobile Games Collection',
           subtitle: 'Geniteam Java & AndEngine Games',
-          bannerImage: '/assets/img/gd1.jpg',
+          bannerImage: assetPath('/assets/img/gd1.jpg'),
           detailsLink: '/projects/mobile-games',
           techStack: [
             { name: 'Java', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg' },
@@ -215,7 +216,7 @@ export default {
         {
           title: 'UK Property Management Platform',
           subtitle: 'Azure-Based Residential Property Management System',
-          bannerImage: '/assets/img/gpc1.jpg',
+          bannerImage: assetPath('/assets/img/gpc1.jpg'),
           detailsLink: '/projects/uk-property-management',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
@@ -227,7 +228,7 @@ export default {
         {
           title: 'G5 POS',
           subtitle: 'Squad Cell Point of Sale System',
-          bannerImage: '/assets/img/g51.jpg',
+          bannerImage: assetPath('/assets/img/g51.jpg'),
           detailsLink: '/projects/g5-pos',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
@@ -238,7 +239,7 @@ export default {
         {
           title: 'Confidential Insurance Clients',
           subtitle: 'Enterprise Insurance Management Platform',
-          bannerImage: '/assets/img/in1.jpg',
+          bannerImage: assetPath('/assets/img/in1.jpg'),
           detailsLink: '/projects/chubb-insurance-applications',
           techStack: [
             { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },

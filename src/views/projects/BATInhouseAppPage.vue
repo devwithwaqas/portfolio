@@ -135,6 +135,7 @@ import {
   TECH_CATEGORIES, 
   ROI_ICON_NAMES 
 } from '../../config/constants.js'
+import { assetPath } from '../../utils/assetPath.js'
 
 // Import narration steps
 import { batNarrationSteps } from '../../config/batNarration.js'
@@ -185,10 +186,10 @@ export default {
         title: "BAT Inhouse App Gallery",
         projectName: "BAT Inhouse App",
         images: [
-          "/assets/img/bat1.jpg",
-          "/assets/img/bat2.jpg",
-          "/assets/img/bat3.jpg",
-          "/assets/img/bat4.jpg"
+          assetPath("/assets/img/bat1.jpg"),
+          assetPath("/assets/img/bat2.jpg"),
+          assetPath("/assets/img/bat3.jpg"),
+          assetPath("/assets/img/bat4.jpg")
         ]
       },
       projectOverviewData: {

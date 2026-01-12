@@ -129,6 +129,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
 import { 
@@ -187,10 +188,10 @@ export default {
       title: "G5 POS Gallery",
       projectName: "G5 POS",
       images: [
-        "/assets/img/g51.jpg",
-        "/assets/img/g52.jpg",
-        "/assets/img/g53.jpg",
-        "/assets/img/g54.jpg"
+        assetPath("/assets/img/g51.jpg"),
+        assetPath("/assets/img/g52.jpg"),
+        assetPath("/assets/img/g53.jpg"),
+        assetPath("/assets/img/g54.jpg")
       ]
     })
 

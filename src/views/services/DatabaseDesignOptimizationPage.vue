@@ -75,6 +75,7 @@ import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
+import { assetPath } from '@/utils/assetPath.js'
 
 export default {
   name: 'DatabaseDesignOptimizationPage',
@@ -101,9 +102,9 @@ export default {
 
     // Overview Banner Images
     const overviewBannerImages = ref([
-      '/assets/img/services/database-banner-1.jpg',
-      '/assets/img/services/database-banner-2.jpg',
-      '/assets/img/services/database-banner-3.jpg'
+      assetPath('/assets/img/services/database-banner-1.jpg'),
+      assetPath('/assets/img/services/database-banner-2.jpg'),
+      assetPath('/assets/img/services/database-banner-3.jpg')
     ])
 
     // Overview Content
@@ -287,7 +288,7 @@ export default {
         project: "Heat Exchanger Portal",
         link: "/projects/heat-exchanger",
         description: "Optimized database handling 2.5 million data points daily, implemented strategic indexing, query optimization, and achieved 65% reduction in response times.",
-        image: "/assets/img/he1.jpg",
+        image: assetPath("/assets/img/he1.jpg"),
         metrics: {
           label: "Performance",
           value: "65% faster"
@@ -297,7 +298,7 @@ export default {
         project: "G5 POS",
         link: "/projects/g5-pos",
         description: "Designed and optimized database for restaurant management system handling 1M+ daily transactions across 50+ locations with high performance and reliability.",
-        image: "/assets/img/g51.jpg",
+        image: assetPath("/assets/img/g51.jpg"),
         metrics: {
           label: "Transactions",
           value: "1M+ daily"
@@ -307,7 +308,7 @@ export default {
         project: "UK Property Management",
         link: "/projects/uk-property-management",
         description: "Designed database schema for property management platform managing 9,000+ properties with optimized queries, indexing, and Entity Framework Core integration.",
-        image: "/assets/img/gpc1.jpg",
+        image: assetPath("/assets/img/gpc1.jpg"),
         metrics: {
           label: "Properties",
           value: "9,000+"

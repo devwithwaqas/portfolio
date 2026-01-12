@@ -148,6 +148,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
 import { 
@@ -200,11 +201,11 @@ export default {
       title: "Gamified Employee Management Gallery",
       projectName: "Gamified Employee Management",
       images: [
-        "/assets/img/sf1.jpg",
-        "/assets/img/sf2.jpg",
-        "/assets/img/sf3.jpg",
-        "/assets/img/sf4.jpg",
-        "/assets/img/sf5.jpg"
+        assetPath("/assets/img/sf1.jpg"),
+        assetPath("/assets/img/sf2.jpg"),
+        assetPath("/assets/img/sf3.jpg"),
+        assetPath("/assets/img/sf4.jpg"),
+        assetPath("/assets/img/sf5.jpg")
       ]
     })
 

@@ -75,6 +75,7 @@ import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
+import { assetPath } from '@/utils/assetPath.js'
 
 export default {
   name: 'TechnicalLeadershipPage',
@@ -101,9 +102,9 @@ export default {
 
     // Overview Banner Images
     const overviewBannerImages = ref([
-      '/assets/img/services/leadership-banner-1.jpg',
-      '/assets/img/services/leadership-banner-2.jpg',
-      '/assets/img/services/leadership-banner-3.jpg'
+      assetPath('/assets/img/services/leadership-banner-1.jpg'),
+      assetPath('/assets/img/services/leadership-banner-2.jpg'),
+      assetPath('/assets/img/services/leadership-banner-3.jpg')
     ])
 
     // Overview Content
@@ -283,7 +284,7 @@ export default {
         project: "G5 POS",
         link: "/projects/g5-pos",
         description: "Led development team building restaurant management system, established coding standards, conducted code reviews, and mentored developers on microservices architecture.",
-        image: "/assets/img/g51.jpg",
+        image: assetPath("/assets/img/g51.jpg"),
         metrics: {
           label: "Team Size",
           value: "5+ developers"
@@ -293,7 +294,7 @@ export default {
         project: "Gamified Employee Management",
         link: "/projects/gamified-employee-management",
         description: "Provided technical leadership for enterprise employee engagement platform, made architecture decisions, established best practices, and mentored team on microservices patterns.",
-        image: "/assets/img/sf1.jpg",
+        image: assetPath("/assets/img/sf1.jpg"),
         metrics: {
           label: "Architecture",
           value: "Microservices"
@@ -303,7 +304,7 @@ export default {
         project: "Insurance Clients",
         link: "/projects/insurance-clients",
         description: "Led technical team for insurance platform, established CI/CD practices, conducted code reviews, and drove adoption of modern development practices.",
-        image: "/assets/img/in1.jpg",
+        image: assetPath("/assets/img/in1.jpg"),
         metrics: {
           label: "Deployment",
           value: "90% faster"

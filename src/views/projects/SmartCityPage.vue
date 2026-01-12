@@ -129,6 +129,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
 import { 
@@ -187,8 +188,8 @@ export default {
       title: "Project Gallery",
       projectName: "PJ Smart City",
       images: [
-        "/assets/img/pj1.jpg",
-        "/assets/img/pj2.jpg"
+        assetPath("/assets/img/pj1.jpg"),
+        assetPath("/assets/img/pj2.jpg")
       ]
     })
 

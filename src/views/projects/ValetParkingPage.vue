@@ -137,6 +137,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
 import { 
@@ -190,10 +191,10 @@ export default {
       title: "Valet Parking Gallery",
       projectName: "Valet Parking",
       images: [
-        "/assets/img/vp1.jpg",
-        "/assets/img/vp2.jpg",
-        "/assets/img/vp3.jpg",
-        "/assets/img/vp4.jpg"
+        assetPath("/assets/img/vp1.jpg"),
+        assetPath("/assets/img/vp2.jpg"),
+        assetPath("/assets/img/vp3.jpg"),
+        assetPath("/assets/img/vp4.jpg")
       ]
     })
 

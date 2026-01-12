@@ -137,6 +137,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
 import { 
@@ -188,9 +189,9 @@ export default {
       title: "UK Property Management Gallery",
       projectName: "UK Property Management Platform",
       images: [
-        "/assets/img/gpc1.jpg",
-        "/assets/img/gpc2.jpg",
-        "/assets/img/gpc3.jpg"
+        assetPath("/assets/img/gpc1.jpg"),
+        assetPath("/assets/img/gpc2.jpg"),
+        assetPath("/assets/img/gpc3.jpg")
       ]
     })
 

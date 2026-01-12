@@ -75,6 +75,7 @@ import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
+import { assetPath } from '@/utils/assetPath.js'
 
 export default {
   name: 'AgileProjectManagementPage',
@@ -101,9 +102,9 @@ export default {
 
     // Overview Banner Images
     const overviewBannerImages = ref([
-      '/assets/img/services/agile-banner-1.jpg',
-      '/assets/img/services/agile-banner-2.jpg',
-      '/assets/img/services/agile-banner-3.jpg'
+      assetPath('/assets/img/services/agile-banner-1.jpg'),
+      assetPath('/assets/img/services/agile-banner-2.jpg'),
+      assetPath('/assets/img/services/agile-banner-3.jpg')
     ])
 
     // Overview Content
@@ -283,7 +284,7 @@ export default {
         project: "G5 POS",
         link: "/projects/g5-pos",
         description: "Led agile development team building restaurant management system, conducted sprint planning, daily standups, and retrospectives, ensuring timely delivery across 50+ locations.",
-        image: "/assets/img/g51.jpg",
+        image: assetPath("/assets/img/g51.jpg"),
         metrics: {
           label: "Delivery",
           value: "On-time"
@@ -293,7 +294,7 @@ export default {
         project: "Insurance Clients",
         link: "/projects/insurance-clients",
         description: "Managed agile development for enterprise insurance platform, coordinated multiple teams, facilitated Scrum of Scrums, and ensured 90% faster deployment through agile practices.",
-        image: "/assets/img/in1.jpg",
+        image: assetPath("/assets/img/in1.jpg"),
         metrics: {
           label: "Deployment",
           value: "90% faster"
@@ -303,7 +304,7 @@ export default {
         project: "Gamified Employee Management",
         link: "/projects/gamified-employee-management",
         description: "Led agile team for employee engagement platform, managed product backlog, conducted sprint reviews, and delivered comprehensive microservices solution on schedule.",
-        image: "/assets/img/sf1.jpg",
+        image: assetPath("/assets/img/sf1.jpg"),
         metrics: {
           label: "Engagement",
           value: "45% increase"

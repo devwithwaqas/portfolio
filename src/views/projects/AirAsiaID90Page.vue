@@ -137,6 +137,7 @@ import ProjectInfo from '../../components/projects/ProjectInfo.vue'
 import ROISection from '../../components/projects/ROISection.vue'
 import { TECH_CATEGORIES, PROJECT_ICON_NAMES, PROJECT_CATEGORIES, ROI_ICON_NAMES } from '../../config/constants.js'
 import { airasiaNarrationSteps } from '../../config/airasiaNarration.js'
+import { assetPath } from '../../utils/assetPath.js'
 
 export default {
   name: 'AirAsiaID90Page',
@@ -183,13 +184,13 @@ export default {
         title: "Project Gallery",
         projectName: "AirAsia ID90 Portal",
         images: [
-          "/assets/img/aa1.jpg",
-          "/assets/img/aa2.jpg",
-          "/assets/img/aa3.jpg",
-          "/assets/img/aa4.jpg",
-          "/assets/img/aa5.jpg",
-          "/assets/img/aa6.jpg",
-          "/assets/img/aa7.jpg"
+          assetPath("/assets/img/aa1.jpg"),
+          assetPath("/assets/img/aa2.jpg"),
+          assetPath("/assets/img/aa3.jpg"),
+          assetPath("/assets/img/aa4.jpg"),
+          assetPath("/assets/img/aa5.jpg"),
+          assetPath("/assets/img/aa6.jpg"),
+          assetPath("/assets/img/aa7.jpg")
         ]
       },
       projectOverviewData: {

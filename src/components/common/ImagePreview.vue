@@ -8,7 +8,7 @@
       >
         <!-- Close Button -->
         <button class="close-btn" @click="close" aria-label="Close">
-          <img src="/assets/img/Icons/close.png" alt="Close" class="icon-img-2xl" />
+          <img :src="$assetPath('/assets/img/Icons/close.png')" alt="Close" class="icon-img-2xl" />
         </button>
 
         <!-- Zoom Wrapper -->

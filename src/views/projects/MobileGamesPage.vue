@@ -137,6 +137,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
 import { 
@@ -190,10 +191,10 @@ export default {
       title: "Mobile Games Collection Gallery",
       projectName: "Mobile Games Collection",
       images: [
-        "/assets/img/gd1.jpg",
-        "/assets/img/gd2.jpg",
-        "/assets/img/gd3.jpg",
-        "/assets/img/gd4.jpg"
+        assetPath("/assets/img/gd1.jpg"),
+        assetPath("/assets/img/gd2.jpg"),
+        assetPath("/assets/img/gd3.jpg"),
+        assetPath("/assets/img/gd4.jpg")
       ]
     })
 

@@ -63,7 +63,7 @@
       <!-- Architecture Diagram (Full Width) -->
       <DiagramViewer 
         title="Heat Exchanger Portal - Enterprise Microservices Architecture"
-        diagramSrc="/assets/img/heat-exchanger-diagram.svg"
+        :diagramSrc="$assetPath('/assets/img/heat-exchanger-diagram.svg')"
         :narrationSteps="narrationSteps"
       />
       
@@ -140,6 +140,7 @@ import MetricsFramework from '../../components/projects/MetricsFramework.vue'
 import ROISection from '../../components/projects/ROISection.vue'
 import { heatExchangerNarrationSteps } from '../../config/heatExchangerNarration'
 import { TECH_CATEGORIES, PROJECT_ICON_NAMES, PROJECT_CATEGORIES, ROI_ICON_NAMES } from '../../config/constants.js'
+import { assetPath } from '../../utils/assetPath.js'
 
 export default {
   name: 'HeatExchangerPage',
@@ -189,10 +190,10 @@ export default {
         title: 'Project Gallery',
         projectName: 'Heat Exchanger Portal',
         images: [
-          '/assets/img/he1.jpg',
-          '/assets/img/he2.jpg',
-          '/assets/img/he3.jpg',
-          '/assets/img/he4.jpg'
+          assetPath('/assets/img/he1.jpg'),
+          assetPath('/assets/img/he2.jpg'),
+          assetPath('/assets/img/he3.jpg'),
+          assetPath('/assets/img/he4.jpg')
         ]
       },
       overviewText: 'The Heat Exchanger Portal is a mission-critical .NET Core-based enterprise platform designed for one of the five biggest oil and gas companies in the world, managing billions of dollars in maintenance operations. Hosted on OpenShift container platform with comprehensive monitoring through Grafana and Prometheus, this system processes 2.5 million data points daily from heat exchanger sensors across multiple refineries. The platform integrates Nexus for Docker image management, Apache Kafka for real-time data ingestion (30,000+ messages/second), and advanced predictive maintenance algorithms that forecast equipment failures 24-48 hours in advance with 85% accuracy. Through aggressive optimization, the system achieved a 65% reduction in response times (from 2.3s to 0.8s) while maintaining 99.9% uptime and supporting 15,000+ concurrent users across multiple geographical locations.',

@@ -75,6 +75,7 @@ import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
+import { assetPath } from '@/utils/assetPath.js'
 
 export default {
   name: 'MicroservicesArchitecturePage',
@@ -101,9 +102,9 @@ export default {
 
     // Overview Banner Images
     const overviewBannerImages = ref([
-      '/assets/img/services/microservices-banner-1.jpg',
-      '/assets/img/services/microservices-banner-2.jpg',
-      '/assets/img/services/microservices-banner-3.jpg'
+      assetPath('/assets/img/services/microservices-banner-1.jpg'),
+      assetPath('/assets/img/services/microservices-banner-2.jpg'),
+      assetPath('/assets/img/services/microservices-banner-3.jpg')
     ])
 
     // Overview Content
@@ -292,7 +293,7 @@ export default {
         project: "Gamified Employee Management",
         link: "/projects/gamified-employee-management",
         description: "Microservices architecture with Azure Service Fabric, multiple independent services for gamification, leaderboards, analytics, and multi-tenant support with complete data isolation.",
-        image: "/assets/img/sf1.jpg",
+        image: assetPath("/assets/img/sf1.jpg"),
         metrics: {
           label: "Services",
           value: "10+ microservices"
@@ -302,7 +303,7 @@ export default {
         project: "Insurance Clients",
         link: "/projects/insurance-clients",
         description: "Enterprise microservices platform with independent services for policy management, claims processing, and customer management, enabling independent scaling and deployment.",
-        image: "/assets/img/in1.jpg",
+        image: assetPath("/assets/img/in1.jpg"),
         metrics: {
           label: "Processing",
           value: "70% faster"
@@ -312,7 +313,7 @@ export default {
         project: "G5 POS",
         link: "/projects/g5-pos",
         description: "Restaurant management system with microservices architecture for order processing, inventory, kitchen display, and reporting services across 50+ locations.",
-        image: "/assets/img/g51.jpg",
+        image: assetPath("/assets/img/g51.jpg"),
         metrics: {
           label: "Locations",
           value: "50+"

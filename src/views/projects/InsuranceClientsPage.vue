@@ -137,6 +137,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
 import { 
@@ -189,9 +190,9 @@ export default {
       title: "Insurance Clients Gallery",
       projectName: "Confidential Insurance Clients",
       images: [
-        "/assets/img/in1.jpg",
-        "/assets/img/in2.jpg",
-        "/assets/img/in3.jpg"
+        assetPath("/assets/img/in1.jpg"),
+        assetPath("/assets/img/in2.jpg"),
+        assetPath("/assets/img/in3.jpg")
       ]
     })
 

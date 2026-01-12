@@ -75,6 +75,7 @@ import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
+import { assetPath } from '@/utils/assetPath.js'
 
 export default {
   name: 'AzureCloudArchitecturePage',
@@ -101,9 +102,9 @@ export default {
 
     // Overview Banner Images
     const overviewBannerImages = ref([
-      '/assets/img/services/azure-banner-1.jpg',
-      '/assets/img/services/azure-banner-2.jpg',
-      '/assets/img/services/azure-banner-3.jpg'
+      assetPath('/assets/img/services/azure-banner-1.jpg'),
+      assetPath('/assets/img/services/azure-banner-2.jpg'),
+      assetPath('/assets/img/services/azure-banner-3.jpg')
     ])
 
     // Overview Content
@@ -297,7 +298,7 @@ export default {
         project: "UK Property Management",
         link: "/projects/uk-property-management",
         description: "Azure-native property management platform managing 9,000+ properties with Azure App Services, Azure SQL Database, and comprehensive cloud infrastructure.",
-        image: "/assets/img/gpc1.jpg",
+        image: assetPath("/assets/img/gpc1.jpg"),
         metrics: {
           label: "Properties Managed",
           value: "9,000+"
@@ -307,7 +308,7 @@ export default {
         project: "Insurance Clients",
         link: "/projects/insurance-clients",
         description: "Enterprise insurance platform with microservices architecture on Azure, handling millions of policies with high availability and scalability.",
-        image: "/assets/img/in1.jpg",
+        image: assetPath("/assets/img/in1.jpg"),
         metrics: {
           label: "Uptime",
           value: "99.9%"
@@ -317,7 +318,7 @@ export default {
         project: "Gamified Employee Management",
         link: "/projects/gamified-employee-management",
         description: "Cloud-native employee engagement platform with Azure microservices, real-time processing, and scalable architecture supporting enterprise deployments.",
-        image: "/assets/img/sf1.jpg",
+        image: assetPath("/assets/img/sf1.jpg"),
         metrics: {
           label: "Engagement",
           value: "45% increase"
