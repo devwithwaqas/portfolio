@@ -30,26 +30,38 @@ A modern, responsive portfolio website template built with Vue.js 3 and Vite. Pe
    cd portfolio
    ```
 
-2. **Install dependencies:**
+2. **Set up environment variables:**
+   ```bash
+   # Copy the example environment file
+   cp .env.example .env
+   
+   # Edit .env and add your personal information:
+   # - Personal info (name, location, email, phone)
+   # - Social media links (LinkedIn, GitHub, website, etc.)
+   # - EmailJS credentials (for contact form)
+   # See docs/EMAILJS_SETUP.md for EmailJS setup instructions
+   ```
+
+3. **Install dependencies:**
    ```bash
    npm install
    ```
 
-3. **Start development server:**
+4. **Start development server:**
    ```bash
    npm run dev
    ```
 
-4. **Open your browser:**
+5. **Open your browser:**
    - Navigate to `http://localhost:3000`
    - The app will automatically reload when you make changes
 
-5. **Build for production:**
+6. **Build for production:**
    ```bash
    npm run build
    ```
 
-6. **Preview production build:**
+7. **Preview production build:**
    ```bash
    npm run preview
    ```
@@ -139,8 +151,18 @@ portfolio/
 ### Personalize Your Portfolio
 
 1. **Update Personal Information:**
-   - Edit `src/config/constants.js`
-   - Update name, email, phone, location, social links
+   - Edit your `.env` file (created from `.env.example`)
+   - Update all personal information:
+     - `VITE_FULL_NAME` - Your full name
+     - `VITE_LOCATION` - Your location
+     - `VITE_CONTACT_EMAIL` - Your email address
+     - `VITE_PHONE` - Your phone number
+     - `VITE_LINKEDIN_URL` - Your LinkedIn profile URL
+     - `VITE_GITHUB_URL` - Your GitHub profile URL
+     - `VITE_WEBSITE_URL` - Your personal website (if any)
+     - `VITE_WHATSAPP_URL` - Your WhatsApp link (if any)
+     - `VITE_GOOGLE_MAPS_URL` - Google Maps link to your location
+   - **No need to edit `constants.js`** - it reads from environment variables automatically
 
 2. **Update Content:**
    - Home page sections: `src/components/home/`
@@ -194,6 +216,78 @@ portfolio/
 - Firefox (latest)
 - Safari (latest)
 - Edge (latest)
+
+## 🌐 Deployment & Hosting
+
+### GitHub Pages / Static Hosting
+
+For static hosting (GitHub Pages, Netlify, Vercel, etc.), environment variables need to be set at **build time**:
+
+#### Option 1: GitHub Pages with GitHub Actions (Recommended)
+
+1. **Create GitHub Actions workflow:**
+   - Create `.github/workflows/deploy.yml` (see example below)
+   - Set all environment variables as GitHub Secrets
+
+2. **Set GitHub Secrets:**
+   - Go to: Repository Settings > Secrets and variables > Actions > New repository secret
+   - Add all variables from `.env.example`:
+     - `VITE_FULL_NAME`, `VITE_LOCATION`, `VITE_CONTACT_EMAIL`, `VITE_PHONE`
+     - `VITE_LINKEDIN_URL`, `VITE_GITHUB_URL`, `VITE_WEBSITE_URL`, `VITE_WHATSAPP_URL`, `VITE_GOOGLE_MAPS_URL`
+     - `VITE_EMAILJS_PUBLIC_KEY`, `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID`
+
+3. **GitHub Actions Workflow Example:**
+   ```yaml
+   name: Deploy to GitHub Pages
+   
+   on:
+     push:
+       branches: [ main ]
+   
+   jobs:
+     deploy:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v3
+         - uses: actions/setup-node@v3
+           with:
+             node-version: '18'
+         - run: npm install
+         - run: npm run build
+           env:
+             VITE_FULL_NAME: ${{ secrets.VITE_FULL_NAME }}
+             VITE_LOCATION: ${{ secrets.VITE_LOCATION }}
+             VITE_CONTACT_EMAIL: ${{ secrets.VITE_CONTACT_EMAIL }}
+             VITE_PHONE: ${{ secrets.VITE_PHONE }}
+             VITE_LINKEDIN_URL: ${{ secrets.VITE_LINKEDIN_URL }}
+             VITE_GITHUB_URL: ${{ secrets.VITE_GITHUB_URL }}
+             VITE_WEBSITE_URL: ${{ secrets.VITE_WEBSITE_URL }}
+             VITE_WHATSAPP_URL: ${{ secrets.VITE_WHATSAPP_URL }}
+             VITE_GOOGLE_MAPS_URL: ${{ secrets.VITE_GOOGLE_MAPS_URL }}
+             VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+             VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
+             VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+         - uses: peaceiris/actions-gh-pages@v3
+           with:
+             github_token: ${{ secrets.GITHUB_TOKEN }}
+             publish_dir: ./dist
+   ```
+
+#### Option 2: Netlify / Vercel
+
+1. **Netlify:**
+   - Go to Site Settings > Environment Variables
+   - Add all variables from `.env.example`
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+
+2. **Vercel:**
+   - Go to Project Settings > Environment Variables
+   - Add all variables from `.env.example`
+   - Build command: `npm run build`
+   - Output directory: `dist`
+
+**Important:** Environment variables are injected at build time, so they become part of the static bundle. This is secure for public values but remember that EmailJS public keys are meant to be public anyway.
 
 ## 📄 License
 

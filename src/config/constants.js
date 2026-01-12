@@ -1,26 +1,30 @@
 // Basic constants for the portfolio application
+// All personal information comes from environment variables (.env file)
+// See .env.example for setup instructions
 export const APP_CONFIG = {
-  fullName: "Waqas Ahmad",
-  location: "Kuala Lumpur, Malaysia",
-  linkedin: "https://www.linkedin.com/in/waqas1430/",
-  github: "https://github.com/devwithwaqas",
-  email: "devwithwaqas@gmail.com",
-  phone: "+60146806067",
+  fullName: import.meta.env.VITE_FULL_NAME || "Your Name",
+  location: import.meta.env.VITE_LOCATION || "Your Location",
+  linkedin: import.meta.env.VITE_LINKEDIN_URL || "",
+  github: import.meta.env.VITE_GITHUB_URL || "",
+  email: import.meta.env.VITE_CONTACT_EMAIL || "your.email@example.com",
+  phone: import.meta.env.VITE_PHONE || "",
   portfolio: "#portfolio",
   contactLinks: {
-    email: "mailto:devwithwaqas@gmail.com",
-    phone: "tel:+60146806067",
-    linkedin: "https://www.linkedin.com/in/waqas1430/",
-    github: "https://github.com/devwithwaqas",
-    website: "https://www.waqasahmad.com",
-    whatsapp: "https://wa.me/60146806067",
-    location: "https://www.google.com/maps/search/?api=1&query=Kuala+Lumpur,+Malaysia"
+    email: `mailto:${import.meta.env.VITE_CONTACT_EMAIL || "your.email@example.com"}`,
+    phone: `tel:${import.meta.env.VITE_PHONE || ""}`,
+    linkedin: import.meta.env.VITE_LINKEDIN_URL || "",
+    github: import.meta.env.VITE_GITHUB_URL || "",
+    website: import.meta.env.VITE_WEBSITE_URL || "",
+    whatsapp: import.meta.env.VITE_WHATSAPP_URL || "",
+    location: import.meta.env.VITE_GOOGLE_MAPS_URL || ""
   },
   // EmailJS Configuration for Contact Form
+  // These values come from environment variables (.env file)
+  // See .env.example for setup instructions
   emailjs: {
-    publicKey: 'HIrGCZA4UsU44mz7S', // Your EmailJS Public Key (found in Account > API Keys)
-    serviceId: 'service_t762oxc', // Your EmailJS Service ID (found in Email Services)
-    templateId: 'template_clfbq4g' // Your EmailJS Template ID (found in Email Templates)
+    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '', // From .env file
+    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || '', // From .env file
+    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '' // From .env file
   },
   // About section data - Will be calculated dynamically from work experience
   totalExperience: 17, // Calculated from Jan 1, 2008 to present
