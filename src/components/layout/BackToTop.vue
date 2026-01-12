@@ -22,13 +22,20 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('scroll', this.handleScroll)
+    // Use passive listener and RAF to batch updates
+    this.scrollHandler = () => {
+      requestAnimationFrame(() => {
+        this.isVisible = window.scrollY > 100
+      })
+    }
+    window.addEventListener('scroll', this.scrollHandler, { passive: true })
   },
   beforeUnmount() {
-    window.removeEventListener('scroll', this.handleScroll)
+    window.removeEventListener('scroll', this.scrollHandler)
   },
   methods: {
     handleScroll() {
+      // This method is kept for compatibility but not used directly
       this.isVisible = window.scrollY > 100
     },
     scrollToTop() {

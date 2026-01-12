@@ -220,14 +220,18 @@ class AnimationController {
     // Check if mobile device
     const isMobile = /Mobi|Android|iPhone|iPod/i.test(navigator.userAgent)
     
-    // MOBILE: Disable aggressive animation pausing to prevent rendering issues
-    if (isMobile) {
-      window.addEventListener('scroll', () => {
+    // Optimized scroll handler with RAF batching
+    const scrollHandler = () => {
+      // Batch all DOM writes in a single RAF frame
+      requestAnimationFrame(() => {
         if (!this.isScrolling) {
           this.isScrolling = true
-          requestAnimationFrame(() => {
-            document.body.classList.add('scrolling')
-          })
+          // Batch class updates
+          document.body.classList.add('scrolling')
+          if (!isMobile) {
+            document.documentElement.classList.add('vue-scrolling')
+            this.pauseAnimations()
+          }
         }
         
         if (this.scrollTimeout) {
@@ -235,39 +239,20 @@ class AnimationController {
         }
         
         this.scrollTimeout = setTimeout(() => {
-          this.isScrolling = false
+          // Batch class removals in RAF
           requestAnimationFrame(() => {
+            this.isScrolling = false
             document.body.classList.remove('scrolling')
+            if (!isMobile) {
+              document.documentElement.classList.remove('vue-scrolling')
+              this.resumeAnimations()
+            }
           })
-        }, 100)
-      }, { passive: true })
-      return // Skip heavy animation pausing on mobile
+        }, isMobile ? 100 : 150)
+      })
     }
     
-    // DESKTOP: Full animation pause/resume  
-    window.addEventListener('scroll', () => {
-      if (!this.isScrolling) {
-        this.isScrolling = true
-        requestAnimationFrame(() => {
-          document.body.classList.add('scrolling')
-          document.documentElement.classList.add('vue-scrolling')
-        })
-        this.pauseAnimations()
-      }
-      
-      if (this.scrollTimeout) {
-        clearTimeout(this.scrollTimeout)
-      }
-      
-      this.scrollTimeout = setTimeout(() => {
-        this.isScrolling = false
-        requestAnimationFrame(() => {
-          document.body.classList.remove('scrolling') 
-          document.documentElement.classList.remove('vue-scrolling')
-        })
-        this.resumeAnimations()
-      }, 150)
-    }, { passive: true })
+    window.addEventListener('scroll', scrollHandler, { passive: true })
   }
 
   // REMOVED: Complex Contact pause mechanisms that were causing MORE forced reflows

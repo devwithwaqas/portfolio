@@ -257,38 +257,61 @@ export default {
       // Only handle scroll on home page
       if (this.$route.path !== '/') return
       
-      // Debounced scroll handler as fallback
+      // Debounced scroll handler with RAF to batch DOM reads
       if (this.scrollTimeout) {
         clearTimeout(this.scrollTimeout)
       }
       
       this.scrollTimeout = setTimeout(() => {
-        const sections = ['hero', 'about', 'resume', 'portfolio', 'services', 'contact']
-        const scrollPosition = window.scrollY + window.innerHeight / 3
-        
-        // Find the section that's currently most visible
-        let currentSection = 'hero'
-        let maxVisibility = 0
-        
-        sections.forEach(sectionId => {
-          const section = document.getElementById(sectionId)
-          if (section) {
-            const rect = section.getBoundingClientRect()
-            const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0)
-            const visibility = visibleHeight / section.offsetHeight
+        // Use requestAnimationFrame to batch DOM reads and avoid forced reflows
+        requestAnimationFrame(() => {
+          const sections = ['hero', 'about', 'resume', 'portfolio', 'services', 'contact']
+          const scrollY = window.scrollY
+          const windowHeight = window.innerHeight
+          const viewportCenter = scrollY + windowHeight / 3
+          
+          // Batch all DOM reads in a single frame
+          const sectionData = sections.map(sectionId => {
+            const section = document.getElementById(sectionId)
+            if (!section) return null
             
-            if (visibility > maxVisibility && rect.top <= window.innerHeight / 2) {
-              maxVisibility = visibility
-              currentSection = sectionId
+            // Single getBoundingClientRect call per section
+            const rect = section.getBoundingClientRect()
+            const offsetTop = section.offsetTop
+            const offsetHeight = section.offsetHeight
+            
+            // Calculate visibility without additional DOM reads
+            const visibleTop = Math.max(0, -rect.top)
+            const visibleBottom = Math.min(offsetHeight, windowHeight - rect.top)
+            const visibleHeight = Math.max(0, visibleBottom - visibleTop)
+            const visibility = visibleHeight / offsetHeight
+            
+            return {
+              id: sectionId,
+              visibility,
+              top: rect.top,
+              offsetTop,
+              isInView: rect.top <= windowHeight / 2 && rect.bottom >= 0
             }
+          }).filter(Boolean)
+          
+          // Find the section that's currently most visible
+          let currentSection = 'hero'
+          let maxVisibility = 0
+          
+          sectionData.forEach(data => {
+            if (data.visibility > maxVisibility && data.isInView) {
+              maxVisibility = data.visibility
+              currentSection = data.id
+            }
+          })
+          
+          // Only update if different to avoid unnecessary reactivity
+          if (this.activeSection !== currentSection) {
+            this.activeSection = currentSection
           }
         })
-        
-        // Only update if different to avoid unnecessary reactivity
-        if (this.activeSection !== currentSection) {
-          this.activeSection = currentSection
-        }
-      }, 50) // Debounce scroll events
+      }, 100) // Increased debounce for better performance
     },
     setupClickOutsideListener() {
       document.addEventListener('click', this.handleClickOutside)

@@ -125,20 +125,33 @@ const router = createRouter({
     if (savedPosition) {
       return savedPosition
     } else if (to.hash) {
-      // Handle hash navigation with delay to ensure DOM is ready
+      // Handle hash navigation with proper DOM readiness check
       return new Promise((resolve) => {
-        setTimeout(() => {
-          const element = document.querySelector(to.hash)
-          if (element) {
-            resolve({
-              el: to.hash,
-              behavior: 'smooth',
-              top: 100 // Offset for fixed header
-            })
-          } else {
-            resolve({ top: 0 })
-          }
-        }, 100)
+        // Use requestAnimationFrame for better performance
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            const element = document.querySelector(to.hash)
+            if (element) {
+              // Calculate offset once to avoid forced reflow
+              const headerOffset = 100
+              const elementPosition = element.getBoundingClientRect().top
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+              
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+              })
+              
+              resolve({
+                el: to.hash,
+                behavior: 'smooth',
+                top: headerOffset
+              })
+            } else {
+              resolve({ top: 0 })
+            }
+          })
+        })
       })
     } else {
       return { top: 0 }
