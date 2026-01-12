@@ -595,71 +595,63 @@ class AnimationController {
   }
 
   pauseSkillsAnimations() {
-    // VUE: Use RAF for all DOM manipulations to prevent forced reflows
+    // Optimized: Batch DOM operations and split across frames to prevent long-running handlers
+    const cyberCards = document.querySelectorAll('.cyber-container')
+    const expensiveSelectors = '.cyber-tracker, .cyber-glow-1, .cyber-glow-2, .cyber-glow-3, .cyber-card-particles, .cyber-scan-line, .cyber-lines, .cyber-shimmer'
+    
+    // First frame: Batch all queries
     requestAnimationFrame(() => {
-      // Pause all cyber card animations
-      const cyberCards = document.querySelectorAll('.cyber-container')
-      cyberCards.forEach(card => {
-        // Pause all animations within each card
-        const animatedElements = card.querySelectorAll('*')
-        animatedElements.forEach(element => {
-          element.style.animationPlayState = 'paused'
-          element.style.transition = 'none'
+      const expensiveElements = document.querySelectorAll(expensiveSelectors)
+      
+      // Second frame: Apply style changes in batches
+      requestAnimationFrame(() => {
+        // Batch 1: Cyber cards
+        cyberCards.forEach(card => {
+          card.style.pointerEvents = 'none'
+          const animatedElements = card.querySelectorAll('*')
+          // Limit batch size to prevent long operations
+          for (let i = 0; i < Math.min(animatedElements.length, 50); i++) {
+            animatedElements[i].style.animationPlayState = 'paused'
+            animatedElements[i].style.transition = 'none'
+          }
         })
         
-        // Disable expensive hover effects during scroll
-        card.style.pointerEvents = 'none'
-      })
-      
-      // Pause specific expensive animations
-      const expensiveElements = document.querySelectorAll(`
-        .cyber-tracker,
-        .cyber-glow-1,
-        .cyber-glow-2, 
-        .cyber-glow-3,
-        .cyber-card-particles,
-        .cyber-scan-line,
-        .cyber-lines,
-        .cyber-shimmer
-      `)
-      expensiveElements.forEach(element => {
-        element.style.animationPlayState = 'paused'
-        element.style.willChange = 'auto' // Reset will-change for performance
+        // Batch 2: Expensive elements
+        expensiveElements.forEach(element => {
+          element.style.animationPlayState = 'paused'
+          element.style.willChange = 'auto'
+        })
       })
     })
   }
 
   resumeSkillsAnimations() {
-    // VUE: Use RAF for all DOM manipulations to prevent forced reflows
+    // Optimized: Batch DOM operations and split across frames to prevent long-running handlers
+    const cyberCards = document.querySelectorAll('.cyber-container')
+    const expensiveSelectors = '.cyber-tracker, .cyber-glow-1, .cyber-glow-2, .cyber-glow-3, .cyber-card-particles, .cyber-scan-line, .cyber-lines, .cyber-shimmer'
+    
+    // First frame: Batch all queries
     requestAnimationFrame(() => {
-      // Resume all cyber card animations
-      const cyberCards = document.querySelectorAll('.cyber-container')
-      cyberCards.forEach(card => {
-        // Resume all animations within each card
-        const animatedElements = card.querySelectorAll('*')
-        animatedElements.forEach(element => {
-          element.style.animationPlayState = 'running'
-          element.style.transition = '' // Reset to default
+      const expensiveElements = document.querySelectorAll(expensiveSelectors)
+      
+      // Second frame: Apply style changes in batches
+      requestAnimationFrame(() => {
+        // Batch 1: Cyber cards
+        cyberCards.forEach(card => {
+          card.style.pointerEvents = 'auto'
+          const animatedElements = card.querySelectorAll('*')
+          // Limit batch size to prevent long operations
+          for (let i = 0; i < Math.min(animatedElements.length, 50); i++) {
+            animatedElements[i].style.animationPlayState = 'running'
+            animatedElements[i].style.transition = ''
+          }
         })
         
-        // Re-enable hover effects
-        card.style.pointerEvents = 'auto'
-      })
-      
-      // Resume specific expensive animations with optimized will-change
-      const expensiveElements = document.querySelectorAll(`
-        .cyber-tracker,
-        .cyber-glow-1,
-        .cyber-glow-2, 
-        .cyber-glow-3,
-        .cyber-card-particles,
-        .cyber-scan-line,
-        .cyber-lines,
-        .cyber-shimmer
-      `)
-      expensiveElements.forEach(element => {
-        element.style.animationPlayState = 'running'
-        element.style.willChange = 'transform, opacity, filter' // Optimize for GPU
+        // Batch 2: Expensive elements
+        expensiveElements.forEach(element => {
+          element.style.animationPlayState = 'running'
+          element.style.willChange = 'transform, opacity, filter'
+        })
       })
     })
   }

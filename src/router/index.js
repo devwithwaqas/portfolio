@@ -60,14 +60,14 @@ const routes = [
     name: 'ChubbInsuranceApplications',
     component: () => import('../views/projects/InsuranceClientsPage.vue')
   },
-  // Redirect any old routes to home with hash
+  // Redirect any old routes to home (no hash)
   {
     path: '/portfolio',
-    redirect: '/#portfolio'
+    redirect: '/'
   },
   {
     path: '/services',
-    redirect: '/#services'
+    redirect: '/'
   },
     {
       path: '/services/full-stack-development',
@@ -106,15 +106,15 @@ const routes = [
     },
   {
     path: '/contact',
-    redirect: '/#contact'
+    redirect: '/'
   },
   {
     path: '/about',
-    redirect: '/#about'
+    redirect: '/'
   },
   {
     path: '/resume',
-    redirect: '/#resume'
+    redirect: '/'
   }
 ]
 
@@ -122,39 +122,11 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior(to, from, savedPosition) {
+    // Always scroll to top on route change - no hash handling
     if (savedPosition) {
       return savedPosition
-    } else if (to.hash) {
-      // Handle hash navigation with proper DOM readiness check
-      return new Promise((resolve) => {
-        // Use requestAnimationFrame for better performance
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            const element = document.querySelector(to.hash)
-            if (element) {
-              // Calculate offset once to avoid forced reflow
-              const headerOffset = 100
-              const elementPosition = element.getBoundingClientRect().top
-              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-              
-              window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-              })
-              
-              resolve({
-                el: to.hash,
-                behavior: 'smooth',
-                top: headerOffset
-              })
-            } else {
-              resolve({ top: 0 })
-            }
-          })
-        })
-      })
     } else {
-      return { top: 0 }
+      return { top: 0, behavior: 'smooth' }
     }
   }
 })

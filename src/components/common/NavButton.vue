@@ -1,7 +1,7 @@
 <template>
   <div class="test-nav-wrapper">
     <a 
-      :href="href" 
+      href="#" 
       class="test-nav-link"
       :class="buttonClasses"
       :style="customStyles"

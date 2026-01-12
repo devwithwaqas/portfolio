@@ -108,7 +108,7 @@
       });
 
       window.addEventListener('load', toggleScrollTop);
-      document.addEventListener('scroll', toggleScrollTop);
+      document.addEventListener('scroll', toggleScrollTop, { passive: true });
     }
   }
   // Expose globally
@@ -320,7 +320,7 @@
     })
   }
   window.addEventListener('load', navmenuScrollspy);
-  document.addEventListener('scroll', navmenuScrollspy);
+  document.addEventListener('scroll', navmenuScrollspy, { passive: true });
 
   // Orchestrator: initialize sections based on presence
   function initializeSections() {

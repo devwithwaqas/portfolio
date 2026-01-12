@@ -178,13 +178,37 @@ export default {
       event.preventDefault()
       this.closeMobileMenu()
       
-      if (this.$route.path === '/') {
+      // Always scroll without changing URL - no hash fragments
+      if (this.$route.path !== '/') {
+        // If not on home page, navigate to home first, then scroll
+        this.$router.push('/').then(() => {
+          this.$nextTick(() => {
+            requestAnimationFrame(() => {
+              const element = document.getElementById(sectionId)
+              if (element) {
+                const headerOffset = 100
+                const elementPosition = element.getBoundingClientRect().top
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+                window.scrollTo({
+                  top: offsetPosition,
+                  behavior: 'smooth'
+                })
+              }
+            })
+          })
+        })
+      } else {
+        // On home page, just scroll without hash
         const element = document.getElementById(sectionId)
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth' })
+          const headerOffset = 100
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          })
         }
-      } else {
-        this.$router.push({ path: '/', hash: `#${sectionId}` })
       }
     },
     setupIntersectionObserver() {
