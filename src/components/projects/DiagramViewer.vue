@@ -183,6 +183,7 @@ import CustomLoader from '../common/CustomLoader.vue'
 import Panzoom from '@panzoom/panzoom'
 import highlightService from '@/services/HighlightService.js'
 import narrationService from '@/services/NarrationService.js'
+import { assetPath } from '@/utils/assetPath.js'
 
 export default {
   name: 'DiagramViewer',
@@ -199,15 +200,7 @@ export default {
     },
     diagramSrc: {
       type: String,
-      default: () => {
-        // Use assetPath for default value
-        const baseUrl = import.meta.env.BASE_URL || '/'
-        const cleanPath = '/assets/img/heat-exchanger-diagram.svg'.startsWith('/') 
-          ? '/assets/img/heat-exchanger-diagram.svg'.slice(1) 
-          : '/assets/img/heat-exchanger-diagram.svg'
-        const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
-        return `${base}${cleanPath}`
-      }
+      default: () => assetPath('/assets/img/heat-exchanger-diagram.svg')
     },
     narrationSteps: {
       type: Array,

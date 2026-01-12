@@ -4,7 +4,19 @@ import path from 'path'
 
 export default defineConfig({
   base: '/portfolio/', // GitHub Pages base path
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    // Plugin to transform HTML asset paths
+    {
+      name: 'transform-html-assets',
+      transformIndexHtml(html) {
+        const base = '/portfolio/'
+        // Replace absolute asset paths with base-prefixed paths
+        return html.replace(/href="\/assets\//g, `href="${base}assets/`)
+                   .replace(/src="\/assets\//g, `src="${base}assets/`)
+      }
+    }
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
