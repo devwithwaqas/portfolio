@@ -1,85 +1,33 @@
-# Waqas Ahmad Portfolio - Vue.js SPA
+# 🚀 Portfolio Website - Vue.js SPA Template
 
-A modern, responsive portfolio website built with Vue.js 3 and Vite, converted from the original HTML portfolio to a Single Page Application (SPA).
+A modern, responsive portfolio website template built with Vue.js 3 and Vite. Perfect for developers, designers, and professionals who want to showcase their work with an interactive, feature-rich portfolio.
 
-## 🚀 Features
+## ✨ Features
 
-- **Vue.js 3** with Composition API
-- **Vue Router** for SPA navigation
-- **Vite** for fast development and building
-- **Responsive Design** with Bootstrap
-- **Component-based Architecture** for maintainability
-- **Modern CSS** with gradients and animations
-- **SEO Optimized** with proper meta tags
-- **Interactive Diagrams** with C4 architecture visualization
-- **Audio Narration System** for guided project explanations
-- **Modular Project Pages** with reusable components
-- **Dynamic Icon Resolution** system
-- **Performance Optimized** with lazy loading
+- **🎨 Modern Design** - Beautiful, responsive design with gradients and animations
+- **⚡ Vue.js 3** - Built with Composition API and Vue Router
+- **📱 Fully Responsive** - Works perfectly on desktop, tablet, and mobile
+- **🎯 Interactive Diagrams** - C4 architecture diagrams with narration support
+- **📧 Contact Form** - EmailJS integration for contact form submissions
+- **🎭 Component-Based** - Modular architecture for easy customization
+- **🚀 Fast Development** - Vite for instant HMR and optimized builds
+- **🔍 SEO Optimized** - Proper meta tags and semantic HTML
+- **🎤 Audio Narration** - Text-to-speech narration for project diagrams
+- **📊 Dynamic Icons** - Smart icon resolution system with fallbacks
 
-## 📁 Project Structure
-
-```
-portfolio/
-├── public/
-│   └── assets/
-│       ├── img/          # Images and icons
-│       │   └── Icons/    # Technology and service icons
-│       └── vendor/       # Third-party libraries
-├── src/
-│   ├── components/       # Vue components
-│   │   ├── projects/     # Project-specific components
-│   │   │   └── DiagramViewer.vue  # Interactive diagram viewer
-│   │   ├── Hero.vue
-│   │   ├── About.vue
-│   │   ├── Stats.vue
-│   │   ├── Skills.vue
-│   │   ├── Resume.vue
-│   │   ├── Portfolio.vue
-│   │   ├── Services.vue
-│   │   ├── Testimonials.vue
-│   │   ├── Contact.vue
-│   │   ├── Navigation.vue
-│   │   ├── Footer.vue
-│   │   └── ReusableCard.vue
-│   ├── views/            # Page views
-│   │   ├── Home.vue
-│   │   └── projects/     # Project pages
-│   │       └── AirAsiaID90Page.vue
-│   ├── config/           # Configuration files
-│   │   ├── constants.js  # Standardized categories and icons
-│   │   └── airasiaNarration.js  # Narration configuration
-│   ├── composables/      # Vue composables
-│   │   └── useAnimationControl.js
-│   ├── utils/            # Utility functions
-│   │   └── iconResolver.js  # Dynamic icon resolution
-│   ├── router/           # Vue Router configuration
-│   │   └── index.js
-│   ├── assets/           # CSS and other assets
-│   │   └── css/
-│   ├── App.vue           # Main app component
-│   └── main.js           # App entry point
-├── index.html            # Main HTML file
-├── package.json          # Dependencies
-├── vite.config.js        # Vite configuration
-├── AirAsia_ID90_C4_Diagram.puml  # PlantUML diagram source
-├── AirAsia_ID90_C4_Diagram.svg   # Generated diagram
-├── Project_Narration_Guide.md     # Narration implementation guide
-└── README.md
-```
-
-## 🛠️ Installation & Setup
+## 🚦 Quick Start
 
 ### Prerequisites
+
 - **Node.js** (v16 or higher)
-- **npm** (v8 or higher)
-- **Git** (for version control)
+- **npm** (v8 or higher) or **yarn**
 
-### Quick Setup
+### Installation
 
-1. **Clone or navigate to the project directory:**
+1. **Clone the repository:**
    ```bash
-   cd C:\portfolio
+   git clone <your-repo-url>
+   cd portfolio
    ```
 
 2. **Install dependencies:**
@@ -91,300 +39,154 @@ portfolio/
    ```bash
    npm run dev
    ```
-   The application will be available at `http://localhost:3000` (or next available port)
 
-4. **Build for production:**
+4. **Open your browser:**
+   - Navigate to `http://localhost:3000`
+   - The app will automatically reload when you make changes
+
+5. **Build for production:**
    ```bash
    npm run build
    ```
 
-5. **Preview production build:**
+6. **Preview production build:**
    ```bash
    npm run preview
    ```
 
-### Development Environment
-- **Hot Module Replacement (HMR)** enabled for instant updates
-- **ESLint** for code quality
-- **Vite** for fast development and optimized builds
-- **Vue DevTools** browser extension recommended
+## 📁 Project Structure
 
-## 🎯 Available Scripts
+For a detailed visual structure with flowchart and complete directory descriptions, see [PROJECT_STRUCTURE.md](./docs/PROJECT_STRUCTURE.md).
+
+```
+portfolio/
+├── 📄 Configuration Files
+│   ├── package.json              # Dependencies and scripts
+│   ├── vite.config.js            # Vite configuration
+│   ├── index.html                # Main HTML entry point
+│   └── setup.bat                 # Setup script
+│
+├── 📚 Documentation
+│   ├── README.md                 # Main documentation
+│   ├── docs/                     # Detailed guides
+│   │   ├── PROJECT_PAGE_CREATION_GUIDE.md
+│   │   ├── SERVICE_PAGE_CREATION_GUIDE.md
+│   │   ├── PROJECT_STRUCTURE.md  # Complete structure with flowchart
+│   │   ├── FILES_TO_REMOVE_VERIFIED.md
+│   │   └── diagrams/             # PlantUML diagram sources (reference templates)
+│   │       └── *.puml            # C4 architecture diagram source files
+│
+├── 🎨 Source Code (src/)
+│   ├── components/               # Vue components
+│   │   ├── common/               # Shared components (ProjectPageTemplate, ReusableCard, etc.)
+│   │   ├── home/                 # Home page sections (Hero, About, Services, Portfolio, Contact)
+│   │   ├── layout/               # Layout components (Navigation, NavButton)
+│   │   ├── projects/             # Project-specific components (ProjectHeroCard, DiagramViewer, etc.)
+│   │   └── services/             # Service page components (ServiceHeroSection, ServiceOverview, etc.)
+│   ├── views/                    # Page views (routes)
+│   │   ├── Home.vue              # Main home page
+│   │   ├── projects/             # Project detail pages
+│   │   └── services/             # Service detail pages
+│   ├── router/                   # Vue Router configuration
+│   │   └── index.js              # Routes definition
+│   ├── config/                   # Configuration files
+│   │   ├── constants.js          # App constants (EmailJS, contact info, categories)
+│   │   └── *_Narration.js        # Narration configs (optional, for diagrams with narration)
+│   ├── utils/                  # Utility functions
+│   │   └── iconResolver.js       # Dynamic icon resolution
+│   ├── assets/                   # Assets (CSS, fonts, etc.)
+│   │   └── css/
+│   │       └── main.css          # Main stylesheet
+│   └── main.js                   # Vue app entry point
+│
+├── 🌐 Public Assets (public/)
+│   └── assets/
+│       ├── img/                  # Images
+│       │   ├── Icons/            # Technology/service icons (used by iconResolver)
+│       │   ├── services/         # Service page images
+│       │   └── ... (project images)
+│       ├── diagrams/             # Architecture diagram SVGs (used by DiagramViewer)
+│       └── vendor/               # Third-party libraries (Bootstrap, AOS, etc.)
+│
+└── 📦 Build Output (generated)
+    ├── dist/                     # Production build (generated by `npm run build`)
+    └── node_modules/             # Dependencies (generated by `npm install`)
+```
+
+## 📚 Documentation
+
+### For Users (Setting Up Your Portfolio)
+
+1. **[📖 PROJECT_PAGE_CREATION_GUIDE.md](./docs/PROJECT_PAGE_CREATION_GUIDE.md)** - Complete guide to creating new project pages with diagrams
+2. **[📖 SERVICE_PAGE_CREATION_GUIDE.md](./docs/SERVICE_PAGE_CREATION_GUIDE.md)** - Complete guide to creating new service pages
+3. **[📧 EmailJS Setup Guide](./docs/EMAILJS_SETUP.md)** - How to set up contact form email functionality (if available)
+
+### For Developers (Advanced)
+
+- **[🎨 Component Documentation](./docs/COMPONENTS.md)** - Detailed component reference
+- **[🎯 Icon System Guide](./docs/ICON_SYSTEM.md)** - How to add and manage icons
+- **[📊 Diagram Setup Guide](./docs/DIAGRAM_SETUP_GUIDE.md)** - Creating interactive C4 diagrams (also see PROJECT_PAGE_CREATION_GUIDE.md)
+
+## 🎯 Key Pages & Routes
+
+- `/` - Home page (all sections)
+- `/projects/[project-name]` - Project detail pages
+- `/services/[service-name]` - Service detail pages
+- `/contact` - Contact page with form
+
+## 🛠️ Customization
+
+### Personalize Your Portfolio
+
+1. **Update Personal Information:**
+   - Edit `src/config/constants.js`
+   - Update name, email, phone, location, social links
+
+2. **Update Content:**
+   - Home page sections: `src/components/home/`
+   - Project pages: `src/views/projects/`
+   - Service pages: `src/views/services/`
+
+3. **Add Your Projects:**
+   - Follow [PROJECT_PAGE_CREATION_GUIDE.md](./docs/PROJECT_PAGE_CREATION_GUIDE.md)
+   - Copy existing project page as template
+
+4. **Add Your Services:**
+   - Follow [SERVICE_PAGE_CREATION_GUIDE.md](./docs/SERVICE_PAGE_CREATION_GUIDE.md)
+   - Use service page components
+
+5. **Set Up Contact Form:**
+   - Follow [EmailJS Setup Guide](./docs/EMAILJS_SETUP.md)
+   - Free tier: 200 emails/month
+
+### Styling
+
+- **Main styles:** `src/assets/css/main.css`
+- **Component styles:** Scoped CSS in each component
+- **Bootstrap classes:** Available for layout utilities
+
+## 🔧 Available Scripts
 
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 
-## 📱 Pages & Routes
+## 📦 Dependencies
 
-- `/` - Home page (all sections)
-- `/about` - About section only
-- `/portfolio` - Portfolio section only
-- `/services` - Services section only
-- `/contact` - Contact section only
-- `/projects/airasia-id90` - AirAsia ID90 project page with interactive C4 diagram
+### Core
+- **Vue.js 3** - Progressive JavaScript framework
+- **Vue Router** - Official router for Vue.js
+- **Vite** - Next generation frontend tooling
 
-## 🎨 Components
+### UI & Styling
+- **Bootstrap** - CSS framework (via CDN)
+- **Bootstrap Icons** - Icon library (via CDN)
 
-### Main Components
-- **Hero** - Landing section with animated text
-- **About** - Personal information and profile
-- **Stats** - Professional statistics with counters
-- **Skills** - Technical skills with progress bars
-- **Resume** - Work experience and education
-- **Portfolio** - Project showcase
-- **Services** - Offered services
-- **Testimonials** - Client feedback
-- **Contact** - Contact form and information
-
-### Layout Components
-- **Navigation** - Responsive navigation menu
-- **Footer** - Footer with social links and contact info
-
-### Project Components
-- **DiagramViewer** - Interactive diagram viewer with narration support
-- **ReusableCard** - Modular card component for project sections
-
-## 🔧 Customization
-
-### Adding New Project Pages
-For detailed instructions on adding new project pages with the modular component system, see:
-**[📚 ADDING_NEW_PROJECT_PAGES.md](./ADDING_NEW_PROJECT_PAGES.md)**
-
-#### Standard Component Order
-When adding new project pages, follow this established order:
-1. **DiagramViewer** - Interactive diagram first (visual introduction)
-2. **ArchitectureOverview** - Text overview second (detailed explanation)
-3. **EngineeringChallenges** - Technical challenges
-4. **PerformanceMetricsSection** - Performance data
-5. **MetricsFramework** - Metrics framework
-6. **ROISection** - Business impact
-
-**⚠️ Always verify component order against existing pages (HeatExchangerPage) to maintain consistency.**
-
-### Diagram Setup & Generation
-For comprehensive guide on creating and maintaining interactive diagrams, see:
-**[📊 DIAGRAM_SETUP_GUIDE.md](./DIAGRAM_SETUP_GUIDE.md)**
-
-For specific C4 architecture diagram generation (PlantUML), see:
-**[📊 AirAsia_ID90_C4_Diagram_Guide.md](./AirAsia_ID90_C4_Diagram_Guide.md)**
-
-### Interactive Diagrams & Narration System
-The portfolio includes an advanced narration system for interactive project explanations:
-
-#### DiagramViewer Component
-- **Interactive SVG diagrams** with clickable elements
-- **Audio narration** with text-to-speech support
-- **Step-by-step guidance** through complex architectures
-- **Icon integration** with dynamic resolution
-- **Responsive design** for all device sizes
-- **Auto-zoom and highlight** during narration
-
-**⚠️ CRITICAL**: Always specify `svg-width` and `svg-height` props matching the actual SVG viewBox dimensions!
-```vue
-<DiagramViewer 
-  :svg-width="5692"    <!-- MUST match SVG viewBox width -->
-  :svg-height="4173"   <!-- MUST match SVG viewBox height -->
-  diagram-src="/diagram.svg"
-  :narration-steps="steps"
-/>
-```
-Check SVG viewBox with: `Select-String -Path "diagram.svg" -Pattern 'viewBox="([^"]*)"'`
-
-#### Smart Zoom & Positioning System
-The DiagramViewer includes an advanced zoom and positioning system that automatically adapts to any diagram size:
-
-**Dynamic Zoom Scaling:**
-- **Base zoom calculation**: `2.5 * sqrt(svgSizeRatio)` where `svgSizeRatio = (currentSVG) / (HeatExchanger baseline)`
-- **Automatic size adaptation**: Larger diagrams get proportionally higher zoom levels
-- **Area-based zoom adjustment**: 
-  - Large highlights (>30% of diagram): 48% of base zoom
-  - Medium highlights (15-30%): 60% of base zoom  
-  - Small highlights (8-15%): 80% of base zoom
-  - Tiny highlights (<8%): Full base zoom
-
-**Smart Boundary Detection:**
-- **Width constraint**: `screenWidth / highlightWidth`
-- **Height constraint**: `screenHeight / highlightHeight`
-- **Side offset constraint**: `(screenWidth - sideOffset*2) / highlightWidth`
-- **Automatic fit-to-screen**: Uses minimum of all constraints with 90% padding
-
-**Side-Based Positioning:**
-- **Left side highlights**: Positioned at 25% from left edge (creates gap for bubble)
-- **Right side highlights**: Positioned at 75% from left edge (creates gap for bubble)
-- **Bubble separation**: Maintains visual separation between highlight and narration bubble
-- **Universal compatibility**: Works for any diagram size and highlight location
-
-#### Narration Configuration
-- **Structured narration steps** in `src/config/[project]Narration.js`
-- **Component explanations** with technical details
-- **Workflow descriptions** with step-by-step processes
-- **Architecture overviews** with system interactions
-- **Icon mapping** for visual consistency
-- **Dual text format**: Display text (short forms) vs Audio text (full forms)
-- **Tech term rules**: Common terms (API, SQL) use short forms, Non-common terms (TLS, JWT) use full forms in audio
-
-#### Narration Structure (STANDARDIZED ✅)
-Each narration step **MUST** include these fields:
-```javascript
-{
-  title: 'Display Title',                    // Short form for UI
-  speechTitle: 'Spoken Title',               // Full form for audio (can be same as title)
-  description: 'Display description',        // Short, concise for UI
-  speechDescription: 'Spoken description',   // Detailed, comprehensive for audio
-  icon: 'icon.svg',                          // Icon file name (must exist in Icons/)
-  position: { x: 400, y: 500 },              // Bubble position on diagram
-  highlights: [                              // SVG coordinates for visual highlighting
-    { x: 405, y: 490, width: 160, height: 100 }
-  ]
-}
-```
-
-**⚠️ CRITICAL: Fields to NEVER include:**
-- ❌ `id` - Not used by DiagramViewer
-- ❌ `details` array - Not used by DiagramViewer
-- ❌ `audio` object - DiagramNarrator uses speechTitle + speechDescription
-- ❌ `highlights[].element` - Must use actual SVG coordinates (x, y, width, height)
-- ❌ `highlights[].type` - Not used
-- ❌ `highlights[].duration` or `audio.duration` - Calculated automatically
-
-#### Speech vs Display Text Pattern
-**Established Pattern** (from HeatExchanger):
-- **Display text**: Short, concise descriptions with abbreviations
-- **Speech text**: Detailed, comprehensive descriptions with full forms
-- **HeatExchanger Example**:
-  - Display: "OpenShift API Gateway serves as the secure entry point, handling authentication (JWT/OAuth2), authorization, TLS termination, and WAF protection."
-  - Speech: "OpenShift Application Programming Interface Gateway serves as the secure entry point, handling authentication using JSON Web Token and OAuth2, authorization, Transport Layer Security termination, and web application firewall protection."
-- **AirAsia Example**:
-  - Display: "Edge gateway for authentication, routing, and API management"
-  - Speech: "Azure Application Programming Interface Management serves as our enterprise-grade API gateway, providing sophisticated rate limiting, throttling, and comprehensive system protection. It handles API versioning, documentation management, request transformation, and enforces security policies with advanced features. This ensures consistent, secure access to all backend services while maintaining high performance and reliability standards."
-
-#### Tech Term Rules
-- **Common terms** (API, SQL, UI, UX): Use short forms in both display and audio
-- **Non-common terms** (TLS, JWT, SSO, TDE): Use short forms in display, full forms in audio
-- **Examples**:
-  - Display: "JWT-based authentication"
-  - Audio: "JSON Web Token-based authentication"
-  - Display: "TLS termination"
-  - Audio: "Transport Layer Security termination"
-
-#### Icon Requirements
-**All narration steps MUST have appropriate icons:**
-- **Available icons**: 69+ icons in `public/assets/img/Icons/`
-- **Icon mapping**: Each component should have a relevant icon
-- **Examples**:
-  - Web App → `Angular.svg`
-  - Mobile PWA → `mobile.png`
-  - API Gateway → `api gateway.svg`
-  - Database → `Azure SQL Database.svg`
-  - Analytics → `analytics.png`
-- **Missing icons**: Will cause display issues in narration bubbles
-
-#### Comprehensive Narration Requirements (STANDARDIZED ✅)
-**Every narration step MUST include exactly 7 fields (no more, no less):**
-
-| # | Field | Type | Description | Example |
-|---|-------|------|-------------|---------|
-| 1 | `title` | string | Short display title | `"Web Application"` |
-| 2 | `speechTitle` | string | Full spoken title | `"Web Application"` or `"Application Programming Interface Gateway"` |
-| 3 | `description` | string | Short display description | `"Angular-based responsive web app"` |
-| 4 | `speechDescription` | string | Detailed spoken description with architecture & flow | `"The Web Application serves as our primary user interface..."` |
-| 5 | `icon` | string | Icon filename in `Icons/` folder | `"Angular.svg"` |
-| 6 | `position` | object | Bubble position `{ x, y }` | `{ x: 309, y: 351 }` |
-| 7 | `highlights` | array | SVG coordinates array | `[{ x: 207.6, y: 451.5, width: 203.3, height: 97.8 }]` |
-
-**❌ NEVER include these fields:**
-- `id` - Not used by DiagramViewer
-- `details` - Not used by DiagramViewer
-- `audio` - DiagramNarrator uses speechTitle + speechDescription
-- `highlights[].element` - Must use actual coordinates
-- `highlights[].type` - Not used
-- `highlights[].duration` - Auto-calculated
-- `audio.duration` - Auto-calculated
-
-**Critical Requirements:**
-- **NO missing fields**: All 7 fields are mandatory
-- **NO extra fields**: Don't add id, details, or audio objects
-- **Detailed speech descriptions**: Must include architecture, flow, and technical details
-- **Proper tech term usage**: Common terms short, non-common terms full in speech
-- **Accurate coordinates**: Use `scripts/extract_diagram_coordinates.py` to extract from SVG
-
-#### Narration Timing Formula
-- **Automatic Calculation**: DiagramNarrator automatically calculates duration from `speechTitle + speechDescription`
-- **Formula**: `characters ÷ 14.62 = seconds` (implemented in DiagramNarrator.vue)
-- **Source**: Based on actual measurement (285 characters in 19.5 seconds)
-- **Implementation**: 
-  - **DO NOT** set hardcoded `duration` values in narration config
-  - **DO** provide `speechTitle` and `speechDescription` fields
-  - DiagramNarrator will calculate duration automatically
-- **Example**:
-  - speechTitle: "Web Application" + speechDescription: "Angular-based responsive..." 
-  - DiagramNarrator calculates: (speechTitle + speechDescription) ÷ 14.62 = duration
-- **Validation**: Test all durations to ensure smooth playback
-
-#### Creating New Narrations
-For comprehensive guidance on implementing narration for any project, see:
-**[📖 Project_Narration_Guide.md](./Project_Narration_Guide.md)**
-
-#### Extracting Diagram Coordinates
-**For new diagrams, extract SVG coordinates automatically:**
-
-```bash
-# 1. Generate diagram SVG (e.g., PlantUML → Kroki → SVG)
-# 2. Extract all component coordinates
-python scripts/extract_diagram_coordinates.py YourDiagram.svg
-
-# Output: YourDiagram_coordinates.json with all positions
-```
-
-**Script features:**
-- Finds all `entity_*` groups in SVG
-- Extracts rectangle coordinates for standard components
-- Handles database cylinders (path-based shapes)
-- Outputs `{x, y, width, height, centerX, centerY}` for each component
-
-**For package boundaries** (layer groupings):
-- Define package → component mappings in Python
-- Call `calculate_package_boundaries(components, package_definitions)`
-- Adds padding around component groups automatically
-
-**Example:** See `src/config/airasiaDiagramCoordinates.json`
-- 33 individual components
-- 8 package boundaries
-- 41 total highlightable items
-
-#### C4 Architecture Diagrams
-- **PlantUML integration** for professional diagrams
-- **Kroki.io rendering** for high-quality SVG output
-- **C4-PlantUML** for standardized architecture visualization
-- **Custom styling** with proper spacing and colors
-- **Version control** for diagram evolution
-
-**For detailed diagram setup instructions, see:** [DIAGRAM_SETUP_GUIDE.md](./DIAGRAM_SETUP_GUIDE.md)
-
-### Adding New Sections
-1. Create a new component in `src/components/`
-2. Add it to the Home view in `src/views/Home.vue`
-3. Update the navigation in `src/components/Navigation.vue`
-4. Add route in `src/router/index.js` if needed
-
-### Styling
-- Main styles are in `src/assets/css/main.css`
-- Component-specific styles use scoped CSS
-- Bootstrap classes are available for layout
-
-### Content Updates
-- Update component data in respective Vue files
-- Images are stored in `public/assets/img/`
-- Icons use Bootstrap Icons and custom technology icons in `public/assets/img/Icons/`
-- Project-specific content in `src/views/projects/`
-- Narration content in `src/config/`
-
-### Icon System
-- **Dynamic icon resolution** via `src/utils/iconResolver.js`
-- **Standardized categories** in `src/config/constants.js`
-- **Technology icons** in `public/assets/img/Icons/`
-- **Automatic fallbacks** for missing icons
+### Features
+- **@emailjs/browser** - Email service integration
+- **chart.js** - Charts and graphs
+- **@panzoom/panzoom** - Diagram zoom/pan
+- **swiper** - Touch slider
 
 ## 🌐 Browser Support
 
@@ -395,42 +197,19 @@ python scripts/extract_diagram_coordinates.py YourDiagram.svg
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - feel free to use it for your own portfolio!
 
-## 👨‍💻 Author
+## 🤝 Contributing
+
+This is a portfolio template - feel free to fork and customize for your needs!
+
+## 👨‍💻 Original Author
 
 **Waqas Ahmad**
 - Senior Software Engineer & Technical Lead
 - Email: devwithwaqas@gmail.com
-- Phone: +60146806067
-- Location: Selangor, Malaysia
-
-## 📊 Current Project Implementations
-
-### AirAsia ID90 Project
-- **Complete C4 Architecture Diagram** with professional styling
-- **Interactive narration system** with 50+ narration steps
-- **Comprehensive project documentation** with technical details
-- **Performance metrics** and engineering challenges
-- **ROI analysis** and business impact
-- **Technology stack** with detailed explanations
-
-**Access:** `/projects/airasia-id90`
-
-### Diagram Generation
-- **PlantUML source:** `AirAsia_ID90_C4_Diagram.puml`
-- **Generated SVG:** `public/AirAsia_ID90_C4_Diagram.svg`
-- **Generation guide:** `AirAsia_ID90_C4_Diagram_Guide.md`
-
-## 🚀 Deployment
-
-The built files in the `dist/` directory can be deployed to any static hosting service like:
-- Netlify
-- Vercel
-- GitHub Pages
-- Azure Static Web Apps
-- AWS S3 + CloudFront
+- Portfolio: [www.waqasahmad.com](https://www.waqasahmad.com)
 
 ---
 
-*Built with ❤️ using Vue.js 3 and modern web technologies*
+**Happy Coding! 🚀**

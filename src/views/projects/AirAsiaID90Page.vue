@@ -64,7 +64,7 @@
       <DiagramViewer 
         title="C4 Architecture Diagram"
         :icon-name="PROJECT_ICON_NAMES.ARCHITECTURE_OVERVIEW"
-        diagram-src="/AirAsia_ID90_C4_Diagram.svg"
+        diagram-src="/assets/diagrams/AirAsia_ID90_C4_Diagram.svg"
         :narration-steps="airasiaNarrationSteps"
         :svg-width="5692"
         :svg-height="4173"

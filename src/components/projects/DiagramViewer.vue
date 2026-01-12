@@ -66,7 +66,7 @@
     </div>
   </Teleport>
   
-  <ReusableCard :title="title" iconName="microservices architecture" class="mb-4">
+  <ReusableCard :title="title" iconName="microservices architecture" class="mb-4" :body-padding="'0'" :card-padding="'20px 20px 0 20px'">
     
     <!-- Compact Diagram Toolbar -->
     <div class="diagram-toolbar-compact">
@@ -459,8 +459,8 @@ export default {
       const diagramHeight = this.originalDimensions.height
 
       // Calculate scale to fit
-      const scaleX = (containerRect.width - 40) / diagramWidth // 40px for padding
-      const scaleY = (containerRect.height - 40) / diagramHeight
+      const scaleX = containerRect.width / diagramWidth // No padding needed
+      const scaleY = containerRect.height / diagramHeight
       const scale = Math.min(scaleX, scaleY, 1) // Don't scale up beyond 100%
 
       // Center the diagram
@@ -926,7 +926,7 @@ export default {
       const sideOffset = Math.abs(targetSideCenter - containerRect.width / 2)
       const maxZoomForSide = (containerRect.width - sideOffset * 2) / (highlight.width * scaleX)
       
-      const maxZoomForFit = Math.min(maxZoomForWidth, maxZoomForHeight, maxZoomForSide) * 0.9 // 90% for padding
+      const maxZoomForFit = Math.min(maxZoomForWidth, maxZoomForHeight, maxZoomForSide) * 0.95 // 95% for minimal margin
       
       // If calculated zoom would make highlight too big for screen, use fit-to-screen zoom instead
       if (zoomScale > maxZoomForFit) {
@@ -1151,7 +1151,7 @@ export default {
 /* Compact Diagram Toolbar */
 .diagram-toolbar-compact {
   margin-bottom: 20px;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
   background: linear-gradient(135deg, rgba(30, 30, 50, 0.9), rgba(40, 35, 65, 0.95));
   border-radius: 16px;
   border: 1px solid rgba(139, 92, 246, 0.4);
@@ -1555,25 +1555,30 @@ export default {
 
 /* Diagram Container */
 .diagram-container {
-  min-height: 600px;
-  background: linear-gradient(135deg, rgba(30, 30, 50, 0.95), rgba(45, 30, 70, 0.9));
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  border-radius: 12px;
+  min-height: 90vh !important; /* Increased height for better drag/zoom visibility */
+  height: 90vh !important; /* Set explicit height to match min-height */
+  background: transparent;
+  border: none;
+  border-radius: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  overflow: auto;
-  padding: 20px;
+  overflow: auto; /* Allow scrolling if content exceeds container */
+  padding: 0;
   position: relative;
+  width: 100%;
 }
 
 .diagram-content {
   width: 100%;
-  height: 100%;
+  height: 100%; /* Fill container height */
+  min-height: 100%; /* Ensure it fills min-height of container */
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   position: relative;
+  padding: 0;
+  margin: 0;
 }
 
 .diagram-wrapper {
@@ -1584,11 +1589,12 @@ export default {
 }
 
 .architecture-diagram {
-  max-width: 100%;
-  height: auto;
+  max-width: 100%; /* Don't exceed container width */
+  width: auto; /* Let it be natural size, not forced to 100% */
+  height: auto; /* Maintain aspect ratio */
   display: block;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 /* Placeholder Styling */
@@ -1631,7 +1637,9 @@ export default {
 /* Tablet */
 @media (pointer: coarse) and (min-width: 768px) and (max-width: 1199px) {
   .diagram-container {
-    min-height: 500px;
+    min-height: 80vh !important; /* Increased height for better drag/zoom visibility */
+    height: 80vh !important; /* Set explicit height */
+    padding: 0;
   }
   
   .toolbar-btn {
@@ -1657,7 +1665,9 @@ export default {
   /* Icon size managed by centralized classes */
   
   .diagram-container {
-    min-height: 400px;
+    min-height: 70vh !important; /* Increased height for better drag/zoom visibility */
+    height: 70vh !important; /* Set explicit height */
+    padding: 0;
   }
   
   .placeholder-icon {
@@ -1910,6 +1920,32 @@ export default {
   justify-content: center;
   z-index: 10001;
   backdrop-filter: blur(10px);
+}
+</style>
+
+<style>
+/* Global overrides for diagram container height - must be outside scoped */
+/* Force diagram container height globally - INCREASED for better drag/zoom visibility */
+.portfolio-details .diagram-container,
+.diagram-container {
+  min-height: 90vh !important;
+  height: 90vh !important;
+}
+
+@media (pointer: coarse) and (min-width: 768px) and (max-width: 1199px) {
+  .portfolio-details .diagram-container,
+  .diagram-container {
+    min-height: 80vh !important;
+    height: 80vh !important;
+  }
+}
+
+@media (pointer: coarse) and (max-width: 767px) {
+  .portfolio-details .diagram-container,
+  .diagram-container {
+    min-height: 70vh !important;
+    height: 70vh !important;
+  }
 }
 </style>
 
