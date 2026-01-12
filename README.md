@@ -132,6 +132,7 @@ portfolio/
 1. **[📖 PROJECT_PAGE_CREATION_GUIDE.md](./docs/PROJECT_PAGE_CREATION_GUIDE.md)** - Complete guide to creating new project pages with diagrams
 2. **[📖 SERVICE_PAGE_CREATION_GUIDE.md](./docs/SERVICE_PAGE_CREATION_GUIDE.md)** - Complete guide to creating new service pages
 3. **[📧 EmailJS Setup Guide](./docs/EMAILJS_SETUP.md)** - How to set up contact form email functionality (if available)
+4. **[🚀 Deployment Guide](./docs/DEPLOYMENT_GUIDE.md)** - Complete guide for deploying to GitHub Pages, Netlify, Vercel, and other platforms
 
 ### For Developers (Advanced)
 
@@ -288,6 +289,8 @@ For static hosting (GitHub Pages, Netlify, Vercel, etc.), environment variables 
    - Output directory: `dist`
 
 **Important:** Environment variables are injected at build time, so they become part of the static bundle. This is secure for public values but remember that EmailJS public keys are meant to be public anyway.
+
+**📚 See [DEPLOYMENT_GUIDE.md](./docs/DEPLOYMENT_GUIDE.md) for detailed step-by-step deployment instructions for all platforms.**
 
 ## 📄 License
 
