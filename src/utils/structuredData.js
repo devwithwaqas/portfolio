@@ -123,9 +123,37 @@ export function generatePersonSchema() {
       name: 'Independent Consultant',
       jobTitle: 'Lead Software Engineer & Technical Consultant'
     },
-    areaServed: {
-      '@type': 'Country',
-      name: 'Global'
+    areaServed: [
+      {
+        '@type': 'Country',
+        name: 'United States'
+      },
+      {
+        '@type': 'Country',
+        name: 'United Kingdom'
+      },
+      {
+        '@type': 'Country',
+        name: 'Germany'
+      },
+      {
+        '@type': 'Country',
+        name: 'Netherlands'
+      },
+      {
+        '@type': 'Country',
+        name: 'Switzerland'
+      },
+      {
+        '@type': 'Country',
+        name: 'Global'
+      }
+    ],
+    availableLanguage: ['English'],
+    workLocation: {
+      '@type': 'Place',
+      name: 'Remote',
+      description: 'Available for remote work globally. Flexible timezone (EST, PST, GMT, CET)'
     }
   }
 }
@@ -148,9 +176,36 @@ export function generateProfessionalServiceSchema() {
       name: fullName,
       jobTitle: 'Senior Software Engineer & Technical Lead'
     },
-    areaServed: {
-      '@type': 'Country',
-      name: ['Malaysia', 'Global']
+    areaServed: [
+      {
+        '@type': 'Country',
+        name: 'United States'
+      },
+      {
+        '@type': 'Country',
+        name: 'United Kingdom'
+      },
+      {
+        '@type': 'Country',
+        name: 'Germany'
+      },
+      {
+        '@type': 'Country',
+        name: 'Netherlands'
+      },
+      {
+        '@type': 'Country',
+        name: 'Switzerland'
+      },
+      {
+        '@type': 'Country',
+        name: 'Global'
+      }
+    ],
+    availableChannel: {
+      '@type': 'ServiceChannel',
+      serviceType: 'Remote',
+      availableLanguage: ['English']
     },
     serviceType: [
       'Software Development',
@@ -343,9 +398,36 @@ export function generateServiceSchema(serviceData) {
         addressCountry: 'MY'
       }
     },
-    areaServed: {
-      '@type': 'Country',
-      name: ['Malaysia', 'Global']
+    areaServed: [
+      {
+        '@type': 'Country',
+        name: 'United States'
+      },
+      {
+        '@type': 'Country',
+        name: 'United Kingdom'
+      },
+      {
+        '@type': 'Country',
+        name: 'Germany'
+      },
+      {
+        '@type': 'Country',
+        name: 'Netherlands'
+      },
+      {
+        '@type': 'Country',
+        name: 'Switzerland'
+      },
+      {
+        '@type': 'Country',
+        name: 'Global'
+      }
+    ],
+    availableChannel: {
+      '@type': 'ServiceChannel',
+      serviceType: 'Remote',
+      availableLanguage: ['English']
     },
     serviceType: serviceData.serviceType || serviceData.title,
     offers: {
@@ -378,13 +460,41 @@ export function generateOfferSchema() {
     },
     availability: 'https://schema.org/InStock',
     priceCurrency: 'USD',
-    eligibleRegion: {
-      '@type': 'Country',
-      name: 'Global'
-    },
+    eligibleRegion: [
+      {
+        '@type': 'Country',
+        name: 'United States'
+      },
+      {
+        '@type': 'Country',
+        name: 'United Kingdom'
+      },
+      {
+        '@type': 'Country',
+        name: 'Germany'
+      },
+      {
+        '@type': 'Country',
+        name: 'Netherlands'
+      },
+      {
+        '@type': 'Country',
+        name: 'Switzerland'
+      },
+      {
+        '@type': 'Country',
+        name: 'Global'
+      }
+    ],
     availableAtOrFrom: {
       '@type': 'Place',
-      name: 'Remote/Global'
+      name: 'Remote',
+      description: 'Available for remote work in USA, Europe, and globally. Flexible timezone (EST, PST, GMT, CET)'
+    },
+    workLocation: {
+      '@type': 'Place',
+      name: 'Remote',
+      description: 'Remote work available globally'
     }
   }
 }

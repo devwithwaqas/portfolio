@@ -142,27 +142,104 @@ export function getHomePageSEO() {
   const location = APP_CONFIG.location
   const experience = APP_CONFIG.stats.yearsExperience
   
+  // GLOBAL KEYWORDS - Remote, USA, Europe (HIGHEST PRIORITY)
+  const remoteKeywords = [
+    'remote senior software engineer',
+    'remote technical lead',
+    'remote azure cloud architect',
+    'remote .net developer',
+    'remote full stack developer',
+    'remote devops engineer',
+    'remote software architect',
+    'remote technical consultant',
+    'remote developer available',
+    'hire remote senior software engineer',
+    'looking for remote technical lead',
+    'remote developer for hire',
+    'remote consultant available',
+    'freelance remote developer',
+    'contract remote software engineer'
+  ]
+  
+  // USA MARKET KEYWORDS
+  const usaKeywords = [
+    'remote software engineer usa',
+    'senior software engineer usa',
+    'technical lead united states',
+    'azure cloud architect usa',
+    'remote .net developer usa',
+    'usa remote developer',
+    'remote developer usa',
+    'hire remote developer usa',
+    'usa remote software engineer',
+    'remote consultant usa',
+    'remote software engineer california',
+    'remote developer texas',
+    'remote .net developer new york'
+  ]
+  
+  // EUROPE MARKET KEYWORDS
+  const europeKeywords = [
+    'remote software engineer uk',
+    'senior software engineer uk',
+    'remote developer uk',
+    'technical lead united kingdom',
+    'remote .net developer uk',
+    'hire remote developer uk',
+    'uk remote software engineer',
+    'remote software engineer germany',
+    'remote developer germany',
+    'remote software engineer netherlands',
+    'remote developer europe',
+    'senior software engineer europe',
+    'remote consultant europe',
+    'hire remote developer europe'
+  ]
+  
+  // GLOBAL/INTERNATIONAL KEYWORDS
+  const globalKeywords = [
+    'global remote software engineer',
+    'international remote developer',
+    'worldwide remote consultant',
+    'remote developer global',
+    'international technical lead',
+    'remote developer flexible timezone',
+    'remote developer est pst gmt',
+    'remote developer fortune 500',
+    'remote consultant enterprise'
+  ]
+  
+  // Base keywords
+  const baseKeywords = [
+    'Senior Software Engineer',
+    'Technical Lead',
+    'Lead Software Engineer',
+    'Azure Cloud Architect',
+    '.NET Developer',
+    'Full Stack Developer',
+    'Technical Consultant',
+    'DevOps Engineer',
+    'Microservices',
+    'Enterprise Architecture',
+    'CI/CD',
+    'Vue.js',
+    'Angular',
+    'Azure Service Fabric',
+    'Available for Hire',
+    'Freelance Developer',
+    'Contract Software Engineer'
+  ]
+  
   return {
-    title: `${fullName} - Senior Software Engineer & Technical Lead | ${location}`,
-    description: `Senior Software Engineer & Technical Lead with ${experience}+ years of experience in .NET, Azure Cloud, and enterprise architecture. Specializing in full-stack development, microservices, and cloud solutions. Based in ${location}. Available for consulting and freelance projects.`,
+    title: `${fullName} - Remote Senior Software Engineer & Technical Lead | Available USA, Europe, Global | ${experience}+ Years`,
+    description: `Hire ${fullName} - Remote Senior Software Engineer & Technical Lead with ${experience}+ years of experience. Available for remote work in USA, Europe, and globally. Specializing in .NET, Azure Cloud, microservices, and enterprise architecture. Flexible timezone (EST, PST, GMT, CET). Worked with Fortune 500 companies worldwide. Contact for remote consulting, freelance, and contract projects.`,
     keywords: [
-      'Senior Software Engineer',
-      'Technical Lead',
-      'Lead Software Engineer',
-      'Azure Cloud Architect',
-      '.NET Developer',
-      'Full Stack Developer',
-      'Technical Consultant',
-      'DevOps Engineer',
-      'Malaysia',
-      location,
-      'Microservices',
-      'Enterprise Architecture',
-      'CI/CD',
-      'Vue.js',
-      'Angular',
-      'Azure Service Fabric',
-      'Remote Software Engineer'
+      ...baseKeywords,
+      ...remoteKeywords,
+      ...usaKeywords,
+      ...europeKeywords,
+      ...globalKeywords,
+      location // Keep local for local searches
     ],
     type: 'profile',
     image: `${SITE_URL}assets/img/profile-img.jpg`
@@ -198,33 +275,77 @@ export function getProjectPageSEO(projectData) {
 }
 
 /**
- * Get SEO data for service pages (Enhanced for recruiter searches)
+ * Get SEO data for service pages (Enhanced for GLOBAL remote/USA/Europe searches)
  */
 export function getServicePageSEO(serviceData) {
   const fullName = APP_CONFIG.fullName
   const location = APP_CONFIG.location
   const experience = APP_CONFIG.stats.yearsExperience
+  const serviceName = serviceData.title.toLowerCase()
   
-  // Enhanced keywords targeting recruiters and service seekers
-  const serviceKeywords = [
+  // REMOTE KEYWORDS (Highest Priority)
+  const remoteKeywords = [
+    `remote ${serviceName}`,
+    `remote ${serviceName} developer`,
+    `remote ${serviceName} consultant`,
+    `remote ${serviceName} expert`,
+    `hire remote ${serviceName} developer`,
+    `remote ${serviceName} available`,
+    `freelance remote ${serviceName}`,
+    `contract remote ${serviceName}`
+  ]
+  
+  // USA MARKET KEYWORDS
+  const usaKeywords = [
+    `remote ${serviceName} usa`,
+    `${serviceName} usa`,
+    `usa remote ${serviceName} developer`,
+    `hire remote ${serviceName} usa`,
+    `remote ${serviceName} consultant usa`
+  ]
+  
+  // EUROPE MARKET KEYWORDS
+  const europeKeywords = [
+    `remote ${serviceName} uk`,
+    `remote ${serviceName} europe`,
+    `${serviceName} uk`,
+    `hire remote ${serviceName} uk`,
+    `remote ${serviceName} consultant europe`
+  ]
+  
+  // GLOBAL KEYWORDS
+  const globalKeywords = [
+    `global remote ${serviceName}`,
+    `international ${serviceName} consultant`,
+    `worldwide remote ${serviceName}`,
+    `remote ${serviceName} global`
+  ]
+  
+  // Base service keywords
+  const baseKeywords = [
     serviceData.title,
     `${serviceData.title} Services`,
-    `${serviceData.title} ${location}`,
-    `hire ${serviceData.title.toLowerCase()} malaysia`,
-    `looking for ${serviceData.title.toLowerCase()} consultant`,
-    `${serviceData.title.toLowerCase()} expert malaysia`,
-    `${serviceData.title.toLowerCase()} consultant ${location}`,
-    `freelance ${serviceData.title.toLowerCase()} developer`,
-    `contract ${serviceData.title.toLowerCase()} services`,
+    `hire ${serviceName}`,
+    `looking for ${serviceName} consultant`,
+    `${serviceName} expert`,
+    `${serviceName} consultant`,
+    `freelance ${serviceName} developer`,
+    `contract ${serviceName} services`,
     fullName,
-    location,
     'Software Engineer',
     'Technical Consultant',
-    'Malaysia',
-    'Selangor',
-    'Kuala Lumpur',
     'Available for Hire',
     'Remote Software Engineer'
+  ]
+  
+  // Combine all keywords
+  const serviceKeywords = [
+    ...baseKeywords,
+    ...remoteKeywords,
+    ...usaKeywords,
+    ...europeKeywords,
+    ...globalKeywords,
+    location // Keep for local searches
   ]
   
   // Add service-specific keywords if provided
@@ -232,13 +353,13 @@ export function getServicePageSEO(serviceData) {
     serviceKeywords.push(...serviceData.keywords)
   }
   
-  // Enhanced description with CTA for recruiters
+  // Enhanced description with GLOBAL/REMOTE focus
   const description = serviceData.description 
-    ? `${serviceData.description} Hire ${fullName}, ${location} based ${serviceData.title} expert with ${experience}+ years of experience. Available for consulting, freelance, and contract projects. Specializing in enterprise solutions, Azure Cloud, and .NET development.`
-    : `Hire ${fullName} for ${serviceData.title} services. ${location} based Senior Software Engineer & Technical Lead with ${experience}+ years of experience. Available for consulting, freelance, and contract projects.`
+    ? `${serviceData.description} Hire ${fullName} for remote ${serviceData.title} services. Available for remote work in USA, Europe, and globally. ${experience}+ years of experience with Fortune 500 companies. Flexible timezone (EST, PST, GMT, CET). Specializing in enterprise solutions, Azure Cloud, and .NET development.`
+    : `Hire ${fullName} for remote ${serviceData.title} services. Available for remote work in USA, Europe, and globally. Senior Software Engineer & Technical Lead with ${experience}+ years of experience. Flexible timezone. Contact for remote consulting, freelance, and contract projects.`
   
   return {
-    title: `Hire ${serviceData.title} Expert - ${fullName} | ${location} | ${experience}+ Years Experience`,
+    title: `Hire Remote ${serviceData.title} Expert - ${fullName} | Available USA, Europe, Global | ${experience}+ Years`,
     description,
     keywords: serviceKeywords,
     type: 'website',

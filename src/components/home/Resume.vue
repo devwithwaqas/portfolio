@@ -18,7 +18,7 @@
                       <IconComponent icon-name="modern web applications" fallback-emoji="🚀" size="xl" style="margin-right: 10px;" />
                       {{ fullName }}
                     </h4>
-                    <p class="txt-p-lg"><em><strong>Senior Software Engineer & Technical Lead</strong> with {{ totalExperience }}+ years architecting enterprise-scale solutions for Fortune 500 companies. <strong>Azure Cloud & DevOps expert</strong> specializing in .NET Core, microservices, and CI/CD automation. <strong>Proven track record:</strong> Delivered mission-critical systems processing 2.5M+ data points daily, achieved 65% performance improvements, and led teams managing billions in operational costs. Mentored 50+ developers across global teams.</em></p>
+                    <p class="txt-p-lg"><em><strong>Senior Software Engineer & Technical Lead</strong> with {{ totalExperience }}+ years architecting enterprise-scale solutions for Fortune 500 companies. <strong>Azure Cloud & DevOps expert</strong> specializing in .NET Core, microservices, and CI/CD automation. <strong>Available for remote work in USA, Europe, and globally.</strong> Flexible timezone (EST, PST, GMT, CET). <strong>Proven track record:</strong> Delivered mission-critical systems processing 2.5M+ data points daily, achieved 65% performance improvements, and led teams managing billions in operational costs. Mentored 50+ developers across global teams. Worked with clients in USA, Europe, and worldwide.</em></p>
                     <ul>
                       <li class="txt-list-md">
                         <strong>

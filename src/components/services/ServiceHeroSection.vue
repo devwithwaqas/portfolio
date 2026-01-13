@@ -6,6 +6,14 @@
         <img :src="heroImage" :alt="title" class="hero-image" />
       </div>
       
+      <!-- Remote Available Badge -->
+      <div class="remote-available-badge mb-4" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 12px 20px; border-radius: 25px; display: inline-block; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);">
+        <span style="font-size: 0.95rem; font-weight: 600;">
+          <i class="fas fa-globe" style="margin-right: 8px;"></i>
+          <strong>Remote Available:</strong> USA, Europe, Global | Flexible Timezone (EST, PST, GMT, CET)
+        </span>
+      </div>
+      
       <!-- Tagline -->
       <p v-if="tagline" class="service-tagline txt-p-xl mb-4">
         {{ tagline }}

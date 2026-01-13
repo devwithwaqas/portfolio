@@ -98,7 +98,7 @@ export default {
       { icon: 'security', label: 'Security', value: 'Enterprise-Grade' }
     ])
 
-    const heroBadges = ref(['Client-Focused', 'Technology-Agnostic', 'Modern Stack', 'Scalable'])
+    const heroBadges = ref(['Remote Available', 'USA & Europe', 'Global', 'Flexible Timezone', 'Client-Focused', 'Technology-Agnostic', 'Modern Stack', 'Scalable'])
 
     // Overview Banner Images (LinkedIn cover style - wide, short)
     const overviewBannerImages = ref([
@@ -109,8 +109,8 @@ export default {
 
     // Overview Content
     const overviewContent = ref({
-      what: "Full Stack Development is the comprehensive process of building both frontend and backend components of web applications. I specialize in creating end-to-end enterprise solutions that adapt to YOUR requirements. Whether you prefer Angular for enterprise applications, Vue.js for modern reactive interfaces, React for component-based architectures, or any other modern frontend framework, I work with the technology stack that best fits your business needs. Combined with robust .NET Core backends, SQL Server databases, and cloud infrastructure, I deliver complete solutions from database design to user interface development, ensuring seamless integration between all layers of your application.",
-      who: "This service is ideal for businesses and organizations that need complete custom software solutions tailored to their specific requirements. Whether you're a startup looking to build your MVP with Vue.js, an established company needing to modernize legacy systems with React, an enterprise requiring scalable Angular applications, or any organization with unique technology preferences, I adapt my approach to match your needs. Full stack development provides a single point of contact for all your development needs, with the flexibility to work with your preferred technology stack.",
+      what: "Full Stack Development is the comprehensive process of building both frontend and backend components of web applications. I specialize in creating end-to-end enterprise solutions that adapt to YOUR requirements. Whether you prefer Angular for enterprise applications, Vue.js for modern reactive interfaces, React for component-based architectures, or any other modern frontend framework, I work with the technology stack that best fits your business needs. Combined with robust .NET Core backends, SQL Server databases, and cloud infrastructure, I deliver complete solutions from database design to user interface development, ensuring seamless integration between all layers of your application. Available for remote work in USA, Europe, and globally with flexible timezone overlap (EST, PST, GMT, CET).",
+      who: "This service is ideal for businesses and organizations in USA, Europe, and globally that need complete custom software solutions tailored to their specific requirements. Whether you're a startup in California looking to build your MVP with Vue.js, an established company in London needing to modernize legacy systems with React, an enterprise in Germany requiring scalable Angular applications, or any organization worldwide with unique technology preferences, I adapt my approach to match your needs. Full stack development provides a single point of contact for all your development needs, with the flexibility to work with your preferred technology stack. I work remotely with clients across USA, Europe, and globally, with proven experience in distributed team collaboration.",
       valuePropositions: [
         "Technology flexibility - Work with Vue.js, React, Angular, or your preferred frontend framework",
         "Client-focused approach - Solutions tailored to your specific requirements and technology preferences",
@@ -119,7 +119,10 @@ export default {
         "Faster time-to-market with integrated development approach",
         "Reduced communication overhead between frontend and backend teams",
         "Comprehensive understanding of entire application stack",
-        "Scalable team approach - Can scale with dedicated developers when needed"
+        "Scalable team approach - Can scale with dedicated developers when needed",
+        "Remote work capability - Available for remote projects in USA, Europe, and globally",
+        "Flexible timezone - Can overlap with EST, PST, GMT, and CET timezones",
+        "Global experience - Worked with Fortune 500 companies worldwide"
       ],
       useCases: [
         "Building new enterprise applications with your preferred frontend framework (Vue, React, Angular)",
@@ -127,7 +130,10 @@ export default {
         "Creating scalable web applications for growing businesses",
         "Developing custom business solutions with specific technology requirements",
         "Migrating existing applications to modern frameworks",
-        "Building responsive Progressive Web Apps (PWAs) with any frontend framework"
+        "Building responsive Progressive Web Apps (PWAs) with any frontend framework",
+        "Remote development projects for USA-based companies",
+        "European market applications requiring remote development teams",
+        "Global enterprise solutions with distributed team collaboration"
       ]
     })
 
@@ -351,14 +357,22 @@ export default {
         question: "Can you scale the team for larger projects?",
         answer: "Yes, I can scale the development team when needed for larger projects. While I handle the core architecture and development, I can bring in additional developers with expertise in Vue.js, React, Angular, or other required technologies to ensure timely delivery. This allows me to take on projects of any size while maintaining quality and meeting deadlines."
       },
-      // Recruiter-focused FAQs
+      // Remote Work & Global Availability FAQs
       {
-        question: "Are you available for hire as a full stack developer?",
-        answer: "Yes, I am available for hire as a full stack developer for contract, freelance, and consulting projects. With 17+ years of experience in .NET, Azure Cloud, Vue.js, React, Angular, and enterprise architecture, I can work remotely or on-site in Malaysia. I'm open to both short-term projects and long-term engagements."
+        question: "Are you available for remote work in USA and Europe?",
+        answer: "Yes! I am available for remote work in USA, Europe (UK, Germany, Netherlands, Switzerland), and globally. I have extensive experience working remotely with Fortune 500 companies worldwide. My location is Malaysia, but I work across multiple timezones (EST, PST, GMT, CET) and have proven experience in distributed team collaboration. No location restrictions - fully remote capable."
       },
       {
-        question: "What is your availability for new projects?",
-        answer: "I am currently available for new full stack development projects. I can work on a full-time, part-time, or project basis. My location is Selangor, Malaysia, but I have extensive experience working remotely with global teams and Fortune 500 companies. I'm flexible with time zones and can accommodate various engagement models."
+        question: "What timezone do you work in? Can you overlap with USA/Europe hours?",
+        answer: "I'm based in Malaysia (GMT+8) but have flexible working hours to overlap with USA and Europe timezones. I regularly work with teams in EST (USA East Coast), PST (USA West Coast), GMT (UK), and CET (Central Europe). I can adjust my schedule to ensure effective collaboration and real-time communication with clients in USA and Europe."
+      },
+      {
+        question: "Are you available for hire as a remote full stack developer?",
+        answer: "Yes, I am available for hire as a remote full stack developer for contract, freelance, and consulting projects. Available for remote work in USA, Europe, and globally. With 17+ years of experience in .NET, Azure Cloud, Vue.js, React, Angular, and enterprise architecture. I'm open to both short-term projects and long-term remote engagements."
+      },
+      {
+        question: "What is your availability for new remote projects?",
+        answer: "I am currently available for new remote full stack development projects. I can work on a full-time, part-time, or project basis remotely. I have extensive experience working remotely with global teams and Fortune 500 companies in USA and Europe. Flexible with time zones (EST, PST, GMT, CET) and can accommodate various remote engagement models."
       },
       {
         question: "What industries have you worked with?",

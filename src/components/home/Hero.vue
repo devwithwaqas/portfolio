@@ -24,18 +24,20 @@
             <span class="title-name" data-typed-items="Scalable Microservices, Robust APIs, Cloud-Native Solutions, DevOps Excellence">{{ rotating }}</span>
           </h2>
           
-          <!-- Available for Hire Badge -->
-          <div class="available-badge" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 12px 20px; border-radius: 25px; display: inline-block; margin: 15px 0; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); animation: pulse 2s infinite;">
-            <span class="badge-text" style="font-size: 0.95rem; font-weight: 500;">
-              <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
-              <strong>Available for Hire</strong> - Senior Software Engineer & Technical Lead | Remote/Global | 17+ Years Experience
+          <!-- Available for Remote Work Badge -->
+          <div class="available-badge" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 14px 24px; border-radius: 25px; display: inline-block; margin: 15px 0; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); animation: pulse 2s infinite;">
+            <span class="badge-text" style="font-size: 1rem; font-weight: 600;">
+              <i class="fas fa-globe" style="margin-right: 8px;"></i>
+              <strong>Available for Remote Work</strong> - USA, Europe, Global | Flexible Timezone (EST, PST, GMT, CET) | 17+ Years Experience
             </span>
           </div>
           
           <p class="hero-description txt-p-xl">
             <span class="emoji">🚀</span><span class="highlight-text">Building robust APIs</span><span class="emoji">☁️</span><span class="highlight-text">, cloud-native services</span><span class="emoji">⚙️</span><span class="highlight-text">, and DevOps pipelines</span><span class="emoji">🎯</span><span class="highlight-text"> — with a focus on reliability and scale.</span>
             <br>
-            <span class="emoji">💼</span><span class="highlight-text">Available for consulting, freelance, and contract projects in Malaysia and globally.</span>
+            <span class="emoji">🌍</span><span class="highlight-text"><strong>Remote Available:</strong> USA, Europe, Global | Worked with Fortune 500 companies worldwide | Flexible timezone overlap for EST, PST, GMT, CET</span>
+            <br>
+            <span class="emoji">💼</span><span class="highlight-text">Available for remote consulting, freelance, and contract projects. Specializing in .NET, Azure Cloud, microservices, and enterprise architecture.</span>
           </p>
           
           <!-- Action Buttons -->
