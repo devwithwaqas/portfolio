@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 
 export default defineConfig({
-  base: '/portfolio/', // GitHub Pages base path (change to '/' when repo is renamed to devwithwaqas.github.io)
+  base: '/portfolio/', // GitHub Pages base path - repo name is 'portfolio', so site is at /portfolio/
   publicDir: 'public',
   plugins: [
     vue(),

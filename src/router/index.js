@@ -119,7 +119,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL), // Use Vite's base URL for router
   routes,
   scrollBehavior(to, from, savedPosition) {
     // Always scroll to top on route change - no hash handling
