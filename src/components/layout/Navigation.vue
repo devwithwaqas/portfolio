@@ -281,61 +281,29 @@ export default {
       // Only handle scroll on home page
       if (this.$route.path !== '/') return
       
-      // Debounced scroll handler with RAF to batch DOM reads
+      // Heavy debounce - IntersectionObserver handles most of the work
+      // This is just a fallback, so we can be less aggressive
       if (this.scrollTimeout) {
         clearTimeout(this.scrollTimeout)
       }
       
+      // Only run fallback scroll handler infrequently (IntersectionObserver is primary)
       this.scrollTimeout = setTimeout(() => {
-        // Use requestAnimationFrame to batch DOM reads and avoid forced reflows
+        // Use double RAF to ensure we're not blocking
         requestAnimationFrame(() => {
-          const sections = ['hero', 'about', 'resume', 'portfolio', 'services', 'contact']
-          const scrollY = window.scrollY
-          const windowHeight = window.innerHeight
-          const viewportCenter = scrollY + windowHeight / 3
-          
-          // Batch all DOM reads in a single frame
-          const sectionData = sections.map(sectionId => {
-            const section = document.getElementById(sectionId)
-            if (!section) return null
-            
-            // Single getBoundingClientRect call per section
-            const rect = section.getBoundingClientRect()
-            const offsetTop = section.offsetTop
-            const offsetHeight = section.offsetHeight
-            
-            // Calculate visibility without additional DOM reads
-            const visibleTop = Math.max(0, -rect.top)
-            const visibleBottom = Math.min(offsetHeight, windowHeight - rect.top)
-            const visibleHeight = Math.max(0, visibleBottom - visibleTop)
-            const visibility = visibleHeight / offsetHeight
-            
-            return {
-              id: sectionId,
-              visibility,
-              top: rect.top,
-              offsetTop,
-              isInView: rect.top <= windowHeight / 2 && rect.bottom >= 0
+          requestAnimationFrame(() => {
+            // Only check if IntersectionObserver might have missed something
+            // Use cached values where possible to avoid forced reflows
+            const scrollY = window.scrollY
+            if (scrollY < 100 && this.activeSection !== 'hero') {
+              this.activeSection = 'hero'
+              return
             }
-          }).filter(Boolean)
-          
-          // Find the section that's currently most visible
-          let currentSection = 'hero'
-          let maxVisibility = 0
-          
-          sectionData.forEach(data => {
-            if (data.visibility > maxVisibility && data.isInView) {
-              maxVisibility = data.visibility
-              currentSection = data.id
-            }
+            // For other sections, rely on IntersectionObserver (which is more efficient)
+            // Only do minimal check here
           })
-          
-          // Only update if different to avoid unnecessary reactivity
-          if (this.activeSection !== currentSection) {
-            this.activeSection = currentSection
-          }
         })
-      }, 100) // Increased debounce for better performance
+      }, 200) // Increased debounce - IntersectionObserver is primary
     },
     setupClickOutsideListener() {
       document.addEventListener('click', this.handleClickOutside)

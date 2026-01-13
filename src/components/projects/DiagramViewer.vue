@@ -261,7 +261,7 @@ export default {
       // Loading state for fullscreen
       isFullscreenLoading: false,
       // Debug flag to control console logging
-      debugMode: true
+      debugMode: import.meta.env.DEV // Only debug in development
     }
   },
   computed: {

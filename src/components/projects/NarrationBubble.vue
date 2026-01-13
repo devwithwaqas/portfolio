@@ -92,7 +92,7 @@ export default {
     return {
       bubbleStyle: {},
       // Debug flag to control console logging
-      debugMode: true
+      debugMode: import.meta.env.DEV // Only debug in development
     }
   },
   computed: {

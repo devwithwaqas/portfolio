@@ -209,16 +209,24 @@ export default {
             }
           })
           this.chartInstances.push(chartInstance)
-          console.log(`PerformanceMetricsSection: Successfully initialized chart "${chartConfig.id}"`)
+          // Log only in development
+          if (import.meta.env.DEV) {
+            console.log(`PerformanceMetricsSection: Successfully initialized chart "${chartConfig.id}"`)
+          }
         } catch (error) {
           console.error(`PerformanceMetricsSection: Error initializing chart "${chartConfig.id}":`, error)
         }
       })
       
       if (this.chartInstances.length === 0) {
-        console.warn('PerformanceMetricsSection: No charts were successfully initialized')
+        if (import.meta.env.DEV) {
+          console.warn('PerformanceMetricsSection: No charts were successfully initialized')
+        }
       } else {
-        console.log(`PerformanceMetricsSection: Successfully initialized ${this.chartInstances.length} chart(s)`)
+        // Log only in development
+        if (import.meta.env.DEV) {
+          console.log(`PerformanceMetricsSection: Successfully initialized ${this.chartInstances.length} chart(s)`)
+        }
       }
     }
   }

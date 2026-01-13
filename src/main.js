@@ -220,13 +220,20 @@ class AnimationController {
     // Check if mobile device
     const isMobile = /Mobi|Android|iPhone|iPod/i.test(navigator.userAgent)
     
-    // Optimized scroll handler with RAF batching
+    // Optimized scroll handler - minimize work per frame
+    let rafId = null
     const scrollHandler = () => {
-      // Batch all DOM writes in a single RAF frame
-      requestAnimationFrame(() => {
+      // Cancel any pending RAF to avoid queuing multiple frames
+      if (rafId) {
+        cancelAnimationFrame(rafId)
+      }
+      
+      // Single RAF frame with minimal work
+      rafId = requestAnimationFrame(() => {
+        // Only update if state changed
         if (!this.isScrolling) {
           this.isScrolling = true
-          // Batch class updates
+          // Batch class updates (minimal DOM writes)
           document.body.classList.add('scrolling')
           if (!isMobile) {
             document.documentElement.classList.add('vue-scrolling')
@@ -234,18 +241,22 @@ class AnimationController {
           }
         }
         
+        // Clear existing timeout
         if (this.scrollTimeout) {
           clearTimeout(this.scrollTimeout)
         }
         
+        // Debounce the resume operation
         this.scrollTimeout = setTimeout(() => {
-          // Batch class removals in RAF
+          // Use RAF for resume to batch DOM writes
           requestAnimationFrame(() => {
-            this.isScrolling = false
-            document.body.classList.remove('scrolling')
-            if (!isMobile) {
-              document.documentElement.classList.remove('vue-scrolling')
-              this.resumeAnimations()
+            if (this.isScrolling) {
+              this.isScrolling = false
+              document.body.classList.remove('scrolling')
+              if (!isMobile) {
+                document.documentElement.classList.remove('vue-scrolling')
+                this.resumeAnimations()
+              }
             }
           })
         }, isMobile ? 100 : 150)

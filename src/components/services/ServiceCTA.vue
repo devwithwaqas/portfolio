@@ -117,7 +117,10 @@ export default {
   methods: {
     handleSubmit() {
       // Handle form submission
-      console.log('Form submitted:', this.formData)
+      // Log only in development
+      if (import.meta.env.DEV) {
+        console.log('Form submitted:', this.formData)
+      }
       // You can add actual form submission logic here
       alert('Thank you for your message! I will get back to you soon.')
       this.formData = {

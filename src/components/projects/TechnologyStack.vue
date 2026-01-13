@@ -163,7 +163,10 @@ export default {
         .map(cat => grouped[cat.key])
         .filter(cat => cat.technologies.length > 0)
       
-      console.log('TechnologyStack categories:', result)
+      // Log only in development
+      if (import.meta.env.DEV) {
+        console.log('TechnologyStack categories:', result)
+      }
       return result
     }
   },

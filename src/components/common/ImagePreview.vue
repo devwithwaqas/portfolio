@@ -96,13 +96,15 @@ export default {
       const heightScale = wrapperRect.height / img.naturalHeight
       const fitScale = Math.min(widthScale, heightScale)
       
-      console.log('🖼️ PANZOOM INIT:', {
-        imageNaturalWidth: img.naturalWidth,
-        imageNaturalHeight: img.naturalHeight,
-        wrapperWidth: wrapperRect.width,
-        wrapperHeight: wrapperRect.height,
-        fitScale: fitScale.toFixed(3)
-      })
+      if (import.meta.env.DEV) {
+        console.log('🖼️ PANZOOM INIT:', {
+          imageNaturalWidth: img.naturalWidth,
+          imageNaturalHeight: img.naturalHeight,
+          wrapperWidth: wrapperRect.width,
+          wrapperHeight: wrapperRect.height,
+          fitScale: fitScale.toFixed(3)
+        })
+      }
       
       // Initialize panzoom on the IMAGE element
       this.panzoomInstance = Panzoom(img, {
@@ -128,11 +130,13 @@ export default {
       
       // Log scale changes and keep image centered
       img.addEventListener('panzoomchange', (e) => {
-        console.log('📏 SCALE CHANGED:', {
-          scale: e.detail.scale.toFixed(3),
-          x: e.detail.x.toFixed(1),
-          y: e.detail.y.toFixed(1)
-        })
+        if (import.meta.env.DEV) {
+          console.log('📏 SCALE CHANGED:', {
+            scale: e.detail.scale.toFixed(3),
+            x: e.detail.x.toFixed(1),
+            y: e.detail.y.toFixed(1)
+          })
+        }
         
         // If image is at or below fit scale, reset pan to center
         if (e.detail.scale <= fitScale * 1.1) {
@@ -145,7 +149,9 @@ export default {
         if (e.ctrlKey || e.metaKey) {
           e.preventDefault()
           e.stopPropagation()
-          console.log('🖱️ WHEEL EVENT:', { ctrlKey: e.ctrlKey, deltaY: e.deltaY })
+          if (import.meta.env.DEV) {
+            console.log('🖱️ WHEEL EVENT:', { ctrlKey: e.ctrlKey, deltaY: e.deltaY })
+          }
           
           // Manually zoom without pan
           const currentScale = this.panzoomInstance.getScale()
@@ -178,7 +184,9 @@ export default {
           this.initialPinchDistance = getDistance(e.touches[0], e.touches[1])
           this.initialPinchScale = this.panzoomInstance.getScale()
           this.justFinishedPinch = false
-          console.log('📱 PINCH START:', { scale: this.initialPinchScale.toFixed(3) })
+          if (import.meta.env.DEV) {
+            console.log('📱 PINCH START:', { scale: this.initialPinchScale.toFixed(3) })
+          }
         } else if (e.touches.length === 1 && !this.justFinishedPinch) {
           // Single touch - only if NOT just after pinching
           const currentScale = this.panzoomInstance.getScale()
@@ -189,7 +197,9 @@ export default {
             const pan = this.panzoomInstance.getPan()
             this.panStartImageX = pan.x
             this.panStartImageY = pan.y
-            console.log('📱 PAN START')
+            if (import.meta.env.DEV) {
+              console.log('📱 PAN START')
+            }
           }
         }
       }
@@ -227,7 +237,9 @@ export default {
         if (e.touches.length === 1 && this.initialPinchDistance > 0) {
           // Just lifted one finger during pinch - image stays exactly where it is
           const currentScale = this.panzoomInstance.getScale()
-          console.log('📱 ONE FINGER LIFTED:', { scale: currentScale.toFixed(3) })
+          if (import.meta.env.DEV) {
+            console.log('📱 ONE FINGER LIFTED:', { scale: currentScale.toFixed(3) })
+          }
           
           // Reset pinch tracking
           this.initialPinchDistance = 0
@@ -243,7 +255,9 @@ export default {
           this.panStartImageX = pan.x
           this.panStartImageY = pan.y
           
-          console.log('📱 READY - Pan will start from current finger position')
+          if (import.meta.env.DEV) {
+            console.log('📱 READY - Pan will start from current finger position')
+          }
           
           e.preventDefault()
         } else if (e.touches.length === 0) {
@@ -254,7 +268,9 @@ export default {
           this.panStartY = null
           this.panStartImageX = null
           this.panStartImageY = null
-          console.log('📱 ALL FINGERS LIFTED')
+          if (import.meta.env.DEV) {
+            console.log('📱 ALL FINGERS LIFTED')
+          }
         }
       }
       
@@ -264,13 +280,17 @@ export default {
     },
     zoomIn() {
       if (this.panzoomInstance) {
-        console.log('🔍 ZOOM IN clicked')
+        if (import.meta.env.DEV) {
+          console.log('🔍 ZOOM IN clicked')
+        }
         this.panzoomInstance.zoomIn({ step: 0.2 })
       }
     },
     zoomOut() {
       if (this.panzoomInstance) {
-        console.log('🔍 ZOOM OUT clicked')
+        if (import.meta.env.DEV) {
+          console.log('🔍 ZOOM OUT clicked')
+        }
         this.panzoomInstance.zoomOut({ step: 0.2 })
       }
     },
