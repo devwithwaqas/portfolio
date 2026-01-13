@@ -37,34 +37,65 @@ export function generatePersonSchema() {
   const linkedin = APP_CONFIG.contactLinks.linkedin
   const github = APP_CONFIG.contactLinks.github
   
-  // Skills from resume/experience
+  // Skills from resume/experience - Enhanced for SEO
   const skills = [
+    // Core Technologies
     '.NET Core',
-    'Azure Cloud',
-    'Microservices Architecture',
-    'CI/CD',
-    'Vue.js',
-    'Angular',
-    'SQL Server',
-    'Cosmos DB',
-    'Azure Service Fabric',
-    'API Gateway',
-    'Enterprise Architecture',
-    'Full Stack Development',
-    'DevOps',
-    'Docker',
-    'Kubernetes',
-    'RESTful APIs',
-    'GraphQL',
-    'TypeScript',
-    'JavaScript',
+    '.NET Framework',
     'C#',
     'ASP.NET',
+    'ASP.NET Core',
     'Entity Framework',
+    'Entity Framework Core',
+    // Cloud & Azure
+    'Azure Cloud',
+    'Azure Service Fabric',
     'Azure Functions',
     'Azure App Services',
     'Azure Key Vault',
-    'Azure App Insights'
+    'Azure App Insights',
+    'Azure API Gateway',
+    'Azure DevOps',
+    'Azure Cosmos DB',
+    // Architecture & Patterns
+    'Microservices Architecture',
+    'Microservices',
+    'Distributed Systems',
+    'Enterprise Architecture',
+    'System Architecture',
+    'Software Architecture',
+    'API Architecture',
+    'RESTful APIs',
+    'REST API',
+    'API Development',
+    'API Design',
+    'API Gateway',
+    // Frontend
+    'Vue.js',
+    'Angular',
+    'TypeScript',
+    'JavaScript',
+    'React',
+    // Database
+    'SQL Server',
+    'Cosmos DB',
+    'Database Design',
+    'Database Optimization',
+    // DevOps & CI/CD
+    'CI/CD',
+    'DevOps',
+    'Docker',
+    'Kubernetes',
+    'Continuous Integration',
+    'Continuous Deployment',
+    // Full Stack
+    'Full Stack Development',
+    'Full Stack',
+    // Other
+    'GraphQL',
+    'SignalR',
+    'Swagger',
+    'API Documentation'
   ]
   
   return {
@@ -78,7 +109,13 @@ export function generatePersonSchema() {
       'Lead Software Engineer',
       'Azure Cloud Architect',
       'Full Stack Developer',
-      'Technical Consultant'
+      'Technical Consultant',
+      '.NET Consultant',
+      '.NET Expert',
+      'Microservices Architect',
+      'API Development Expert',
+      'Enterprise Architect',
+      'DevOps Consultant'
     ],
     description: `Senior Software Engineer & Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of experience in .NET, Azure Cloud, and enterprise architecture. Specializing in full-stack development, microservices, and cloud solutions.`,
     url: website,

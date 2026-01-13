@@ -209,6 +209,101 @@ export function getHomePageSEO() {
     'remote consultant enterprise'
   ]
   
+  // TECHNOLOGY-SPECIFIC KEYWORDS (CRITICAL)
+  const technologyKeywords = [
+    // .NET Keywords
+    '.net consultant',
+    '.net expert',
+    '.net core consultant',
+    '.net core expert',
+    'asp.net consultant',
+    'c# consultant',
+    'c# expert',
+    '.net architect',
+    '.net development services',
+    'hire .net consultant',
+    'hire .net expert',
+    '.net microservices consultant',
+    '.net azure consultant',
+    'enterprise .net consultant',
+    'senior .net consultant',
+    'experienced .net expert',
+    '17 years .net experience',
+    // Microservices Keywords
+    'microservices architect',
+    'microservices consultant',
+    'microservices expert',
+    'microservices developer',
+    'microservices architecture services',
+    'hire microservices architect',
+    'microservices .net core',
+    'azure microservices expert',
+    'microservices design patterns',
+    'distributed systems architect',
+    'senior microservices architect',
+    // API Development Keywords
+    'api development expert',
+    'api developer consultant',
+    'restful api developer',
+    'api architecture consultant',
+    'api design expert',
+    'api development services',
+    'hire api developer',
+    '.net api developer',
+    'azure api developer',
+    'api gateway expert',
+    'rest api consultant',
+    // Azure Cloud Keywords
+    'azure cloud consultant',
+    'azure cloud expert',
+    'azure architect consultant',
+    'azure devops consultant',
+    'azure services expert',
+    'azure migration consultant',
+    'hire azure consultant',
+    'azure cloud architect services',
+    'senior azure consultant',
+    // Full Stack Keywords
+    'full stack consultant',
+    'full stack expert',
+    'full stack developer consultant',
+    'hire full stack consultant',
+    'full stack development services',
+    // DevOps Keywords
+    'devops consultant',
+    'devops expert',
+    'ci/cd consultant',
+    'azure devops expert',
+    'hire devops consultant',
+    // Enterprise Architecture Keywords
+    'enterprise architect consultant',
+    'enterprise architecture expert',
+    'system architect consultant',
+    'software architecture consultant',
+    'hire enterprise architect',
+    'senior enterprise architect'
+  ]
+  
+  // REMOTE WORK PLATFORM KEYWORDS
+  const platformKeywords = [
+    'remote work freelance',
+    'freelance remote developer',
+    'remote freelance software engineer',
+    'upwork senior software engineer',
+    'toptal .net developer',
+    'freelancer azure architect',
+    'remote work platform developer',
+    'freelance platform software engineer',
+    'remote freelance work',
+    'remote contract developer',
+    'remote consulting services',
+    'remote project-based work',
+    'remote part-time developer',
+    'remote full-time consultant',
+    'freelance remote .net developer',
+    'remote freelance consultant'
+  ]
+  
   // Base keywords
   const baseKeywords = [
     'Senior Software Engineer',
@@ -235,6 +330,8 @@ export function getHomePageSEO() {
     description: `Hire ${fullName} - Remote Senior Software Engineer & Technical Lead with ${experience}+ years of experience. Available for remote work in USA, Europe, and globally. Specializing in .NET, Azure Cloud, microservices, and enterprise architecture. Flexible timezone (EST, PST, GMT, CET). Worked with Fortune 500 companies worldwide. Contact for remote consulting, freelance, and contract projects.`,
     keywords: [
       ...baseKeywords,
+      ...technologyKeywords,
+      ...platformKeywords,
       ...remoteKeywords,
       ...usaKeywords,
       ...europeKeywords,
@@ -321,6 +418,48 @@ export function getServicePageSEO(serviceData) {
     `remote ${serviceName} global`
   ]
   
+  // TECHNOLOGY-SPECIFIC KEYWORDS for this service
+  const serviceTechnologyKeywords = []
+  
+  // Add technology keywords based on service type
+  if (serviceName.includes('full stack') || serviceName.includes('fullstack')) {
+    serviceTechnologyKeywords.push(
+      '.net full stack developer',
+      'full stack .net consultant',
+      'full stack .net expert',
+      'vue.js full stack developer',
+      'angular full stack developer',
+      'react full stack developer'
+    )
+  }
+  if (serviceName.includes('azure') || serviceName.includes('cloud')) {
+    serviceTechnologyKeywords.push(
+      'azure cloud consultant',
+      'azure cloud expert',
+      'azure architect consultant',
+      'hire azure consultant',
+      'azure migration consultant'
+    )
+  }
+  if (serviceName.includes('microservices')) {
+    serviceTechnologyKeywords.push(
+      'microservices consultant',
+      'microservices expert',
+      'microservices architect',
+      'hire microservices architect',
+      'microservices .net core',
+      'azure microservices expert'
+    )
+  }
+  if (serviceName.includes('technical leadership') || serviceName.includes('leadership')) {
+    serviceTechnologyKeywords.push(
+      'technical lead consultant',
+      'engineering manager consultant',
+      'team lead consultant',
+      'technical leadership expert'
+    )
+  }
+  
   // Base service keywords
   const baseKeywords = [
     serviceData.title,
@@ -329,18 +468,31 @@ export function getServicePageSEO(serviceData) {
     `looking for ${serviceName} consultant`,
     `${serviceName} expert`,
     `${serviceName} consultant`,
+    `${serviceName} specialist`,
     `freelance ${serviceName} developer`,
     `contract ${serviceName} services`,
     fullName,
     'Software Engineer',
     'Technical Consultant',
     'Available for Hire',
-    'Remote Software Engineer'
+    'Remote Software Engineer',
+    ...serviceTechnologyKeywords
+  ]
+  
+  // REMOTE WORK PLATFORM KEYWORDS
+  const platformKeywords = [
+    `remote work freelance ${serviceName}`,
+    `freelance remote ${serviceName}`,
+    `remote freelance ${serviceName} developer`,
+    `remote contract ${serviceName}`,
+    `remote consulting ${serviceName}`,
+    `remote project ${serviceName}`
   ]
   
   // Combine all keywords
   const serviceKeywords = [
     ...baseKeywords,
+    ...platformKeywords,
     ...remoteKeywords,
     ...usaKeywords,
     ...europeKeywords,

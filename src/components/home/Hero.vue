@@ -21,7 +21,7 @@
           
           <h2 class="hero-title txt-h2-4xl">
             <span class="title-prefix">I craft</span>
-            <span class="title-name" data-typed-items="Scalable Microservices, Robust APIs, Cloud-Native Solutions, DevOps Excellence">{{ rotating }}</span>
+            <span class="title-name" data-typed-items="Scalable Microservices, Robust APIs, Cloud-Native Solutions, DevOps Excellence, .NET Enterprise Apps, Azure Cloud Solutions">{{ rotating }}</span>
           </h2>
           
           <!-- Available for Remote Work Badge -->
@@ -101,12 +101,18 @@ export default {
   data() {
     return {
       ...APP_CONFIG,
-      // Rotating text functionality
+      // Rotating text functionality - Technology keywords for SEO
       phrases: [
         'Scalable Microservices',
         'Robust APIs',
         'Cloud-Native Solutions',
         'DevOps Excellence',
+        '.NET Enterprise Apps',
+        'Azure Cloud Solutions',
+        'API Development',
+        'Microservices Architecture',
+        '.NET Core Solutions',
+        'RESTful API Design'
       ],
       i: 0,
       rotating: 'Scalable Microservices',
