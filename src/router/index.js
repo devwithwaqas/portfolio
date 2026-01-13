@@ -3,7 +3,7 @@ import Home from '../views/Home.vue'
 import HeatExchangerPage from '../views/projects/HeatExchangerPage.vue'
 import AirAsiaID90Page from '../views/projects/AirAsiaID90Page.vue'
 import { setPageSEO, getHomePageSEO, getProjectPageSEO, getServicePageSEO } from '../utils/seo.js'
-import { generateHomePageStructuredData, generateProjectPageStructuredData } from '../utils/structuredData.js'
+import { generateHomePageStructuredData, generateProjectPageStructuredData, generateServicePageStructuredData } from '../utils/structuredData.js'
 
 const routes = [
   {
@@ -168,17 +168,28 @@ router.beforeEach((to, from, next) => {
       image: seo.image
     })
   } else if (to.path.startsWith('/services/')) {
-    // Service page
+    // Service page - Enhanced for recruiter searches
     const serviceTitle = to.name.replace(/([A-Z])/g, ' $1').trim()
-    const seo = getServicePageSEO({
+    const serviceData = {
       title: serviceTitle,
-      description: `${serviceTitle} services by Waqas Ahmad, Senior Software Engineer & Technical Lead based in Malaysia.`,
-      url: to.path
-    })
+      description: `Hire expert ${serviceTitle} services. ${serviceTitle} consultant with 17+ years of experience in enterprise solutions, Azure Cloud, and .NET development. Available for consulting, freelance, and contract projects in Malaysia and globally.`,
+      url: to.path,
+      serviceType: serviceTitle,
+      keywords: [
+        `hire ${serviceTitle.toLowerCase()} malaysia`,
+        `${serviceTitle.toLowerCase()} consultant`,
+        `${serviceTitle.toLowerCase()} expert`,
+        `freelance ${serviceTitle.toLowerCase()} developer`,
+        `contract ${serviceTitle.toLowerCase()} services`
+      ]
+    }
+    const seo = getServicePageSEO(serviceData)
     setPageSEO({
       ...seo,
       url: `${SITE_URL}${to.path}`
     })
+    // Generate structured data (FAQ will be added by component)
+    generateServicePageStructuredData(serviceData, [])
   } else {
     // Default SEO for other pages
     setPageSEO({

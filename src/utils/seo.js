@@ -198,26 +198,49 @@ export function getProjectPageSEO(projectData) {
 }
 
 /**
- * Get SEO data for service pages
+ * Get SEO data for service pages (Enhanced for recruiter searches)
  */
 export function getServicePageSEO(serviceData) {
   const fullName = APP_CONFIG.fullName
   const location = APP_CONFIG.location
   const experience = APP_CONFIG.stats.yearsExperience
   
+  // Enhanced keywords targeting recruiters and service seekers
+  const serviceKeywords = [
+    serviceData.title,
+    `${serviceData.title} Services`,
+    `${serviceData.title} ${location}`,
+    `hire ${serviceData.title.toLowerCase()} malaysia`,
+    `looking for ${serviceData.title.toLowerCase()} consultant`,
+    `${serviceData.title.toLowerCase()} expert malaysia`,
+    `${serviceData.title.toLowerCase()} consultant ${location}`,
+    `freelance ${serviceData.title.toLowerCase()} developer`,
+    `contract ${serviceData.title.toLowerCase()} services`,
+    fullName,
+    location,
+    'Software Engineer',
+    'Technical Consultant',
+    'Malaysia',
+    'Selangor',
+    'Kuala Lumpur',
+    'Available for Hire',
+    'Remote Software Engineer'
+  ]
+  
+  // Add service-specific keywords if provided
+  if (serviceData.keywords && Array.isArray(serviceData.keywords)) {
+    serviceKeywords.push(...serviceData.keywords)
+  }
+  
+  // Enhanced description with CTA for recruiters
+  const description = serviceData.description 
+    ? `${serviceData.description} Hire ${fullName}, ${location} based ${serviceData.title} expert with ${experience}+ years of experience. Available for consulting, freelance, and contract projects. Specializing in enterprise solutions, Azure Cloud, and .NET development.`
+    : `Hire ${fullName} for ${serviceData.title} services. ${location} based Senior Software Engineer & Technical Lead with ${experience}+ years of experience. Available for consulting, freelance, and contract projects.`
+  
   return {
-    title: `${serviceData.title} Services - ${fullName} | ${location}`,
-    description: `${serviceData.description || serviceData.title} services by ${fullName}, ${location} based ${serviceData.title} expert. ${experience}+ years of experience delivering enterprise solutions.`,
-    keywords: [
-      serviceData.title,
-      `${serviceData.title} Services`,
-      `${serviceData.title} ${location}`,
-      fullName,
-      location,
-      'Software Engineer',
-      'Technical Consultant',
-      'Malaysia'
-    ],
+    title: `Hire ${serviceData.title} Expert - ${fullName} | ${location} | ${experience}+ Years Experience`,
+    description,
+    keywords: serviceKeywords,
     type: 'website',
     image: serviceData.image || `${SITE_URL}assets/img/profile-img.jpg`
   }

@@ -302,6 +302,94 @@ export function generateHomePageStructuredData() {
 }
 
 /**
+ * Generate FAQPage schema
+ */
+export function generateFAQPageSchema(faqItems) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map(item => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer
+      }
+    }))
+  }
+}
+
+/**
+ * Generate Service schema
+ */
+export function generateServiceSchema(serviceData) {
+  const fullName = APP_CONFIG.fullName
+  const location = APP_CONFIG.location
+  
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${SITE_URL}${serviceData.url}`,
+    name: serviceData.title,
+    description: serviceData.description,
+    provider: {
+      '@type': 'Person',
+      name: fullName,
+      jobTitle: 'Senior Software Engineer & Technical Lead',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: location.split(',')[0] || location,
+        addressRegion: location.includes('Selangor') ? 'Selangor' : '',
+        addressCountry: 'MY'
+      }
+    },
+    areaServed: {
+      '@type': 'Country',
+      name: ['Malaysia', 'Global']
+    },
+    serviceType: serviceData.serviceType || serviceData.title,
+    offers: {
+      '@type': 'Offer',
+      availabilityStarts: '2022-01-01',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        priceCurrency: 'USD'
+      }
+    }
+  }
+}
+
+/**
+ * Generate Offer schema (for availability)
+ */
+export function generateOfferSchema() {
+  const fullName = APP_CONFIG.fullName
+  
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Offer',
+    name: `${fullName} - Software Engineering Services`,
+    description: 'Available for hire as Senior Software Engineer, Technical Lead, or Technical Consultant. Specializing in Azure Cloud, .NET, microservices, and enterprise solutions.',
+    seller: {
+      '@type': 'Person',
+      name: fullName
+    },
+    availability: 'https://schema.org/InStock',
+    priceCurrency: 'USD',
+    eligibleRegion: {
+      '@type': 'Country',
+      name: 'Global'
+    },
+    availableAtOrFrom: {
+      '@type': 'Place',
+      name: 'Remote/Global'
+    }
+  }
+}
+
+/**
  * Generate structured data for project page
  */
 export function generateProjectPageStructuredData(projectData) {
@@ -316,6 +404,30 @@ export function generateProjectPageStructuredData(projectData) {
   injectStructuredData([article, software, breadcrumbs])
 }
 
+/**
+ * Generate structured data for service page
+ */
+export function generateServicePageStructuredData(serviceData, faqItems = []) {
+  const service = generateServiceSchema(serviceData)
+  const breadcrumbs = generateBreadcrumbSchema([
+    { name: 'Home', url: SITE_URL },
+    { name: 'Services', url: `${SITE_URL}#services` },
+    { name: serviceData.title, url: `${SITE_URL}${serviceData.url}` }
+  ])
+  
+  const schemas = [service, breadcrumbs]
+  
+  // Add FAQ schema if FAQs exist
+  if (faqItems && faqItems.length > 0) {
+    schemas.push(generateFAQPageSchema(faqItems))
+  }
+  
+  // Add Offer schema for availability
+  schemas.push(generateOfferSchema())
+  
+  injectStructuredData(schemas)
+}
+
 export default {
   injectStructuredData,
   generatePersonSchema,
@@ -324,6 +436,10 @@ export default {
   generateBreadcrumbSchema,
   generateArticleSchema,
   generateSoftwareApplicationSchema,
+  generateFAQPageSchema,
+  generateServiceSchema,
+  generateOfferSchema,
   generateHomePageStructuredData,
-  generateProjectPageStructuredData
+  generateProjectPageStructuredData,
+  generateServicePageStructuredData
 }

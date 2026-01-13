@@ -350,6 +350,23 @@ export default {
       {
         question: "Can you scale the team for larger projects?",
         answer: "Yes, I can scale the development team when needed for larger projects. While I handle the core architecture and development, I can bring in additional developers with expertise in Vue.js, React, Angular, or other required technologies to ensure timely delivery. This allows me to take on projects of any size while maintaining quality and meeting deadlines."
+      },
+      // Recruiter-focused FAQs
+      {
+        question: "Are you available for hire as a full stack developer?",
+        answer: "Yes, I am available for hire as a full stack developer for contract, freelance, and consulting projects. With 17+ years of experience in .NET, Azure Cloud, Vue.js, React, Angular, and enterprise architecture, I can work remotely or on-site in Malaysia. I'm open to both short-term projects and long-term engagements."
+      },
+      {
+        question: "What is your availability for new projects?",
+        answer: "I am currently available for new full stack development projects. I can work on a full-time, part-time, or project basis. My location is Selangor, Malaysia, but I have extensive experience working remotely with global teams and Fortune 500 companies. I'm flexible with time zones and can accommodate various engagement models."
+      },
+      {
+        question: "What industries have you worked with?",
+        answer: "I have extensive experience across multiple industries including enterprise applications, e-commerce, petroleum operations, employee benefits systems, property management, mobile applications, and smart city solutions. I've worked with Fortune 500 companies and delivered mission-critical systems processing millions of data points daily."
+      },
+      {
+        question: "How can I contact you for a project?",
+        answer: "You can contact me through the contact form on this website, via email, or LinkedIn. I typically respond within 24 hours. I'm happy to discuss your project requirements, provide estimates, and answer any questions about my full stack development services, availability, or engagement models."
       }
     ])
 

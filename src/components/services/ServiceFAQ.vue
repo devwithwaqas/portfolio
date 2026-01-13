@@ -30,6 +30,7 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
+import { generateFAQPageSchema, injectStructuredData } from '../../utils/structuredData.js'
 
 export default {
   name: 'ServiceFAQ',
@@ -45,6 +46,28 @@ export default {
   data() {
     return {
       activeIndex: null
+    }
+  },
+  mounted() {
+    // Generate FAQ schema for SEO when component mounts
+    if (this.faqItems && this.faqItems.length > 0) {
+      const existingScript = document.getElementById('structured-data')
+      const faqSchema = generateFAQPageSchema(this.faqItems)
+      
+      // If structured data already exists, append FAQ schema
+      if (existingScript) {
+        try {
+          const existingData = JSON.parse(existingScript.textContent)
+          const schemas = Array.isArray(existingData) ? existingData : [existingData]
+          schemas.push(faqSchema)
+          injectStructuredData(schemas)
+        } catch (e) {
+          // If parsing fails, just add FAQ schema
+          injectStructuredData([faqSchema])
+        }
+      } else {
+        injectStructuredData([faqSchema])
+      }
     }
   },
   methods: {
