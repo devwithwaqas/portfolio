@@ -6,6 +6,9 @@
     <!-- About Section -->
     <About />
     
+    <!-- Technology Expertise Section -->
+    <TechnologyExpertise />
+    
     <!-- Stats Section -->
     <Stats />
     
@@ -35,6 +38,7 @@
 <script>
 import Hero from '../components/home/Hero.vue'
 import About from '../components/home/About.vue'
+import TechnologyExpertise from '../components/home/TechnologyExpertise.vue'
 import Stats from '../components/home/Stats.vue'
 import Skills from '../components/home/Skills.vue'
 import Resume from '../components/home/Resume.vue'
@@ -50,6 +54,7 @@ export default {
   components: {
     Hero,
     About,
+    TechnologyExpertise,
     Stats,
     Skills,
     Resume,

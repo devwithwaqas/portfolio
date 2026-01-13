@@ -344,27 +344,108 @@ export function getHomePageSEO() {
 }
 
 /**
- * Get SEO data for project pages
+ * Get SEO data for project pages (Enhanced with technology keywords)
  */
 export function getProjectPageSEO(projectData) {
   const fullName = APP_CONFIG.fullName
   const location = APP_CONFIG.location
+  const experience = APP_CONFIG.stats.yearsExperience
   
   const technologies = projectData.technologies || []
-  const techKeywords = technologies.map(t => t.name || t).join(', ')
+  const techNames = technologies.map(t => t.name || t)
+  const techKeywords = techNames.join(', ')
+  
+  // Extract technology-specific keywords
+  const hasDotNet = techNames.some(t => /\.net|asp\.net|c#/i.test(t))
+  const hasMicroservices = techNames.some(t => /microservices|docker|kubernetes/i.test(t))
+  const hasAPI = techNames.some(t => /api|rest|graphql/i.test(t))
+  const hasAzure = techNames.some(t => /azure/i.test(t))
+  
+  // Build technology-specific keywords
+  const technologyKeywords = []
+  if (hasDotNet) {
+    technologyKeywords.push(
+      '.net project',
+      '.net core project',
+      'asp.net project',
+      'c# project',
+      '.net consultant project',
+      '.net expert project'
+    )
+  }
+  if (hasMicroservices) {
+    technologyKeywords.push(
+      'microservices project',
+      'microservices architecture project',
+      'microservices consultant project',
+      'distributed systems project'
+    )
+  }
+  if (hasAPI) {
+    technologyKeywords.push(
+      'api development project',
+      'restful api project',
+      'api consultant project',
+      'api expert project'
+    )
+  }
+  if (hasAzure) {
+    technologyKeywords.push(
+      'azure project',
+      'azure cloud project',
+      'azure consultant project',
+      'azure expert project'
+    )
+  }
+  
+  // Build enhanced title with technology focus
+  let enhancedTitle = projectData.title
+  if (hasDotNet && hasMicroservices) {
+    enhancedTitle = `${projectData.title} - .NET Core Microservices & API Development`
+  } else if (hasDotNet) {
+    enhancedTitle = `${projectData.title} - .NET Core Enterprise Application`
+  } else if (hasMicroservices) {
+    enhancedTitle = `${projectData.title} - Microservices Architecture`
+  } else if (hasAPI) {
+    enhancedTitle = `${projectData.title} - API Development & Integration`
+  } else if (hasAzure) {
+    enhancedTitle = `${projectData.title} - Azure Cloud Solution`
+  }
+  
+  // Build enhanced description
+  const techDescription = hasDotNet && hasMicroservices 
+    ? `Enterprise .NET Core microservices architecture with RESTful API development`
+    : hasDotNet 
+    ? `Enterprise .NET Core application with modern architecture`
+    : hasMicroservices
+    ? `Microservices architecture with distributed systems design`
+    : hasAPI
+    ? `RESTful API development and integration`
+    : hasAzure
+    ? `Azure cloud-native solution`
+    : 'Enterprise software solution'
   
   return {
-    title: `${projectData.title} - ${fullName} | Portfolio Project`,
-    description: `${projectData.description || projectData.title}. Built by ${fullName}, ${projectData.title} showcases expertise in ${techKeywords}. ${location} based software engineer specializing in enterprise solutions.`,
+    title: `${enhancedTitle} - ${fullName} | ${experience}+ Years Experience`,
+    description: `${projectData.description || projectData.title}. ${techDescription}. Built by ${fullName}, ${experience}+ years experienced ${hasDotNet ? '.NET consultant' : ''} ${hasMicroservices ? 'microservices architect' : ''} ${hasAPI ? 'API development expert' : ''} ${hasAzure ? 'Azure cloud consultant' : ''} specializing in enterprise solutions. Available for remote work in USA, Europe, and globally.`,
     keywords: [
       projectData.title,
-      ...technologies.map(t => t.name || t),
-      'Portfolio',
-      'Project',
+      enhancedTitle,
+      ...techNames,
+      ...technologyKeywords,
+      'Portfolio Project',
+      'Enterprise Project',
+      'Software Project',
       fullName,
-      location,
+      `${fullName} project`,
       'Software Engineer',
-      'Technical Lead'
+      'Technical Lead',
+      'Remote Software Engineer',
+      'Remote Consultant',
+      location,
+      'USA',
+      'Europe',
+      'Global'
     ],
     type: 'article',
     image: projectData.image || `${SITE_URL}assets/img/profile-img.jpg`
