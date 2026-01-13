@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import HeatExchangerPage from '../views/projects/HeatExchangerPage.vue'
 import AirAsiaID90Page from '../views/projects/AirAsiaID90Page.vue'
+import { setPageSEO, getHomePageSEO, getProjectPageSEO, getServicePageSEO } from '../utils/seo.js'
+import { generateHomePageStructuredData, generateProjectPageStructuredData } from '../utils/structuredData.js'
 
 const routes = [
   {
@@ -129,6 +131,65 @@ const router = createRouter({
       return { top: 0, behavior: 'smooth' }
     }
   }
+})
+
+// SEO Meta Tags - Set on route change
+router.beforeEach((to, from, next) => {
+  const BASE_URL = import.meta.env.BASE_URL || '/'
+  const SITE_URL = 'https://devwithwaqas.github.io' + (BASE_URL === '/' ? '' : BASE_URL)
+  
+  // Set SEO based on route
+  if (to.name === 'Home') {
+    const seo = getHomePageSEO()
+    setPageSEO({
+      ...seo,
+      url: SITE_URL
+    })
+    generateHomePageStructuredData()
+  } else if (to.path.startsWith('/projects/')) {
+    // Project page - get data from route meta or use defaults
+    const projectTitle = to.name.replace(/([A-Z])/g, ' $1').trim()
+    const seo = getProjectPageSEO({
+      title: projectTitle,
+      description: `${projectTitle} - Enterprise software project by Waqas Ahmad, Senior Software Engineer & Technical Lead.`,
+      technologies: [],
+      url: to.path,
+      image: `${SITE_URL}assets/img/profile-img.jpg`
+    })
+    setPageSEO({
+      ...seo,
+      url: `${SITE_URL}${to.path}`,
+      type: 'article'
+    })
+    generateProjectPageStructuredData({
+      title: projectTitle,
+      description: seo.description,
+      url: to.path,
+      image: seo.image
+    })
+  } else if (to.path.startsWith('/services/')) {
+    // Service page
+    const serviceTitle = to.name.replace(/([A-Z])/g, ' $1').trim()
+    const seo = getServicePageSEO({
+      title: serviceTitle,
+      description: `${serviceTitle} services by Waqas Ahmad, Senior Software Engineer & Technical Lead based in Malaysia.`,
+      url: to.path
+    })
+    setPageSEO({
+      ...seo,
+      url: `${SITE_URL}${to.path}`
+    })
+  } else {
+    // Default SEO for other pages
+    setPageSEO({
+      title: 'Waqas Ahmad - Senior Software Engineer & Technical Lead',
+      description: 'Senior Software Engineer & Technical Lead with 17+ years of experience in .NET, Azure Cloud, and enterprise architecture.',
+      keywords: ['Senior Software Engineer', 'Technical Lead', 'Malaysia'],
+      url: `${SITE_URL}${to.path}`
+    })
+  }
+  
+  next()
 })
 
 export default router

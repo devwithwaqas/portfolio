@@ -1,0 +1,17 @@
+# robots.txt for Waqas Ahmad Portfolio
+# https://devwithwaqas.github.io/portfolio/
+
+User-agent: *
+Allow: /
+Allow: /projects/
+Allow: /services/
+
+# Disallow admin/internal paths (if any)
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://devwithwaqas.github.io/portfolio/sitemap.xml
+
+# Crawl-delay (optional, be nice to servers)
+Crawl-delay: 1

@@ -43,6 +43,7 @@ import Services from '../components/home/Services.vue'
 import Testimonials from '../components/home/Testimonials.vue'
 import Contact from '../components/home/Contact.vue'
 import BackToTop from '../components/layout/BackToTop.vue'
+import { generateHomePageStructuredData } from '../utils/structuredData.js'
 
 export default {
   name: 'Home',
@@ -59,8 +60,8 @@ export default {
     BackToTop
   },
   mounted() {
-    // VUE ROUTER: Hash navigation is already handled by router/index.js scrollBehavior
-    // No need to duplicate DOM manipulation here - Vue Router handles this properly
+    // Generate structured data for SEO
+    generateHomePageStructuredData()
   }
 }
 </script>
