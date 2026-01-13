@@ -67,14 +67,14 @@
           
           <!-- Alternative CTA Buttons -->
           <div v-else class="cta-buttons">
-            <a href="#contact" class="btn btn-primary btn-lg me-3">
+            <button @click="scrollToContact" class="btn btn-primary btn-lg me-3">
               <i class="bi bi-envelope"></i>
               Contact Me
-            </a>
-            <a href="/#portfolio" class="btn btn-outline-primary btn-lg">
+            </button>
+            <button @click="scrollToPortfolio" class="btn btn-outline-primary btn-lg">
               <i class="bi bi-briefcase"></i>
               View Portfolio
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -125,6 +125,76 @@ export default {
         email: '',
         subject: '',
         message: ''
+      }
+    },
+    scrollToContact() {
+      // Navigate to home page and scroll to contact section
+      if (this.$route.path !== '/') {
+        this.$router.push('/').then(() => {
+          this.$nextTick(() => {
+            requestAnimationFrame(() => {
+              const element = document.getElementById('contact')
+              if (element) {
+                const headerOffset = 100
+                const elementPosition = element.getBoundingClientRect().top
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+                window.scrollTo({
+                  top: offsetPosition,
+                  behavior: 'smooth'
+                })
+              }
+            })
+          })
+        })
+      } else {
+        // Already on home page, just scroll
+        requestAnimationFrame(() => {
+          const element = document.getElementById('contact')
+          if (element) {
+            const headerOffset = 100
+            const elementPosition = element.getBoundingClientRect().top
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            })
+          }
+        })
+      }
+    },
+    scrollToPortfolio() {
+      // Navigate to home page and scroll to portfolio section
+      if (this.$route.path !== '/') {
+        this.$router.push('/').then(() => {
+          this.$nextTick(() => {
+            requestAnimationFrame(() => {
+              const element = document.getElementById('portfolio')
+              if (element) {
+                const headerOffset = 100
+                const elementPosition = element.getBoundingClientRect().top
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+                window.scrollTo({
+                  top: offsetPosition,
+                  behavior: 'smooth'
+                })
+              }
+            })
+          })
+        })
+      } else {
+        // Already on home page, just scroll
+        requestAnimationFrame(() => {
+          const element = document.getElementById('portfolio')
+          if (element) {
+            const headerOffset = 100
+            const elementPosition = element.getBoundingClientRect().top
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            })
+          }
+        })
       }
     }
   }

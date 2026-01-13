@@ -5,18 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Redirecting...</title>
   <script>
-    // Preserve hash and redirect to index.html
-    const path = window.location.pathname;
-    const hash = window.location.hash;
-    const search = window.location.search;
-    
-    // If we have a hash, redirect to index.html with the hash
-    if (hash) {
-      window.location.replace('/portfolio/index.html' + hash + search);
-    } else {
-      // Otherwise, redirect to home
-      window.location.replace('/portfolio/');
-    }
+    // Redirect to index.html (no hash handling needed)
+    window.location.replace('/index.html');
   </script>
 </head>
 <body>

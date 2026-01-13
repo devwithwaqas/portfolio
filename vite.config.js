@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 
 export default defineConfig({
-  base: '/portfolio/', // GitHub Pages base path
+  base: '/', // GitHub Pages root path
   publicDir: 'public',
   plugins: [
     vue(),
@@ -11,7 +11,7 @@ export default defineConfig({
     {
       name: 'transform-html-assets',
       transformIndexHtml(html) {
-        const base = '/portfolio/'
+        const base = '/'
         // Replace absolute asset paths with base-prefixed paths
         return html.replace(/href="\/assets\//g, `href="${base}assets/`)
                    .replace(/src="\/assets\//g, `src="${base}assets/`)
