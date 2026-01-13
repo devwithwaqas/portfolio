@@ -78,9 +78,12 @@ export default {
   computed: {
     buttonClasses() {
       // Priority: active > focused > hovered
+      // Only show active if button is actually active AND we should show active state
       const shouldShowActive = this.isActive && this.showActiveState
-      const shouldShowFocused = (this.isFocused || this.wasClicked) && !shouldShowActive
-      const shouldShowHovered = this.isHovered && !this.isFocused && !this.wasClicked && !this.isActive
+      // Only show focused if button is NOT active (to avoid conflicts) and was clicked
+      const shouldShowFocused = (this.isFocused || this.wasClicked) && !this.isActive && !shouldShowActive
+      // Only show hovered if button is NOT active, NOT focused, and NOT clicked
+      const shouldShowHovered = this.isHovered && !this.isActive && !shouldShowFocused && !this.wasClicked && !this.isFocused
       
       return {
         'is-active': shouldShowActive,
@@ -108,28 +111,49 @@ export default {
   },
   watch: {
     isActive(newVal, oldVal) {
-      // Clear any existing timeout
+      // Clear any existing timeout immediately
       if (this.transitionTimeout) {
         clearTimeout(this.transitionTimeout)
         this.transitionTimeout = null
       }
 
-      // When button becomes active (via scroll or click), show focused transition first
+      // When button becomes active (via scroll or click)
       if (newVal && !oldVal) {
-        // Set focused state immediately
-        this.showActiveState = false
-        this.wasClicked = true
-        this.isFocused = false
-        
-        // After 500ms, show full active state
-        this.transitionTimeout = setTimeout(() => {
+        // If it was clicked, show focused transition first
+        if (this.wasClicked) {
+          this.showActiveState = false
+          this.isFocused = false
+          
+          // After 300ms, show full active state
+          this.transitionTimeout = setTimeout(() => {
+            // Only set active if still active (check again)
+            if (this.isActive) {
+              this.wasClicked = false
+              this.isFocused = false
+              this.showActiveState = true
+            } else {
+              // If no longer active, clear everything
+              this.wasClicked = false
+              this.isFocused = false
+              this.showActiveState = false
+            }
+            this.transitionTimeout = null
+          }, 300)
+        } else {
+          // If activated via scroll, show active state immediately
           this.wasClicked = false
           this.isFocused = false
           this.showActiveState = true
-        }, 500)
+        }
       }
-      // Clear all states when button becomes inactive (via scroll)
+      // Clear all states when button becomes inactive (via scroll or click on another button)
       if (!newVal && oldVal) {
+        // Clear timeout if button becomes inactive
+        if (this.transitionTimeout) {
+          clearTimeout(this.transitionTimeout)
+          this.transitionTimeout = null
+        }
+        // Immediately clear all states
         this.wasClicked = false
         this.isFocused = false
         this.showActiveState = false
@@ -150,11 +174,17 @@ export default {
   },
   methods: {
     handleClick(event) {
-      this.wasClicked = true
+      // Only set wasClicked if button is not already active
+      if (!this.isActive) {
+        this.wasClicked = true
+      }
       this.$emit('navigate', event)
     },
     handleMouseEnter() {
-      this.isHovered = true
+      // Only show hover if button is not active
+      if (!this.isActive) {
+        this.isHovered = true
+      }
     },
     handleMouseLeave() {
       this.isHovered = false

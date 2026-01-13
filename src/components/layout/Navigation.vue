@@ -198,6 +198,10 @@ export default {
       event.preventDefault()
       this.closeMobileMenu()
       
+      // Immediately set the clicked section as active (will be overridden by intersection observer if needed)
+      // This provides immediate feedback
+      this.activeSection = sectionId
+      
       // Always scroll without changing URL - no hash fragments
       if (this.$route.path !== '/') {
         // If not on home page, navigate to home first, then scroll
@@ -243,27 +247,55 @@ export default {
         // Only update active section on home page
         if (this.$route.path !== '/') return
         
-        // Find the entry with the highest intersection ratio (most visible)
-        let mostVisible = null
-        let highestRatio = 0
-        
-        entries.forEach(entry => {
-          if (entry.isIntersecting && entry.intersectionRatio > highestRatio) {
-            highestRatio = entry.intersectionRatio
-            mostVisible = entry
+        // Use requestAnimationFrame to batch updates and avoid conflicts
+        requestAnimationFrame(() => {
+          // Collect all intersecting sections with their ratios
+          const intersectingSections = []
+          
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const sectionId = entry.target.id
+              if (sections.includes(sectionId)) {
+                intersectingSections.push({
+                  id: sectionId,
+                  ratio: entry.intersectionRatio,
+                  boundingTop: entry.boundingClientRect.top
+                })
+              }
+            }
+          })
+          
+          // If no sections are intersecting, check scroll position
+          if (intersectingSections.length === 0) {
+            // If at top, set hero as active
+            if (window.scrollY < 100) {
+              this.activeSection = 'hero'
+            }
+            return
+          }
+          
+          // Sort by intersection ratio (highest first), then by position (topmost first)
+          intersectingSections.sort((a, b) => {
+            // First prioritize by ratio
+            if (Math.abs(a.ratio - b.ratio) > 0.1) {
+              return b.ratio - a.ratio
+            }
+            // If ratios are similar, prioritize the one closer to top
+            return a.boundingTop - b.boundingTop
+          })
+          
+          // Set the most visible section as active (only one at a time)
+          if (intersectingSections.length > 0) {
+            const newActiveSection = intersectingSections[0].id
+            // Only update if it's different to avoid unnecessary re-renders
+            if (this.activeSection !== newActiveSection) {
+              this.activeSection = newActiveSection
+            }
           }
         })
-        
-        // If we have a visible section, update active section
-        if (mostVisible) {
-          const sectionId = mostVisible.target.id
-          if (sections.includes(sectionId)) {
-            this.activeSection = sectionId
-          }
-        }
       }, {
         threshold: [0, 0.1, 0.25, 0.5, 0.75, 1.0], // Multiple thresholds for better detection
-        rootMargin: '-10% 0px -10% 0px' // More lenient margin
+        rootMargin: '-20% 0px -20% 0px' // More strict margin to avoid multiple active sections
       })
 
       sections.forEach(sectionId => {
