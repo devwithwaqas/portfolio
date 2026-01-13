@@ -127,9 +127,9 @@
               </a>
             </div>
             <div class="footer-button-wrapper">
-              <router-link to="/contact" class="get-in-touch-btn">
+              <button @click="scrollToContact" class="get-in-touch-btn">
               <i class="bi bi-chat-dots me-2 icon-md"></i>Get In Touch
-            </router-link>
+            </button>
             </div>
           </div>
           </div>
@@ -156,6 +156,43 @@ export default {
   data() {
     return {
       ...APP_CONFIG
+    }
+  },
+  methods: {
+    scrollToContact() {
+      // Navigate to home if not already there
+      if (this.$route.path !== '/') {
+        this.$router.push('/').then(() => {
+          this.$nextTick(() => {
+            requestAnimationFrame(() => {
+              const contactSection = document.getElementById('contact')
+              if (contactSection) {
+                const headerOffset = 100
+                const elementPosition = contactSection.getBoundingClientRect().top
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+                window.scrollTo({
+                  top: offsetPosition,
+                  behavior: 'smooth'
+                })
+              }
+            })
+          })
+        })
+      } else {
+        // Already on home page, just scroll
+        requestAnimationFrame(() => {
+          const contactSection = document.getElementById('contact')
+          if (contactSection) {
+            const headerOffset = 100
+            const elementPosition = contactSection.getBoundingClientRect().top
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            })
+          }
+        })
+      }
     }
   }
 }
