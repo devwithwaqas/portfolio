@@ -26,6 +26,26 @@
         @navigate="scrollToSection('about', $event)"
       />
 
+      <!-- Technology Expertise Button -->
+      <NavButton 
+        href="#technology-expertise" 
+        label="Technology"
+        buttonColor="5, 99, 187"
+        :svgPaths="[{ d: 'M12 2L2 7l10 5 10-5-10-5z' }, { d: 'M2 17l10 5 10-5M2 12l10 5 10-5' }]"
+        :isActive="activeSection === 'technology-expertise'"
+        @navigate="scrollToSection('technology-expertise', $event)"
+      />
+
+      <!-- Skills Button -->
+      <NavButton 
+        href="#skills" 
+        label="Skills"
+        buttonColor="147, 51, 234"
+        :svgPaths="[{ d: 'M12 2L2 7l10 5 10-5-10-5z' }, { d: 'M2 17l10 5 10-5M2 12l10 5 10-5' }]"
+        :isActive="activeSection === 'skills'"
+        @navigate="scrollToSection('skills', $event)"
+      />
+
       <!-- Resume Button -->
       <NavButton 
         href="#resume" 
@@ -212,7 +232,7 @@ export default {
       }
     },
     setupIntersectionObserver() {
-      const sections = ['hero', 'about', 'resume', 'portfolio', 'services', 'contact']
+      const sections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
       
       // Store observer reference for cleanup
       if (this.intersectionObserver) {
@@ -265,7 +285,7 @@ export default {
         this.activeSection = 'hero'
       } else {
         // Check which section is currently in view
-        const sections = ['hero', 'about', 'resume', 'portfolio', 'services', 'contact']
+        const sections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
         const scrollPosition = window.scrollY + window.innerHeight / 3 // Check at 1/3 from top
         
         for (let i = sections.length - 1; i >= 0; i--) {

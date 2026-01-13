@@ -14,7 +14,7 @@ export const APP_CONFIG = {
     phone: `tel:${import.meta.env.VITE_PHONE || ""}`,
     linkedin: import.meta.env.VITE_LINKEDIN_URL || "",
     github: import.meta.env.VITE_GITHUB_URL || "",
-    website: import.meta.env.VITE_WEBSITE_URL || "",
+    website: import.meta.env.VITE_WEBSITE_URL || "https://devwithwaqas.github.io/portfolio/",
     whatsapp: import.meta.env.VITE_WHATSAPP_URL || "",
     location: import.meta.env.VITE_GOOGLE_MAPS_URL || ""
   },
