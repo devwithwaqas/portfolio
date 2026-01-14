@@ -225,6 +225,8 @@ export function generatePersonSchema() {
 export function generateProfessionalServiceSchema() {
   const fullName = APP_CONFIG.fullName
   const location = APP_CONFIG.location
+  const phone = APP_CONFIG.phone
+  const email = APP_CONFIG.email
   
   return {
     '@context': 'https://schema.org',
@@ -238,6 +240,8 @@ export function generateProfessionalServiceSchema() {
       addressRegion: location.includes('Selangor') ? 'Selangor' : '',
       addressCountry: 'MY'
     },
+    telephone: phone || undefined,
+    email: email || undefined,
     provider: {
       '@type': 'Person',
       name: fullName,
