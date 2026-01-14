@@ -159,6 +159,7 @@ export function trackPageView(path, title) {
   // GA4 will deduplicate events with same client_id and timestamp
   // This ensures we capture events even if collect requests fail silently (e.g., cookies blocked)
   if (GA4_PHP_ENDPOINT) {
+    console.log('[GA4] PHP endpoint configured:', GA4_PHP_ENDPOINT)
     // Use a small delay to let client-side try first, then send server-side
     // This helps with deduplication (same timestamp)
     setTimeout(() => {
@@ -166,10 +167,13 @@ export function trackPageView(path, title) {
       trackServerSide('page_view', {
         page_path: path,
         page_title: title
-      }).catch(() => {
-        // Silently fail - we already tried client-side
+      }).catch((err) => {
+        console.warn('[GA4] Server-side backup failed:', err)
       })
     }, 100) // 100ms delay to let client-side go first
+  } else {
+    console.warn('[GA4] PHP endpoint NOT configured - server-side backup disabled')
+    console.warn('[GA4] Set VITE_GA4_PHP_ENDPOINT in GitHub Secrets to enable server-side tracking')
   }
 }
 
@@ -315,10 +319,12 @@ export function trackEvent(eventName, eventParams = {}) {
     // This helps with deduplication (same timestamp)
     setTimeout(() => {
       console.log('[GA4] Using server-side backup for:', eventName)
-      trackServerSide(eventName, eventParams).catch(() => {
-        // Silently fail - we already tried client-side
+      trackServerSide(eventName, eventParams).catch((err) => {
+        console.warn('[GA4] Server-side backup failed:', err)
       })
     }, 100) // 100ms delay to let client-side go first
+  } else if (!GA4_PHP_ENDPOINT) {
+    console.warn('[GA4] PHP endpoint NOT configured - server-side backup disabled for:', eventName)
   }
 }
 
