@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import { DEBUG_CONFIG } from './config/constants'
 import { assetPath } from './utils/assetPath.js'
+import { trackPageView } from './utils/analytics.js'
 
 // Import CSS
 import './assets/css/font-sizes.css'
@@ -15,6 +16,14 @@ app.config.globalProperties.$assetPath = assetPath
 
 app.use(router)
 app.mount('#app')
+
+// Track initial page view after app mounts (ensures GA4 is loaded)
+router.isReady().then(() => {
+  // Small delay to ensure GA4 script has loaded
+  setTimeout(() => {
+    trackPageView(window.location.pathname + window.location.search, document.title)
+  }, 500)
+})
 
 // Global Animation Control System
 class AnimationController {

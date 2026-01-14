@@ -7,32 +7,119 @@
 // Get GA4 Measurement ID from environment variable
 const GA4_MEASUREMENT_ID = import.meta.env.VITE_GA4_MEASUREMENT_ID || ''
 
+// Queue for tracking calls made before GA4 is ready
+const trackingQueue = []
+let isGA4Ready = false
+let ga4ReadyCheckInterval = null
+
 /**
- * Check if GA4 is configured
+ * Check if GA4 is configured and ready
  */
 export function isGA4Configured() {
   return GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== '' && typeof window !== 'undefined' && typeof window.gtag !== 'undefined'
 }
 
 /**
+ * Wait for GA4 to be ready, then process queued tracking calls
+ */
+function waitForGA4Ready(maxAttempts = 50, attempt = 0) {
+  if (isGA4Configured()) {
+    isGA4Ready = true
+    if (ga4ReadyCheckInterval) {
+      clearInterval(ga4ReadyCheckInterval)
+      ga4ReadyCheckInterval = null
+    }
+    
+    // Process queued tracking calls
+    while (trackingQueue.length > 0) {
+      const { type, ...args } = trackingQueue.shift()
+      if (type === 'pageview') {
+        trackPageViewInternal(args.path, args.title)
+      } else if (type === 'event') {
+        trackEventInternal(args.eventName, args.eventParams)
+      }
+    }
+    return true
+  }
+  
+  if (attempt >= maxAttempts) {
+    console.warn('GA4 not ready after maximum attempts')
+    return false
+  }
+  
+  // Check again in 100ms
+  if (!ga4ReadyCheckInterval) {
+    ga4ReadyCheckInterval = setInterval(() => {
+      waitForGA4Ready(maxAttempts, attempt + 1)
+    }, 100)
+  }
+  
+  return false
+}
+
+/**
+ * Internal function to track page view (assumes GA4 is ready)
+ */
+function trackPageViewInternal(path, title) {
+  if (!isGA4Configured()) return
+  
+  try {
+    window.gtag('config', GA4_MEASUREMENT_ID, {
+      page_path: path,
+      page_title: title
+    })
+  } catch (error) {
+    console.error('GA4 page view tracking error:', error)
+  }
+}
+
+/**
  * Track page view
  */
 export function trackPageView(path, title) {
+  if (!GA4_MEASUREMENT_ID || GA4_MEASUREMENT_ID === '') return
+  
+  if (isGA4Configured()) {
+    trackPageViewInternal(path, title)
+  } else {
+    // Queue the tracking call
+    trackingQueue.push({ type: 'pageview', path, title })
+    // Start waiting for GA4 if not already waiting
+    if (!ga4ReadyCheckInterval) {
+      waitForGA4Ready()
+    }
+  }
+}
+
+/**
+ * Internal function to track event (assumes GA4 is ready)
+ */
+function trackEventInternal(eventName, eventParams = {}) {
   if (!isGA4Configured()) return
   
-  window.gtag('config', GA4_MEASUREMENT_ID, {
-    page_path: path,
-    page_title: title
-  })
+  try {
+    window.gtag('event', eventName, eventParams)
+  } catch (error) {
+    console.error('GA4 event tracking error:', error)
+  }
 }
 
 /**
  * Track custom event
  */
 export function trackEvent(eventName, eventParams = {}) {
-  if (!isGA4Configured()) return
+  if (!GA4_MEASUREMENT_ID || GA4_MEASUREMENT_ID === '') return
   
-  window.gtag('event', eventName, eventParams)
+  if (isGA4Configured()) {
+    trackEventInternal(eventName, eventParams)
+  } else {
+    // Queue the tracking call
+    trackingQueue.push({ type: 'event', eventName, eventParams })
+    // Start waiting for GA4 if not already waiting
+    if (!ga4ReadyCheckInterval) {
+      waitForGA4Ready()
+    }
+  }
 }
 
 /**

@@ -39,11 +39,11 @@
   <!-- Google Analytics 4 (GA4) -->
   <!-- GA4 Measurement ID will be injected from environment variable VITE_GA4_MEASUREMENT_ID -->
   <script>
-    // GA4 will be initialized by analytics.js utility after page load
-    // This prevents blocking page load if GA4 is not configured
+    // Initialize dataLayer and gtag function immediately
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
+    window.gtag = gtag; // Make gtag available globally immediately
     
     // Load GA4 script only if Measurement ID is provided
     const GA4_MEASUREMENT_ID = 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER';
@@ -52,16 +52,24 @@
       const script = document.createElement('script');
       script.async = true;
       script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
-      document.head.appendChild(script);
       
-      // Initialize GA4
+      // Wait for script to load before initializing
+      script.onload = function() {
+        // Initialize GA4 after script loads
+        gtag('config', GA4_MEASUREMENT_ID, {
+          page_path: window.location.pathname + window.location.search,
+          send_page_view: true
+        });
+      };
+      
+      // Also initialize immediately (in case onload already fired)
+      // This handles cases where script loads very quickly
       gtag('config', GA4_MEASUREMENT_ID, {
         page_path: window.location.pathname + window.location.search,
         send_page_view: true
       });
       
-      // Make gtag available globally
-      window.gtag = gtag;
+      document.head.appendChild(script);
     }
   </script>
   
