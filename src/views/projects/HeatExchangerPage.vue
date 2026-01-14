@@ -119,7 +119,11 @@
     
     <!-- Additional Content Slot (Full Width) -->
     <template #additional-content>
-      <!-- More sections will be added here -->
+      <!-- Related Services -->
+      <RelatedServices
+        :services="relatedServices"
+        introduction="This project utilized the following services I offer:"
+      />
     </template>
     
   </ProjectPageTemplate>
@@ -138,6 +142,7 @@ import EngineeringChallenges from '../../components/projects/EngineeringChalleng
 import PerformanceMetricsSection from '../../components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '../../components/projects/MetricsFramework.vue'
 import ROISection from '../../components/projects/ROISection.vue'
+import RelatedServices from '../../components/common/RelatedServices.vue'
 import { heatExchangerNarrationSteps } from '../../config/heatExchangerNarration'
 import { TECH_CATEGORIES, PROJECT_ICON_NAMES, PROJECT_CATEGORIES, ROI_ICON_NAMES } from '../../config/constants.js'
 import { assetPath } from '../../utils/assetPath.js'
@@ -156,7 +161,8 @@ export default {
     EngineeringChallenges,
     PerformanceMetricsSection,
     MetricsFramework,
-    ROISection
+    ROISection,
+    RelatedServices
   },
   data() {
     return {
@@ -1094,6 +1100,26 @@ export default {
         { value: '40%', label: 'Maintenance Cost Reduction', color: 'purple' },
         { value: '$12M+', label: 'Prevented Equipment Failures', color: 'pink' },
         { value: '18 Months', label: 'ROI Achievement Period', color: 'cyan' }
+      ],
+      relatedServices: [
+        {
+          title: 'Full Stack Development',
+          description: 'End-to-end development of enterprise applications with .NET Core and Angular',
+          path: '/services/full-stack-development',
+          icon: 'bi bi-code-square'
+        },
+        {
+          title: 'Microservices Architecture',
+          description: 'Design and implementation of scalable microservices-based applications',
+          path: '/services/microservices-architecture',
+          icon: 'bi bi-diagram-3'
+        },
+        {
+          title: 'Azure Cloud Architecture',
+          description: 'Cloud-native solutions using Microsoft Azure and container orchestration',
+          path: '/services/azure-cloud-architecture',
+          icon: 'bi bi-cloud'
+        }
       ]
     }
   }

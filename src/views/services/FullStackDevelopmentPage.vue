@@ -52,6 +52,12 @@
         :faq-items="faqItems"
       />
 
+      <!-- Related Projects -->
+      <RelatedProjects
+        :projects="relatedProjects"
+        introduction="Here are some full stack development projects I've completed:"
+      />
+
       <!-- CTA -->
       <ServiceCTA
         cta-text="Ready to build your full stack application? Whether you need Vue.js, React, Angular, or any modern frontend framework, let's discuss your project requirements and create a solution tailored to your needs that drives your business forward."
@@ -73,6 +79,7 @@ import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
+import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
@@ -87,6 +94,7 @@ export default {
     ServiceCaseStudies,
     ServiceFAQ,
     ServiceCTA,
+    RelatedProjects,
     TechnologyStack
   },
   setup() {
@@ -384,6 +392,31 @@ export default {
       }
     ])
 
+    // Related Projects
+    const relatedProjects = ref([
+      {
+        title: 'Heat Exchanger Portal',
+        description: 'Enterprise .NET Core microservices platform with Angular frontend, processing 2.5M data points daily',
+        path: '/projects/heat-exchanger',
+        image: assetPath('/assets/img/he1.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Microservices', 'Azure']
+      },
+      {
+        title: 'G5 POS',
+        description: 'Full stack restaurant management system with .NET Core and Angular, handling 1M+ daily transactions',
+        path: '/projects/g5-pos',
+        image: assetPath('/assets/img/g51.jpg'),
+        technologies: ['.NET Core', 'Angular', 'SQL Server', 'Azure']
+      },
+      {
+        title: 'UK Property Management',
+        description: 'Azure-native property management platform with Angular and .NET Core, managing 9,000+ properties',
+        path: '/projects/uk-property-management',
+        image: assetPath('/assets/img/gpc1.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Azure', 'SQL Server']
+      }
+    ])
+
     return {
       heroBenefits,
       heroBadges,
@@ -396,7 +429,8 @@ export default {
       engagementModels,
       technologies,
       caseStudies,
-      faqItems
+      faqItems,
+      relatedProjects
     }
   }
 }
