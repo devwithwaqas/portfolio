@@ -137,11 +137,19 @@ function generateSitemap() {
     console.log('✓ Created dist directory')
   }
   
-  // Write to dist directory
+  // Write to dist directory (Vite should also copy from public/, but we'll ensure it's here)
   const sitemapPath = path.join(DIST_DIR, 'sitemap.xml')
   fs.writeFileSync(sitemapPath, sitemap, 'utf8')
   console.log('✓ Generated sitemap.xml at:', sitemapPath)
   console.log('✓ Sitemap URL: https://devwithwaqas.github.io/portfolio/sitemap.xml')
+  
+  // Also verify the static sitemap from public/ was copied (Vite does this automatically)
+  const publicSitemap = path.resolve(__dirname, '../public/sitemap.xml')
+  if (fs.existsSync(publicSitemap)) {
+    console.log('✓ Static sitemap.xml found in public/ (will be copied by Vite)')
+  } else {
+    console.warn('⚠️  Static sitemap.xml not found in public/ - using generated one only')
+  }
 }
 
 // Run if called directly
