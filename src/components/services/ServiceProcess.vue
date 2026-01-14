@@ -3,7 +3,7 @@
     <div class="service-process-content">
       <!-- Process Flow Image (if provided) -->
       <div v-if="processImage" class="process-image-container mb-5">
-        <img :src="processImage" alt="Process Flow" class="process-image" />
+        <img :src="processImage" :alt="`Service Process Flow - Remote Consultant - Available USA, Europe, Global`" class="process-image" />
       </div>
       
       <!-- Process Steps -->

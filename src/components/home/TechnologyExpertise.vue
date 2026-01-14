@@ -16,7 +16,7 @@
             <div class="row align-items-center g-4">
               <div class="col-lg-2 col-md-3 col-12 text-center">
                 <div class="tech-icon-wrapper">
-                  <img :src="assetPath('/assets/img/Icons/NET core.svg')" alt=".NET Core Consultant Expert" class="tech-icon-large icon-img-5xl" />
+                  <img :src="assetPath('/assets/img/Icons/NET core.svg')" alt=".NET Core Consultant Expert - 17+ Years Experience - Remote Available USA, Europe, Global" class="tech-icon-large icon-img-5xl" />
                 </div>
               </div>
               <div class="col-lg-10 col-md-9 col-12">
@@ -73,7 +73,7 @@
             <div class="row align-items-center g-4">
               <div class="col-lg-2 col-md-3 col-12 text-center">
                 <div class="tech-icon-wrapper">
-                  <img :src="assetPath('/assets/img/Icons/Docker.svg')" alt="Microservices Architect Consultant" class="tech-icon-large icon-img-5xl" />
+                  <img :src="assetPath('/assets/img/Icons/Docker.svg')" alt="Microservices Architect Consultant - Enterprise Solutions - Remote Available USA, Europe, Global" class="tech-icon-large icon-img-5xl" />
                 </div>
               </div>
               <div class="col-lg-10 col-md-9 col-12">
@@ -130,7 +130,7 @@
             <div class="row align-items-center g-4">
               <div class="col-lg-2 col-md-3 col-12 text-center">
                 <div class="tech-icon-wrapper">
-                  <img :src="assetPath('/assets/img/Icons/api.svg')" alt="API Development Expert Consultant" class="tech-icon-large icon-img-5xl" />
+                  <img :src="assetPath('/assets/img/Icons/api.svg')" alt="API Development Expert Consultant - RESTful APIs - Remote Available USA, Europe, Global" class="tech-icon-large icon-img-5xl" />
                 </div>
               </div>
               <div class="col-lg-10 col-md-9 col-12">
@@ -187,7 +187,7 @@
             <div class="row align-items-center g-4">
               <div class="col-lg-2 col-md-3 col-12 text-center">
                 <div class="tech-icon-wrapper">
-                  <img :src="assetPath('/assets/img/Icons/sql server.svg')" alt="Database Design Optimization Expert" class="tech-icon-large icon-img-5xl" />
+                  <img :src="assetPath('/assets/img/Icons/sql server.svg')" alt="Database Design Optimization Expert - SQL Server Cosmos DB - Remote Available USA, Europe, Global" class="tech-icon-large icon-img-5xl" />
                 </div>
               </div>
               <div class="col-lg-10 col-md-9 col-12">
@@ -244,7 +244,7 @@
             <div class="row align-items-center g-4">
               <div class="col-lg-2 col-md-3 col-12 text-center">
                 <div class="tech-icon-wrapper">
-                  <img :src="assetPath('/assets/img/Icons/mobile.png')" alt="Mobile Development Expert Consultant" class="tech-icon-large icon-img-5xl" />
+                  <img :src="assetPath('/assets/img/Icons/mobile.png')" alt="Mobile Development Expert Consultant - Cross-Platform iOS Android - Remote Available USA, Europe, Global" class="tech-icon-large icon-img-5xl" />
                 </div>
               </div>
               <div class="col-lg-10 col-md-9 col-12">
@@ -301,7 +301,7 @@
             <div class="row align-items-center g-4">
               <div class="col-lg-2 col-md-3 col-12 text-center">
                 <div class="tech-icon-wrapper">
-                  <img :src="assetPath('/assets/img/Icons/Azure.svg')" alt="Azure Cloud Architect Consultant" class="tech-icon-large icon-img-5xl" />
+                  <img :src="assetPath('/assets/img/Icons/Azure.svg')" alt="Azure Cloud Architect Consultant - Enterprise Cloud Solutions - Remote Available USA, Europe, Global" class="tech-icon-large icon-img-5xl" />
                 </div>
               </div>
               <div class="col-lg-10 col-md-9 col-12">

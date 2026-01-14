@@ -3,7 +3,7 @@
     <div class="service-hero-content">
       <!-- Hero Image -->
       <div v-if="heroImage" class="hero-image-container mb-4">
-        <img :src="heroImage" :alt="title" class="hero-image" />
+        <img :src="heroImage" :alt="`${title} Services - Remote Consultant - Available USA, Europe, Global - 17+ Years Experience`" class="hero-image" />
       </div>
       
       <!-- Remote Available Badge -->
@@ -31,7 +31,7 @@
               <img 
                 v-if="getBenefitIcon(benefit.icon)" 
                 :src="getBenefitIcon(benefit.icon)" 
-                :alt="benefit.label"
+                :alt="`${benefit.label} - ${title} Services - Remote Consultant`"
                 class="icon-img-4xl"
               />
               <i v-else-if="benefit.icon" :class="benefit.icon + ' icon-4xl'"></i>

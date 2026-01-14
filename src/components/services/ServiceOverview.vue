@@ -11,7 +11,7 @@
               class="carousel-item"
               :class="{ active: index === 0 }"
             >
-              <img :src="bannerImg" :alt="`${title} Banner ${index + 1}`" class="banner-image" />
+              <img :src="bannerImg" :alt="`${title} Services - Banner ${index + 1} - Remote Consultant - Available USA, Europe, Global`" class="banner-image" />
             </div>
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#overviewCarousel" data-bs-slide="prev" v-if="bannerImages.length > 1">

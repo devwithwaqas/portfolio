@@ -15,7 +15,7 @@
                 <img 
                   v-if="getCapabilityIcon(capability.icon)" 
                   :src="getCapabilityIcon(capability.icon)" 
-                  :alt="capability.title"
+                  :alt="`${capability.title} - Service Capability - Remote Consultant`"
                   class="icon-img-4xl"
                 />
                 <i v-else-if="capability.icon" :class="capability.icon + ' icon-4xl'"></i>
