@@ -384,6 +384,9 @@ async function trackServerSide(eventName, eventParams = {}) {
       page_title: document.title
     }
     
+    console.log('[GA4] Sending POST request to:', GA4_PHP_ENDPOINT)
+    console.log('[GA4] Payload:', JSON.stringify(phpPayload, null, 2))
+    
     const response = await fetch(GA4_PHP_ENDPOINT, {
       method: 'POST',
       body: JSON.stringify(phpPayload),
@@ -392,8 +395,11 @@ async function trackServerSide(eventName, eventParams = {}) {
       }
     })
     
+    console.log('[GA4] Server-side response status:', response.status, response.statusText)
+    
     if (response.ok) {
-      console.log('[GA4] Server-side tracking successful:', eventName)
+      const responseText = await response.text()
+      console.log('[GA4] Server-side tracking successful:', eventName, '| Response:', responseText)
       return true
     } else {
       console.warn('[GA4] Server-side tracking failed:', response.status)
