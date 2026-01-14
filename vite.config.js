@@ -36,6 +36,27 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    assetsDir: 'assets'
+    assetsDir: 'assets',
+    // Performance optimizations
+    minify: 'terser', // Use terser for better minification
+    terserOptions: {
+      compress: {
+        drop_console: true, // Remove console.log in production
+        drop_debugger: true
+      }
+    },
+    // Code splitting for better performance
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Separate vendor chunks
+          'vue-vendor': ['vue', 'vue-router'],
+          'chart-vendor': ['chart.js'],
+          'ui-vendor': ['swiper', 'vue3-carousel', '@panzoom/panzoom']
+        }
+      }
+    },
+    // Chunk size warnings
+    chunkSizeWarningLimit: 1000
   }
 })
