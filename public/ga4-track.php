@@ -11,18 +11,18 @@ error_reporting(0);
 ini_set('display_errors', 0);
 
 // CORS Headers - MUST be set before any output
-// Allow requests from GitHub Pages
-header('Access-Control-Allow-Origin: https://devwithwaqas.github.io');
+// Try allowing all origins first to test
+header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS, GET');
-header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With');
+header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With, Authorization');
 header('Access-Control-Allow-Credentials: false');
-header('Access-Control-Max-Age: 86400'); // Cache preflight for 1 day
+header('Access-Control-Max-Age: 86400');
 
 // Handle preflight OPTIONS request FIRST
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // Return 200 OK for preflight
+    // Return 200 OK for preflight with all headers
     http_response_code(200);
-    // Don't output anything else
+    // Output nothing else
     exit(0);
 }
 
@@ -30,10 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 header('Content-Type: application/json; charset=utf-8');
 
 // ============================================
-// CONFIGURATION - UPDATE THESE VALUES
+// CONFIGURATION
 // ============================================
 $MEASUREMENT_ID = 'G-1HMMJLP7GK';
-$API_SECRET = 'p4SbgXEyTKOikyV8ZZACig'; // ✅ API Secret configured
+$API_SECRET = 'p4SbgXEyTKOikyV8ZZACig';
 
 // ============================================
 // VALIDATION
@@ -42,7 +42,7 @@ if ($API_SECRET === 'YOUR_API_SECRET_HERE') {
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'error' => 'API Secret not configured. Please update $API_SECRET in ga4-track.php'
+        'error' => 'API Secret not configured'
     ]);
     exit;
 }
@@ -95,7 +95,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json'
 ]);
-curl_setopt($ch, CURLOPT_TIMEOUT, 5); // 5 second timeout
+curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 
 $response = curl_exec($ch);
@@ -128,8 +128,6 @@ if ($httpCode === 200 || $httpCode === 204) {
 // HELPER FUNCTIONS
 // ============================================
 function generateClientId() {
-    // Generate a client ID (persistent identifier)
-    // Format: timestamp.randomstring (e.g., 1705234567.abc123def456)
     return time() . '.' . mt_rand(1000000000, 9999999999);
 }
 ?>
