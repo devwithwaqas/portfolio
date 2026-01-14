@@ -131,10 +131,17 @@ function generateSitemap() {
 
   sitemap += `</urlset>`
 
+  // Ensure dist directory exists
+  if (!fs.existsSync(DIST_DIR)) {
+    fs.mkdirSync(DIST_DIR, { recursive: true })
+    console.log('✓ Created dist directory')
+  }
+  
   // Write to dist directory
   const sitemapPath = path.join(DIST_DIR, 'sitemap.xml')
   fs.writeFileSync(sitemapPath, sitemap, 'utf8')
-  console.log('✓ Generated sitemap.xml')
+  console.log('✓ Generated sitemap.xml at:', sitemapPath)
+  console.log('✓ Sitemap URL: https://devwithwaqas.github.io/portfolio/sitemap.xml')
 }
 
 // Run if called directly
