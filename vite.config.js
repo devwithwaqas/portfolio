@@ -38,13 +38,7 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     // Performance optimizations
-    minify: 'terser', // Use terser for better minification
-    terserOptions: {
-      compress: {
-        drop_console: true, // Remove console.log in production
-        drop_debugger: true
-      }
-    },
+    minify: 'esbuild', // Use esbuild (default, faster, no extra dependencies)
     // Code splitting for better performance
     rollupOptions: {
       output: {
