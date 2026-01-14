@@ -272,11 +272,16 @@ function isGA4Blocked() {
 
 /**
  * Track contact form submission (Conversion)
- * Uses server-side fallback if client-side is blocked
+ * 
+ * Note: For users with ad blockers, client-side tracking may be blocked (~20-30% of users).
+ * Current setup works for ~70-80% of visitors.
+ * 
+ * To achieve 100% coverage, implement server-side tracking via serverless function.
+ * See docs/GA4_AD_BLOCKER_SOLUTIONS.md for implementation guide.
  */
 export function trackContactFormSubmission(formData = {}) {
   // Try client-side first
-  const clientSideWorked = trackEvent('contact_form_submit', {
+  trackEvent('contact_form_submit', {
     event_category: 'engagement',
     event_label: 'Contact Form',
     value: 1,
