@@ -13,15 +13,20 @@
 
 ### Step 1: Get Free PHP Hosting
 
-**Recommended Free Hosts:**
-1. **000webhost** - https://www.000webhost.com (Free, no credit card)
-2. **InfinityFree** - https://infinityfree.net (Free, unlimited)
-3. **Freehostia** - https://www.freehostia.com (Free tier available)
+**Recommended: 000webhost** ⭐ (Best for beginners)
+- **URL:** https://www.000webhost.com
+- **Why:** Easiest setup, no credit card, free SSL
+- **Guide:** See `docs/000WEBHOST_SETUP_GUIDE.md` for detailed step-by-step instructions
+
+**Alternative: InfinityFree**
+- **URL:** https://infinityfree.net
+- **Why:** Unlimited bandwidth, also free
+- **Note:** Slightly more complex setup
 
 **What you need:**
-- PHP 7.4+ support
-- cURL enabled
-- Ability to upload files via FTP/cPanel
+- PHP 7.4+ support ✅ (000webhost has PHP 8.0+)
+- cURL enabled ✅ (enabled by default)
+- Ability to upload files ✅ (File Manager included)
 
 ---
 
