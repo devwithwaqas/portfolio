@@ -1,6 +1,11 @@
 /**
  * Generate sitemap.xml dynamically from Vue Router routes
  * Run this after build: node scripts/generate-sitemap.js
+ * 
+ * This script:
+ * 1. Reads routes from router configuration
+ * 2. Generates sitemap.xml with proper formatting
+ * 3. Writes to both dist/ and public/ folders
  */
 
 const fs = require('fs')
@@ -8,6 +13,7 @@ const path = require('path')
 
 const BASE_URL = 'https://devwithwaqas.github.io/portfolio'
 const DIST_DIR = path.resolve(__dirname, '../dist')
+const PUBLIC_DIR = path.resolve(__dirname, '../public')
 
 // Routes from router configuration
 const routes = [
@@ -137,19 +143,27 @@ function generateSitemap() {
     console.log('✓ Created dist directory')
   }
   
-  // Write to dist directory (Vite should also copy from public/, but we'll ensure it's here)
-  const sitemapPath = path.join(DIST_DIR, 'sitemap.xml')
-  fs.writeFileSync(sitemapPath, sitemap, 'utf8')
-  console.log('✓ Generated sitemap.xml at:', sitemapPath)
-  console.log('✓ Sitemap URL: https://devwithwaqas.github.io/portfolio/sitemap.xml')
-  
-  // Also verify the static sitemap from public/ was copied (Vite does this automatically)
-  const publicSitemap = path.resolve(__dirname, '../public/sitemap.xml')
-  if (fs.existsSync(publicSitemap)) {
-    console.log('✓ Static sitemap.xml found in public/ (will be copied by Vite)')
-  } else {
-    console.warn('⚠️  Static sitemap.xml not found in public/ - using generated one only')
+  // Ensure directories exist
+  if (!fs.existsSync(DIST_DIR)) {
+    fs.mkdirSync(DIST_DIR, { recursive: true })
   }
+  if (!fs.existsSync(PUBLIC_DIR)) {
+    fs.mkdirSync(PUBLIC_DIR, { recursive: true })
+  }
+  
+  // Write to dist directory (for deployment)
+  const distSitemapPath = path.join(DIST_DIR, 'sitemap.xml')
+  fs.writeFileSync(distSitemapPath, sitemap, 'utf8')
+  console.log('✓ Generated sitemap.xml at:', distSitemapPath)
+  
+  // Also write to public directory (as backup and for Vite to copy)
+  const publicSitemapPath = path.join(PUBLIC_DIR, 'sitemap.xml')
+  fs.writeFileSync(publicSitemapPath, sitemap, 'utf8')
+  console.log('✓ Copied sitemap.xml to public/ folder')
+  
+  console.log('✓ Sitemap URL: https://devwithwaqas.github.io/portfolio/sitemap.xml')
+  console.log(`✓ Total URLs: ${routes.length}`)
+  console.log(`✓ Last modified: ${today}`)
 }
 
 // Run if called directly
