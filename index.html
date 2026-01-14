@@ -95,33 +95,57 @@
       
       // Wait for script to load before initializing
       script.onload = function() {
-        // Verify the real Google gtag function is now available
+        // CRITICAL CHECK: Verify the real Google gtag function is now available
         // Google's script should have replaced/enhanced our local gtag
         const realGtag = window.gtag;
-        const isRealGtag = realGtag && realGtag.toString().includes('dataLayer') && 
-                          realGtag.toString().length > 100; // Real gtag is more complex
+        const gtagString = realGtag ? realGtag.toString() : '';
+        const isRealGtag = gtagString.length > 200; // Real Google gtag is much longer (2000+ chars)
+        
+        console.log('[GA4] Script onload fired - checking if Google script actually executed...');
+        console.log('[GA4] Current gtag function length:', gtagString.length, 'chars');
+        console.log('[GA4] Expected: 2000+ chars for real Google gtag');
         
         if (!isRealGtag) {
-          console.warn('[GA4] Script loaded but gtag function may not be the real Google version');
-          console.warn('[GA4] This might indicate the script was blocked or failed to load properly');
+          console.error('[GA4] ❌ CRITICAL: Script onload fired BUT Google gtag.js did NOT execute!');
+          console.error('[GA4] This means the script was BLOCKED by:');
+          console.error('[GA4]   1. Ad blocker (uBlock Origin, AdBlock Plus, etc.)');
+          console.error('[GA4]   2. Privacy extension (Privacy Badger, Ghostery, etc.)');
+          console.error('[GA4]   3. Browser privacy settings (Enhanced Tracking Protection)');
+          console.error('[GA4]   4. Network/firewall blocking googletagmanager.com');
+          console.error('[GA4]');
+          console.error('[GA4] ACTION REQUIRED:');
+          console.error('[GA4]   1. Open Network tab (F12 > Network)');
+          console.error('[GA4]   2. Filter by: gtag');
+          console.error('[GA4]   3. Refresh page');
+          console.error('[GA4]   4. Check if request to googletagmanager.com shows:');
+          console.error('[GA4]      - Status: (blocked) or ERR_BLOCKED_BY_CLIENT');
+          console.error('[GA4]      - Status: Failed or CORS error');
+          console.error('[GA4]      - No request at all');
+          console.error('[GA4]');
+          console.error('[GA4] SOLUTIONS:');
+          console.error('[GA4]   - Disable ALL ad blockers and privacy extensions');
+          console.error('[GA4]   - Test in Incognito/Private mode (extensions often disabled)');
+          console.error('[GA4]   - Check browser privacy settings');
+          console.error('[GA4]   - Try different browser or network');
+          return; // Don't proceed with initialization if script didn't load
         }
         
-        // Initialize GA4 after script loads
+        console.log('[GA4] ✅ Google gtag.js successfully loaded and executed!');
+        
+        // Initialize GA4 after script loads (only if real script executed)
         gtag('config', measurementId, {
           page_path: window.location.pathname + window.location.search,
           send_page_view: true
         });
         
         // Debug logging
-        console.log('[GA4] Script loaded and initialized with Measurement ID:', measurementId);
-        console.log('[GA4] Check Network tab for: googletagmanager.com/gtag/js and google-analytics.com/g/collect');
-        console.log('[GA4] Script element:', script);
-        console.log('[GA4] Script src:', script.src);
+        console.log('[GA4] ✅ GA4 initialized with Measurement ID:', measurementId);
+        console.log('[GA4] Check Network tab for collect requests to google-analytics.com/g/collect');
         
         // Verify script is in DOM
         const scriptInDOM = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
         if (scriptInDOM) {
-          console.log('[GA4] ✅ Script tag found in DOM');
+          console.log('[GA4] ✅ Script tag confirmed in DOM');
         } else {
           console.error('[GA4] ❌ Script tag NOT found in DOM - this is a problem!');
         }
