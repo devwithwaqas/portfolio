@@ -406,25 +406,23 @@ async function trackServerSide(eventName, eventParams = {}) {
     // Use mode: 'no-cors' as workaround if CORS is blocked by hosting provider
     // This sends the request but we won't get response (fire and forget)
     // The PHP endpoint will still receive and process the data
+    // Use mode: 'no-cors' to bypass CORS check
+    // Note: With no-cors, we can't read the response, but the request is sent
+    // The PHP endpoint will still receive and process the data
     const response = await fetch(GA4_PHP_ENDPOINT, {
       method: 'POST',
-      mode: 'no-cors', // Bypass CORS check - fire and forget
+      mode: 'no-cors', // Bypass CORS - fire and forget
       body: JSON.stringify(phpPayload),
       headers: {
         'Content-Type': 'application/json'
       }
     })
     
-    console.log('[GA4] Server-side response status:', response.status, response.statusText)
-    
-    if (response.ok) {
-      const responseText = await response.text()
-      console.log('[GA4] Server-side tracking successful:', eventName, '| Response:', responseText)
-      return true
-    } else {
-      console.warn('[GA4] Server-side tracking failed:', response.status)
-      return false
-    }
+    // With no-cors mode, response is opaque - we can't read it
+    // But the request was sent, so assume success
+    console.log('[GA4] Server-side request sent (no-cors mode):', eventName)
+    console.log('[GA4] Data should be processed by PHP endpoint and sent to GA4')
+    return true // Assume success since we can't verify response
   } catch (error) {
     console.warn('[GA4] Server-side tracking error:', error)
     return false
