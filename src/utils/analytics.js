@@ -99,7 +99,20 @@ function trackPageViewInternal(path, title) {
       page_title: title
     })
     
-    console.log('[GA4] Page view tracked:', path, title, '| ID:', measurementId)
+    // Verify dataLayer was updated
+    if (window.dataLayer && window.dataLayer.length > 0) {
+      const configEntry = window.dataLayer.find(item => 
+        item[0] === 'config' && item[1] === measurementId
+      )
+      if (configEntry) {
+        console.log('[GA4] Page view tracked:', path, title, '| ID:', measurementId)
+        console.log('[GA4] Config entry added to dataLayer:', configEntry)
+      } else {
+        console.warn('[GA4] Page view call made but config entry not found in dataLayer')
+      }
+    } else {
+      console.warn('[GA4] dataLayer is empty - tracking may not work')
+    }
   } catch (error) {
     console.error('[GA4] Page view tracking error:', error)
   }
@@ -239,4 +252,67 @@ export function trackExternalLink(url, linkText) {
     event_label: linkText,
     link_url: url
   })
+}
+
+/**
+ * Diagnostic function to check GA4 setup
+ * Call this in browser console: window.checkGA4Setup()
+ */
+export function checkGA4Setup() {
+  console.log('=== GA4 Diagnostic Check ===')
+  
+  // Check Measurement ID
+  const measurementId = (typeof window !== 'undefined' && window.GA4_MEASUREMENT_ID) || GA4_MEASUREMENT_ID
+  console.log('1. Measurement ID:', measurementId || '❌ NOT FOUND')
+  
+  // Check gtag function
+  const hasGtag = typeof window !== 'undefined' && typeof window.gtag === 'function'
+  console.log('2. gtag function:', hasGtag ? '✅ Available' : '❌ NOT FOUND')
+  
+  // Check dataLayer
+  const hasDataLayer = typeof window !== 'undefined' && Array.isArray(window.dataLayer)
+  console.log('3. dataLayer:', hasDataLayer ? `✅ Available (${window.dataLayer?.length || 0} entries)` : '❌ NOT FOUND')
+  
+  // Check for GA4 script in DOM
+  const ga4Script = document.querySelector('script[src*="googletagmanager.com/gtag/js"]')
+  console.log('4. GA4 script tag:', ga4Script ? `✅ Found (${ga4Script.src})` : '❌ NOT FOUND')
+  
+  // Check dataLayer entries
+  if (hasDataLayer && window.dataLayer.length > 0) {
+    console.log('5. dataLayer entries:')
+    window.dataLayer.forEach((entry, index) => {
+      console.log(`   [${index}]:`, entry)
+    })
+  } else {
+    console.log('5. dataLayer entries: ❌ EMPTY')
+  }
+  
+  // Check for network requests (user needs to check Network tab manually)
+  console.log('6. Network requests: Check Network tab for requests to:')
+  console.log('   - googletagmanager.com/gtag/js?id=' + measurementId)
+  console.log('   - google-analytics.com/g/collect')
+  
+  // Test tracking call
+  console.log('7. Testing tracking call...')
+  if (hasGtag && measurementId) {
+    try {
+      window.gtag('event', 'diagnostic_test', {
+        event_category: 'diagnostic',
+        event_label: 'Manual diagnostic check'
+      })
+      console.log('   ✅ Test event sent to gtag')
+    } catch (error) {
+      console.error('   ❌ Error sending test event:', error)
+    }
+  } else {
+    console.log('   ❌ Cannot test - gtag or Measurement ID missing')
+  }
+  
+  console.log('=== End Diagnostic ===')
+  console.log('💡 TIP: Open Network tab, filter by "collect" or "gtag", and refresh page to see if requests are being sent')
+}
+
+// Make diagnostic function available globally
+if (typeof window !== 'undefined') {
+  window.checkGA4Setup = checkGA4Setup
 }

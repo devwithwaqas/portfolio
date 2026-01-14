@@ -59,23 +59,35 @@
       // Store Measurement ID globally so analytics.js can access it
       window.GA4_MEASUREMENT_ID = measurementId;
       
+      // Make gtag available globally immediately (for queuing)
+      window.gtag = gtag;
+      
       // Load the GA4 script
       const script = document.createElement('script');
       script.async = true;
       script.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+      
+      // Wait for script to load before initializing
+      script.onload = function() {
+        // Initialize GA4 after script loads
+        gtag('config', measurementId, {
+          page_path: window.location.pathname + window.location.search,
+          send_page_view: true
+        });
+        
+        // Debug logging
+        console.log('[GA4] Script loaded and initialized with Measurement ID:', measurementId);
+        console.log('[GA4] Network request should be visible in Network tab');
+      };
+      
+      script.onerror = function() {
+        console.error('[GA4] Failed to load gtag.js script');
+      };
+      
       document.head.appendChild(script);
       
-      // Initialize GA4 immediately (gtag.js handles queuing)
-      gtag('config', measurementId, {
-        page_path: window.location.pathname + window.location.search,
-        send_page_view: true
-      });
-      
-      // Make gtag available globally
-      window.gtag = gtag;
-      
-      // Debug logging
-      console.log('[GA4] Initialized with Measurement ID:', measurementId);
+      // Debug logging (before script loads)
+      console.log('[GA4] Loading GA4 script with Measurement ID:', measurementId);
     } else if (measurementId && measurementId !== 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER') {
       // Only warn if we have a value but it's invalid format
       console.warn('[GA4] Measurement ID format invalid (should start with G-):', measurementId);
