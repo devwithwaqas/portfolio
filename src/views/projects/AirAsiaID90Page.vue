@@ -119,6 +119,15 @@
       
     </template>
     
+    <!-- Additional Content Slot -->
+    <template #additional-content>
+      <!-- Related Services -->
+      <RelatedServices
+        :services="relatedServices"
+        introduction="This project utilized the following services I offer:"
+      />
+    </template>
+    
   </ProjectPageTemplate>
 </template>
 
@@ -135,6 +144,7 @@ import PerformanceMetricsSection from '../../components/projects/PerformanceMetr
 import MetricsFramework from '../../components/projects/MetricsFramework.vue'
 import ProjectInfo from '../../components/projects/ProjectInfo.vue'
 import ROISection from '../../components/projects/ROISection.vue'
+import RelatedServices from '../../components/common/RelatedServices.vue'
 import { TECH_CATEGORIES, PROJECT_ICON_NAMES, PROJECT_CATEGORIES, ROI_ICON_NAMES } from '../../config/constants.js'
 import { airasiaNarrationSteps } from '../../config/airasiaNarration.js'
 import { assetPath } from '../../utils/assetPath.js'
@@ -153,7 +163,8 @@ export default {
     PerformanceMetricsSection,
     MetricsFramework,
     ProjectInfo,
-    ROISection
+    ROISection,
+    RelatedServices
   },
   data() {
     return {
@@ -1220,6 +1231,26 @@ export default {
         { value: "10 Countries", label: "Geographic Expansion", color: "purple" },
         { value: "$23.7M+", label: "Business Value Created", color: "pink" },
         { value: "10x Capacity", label: "System Scalability", color: "cyan" }
+      ],
+      relatedServices: [
+        {
+          title: 'Full Stack Development',
+          description: 'End-to-end development with .NET Core and Angular for enterprise applications',
+          path: '/services/full-stack-development',
+          icon: 'bi bi-code-square'
+        },
+        {
+          title: 'Azure Cloud Architecture',
+          description: 'Cloud-native solutions using Azure App Service and Azure SQL Database',
+          path: '/services/azure-cloud-architecture',
+          icon: 'bi bi-cloud'
+        },
+        {
+          title: 'Microservices Architecture',
+          description: 'Scalable microservices-based applications with Azure Service Bus',
+          path: '/services/microservices-architecture',
+          icon: 'bi bi-diagram-3'
+        }
       ]
     }
   }

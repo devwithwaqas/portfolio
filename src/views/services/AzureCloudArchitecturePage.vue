@@ -52,6 +52,12 @@
         :faq-items="faqItems"
       />
 
+      <!-- Related Projects -->
+      <RelatedProjects
+        :projects="relatedProjects"
+        introduction="Here are some Azure cloud architecture projects I've architected and implemented:"
+      />
+
       <!-- CTA -->
       <ServiceCTA
         cta-text="Ready to migrate to Azure or build cloud-native solutions? Let's discuss your cloud architecture needs and create a scalable, secure, and cost-effective solution that transforms your infrastructure."
@@ -73,6 +79,7 @@ import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
+import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
@@ -87,6 +94,7 @@ export default {
     ServiceCaseStudies,
     ServiceFAQ,
     ServiceCTA,
+    RelatedProjects,
     TechnologyStack
   },
   setup() {
@@ -358,6 +366,31 @@ export default {
       }
     ])
 
+    // Related Projects
+    const relatedProjects = ref([
+      {
+        title: 'Heat Exchanger Portal',
+        description: 'Enterprise platform on OpenShift with Azure integration, processing 2.5M data points daily',
+        path: '/projects/heat-exchanger',
+        image: assetPath('/assets/img/he1.jpg'),
+        technologies: ['Azure', 'OpenShift', 'Docker', '.NET Core']
+      },
+      {
+        title: 'AirAsia ID90 Portal',
+        description: 'Azure-native employee benefits platform with Azure App Service and Azure SQL Database',
+        path: '/projects/airasia-id90',
+        image: assetPath('/assets/img/aa1.jpg'),
+        technologies: ['Azure App Service', 'Azure SQL', 'Azure Service Bus', '.NET Core']
+      },
+      {
+        title: 'UK Property Management',
+        description: 'Azure-native property management platform managing 9,000+ properties',
+        path: '/projects/uk-property-management',
+        image: assetPath('/assets/img/gpc1.jpg'),
+        technologies: ['Azure', '.NET Core', 'Angular', 'Azure SQL']
+      }
+    ])
+
     return {
       heroBenefits,
       heroBadges,
@@ -370,7 +403,8 @@ export default {
       engagementModels,
       technologies,
       caseStudies,
-      faqItems
+      faqItems,
+      relatedProjects
     }
   }
 }

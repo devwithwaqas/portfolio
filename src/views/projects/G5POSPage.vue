@@ -112,6 +112,15 @@
       
     </template>
     
+    <!-- Additional Content Slot -->
+    <template #additional-content>
+      <!-- Related Services -->
+      <RelatedServices
+        :services="relatedServices"
+        introduction="This project utilized the following services I offer:"
+      />
+    </template>
+    
   </ProjectPageTemplate>
 </template>
 
@@ -129,6 +138,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import RelatedServices from '@/components/common/RelatedServices.vue'
 import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
@@ -153,7 +163,8 @@ export default {
     EngineeringChallenges,
     PerformanceMetricsSection,
     MetricsFramework,
-    ROISection
+    ROISection,
+    RelatedServices
   },
   setup() {
     // G5 POS Narration Steps (placeholder - no diagram yet)
@@ -1656,6 +1667,27 @@ export default {
       { value: "99.8%", label: "System Uptime", color: "cyan" }
     ])
 
+    const relatedServices = ref([
+      {
+        title: 'Full Stack Development',
+        description: 'Complete restaurant management system with .NET Core and Angular',
+        path: '/services/full-stack-development',
+        icon: 'bi bi-code-square'
+      },
+      {
+        title: 'Microservices Architecture',
+        description: 'Scalable microservices architecture for multi-location restaurant operations',
+        path: '/services/microservices-architecture',
+        icon: 'bi bi-diagram-3'
+      },
+      {
+        title: 'Azure Cloud Architecture',
+        description: 'Cloud-native deployment with Azure App Service and Azure SQL Database',
+        path: '/services/azure-cloud-architecture',
+        icon: 'bi bi-cloud'
+      }
+    ])
+
     return {
       // Data
       projectData,
@@ -1673,6 +1705,7 @@ export default {
       roiLeftItems,
       roiRightItems,
       roiMetrics,
+      relatedServices,
       
       // Constants
       PROJECT_ICON_NAMES,

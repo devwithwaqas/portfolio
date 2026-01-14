@@ -52,6 +52,12 @@
         :faq-items="faqItems"
       />
 
+      <!-- Related Projects -->
+      <RelatedProjects
+        :projects="relatedProjects"
+        introduction="Here are some microservices architecture projects I've designed and implemented:"
+      />
+
       <!-- CTA -->
       <ServiceCTA
         cta-text="Ready to build scalable microservices architecture? Let's discuss how microservices can transform your application architecture and enable independent scaling, deployment, and evolution."
@@ -73,6 +79,7 @@ import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
+import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
@@ -87,6 +94,7 @@ export default {
     ServiceCaseStudies,
     ServiceFAQ,
     ServiceCTA,
+    RelatedProjects,
     TechnologyStack
   },
   setup() {
@@ -353,6 +361,31 @@ export default {
       }
     ])
 
+    // Related Projects
+    const relatedProjects = ref([
+      {
+        title: 'Heat Exchanger Portal',
+        description: 'Enterprise microservices platform with .NET Core, processing 2.5M data points daily',
+        path: '/projects/heat-exchanger',
+        image: assetPath('/assets/img/he1.jpg'),
+        technologies: ['.NET Core', 'Microservices', 'Docker', 'OpenShift']
+      },
+      {
+        title: 'Gamified Employee Management',
+        description: 'Microservices architecture with Azure Service Fabric, 10+ independent services',
+        path: '/projects/gamified-employee-management',
+        image: assetPath('/assets/img/sf1.jpg'),
+        technologies: ['Azure Service Fabric', 'Microservices', '.NET Core', 'Azure']
+      },
+      {
+        title: 'G5 POS',
+        description: 'Restaurant management system with microservices for 50+ locations',
+        path: '/projects/g5-pos',
+        image: assetPath('/assets/img/g51.jpg'),
+        technologies: ['Microservices', '.NET Core', 'Angular', 'Azure']
+      }
+    ])
+
     return {
       heroBenefits,
       heroBadges,
@@ -365,7 +398,8 @@ export default {
       engagementModels,
       technologies,
       caseStudies,
-      faqItems
+      faqItems,
+      relatedProjects
     }
   }
 }

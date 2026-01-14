@@ -61,6 +61,9 @@
                   <router-link to="/projects/heat-exchanger" class="btn btn-outline-primary txt-btn-md">
                     <i class="bi bi-code-square icon-sm me-2"></i>View .NET Projects
                   </router-link>
+                  <router-link to="/projects/airasia-id90" class="btn btn-outline-primary txt-btn-md">
+                    <i class="bi bi-code-square icon-sm me-2"></i>More .NET Projects
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -117,6 +120,9 @@
                   </router-link>
                   <router-link to="/projects/heat-exchanger" class="btn btn-outline-primary txt-btn-md">
                     <i class="bi bi-code-square icon-sm me-2"></i>View Microservices Projects
+                  </router-link>
+                  <router-link to="/projects/gamified-employee-management" class="btn btn-outline-primary txt-btn-md">
+                    <i class="bi bi-code-square icon-sm me-2"></i>More Microservices
                   </router-link>
                 </div>
               </div>
@@ -175,6 +181,9 @@
                   <router-link to="/projects/heat-exchanger" class="btn btn-outline-primary txt-btn-md">
                     <i class="bi bi-code-square icon-sm me-2"></i>View API Projects
                   </router-link>
+                  <router-link to="/projects/airasia-id90" class="btn btn-outline-primary txt-btn-md">
+                    <i class="bi bi-code-square icon-sm me-2"></i>More API Projects
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -231,6 +240,9 @@
                   </router-link>
                   <router-link to="/projects/heat-exchanger" class="btn btn-outline-primary txt-btn-md">
                     <i class="bi bi-code-square icon-sm me-2"></i>View Database Projects
+                  </router-link>
+                  <router-link to="/projects/uk-property-management" class="btn btn-outline-primary txt-btn-md">
+                    <i class="bi bi-code-square icon-sm me-2"></i>More Database Projects
                   </router-link>
                 </div>
               </div>
@@ -345,6 +357,9 @@
                   </router-link>
                   <router-link to="/projects/heat-exchanger" class="btn btn-outline-primary txt-btn-md">
                     <i class="bi bi-code-square icon-sm me-2"></i>View Azure Projects
+                  </router-link>
+                  <router-link to="/projects/airasia-id90" class="btn btn-outline-primary txt-btn-md">
+                    <i class="bi bi-code-square icon-sm me-2"></i>More Azure Projects
                   </router-link>
                 </div>
               </div>
