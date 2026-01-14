@@ -140,15 +140,30 @@ export function trackPageView(path, title) {
   }
   
   // GA4 is ready, track immediately
-  trackPageViewInternal(path, title)
+  let clientSideSuccess = false
+  try {
+    trackPageViewInternal(path, title)
+    clientSideSuccess = true
+  } catch (error) {
+    console.warn('[GA4] Client-side page view tracking failed, trying server-side:', error)
+    // Fallback to server-side if client-side fails
+    if (GA4_PHP_ENDPOINT) {
+      trackServerSide('page_view', {
+        page_path: path,
+        page_title: title
+      })
+    }
+  }
   
-  // Also use server-side as backup (dual tracking for redundancy)
-  if (GA4_PHP_ENDPOINT) {
+  // Only use server-side as backup if client-side is blocked or likely not working
+  // This prevents duplicate events when client-side is working properly
+  if (GA4_PHP_ENDPOINT && !clientSideSuccess && isClientSideBlocked()) {
+    console.log('[GA4] Client-side blocked, using server-side fallback for page view')
     trackServerSide('page_view', {
       page_path: path,
       page_title: title
     }).catch(() => {
-      // Silently fail - we already tried client-side, this is just backup
+      // Silently fail - we already tried client-side
     })
   }
 }
@@ -229,8 +244,10 @@ export function trackEvent(eventName, eventParams = {}) {
   }
   
   // Try client-side first
+  let clientSideSuccess = false
   try {
     trackEventInternal(eventName, eventParams)
+    clientSideSuccess = true
   } catch (error) {
     console.warn('[GA4] Client-side tracking failed, trying server-side:', error)
     // Fallback to server-side if client-side fails
@@ -239,13 +256,13 @@ export function trackEvent(eventName, eventParams = {}) {
     }
   }
   
-  // Always use server-side as backup (dual tracking for redundancy)
-  // This ensures we capture events even if ad blockers partially block GA4
-  // or if client-side tracking has issues
-  if (GA4_PHP_ENDPOINT) {
+  // Only use server-side as backup if client-side is blocked or likely not working
+  // This prevents duplicate events when client-side is working properly
+  if (GA4_PHP_ENDPOINT && !clientSideSuccess && isClientSideBlocked()) {
+    console.log('[GA4] Client-side blocked, using server-side fallback for:', eventName)
     // Use server-side as backup (non-blocking, doesn't wait for response)
     trackServerSide(eventName, eventParams).catch(() => {
-      // Silently fail - we already tried client-side, this is just backup
+      // Silently fail - we already tried client-side
     })
   }
 }
