@@ -28,7 +28,7 @@ Add each of the following secrets one by one. Copy the values from your `.env` f
 |------------|----------------|---------|
 | `VITE_LINKEDIN_URL` | `VITE_LINKEDIN_URL=...` | `https://www.linkedin.com/in/waqas1430/` |
 | `VITE_GITHUB_URL` | `VITE_GITHUB_URL=...` | `https://github.com/devwithwaqas` |
-| `VITE_WEBSITE_URL` | `VITE_WEBSITE_URL=...` | `https://www.waqasahmad.com` |
+| `VITE_WEBSITE_URL` | `VITE_WEBSITE_URL=...` | `https://devwithwaqas.github.io/portfolio/` |
 | `VITE_WHATSAPP_URL` | `VITE_WHATSAPP_URL=...` | `https://wa.me/60146806067` |
 | `VITE_GOOGLE_MAPS_URL` | `VITE_GOOGLE_MAPS_URL=...` | `https://www.google.com/maps/search/?api=1&query=Kuala+Lumpur,+Malaysia` |
 

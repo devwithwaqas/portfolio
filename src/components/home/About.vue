@@ -32,7 +32,7 @@
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
                                 <i class="bi bi-globe icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
-                                  <strong class="txt-label-md" style="color: #0563bb;">Website:</strong> <a :href="contactLinks.website" target="_blank" class="txt-link-md" style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word; text-decoration: none; transition: all 0.3s ease;" @mouseover="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.4)'" @mouseout="$event.target.style.color='#45505b'; $event.target.style.textShadow='none'">{{ contactLinks.website || 'devwithwaqas.github.io/portfolio' }}</a>
+                                  <strong class="txt-label-md" style="color: #0563bb;">Website:</strong> <a href="https://devwithwaqas.github.io/portfolio/" target="_blank" class="txt-link-md" style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word; text-decoration: none; transition: all 0.3s ease;" @mouseover="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.4)'" @mouseout="$event.target.style.color='#45505b'; $event.target.style.textShadow='none'">devwithwaqas.github.io/portfolio</a>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
