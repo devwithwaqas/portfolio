@@ -56,6 +56,9 @@
                       measurementId.length > 2;
     
     if (isValidId) {
+      // Store Measurement ID globally so analytics.js can access it
+      window.GA4_MEASUREMENT_ID = measurementId;
+      
       // Load the GA4 script
       const script = document.createElement('script');
       script.async = true;

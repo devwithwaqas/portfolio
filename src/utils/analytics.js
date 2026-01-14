@@ -5,7 +5,9 @@
  */
 
 // Get GA4 Measurement ID from environment variable (available at build time)
-const GA4_MEASUREMENT_ID = import.meta.env.VITE_GA4_MEASUREMENT_ID || ''
+// Also check window.GA4_MEASUREMENT_ID which is set in index.html
+const GA4_MEASUREMENT_ID = (typeof window !== 'undefined' && window.GA4_MEASUREMENT_ID) || 
+                           import.meta.env.VITE_GA4_MEASUREMENT_ID || ''
 
 // Queue for tracking calls made before GA4 is ready
 const trackingQueue = []
@@ -80,21 +82,24 @@ function trackPageViewInternal(path, title) {
   }
   
   try {
-    // Get Measurement ID from window if available (set in index.html)
-    const measurementId = GA4_MEASUREMENT_ID || (window.dataLayer && window.dataLayer.find ? 
-      window.dataLayer.find(item => item[0] === 'config' && item[1] && item[1].startsWith('G-'))?.[1] : null)
+    // Get Measurement ID - priority: window.GA4_MEASUREMENT_ID > env var > dataLayer
+    const measurementId = (typeof window !== 'undefined' && window.GA4_MEASUREMENT_ID) || 
+                          GA4_MEASUREMENT_ID || 
+                          (window.dataLayer && window.dataLayer.find ? 
+                            window.dataLayer.find(item => item[0] === 'config' && item[1] && item[1].startsWith('G-'))?.[1] : null)
     
     if (!measurementId) {
-      console.warn('[GA4] Measurement ID not found')
+      console.warn('[GA4] Measurement ID not found - cannot track page view')
       return
     }
     
+    // Use gtag to send page view
     window.gtag('config', measurementId, {
       page_path: path,
       page_title: title
     })
     
-    console.log('[GA4] Page view tracked:', path, title)
+    console.log('[GA4] Page view tracked:', path, title, '| ID:', measurementId)
   } catch (error) {
     console.error('[GA4] Page view tracking error:', error)
   }
@@ -130,8 +135,21 @@ function trackEventInternal(eventName, eventParams = {}) {
   }
   
   try {
+    // Get Measurement ID to verify it's correct
+    const measurementId = (typeof window !== 'undefined' && window.GA4_MEASUREMENT_ID) || GA4_MEASUREMENT_ID
+    
+    // Send event
     window.gtag('event', eventName, eventParams)
-    console.log('[GA4] Event tracked:', eventName, eventParams)
+    
+    console.log('[GA4] Event tracked:', eventName, eventParams, '| ID:', measurementId || 'using default')
+    
+    // Also verify dataLayer was updated
+    if (window.dataLayer && window.dataLayer.length > 0) {
+      const lastEntry = window.dataLayer[window.dataLayer.length - 1]
+      if (lastEntry && lastEntry[0] === 'event') {
+        console.log('[GA4] Event added to dataLayer:', lastEntry)
+      }
+    }
   } catch (error) {
     console.error('[GA4] Event tracking error:', error)
   }
