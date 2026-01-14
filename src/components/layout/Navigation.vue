@@ -123,6 +123,8 @@ export default {
       minSwipeDistance: 50,
       intersectionObserver: null, // Store observer for cleanup
       scrollTimeout: null, // Store scroll timeout for debouncing
+      isUserScrolling: false, // Flag to temporarily disable intersection observer during user-initiated scrolls
+      userScrollTimeout: null // Timeout to re-enable intersection observer after scroll
     }
   },
   mounted() {
@@ -154,6 +156,9 @@ export default {
     window.removeEventListener('scroll', this.handleScroll)
     if (this.scrollTimeout) {
       clearTimeout(this.scrollTimeout)
+    }
+    if (this.userScrollTimeout) {
+      clearTimeout(this.userScrollTimeout)
     }
     document.removeEventListener('click', this.handleClickOutside)
     document.removeEventListener('touchstart', this.handleTapOutside)
@@ -198,8 +203,16 @@ export default {
       event.preventDefault()
       this.closeMobileMenu()
       
-      // Immediately set the clicked section as active (will be overridden by intersection observer if needed)
-      // This provides immediate feedback
+      // Clear any existing timeout
+      if (this.userScrollTimeout) {
+        clearTimeout(this.userScrollTimeout)
+        this.userScrollTimeout = null
+      }
+      
+      // Set flag to disable intersection observer temporarily
+      this.isUserScrolling = true
+      
+      // Immediately set the clicked section as active
       this.activeSection = sectionId
       
       // Always scroll without changing URL - no hash fragments
@@ -217,6 +230,11 @@ export default {
                   top: offsetPosition,
                   behavior: 'smooth'
                 })
+                // Re-enable intersection observer after scroll completes (smooth scroll takes ~500ms)
+                this.userScrollTimeout = setTimeout(() => {
+                  this.isUserScrolling = false
+                  this.userScrollTimeout = null
+                }, 800)
               }
             })
           })
@@ -232,6 +250,11 @@ export default {
             top: offsetPosition,
             behavior: 'smooth'
           })
+          // Re-enable intersection observer after scroll completes (smooth scroll takes ~500ms)
+          this.userScrollTimeout = setTimeout(() => {
+            this.isUserScrolling = false
+            this.userScrollTimeout = null
+          }, 800)
         }
       }
     },
@@ -246,6 +269,9 @@ export default {
       const observer = new IntersectionObserver((entries) => {
         // Only update active section on home page
         if (this.$route.path !== '/') return
+        
+        // Ignore intersection observer updates if user is manually scrolling
+        if (this.isUserScrolling) return
         
         // Use requestAnimationFrame to batch updates and avoid conflicts
         requestAnimationFrame(() => {
