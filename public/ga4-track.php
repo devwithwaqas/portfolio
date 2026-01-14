@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // CONFIGURATION - UPDATE THESE VALUES
 // ============================================
 $MEASUREMENT_ID = 'G-1HMMJLP7GK';
-$API_SECRET = 'YOUR_API_SECRET_HERE'; // ⚠️ REPLACE WITH YOUR API SECRET FROM GA4
+$API_SECRET = 'p4SbgXEyTKOikyV8ZZACig'; // ✅ API Secret configured
 
 // ============================================
 // VALIDATION
