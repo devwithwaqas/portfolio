@@ -36,6 +36,22 @@
   <!-- Canonical URL -->
   <link rel="canonical" href="https://devwithwaqas.github.io/portfolio/">
   
+  <!-- Google Analytics 4 (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    // GA4 Measurement ID will be injected from environment variable or default
+    const GA4_MEASUREMENT_ID = 'G-PLACEHOLDER'; // Will be replaced by build process
+    if (GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== 'G-PLACEHOLDER') {
+      gtag('config', GA4_MEASUREMENT_ID, {
+        page_path: window.location.pathname + window.location.search,
+        send_page_view: true
+      });
+    }
+  </script>
+  
   <!-- Favicons -->
   <link href="/assets/img/favicon.png" rel="icon">
   <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">

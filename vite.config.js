@@ -12,9 +12,15 @@ export default defineConfig({
       name: 'transform-html-assets',
       transformIndexHtml(html) {
         const base = '/portfolio/'
+        const ga4Id = process.env.VITE_GA4_MEASUREMENT_ID || ''
         // Replace absolute asset paths with base-prefixed paths
-        return html.replace(/href="\/assets\//g, `href="${base}assets/`)
-                   .replace(/src="\/assets\//g, `src="${base}assets/`)
+        let transformed = html.replace(/href="\/assets\//g, `href="${base}assets/`)
+                             .replace(/src="\/assets\//g, `src="${base}assets/`)
+        // Replace GA4 placeholder with actual Measurement ID if provided
+        if (ga4Id) {
+          transformed = transformed.replace(/VITE_GA4_MEASUREMENT_ID_PLACEHOLDER/g, ga4Id)
+        }
+        return transformed
       }
     },
   ],

@@ -40,6 +40,12 @@ Add each of the following secrets one by one. Copy the values from your `.env` f
 | `VITE_EMAILJS_SERVICE_ID` | `VITE_EMAILJS_SERVICE_ID=...` | `service_t762oxc` |
 | `VITE_EMAILJS_TEMPLATE_ID` | `VITE_EMAILJS_TEMPLATE_ID=...` | `template_clfbq4g` |
 
+### Google Analytics 4 (GA4) Secret
+
+| Secret Name | Value from .env | Example | Notes |
+|------------|----------------|---------|-------|
+| `VITE_GA4_MEASUREMENT_ID` | `VITE_GA4_MEASUREMENT_ID=...` | `G-XXXXXXXXXX` | Optional - Get from [Google Analytics](https://analytics.google.com/) |
+
 ## 🚀 Quick Setup Steps
 
 1. **Open your `.env` file** (in the project root)

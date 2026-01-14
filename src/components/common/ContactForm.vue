@@ -118,6 +118,7 @@
 <script>
 import emailjs from '@emailjs/browser'
 import { APP_CONFIG } from '../../config/constants.js'
+import { trackContactFormSubmission } from '../../utils/analytics.js'
 
 export default {
   name: 'ContactForm',
@@ -209,6 +210,9 @@ export default {
           this.emailjsConfig.templateId,
           templateParams
         )
+        
+        // Track conversion in Google Analytics
+        trackContactFormSubmission(this.formData)
         
         this.successMessage = 'Thank you! Your message has been sent successfully. I will get back to you soon!'
         this.formData = {
