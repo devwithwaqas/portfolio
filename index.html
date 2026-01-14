@@ -39,37 +39,35 @@
   <!-- Google Analytics 4 (GA4) -->
   <!-- GA4 Measurement ID will be injected from environment variable VITE_GA4_MEASUREMENT_ID -->
   <script>
-    // Initialize dataLayer and gtag function immediately
+    // Standard GA4 implementation pattern
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    window.gtag = gtag; // Make gtag available globally immediately
     
-    // Load GA4 script only if Measurement ID is provided
+    // Get Measurement ID (will be replaced during build)
     const GA4_MEASUREMENT_ID = 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER';
+    
+    // Only proceed if we have a valid Measurement ID
     if (GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER' && GA4_MEASUREMENT_ID.startsWith('G-')) {
-      // Load gtag.js script
+      // Load the GA4 script
       const script = document.createElement('script');
       script.async = true;
       script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
+      document.head.appendChild(script);
       
-      // Wait for script to load before initializing
-      script.onload = function() {
-        // Initialize GA4 after script loads
-        gtag('config', GA4_MEASUREMENT_ID, {
-          page_path: window.location.pathname + window.location.search,
-          send_page_view: true
-        });
-      };
-      
-      // Also initialize immediately (in case onload already fired)
-      // This handles cases where script loads very quickly
+      // Initialize GA4 immediately (gtag.js handles queuing)
       gtag('config', GA4_MEASUREMENT_ID, {
         page_path: window.location.pathname + window.location.search,
         send_page_view: true
       });
       
-      document.head.appendChild(script);
+      // Make gtag available globally
+      window.gtag = gtag;
+      
+      // Debug logging (remove in production if needed)
+      console.log('[GA4] Initialized with Measurement ID:', GA4_MEASUREMENT_ID);
+    } else {
+      console.warn('[GA4] Measurement ID not configured or invalid:', GA4_MEASUREMENT_ID);
     }
   </script>
   

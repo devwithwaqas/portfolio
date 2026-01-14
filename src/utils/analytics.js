@@ -4,7 +4,7 @@
  * Measurement ID: G-1HMMJLP7GK
  */
 
-// Get GA4 Measurement ID from environment variable
+// Get GA4 Measurement ID from environment variable (available at build time)
 const GA4_MEASUREMENT_ID = import.meta.env.VITE_GA4_MEASUREMENT_ID || ''
 
 // Queue for tracking calls made before GA4 is ready
@@ -14,9 +14,22 @@ let ga4ReadyCheckInterval = null
 
 /**
  * Check if GA4 is configured and ready
+ * Note: We check for window.gtag which is set in index.html
  */
 export function isGA4Configured() {
-  return GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== '' && typeof window !== 'undefined' && typeof window.gtag !== 'undefined'
+  const hasGtag = typeof window !== 'undefined' && typeof window.gtag === 'function'
+  const hasDataLayer = typeof window !== 'undefined' && Array.isArray(window.dataLayer)
+  
+  if (hasGtag && hasDataLayer) {
+    // Debug logging
+    if (!isGA4Ready) {
+      console.log('[GA4] Ready - gtag and dataLayer available')
+      isGA4Ready = true
+    }
+    return true
+  }
+  
+  return false
 }
 
 /**
@@ -61,15 +74,29 @@ function waitForGA4Ready(maxAttempts = 50, attempt = 0) {
  * Internal function to track page view (assumes GA4 is ready)
  */
 function trackPageViewInternal(path, title) {
-  if (!isGA4Configured()) return
+  if (!isGA4Configured()) {
+    console.warn('[GA4] Cannot track page view - GA4 not configured')
+    return
+  }
   
   try {
-    window.gtag('config', GA4_MEASUREMENT_ID, {
+    // Get Measurement ID from window if available (set in index.html)
+    const measurementId = GA4_MEASUREMENT_ID || (window.dataLayer && window.dataLayer.find ? 
+      window.dataLayer.find(item => item[0] === 'config' && item[1] && item[1].startsWith('G-'))?.[1] : null)
+    
+    if (!measurementId) {
+      console.warn('[GA4] Measurement ID not found')
+      return
+    }
+    
+    window.gtag('config', measurementId, {
       page_path: path,
       page_title: title
     })
+    
+    console.log('[GA4] Page view tracked:', path, title)
   } catch (error) {
-    console.error('GA4 page view tracking error:', error)
+    console.error('[GA4] Page view tracking error:', error)
   }
 }
 
@@ -77,30 +104,36 @@ function trackPageViewInternal(path, title) {
  * Track page view
  */
 export function trackPageView(path, title) {
-  if (!GA4_MEASUREMENT_ID || GA4_MEASUREMENT_ID === '') return
-  
-  if (isGA4Configured()) {
-    trackPageViewInternal(path, title)
-  } else {
-    // Queue the tracking call
+  // Check if gtag exists (from index.html) - this is the primary check
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function') {
+    // Queue the tracking call if GA4 isn't ready yet
     trackingQueue.push({ type: 'pageview', path, title })
     // Start waiting for GA4 if not already waiting
     if (!ga4ReadyCheckInterval) {
       waitForGA4Ready()
     }
+    console.log('[GA4] Queued page view (GA4 not ready yet):', path)
+    return
   }
+  
+  // GA4 is ready, track immediately
+  trackPageViewInternal(path, title)
 }
 
 /**
  * Internal function to track event (assumes GA4 is ready)
  */
 function trackEventInternal(eventName, eventParams = {}) {
-  if (!isGA4Configured()) return
+  if (!isGA4Configured()) {
+    console.warn('[GA4] Cannot track event - GA4 not configured:', eventName)
+    return
+  }
   
   try {
     window.gtag('event', eventName, eventParams)
+    console.log('[GA4] Event tracked:', eventName, eventParams)
   } catch (error) {
-    console.error('GA4 event tracking error:', error)
+    console.error('[GA4] Event tracking error:', error)
   }
 }
 
@@ -108,18 +141,20 @@ function trackEventInternal(eventName, eventParams = {}) {
  * Track custom event
  */
 export function trackEvent(eventName, eventParams = {}) {
-  if (!GA4_MEASUREMENT_ID || GA4_MEASUREMENT_ID === '') return
-  
-  if (isGA4Configured()) {
-    trackEventInternal(eventName, eventParams)
-  } else {
-    // Queue the tracking call
+  // Check if gtag exists (from index.html) - this is the primary check
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function') {
+    // Queue the tracking call if GA4 isn't ready yet
     trackingQueue.push({ type: 'event', eventName, eventParams })
     // Start waiting for GA4 if not already waiting
     if (!ga4ReadyCheckInterval) {
       waitForGA4Ready()
     }
+    console.log('[GA4] Queued event (GA4 not ready yet):', eventName)
+    return
   }
+  
+  // GA4 is ready, track immediately
+  trackEventInternal(eventName, eventParams)
 }
 
 /**
