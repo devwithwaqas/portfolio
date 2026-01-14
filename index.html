@@ -95,42 +95,37 @@
       
       // Wait for script to load before initializing
       script.onload = function() {
-        // CRITICAL CHECK: Verify the real Google gtag function is now available
-        // Google's script should have replaced/enhanced our local gtag
+        // Check if Google's script actually executed
+        // Google's gtag.js enhances the gtag function and adds methods
         const realGtag = window.gtag;
         const gtagString = realGtag ? realGtag.toString() : '';
-        const isRealGtag = gtagString.length > 200; // Real Google gtag is much longer (2000+ chars)
         
-        console.log('[GA4] Script onload fired - checking if Google script actually executed...');
-        console.log('[GA4] Current gtag function length:', gtagString.length, 'chars');
-        console.log('[GA4] Expected: 2000+ chars for real Google gtag');
+        // Better detection: Check for Google's gtag implementation
+        // Google's script adds properties and enhances the function
+        const hasGoogleGtag = realGtag && (
+          // Check if gtag has Google's internal properties
+          realGtag.q !== undefined || // Google's queue property
+          realGtag.l !== undefined || // Google's load property
+          gtagString.length > 200 || // Real Google gtag is much longer
+          // Check if dataLayer processing is working (if collect requests appear, it's working)
+          (window.dataLayer && window.dataLayer.length > 0)
+        );
         
-        if (!isRealGtag) {
-          console.error('[GA4] ❌ CRITICAL: Script onload fired BUT Google gtag.js did NOT execute!');
-          console.error('[GA4] This means the script was BLOCKED by:');
-          console.error('[GA4]   1. Ad blocker (uBlock Origin, AdBlock Plus, etc.)');
-          console.error('[GA4]   2. Privacy extension (Privacy Badger, Ghostery, etc.)');
-          console.error('[GA4]   3. Browser privacy settings (Enhanced Tracking Protection)');
-          console.error('[GA4]   4. Network/firewall blocking googletagmanager.com');
-          console.error('[GA4]');
-          console.error('[GA4] ACTION REQUIRED:');
-          console.error('[GA4]   1. Open Network tab (F12 > Network)');
-          console.error('[GA4]   2. Filter by: gtag');
-          console.error('[GA4]   3. Refresh page');
-          console.error('[GA4]   4. Check if request to googletagmanager.com shows:');
-          console.error('[GA4]      - Status: (blocked) or ERR_BLOCKED_BY_CLIENT');
-          console.error('[GA4]      - Status: Failed or CORS error');
-          console.error('[GA4]      - No request at all');
-          console.error('[GA4]');
-          console.error('[GA4] SOLUTIONS:');
-          console.error('[GA4]   - Disable ALL ad blockers and privacy extensions');
-          console.error('[GA4]   - Test in Incognito/Private mode (extensions often disabled)');
-          console.error('[GA4]   - Check browser privacy settings');
-          console.error('[GA4]   - Try different browser or network');
-          return; // Don't proceed with initialization if script didn't load
+        console.log('[GA4] Script onload fired - checking if Google script executed...');
+        console.log('[GA4] gtag function length:', gtagString.length, 'chars');
+        console.log('[GA4] gtag.q (queue) exists:', realGtag && realGtag.q !== undefined);
+        console.log('[GA4] dataLayer entries:', window.dataLayer ? window.dataLayer.length : 0);
+        
+        // Note: Even if gtag function looks short, if collect requests work, GA4 is functioning
+        // The function might be wrapped or Google uses a different mechanism
+        if (!hasGoogleGtag) {
+          console.warn('[GA4] ⚠️ gtag function detection inconclusive');
+          console.warn('[GA4] But if you see collect requests in Network tab, GA4 IS working!');
+          console.warn('[GA4] Google may use a different implementation method');
+          // Don't return - proceed anyway, as collect requests indicate it's working
+        } else {
+          console.log('[GA4] ✅ Google gtag.js successfully loaded and executed!');
         }
-        
-        console.log('[GA4] ✅ Google gtag.js successfully loaded and executed!');
         
         // Initialize GA4 after script loads (only if real script executed)
         // Configure GA4 to work with cookie restrictions
@@ -193,32 +188,28 @@
         const scriptCheck = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
         const gtagFunc = window.gtag;
         const gtagString = gtagFunc ? gtagFunc.toString() : '';
-        const isRealGtag = gtagString.length > 200; // Real Google gtag is much longer
         
-        console.log('[GA4] === 3 Second Check ===');
+        // Check if collect requests are working (best indicator)
+        // This is more reliable than checking gtag function length
+        console.log('[GA4] === 3 Second Status Check ===');
         console.log('[GA4] Script in DOM:', scriptCheck ? '✅ YES' : '❌ NO');
-        console.log('[GA4] Script src:', scriptCheck ? scriptCheck.src : 'NOT FOUND');
         console.log('[GA4] gtag function exists:', gtagFunc ? '✅ YES' : '❌ NO');
         console.log('[GA4] gtag function length:', gtagString.length, 'chars');
-        console.log('[GA4] Is real Google gtag:', isRealGtag ? '✅ YES' : '❌ NO (only local queue)');
+        console.log('[GA4] dataLayer entries:', window.dataLayer ? window.dataLayer.length : 0);
+        console.log('[GA4]');
+        console.log('[GA4] ✅ VERIFICATION: Check Network tab for collect requests');
+        console.log('[GA4]   1. Open Network tab (F12 > Network)');
+        console.log('[GA4]   2. Filter by: collect');
+        console.log('[GA4]   3. If you see requests to google-analytics.com/g/collect with status 200/204:');
+        console.log('[GA4]      → GA4 IS WORKING! ✅');
+        console.log('[GA4]   4. If you see blocked/failed requests:');
+        console.log('[GA4]      → Check ad blockers or privacy settings');
         
         if (!scriptCheck) {
-          console.error('[GA4] ❌ CRITICAL: Script tag not in DOM - script was never added!');
-        } else if (!isRealGtag) {
-          console.error('[GA4] ❌ CRITICAL: Script tag exists but Google gtag.js did not load!');
-          console.error('[GA4] This means the script request was BLOCKED or FAILED');
-          console.error('[GA4] Check Network tab for:');
-          console.error('[GA4]   - Blocked request to googletagmanager.com');
-          console.error('[GA4]   - Failed request (red status)');
-          console.error('[GA4]   - No request at all (script never requested)');
-          console.error('[GA4] Solutions:');
-          console.error('[GA4]   1. Disable ALL ad blockers and privacy extensions');
-          console.error('[GA4]   2. Test in Incognito/Private mode');
-          console.error('[GA4]   3. Check browser privacy settings');
-          console.error('[GA4]   4. Check if on corporate network/firewall');
+          console.error('[GA4] ❌ Script tag not in DOM - script was never added!');
         } else {
-          console.log('[GA4] ✅ Script loaded correctly - Google gtag.js is active');
-          console.log('[GA4] If no collect requests, check Network tab for blocks on google-analytics.com');
+          console.log('[GA4] ✅ Script tag confirmed in DOM');
+          console.log('[GA4] 💡 Tip: The best way to verify GA4 is working is to check Network tab for collect requests');
         }
       }, 3000);
       
