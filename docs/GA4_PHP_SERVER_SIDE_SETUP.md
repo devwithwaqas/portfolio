@@ -13,15 +13,17 @@
 
 ### Step 1: Get Free PHP Hosting
 
-**Recommended: 000webhost** ⭐ (Best for beginners)
-- **URL:** https://www.000webhost.com
-- **Why:** Easiest setup, no credit card, free SSL
-- **Guide:** See `docs/000WEBHOST_SETUP_GUIDE.md` for detailed step-by-step instructions
+**Recommended: InfinityFree** ⭐ (Best option - Active & Reliable)
+- **URL:** https://www.infinityfree.com
+- **Why:** Operating since 2011, 99.9% uptime, PHP 8.3, no ads, free SSL
+- **Guide:** See `docs/INFINITYFREE_SETUP_GUIDE.md` for detailed step-by-step instructions
 
-**Alternative: InfinityFree**
-- **URL:** https://infinityfree.net
-- **Why:** Unlimited bandwidth, also free
-- **Note:** Slightly more complex setup
+**Alternative: ProFreeHost**
+- **URL:** https://www.profreehost.com
+- **Why:** Also reliable, easy setup, free SSL
+- **Note:** Similar to InfinityFree
+
+**⚠️ Note:** 000webhost shut down in 2024 - do NOT use it!
 
 **What you need:**
 - PHP 7.4+ support ✅ (000webhost has PHP 8.0+)
