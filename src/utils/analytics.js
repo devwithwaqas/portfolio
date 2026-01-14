@@ -141,6 +141,16 @@ export function trackPageView(path, title) {
   
   // GA4 is ready, track immediately
   trackPageViewInternal(path, title)
+  
+  // Also use server-side as backup (dual tracking for redundancy)
+  if (GA4_PHP_ENDPOINT) {
+    trackServerSide('page_view', {
+      page_path: path,
+      page_title: title
+    }).catch(() => {
+      // Silently fail - we already tried client-side, this is just backup
+    })
+  }
 }
 
 /**
@@ -229,12 +239,13 @@ export function trackEvent(eventName, eventParams = {}) {
     }
   }
   
-  // Also use server-side as backup if client-side might be blocked
+  // Always use server-side as backup (dual tracking for redundancy)
   // This ensures we capture events even if ad blockers partially block GA4
-  if (GA4_PHP_ENDPOINT && isClientSideBlocked()) {
-    // Use server-side as backup (non-blocking)
+  // or if client-side tracking has issues
+  if (GA4_PHP_ENDPOINT) {
+    // Use server-side as backup (non-blocking, doesn't wait for response)
     trackServerSide(eventName, eventParams).catch(() => {
-      // Silently fail - we already tried client-side
+      // Silently fail - we already tried client-side, this is just backup
     })
   }
 }
@@ -273,12 +284,24 @@ async function trackServerSide(eventName, eventParams = {}) {
       }]
     }
     
-    // Send to GA4 Measurement Protocol
-    // Note: This requires a serverless function or proxy
-    // For now, we'll use a public endpoint that proxies to GA4
-    const response = await fetch(`https://www.google-analytics.com/mp/collect?measurement_id=${measurementId}&api_secret=YOUR_API_SECRET`, {
+    // Send to PHP endpoint (which proxies to GA4 Measurement Protocol)
+    if (!GA4_PHP_ENDPOINT) {
+      console.warn('[GA4] Server-side tracking: PHP endpoint not configured')
+      return false
+    }
+    
+    // Prepare payload for PHP endpoint (matches PHP file format)
+    const phpPayload = {
+      event_name: eventName,
+      event_params: eventParams,
+      client_id: clientId,
+      page_location: window.location.href,
+      page_title: document.title
+    }
+    
+    const response = await fetch(GA4_PHP_ENDPOINT, {
       method: 'POST',
-      body: JSON.stringify(payload),
+      body: JSON.stringify(phpPayload),
       headers: {
         'Content-Type': 'application/json'
       }
