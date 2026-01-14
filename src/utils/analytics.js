@@ -155,16 +155,21 @@ export function trackPageView(path, title) {
     }
   }
   
-  // Only use server-side as backup if client-side is blocked or likely not working
-  // This prevents duplicate events when client-side is working properly
-  if (GA4_PHP_ENDPOINT && !clientSideSuccess && isClientSideBlocked()) {
-    console.log('[GA4] Client-side blocked, using server-side fallback for page view')
-    trackServerSide('page_view', {
-      page_path: path,
-      page_title: title
-    }).catch(() => {
-      // Silently fail - we already tried client-side
-    })
+  // Always use server-side as backup when endpoint is configured
+  // GA4 will deduplicate events with same client_id and timestamp
+  // This ensures we capture events even if collect requests fail silently (e.g., cookies blocked)
+  if (GA4_PHP_ENDPOINT) {
+    // Use a small delay to let client-side try first, then send server-side
+    // This helps with deduplication (same timestamp)
+    setTimeout(() => {
+      console.log('[GA4] Using server-side backup for page view')
+      trackServerSide('page_view', {
+        page_path: path,
+        page_title: title
+      }).catch(() => {
+        // Silently fail - we already tried client-side
+      })
+    }, 100) // 100ms delay to let client-side go first
   }
 }
 
@@ -199,26 +204,58 @@ function trackEventInternal(eventName, eventParams = {}) {
 }
 
 /**
- * Check if client-side GA4 is likely blocked
+ * Check if client-side GA4 is likely blocked or not working
+ * This checks multiple indicators to detect blocking
+ * 
+ * Note: Even if gtag loads, collect requests might fail if cookies are blocked.
+ * We can't detect failed collect requests from JS, so we use heuristics.
  */
 function isClientSideBlocked() {
   if (typeof window === 'undefined') return false
   
-  // Check if gtag exists but is still the local queue function
+  // Check if gtag exists
   const gtag = window.gtag
-  if (!gtag) return true
-  
-  const gtagString = gtag.toString()
-  // If gtag is still the local 43-char function, Google's script likely didn't load
-  // But check if dataLayer is being processed (collect requests working)
-  if (gtagString.length < 200) {
-    // If we have dataLayer entries but gtag is short, might be blocked
-    // However, if collect requests are working, it's fine
-    // For now, we'll assume blocked if gtag is short AND no recent collect activity
-    return true // Conservative: assume blocked if gtag is short
+  if (!gtag) {
+    console.log('[GA4] Blocking detected: gtag function not found')
+    return true
   }
   
+  const gtagString = gtag.toString()
+  
+  // If gtag is still the local queue function (short), Google's script didn't load
+  if (gtagString.length < 200) {
+    console.log('[GA4] Blocking detected: gtag is still local queue function')
+    return true
+  }
+  
+  // Check if dataLayer exists and has entries
+  if (!window.dataLayer || window.dataLayer.length === 0) {
+    console.log('[GA4] Blocking detected: dataLayer is empty')
+    return true
+  }
+  
+  // Check if third-party cookies are likely blocked
+  // We can't directly check, but we can look for indicators:
+  // 1. Check if localStorage/sessionStorage work (if blocked, might indicate cookie issues)
+  // 2. Check if navigator.cookieEnabled (but this only checks first-party cookies)
+  
+  // More aggressive: If user removed cookie exceptions, assume blocking is possible
+  // and use server-side as backup. We'll rely on GA4's deduplication if both succeed.
+  
+  // For now, we'll be conservative and only return true if we're sure it's blocked
+  // The error handler will catch actual failures
   return false
+}
+
+/**
+ * Check if we should use server-side as backup (even if client-side seems to work)
+ * This is more aggressive and helps catch cases where collect requests fail silently
+ */
+function shouldUseServerSideBackup() {
+  // Always use server-side as backup if endpoint is configured
+  // GA4 will deduplicate events with same client_id and timestamp
+  // This ensures we capture events even if collect requests fail silently
+  return true
 }
 
 /**
@@ -245,25 +282,43 @@ export function trackEvent(eventName, eventParams = {}) {
   
   // Try client-side first
   let clientSideSuccess = false
+  let clientSideError = null
+  
   try {
     trackEventInternal(eventName, eventParams)
     clientSideSuccess = true
   } catch (error) {
+    clientSideError = error
     console.warn('[GA4] Client-side tracking failed, trying server-side:', error)
     // Fallback to server-side if client-side fails
     if (GA4_PHP_ENDPOINT) {
+      console.log('[GA4] Using server-side fallback due to client-side error:', eventName)
       trackServerSide(eventName, eventParams)
     }
   }
   
-  // Only use server-side as backup if client-side is blocked or likely not working
-  // This prevents duplicate events when client-side is working properly
-  if (GA4_PHP_ENDPOINT && !clientSideSuccess && isClientSideBlocked()) {
-    console.log('[GA4] Client-side blocked, using server-side fallback for:', eventName)
+  // Also check if client-side is blocked (even if no error thrown)
+  // This handles cases where cookies are blocked but gtag still loads
+  if (GA4_PHP_ENDPOINT && isClientSideBlocked()) {
+    console.log('[GA4] Client-side blocked detected, using server-side fallback for:', eventName)
     // Use server-side as backup (non-blocking, doesn't wait for response)
     trackServerSide(eventName, eventParams).catch(() => {
       // Silently fail - we already tried client-side
     })
+  }
+  
+  // ALWAYS use server-side as backup when cookies might be blocked
+  // Even if client-side seems to work, collect requests might fail silently
+  // GA4 will deduplicate events with same client_id and timestamp
+  if (GA4_PHP_ENDPOINT && shouldUseServerSideBackup()) {
+    // Use a small delay to let client-side try first, then send server-side
+    // This helps with deduplication (same timestamp)
+    setTimeout(() => {
+      console.log('[GA4] Using server-side backup for:', eventName)
+      trackServerSide(eventName, eventParams).catch(() => {
+        // Silently fail - we already tried client-side
+      })
+    }, 100) // 100ms delay to let client-side go first
   }
 }
 
