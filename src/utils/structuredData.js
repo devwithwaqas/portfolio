@@ -209,10 +209,22 @@ export function generateProfessionalServiceSchema() {
     '@id': `${SITE_URL}#service`,
     name: `${fullName} - Software Engineering Services`,
     description: `Professional software engineering and technical consulting services. Specializing in Azure Cloud architecture, .NET development, microservices, and enterprise solutions.`,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: location.split(',')[0] || location,
+      addressRegion: location.includes('Selangor') ? 'Selangor' : '',
+      addressCountry: 'MY'
+    },
     provider: {
       '@type': 'Person',
       name: fullName,
-      jobTitle: 'Senior Software Engineer & Technical Lead'
+      jobTitle: 'Senior Software Engineer & Technical Lead',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: location.split(',')[0] || location,
+        addressRegion: location.includes('Selangor') ? 'Selangor' : '',
+        addressCountry: 'MY'
+      }
     },
     areaServed: [
       {
