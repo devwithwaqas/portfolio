@@ -5,8 +5,9 @@
 
 import { APP_CONFIG } from '../config/constants.js'
 
-const BASE_URL = import.meta.env.BASE_URL || '/'
-const SITE_URL = 'https://devwithwaqas.github.io' + (BASE_URL === '/' ? '' : BASE_URL)
+const BASE_URL = import.meta.env.BASE_URL || '/portfolio/'
+// Ensure SITE_URL always includes /portfolio/ for GitHub Pages
+const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
 
 /**
  * Inject JSON-LD script into document head
@@ -323,13 +324,18 @@ export function generateBreadcrumbSchema(items) {
 export function generateArticleSchema(articleData) {
   const fullName = APP_CONFIG.fullName
   
+  // Ensure image is an array (required by Schema.org)
+  const images = articleData.image 
+    ? (Array.isArray(articleData.image) ? articleData.image : [articleData.image])
+    : [`${SITE_URL}assets/img/profile-img.jpg`]
+  
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     '@id': `${SITE_URL}${articleData.url}`,
     headline: articleData.title,
     description: articleData.description,
-    image: articleData.image || `${SITE_URL}assets/img/profile-img.jpg`,
+    image: images,
     datePublished: articleData.datePublished || new Date().toISOString(),
     dateModified: articleData.dateModified || new Date().toISOString(),
     author: {
@@ -358,13 +364,18 @@ export function generateArticleSchema(articleData) {
 export function generateSoftwareApplicationSchema(projectData) {
   const fullName = APP_CONFIG.fullName
   
+  // Ensure screenshot is an array (required by Schema.org)
+  const screenshots = projectData.images 
+    ? (Array.isArray(projectData.images) ? projectData.images : [projectData.images])
+    : [`${SITE_URL}assets/img/profile-img.jpg`]
+  
   return {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
     '@id': `${SITE_URL}${projectData.url}`,
     name: projectData.title,
     description: projectData.description,
-    applicationCategory: 'Enterprise Application',
+    applicationCategory: 'EnterpriseApplication',
     operatingSystem: 'Web, Cloud',
     offers: {
       '@type': 'Offer',
@@ -375,7 +386,7 @@ export function generateSoftwareApplicationSchema(projectData) {
       '@type': 'Person',
       name: fullName
     },
-    screenshot: projectData.images || [`${SITE_URL}assets/img/profile-img.jpg`],
+    screenshot: screenshots,
     softwareVersion: projectData.version || '1.0',
     datePublished: projectData.datePublished || new Date().toISOString()
   }
