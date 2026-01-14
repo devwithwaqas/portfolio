@@ -48,6 +48,7 @@ import Testimonials from '../components/home/Testimonials.vue'
 import Contact from '../components/home/Contact.vue'
 import BackToTop from '../components/layout/BackToTop.vue'
 import { generateHomePageStructuredData } from '../utils/structuredData.js'
+import { testimonialsData } from '../config/testimonials.js'
 
 export default {
   name: 'Home',
@@ -65,8 +66,8 @@ export default {
     BackToTop
   },
   mounted() {
-    // Generate structured data for SEO
-    generateHomePageStructuredData()
+    // Generate structured data for SEO with reviews
+    generateHomePageStructuredData(testimonialsData)
   }
 }
 </script>

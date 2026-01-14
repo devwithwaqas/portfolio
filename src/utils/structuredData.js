@@ -433,10 +433,19 @@ export function generateSoftwareApplicationSchema(projectData) {
 
 /**
  * Generate all structured data for home page
+ * @param {Array} testimonials - Optional array of testimonial objects with name, title, text
  */
-export function generateHomePageStructuredData() {
+export function generateHomePageStructuredData(testimonials = []) {
   const person = generatePersonSchema()
-  const service = generateProfessionalServiceSchema()
+  
+  // Generate service schema with reviews if testimonials provided
+  let service
+  if (testimonials && testimonials.length > 0) {
+    service = generateProfessionalServiceSchemaWithReviews(testimonials)
+  } else {
+    service = generateProfessionalServiceSchema()
+  }
+  
   const organization = generateOrganizationSchema()
   
   // Inject all schemas
@@ -458,6 +467,70 @@ export function generateFAQPageSchema(faqItems) {
         text: item.answer
       }
     }))
+  }
+}
+
+/**
+ * Generate Review schema for testimonials
+ * Creates individual Review objects and AggregateRating
+ */
+export function generateReviewSchema(testimonials) {
+  const fullName = APP_CONFIG.fullName
+  
+  // Filter testimonials that have text (some might be empty)
+  const validTestimonials = testimonials.filter(t => t.text && t.text.trim())
+  
+  // All testimonials are 5 stars (as shown in UI)
+  const ratingValue = 5
+  const bestRating = 5
+  const worstRating = 1
+  
+  // Generate individual reviews
+  const reviews = validTestimonials.map(testimonial => ({
+    '@type': 'Review',
+    author: {
+      '@type': 'Person',
+      name: testimonial.name,
+      jobTitle: testimonial.title || undefined
+    },
+    reviewBody: testimonial.text,
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: ratingValue,
+      bestRating: bestRating,
+      worstRating: worstRating
+    },
+    datePublished: new Date().toISOString().split('T')[0] // Use current date as fallback
+  }))
+  
+  // Generate AggregateRating
+  const aggregateRating = {
+    '@type': 'AggregateRating',
+    ratingValue: ratingValue.toString(),
+    bestRating: bestRating.toString(),
+    worstRating: worstRating.toString(),
+    ratingCount: validTestimonials.length.toString()
+  }
+  
+  return {
+    reviews: reviews,
+    aggregateRating: aggregateRating
+  }
+}
+
+/**
+ * Generate ProfessionalService schema with reviews
+ * Enhanced version that includes review data
+ */
+export function generateProfessionalServiceSchemaWithReviews(testimonials) {
+  const serviceSchema = generateProfessionalServiceSchema()
+  const reviewData = generateReviewSchema(testimonials)
+  
+  // Add reviews and aggregateRating to the service schema
+  return {
+    ...serviceSchema,
+    review: reviewData.reviews,
+    aggregateRating: reviewData.aggregateRating
   }
 }
 
