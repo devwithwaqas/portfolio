@@ -48,15 +48,22 @@
     const GA4_MEASUREMENT_ID = 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER';
     
     // Only proceed if we have a valid Measurement ID
-    if (GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER' && GA4_MEASUREMENT_ID.startsWith('G-')) {
+    // Trim whitespace and check if it's a valid GA4 ID
+    const measurementId = GA4_MEASUREMENT_ID ? GA4_MEASUREMENT_ID.trim() : '';
+    const isValidId = measurementId && 
+                      measurementId !== 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER' && 
+                      measurementId.startsWith('G-') &&
+                      measurementId.length > 2;
+    
+    if (isValidId) {
       // Load the GA4 script
       const script = document.createElement('script');
       script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
       document.head.appendChild(script);
       
       // Initialize GA4 immediately (gtag.js handles queuing)
-      gtag('config', GA4_MEASUREMENT_ID, {
+      gtag('config', measurementId, {
         page_path: window.location.pathname + window.location.search,
         send_page_view: true
       });
@@ -64,10 +71,11 @@
       // Make gtag available globally
       window.gtag = gtag;
       
-      // Debug logging (remove in production if needed)
-      console.log('[GA4] Initialized with Measurement ID:', GA4_MEASUREMENT_ID);
-    } else {
-      console.warn('[GA4] Measurement ID not configured or invalid:', GA4_MEASUREMENT_ID);
+      // Debug logging
+      console.log('[GA4] Initialized with Measurement ID:', measurementId);
+    } else if (measurementId && measurementId !== 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER') {
+      // Only warn if we have a value but it's invalid format
+      console.warn('[GA4] Measurement ID format invalid (should start with G-):', measurementId);
     }
   </script>
   
