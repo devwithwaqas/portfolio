@@ -136,8 +136,9 @@ const router = createRouter({
 
 // SEO Meta Tags - Set on route change
 router.beforeEach((to, from, next) => {
-  const BASE_URL = import.meta.env.BASE_URL || '/'
-  const SITE_URL = 'https://devwithwaqas.github.io' + (BASE_URL === '/' ? '' : BASE_URL)
+  const BASE_URL = import.meta.env.BASE_URL || '/portfolio/'
+  // Ensure SITE_URL always includes /portfolio/ for GitHub Pages
+  const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
   
   // Set SEO based on route
   if (to.name === 'Home') {

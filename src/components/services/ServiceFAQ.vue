@@ -50,43 +50,12 @@ export default {
   },
   mounted() {
     // Generate FAQ schema for SEO when component mounts
+    // injectStructuredData handles multiple schemas properly by creating separate script tags
     if (this.faqItems && this.faqItems.length > 0) {
-      const existingScript = document.getElementById('structured-data')
       const faqSchema = generateFAQPageSchema(this.faqItems)
-      
-      // If structured data already exists, append FAQ schema
-      if (existingScript) {
-        try {
-          const existingData = JSON.parse(existingScript.textContent)
-          // Get all existing structured data scripts
-          const allScripts = document.querySelectorAll('script[type="application/ld+json"][id^="structured-data"]')
-          const schemas = []
-          
-          // Collect all existing schemas
-          allScripts.forEach(script => {
-            try {
-              const schema = JSON.parse(script.textContent)
-              schemas.push(schema)
-            } catch (e) {
-              // Skip invalid JSON
-            }
-          })
-          
-          // Add FAQ schema
-          schemas.push(faqSchema)
-          
-          // Remove all existing scripts
-          allScripts.forEach(script => script.remove())
-          
-          // Inject all schemas (including FAQ)
-          injectStructuredData(schemas)
-        } catch (e) {
-          // If parsing fails, just add FAQ schema
-          injectStructuredData([faqSchema])
-        }
-      } else {
-        injectStructuredData([faqSchema])
-      }
+      // Inject FAQ schema - injectStructuredData will create a separate script tag
+      // This works alongside existing schemas from the router
+      injectStructuredData([faqSchema])
     }
   },
   methods: {
