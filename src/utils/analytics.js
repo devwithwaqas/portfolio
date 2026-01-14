@@ -14,6 +14,11 @@ const GA4_MEASUREMENT_ID = (typeof window !== 'undefined' && window.GA4_MEASUREM
 // See docs/GA4_PHP_SERVER_SIDE_SETUP.md for setup instructions
 const GA4_PHP_ENDPOINT = import.meta.env.VITE_GA4_PHP_ENDPOINT || ''
 
+// TESTING FLAG: Force server-side tracking only (bypasses client-side)
+// Set VITE_GA4_FORCE_SERVER_SIDE=true in GitHub Secrets to test server-side endpoint
+// When enabled, ALL tracking will go through server-side only (no client-side)
+const FORCE_SERVER_SIDE = import.meta.env.VITE_GA4_FORCE_SERVER_SIDE === 'true' || false
+
 // Queue for tracking calls made before GA4 is ready
 const trackingQueue = []
 let isGA4Ready = false
@@ -267,6 +272,17 @@ function shouldUseServerSideBackup() {
  * Uses server-side fallback if client-side is blocked
  */
 export function trackEvent(eventName, eventParams = {}) {
+  // TESTING MODE: Force server-side only
+  if (FORCE_SERVER_SIDE) {
+    console.log('[GA4] ⚠️ FORCE SERVER-SIDE MODE: Skipping client-side, using server-side only for:', eventName)
+    if (GA4_PHP_ENDPOINT) {
+      trackServerSide(eventName, eventParams)
+    } else {
+      console.error('[GA4] ❌ FORCE SERVER-SIDE enabled but PHP endpoint not configured!')
+    }
+    return
+  }
+  
   // Check if gtag exists (from index.html) - this is the primary check
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') {
     // Queue the tracking call if GA4 isn't ready yet
