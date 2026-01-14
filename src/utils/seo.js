@@ -63,11 +63,13 @@ export function setOpenGraph({ title, description, image, url, type = 'website' 
 /**
  * Set Twitter Card tags
  */
-export function setTwitterCard({ title, description, image, card = 'summary_large_image' }) {
+export function setTwitterCard({ title, description, image, url, card = 'summary_large_image' }) {
   setMetaTag('twitter:card', card)
   setMetaTag('twitter:title', title)
   setMetaTag('twitter:description', description)
   setMetaTag('twitter:image', image || `${SITE_URL}assets/img/profile-img.jpg`)
+  setMetaTag('twitter:url', url || window.location.href)
+  setMetaTag('twitter:site', '@devwithwaqas') // Optional: Add your Twitter handle if you have one
 }
 
 /**
@@ -120,7 +122,8 @@ export function setPageSEO({
   setTwitterCard({
     title: fullTitle,
     description,
-    image
+    image,
+    url
   })
   
   // Canonical
