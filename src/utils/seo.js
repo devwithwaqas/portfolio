@@ -452,7 +452,7 @@ export function getProjectPageSEO(projectData) {
       'Global'
     ],
     type: 'article',
-    image: projectData.image || `${SITE_URL}assets/img/profile-img.jpg`
+    image: projectData.image || `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
   }
 }
 
@@ -600,7 +600,7 @@ export function getServicePageSEO(serviceData) {
     description,
     keywords: serviceKeywords,
     type: 'website',
-    image: serviceData.image || `${SITE_URL}assets/img/profile-img.jpg`
+    image: serviceData.image || `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
   }
 }
 

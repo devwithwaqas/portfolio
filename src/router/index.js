@@ -156,7 +156,7 @@ router.beforeEach((to, from, next) => {
       description: `${projectTitle} - Enterprise software project by Waqas Ahmad, Senior Software Engineer & Technical Lead.`,
       technologies: [],
       url: to.path,
-      image: `${SITE_URL}assets/img/profile-img.jpg`
+      image: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
     })
     setPageSEO({
       ...seo,

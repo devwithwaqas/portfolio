@@ -387,7 +387,7 @@ export function generateArticleSchema(articleData) {
       name: `${fullName} - Portfolio`,
       logo: {
         '@type': 'ImageObject',
-        url: `${SITE_URL}assets/img/profile-img.jpg`
+        url: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
       }
     },
     mainEntityOfPage: {
