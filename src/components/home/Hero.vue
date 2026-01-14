@@ -5,7 +5,7 @@
         <!-- Profile Card -->
         <div class="hero-profile-side">
           <div class="profile-image-container-side">
-            <img :src="$assetPath('/assets/img/waqas-microsoft-profile.jpg')" :alt="fullName" class="profile-image-side">
+            <img :src="$assetPath('/assets/img/waqas-microsoft-profile.jpg')" :alt="`${fullName} - Senior Software Engineer & Technical Lead - Available USA, Europe, Global - 17+ Years Experience`" class="profile-image-side">
           </div>
         </div>
         

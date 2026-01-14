@@ -29,14 +29,14 @@
             <div class="built-with-text txt-label-xs">Built with</div>
             <div class="tech-stack-row">
               <div v-for="(tech, index) in techStack" :key="index" class="tech-icon-box">
-                <img :src="tech.icon" :alt="tech.name" class="tech-stack-icon icon-img-md">
+                <img :src="tech.icon" :alt="`${tech.name} - ${title} - Enterprise Development`" class="tech-stack-icon icon-img-md">
               </div>
             </div>
           </div>
           
           <!-- Main Banner -->
           <div class="banner-section">
-            <img :src="bannerImage" :alt="title" class="banner-img">
+            <img :src="bannerImage" :alt="`${title} - ${subtitle} - Remote Consultant - Available USA, Europe, Global`" class="banner-img">
             <div class="banner-overlay"></div>
           </div>
           

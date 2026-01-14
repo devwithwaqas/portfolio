@@ -24,7 +24,7 @@
                 'next': index === currentIndex + 1
               }"
             >
-              <img :src="image" :alt="`${projectName} Screenshot ${index + 1}`" />
+              <img :src="image" :alt="`${projectName} - Enterprise Software Project - Screenshot ${index + 1} - Remote Consultant`" />
             </div>
           </div>
         </div>
