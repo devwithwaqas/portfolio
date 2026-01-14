@@ -1,6 +1,7 @@
 /**
  * Google Analytics 4 (GA4) Utility
  * Handles page views, events, and conversions
+ * Measurement ID: G-1HMMJLP7GK
  */
 
 // Get GA4 Measurement ID from environment variable
