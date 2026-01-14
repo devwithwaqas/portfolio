@@ -3,30 +3,31 @@
  * GA4 Server-Side Tracking Proxy
  * Bypasses ad blockers by sending data from your server
  * 
- * Setup Instructions:
- * 1. Upload this file to your PHP host (000webhost, InfinityFree, etc.)
- * 2. Get GA4 API Secret from GA4 Admin > Data Streams > Measurement Protocol API secrets
- * 3. Replace YOUR_API_SECRET_HERE below with your actual API secret
- * 4. Update VITE_GA4_PHP_ENDPOINT in GitHub Secrets with your PHP host URL
- * 
- * Usage: Your JavaScript will POST to this file with event data
+ * IMPORTANT: No whitespace or output before this point!
  */
 
-// CORS Headers - Allow requests from GitHub Pages
+// Suppress any errors that might output before headers
+error_reporting(0);
+ini_set('display_errors', 0);
+
+// CORS Headers - MUST be set before any output
+// Allow requests from GitHub Pages
 header('Access-Control-Allow-Origin: https://devwithwaqas.github.io');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Methods: POST, OPTIONS, GET');
+header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With');
 header('Access-Control-Allow-Credentials: false');
 header('Access-Control-Max-Age: 86400'); // Cache preflight for 1 day
 
-// Handle preflight OPTIONS request
+// Handle preflight OPTIONS request FIRST
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // Return 200 OK for preflight
     http_response_code(200);
-    exit;
+    // Don't output anything else
+    exit(0);
 }
 
 // Set content type for actual requests
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
 // ============================================
 // CONFIGURATION - UPDATE THESE VALUES
@@ -95,6 +96,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json'
 ]);
 curl_setopt($ch, CURLOPT_TIMEOUT, 5); // 5 second timeout
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
