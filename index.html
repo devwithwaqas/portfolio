@@ -39,23 +39,44 @@
   <!-- Google Analytics 4 (GA4) -->
   <!-- GA4 Measurement ID will be injected from environment variable VITE_GA4_MEASUREMENT_ID -->
   <script>
+    // CRITICAL: This script MUST run immediately when HTML loads
+    // It initializes GA4 before Vue.js takes over
+    
+    console.log('[GA4] ========================================');
+    console.log('[GA4] Script block STARTING - index.html loaded');
+    console.log('[GA4] ========================================');
+    
     // Standard GA4 implementation pattern
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     
     // Get Measurement ID (will be replaced during build)
-    const GA4_MEASUREMENT_ID = 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER';
+    // Fallback to hardcoded ID if placeholder wasn't replaced
+    const GA4_MEASUREMENT_ID_RAW = 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER';
+    const GA4_MEASUREMENT_ID_FALLBACK = 'G-1HMMJLP7GK'; // Hardcoded fallback
+    
+    // Use fallback if placeholder wasn't replaced
+    let GA4_MEASUREMENT_ID = GA4_MEASUREMENT_ID_RAW;
+    if (GA4_MEASUREMENT_ID === 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER') {
+      console.warn('[GA4] ⚠️ Placeholder not replaced - using fallback ID');
+      GA4_MEASUREMENT_ID = GA4_MEASUREMENT_ID_FALLBACK;
+    }
     
     // Only proceed if we have a valid Measurement ID
     // Trim whitespace and check if it's a valid GA4 ID
     const measurementId = GA4_MEASUREMENT_ID ? GA4_MEASUREMENT_ID.trim() : '';
     const isValidId = measurementId && 
-                      measurementId !== 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER' && 
                       measurementId.startsWith('G-') &&
                       measurementId.length > 2;
     
+    // Debug: Always log what we have
+    console.log('[GA4] Raw Measurement ID:', GA4_MEASUREMENT_ID_RAW);
+    console.log('[GA4] Final Measurement ID:', measurementId);
+    console.log('[GA4] Is valid ID:', isValidId);
+    
     if (isValidId) {
+      console.log('[GA4] ✅ Valid Measurement ID detected, proceeding with script load');
       // Store Measurement ID globally so analytics.js can access it
       window.GA4_MEASUREMENT_ID = measurementId;
       
@@ -198,9 +219,22 @@
         
         console.log('=== End Check ===');
       };
-    } else if (measurementId && measurementId !== 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER') {
-      // Only warn if we have a value but it's invalid format
-      console.warn('[GA4] Measurement ID format invalid (should start with G-):', measurementId);
+    } else {
+      // Log why script loading is being skipped
+      if (!measurementId) {
+        console.error('[GA4] ❌ Measurement ID is empty or undefined');
+      } else if (measurementId === 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER') {
+        console.error('[GA4] ❌ Measurement ID placeholder was NOT replaced during build!');
+        console.error('[GA4] This means VITE_GA4_MEASUREMENT_ID was not set in GitHub Secrets or build process');
+        console.error('[GA4] Check: Repository > Settings > Secrets and variables > Actions');
+        console.error('[GA4] Secret name must be: VITE_GA4_MEASUREMENT_ID');
+        console.error('[GA4] Value must be: G-1HMMJLP7GK');
+      } else if (!measurementId.startsWith('G-')) {
+        console.error('[GA4] ❌ Measurement ID format invalid (should start with G-):', measurementId);
+      } else {
+        console.error('[GA4] ❌ Measurement ID validation failed:', measurementId);
+      }
+      console.error('[GA4] Script loading will NOT proceed - GA4 will not work!');
     }
   </script>
   
