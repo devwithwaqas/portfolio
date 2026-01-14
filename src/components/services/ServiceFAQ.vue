@@ -58,8 +58,27 @@ export default {
       if (existingScript) {
         try {
           const existingData = JSON.parse(existingScript.textContent)
-          const schemas = Array.isArray(existingData) ? existingData : [existingData]
+          // Get all existing structured data scripts
+          const allScripts = document.querySelectorAll('script[type="application/ld+json"][id^="structured-data"]')
+          const schemas = []
+          
+          // Collect all existing schemas
+          allScripts.forEach(script => {
+            try {
+              const schema = JSON.parse(script.textContent)
+              schemas.push(schema)
+            } catch (e) {
+              // Skip invalid JSON
+            }
+          })
+          
+          // Add FAQ schema
           schemas.push(faqSchema)
+          
+          // Remove all existing scripts
+          allScripts.forEach(script => script.remove())
+          
+          // Inject all schemas (including FAQ)
           injectStructuredData(schemas)
         } catch (e) {
           // If parsing fails, just add FAQ schema

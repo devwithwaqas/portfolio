@@ -11,19 +11,42 @@ const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
 
 /**
  * Inject JSON-LD script into document head
+ * Supports both single schema objects and arrays of schemas
+ * For arrays, creates separate script tags for better Google detection
  */
 export function injectStructuredData(data) {
-  // Remove existing script if updating
-  const existing = document.getElementById('structured-data')
-  if (existing) {
-    existing.remove()
+  // If data is an array, inject each schema separately
+  if (Array.isArray(data)) {
+    // Remove all existing structured data scripts
+    const existingScripts = document.querySelectorAll('script[type="application/ld+json"]')
+    existingScripts.forEach(script => {
+      // Only remove our structured data scripts (not other JSON-LD that might exist)
+      if (script.id && script.id.startsWith('structured-data')) {
+        script.remove()
+      }
+    })
+    
+    // Inject each schema as a separate script tag
+    data.forEach((schema, index) => {
+      const script = document.createElement('script')
+      script.id = `structured-data-${index}`
+      script.type = 'application/ld+json'
+      script.textContent = JSON.stringify(schema, null, 2)
+      document.head.appendChild(script)
+    })
+  } else {
+    // Single schema - remove existing and add new
+    const existing = document.getElementById('structured-data')
+    if (existing) {
+      existing.remove()
+    }
+    
+    const script = document.createElement('script')
+    script.id = 'structured-data'
+    script.type = 'application/ld+json'
+    script.textContent = JSON.stringify(data, null, 2)
+    document.head.appendChild(script)
   }
-  
-  const script = document.createElement('script')
-  script.id = 'structured-data'
-  script.type = 'application/ld+json'
-  script.textContent = JSON.stringify(data, null, 2)
-  document.head.appendChild(script)
 }
 
 /**
