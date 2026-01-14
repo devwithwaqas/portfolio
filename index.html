@@ -42,9 +42,14 @@
     // CRITICAL: This script MUST run immediately when HTML loads
     // It initializes GA4 before Vue.js takes over
     
-    console.log('[GA4] ========================================');
-    console.log('[GA4] Script block STARTING - index.html loaded');
-    console.log('[GA4] ========================================');
+    // IMMEDIATE TEST - This should appear FIRST in console
+    (function() {
+      console.log('[GA4] ========================================');
+      console.log('[GA4] Script block STARTING - index.html loaded');
+      console.log('[GA4] Timestamp:', new Date().toISOString());
+      console.log('[GA4] Document readyState:', document.readyState);
+      console.log('[GA4] ========================================');
+    })();
     
     // Standard GA4 implementation pattern
     window.dataLayer = window.dataLayer || [];
