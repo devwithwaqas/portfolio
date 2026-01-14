@@ -4,6 +4,7 @@ import HeatExchangerPage from '../views/projects/HeatExchangerPage.vue'
 import AirAsiaID90Page from '../views/projects/AirAsiaID90Page.vue'
 import { setPageSEO, getHomePageSEO, getProjectPageSEO, getServicePageSEO } from '../utils/seo.js'
 import { generateHomePageStructuredData, generateProjectPageStructuredData, generateServicePageStructuredData } from '../utils/structuredData.js'
+import { trackPageView, trackServicePageView, trackProjectPageView } from '../utils/analytics.js'
 
 const routes = [
   {
@@ -198,6 +199,18 @@ router.beforeEach((to, from, next) => {
       keywords: ['Senior Software Engineer', 'Technical Lead', 'Malaysia'],
       url: `${SITE_URL}${to.path}`
     })
+  }
+  
+  // Track page view for all routes
+  trackPageView(to.path, document.title)
+  
+  // Track specific page types
+  if (to.path.startsWith('/projects/')) {
+    const projectName = to.meta?.title || to.name.replace(/([A-Z])/g, ' $1').trim()
+    trackProjectPageView(projectName)
+  } else if (to.path.startsWith('/services/')) {
+    const serviceName = to.meta?.title || to.name.replace(/([A-Z])/g, ' $1').trim()
+    trackServicePageView(serviceName)
   }
   
   next()

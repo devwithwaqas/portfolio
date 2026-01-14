@@ -37,18 +37,31 @@
   <link rel="canonical" href="https://devwithwaqas.github.io/portfolio/">
   
   <!-- Google Analytics 4 (GA4) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <!-- GA4 Measurement ID will be injected from environment variable VITE_GA4_MEASUREMENT_ID -->
   <script>
+    // GA4 will be initialized by analytics.js utility after page load
+    // This prevents blocking page load if GA4 is not configured
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    // GA4 Measurement ID will be injected from environment variable or default
-    const GA4_MEASUREMENT_ID = 'G-PLACEHOLDER'; // Will be replaced by build process
-    if (GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== 'G-PLACEHOLDER') {
+    
+    // Load GA4 script only if Measurement ID is provided
+    const GA4_MEASUREMENT_ID = 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER';
+    if (GA4_MEASUREMENT_ID && GA4_MEASUREMENT_ID !== 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER' && GA4_MEASUREMENT_ID.startsWith('G-')) {
+      // Load gtag.js script
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
+      document.head.appendChild(script);
+      
+      // Initialize GA4
       gtag('config', GA4_MEASUREMENT_ID, {
         page_path: window.location.pathname + window.location.search,
         send_page_view: true
       });
+      
+      // Make gtag available globally
+      window.gtag = gtag;
     }
   </script>
   
