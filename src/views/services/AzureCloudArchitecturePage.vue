@@ -52,12 +52,6 @@
         :faq-items="faqItems"
       />
 
-      <!-- Related Projects -->
-      <RelatedProjects
-        :projects="relatedProjects"
-        introduction="Here are some Azure cloud architecture projects I've architected and implemented:"
-      />
-
       <!-- CTA -->
       <ServiceCTA
         cta-text="Ready to migrate to Azure or build cloud-native solutions? Let's discuss your cloud architecture needs and create a scalable, secure, and cost-effective solution that transforms your infrastructure."
@@ -79,7 +73,6 @@ import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
-import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
@@ -94,7 +87,6 @@ export default {
     ServiceCaseStudies,
     ServiceFAQ,
     ServiceCTA,
-    RelatedProjects,
     TechnologyStack
   },
   setup() {
@@ -303,33 +295,36 @@ export default {
     // Case Studies
     const caseStudies = ref([
       {
+        project: "Heat Exchanger Portal",
+        link: "/projects/heat-exchanger",
+        description: "Enterprise platform on OpenShift with Azure integration, processing 2.5M data points daily with comprehensive cloud infrastructure.",
+        image: assetPath("/assets/img/he1.jpg"),
+        technologies: ['Azure', 'OpenShift', 'Docker', '.NET Core'],
+        metrics: {
+          label: "Data Processing",
+          value: "2.5M daily"
+        }
+      },
+      {
+        project: "AirAsia ID90 Portal",
+        link: "/projects/airasia-id90",
+        description: "Azure-native employee benefits platform with Azure App Service and Azure SQL Database, handling 3,000+ daily transactions.",
+        image: assetPath("/assets/img/aa1.jpg"),
+        technologies: ['Azure App Service', 'Azure SQL', 'Azure Service Bus', '.NET Core'],
+        metrics: {
+          label: "Daily Transactions",
+          value: "3,000+"
+        }
+      },
+      {
         project: "UK Property Management",
         link: "/projects/uk-property-management",
         description: "Azure-native property management platform managing 9,000+ properties with Azure App Services, Azure SQL Database, and comprehensive cloud infrastructure.",
         image: assetPath("/assets/img/gpc1.jpg"),
+        technologies: ['Azure', '.NET Core', 'Angular', 'Azure SQL'],
         metrics: {
           label: "Properties Managed",
           value: "9,000+"
-        }
-      },
-      {
-        project: "Insurance Clients",
-        link: "/projects/insurance-clients",
-        description: "Enterprise insurance platform with microservices architecture on Azure, handling millions of policies with high availability and scalability.",
-        image: assetPath("/assets/img/in1.jpg"),
-        metrics: {
-          label: "Uptime",
-          value: "99.9%"
-        }
-      },
-      {
-        project: "Gamified Employee Management",
-        link: "/projects/gamified-employee-management",
-        description: "Cloud-native employee engagement platform with Azure microservices, real-time processing, and scalable architecture supporting enterprise deployments.",
-        image: assetPath("/assets/img/sf1.jpg"),
-        metrics: {
-          label: "Engagement",
-          value: "45% increase"
         }
       }
     ])
@@ -366,31 +361,6 @@ export default {
       }
     ])
 
-    // Related Projects
-    const relatedProjects = ref([
-      {
-        title: 'Heat Exchanger Portal',
-        description: 'Enterprise platform on OpenShift with Azure integration, processing 2.5M data points daily',
-        path: '/projects/heat-exchanger',
-        image: assetPath('/assets/img/he1.jpg'),
-        technologies: ['Azure', 'OpenShift', 'Docker', '.NET Core']
-      },
-      {
-        title: 'AirAsia ID90 Portal',
-        description: 'Azure-native employee benefits platform with Azure App Service and Azure SQL Database',
-        path: '/projects/airasia-id90',
-        image: assetPath('/assets/img/aa1.jpg'),
-        technologies: ['Azure App Service', 'Azure SQL', 'Azure Service Bus', '.NET Core']
-      },
-      {
-        title: 'UK Property Management',
-        description: 'Azure-native property management platform managing 9,000+ properties',
-        path: '/projects/uk-property-management',
-        image: assetPath('/assets/img/gpc1.jpg'),
-        technologies: ['Azure', '.NET Core', 'Angular', 'Azure SQL']
-      }
-    ])
-
     return {
       heroBenefits,
       heroBadges,
@@ -403,8 +373,7 @@ export default {
       engagementModels,
       technologies,
       caseStudies,
-      faqItems,
-      relatedProjects
+      faqItems
     }
   }
 }

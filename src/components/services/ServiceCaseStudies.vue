@@ -17,9 +17,18 @@
             </div>
             <div class="case-study-content">
               <h5 class="study-project txt-h5-lg">
-                <a :href="study.link" class="study-link">{{ study.project }}</a>
+                <router-link :to="study.link" class="study-link">{{ study.project }}</router-link>
               </h5>
               <p class="study-description txt-p-md">{{ study.description }}</p>
+              <div v-if="study.technologies && study.technologies.length > 0" class="study-technologies">
+                <span 
+                  v-for="(tech, techIndex) in study.technologies" 
+                  :key="techIndex"
+                  class="tech-badge"
+                >
+                  {{ tech }}
+                </span>
+              </div>
               <div v-if="study.metrics" class="study-metrics">
                 <div class="metric-item">
                   <span class="metric-label">{{ study.metrics.label }}</span>
@@ -130,6 +139,23 @@ export default {
   line-height: 1.6;
   margin-bottom: 15px;
   flex: 1;
+}
+
+.study-technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.tech-badge {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #7c3aed;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .study-metrics {

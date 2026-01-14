@@ -52,12 +52,6 @@
         :faq-items="faqItems"
       />
 
-      <!-- Related Projects -->
-      <RelatedProjects
-        :projects="relatedProjects"
-        introduction="Here are some full stack development projects I've completed:"
-      />
-
       <!-- CTA -->
       <ServiceCTA
         cta-text="Ready to build your full stack application? Whether you need Vue.js, React, Angular, or any modern frontend framework, let's discuss your project requirements and create a solution tailored to your needs that drives your business forward."
@@ -79,7 +73,6 @@ import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
-import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
@@ -94,7 +87,6 @@ export default {
     ServiceCaseStudies,
     ServiceFAQ,
     ServiceCTA,
-    RelatedProjects,
     TechnologyStack
   },
   setup() {
@@ -429,8 +421,7 @@ export default {
       engagementModels,
       technologies,
       caseStudies,
-      faqItems,
-      relatedProjects
+      faqItems
     }
   }
 }
