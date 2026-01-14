@@ -9,6 +9,11 @@
 const GA4_MEASUREMENT_ID = (typeof window !== 'undefined' && window.GA4_MEASUREMENT_ID) || 
                            import.meta.env.VITE_GA4_MEASUREMENT_ID || ''
 
+// Server-side PHP endpoint for fallback tracking (bypasses ad blockers)
+// Set this to your PHP host URL once you set up server-side tracking
+// See docs/GA4_PHP_SERVER_SIDE_SETUP.md for setup instructions
+const GA4_PHP_ENDPOINT = import.meta.env.VITE_GA4_PHP_ENDPOINT || ''
+
 // Queue for tracking calls made before GA4 is ready
 const trackingQueue = []
 let isGA4Ready = false
@@ -169,7 +174,31 @@ function trackEventInternal(eventName, eventParams = {}) {
 }
 
 /**
+ * Check if client-side GA4 is likely blocked
+ */
+function isClientSideBlocked() {
+  if (typeof window === 'undefined') return false
+  
+  // Check if gtag exists but is still the local queue function
+  const gtag = window.gtag
+  if (!gtag) return true
+  
+  const gtagString = gtag.toString()
+  // If gtag is still the local 43-char function, Google's script likely didn't load
+  // But check if dataLayer is being processed (collect requests working)
+  if (gtagString.length < 200) {
+    // If we have dataLayer entries but gtag is short, might be blocked
+    // However, if collect requests are working, it's fine
+    // For now, we'll assume blocked if gtag is short AND no recent collect activity
+    return true // Conservative: assume blocked if gtag is short
+  }
+  
+  return false
+}
+
+/**
  * Track custom event
+ * Uses server-side fallback if client-side is blocked
  */
 export function trackEvent(eventName, eventParams = {}) {
   // Check if gtag exists (from index.html) - this is the primary check
@@ -181,11 +210,33 @@ export function trackEvent(eventName, eventParams = {}) {
       waitForGA4Ready()
     }
     console.log('[GA4] Queued event (GA4 not ready yet):', eventName)
+    
+    // Also try server-side as fallback
+    if (GA4_PHP_ENDPOINT) {
+      trackServerSide(eventName, eventParams)
+    }
     return
   }
   
-  // GA4 is ready, track immediately
-  trackEventInternal(eventName, eventParams)
+  // Try client-side first
+  try {
+    trackEventInternal(eventName, eventParams)
+  } catch (error) {
+    console.warn('[GA4] Client-side tracking failed, trying server-side:', error)
+    // Fallback to server-side if client-side fails
+    if (GA4_PHP_ENDPOINT) {
+      trackServerSide(eventName, eventParams)
+    }
+  }
+  
+  // Also use server-side as backup if client-side might be blocked
+  // This ensures we capture events even if ad blockers partially block GA4
+  if (GA4_PHP_ENDPOINT && isClientSideBlocked()) {
+    // Use server-side as backup (non-blocking)
+    trackServerSide(eventName, eventParams).catch(() => {
+      // Silently fail - we already tried client-side
+    })
+  }
 }
 
 /**
