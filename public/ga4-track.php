@@ -2,31 +2,26 @@
 /**
  * GA4 Server-Side Tracking Proxy
  * Bypasses ad blockers by sending data from your server
- * 
- * IMPORTANT: No whitespace or output before this point!
  */
 
-// Suppress any errors that might output before headers
+// Suppress errors
 error_reporting(0);
 ini_set('display_errors', 0);
 
-// CORS Headers - MUST be set before any output
-// Try allowing all origins first to test
+// CORS Headers - Set FIRST before any output
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS, GET');
 header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With, Authorization');
-header('Access-Control-Allow-Credentials: false');
 header('Access-Control-Max-Age: 86400');
 
-// Handle preflight OPTIONS request FIRST
+// Handle OPTIONS preflight request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // Return 200 OK for preflight with all headers
     http_response_code(200);
-    // Output nothing else
-    exit(0);
+    // Output headers and exit
+    exit;
 }
 
-// Set content type for actual requests
+// Set content type
 header('Content-Type: application/json; charset=utf-8');
 
 // ============================================
@@ -40,10 +35,7 @@ $API_SECRET = 'p4SbgXEyTKOikyV8ZZACig';
 // ============================================
 if ($API_SECRET === 'YOUR_API_SECRET_HERE') {
     http_response_code(500);
-    echo json_encode([
-        'success' => false,
-        'error' => 'API Secret not configured'
-    ]);
+    echo json_encode(['success' => false, 'error' => 'API Secret not configured']);
     exit;
 }
 
@@ -69,7 +61,7 @@ $pageLocation = $data['page_location'] ?? '';
 $pageTitle = $data['page_title'] ?? '';
 
 // ============================================
-// PREPARE GA4 MEASUREMENT PROTOCOL PAYLOAD
+// PREPARE GA4 PAYLOAD
 // ============================================
 $payload = [
     'client_id' => $clientId,
@@ -84,7 +76,7 @@ $payload = [
 ];
 
 // ============================================
-// SEND TO GA4 MEASUREMENT PROTOCOL
+// SEND TO GA4
 // ============================================
 $url = "https://www.google-analytics.com/mp/collect?measurement_id={$MEASUREMENT_ID}&api_secret={$API_SECRET}";
 
@@ -92,9 +84,7 @@ $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Content-Type: application/json'
-]);
+curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 
@@ -124,9 +114,6 @@ if ($httpCode === 200 || $httpCode === 204) {
     ]);
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
 function generateClientId() {
     return time() . '.' . mt_rand(1000000000, 9999999999);
 }
