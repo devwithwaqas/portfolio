@@ -110,22 +110,94 @@
         console.error('[GA4] Check Network tab for blocked requests to googletagmanager.com');
       };
       
-      document.head.appendChild(script);
-      
       // Debug logging (before script loads)
       console.log('[GA4] Loading GA4 script with Measurement ID:', measurementId);
       console.log('[GA4] Script URL:', script.src);
       console.log('[GA4] Check Network tab for request to:', script.src);
       
-      // Set a timeout to check if script loaded after 5 seconds
+      // Add script to DOM
+      console.log('[GA4] About to append script to DOM...');
+      document.head.appendChild(script);
+      console.log('[GA4] Script appended to DOM');
+      
+      // Immediately check if script was added
       setTimeout(function() {
         const scriptCheck = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
-        if (!scriptCheck || !window.gtag || window.gtag.toString().length < 100) {
-          console.warn('[GA4] ⚠️ Script may not have loaded properly after 5 seconds');
-          console.warn('[GA4] Check Network tab for blocked/failed requests');
-          console.warn('[GA4] Current gtag function:', window.gtag);
+        if (scriptCheck) {
+          console.log('[GA4] ✅ Script tag found in DOM:', scriptCheck.src);
+          console.log('[GA4] Script element:', scriptCheck);
+        } else {
+          console.error('[GA4] ❌ Script tag NOT found in DOM after adding!');
+          console.error('[GA4] This means the script was never added to the page');
         }
-      }, 5000);
+      }, 100);
+      
+      // Set a timeout to check if script loaded after 3 seconds
+      setTimeout(function() {
+        const scriptCheck = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
+        const gtagFunc = window.gtag;
+        const gtagString = gtagFunc ? gtagFunc.toString() : '';
+        const isRealGtag = gtagString.length > 200; // Real Google gtag is much longer
+        
+        console.log('[GA4] === 3 Second Check ===');
+        console.log('[GA4] Script in DOM:', scriptCheck ? '✅ YES' : '❌ NO');
+        console.log('[GA4] Script src:', scriptCheck ? scriptCheck.src : 'NOT FOUND');
+        console.log('[GA4] gtag function exists:', gtagFunc ? '✅ YES' : '❌ NO');
+        console.log('[GA4] gtag function length:', gtagString.length, 'chars');
+        console.log('[GA4] Is real Google gtag:', isRealGtag ? '✅ YES' : '❌ NO (only local queue)');
+        
+        if (!scriptCheck) {
+          console.error('[GA4] ❌ CRITICAL: Script tag not in DOM - script was never added!');
+        } else if (!isRealGtag) {
+          console.error('[GA4] ❌ CRITICAL: Script tag exists but Google gtag.js did not load!');
+          console.error('[GA4] This means the script request was BLOCKED or FAILED');
+          console.error('[GA4] Check Network tab for:');
+          console.error('[GA4]   - Blocked request to googletagmanager.com');
+          console.error('[GA4]   - Failed request (red status)');
+          console.error('[GA4]   - No request at all (script never requested)');
+          console.error('[GA4] Solutions:');
+          console.error('[GA4]   1. Disable ALL ad blockers and privacy extensions');
+          console.error('[GA4]   2. Test in Incognito/Private mode');
+          console.error('[GA4]   3. Check browser privacy settings');
+          console.error('[GA4]   4. Check if on corporate network/firewall');
+        } else {
+          console.log('[GA4] ✅ Script loaded correctly - Google gtag.js is active');
+          console.log('[GA4] If no collect requests, check Network tab for blocks on google-analytics.com');
+        }
+      }, 3000);
+      
+      // Make diagnostic function available immediately
+      window.manualGA4Check = function() {
+        console.log('=== Manual GA4 Check ===');
+        const scriptCheck = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
+        const gtagFunc = window.gtag;
+        const gtagString = gtagFunc ? gtagFunc.toString() : '';
+        const isRealGtag = gtagString.length > 200;
+        
+        console.log('1. Script in DOM:', scriptCheck ? `✅ YES (${scriptCheck.src})` : '❌ NO');
+        console.log('2. gtag function:', gtagFunc ? `✅ YES (${gtagString.length} chars)` : '❌ NO');
+        console.log('3. Is real Google gtag:', isRealGtag ? '✅ YES' : '❌ NO');
+        console.log('4. dataLayer entries:', window.dataLayer ? window.dataLayer.length : 0);
+        console.log('5. Measurement ID:', window.GA4_MEASUREMENT_ID || 'NOT FOUND');
+        
+        if (scriptCheck && !isRealGtag) {
+          console.error('❌ PROBLEM: Script tag exists but Google script did not load!');
+          console.error('Check Network tab for blocked/failed requests to googletagmanager.com');
+        }
+        
+        // Try to manually trigger a test event
+        if (gtagFunc && window.GA4_MEASUREMENT_ID) {
+          console.log('6. Testing manual event...');
+          try {
+            gtagFunc('event', 'manual_test', { test: true });
+            console.log('   ✅ Event sent - check Network tab for collect request');
+          } catch (e) {
+            console.error('   ❌ Error:', e);
+          }
+        }
+        
+        console.log('=== End Check ===');
+      };
     } else if (measurementId && measurementId !== 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER') {
       // Only warn if we have a value but it's invalid format
       console.warn('[GA4] Measurement ID format invalid (should start with G-):', measurementId);
