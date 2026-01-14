@@ -54,7 +54,7 @@ export function setKeywords(keywords) {
 export function setOpenGraph({ title, description, image, url, type = 'website' }) {
   setMetaTag('og:title', title, 'property')
   setMetaTag('og:description', description, 'property')
-  setMetaTag('og:image', image || `${SITE_URL}assets/img/profile-img.jpg`, 'property')
+  setMetaTag('og:image', image || `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`, 'property')
   setMetaTag('og:url', url || window.location.href, 'property')
   setMetaTag('og:type', type, 'property')
   setMetaTag('og:site_name', 'Waqas Ahmad - Portfolio', 'property')
@@ -68,7 +68,7 @@ export function setTwitterCard({ title, description, image, url, card = 'summary
   setMetaTag('twitter:card', card)
   setMetaTag('twitter:title', title)
   setMetaTag('twitter:description', description)
-  setMetaTag('twitter:image', image || `${SITE_URL}assets/img/profile-img.jpg`)
+  setMetaTag('twitter:image', image || `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`)
   setMetaTag('twitter:url', url || window.location.href)
   setMetaTag('twitter:site', '@devwithwaqas') // Optional: Add your Twitter handle if you have one
 }
@@ -343,7 +343,7 @@ export function getHomePageSEO() {
       location // Keep local for local searches
     ],
     type: 'profile',
-    image: `${SITE_URL}assets/img/profile-img.jpg`
+    image: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
   }
 }
 

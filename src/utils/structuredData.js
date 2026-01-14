@@ -143,7 +143,7 @@ export function generatePersonSchema() {
     ],
     description: `Senior Software Engineer & Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of experience in .NET, Azure Cloud, and enterprise architecture. Specializing in full-stack development, microservices, and cloud solutions.`,
     url: website,
-    image: `${SITE_URL}assets/img/profile-img.jpg`,
+    image: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`,
     email: email,
     telephone: phone,
     address: {
@@ -320,7 +320,7 @@ export function generateOrganizationSchema() {
     '@id': `${SITE_URL}#organization`,
     name: `${fullName} - Software Engineering Services`,
     url: website,
-    logo: `${SITE_URL}assets/img/profile-img.jpg`,
+    logo: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`,
     founder: {
       '@type': 'Person',
       name: fullName
@@ -366,7 +366,7 @@ export function generateArticleSchema(articleData) {
   // Ensure image is an array (required by Schema.org)
   const images = articleData.image 
     ? (Array.isArray(articleData.image) ? articleData.image : [articleData.image])
-    : [`${SITE_URL}assets/img/profile-img.jpg`]
+    : [`${SITE_URL}assets/img/waqas-profile-hoodie.jpg`]
   
   return {
     '@context': 'https://schema.org',
@@ -406,7 +406,7 @@ export function generateSoftwareApplicationSchema(projectData) {
   // Ensure screenshot is an array (required by Schema.org)
   const screenshots = projectData.images 
     ? (Array.isArray(projectData.images) ? projectData.images : [projectData.images])
-    : [`${SITE_URL}assets/img/profile-img.jpg`]
+    : [`${SITE_URL}assets/img/waqas-profile-hoodie.jpg`]
   
   return {
     '@context': 'https://schema.org',
