@@ -69,6 +69,17 @@
       
       // Wait for script to load before initializing
       script.onload = function() {
+        // Verify the real Google gtag function is now available
+        // Google's script should have replaced/enhanced our local gtag
+        const realGtag = window.gtag;
+        const isRealGtag = realGtag && realGtag.toString().includes('dataLayer') && 
+                          realGtag.toString().length > 100; // Real gtag is more complex
+        
+        if (!isRealGtag) {
+          console.warn('[GA4] Script loaded but gtag function may not be the real Google version');
+          console.warn('[GA4] This might indicate the script was blocked or failed to load properly');
+        }
+        
         // Initialize GA4 after script loads
         gtag('config', measurementId, {
           page_path: window.location.pathname + window.location.search,
@@ -77,17 +88,44 @@
         
         // Debug logging
         console.log('[GA4] Script loaded and initialized with Measurement ID:', measurementId);
-        console.log('[GA4] Network request should be visible in Network tab');
+        console.log('[GA4] Check Network tab for: googletagmanager.com/gtag/js and google-analytics.com/g/collect');
+        console.log('[GA4] Script element:', script);
+        console.log('[GA4] Script src:', script.src);
+        
+        // Verify script is in DOM
+        const scriptInDOM = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
+        if (scriptInDOM) {
+          console.log('[GA4] ✅ Script tag found in DOM');
+        } else {
+          console.error('[GA4] ❌ Script tag NOT found in DOM - this is a problem!');
+        }
       };
       
       script.onerror = function() {
-        console.error('[GA4] Failed to load gtag.js script');
+        console.error('[GA4] ❌ Failed to load gtag.js script');
+        console.error('[GA4] This is usually caused by:');
+        console.error('[GA4] 1. Ad blocker or privacy extension blocking the request');
+        console.error('[GA4] 2. Network/firewall blocking googletagmanager.com');
+        console.error('[GA4] 3. CORS or security policy blocking the script');
+        console.error('[GA4] Check Network tab for blocked requests to googletagmanager.com');
       };
       
       document.head.appendChild(script);
       
       // Debug logging (before script loads)
       console.log('[GA4] Loading GA4 script with Measurement ID:', measurementId);
+      console.log('[GA4] Script URL:', script.src);
+      console.log('[GA4] Check Network tab for request to:', script.src);
+      
+      // Set a timeout to check if script loaded after 5 seconds
+      setTimeout(function() {
+        const scriptCheck = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
+        if (!scriptCheck || !window.gtag || window.gtag.toString().length < 100) {
+          console.warn('[GA4] ⚠️ Script may not have loaded properly after 5 seconds');
+          console.warn('[GA4] Check Network tab for blocked/failed requests');
+          console.warn('[GA4] Current gtag function:', window.gtag);
+        }
+      }, 5000);
     } else if (measurementId && measurementId !== 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER') {
       // Only warn if we have a value but it's invalid format
       console.warn('[GA4] Measurement ID format invalid (should start with G-):', measurementId);

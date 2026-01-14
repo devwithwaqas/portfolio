@@ -267,7 +267,13 @@ export function checkGA4Setup() {
   
   // Check gtag function
   const hasGtag = typeof window !== 'undefined' && typeof window.gtag === 'function'
-  console.log('2. gtag function:', hasGtag ? '✅ Available' : '❌ NOT FOUND')
+  const gtagString = hasGtag ? window.gtag.toString() : ''
+  const isRealGtag = gtagString.length > 100 && gtagString.includes('dataLayer')
+  console.log('2. gtag function:', hasGtag ? (isRealGtag ? '✅ Available (Real Google version)' : '⚠️ Available (Local version - script may not have loaded)') : '❌ NOT FOUND')
+  if (hasGtag) {
+    console.log('   gtag function length:', gtagString.length, 'chars')
+    console.log('   gtag function preview:', gtagString.substring(0, 100) + '...')
+  }
   
   // Check dataLayer
   const hasDataLayer = typeof window !== 'undefined' && Array.isArray(window.dataLayer)
@@ -275,25 +281,36 @@ export function checkGA4Setup() {
   
   // Check for GA4 script in DOM
   const ga4Script = document.querySelector('script[src*="googletagmanager.com/gtag/js"]')
-  console.log('4. GA4 script tag:', ga4Script ? `✅ Found (${ga4Script.src})` : '❌ NOT FOUND')
+  console.log('4. GA4 script tag in DOM:', ga4Script ? `✅ Found (${ga4Script.src})` : '❌ NOT FOUND')
+  
+  // Check if script actually loaded (check for Google's gtag object)
+  const hasGoogleGtag = typeof window !== 'undefined' && window.gtag && 
+                        window.gtag.toString().includes('dataLayer') &&
+                        window.gtag.toString().length > 200
+  console.log('5. Google gtag.js loaded:', hasGoogleGtag ? '✅ YES (Real Google script is active)' : '❌ NO (Only local queue function)')
   
   // Check dataLayer entries
   if (hasDataLayer && window.dataLayer.length > 0) {
-    console.log('5. dataLayer entries:')
+    console.log('6. dataLayer entries:')
     window.dataLayer.forEach((entry, index) => {
       console.log(`   [${index}]:`, entry)
     })
   } else {
-    console.log('5. dataLayer entries: ❌ EMPTY')
+    console.log('6. dataLayer entries: ❌ EMPTY')
   }
   
   // Check for network requests (user needs to check Network tab manually)
-  console.log('6. Network requests: Check Network tab for requests to:')
+  console.log('7. Network requests: Check Network tab for requests to:')
   console.log('   - googletagmanager.com/gtag/js?id=' + measurementId)
   console.log('   - google-analytics.com/g/collect')
+  console.log('   If you see NOTHING, the script is likely blocked by:')
+  console.log('   - Ad blocker (uBlock Origin, AdBlock Plus, etc.)')
+  console.log('   - Privacy extension (Privacy Badger, Ghostery, etc.)')
+  console.log('   - Browser privacy settings')
+  console.log('   - Corporate firewall')
   
   // Test tracking call
-  console.log('7. Testing tracking call...')
+  console.log('8. Testing tracking call...')
   if (hasGtag && measurementId) {
     try {
       window.gtag('event', 'diagnostic_test', {
@@ -301,6 +318,7 @@ export function checkGA4Setup() {
         event_label: 'Manual diagnostic check'
       })
       console.log('   ✅ Test event sent to gtag')
+      console.log('   Check Network tab for google-analytics.com/g/collect request')
     } catch (error) {
       console.error('   ❌ Error sending test event:', error)
     }
@@ -308,8 +326,21 @@ export function checkGA4Setup() {
     console.log('   ❌ Cannot test - gtag or Measurement ID missing')
   }
   
+  // Final diagnosis
+  console.log('\n=== DIAGNOSIS ===')
+  if (!ga4Script) {
+    console.log('❌ CRITICAL: Script tag not in DOM - script was never added!')
+  } else if (!hasGoogleGtag) {
+    console.log('❌ CRITICAL: Script tag exists but Google gtag.js did not load!')
+    console.log('   This means the script request was BLOCKED or FAILED')
+    console.log('   Check Network tab for blocked/failed requests to googletagmanager.com')
+  } else if (hasGoogleGtag && hasDataLayer) {
+    console.log('✅ Script loaded correctly - if no collect requests, check Network tab for blocks')
+  }
+  
   console.log('=== End Diagnostic ===')
-  console.log('💡 TIP: Open Network tab, filter by "collect" or "gtag", and refresh page to see if requests are being sent')
+  console.log('💡 TIP: Open Network tab, filter by "collect" or "gtag", and refresh page')
+  console.log('💡 TIP: Disable ad blockers and test in Incognito mode')
 }
 
 // Make diagnostic function available globally
