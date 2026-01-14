@@ -12,16 +12,21 @@
  * Usage: Your JavaScript will POST to this file with event data
  */
 
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+// CORS Headers - Allow requests from GitHub Pages
+header('Access-Control-Allow-Origin: https://devwithwaqas.github.io');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Credentials: false');
+header('Access-Control-Max-Age: 86400'); // Cache preflight for 1 day
 
-// Handle preflight requests
+// Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
+
+// Set content type for actual requests
+header('Content-Type: application/json');
 
 // ============================================
 // CONFIGURATION - UPDATE THESE VALUES
