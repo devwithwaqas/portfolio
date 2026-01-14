@@ -333,10 +333,17 @@ export function trackEvent(eventName, eventParams = {}) {
  * Uses GA4 Measurement Protocol API
  */
 async function trackServerSide(eventName, eventParams = {}) {
+  console.log('[GA4] trackServerSide called for:', eventName, '| Endpoint:', GA4_PHP_ENDPOINT)
+  
   const measurementId = (typeof window !== 'undefined' && window.GA4_MEASUREMENT_ID) || GA4_MEASUREMENT_ID
   
   if (!measurementId) {
     console.warn('[GA4] Server-side tracking: No Measurement ID available')
+    return false
+  }
+  
+  if (!GA4_PHP_ENDPOINT) {
+    console.warn('[GA4] Server-side tracking: PHP endpoint not configured')
     return false
   }
   
