@@ -116,8 +116,15 @@ async function fetchAnalyticsData() {
       let views = parseInt(row.metricValues[0].value || '0', 10);
       views += SEED_VIEWS_PER_ITEM;
 
-      // Skip home page and portfolio root
-      if (path === '/' || path === '/portfolio' || path === '/portfolio/') {
+      // Normalize path - remove trailing slashes and normalize
+      const normalizedPath = path.replace(/\/+$/, '').toLowerCase();
+      
+      // Skip home page and portfolio root paths (all variations)
+      if (normalizedPath === '' || 
+          normalizedPath === '/' || 
+          normalizedPath === '/portfolio' || 
+          normalizedPath === '/portfolio/' ||
+          normalizedPath.startsWith('/portfolio/') && normalizedPath.split('/').filter(p => p).length <= 1) {
         continue;
       }
 
@@ -125,18 +132,20 @@ async function fetchAnalyticsData() {
       
       // Extract name from URL path first (more reliable)
       if (path.startsWith('/projects/') || path.startsWith('/services/')) {
-        const slug = path.split('/').pop() || '';
-        name = slug
-          .replace(/-/g, ' ')
-          .replace(/\b\w/g, (l) => l.toUpperCase());
+        const slug = path.split('/').filter(p => p).pop() || '';
+        if (slug && slug !== 'portfolio') {
+          name = slug
+            .replace(/-/g, ' ')
+            .replace(/\b\w/g, (l) => l.toUpperCase());
+        }
       }
       
       // Try to improve name from title, but avoid generic/home page titles
       if (title) {
         const titleCleaned = title.split(' - ')[0].trim();
         // Skip generic titles that are likely home page
-        const genericTitles = ['Waqas Ahmad', 'Home', 'Portfolio', 'Main'];
-        if (titleCleaned && !genericTitles.includes(titleCleaned) && titleCleaned.length > 3) {
+        const genericTitles = ['Waqas Ahmad', 'Home', 'Portfolio', 'Main', '/portfolio', '/portfolio/'];
+        if (titleCleaned && !genericTitles.includes(titleCleaned) && titleCleaned.length > 3 && !titleCleaned.startsWith('/')) {
           // Use title if it's meaningful, otherwise keep URL-based name
           if (!name || name.length < 3 || titleCleaned.length > name.length) {
             name = titleCleaned;
@@ -147,16 +156,26 @@ async function fetchAnalyticsData() {
       // Fallback to path-based name if still empty
       if (!name) {
         // Clean the path - remove leading/trailing slashes
-        let cleanPath = path.replace(/^\/+|\/+$/g, '');
-        if (!cleanPath || cleanPath === 'portfolio') {
+        let cleanPath = path.replace(/^\/+|\/+$/g, '').toLowerCase();
+        const pathParts = cleanPath.split('/').filter(p => p && p !== 'portfolio');
+        
+        if (pathParts.length === 0 || cleanPath === 'portfolio') {
           continue; // Skip if path is empty or just 'portfolio'
         }
-        const slug = cleanPath.split('/').pop() || cleanPath;
-        name = slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+        
+        const slug = pathParts.pop() || '';
+        if (slug && slug !== 'portfolio') {
+          name = slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+        }
       }
       
-      // Final safety check - skip if name is still invalid
-      if (!name || name === 'Portfolio' || name.length < 2) {
+      // Final safety check - skip if name is still invalid or contains slashes
+      if (!name || 
+          name === 'Portfolio' || 
+          name.includes('/') || 
+          name.includes('\\') ||
+          name.length < 2 ||
+          name.trim() === '') {
         continue;
       }
 

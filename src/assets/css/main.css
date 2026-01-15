@@ -628,7 +628,7 @@ p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label) {
   word-break: normal !important;
 }
 
-/* Override justified text for badge sections */
+/* Override justified text for badge sections and remote work section */
 .available-badge,
 .available-badge *,
 .available-badge p,
@@ -638,9 +638,13 @@ p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label) {
 .remote-available-badge *,
 .remote-work-section,
 .remote-work-section *,
+.remote-work-section h5,
 .remote-work-section p,
+.remote-work-section strong,
 .remote-work-content,
-.remote-work-content p {
+.remote-work-content *,
+.remote-work-content p,
+.remote-work-content strong {
   text-align: left !important;
   text-justify: auto !important;
   hyphens: none !important;
@@ -665,9 +669,13 @@ p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label) {
   /* Ensure remote work section stays left-aligned on mobile */
   .remote-work-section,
   .remote-work-section *,
+  .remote-work-section h5,
   .remote-work-section p,
+  .remote-work-section strong,
   .remote-work-content,
-  .remote-work-content p {
+  .remote-work-content *,
+  .remote-work-content p,
+  .remote-work-content strong {
     text-align: left !important;
     text-justify: auto !important;
     hyphens: none !important;
@@ -687,6 +695,12 @@ h1, h2, h3, h4, h5, h6,
 .service-item h3,
 .service-item h4,
 .testimonial-name,
+/* Exclude remote work section from global justification */
+.remote-work-section h5,
+.remote-work-section p,
+.remote-work-section strong,
+.remote-work-content p,
+.remote-work-content strong,
 .testimonial-title,
 .label-text,
 .info-value,
