@@ -610,17 +610,18 @@ h6 {
 /*--------------------------------------------------------------
 # Global content text justification (applies to all sections)
 --------------------------------------------------------------*/
-/* Apply justified text to all body paragraphs and list items */
+/* Apply justified text to all body paragraphs and list items - EXCEPT remote work section */
 .resume-item p,
 .resume-item li,
 .service-item p,
 .testimonial-text,
-.about p,
+.about p:not(.remote-work-section p):not(.remote-work-content p),
+.about p:not(.remote-work-section *):not(.remote-work-content *),
 .about li,
 .footer p,
 .project-description,
 .epic-card p,
-p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label) {
+p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label):not(.remote-work-section p):not(.remote-work-content p) {
   text-align: justify !important;
   text-justify: inter-word !important;
   hyphens: none !important;
@@ -665,7 +666,9 @@ p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label) {
 .about .remote-work-content,
 .about .remote-work-content *,
 .about .remote-work-content p,
-.about .remote-work-content p * {
+.about .remote-work-content p *,
+.remote-work-section p,
+.remote-work-content p {
   text-align: left !important;
   text-justify: none !important;
   hyphens: none !important;
