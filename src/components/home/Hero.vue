@@ -35,10 +35,15 @@
           <p class="hero-description txt-p-xl">
             <span class="emoji">🚀</span><span class="highlight-text">Building robust APIs</span><span class="emoji">☁️</span><span class="highlight-text">, cloud-native services</span><span class="emoji">⚙️</span><span class="highlight-text">, and DevOps pipelines</span><span class="emoji">🎯</span><span class="highlight-text"> — with a focus on reliability and scale.</span>
             <br>
-            <span class="emoji">🌍</span><span class="highlight-text"><strong>Remote Available:</strong> USA, Europe, Global | Worked with Fortune 500 companies worldwide | Flexible timezone overlap for EST, PST, GMT, CET</span>
+            <span class="emoji">🌍</span><span class="highlight-text">Worked with Fortune 500 companies worldwide. Specializing in .NET, Azure Cloud, microservices, and enterprise architecture.</span>
             <br>
-            <span class="emoji">💼</span><span class="highlight-text">Available for remote consulting, freelance, and contract projects. Specializing in .NET, Azure Cloud, microservices, and enterprise architecture.</span>
+            <span class="emoji">💼</span><span class="highlight-text">Available for consulting, freelance, and contract projects.</span>
           </p>
+          
+          <!-- SEO Keywords - Visually Hidden but Accessible to Screen Readers & Search Engines -->
+          <div class="visually-hidden" aria-hidden="true">
+            Remote Senior Software Engineer, Remote Technical Lead, Remote Azure Cloud Architect, Remote .NET Developer, Remote Full Stack Developer, Available for remote work in USA, Europe, Global. Flexible timezone EST, PST, GMT, CET. Remote consulting, freelance remote developer, contract remote software engineer.
+          </div>
           
           <!-- Action Buttons -->
           <div class="hero-actions">

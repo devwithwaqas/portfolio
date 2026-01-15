@@ -15,18 +15,18 @@
               </div>
             </div>
                 
-                <!-- Happy Clients -->
+                <!-- Enterprise Clients -->
                 <StatCard 
-                  label="Happy Clients"
-                  :value="calculatedStats.happyClients"
-                  iconPath="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  label="Enterprise Clients"
+                  :value="calculatedStats.enterpriseClients"
+                  iconPath="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6M12,8A4,4 0 0,0 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12A4,4 0 0,0 12,8Z"
                   iconColor="#ffd700"
                 />
                 
-                <!-- Projects -->
+                <!-- Enterprise Solutions -->
                 <StatCard 
-                  label="Projects"
-                  :value="calculatedStats.totalProjects"
+                  label="Enterprise Solutions"
+                  :value="calculatedStats.enterpriseSolutions"
                   iconPath="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"
                   iconColor="#00ff88"
                 />
@@ -81,8 +81,8 @@ export default {
       const techLeadYears = Math.floor(diffTimeTechLead / (1000 * 60 * 60 * 24 * 365.25))
       
       return {
-        happyClients: 50,
-        totalProjects: 75,
+        enterpriseClients: 20, // Fortune 500 companies and enterprise clients
+        enterpriseSolutions: 32, // Major enterprise solutions delivered (~2 per year over 17 years)
         yearsExperience: totalYears,
         yearsAsTechLead: techLeadYears
       }

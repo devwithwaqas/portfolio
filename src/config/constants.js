@@ -32,8 +32,8 @@ export const APP_CONFIG = {
   formattedBirthday: "September 21, 1987",
   // Stats data - Calculated from actual work experience
   stats: {
-    happyClients: 50,
-    totalProjects: 75,
+    enterpriseClients: 20, // Fortune 500 companies and enterprise clients
+    enterpriseSolutions: 32, // Major enterprise solutions delivered (~2 per year over 17 years)
     yearsExperience: 17, // Jan 1, 2008 to present
     yearsAsTechLead: 9 // Midway Squad Cell career (2015) to present
   }

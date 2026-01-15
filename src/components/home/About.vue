@@ -14,9 +14,9 @@
                     <div style="position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: linear-gradient(45deg, rgba(5, 99, 187, 0.06) 25%, transparent 25%), linear-gradient(-45deg, rgba(5, 99, 187, 0.06) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(5, 99, 187, 0.06) 75%), linear-gradient(-45deg, transparent 75%, rgba(5, 99, 187, 0.06) 75%); background-size: 30px 30px; background-position: 0 0, 0 15px, 15px -15px, -15px 0px; opacity: 0.3; animation: patternMove 30s linear infinite;"></div>
                     
                     <div style="position: relative; z-index: 2;">
-                      <h2 class="txt-h2-3xl about-main-title">🚀 Senior Software Engineer &amp; Technical Lead | Available for Remote Work</h2>
+                      <h2 class="txt-h2-3xl about-main-title">🚀 Senior Software Engineer &amp; Technical Lead</h2>
                       <p class="fst-italic py-3 txt-p-lg" style="color: #45505b; line-height: 1.6;">
-                        Proficient in enterprise applications architecture whether hybrid or platform specific either as services for company or products for the organizations. Currently engaged as Senior Software Engineer Full Stack ({{ totalExperience }}+ years) / Technical Lead ({{ techLeadExperience }}+ years overall as Technical Lead) in developing web / cloud based applications. <strong>Available for remote work in USA, Europe, and globally.</strong> Flexible timezone (EST, PST, GMT, CET). Worked with Fortune 500 companies worldwide.
+                        Proficient in enterprise applications architecture whether hybrid or platform specific either as services for company or products for the organizations. Currently engaged as Senior Software Engineer Full Stack ({{ totalExperience }}+ years) / Technical Lead ({{ techLeadExperience }}+ years overall as Technical Lead) in developing web / cloud based applications. Worked with Fortune 500 companies worldwide.
                       </p>
                       
                       <div class="row">
@@ -44,7 +44,7 @@
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
                                 <i class="bi bi-geo-alt icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
-                                  <strong class="txt-label-md" style="color: #0563bb;">Location:</strong> <span class="txt-span-md" style="color: #45505b; margin-left: 5px;">Selangor, Malaysia | <strong>Remote Available: USA, Europe, Global</strong></span>
+                                  <strong class="txt-label-md" style="color: #0563bb;">Location:</strong> <span class="txt-span-md" style="color: #45505b; margin-left: 5px;">Selangor, Malaysia</span>
                                 </div>
                               </li>
                             </ul>
@@ -85,20 +85,25 @@
                       <div style="background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%); color: white; padding: 25px; border-radius: 15px; margin-top: 25px; box-shadow: 0 15px 35px rgba(60, 20, 120, 0.4);">
                         <h5 style="color: white; margin-bottom: 15px; font-weight: 600;">💼 Professional Summary</h5>
                         <p style="color: rgba(255, 255, 255, 0.9); margin: 0; line-height: 1.6;">
-                          A cohesive team player with technical expertise, innovation, analytical & problem-solving attitude, planning, communication, and interpersonal skills. <strong>.NET Expert & Consultant</strong> with {{ totalExperience }}+ years specializing in <strong>.NET Core, ASP.NET, C#</strong>, <strong>Microservices Architecture</strong>, <strong>API Development</strong>, and <strong>Azure Cloud</strong>. Senior Azure Cloud Developer / Architect with expertise in Azure Functions, App Services, Service Fabric, Key Vault, App Insights, CI/CD, branching strategies, build/release policies, and Cloud App Identity Management. <strong>Available for remote work globally</strong> - worked with Fortune 500 companies in USA, Europe, and worldwide. Flexible timezone to overlap with EST, PST, GMT, and CET.
+                          A cohesive team player with technical expertise, innovation, analytical & problem-solving attitude, planning, communication, and interpersonal skills. <strong>.NET Expert & Consultant</strong> with {{ totalExperience }}+ years specializing in <strong>.NET Core, ASP.NET, C#</strong>, <strong>Microservices Architecture</strong>, <strong>API Development</strong>, and <strong>Azure Cloud</strong>. Senior Azure Cloud Developer / Architect with expertise in Azure Functions, App Services, Service Fabric, Key Vault, App Insights, CI/CD, branching strategies, build/release policies, and Cloud App Identity Management. Worked with Fortune 500 companies in USA, Europe, and worldwide.
                         </p>
                       </div>
                       
                       <!-- Remote Work Ready Section -->
                       <div style="background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(32, 201, 151, 0.1) 100%); border: 2px solid rgba(40, 167, 69, 0.3); padding: 25px; border-radius: 15px; margin-top: 25px;">
                         <h5 style="color: #28a745; margin-bottom: 15px; font-weight: 600;">
-                          <i class="fas fa-globe" style="margin-right: 8px;"></i>Remote Work Ready - Available Globally
+                          <i class="fas fa-globe" style="margin-right: 8px;"></i>Global Availability & Ready to Work
                         </h5>
                         <div style="color: #45505b; line-height: 1.8;">
-                          <p style="margin-bottom: 12px;"><strong>🌍 Global Availability:</strong> Available for remote work in <strong>USA, Europe (UK, Germany, Netherlands, Switzerland), and worldwide</strong>. No location restrictions.</p>
-                          <p style="margin-bottom: 12px;"><strong>⏰ Flexible Timezone:</strong> Can work across multiple timezones with overlap for <strong>EST, PST, GMT, and CET</strong>. Experienced in distributed team collaboration.</p>
+                          <p style="margin-bottom: 12px;"><strong>🌍 Global Availability:</strong> Working with clients in <strong>USA, Europe (UK, Germany, Netherlands, Switzerland), and worldwide</strong>. No location restrictions.</p>
+                          <p style="margin-bottom: 12px;"><strong>⏰ Flexible Timezone:</strong> Experienced in distributed team collaboration across <strong>EST, PST, GMT, and CET</strong> timezones.</p>
                           <p style="margin-bottom: 12px;"><strong>💼 Experience:</strong> {{ totalExperience }}+ years working with <strong>Fortune 500 companies globally</strong>. Delivered enterprise solutions to clients across 5+ countries.</p>
-                          <p style="margin-bottom: 0;"><strong>🚀 Ready to Start:</strong> Available for <strong>remote consulting, freelance, and contract projects</strong>. Quick response time and flexible engagement models.</p>
+                          <p style="margin-bottom: 0;"><strong>🚀 Ready to Start:</strong> Available for <strong>consulting, freelance, and contract projects</strong>. Quick response time and flexible engagement models.</p>
+                        </div>
+                        
+                        <!-- SEO Keywords - Visually Hidden -->
+                        <div class="visually-hidden" aria-hidden="true">
+                          Remote Senior Software Engineer, Remote Technical Lead, Remote Azure Cloud Architect, Remote .NET Developer, Remote Full Stack Developer, Remote DevOps Engineer, Remote Software Architect, Remote Technical Consultant, Remote Developer Available, Hire Remote Senior Software Engineer, Remote Consultant Available, Freelance Remote Developer, Contract Remote Software Engineer, Remote Software Engineer USA, Remote Developer UK, Remote Developer Europe, Remote Developer Germany, Remote Developer Netherlands, Remote Consultant USA, Remote Consultant Europe, Global Remote Software Engineer, International Remote Developer, Remote Developer Flexible Timezone, Remote Developer EST PST GMT CET.
                         </div>
                       </div>
                     </div>

@@ -54,9 +54,12 @@ export function setKeywords(keywords) {
 export function setOpenGraph({ title, description, image, url, type = 'website' }) {
   setMetaTag('og:title', title, 'property')
   setMetaTag('og:description', description, 'property')
-  // Use provided image, or fallback to waqas-profile-hoodie.jpg, or profile-img.jpg as last resort
+  // Use provided image, or fallback to waqas-profile-hoodie.jpg
   const defaultImage = image || `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
   setMetaTag('og:image', defaultImage, 'property')
+  setMetaTag('og:image:secure_url', defaultImage, 'property')
+  setMetaTag('og:image:type', 'image/jpeg', 'property')
+  setMetaTag('og:image:alt', title, 'property')
   setMetaTag('og:url', url || window.location.href, 'property')
   setMetaTag('og:type', type, 'property')
   setMetaTag('og:site_name', 'Waqas Ahmad - Portfolio', 'property')
@@ -70,7 +73,7 @@ export function setTwitterCard({ title, description, image, url, card = 'summary
   setMetaTag('twitter:card', card)
   setMetaTag('twitter:title', title)
   setMetaTag('twitter:description', description)
-  // Use provided image, or fallback to waqas-profile-hoodie.jpg, or profile-img.jpg as last resort
+  // Use provided image, or fallback to waqas-profile-hoodie.jpg
   const defaultImage = image || `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
   setMetaTag('twitter:image', defaultImage)
   setMetaTag('twitter:url', url || window.location.href)
