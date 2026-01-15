@@ -108,93 +108,112 @@ async function fetchAnalyticsData() {
   });
 
   console.log(`GA4 returned ${topPagesResponse.rows?.length || 0} rows`);
+  
+  // Log ALL rows from GA4 for debugging
+  if (topPagesResponse.rows && topPagesResponse.rows.length > 0) {
+    console.log('=== ALL GA4 ROWS ===');
+    topPagesResponse.rows.forEach((row, idx) => {
+      const p = row.dimensionValues[0]?.value || '';
+      const t = row.dimensionValues[1]?.value || '';
+      const v = row.metricValues[0]?.value || '0';
+      console.log(`Row ${idx}: path="${p}", title="${t}", views=${v}`);
+    });
+    console.log('=== END GA4 ROWS ===');
+  }
+  
   const topItems = [];
 
-  if (topPagesResponse.rows) {
+  if (topPagesResponse.rows && topPagesResponse.rows.length > 0) {
     console.log(`Processing ${topPagesResponse.rows.length} rows from GA4`);
     
     for (const row of topPagesResponse.rows) {
-      const path = row.dimensionValues[0].value || '';
-      const title = row.dimensionValues[1].value || '';
-      let views = parseInt(row.metricValues[0].value || '0', 10);
+      const path = row.dimensionValues[0]?.value || '';
+      const title = row.dimensionValues[1]?.value || '';
+      let views = parseInt(row.metricValues[0]?.value || '0', 10);
       views += SEED_VIEWS_PER_ITEM;
 
-      console.log(`Processing: path="${path}", title="${title}"`);
+      console.log(`\n--- Processing row: path="${path}", title="${title}", views=${views} ---`);
 
       // Normalize path for comparison - remove trailing slashes
       const normalizedPath = path.replace(/\/+$/, '').toLowerCase();
       
-      // Skip home page and portfolio root paths (exact matches only)
-      if (normalizedPath === '' || 
-          normalizedPath === '/' || 
-          normalizedPath === '/portfolio') {
-        console.log(`Skipping home/portfolio: path="${path}"`);
+      // Skip ONLY exact home page matches
+      if (normalizedPath === '' || normalizedPath === '/' || normalizedPath === '/portfolio') {
+        console.log(`❌ SKIPPED: Home page (exact match)`);
         continue;
       }
       
-      // Skip technical/internal files (index.html, .php files, etc.)
-      if (path.includes('.html') || 
-          path.includes('.php') || 
-          path.includes('.js') ||
-          path.includes('/index') ||
-          path.includes('/ga4-') ||
-          path.includes('/api/') ||
-          path.toLowerCase().includes('index.html')) {
-        console.log(`Skipping technical file: path="${path}"`);
+      // Skip technical files - but be more specific
+      const isTechnicalFile = 
+        path.toLowerCase().endsWith('.html') ||
+        path.toLowerCase().endsWith('.php') ||
+        path.toLowerCase().endsWith('.js') ||
+        path.toLowerCase().endsWith('.json') ||
+        path.toLowerCase().includes('/index.html') ||
+        path.toLowerCase().includes('/ga4-') ||
+        path.toLowerCase().includes('/api/');
+        
+      if (isTechnicalFile) {
+        console.log(`❌ SKIPPED: Technical file`);
         continue;
       }
 
+      // Extract name - be VERY permissive
       let name = '';
       
-      // Extract name from URL path - try to get the last meaningful segment
-      const pathParts = path.split('/').filter(p => p && p.toLowerCase() !== 'portfolio');
+      // Method 1: Get last path segment
+      const allParts = path.split('/').filter(p => p && p.trim() !== '');
+      if (allParts.length > 0) {
+        let lastPart = allParts[allParts.length - 1];
+        // Remove file extensions
+        lastPart = lastPart.replace(/\.(html|php|js|json|xml|txt|css|md)$/i, '');
+        if (lastPart && lastPart.toLowerCase() !== 'portfolio' && lastPart.length > 0) {
+          name = lastPart
+            .replace(/-/g, ' ')
+            .replace(/\b\w/g, (l) => l.toUpperCase());
+          console.log(`✅ Name from path segment: "${name}"`);
+        }
+      }
       
-      if (pathParts.length > 0) {
-        const slug = pathParts[pathParts.length - 1];
-        if (slug && slug.toLowerCase() !== 'portfolio') {
-          // Remove file extensions if any
-          const cleanSlug = slug.replace(/\.(html|php|js|json|xml|txt|css)$/i, '');
-          if (cleanSlug && cleanSlug.length > 0) {
-            name = cleanSlug
-              .replace(/-/g, ' ')
-              .replace(/\b\w/g, (l) => l.toUpperCase());
-            console.log(`Extracted name from URL: "${name}"`);
+      // Method 2: Try title if path name is short or missing
+      if ((!name || name.length < 3) && title) {
+        const titleCleaned = title.split(' - ')[0].split(' | ')[0].trim();
+        const genericTitles = ['Waqas Ahmad', 'Home', 'Portfolio', 'Main'];
+        if (titleCleaned && 
+            !genericTitles.includes(titleCleaned) && 
+            titleCleaned.length > 2 && 
+            !titleCleaned.startsWith('/') &&
+            !titleCleaned.toLowerCase().includes('portfolio')) {
+          name = titleCleaned;
+          console.log(`✅ Name from title: "${name}"`);
+        }
+      }
+      
+      // Method 3: Use ANY non-empty path segment as fallback
+      if (!name || name.trim() === '') {
+        for (let i = allParts.length - 1; i >= 0; i--) {
+          const part = allParts[i].replace(/\.(html|php|js|json|xml|txt|css|md)$/i, '');
+          if (part && part.toLowerCase() !== 'portfolio' && part.length > 0) {
+            name = part.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+            console.log(`✅ Name from fallback segment: "${name}"`);
+            break;
           }
         }
       }
       
-      // Try to improve name from title if we have one and URL name is short
-      if (title && (!name || name.length < 5)) {
-        const titleCleaned = title.split(' - ')[0].trim();
-        // Skip generic titles
-        const genericTitles = ['Waqas Ahmad', 'Home', 'Portfolio', 'Main'];
-        if (titleCleaned && 
-            !genericTitles.includes(titleCleaned) && 
-            titleCleaned.length > name.length && 
-            !titleCleaned.startsWith('/') &&
-            !titleCleaned.toLowerCase().includes('portfolio')) {
-          name = titleCleaned;
-          console.log(`Using improved name from title: "${name}"`);
-        }
-      }
-      
-      // Final check - skip if name is still invalid
-      if (!name || 
-          name.toLowerCase() === 'portfolio' || 
-          name.includes('/') || 
-          name.includes('\\') ||
-          name.trim().length < 1) {
-        console.log(`Final check failed - skipping: path="${path}", title="${title}", name="${name}"`);
+      // Final validation - be VERY lenient
+      if (!name || name.trim() === '' || name.toLowerCase() === 'portfolio') {
+        console.log(`❌ SKIPPED: No valid name extracted (name="${name}")`);
         continue;
       }
       
       // Stop after we have 3 valid items
       if (topItems.length >= 3) {
-        console.log(`Reached limit of 3 items, stopping`);
+        console.log(`✅ Reached limit of 3 items, stopping`);
         break;
       }
 
-      console.log(`Adding item: name="${name}", path="${path}", views=${views}`);
+      console.log(`✅ ADDING ITEM: name="${name}", path="${path}", views=${views}`);
       topItems.push({
         name,
         views,
@@ -202,9 +221,16 @@ async function fetchAnalyticsData() {
         type: path.startsWith('/projects/') ? 'project' : 'service',
       });
     }
+  } else {
+    console.log('⚠️ WARNING: No rows returned from GA4!');
   }
 
-  console.log(`Returning ${topItems.length} top items`);
+  console.log(`\n=== FINAL RESULT: Returning ${topItems.length} top items ===`);
+  if (topItems.length > 0) {
+    topItems.forEach((item, idx) => {
+      console.log(`  ${idx + 1}. ${item.name} (${item.views} views) - ${item.url}`);
+    });
+  }
 
   return { totalViews, topItems };
 }
