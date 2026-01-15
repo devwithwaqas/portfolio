@@ -228,13 +228,19 @@ async function fetchAnalyticsData() {
 
       // Use normalized path without /portfolio for URL
       const urlPath = matchedPath.startsWith('/portfolio/') ? matchedPath.replace(/^\/portfolio/, '') : matchedPath;
+      const isProject = urlPath.startsWith('/projects/');
       
-      console.log(`✅ ADDING ITEM: name="${pageInfo.name}", path="${urlPath}", views=${views}`);
+      // Format name with category prefix for better presentation
+      const displayName = isProject 
+        ? `Project: ${pageInfo.name}`
+        : `Service: ${pageInfo.name}`;
+      
+      console.log(`✅ ADDING ITEM: name="${displayName}", path="${urlPath}", views=${views}`);
       topItems.push({
-        name: pageInfo.name,
+        name: displayName,
         views,
         url: urlPath,
-        type: urlPath.startsWith('/projects/') ? 'project' : 'service',
+        type: isProject ? 'project' : 'service',
       });
     }
   } else {
