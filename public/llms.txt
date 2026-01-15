@@ -1,0 +1,66 @@
+# llms.txt - AI Search Engine Optimization
+# This file helps AI search engines (Google SGE, Perplexity, Bing Chat, ChatGPT) understand and index your content
+# Learn more: https://llmstxt.org/
+
+# Primary content to index
+# These are the most important pages for AI search engines to understand
+
+# Home Page - Professional Profile
+https://devwithwaqas.github.io/portfolio/
+Description: Waqas Ahmad - Remote Senior Software Engineer & Technical Lead with 17+ years of experience in .NET, Azure Cloud, microservices, and enterprise architecture. Available for remote work globally.
+
+# Key Service Pages
+https://devwithwaqas.github.io/portfolio/services/full-stack-development
+Description: Full Stack Development services - Expert in .NET, Vue.js, Angular, microservices architecture, and cloud solutions.
+
+https://devwithwaqas.github.io/portfolio/services/azure-cloud-architecture
+Description: Azure Cloud Architecture consulting - Specializing in Azure Service Fabric, microservices, cloud migration, and enterprise solutions.
+
+https://devwithwaqas.github.io/portfolio/services/technical-leadership
+Description: Technical Leadership services - Leading development teams, architecture decisions, and technical strategy for Fortune 500 companies.
+
+https://devwithwaqas.github.io/portfolio/services/microservices-architecture
+Description: Microservices Architecture consulting - Expert in designing and implementing scalable microservices solutions using .NET and Azure.
+
+# Featured Project Pages
+https://devwithwaqas.github.io/portfolio/projects/heat-exchanger
+Description: Heat Exchanger Portal - Enterprise microservices platform built with .NET Core, Azure Service Fabric, and Vue.js.
+
+https://devwithwaqas.github.io/portfolio/projects/airasia-id90
+Description: AirAsia ID90 Employee Travel Discount System - Large-scale microservices application serving 20,000+ employees.
+
+# Contact Information
+Contact: Waqas Ahmad
+Email: Available via contact form
+Location: Selangor, Malaysia
+Available: Remote work globally (USA, Europe, Global)
+Timezone: Flexible (EST, PST, GMT, CET)
+
+# Expertise Areas
+- Senior Software Engineer
+- Technical Lead
+- Azure Cloud Architect
+- .NET Developer
+- Full Stack Developer
+- Microservices Architect
+- Enterprise Architecture Consultant
+
+# Technologies
+- .NET Core, .NET Framework, C#, ASP.NET
+- Azure Cloud, Azure Service Fabric, Azure Functions
+- Vue.js, Angular, TypeScript, JavaScript
+- Microservices Architecture, RESTful APIs
+- SQL Server, Cosmos DB
+- CI/CD, DevOps, Docker, Kubernetes
+
+# Experience
+Years: 17+ years
+Tech Lead Experience: 9+ years
+Enterprise Clients: 20+ Fortune 500 companies
+Projects: 32+ enterprise solutions
+
+# Availability
+Status: Available for hire
+Work Type: Remote consulting, freelance, contract projects
+Regions: USA, Europe, Global
+Languages: English

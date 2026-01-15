@@ -148,7 +148,9 @@ export function generatePersonSchema() {
       'Enterprise Architect',
       'DevOps Consultant'
     ],
-    description: `Senior Software Engineer & Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of experience in .NET, Azure Cloud, and enterprise architecture. Specializing in full-stack development, microservices, and cloud solutions.`,
+    description: `Senior Software Engineer & Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of experience in .NET, Azure Cloud, and enterprise architecture. Specializing in full-stack development, microservices, and cloud solutions. Available for remote work globally.`,
+    // AI Search Optimization: Add more detailed description for AI engines
+    about: `Waqas Ahmad is a Senior Software Engineer and Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of professional experience. He specializes in .NET development, Azure Cloud architecture, microservices design, and enterprise solutions. With experience working with Fortune 500 companies worldwide, he offers remote consulting, freelance, and contract services. Available for projects in USA, Europe, and globally with flexible timezone support (EST, PST, GMT, CET).`,
     url: website,
     image: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`,
     email: email,
@@ -458,20 +460,62 @@ export function generateHomePageStructuredData(testimonials = []) {
 }
 
 /**
- * Generate FAQPage schema
+ * Generate FAQPage schema - Enhanced for AI Search
  */
 export function generateFAQPageSchema(faqItems) {
+  const fullName = APP_CONFIG.fullName
+  
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
+    '@id': `${SITE_URL}#faq`,
     mainEntity: faqItems.map(item => ({
       '@type': 'Question',
       name: item.question,
       acceptedAnswer: {
         '@type': 'Answer',
-        text: item.answer
+        text: item.answer,
+        author: {
+          '@type': 'Person',
+          name: fullName,
+          jobTitle: 'Senior Software Engineer & Technical Lead'
+        },
+        dateCreated: new Date().toISOString()
       }
     }))
+  }
+}
+
+/**
+ * Generate HowTo schema for AI search engines
+ * AI engines love process-based content
+ */
+export function generateHowToSchema(howToData) {
+  const fullName = APP_CONFIG.fullName
+  
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    '@id': `${SITE_URL}${howToData.url || ''}#howto`,
+    name: howToData.name || 'How to Hire a Senior Software Engineer',
+    description: howToData.description || `Learn how to hire ${fullName}, a Senior Software Engineer with 17+ years of experience.`,
+    image: howToData.image || `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`,
+    totalTime: howToData.totalTime || 'PT1H', // 1 hour in ISO 8601
+    estimatedCost: {
+      '@type': 'MonetaryAmount',
+      currency: 'USD',
+      value: 'Contact for quote'
+    },
+    tool: howToData.tools || [],
+    step: (howToData.steps || []).map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.name,
+      text: step.text,
+      image: step.image || undefined,
+      url: step.url || undefined
+    })),
+    supply: howToData.supplies || []
   }
 }
 
@@ -712,6 +756,7 @@ export default {
   generateArticleSchema,
   generateSoftwareApplicationSchema,
   generateFAQPageSchema,
+  generateHowToSchema,
   generateServiceSchema,
   generateOfferSchema,
   generateHomePageStructuredData,
