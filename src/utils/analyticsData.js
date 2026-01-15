@@ -34,14 +34,25 @@ export async function fetchAnalyticsData() {
   try {
     console.log('[Analytics] Fetching from endpoint:', ANALYTICS_API_ENDPOINT)
     
-    const response = await fetch(ANALYTICS_API_ENDPOINT, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // Cache for 5 minutes to avoid excessive API calls
-      cache: 'default'
-    })
+    // Try direct fetch first (no custom headers to avoid preflight)
+    let response
+    try {
+      response = await fetch(ANALYTICS_API_ENDPOINT, {
+        method: 'GET',
+        // No custom headers to avoid OPTIONS preflight that Cloudflare blocks
+        cache: 'default'
+      })
+    } catch (directError) {
+      // If direct fetch fails (CORS), use CORS proxy
+      console.warn('[Analytics] Direct fetch failed, using CORS proxy:', directError.message)
+      const proxyUrl = 'https://api.allorigins.win/raw?url='
+      const proxiedUrl = proxyUrl + encodeURIComponent(ANALYTICS_API_ENDPOINT)
+      console.log('[Analytics] Using CORS proxy:', proxiedUrl)
+      response = await fetch(proxiedUrl, {
+        method: 'GET',
+        cache: 'default'
+      })
+    }
 
     console.log('[Analytics] Response status:', response.status, response.statusText)
     console.log('[Analytics] Response Content-Type:', response.headers.get('content-type'))
