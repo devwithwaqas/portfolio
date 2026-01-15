@@ -143,21 +143,33 @@ async function fetchAnalyticsData() {
         continue;
       }
       
-      // Skip ONLY obvious technical/system files - be VERY specific
+      // Skip technical/system files - filter out files with extensions and system paths
       const lowerPath = path.toLowerCase();
       const isTechnicalFile = 
-        lowerPath === '/index.html' ||
-        lowerPath === '/portfolio/index.html' ||
-        lowerPath.includes('/ga4-analytics.php') ||
+        lowerPath.endsWith('.html') ||
+        lowerPath.endsWith('.php') ||
+        lowerPath.endsWith('.ph') ||
+        lowerPath.endsWith('.js') ||
+        lowerPath.endsWith('.json') ||
+        lowerPath.endsWith('.xml') ||
+        lowerPath.endsWith('.txt') ||
+        lowerPath.endsWith('.css') ||
+        lowerPath.endsWith('.md') ||
+        lowerPath.includes('/index.html') ||
+        lowerPath.includes('/ga4-') ||
+        lowerPath.includes('/api/') ||
         lowerPath.includes('/.git/') ||
-        lowerPath.includes('/node_modules/');
+        lowerPath.includes('/node_modules/') ||
+        lowerPath.includes('/package.json') ||
+        lowerPath.includes('/.env');
         
       if (isTechnicalFile) {
         console.log(`❌ SKIPPED: Technical/system file: ${path}`);
         continue;
       }
       
-      // ACCEPT everything else - we'll extract a name no matter what
+      // Only accept paths that look like actual pages (not files)
+      // Allow /projects/, /services/, or paths without file extensions
 
       // Extract name - be VERY permissive
       let name = '';
