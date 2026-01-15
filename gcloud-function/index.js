@@ -116,15 +116,13 @@ async function fetchAnalyticsData() {
       let views = parseInt(row.metricValues[0].value || '0', 10);
       views += SEED_VIEWS_PER_ITEM;
 
-      // Normalize path - remove trailing slashes and normalize
+      // Normalize path for comparison - remove trailing slashes
       const normalizedPath = path.replace(/\/+$/, '').toLowerCase();
       
-      // Skip home page and portfolio root paths (all variations)
+      // Skip home page and portfolio root paths (exact matches only)
       if (normalizedPath === '' || 
           normalizedPath === '/' || 
-          normalizedPath === '/portfolio' || 
-          normalizedPath === '/portfolio/' ||
-          normalizedPath.startsWith('/portfolio/') && normalizedPath.split('/').filter(p => p).length <= 1) {
+          normalizedPath === '/portfolio') {
         continue;
       }
 
@@ -133,7 +131,7 @@ async function fetchAnalyticsData() {
       // Extract name from URL path first (more reliable)
       if (path.startsWith('/projects/') || path.startsWith('/services/')) {
         const slug = path.split('/').filter(p => p).pop() || '';
-        if (slug && slug !== 'portfolio') {
+        if (slug && slug.toLowerCase() !== 'portfolio') {
           name = slug
             .replace(/-/g, ' ')
             .replace(/\b\w/g, (l) => l.toUpperCase());
@@ -141,15 +139,16 @@ async function fetchAnalyticsData() {
       }
       
       // Try to improve name from title, but avoid generic/home page titles
-      if (title) {
+      if (title && !name) {
         const titleCleaned = title.split(' - ')[0].trim();
         // Skip generic titles that are likely home page
-        const genericTitles = ['Waqas Ahmad', 'Home', 'Portfolio', 'Main', '/portfolio', '/portfolio/'];
-        if (titleCleaned && !genericTitles.includes(titleCleaned) && titleCleaned.length > 3 && !titleCleaned.startsWith('/')) {
-          // Use title if it's meaningful, otherwise keep URL-based name
-          if (!name || name.length < 3 || titleCleaned.length > name.length) {
-            name = titleCleaned;
-          }
+        const genericTitles = ['Waqas Ahmad', 'Home', 'Portfolio', 'Main'];
+        if (titleCleaned && 
+            !genericTitles.includes(titleCleaned) && 
+            titleCleaned.length > 3 && 
+            !titleCleaned.startsWith('/') &&
+            !titleCleaned.toLowerCase().includes('portfolio')) {
+          name = titleCleaned;
         }
       }
 
@@ -157,25 +156,31 @@ async function fetchAnalyticsData() {
       if (!name) {
         // Clean the path - remove leading/trailing slashes
         let cleanPath = path.replace(/^\/+|\/+$/g, '').toLowerCase();
-        const pathParts = cleanPath.split('/').filter(p => p && p !== 'portfolio');
-        
-        if (pathParts.length === 0 || cleanPath === 'portfolio') {
-          continue; // Skip if path is empty or just 'portfolio'
+        // Skip if path is empty or just 'portfolio'
+        if (!cleanPath || cleanPath === 'portfolio') {
+          continue;
         }
         
-        const slug = pathParts.pop() || '';
-        if (slug && slug !== 'portfolio') {
+        const pathParts = cleanPath.split('/').filter(p => p && p.toLowerCase() !== 'portfolio');
+        
+        if (pathParts.length === 0) {
+          continue;
+        }
+        
+        const slug = pathParts[pathParts.length - 1] || pathParts[0] || '';
+        if (slug && slug.toLowerCase() !== 'portfolio') {
           name = slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
         }
       }
       
-      // Final safety check - skip if name is still invalid or contains slashes
+      // Final safety check - skip if name is still invalid
       if (!name || 
-          name === 'Portfolio' || 
+          name.toLowerCase() === 'portfolio' || 
           name.includes('/') || 
           name.includes('\\') ||
           name.length < 2 ||
           name.trim() === '') {
+        console.log(`Skipping item: path="${path}", title="${title}", name="${name}"`);
         continue;
       }
 
