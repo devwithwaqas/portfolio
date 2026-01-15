@@ -52,6 +52,12 @@
         :faq-items="faqItems"
       />
 
+      <!-- Related Projects -->
+      <RelatedProjects
+        :projects="relatedProjects"
+        introduction="Explore related database optimization projects I've worked on:"
+      />
+
       <!-- CTA -->
       <ServiceCTA
         cta-text="Ready to optimize your database performance or design a new database? Let's discuss how database design and optimization can improve your application performance and support your business growth."
@@ -73,6 +79,7 @@ import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
+import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
@@ -87,6 +94,7 @@ export default {
     ServiceCaseStudies,
     ServiceFAQ,
     ServiceCTA,
+    RelatedProjects,
     TechnologyStack
   },
   setup() {
@@ -316,6 +324,45 @@ export default {
       }
     ])
 
+    // Related Projects
+    const relatedProjects = ref([
+      {
+        title: 'Heat Exchanger Portal',
+        description: 'Enterprise database architecture with SQL Server, processing 2.5M data points daily with optimized queries',
+        path: '/projects/heat-exchanger',
+        image: assetPath('/assets/img/he1-thumb.jpg'),
+        technologies: ['SQL Server', '.NET Core', 'Entity Framework']
+      },
+      {
+        title: 'BAT Inhouse App',
+        description: 'Enterprise database design for British American Tobacco with SQL Server optimization',
+        path: '/projects/bat-inhouse-app',
+        image: assetPath('/assets/img/bat1-thumb.jpg'),
+        technologies: ['SQL Server', '.NET Core', 'Azure SQL']
+      },
+      {
+        title: 'UK Property Management',
+        description: 'Property management database managing 9,000+ properties with optimized SQL Server design',
+        path: '/projects/uk-property-management',
+        image: assetPath('/assets/img/gpc1-thumb.jpg'),
+        technologies: ['SQL Server', 'Azure SQL', '.NET Core']
+      },
+      {
+        title: 'Valet Parking',
+        description: 'NoSQL database architecture using MongoDB and Redis for high-performance parking system',
+        path: '/projects/valet-parking',
+        image: assetPath('/assets/img/vp1.jpg'),
+        technologies: ['MongoDB', 'Redis', '.NET Core']
+      },
+      {
+        title: 'Confidential Insurance Clients',
+        description: 'Enterprise database optimization for insurance platform with SQL Server',
+        path: '/projects/chubb-insurance-applications',
+        image: assetPath('/assets/img/in1-thumb.jpg'),
+        technologies: ['SQL Server', 'Azure SQL', '.NET Core']
+      }
+    ])
+
     // FAQ
     const faqItems = ref([
       {
@@ -360,7 +407,8 @@ export default {
       engagementModels,
       technologies,
       caseStudies,
-      faqItems
+      faqItems,
+      relatedProjects
     }
   }
 }

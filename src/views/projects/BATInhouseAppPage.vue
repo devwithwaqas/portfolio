@@ -111,6 +111,15 @@
       
     </template>
     
+    <!-- Additional Content Slot (Full Width) -->
+    <template #additional-content>
+      <!-- Related Services -->
+      <RelatedServices
+        :services="relatedServices"
+        introduction="This project utilized the following services I offer:"
+      />
+    </template>
+    
   </ProjectPageTemplate>
 </template>
 
@@ -127,6 +136,7 @@ import EngineeringChallenges from '../../components/projects/EngineeringChalleng
 import PerformanceMetricsSection from '../../components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '../../components/projects/MetricsFramework.vue'
 import ROISection from '../../components/projects/ROISection.vue'
+import RelatedServices from '../../components/common/RelatedServices.vue'
 
 // ⚠️ CRITICAL: Import constants
 import { 
@@ -154,7 +164,8 @@ export default {
     EngineeringChallenges,
     PerformanceMetricsSection,
     MetricsFramework,
-    ROISection
+    ROISection,
+    RelatedServices
   },
   data() {
     return {
@@ -1276,6 +1287,32 @@ export default {
             icon: 'analytics',
             title: 'Continuous Optimization',
             description: 'Implemented continuous improvement processes using real-time analytics, A/B testing, and employee feedback to optimize BAT Inhouse App performance and enhance business value delivery continuously across all departments.'
+          }
+        ],
+        relatedServices: [
+          {
+            title: 'Full Stack Development',
+            description: 'End-to-end development of enterprise applications with .NET Core and modern web technologies',
+            path: '/services/full-stack-development',
+            icon: 'bi bi-code-square'
+          },
+          {
+            title: 'Microservices Architecture',
+            description: 'Design and implementation of scalable microservices-based applications using Azure Service Fabric',
+            path: '/services/microservices-architecture',
+            icon: 'bi bi-diagram-3'
+          },
+          {
+            title: 'Azure Cloud Architecture',
+            description: 'Cloud-native solutions using Microsoft Azure and container orchestration',
+            path: '/services/azure-cloud-architecture',
+            icon: 'bi bi-cloud'
+          },
+          {
+            title: 'Database Design & Optimization',
+            description: 'Database architecture, optimization, and performance tuning for enterprise applications',
+            path: '/services/database-design-optimization',
+            icon: 'bi bi-database'
           }
         ]
       }

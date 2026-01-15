@@ -119,6 +119,15 @@
       />
       
     </template>
+    
+    <!-- Additional Content Slot (Full Width) -->
+    <template #additional-content>
+      <!-- Related Services -->
+      <RelatedServices
+        :services="relatedServices"
+        introduction="This project utilized the following services I offer:"
+      />
+    </template>
 
   </ProjectPageTemplate>
 </template>
@@ -137,6 +146,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import RelatedServices from '@/components/common/RelatedServices.vue'
 import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
@@ -161,7 +171,8 @@ export default {
     EngineeringChallenges,
     PerformanceMetricsSection,
     MetricsFramework,
-    ROISection
+    ROISection,
+    RelatedServices
   },
   setup() {
     // UK Property Management Project Data
@@ -774,6 +785,28 @@ The UK Property Management Platform has successfully transformed property manage
     // Diagram Narration Steps
     const ukPropertyManagementNarrationSteps = ref([])
 
+    // Related Services
+    const relatedServices = ref([
+      {
+        title: 'Full Stack Development',
+        description: 'End-to-end development of property management platforms with .NET Core and Angular',
+        path: '/services/full-stack-development',
+        icon: 'bi bi-code-square'
+      },
+      {
+        title: 'Azure Cloud Architecture',
+        description: 'Cloud-native property management solutions using Microsoft Azure',
+        path: '/services/azure-cloud-architecture',
+        icon: 'bi bi-cloud'
+      },
+      {
+        title: 'Microservices Architecture',
+        description: 'Design and implementation of scalable microservices-based property systems',
+        path: '/services/microservices-architecture',
+        icon: 'bi bi-diagram-3'
+      }
+    ])
+
     return {
       // Data
       projectData,
@@ -791,6 +824,7 @@ The UK Property Management Platform has successfully transformed property manage
       roiLeftItems,
       roiRightItems,
       roiMetrics,
+      relatedServices,
       
       // Constants
       PROJECT_ICON_NAMES,

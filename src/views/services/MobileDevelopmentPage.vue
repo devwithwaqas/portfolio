@@ -52,6 +52,12 @@
         :faq-items="faqItems"
       />
 
+      <!-- Related Projects -->
+      <RelatedProjects
+        :projects="relatedProjects"
+        introduction="Explore related mobile development projects I've worked on:"
+      />
+
       <!-- CTA -->
       <ServiceCTA
         cta-text="Ready to build your mobile application? Whether you need native iOS, native Android, React Native, Flutter, or Xamarin, let's discuss your mobile app requirements and create a solution that delivers exceptional user experiences and drives your business forward."
@@ -73,6 +79,7 @@ import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
+import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
@@ -87,6 +94,7 @@ export default {
     ServiceCaseStudies,
     ServiceFAQ,
     ServiceCTA,
+    RelatedProjects,
     TechnologyStack
   },
   setup() {
@@ -343,6 +351,17 @@ export default {
       }
     ])
 
+    // Related Projects
+    const relatedProjects = ref([
+      {
+        title: 'Mobile Games Collection',
+        description: 'Native Android game development portfolio with Java and AndEngine framework, 500K+ downloads',
+        path: '/projects/mobile-games',
+        image: assetPath('/assets/img/gd1-thumb.jpg'),
+        technologies: ['Java', 'Android', 'AndEngine']
+      }
+    ])
+
     // FAQ
     const faqItems = ref([
       {
@@ -395,7 +414,8 @@ export default {
       engagementModels,
       technologies,
       caseStudies,
-      faqItems
+      faqItems,
+      relatedProjects
     }
   }
 }

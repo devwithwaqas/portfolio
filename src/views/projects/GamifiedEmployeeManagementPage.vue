@@ -130,6 +130,15 @@
       />
       
     </template>
+    
+    <!-- Additional Content Slot (Full Width) -->
+    <template #additional-content>
+      <!-- Related Services -->
+      <RelatedServices
+        :services="relatedServices"
+        introduction="This project utilized the following services I offer:"
+      />
+    </template>
 
   </ProjectPageTemplate>
 </template>
@@ -148,6 +157,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import RelatedServices from '@/components/common/RelatedServices.vue'
 import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
@@ -172,7 +182,8 @@ export default {
     EngineeringChallenges,
     PerformanceMetricsSection,
     MetricsFramework,
-    ROISection
+    ROISection,
+    RelatedServices
   },
   setup() {
     // Gamified Employee Management Project Data
@@ -1160,6 +1171,22 @@ This platform significantly improves employee engagement and productivity throug
     // Diagram Narration Steps (placeholder - add when diagram is created)
     const gamifiedEmployeeManagementNarrationSteps = ref([])
 
+    // Related Services
+    const relatedServices = ref([
+      {
+        title: 'Full Stack Development',
+        description: 'End-to-end development of enterprise applications with .NET Core and Angular',
+        path: '/services/full-stack-development',
+        icon: 'bi bi-code-square'
+      },
+      {
+        title: 'Microservices Architecture',
+        description: 'Design and implementation of scalable microservices-based applications',
+        path: '/services/microservices-architecture',
+        icon: 'bi bi-diagram-3'
+      }
+    ])
+
     return {
       // Data
       projectData,
@@ -1177,6 +1204,7 @@ This platform significantly improves employee engagement and productivity throug
       roiLeftItems,
       roiRightItems,
       roiMetrics,
+      relatedServices,
       
       // Constants
       PROJECT_ICON_NAMES,

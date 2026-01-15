@@ -52,6 +52,12 @@
         :faq-items="faqItems"
       />
 
+      <!-- Related Projects -->
+      <RelatedProjects
+        :projects="relatedProjects"
+        introduction="Explore major enterprise projects managed with agile methodologies:"
+      />
+
       <!-- CTA -->
       <ServiceCTA
         cta-text="Ready to transform your development process with agile methodologies? Let's discuss how agile project management can improve your team's productivity, quality, and delivery speed."
@@ -73,6 +79,7 @@ import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
+import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
@@ -87,6 +94,7 @@ export default {
     ServiceCaseStudies,
     ServiceFAQ,
     ServiceCTA,
+    RelatedProjects,
     TechnologyStack
   },
   setup() {
@@ -312,6 +320,38 @@ export default {
       }
     ])
 
+    // Related Projects
+    const relatedProjects = ref([
+      {
+        title: 'Heat Exchanger Portal',
+        description: 'Agile-managed enterprise platform processing 2.5M data points daily with sprint-based delivery',
+        path: '/projects/heat-exchanger',
+        image: assetPath('/assets/img/he1-thumb.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Agile', 'Scrum']
+      },
+      {
+        title: 'AirAsia ID90',
+        description: 'Agile development of employee travel discount system with iterative delivery',
+        path: '/projects/airasia-id90',
+        image: assetPath('/assets/img/aa1-thumb.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Agile', 'Sprint']
+      },
+      {
+        title: 'Gamified Employee Management',
+        description: 'Agile-managed employee engagement platform with 88% daily active users',
+        path: '/projects/gamified-employee-management',
+        image: assetPath('/assets/img/sf1.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Agile', 'Scrum']
+      },
+      {
+        title: 'UK Property Management',
+        description: 'Agile-managed property platform managing 9,000+ properties with continuous delivery',
+        path: '/projects/uk-property-management',
+        image: assetPath('/assets/img/gpc1-thumb.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Agile', 'Azure']
+      }
+    ])
+
     // FAQ
     const faqItems = ref([
       {
@@ -356,7 +396,8 @@ export default {
       engagementModels,
       technologies,
       caseStudies,
-      faqItems
+      faqItems,
+      relatedProjects
     }
   }
 }

@@ -52,6 +52,12 @@
         :faq-items="faqItems"
       />
 
+      <!-- Related Projects -->
+      <RelatedProjects
+        :projects="relatedProjects"
+        introduction="Explore related Azure cloud projects I've worked on:"
+      />
+
       <!-- CTA -->
       <ServiceCTA
         cta-text="Ready to migrate to Azure or build cloud-native solutions? Let's discuss your cloud architecture needs and create a scalable, secure, and cost-effective solution that transforms your infrastructure."
@@ -73,6 +79,7 @@ import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
+import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
@@ -87,6 +94,7 @@ export default {
     ServiceCaseStudies,
     ServiceFAQ,
     ServiceCTA,
+    RelatedProjects,
     TechnologyStack
   },
   setup() {
@@ -329,6 +337,45 @@ export default {
       }
     ])
 
+    // Related Projects
+    const relatedProjects = ref([
+      {
+        title: 'Heat Exchanger Portal',
+        description: 'Enterprise Azure cloud platform with .NET Core microservices, processing 2.5M data points daily',
+        path: '/projects/heat-exchanger',
+        image: assetPath('/assets/img/he1-thumb.jpg'),
+        technologies: ['Azure', '.NET Core', 'Angular', 'Microservices']
+      },
+      {
+        title: 'AirAsia ID90',
+        description: 'Azure-native employee travel discount system with Azure App Service and Azure SQL',
+        path: '/projects/airasia-id90',
+        image: assetPath('/assets/img/aa1-thumb.jpg'),
+        technologies: ['Azure App Service', 'Azure SQL', 'Azure Service Bus', '.NET Core']
+      },
+      {
+        title: 'PJ Smart City',
+        description: 'Azure-based smart city platform with IoT integration and municipal management',
+        path: '/projects/pj-smart-city',
+        image: assetPath('/assets/img/pj1-thumb.jpg'),
+        technologies: ['Azure', '.NET Core', 'Angular', 'Azure IoT']
+      },
+      {
+        title: 'UK Property Management',
+        description: 'Azure-native property management platform managing 9,000+ properties',
+        path: '/projects/uk-property-management',
+        image: assetPath('/assets/img/gpc1.jpg'),
+        technologies: ['Azure', '.NET Core', 'Angular', 'Azure SQL']
+      },
+      {
+        title: 'Confidential Insurance Clients',
+        description: 'Enterprise Azure cloud platform for insurance management with high availability',
+        path: '/projects/chubb-insurance-applications',
+        image: assetPath('/assets/img/in1-thumb.jpg'),
+        technologies: ['Azure', '.NET Core', 'Angular', 'Azure SQL']
+      }
+    ])
+
     // FAQ
     const faqItems = ref([
       {
@@ -373,7 +420,8 @@ export default {
       engagementModels,
       technologies,
       caseStudies,
-      faqItems
+      faqItems,
+      relatedProjects
     }
   }
 }

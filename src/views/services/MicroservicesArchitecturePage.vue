@@ -52,6 +52,12 @@
         :faq-items="faqItems"
       />
 
+      <!-- Related Projects -->
+      <RelatedProjects
+        :projects="relatedProjects"
+        introduction="Explore related microservices projects I've worked on:"
+      />
+
       <!-- CTA -->
       <ServiceCTA
         cta-text="Ready to build scalable microservices architecture? Let's discuss how microservices can transform your application architecture and enable independent scaling, deployment, and evolution."
@@ -73,6 +79,7 @@ import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
+import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
@@ -87,6 +94,7 @@ export default {
     ServiceCaseStudies,
     ServiceFAQ,
     ServiceCTA,
+    RelatedProjects,
     TechnologyStack
   },
   setup() {
@@ -325,6 +333,38 @@ export default {
     ])
 
     // FAQ
+    // Related Projects
+    const relatedProjects = ref([
+      {
+        title: 'Heat Exchanger Portal',
+        description: 'Enterprise .NET Core microservices platform with Angular frontend, processing 2.5M data points daily',
+        path: '/projects/heat-exchanger',
+        image: assetPath('/assets/img/he1-thumb.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Microservices', 'Azure']
+      },
+      {
+        title: 'AirAsia ID90',
+        description: 'Microservices-based employee travel discount system with .NET Core and Angular',
+        path: '/projects/airasia-id90',
+        image: assetPath('/assets/img/aa1.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Microservices', 'Azure']
+      },
+      {
+        title: 'BAT Inhouse App',
+        description: 'Enterprise microservices application using Azure Service Fabric for British American Tobacco',
+        path: '/projects/bat-inhouse-app',
+        image: assetPath('/assets/img/bat1-thumb.jpg'),
+        technologies: ['.NET Core', 'Azure Service Fabric', 'Microservices']
+      },
+      {
+        title: 'PJ Smart City',
+        description: 'Smart city platform with microservices architecture for municipal management',
+        path: '/projects/pj-smart-city',
+        image: assetPath('/assets/img/pj1-thumb.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Microservices', 'Azure']
+      }
+    ])
+
     const faqItems = ref([
       {
         question: "What is microservices architecture?",
@@ -368,7 +408,8 @@ export default {
       engagementModels,
       technologies,
       caseStudies,
-      faqItems
+      faqItems,
+      relatedProjects
     }
   }
 }

@@ -119,6 +119,15 @@
       />
       
     </template>
+    
+    <!-- Additional Content Slot (Full Width) -->
+    <template #additional-content>
+      <!-- Related Services -->
+      <RelatedServices
+        :services="relatedServices"
+        introduction="This project utilized the following services I offer:"
+      />
+    </template>
 
   </ProjectPageTemplate>
 </template>
@@ -137,6 +146,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import RelatedServices from '@/components/common/RelatedServices.vue'
 import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
@@ -161,7 +171,8 @@ export default {
     EngineeringChallenges,
     PerformanceMetricsSection,
     MetricsFramework,
-    ROISection
+    ROISection,
+    RelatedServices
   },
   setup() {
     // Mobile Games Collection Project Data
@@ -716,6 +727,16 @@ The Mobile Games Collection has successfully established a presence in the compe
     // Diagram Narration Steps (placeholder - add when diagram is created)
     const mobileGamesNarrationSteps = ref([])
 
+    // Related Services
+    const relatedServices = ref([
+      {
+        title: 'Mobile Development',
+        description: 'Cross-platform mobile application development for iOS and Android platforms',
+        path: '/services/mobile-development',
+        icon: 'bi bi-phone'
+      }
+    ])
+
     return {
       // Data
       projectData,
@@ -733,6 +754,7 @@ The Mobile Games Collection has successfully established a presence in the compe
       roiLeftItems,
       roiRightItems,
       roiMetrics,
+      relatedServices,
       
       // Constants
       PROJECT_ICON_NAMES,

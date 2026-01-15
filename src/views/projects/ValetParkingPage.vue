@@ -119,6 +119,15 @@
       />
       
     </template>
+    
+    <!-- Additional Content Slot (Full Width) -->
+    <template #additional-content>
+      <!-- Related Services -->
+      <RelatedServices
+        :services="relatedServices"
+        introduction="This project utilized the following services I offer:"
+      />
+    </template>
 
   </ProjectPageTemplate>
 </template>
@@ -137,6 +146,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import RelatedServices from '@/components/common/RelatedServices.vue'
 import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
@@ -161,7 +171,8 @@ export default {
     EngineeringChallenges,
     PerformanceMetricsSection,
     MetricsFramework,
-    ROISection
+    ROISection,
+    RelatedServices
   },
   setup() {
     // Valet Parking Project Data
@@ -778,6 +789,28 @@ The Valet Parking system has transformed Secure Parking UAE's operations in DIFC
     // Diagram Narration Steps (placeholder - add when diagram is created)
     const valetParkingNarrationSteps = ref([])
 
+    // Related Services
+    const relatedServices = ref([
+      {
+        title: 'Full Stack Development',
+        description: 'End-to-end development of parking management systems with .NET Core and Angular',
+        path: '/services/full-stack-development',
+        icon: 'bi bi-code-square'
+      },
+      {
+        title: 'Microservices Architecture',
+        description: 'Design and implementation of scalable microservices-based parking systems',
+        path: '/services/microservices-architecture',
+        icon: 'bi bi-diagram-3'
+      },
+      {
+        title: 'Database Design & Optimization',
+        description: 'NoSQL database architecture and optimization using MongoDB and Redis',
+        path: '/services/database-design-optimization',
+        icon: 'bi bi-database'
+      }
+    ])
+
     return {
       // Data
       projectData,
@@ -795,6 +828,7 @@ The Valet Parking system has transformed Secure Parking UAE's operations in DIFC
       roiLeftItems,
       roiRightItems,
       roiMetrics,
+      relatedServices,
       
       // Constants
       PROJECT_ICON_NAMES,

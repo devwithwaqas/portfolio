@@ -119,6 +119,15 @@
       />
       
     </template>
+    
+    <!-- Additional Content Slot (Full Width) -->
+    <template #additional-content>
+      <!-- Related Services -->
+      <RelatedServices
+        :services="relatedServices"
+        introduction="This project utilized the following services I offer:"
+      />
+    </template>
 
   </ProjectPageTemplate>
 </template>
@@ -137,6 +146,7 @@ import EngineeringChallenges from '@/components/projects/EngineeringChallenges.v
 import PerformanceMetricsSection from '@/components/projects/PerformanceMetricsSection.vue'
 import MetricsFramework from '@/components/projects/MetricsFramework.vue'
 import ROISection from '@/components/projects/ROISection.vue'
+import RelatedServices from '@/components/common/RelatedServices.vue'
 import { assetPath } from '@/utils/assetPath.js'
 
 // Import constants
@@ -161,7 +171,8 @@ export default {
     EngineeringChallenges,
     PerformanceMetricsSection,
     MetricsFramework,
-    ROISection
+    ROISection,
+    RelatedServices
   },
   setup() {
     // Insurance Clients Project Data
@@ -752,6 +763,28 @@ The Confidential Insurance Clients Applications have revolutionized insurance op
     // Diagram Narration Steps
     const insuranceClientsNarrationSteps = ref([])
 
+    // Related Services
+    const relatedServices = ref([
+      {
+        title: 'Full Stack Development',
+        description: 'End-to-end development of enterprise insurance applications with .NET Core and Angular',
+        path: '/services/full-stack-development',
+        icon: 'bi bi-code-square'
+      },
+      {
+        title: 'Azure Cloud Architecture',
+        description: 'Cloud-native solutions using Microsoft Azure for insurance platform scalability',
+        path: '/services/azure-cloud-architecture',
+        icon: 'bi bi-cloud'
+      },
+      {
+        title: 'Microservices Architecture',
+        description: 'Design and implementation of scalable microservices-based insurance systems',
+        path: '/services/microservices-architecture',
+        icon: 'bi bi-diagram-3'
+      }
+    ])
+
     return {
       // Data
       projectData,
@@ -769,6 +802,7 @@ The Confidential Insurance Clients Applications have revolutionized insurance op
       roiLeftItems,
       roiRightItems,
       roiMetrics,
+      relatedServices,
       
       // Constants
       PROJECT_ICON_NAMES,

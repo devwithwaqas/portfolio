@@ -204,9 +204,9 @@ export default {
 
 .test-nav-wrapper {
   padding: 0 8px 0 0;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  padding-bottom: 16px;
+  padding-bottom: 12px;
 }
 
 /* Base State - 85% width, left aligned */
@@ -214,9 +214,9 @@ export default {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 16px;
+  padding: 10px 16px;
   height: auto !important;
-  min-height: 44px;
+  min-height: 42px;
   width: 85%;
   margin: 0;
   margin-left: 0;

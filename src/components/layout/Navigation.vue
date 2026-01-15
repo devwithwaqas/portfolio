@@ -505,7 +505,7 @@ export default {
     width: 16.66%;
     padding: 0;
     background: linear-gradient(180deg, rgba(30, 15, 50, 1) 0%, rgba(20, 10, 35, 1) 100%);
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
     z-index: 996;
     border-right: 1px solid rgba(139, 92, 246, 0.2);
@@ -536,11 +536,12 @@ export default {
 
 /* Navigation Menu */
 .navmenu {
-  padding: 20px 0 0 0;
+  padding: 15px 0 0 0;
   margin: 0;
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
 }
 
 /* ===================================

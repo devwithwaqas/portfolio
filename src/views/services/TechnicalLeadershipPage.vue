@@ -52,6 +52,12 @@
         :faq-items="faqItems"
       />
 
+      <!-- Related Projects -->
+      <RelatedProjects
+        :projects="relatedProjects"
+        introduction="Explore major enterprise projects where I provided technical leadership:"
+      />
+
       <!-- CTA -->
       <ServiceCTA
         cta-text="Ready to elevate your development team's performance? Let's discuss how technical leadership can transform your software development process and drive technical excellence."
@@ -73,6 +79,7 @@ import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
+import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
@@ -87,6 +94,7 @@ export default {
     ServiceCaseStudies,
     ServiceFAQ,
     ServiceCTA,
+    RelatedProjects,
     TechnologyStack
   },
   setup() {
@@ -312,6 +320,38 @@ export default {
       }
     ])
 
+    // Related Projects
+    const relatedProjects = ref([
+      {
+        title: 'Heat Exchanger Portal',
+        description: 'Led technical team building enterprise microservices platform processing 2.5M data points daily',
+        path: '/projects/heat-exchanger',
+        image: assetPath('/assets/img/he1-thumb.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Microservices', 'Azure']
+      },
+      {
+        title: 'BAT Inhouse App',
+        description: 'Technical leadership for British American Tobacco enterprise application with Azure Service Fabric',
+        path: '/projects/bat-inhouse-app',
+        image: assetPath('/assets/img/bat1.jpg'),
+        technologies: ['.NET Core', 'Azure Service Fabric', 'Enterprise Architecture']
+      },
+      {
+        title: 'PJ Smart City',
+        description: 'Led technical team for smart city platform with microservices and IoT integration',
+        path: '/projects/pj-smart-city',
+        image: assetPath('/assets/img/pj1-thumb.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Azure', 'IoT']
+      },
+      {
+        title: 'UK Property Management',
+        description: 'Technical leadership for Azure-native property management platform managing 9,000+ properties',
+        path: '/projects/uk-property-management',
+        image: assetPath('/assets/img/gpc1-thumb.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Azure', 'Enterprise']
+      }
+    ])
+
     // FAQ
     const faqItems = ref([
       {
@@ -356,7 +396,8 @@ export default {
       engagementModels,
       technologies,
       caseStudies,
-      faqItems
+      faqItems,
+      relatedProjects
     }
   }
 }
