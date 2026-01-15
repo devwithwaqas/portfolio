@@ -116,8 +116,8 @@ async function fetchAnalyticsData() {
       let views = parseInt(row.metricValues[0].value || '0', 10);
       views += SEED_VIEWS_PER_ITEM;
 
-      // Skip home page
-      if (path === '/' || path === '/portfolio') {
+      // Skip home page and portfolio root
+      if (path === '/' || path === '/portfolio' || path === '/portfolio/') {
         continue;
       }
 
@@ -146,8 +146,18 @@ async function fetchAnalyticsData() {
 
       // Fallback to path-based name if still empty
       if (!name) {
-        const slug = path.split('/').pop() || path;
+        // Clean the path - remove leading/trailing slashes
+        let cleanPath = path.replace(/^\/+|\/+$/g, '');
+        if (!cleanPath || cleanPath === 'portfolio') {
+          continue; // Skip if path is empty or just 'portfolio'
+        }
+        const slug = cleanPath.split('/').pop() || cleanPath;
         name = slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+      }
+      
+      // Final safety check - skip if name is still invalid
+      if (!name || name === 'Portfolio' || name.length < 2) {
+        continue;
       }
 
       topItems.push({
