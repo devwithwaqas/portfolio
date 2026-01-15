@@ -59,14 +59,33 @@ export async function fetchAnalyticsData() {
     })
 
     console.log('[Analytics] Response status:', response.status, response.statusText)
+    console.log('[Analytics] Response Content-Type:', response.headers.get('content-type'))
 
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error('[Analytics] API error response:', errorText)
-      throw new Error(`Analytics API error: ${response.status} - ${errorText}`)
+    // Check if response is actually JSON
+    const contentType = response.headers.get('content-type') || ''
+    const responseText = await response.text()
+    
+    if (!contentType.includes('application/json')) {
+      // Response is not JSON - likely an HTML error page
+      console.error('[Analytics] Non-JSON response received. Content-Type:', contentType)
+      console.error('[Analytics] Response preview (first 500 chars):', responseText.substring(0, 500))
+      throw new Error(`PHP endpoint returned HTML instead of JSON. Check server logs or PHP file.`)
     }
 
-    const data = await response.json()
+    if (!response.ok) {
+      console.error('[Analytics] API error response:', responseText)
+      throw new Error(`Analytics API error: ${response.status} - ${responseText.substring(0, 200)}`)
+    }
+
+    // Parse JSON response
+    let data
+    try {
+      data = JSON.parse(responseText)
+    } catch (parseError) {
+      console.error('[Analytics] Failed to parse JSON. Response:', responseText.substring(0, 500))
+      throw new Error(`Invalid JSON response: ${parseError.message}`)
+    }
+    
     console.log('[Analytics] Parsed data:', data)
     return {
       totalViews: data.totalViews || 0,
