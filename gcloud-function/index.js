@@ -19,6 +19,29 @@ const BASE_TOTAL_VIEWS = 6234;
 const SEED_VIEWS_PER_ITEM = 2435;
 const CACHE_DURATION = 300; // 5 minutes
 
+// Whitelist of valid project/service pages with display names
+const VALID_PAGES = {
+  // Projects
+  '/projects/heat-exchanger': 'Heat Exchanger',
+  '/projects/airasia-id90': 'AirAsia ID90',
+  '/projects/bat-inhouse-app': 'BAT Inhouse App',
+  '/projects/pj-smart-city': 'PJ Smart City',
+  '/projects/gamified-employee-management': 'Gamified Employee Management',
+  '/projects/valet-parking': 'Valet Parking',
+  '/projects/mobile-games': 'Mobile Games',
+  '/projects/uk-property-management': 'UK Property Management',
+  '/projects/g5-pos': 'G5 POS',
+  '/projects/chubb-insurance-applications': 'Chubb Insurance Applications',
+  // Services
+  '/services/full-stack-development': 'Full Stack Development',
+  '/services/azure-cloud-architecture': 'Azure Cloud Architecture',
+  '/services/technical-leadership': 'Technical Leadership',
+  '/services/microservices-architecture': 'Microservices Architecture',
+  '/services/agile-project-management': 'Agile Project Management',
+  '/services/database-design-optimization': 'Database Design Optimization',
+  '/services/mobile-development': 'Mobile Development'
+};
+
 // Configuration - Tracking
 const MEASUREMENT_ID = 'G-1HMMJLP7GK';
 const API_SECRET = 'p4SbgXEyTKOikyV8ZZACig';
@@ -134,102 +157,20 @@ async function fetchAnalyticsData() {
 
       console.log(`\n--- Processing row: path="${path}", title="${title}", views=${views} ---`);
 
-      // Normalize path for comparison - remove trailing slashes
-      const normalizedPath = path.replace(/\/+$/, '').toLowerCase();
+      // Normalize path - remove trailing slashes for matching
+      const normalizedPath = path.replace(/\/+$/, '');
       
-      // Skip ONLY exact home page matches
+      // Skip home page
       if (normalizedPath === '' || normalizedPath === '/' || normalizedPath === '/portfolio') {
-        console.log(`❌ SKIPPED: Home page (exact match)`);
+        console.log(`❌ SKIPPED: Home page`);
         continue;
       }
       
-      // Skip technical/system files - filter out files with extensions and system paths
-      const lowerPath = path.toLowerCase();
-      const isTechnicalFile = 
-        lowerPath.endsWith('.html') ||
-        lowerPath.endsWith('.php') ||
-        lowerPath.endsWith('.ph') ||
-        lowerPath.endsWith('.js') ||
-        lowerPath.endsWith('.json') ||
-        lowerPath.endsWith('.xml') ||
-        lowerPath.endsWith('.txt') ||
-        lowerPath.endsWith('.css') ||
-        lowerPath.endsWith('.md') ||
-        lowerPath.includes('/index.html') ||
-        lowerPath.includes('/ga4-') ||
-        lowerPath.includes('/api/') ||
-        lowerPath.includes('/.git/') ||
-        lowerPath.includes('/node_modules/') ||
-        lowerPath.includes('/package.json') ||
-        lowerPath.includes('/.env');
-        
-      if (isTechnicalFile) {
-        console.log(`❌ SKIPPED: Technical/system file: ${path}`);
-        continue;
-      }
+      // Check if this path is in our whitelist
+      const displayName = VALID_PAGES[normalizedPath];
       
-      // Only accept paths that look like actual pages (not files)
-      // Allow /projects/, /services/, or paths without file extensions
-
-      // Extract name - be VERY permissive
-      let name = '';
-      
-      // Method 1: Get last path segment
-      const allParts = path.split('/').filter(p => p && p.trim() !== '');
-      if (allParts.length > 0) {
-        let lastPart = allParts[allParts.length - 1];
-        // Remove file extensions
-        lastPart = lastPart.replace(/\.(html|php|js|json|xml|txt|css|md)$/i, '');
-        if (lastPart && lastPart.toLowerCase() !== 'portfolio' && lastPart.length > 0) {
-          name = lastPart
-            .replace(/-/g, ' ')
-            .replace(/\b\w/g, (l) => l.toUpperCase());
-          console.log(`✅ Name from path segment: "${name}"`);
-        }
-      }
-      
-      // Method 2: Try title if path name is short or missing
-      if ((!name || name.length < 3) && title) {
-        const titleCleaned = title.split(' - ')[0].split(' | ')[0].trim();
-        const genericTitles = ['Waqas Ahmad', 'Home', 'Portfolio', 'Main'];
-        if (titleCleaned && 
-            !genericTitles.includes(titleCleaned) && 
-            titleCleaned.length > 2 && 
-            !titleCleaned.startsWith('/') &&
-            !titleCleaned.toLowerCase().includes('portfolio')) {
-          name = titleCleaned;
-          console.log(`✅ Name from title: "${name}"`);
-        }
-      }
-      
-      // Method 3: Use ANY non-empty path segment as fallback
-      if (!name || name.trim() === '') {
-        for (let i = allParts.length - 1; i >= 0; i--) {
-          const part = allParts[i].replace(/\.(html|php|js|json|xml|txt|css|md)$/i, '');
-          if (part && part.toLowerCase() !== 'portfolio' && part.length > 0) {
-            name = part.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
-            console.log(`✅ Name from fallback segment: "${name}"`);
-            break;
-          }
-        }
-      }
-      
-      // Final validation - if we still don't have a name, create one from path
-      if (!name || name.trim() === '' || name.toLowerCase() === 'portfolio') {
-        // Last resort: use the path itself, cleaned up
-        const pathForName = path.replace(/^\/+|\/+$/g, '').replace(/\/+/g, ' ');
-        if (pathForName && pathForName.length > 0) {
-          name = pathForName
-            .replace(/\.(html|php|js|json|xml|txt|css|md)$/gi, '')
-            .replace(/-/g, ' ')
-            .replace(/\b\w/g, (l) => l.toUpperCase());
-          console.log(`✅ Created name from path as last resort: "${name}"`);
-        }
-      }
-      
-      // If STILL no name, skip
-      if (!name || name.trim() === '' || name.toLowerCase() === 'portfolio') {
-        console.log(`❌ SKIPPED: Could not create any name from path="${path}"`);
+      if (!displayName) {
+        console.log(`❌ SKIPPED: Not in whitelist: ${normalizedPath}`);
         continue;
       }
       
@@ -239,12 +180,12 @@ async function fetchAnalyticsData() {
         break;
       }
 
-      console.log(`✅ ADDING ITEM: name="${name}", path="${path}", views=${views}`);
+      console.log(`✅ ADDING ITEM: name="${displayName}", path="${normalizedPath}", views=${views}`);
       topItems.push({
-        name,
+        name: displayName,
         views,
-        url: path,
-        type: path.startsWith('/projects/') ? 'project' : 'service',
+        url: normalizedPath,
+        type: normalizedPath.startsWith('/projects/') ? 'project' : 'service',
       });
     }
   } else {
