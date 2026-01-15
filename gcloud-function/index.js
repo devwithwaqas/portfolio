@@ -138,43 +138,74 @@ async function fetchAnalyticsData() {
           path.includes('.js') ||
           path.includes('/index') ||
           path.includes('/ga4-') ||
-          path.includes('/api/')) {
+          path.includes('/api/') ||
+          path.toLowerCase().includes('index.html')) {
         console.log(`Skipping technical file: path="${path}"`);
-        continue;
-      }
-      
-      // Only process actual project or service pages
-      if (!path.startsWith('/projects/') && !path.startsWith('/services/')) {
-        console.log(`Skipping non-project/service page: path="${path}"`);
         continue;
       }
 
       let name = '';
       
-      // Extract name from URL path (we know it's a project/service page now)
-      const slug = path.split('/').filter(p => p).pop() || '';
-      if (slug && slug.toLowerCase() !== 'portfolio') {
-        // Remove file extensions if any
-        const cleanSlug = slug.replace(/\.(html|php|js|json|xml|txt)$/i, '');
-        name = cleanSlug
-          .replace(/-/g, ' ')
-          .replace(/\b\w/g, (l) => l.toUpperCase());
-        console.log(`Extracted name from URL: "${name}"`);
+      // Extract name from URL path first (more reliable)
+      if (path.startsWith('/projects/') || path.startsWith('/services/')) {
+        const slug = path.split('/').filter(p => p).pop() || '';
+        if (slug && slug.toLowerCase() !== 'portfolio') {
+          // Remove file extensions if any
+          const cleanSlug = slug.replace(/\.(html|php|js|json|xml|txt)$/i, '');
+          name = cleanSlug
+            .replace(/-/g, ' ')
+            .replace(/\b\w/g, (l) => l.toUpperCase());
+          console.log(`Extracted name from URL: "${name}"`);
+        }
       }
       
-      // Try to improve name from title if we have one
-      if (title && name) {
+      // Try to improve name from title if URL extraction didn't work
+      if (!name && title) {
         const titleCleaned = title.split(' - ')[0].trim();
-        // Skip generic titles
+        // Skip generic titles that are likely home page
         const genericTitles = ['Waqas Ahmad', 'Home', 'Portfolio', 'Main'];
         if (titleCleaned && 
             !genericTitles.includes(titleCleaned) && 
-            titleCleaned.length > name.length && 
+            titleCleaned.length > 2 && 
             !titleCleaned.startsWith('/') &&
             !titleCleaned.toLowerCase().includes('portfolio')) {
-          // Use title if it's longer/more descriptive
           name = titleCleaned;
-          console.log(`Using improved name from title: "${name}"`);
+          console.log(`Extracted name from title: "${name}"`);
+        }
+      }
+
+      // Fallback to path-based name if still empty
+      if (!name) {
+        // Clean the path - remove leading/trailing slashes
+        let cleanPath = path.replace(/^\/+|\/+$/g, '').toLowerCase();
+        // Skip if path is empty or just 'portfolio'
+        if (!cleanPath || cleanPath === 'portfolio') {
+          console.log(`Skipping empty/portfolio path: path="${path}"`);
+          continue;
+        }
+        
+        // Get all path parts and use the last non-portfolio one
+        const pathParts = cleanPath.split('/').filter(p => p);
+        
+        if (pathParts.length === 0) {
+          console.log(`No valid path parts: path="${path}"`);
+          continue;
+        }
+        
+        // Find the last segment that's not 'portfolio'
+        let slug = '';
+        for (let i = pathParts.length - 1; i >= 0; i--) {
+          if (pathParts[i].toLowerCase() !== 'portfolio') {
+            slug = pathParts[i];
+            break;
+          }
+        }
+        
+        if (slug && slug.toLowerCase() !== 'portfolio') {
+          // Remove file extensions
+          const cleanSlug = slug.replace(/\.(html|php|js|json|xml|txt)$/i, '');
+          name = cleanSlug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+          console.log(`Extracted name from fallback: "${name}"`);
         }
       }
       
