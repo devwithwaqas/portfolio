@@ -133,13 +133,15 @@ function generateSitemap() {
     const priority = route.priority || 0.5
     
     // Ensure priority is a valid number between 0.0 and 1.0
+    // Format as decimal string (e.g., "1.0" not "1") for better Google compatibility
     const validPriority = Math.max(0.0, Math.min(1.0, priority))
+    const formattedPriority = validPriority.toFixed(1) // Always format as "1.0", "0.8", etc.
     
     sitemap += `  <url>
     <loc>${url}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${changefreq}</changefreq>
-    <priority>${validPriority}</priority>
+    <priority>${formattedPriority}</priority>
   </url>
 `
   })
