@@ -147,6 +147,12 @@ async function fetchAnalyticsData() {
 
       console.log(`\n--- Processing row: path="${path}", title="${title}", views=${views} ---`);
 
+      // Skip if views are too low (likely not a real page view)
+      if (views < SEED_VIEWS_PER_ITEM) {
+        console.log(`❌ SKIPPED: Views too low (${views}), likely not a page view`);
+        continue;
+      }
+
       // Normalize path - remove trailing slashes and handle /portfolio/ prefix
       let normalizedPath = path.replace(/\/+$/, '');
       
@@ -155,19 +161,50 @@ async function fetchAnalyticsData() {
         normalizedPath = normalizedPath.replace(/^\/portfolio/, '') || '/';
       }
       
-      // Skip home page (exact matches or title contains "Waqas Ahmad" as main title)
-      if (normalizedPath === '' || normalizedPath === '/' || normalizedPath === '/portfolio' ||
-          (title && title.toLowerCase().includes('waqas ahmad') && !title.toLowerCase().includes('hire remote'))) {
-        console.log(`❌ SKIPPED: Home page (path="${path}", normalized="${normalizedPath}", title="${title}")`);
+      // Skip home page (exact matches)
+      if (normalizedPath === '' || normalizedPath === '/' || normalizedPath === '/portfolio') {
+        console.log(`❌ SKIPPED: Home page (path="${path}")`);
         continue;
       }
       
-      // Try to match by path first
+      // Skip if path doesn't look like a page (has file extensions, is too short, etc.)
+      if (normalizedPath.includes('.') && 
+          !normalizedPath.startsWith('/projects/') && 
+          !normalizedPath.startsWith('/services/')) {
+        console.log(`❌ SKIPPED: Path looks like a file, not a page (path="${normalizedPath}")`);
+        continue;
+      }
+      
+      // Try to match by path first (most reliable)
       let pageInfo = VALID_PAGES[normalizedPath];
       let matchedPath = normalizedPath;
       
-      // If path doesn't match, try to match by title pattern
+      // If path doesn't match exactly, try path variations
+      if (!pageInfo) {
+        // Try with /portfolio prefix
+        const withPortfolio = '/portfolio' + normalizedPath;
+        if (VALID_PAGES[withPortfolio]) {
+          pageInfo = VALID_PAGES[withPortfolio];
+          matchedPath = withPortfolio;
+        }
+      }
+      
+      // Only use title matching as last resort if path doesn't match
       if (!pageInfo && title) {
+        // Extract the main part of title (before " - " or " | ")
+        const titleMain = title.split(' - ')[0].split(' | ')[0].trim();
+        
+        // Skip if title is just the home page title
+        if (titleMain.toLowerCase().includes('waqas ahmad') && 
+            !titleMain.toLowerCase().includes('hire remote') &&
+            !titleMain.toLowerCase().includes('heat exchanger') &&
+            !titleMain.toLowerCase().includes('airasia') &&
+            !titleMain.toLowerCase().includes('air asia')) {
+          console.log(`❌ SKIPPED: Home page title (title="${titleMain}")`);
+          continue;
+        }
+        
+        // Try to match by title pattern
         for (const [pagePath, info] of Object.entries(VALID_PAGES)) {
           if (info.titlePattern && info.titlePattern.test(title)) {
             pageInfo = info;
@@ -176,14 +213,6 @@ async function fetchAnalyticsData() {
             break;
           }
         }
-      }
-      
-      // If still not found, try path variations
-      if (!pageInfo) {
-        // Try with /portfolio prefix
-        const withPortfolio = '/portfolio' + normalizedPath;
-        pageInfo = VALID_PAGES[withPortfolio];
-        if (pageInfo) matchedPath = withPortfolio;
       }
       
       if (!pageInfo) {
