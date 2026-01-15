@@ -143,18 +143,21 @@ async function fetchAnalyticsData() {
         continue;
       }
       
-      // Skip technical files - but be more specific
+      // Skip ONLY obvious technical/system files - be VERY specific
+      const lowerPath = path.toLowerCase();
       const isTechnicalFile = 
-        path.toLowerCase().endsWith('.html') ||
-        path.toLowerCase().endsWith('.php') ||
-        path.toLowerCase().endsWith('.js') ||
-        path.toLowerCase().endsWith('.json') ||
-        path.toLowerCase().includes('/index.html') ||
-        path.toLowerCase().includes('/ga4-') ||
-        path.toLowerCase().includes('/api/');
+        lowerPath === '/index.html' ||
+        lowerPath.endsWith('/index.html') ||
+        lowerPath.includes('/ga4-analytics.php') ||
+        lowerPath.includes('/ga4-analytics.ph') ||
+        lowerPath.includes('/api/') ||
+        (lowerPath.endsWith('.php') && !lowerPath.includes('/projects/') && !lowerPath.includes('/services/')) ||
+        (lowerPath.endsWith('.js') && lowerPath.includes('/api/')) ||
+        lowerPath.includes('/.git/') ||
+        lowerPath.includes('/node_modules/');
         
       if (isTechnicalFile) {
-        console.log(`❌ SKIPPED: Technical file`);
+        console.log(`❌ SKIPPED: Technical/system file: ${path}`);
         continue;
       }
 
