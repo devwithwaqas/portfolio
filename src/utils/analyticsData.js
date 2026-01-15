@@ -131,6 +131,7 @@ export async function fetchAnalyticsData() {
   } catch (error) {
     console.error('[Analytics] Failed to fetch analytics data:', error)
     console.error('[Analytics] Error details:', error.message)
+    console.warn('[Analytics] Cloudflare is blocking CORS requests. Contact ProFreeHost support to configure Cloudflare CORS settings.')
     // Fallback to mock data on error
     return getMockAnalyticsData()
   }
