@@ -86,7 +86,7 @@ async function fetchAnalyticsData() {
   }
   totalViews += BASE_TOTAL_VIEWS;
 
-  // Request 2: Get top pages
+  // Request 2: Get top pages - get ALL pages first, we'll filter in code
   const [topPagesResponse] = await analyticsDataClient.runReport({
     property,
     dateRanges: [
@@ -108,17 +108,7 @@ async function fetchAnalyticsData() {
         name: 'screenPageViews',
       },
     ],
-    dimensionFilter: {
-      notExpression: {
-        filter: {
-          fieldName: 'pagePath',
-          stringFilter: {
-            matchType: 'EXACT',
-            value: '/',
-          },
-        },
-      },
-    },
+    // Remove dimension filter - get all pages and filter in code
     orderBys: [
       {
         metric: {
@@ -127,7 +117,7 @@ async function fetchAnalyticsData() {
         desc: true,
       },
     ],
-    limit: 10, // Get more items since we filter some out
+    limit: 20, // Get more items to have better chance of finding valid pages
   });
 
   console.log(`GA4 returned ${topPagesResponse.rows?.length || 0} rows`);
@@ -157,20 +147,35 @@ async function fetchAnalyticsData() {
 
       console.log(`\n--- Processing row: path="${path}", title="${title}", views=${views} ---`);
 
-      // Normalize path - remove trailing slashes for matching
-      const normalizedPath = path.replace(/\/+$/, '');
+      // Normalize path - remove trailing slashes and handle /portfolio/ prefix
+      let normalizedPath = path.replace(/\/+$/, '');
       
-      // Skip home page
+      // Handle GitHub Pages base path - remove /portfolio if present
+      if (normalizedPath.startsWith('/portfolio/')) {
+        normalizedPath = normalizedPath.replace(/^\/portfolio/, '') || '/';
+      }
+      
+      // Skip home page (exact matches)
       if (normalizedPath === '' || normalizedPath === '/' || normalizedPath === '/portfolio') {
-        console.log(`❌ SKIPPED: Home page`);
+        console.log(`❌ SKIPPED: Home page (path="${path}", normalized="${normalizedPath}")`);
         continue;
       }
       
-      // Check if this path is in our whitelist
-      const displayName = VALID_PAGES[normalizedPath];
+      // Check if this path is in our whitelist (try both with and without /portfolio prefix)
+      let displayName = VALID_PAGES[normalizedPath];
+      
+      // If not found, try with /portfolio prefix (for GitHub Pages)
+      if (!displayName && normalizedPath.startsWith('/')) {
+        displayName = VALID_PAGES[normalizedPath];
+      }
+      
+      // If still not found, try without leading slash
+      if (!displayName && !normalizedPath.startsWith('/')) {
+        displayName = VALID_PAGES['/' + normalizedPath];
+      }
       
       if (!displayName) {
-        console.log(`❌ SKIPPED: Not in whitelist: ${normalizedPath}`);
+        console.log(`❌ SKIPPED: Not in whitelist (path="${path}", normalized="${normalizedPath}")`);
         continue;
       }
       
