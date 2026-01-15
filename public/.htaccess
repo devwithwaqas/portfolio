@@ -1,14 +1,18 @@
 # CORS Headers for GA4 Tracking
-# This helps ensure CORS headers are sent even if PHP fails
+# Using "always" to override parent .htaccess settings
 
 <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "https://devwithwaqas.github.io"
-    Header set Access-Control-Allow-Methods "POST, OPTIONS, GET"
-    Header set Access-Control-Allow-Headers "Content-Type, Accept, Origin, X-Requested-With"
-    Header set Access-Control-Max-Age "86400"
+    # Force CORS headers even if parent .htaccess tries to override
+    Header always set Access-Control-Allow-Origin "https://devwithwaqas.github.io"
+    Header always set Access-Control-Allow-Methods "GET, OPTIONS, POST"
+    Header always set Access-Control-Allow-Headers "Content-Type, Accept, Origin, X-Requested-With, Authorization"
+    Header always set Access-Control-Allow-Credentials "false"
+    Header always set Access-Control-Max-Age "86400"
 </IfModule>
 
 # Handle OPTIONS preflight requests
-RewriteEngine On
-RewriteCond %{REQUEST_METHOD} OPTIONS
-RewriteRule ^(.*)$ $1 [R=200,L]
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+</IfModule>

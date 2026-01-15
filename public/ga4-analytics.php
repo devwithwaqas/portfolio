@@ -13,17 +13,25 @@
  */
 
 // Start output buffering to ensure headers are sent first
-ob_start();
+if (!ob_get_level()) {
+    ob_start();
+}
 
 // Suppress errors for production
 error_reporting(0);
 ini_set('display_errors', 0);
 
 // ============================================
-// CORS Headers - Use specific domain (wildcard didn't work)
+// CORS Headers - Aggressive approach to override parent .htaccess
 // ============================================
-// Use specific domain instead of * (wildcard didn't work with your hosting)
-// Set headers with explicit values
+// Clear any existing headers that might conflict
+if (function_exists('header_remove')) {
+    header_remove('Access-Control-Allow-Origin');
+    header_remove('Access-Control-Allow-Methods');
+    header_remove('Access-Control-Allow-Headers');
+}
+
+// Set CORS headers - try multiple methods to ensure they stick
 header('Access-Control-Allow-Origin: https://devwithwaqas.github.io', true);
 header('Access-Control-Allow-Methods: GET, OPTIONS, POST', true);
 header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With, Authorization', true);
@@ -31,12 +39,19 @@ header('Access-Control-Allow-Credentials: false', true);
 header('Access-Control-Max-Age: 86400', true);
 header('Content-Type: application/json; charset=utf-8', true);
 
-// Handle OPTIONS preflight request FIRST
+// Also try using header() without replacement flag as fallback
+@header('Access-Control-Allow-Origin: https://devwithwaqas.github.io');
+@header('Access-Control-Allow-Methods: GET, OPTIONS, POST');
+@header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With, Authorization');
+
+// Handle OPTIONS preflight request FIRST - before any other processing
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     header('Content-Length: 0', true);
-    ob_end_flush();
-    exit;
+    if (ob_get_level()) {
+        ob_end_clean();
+    }
+    exit(0);
 }
 
 // Only allow GET requests
@@ -338,10 +353,10 @@ try {
     
 } catch (Exception $e) {
     // Ensure CORS headers are sent even on error
-    header('Access-Control-Allow-Origin: https://devwithwaqas.github.io', true);
-    header('Access-Control-Allow-Methods: GET, OPTIONS, POST', true);
-    header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With, Authorization', true);
-    header('Content-Type: application/json; charset=utf-8', true);
+    @header('Access-Control-Allow-Origin: https://devwithwaqas.github.io');
+    @header('Access-Control-Allow-Methods: GET, OPTIONS, POST');
+    @header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With, Authorization');
+    @header('Content-Type: application/json; charset=utf-8');
     
     http_response_code(500);
     echo json_encode([
@@ -351,5 +366,7 @@ try {
 }
 
 // Flush output buffer
-ob_end_flush();
+if (ob_get_level()) {
+    ob_end_flush();
+}
 ?>
