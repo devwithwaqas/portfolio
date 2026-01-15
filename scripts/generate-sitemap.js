@@ -121,16 +121,25 @@ function generateSitemap() {
 `
 
   routes.forEach(route => {
-    const url = `${BASE_URL}${route.path}`
+    // Ensure path starts with / and ends correctly
+    let path = route.path
+    if (!path.startsWith('/')) {
+      path = '/' + path
+    }
+    
+    const url = `${BASE_URL}${path}`
     const lastmod = route.lastmod || today
     const changefreq = route.changefreq || 'monthly'
     const priority = route.priority || 0.5
+    
+    // Ensure priority is a valid number between 0.0 and 1.0
+    const validPriority = Math.max(0.0, Math.min(1.0, priority))
     
     sitemap += `  <url>
     <loc>${url}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
+    <priority>${validPriority}</priority>
   </url>
 `
   })

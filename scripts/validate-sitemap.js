@@ -6,11 +6,30 @@
 const fs = require('fs')
 const path = require('path')
 
-const sitemapPath = path.resolve(__dirname, '../public/sitemap.xml')
+const PUBLIC_SITEMAP = path.resolve(__dirname, '../public/sitemap.xml')
+const DIST_SITEMAP = path.resolve(__dirname, '../dist/sitemap.xml')
+const DIST_NOJEKYLL = path.resolve(__dirname, '../dist/.nojekyll')
+
+// Check both locations, prioritize dist (what gets deployed)
+let sitemapPath = DIST_SITEMAP
+if (!fs.existsSync(sitemapPath)) {
+  sitemapPath = PUBLIC_SITEMAP
+  console.warn('⚠️  Sitemap not found in dist/, checking public/ folder...')
+}
 
 if (!fs.existsSync(sitemapPath)) {
-  console.error('❌ Sitemap not found at:', sitemapPath)
+  console.error('❌ Sitemap not found at:', PUBLIC_SITEMAP)
+  console.error('❌ Sitemap not found at:', DIST_SITEMAP)
   process.exit(1)
+}
+
+// Check for .nojekyll file (critical for GitHub Pages)
+if (!fs.existsSync(DIST_NOJEKYLL)) {
+  console.warn('⚠️  WARNING: .nojekyll file not found in dist/ folder!')
+  console.warn('   This may cause GitHub Pages to not serve sitemap.xml correctly.')
+  console.warn('   Run: node scripts/create-nojekyll.js')
+} else {
+  console.log('✅ .nojekyll file found in dist/ folder')
 }
 
 const sitemapContent = fs.readFileSync(sitemapPath, 'utf8')
