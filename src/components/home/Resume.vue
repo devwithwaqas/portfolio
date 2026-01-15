@@ -56,7 +56,9 @@
                       <IconComponent icon-name="bachelor" fallback-emoji="🏛️" size="xl" style="margin-right: 10px;" />
                       Bachelor of Computer System Engineering (Honors)
                     </h4>
-                    <h5 class="txt-h5-md">2006 - 2013</h5>
+                    <h5 class="txt-h5-md">
+                      <time datetime="2006">2006</time> - <time datetime="2013">2013</time>
+                    </h5>
                     <p class="txt-p-md"><em>University of Engineering and Technology, Lahore, Pakistan</em></p>
                     <p class="txt-p-md">
                       <strong>
@@ -92,7 +94,9 @@
                       <IconComponent icon-name="guinness" fallback-emoji="🌟" size="xl" style="margin-right: 10px;" />
                       HR IT Expert Award
                     </h4>
-                    <h5 class="txt-h5-md">2013</h5>
+                    <h5 class="txt-h5-md">
+                      <time datetime="2013">2013</time>
+                    </h5>
                     <p class="txt-p-md"><em>Guinness World Records Pakistan - Punjab Youth Festival</em></p>
                     <p class="txt-p-md">
                       <strong>
@@ -112,7 +116,9 @@
                       <IconComponent icon-name="modern web applications" fallback-emoji="🚀" size="xl" style="margin-right: 10px;" />
                       Lead Software Engineer & Technical Consultant
                     </h4>
-                    <h5 class="txt-h5-md">January 2022 - Present</h5>
+                    <h5 class="txt-h5-md">
+                      <time datetime="2022-01">January 2022</time> - <time datetime="2026-01">Present</time>
+                    </h5>
                     <p class="txt-p-md"><em>Independent Consultant, Remote/Global</em></p>
                     <ul>
                       <li>
@@ -163,7 +169,9 @@
                       <IconComponent icon-name="aviation" fallback-emoji="✈️" size="xl" style="margin-right: 10px;" />
                       Technical Lead
                     </h4>
-                    <h5 class="txt-h5-md">Jun 2021 – Aug 2022 (1 yr 3 mos)</h5>
+                    <h5 class="txt-h5-md">
+                      <time datetime="2021-06">Jun 2021</time> – <time datetime="2022-08">Aug 2022</time> (1 yr 3 mos)
+                    </h5>
                     <p class="txt-p-md"><em>AirAsia Tech, Kuala Lumpur, Malaysia</em></p>
                     <ul>
                       <li>
@@ -214,7 +222,9 @@
                       <IconComponent icon-name="software engineer" fallback-emoji="🏢" size="xl" style="margin-right: 10px;" />
                       Technical Lead
                     </h4>
-                    <h5 class="txt-h5-md">Feb 2020 – Jan 2021 (1 yr)</h5>
+                    <h5 class="txt-h5-md">
+                      <time datetime="2020-02">Feb 2020</time> – <time datetime="2021-01">Jan 2021</time> (1 yr)
+                    </h5>
                     <p class="txt-p-md"><em>Datacom Systems Sdn Bhd, Kuala Lumpur, Malaysia</em></p>
                     <ul>
                       <li>

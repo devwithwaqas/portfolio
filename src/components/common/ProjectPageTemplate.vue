@@ -9,7 +9,7 @@
     />
 
     <!-- Main Content -->
-    <section class="portfolio-details section" id="portfolio-details">
+    <article class="portfolio-details section" id="portfolio-details" itemscope itemtype="https://schema.org/Article">
       <div class="container" data-aos="fade-up">
         
         <!-- Project Hero Card (Required) -->

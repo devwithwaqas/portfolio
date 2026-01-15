@@ -1,13 +1,25 @@
 <template>
   <div class="page-title" data-aos="fade">
     <div class="container">
-      <nav class="breadcrumbs">
-        <ol>
-          <li><router-link to="/">Home</router-link></li>
-          <li v-if="parentLink">
-            <router-link :to="parentLink">{{ parentLabel }}</router-link>
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <meta itemprop="position" content="1" />
+            <router-link to="/" itemprop="item">
+              <span itemprop="name">Home</span>
+            </router-link>
           </li>
-          <li class="current">{{ currentPage }}</li>
+          <li v-if="parentLink" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <meta itemprop="position" content="2" />
+            <router-link :to="parentLink" itemprop="item">
+              <span itemprop="name">{{ parentLabel }}</span>
+            </router-link>
+          </li>
+          <li class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <meta itemprop="position" :content="parentLink ? '3' : '2'" />
+            <span itemprop="name">{{ currentPage }}</span>
+            <meta itemprop="item" :content="window.location.href" />
+          </li>
         </ol>
       </nav>
     </div>
@@ -15,6 +27,10 @@
 </template>
 
 <script>
+import { generateBreadcrumbSchema, injectStructuredData } from '../../utils/structuredData.js'
+
+const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
+
 export default {
   name: 'Breadcrumbs',
   props: {
@@ -30,6 +46,17 @@ export default {
       type: String,
       default: 'Portfolio'
     }
+  },
+  mounted() {
+    // Generate and inject BreadcrumbList structured data for SEO
+    const breadcrumbItems = [
+      { name: 'Home', url: SITE_URL },
+      { name: this.parentLabel, url: `${SITE_URL}${this.parentLink.replace(/^\/#/, '')}` },
+      { name: this.currentPage, url: window.location.href }
+    ]
+    
+    const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems)
+    injectStructuredData(breadcrumbSchema)
   }
 }
 </script>

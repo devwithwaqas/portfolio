@@ -44,7 +44,7 @@
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
                                 <i class="bi bi-geo-alt icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
-                                  <strong class="txt-label-md" style="color: #0563bb;">Location:</strong> <span class="txt-span-md" style="color: #45505b; margin-left: 5px;">Selangor, Malaysia</span>
+                                  <strong class="txt-label-md" style="color: #0563bb;">Location:</strong> <address class="txt-span-md" style="color: #45505b; margin-left: 5px; font-style: normal; display: inline;">Selangor, Malaysia</address>
                                 </div>
                               </li>
                             </ul>
@@ -82,12 +82,12 @@
                         </div>
                       </div>
                       
-                      <div style="background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%); color: white; padding: 25px; border-radius: 15px; margin-top: 25px; box-shadow: 0 15px 35px rgba(60, 20, 120, 0.4);">
+                      <article style="background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%); color: white; padding: 25px; border-radius: 15px; margin-top: 25px; box-shadow: 0 15px 35px rgba(60, 20, 120, 0.4);">
                         <h5 style="color: white; margin-bottom: 15px; font-weight: 600;">💼 Professional Summary</h5>
                         <p style="color: rgba(255, 255, 255, 0.9); margin: 0; line-height: 1.6;">
                           A cohesive team player with technical expertise, innovation, analytical & problem-solving attitude, planning, communication, and interpersonal skills. <strong>.NET Expert & Consultant</strong> with {{ totalExperience }}+ years specializing in <strong>.NET Core, ASP.NET, C#</strong>, <strong>Microservices Architecture</strong>, <strong>API Development</strong>, and <strong>Azure Cloud</strong>. Senior Azure Cloud Developer / Architect with expertise in Azure Functions, App Services, Service Fabric, Key Vault, App Insights, CI/CD, branching strategies, build/release policies, and Cloud App Identity Management. Worked with Fortune 500 companies in USA, Europe, and worldwide.
                         </p>
-                      </div>
+                      </article>
                       
                       <!-- Remote Work Ready Section -->
                       <div class="remote-work-section" style="background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(32, 201, 151, 0.1) 100%); border: 2px solid rgba(40, 167, 69, 0.3); padding: 25px; border-radius: 15px; margin-top: 25px;">

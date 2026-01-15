@@ -17,6 +17,10 @@
                   subtitle="Available for remote work worldwide"
                   :link="contactLinks.location"
                 />
+                <!-- SEO: Address semantic markup -->
+                <address class="visually-hidden" aria-hidden="true">
+                  {{ location }} - Available for remote work globally (USA, Europe, Global)
+                </address>
 
                 <!-- Phone Card -->
                 <ContactCard 

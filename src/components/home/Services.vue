@@ -1,5 +1,5 @@
 <template>
-  <section id="services" class="services section">
+  <section id="services" class="services section" itemscope itemtype="https://schema.org/ItemList">
     <div class="container" data-aos="fade-up" data-aos-delay="100">
       
       <!-- Services Card -->

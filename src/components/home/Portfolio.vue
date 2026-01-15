@@ -1,5 +1,5 @@
 <template>
-  <section id="portfolio" class="portfolio section">
+  <section id="portfolio" class="portfolio section" itemscope itemtype="https://schema.org/ItemList">
     <div class="container" data-aos="fade-up" data-aos-delay="100">
       
       <!-- Portfolio Card -->

@@ -455,8 +455,11 @@ export function generateHomePageStructuredData(testimonials = []) {
   
   const organization = generateOrganizationSchema()
   
+  // Add JobPosting schema for "available for hire" messaging - helps AI search and recruiters
+  const jobPosting = generateJobPostingSchema()
+  
   // Inject all schemas
-  injectStructuredData([person, service, organization])
+  injectStructuredData([person, service, organization, jobPosting])
 }
 
 /**
@@ -709,6 +712,79 @@ export function generateOfferSchema() {
 }
 
 /**
+ * Generate JobPosting schema - Enhanced for AI search and recruiter visibility
+ * Helps AI search engines understand availability for hire
+ */
+export function generateJobPostingSchema() {
+  const fullName = APP_CONFIG.fullName
+  const location = APP_CONFIG.location
+  const email = APP_CONFIG.email
+  
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'JobPosting',
+    '@id': `${SITE_URL}#jobposting`,
+    title: 'Senior Software Engineer & Technical Lead - Remote',
+    description: `${fullName} is available for remote work as Senior Software Engineer, Technical Lead, or Technical Consultant. Specializing in .NET, Azure Cloud, microservices, and enterprise architecture. ${APP_CONFIG.stats.yearsExperience}+ years of experience working with Fortune 500 companies worldwide.`,
+    identifier: {
+      '@type': 'PropertyValue',
+      name: 'Portfolio',
+      value: SITE_URL
+    },
+    datePosted: new Date().toISOString(),
+    validThrough: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year from now
+    employmentType: ['CONTRACTOR', 'FREELANCE', 'PART_TIME', 'FULL_TIME'],
+    hiringOrganization: {
+      '@type': 'Organization',
+      name: `${fullName} - Independent Consultant`,
+      sameAs: [
+        APP_CONFIG.contactLinks.linkedin,
+        APP_CONFIG.contactLinks.github,
+        SITE_URL
+      ].filter(Boolean)
+    },
+    jobLocation: {
+      '@type': 'Place',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: location.split(',')[0] || location,
+        addressRegion: location.includes('Selangor') ? 'Selangor' : '',
+        addressCountry: 'MY',
+        addressLocality: 'Remote'
+      }
+    },
+    applicantLocationRequirements: {
+      '@type': 'Country',
+      name: 'Anywhere - Remote Work'
+    },
+    baseSalary: {
+      '@type': 'MonetaryAmount',
+      currency: 'USD',
+      value: {
+        '@type': 'QuantitativeValue',
+        value: 'Contact for quote',
+        unitText: 'HOUR'
+      }
+    },
+    skills: [
+      '.NET Core',
+      '.NET Framework',
+      'C#',
+      'ASP.NET',
+      'Azure Cloud',
+      'Microservices Architecture',
+      'API Development',
+      'Full Stack Development',
+      'Technical Leadership',
+      'Enterprise Architecture'
+    ],
+    qualifications: `Bachelor's Degree in Computer System Engineering. ${APP_CONFIG.stats.yearsExperience}+ years of professional experience in software development and technical leadership.`,
+    workHours: 'Flexible - Remote work with timezone flexibility (EST, PST, GMT, CET)',
+    specialCommitments: 'Remote work available globally. Flexible timezone support for USA, Europe, and worldwide clients.'
+  }
+}
+
+/**
  * Generate structured data for project page
  */
 export function generateProjectPageStructuredData(projectData) {
@@ -759,6 +835,7 @@ export default {
   generateHowToSchema,
   generateServiceSchema,
   generateOfferSchema,
+  generateJobPostingSchema,
   generateHomePageStructuredData,
   generateProjectPageStructuredData,
   generateServicePageStructuredData
