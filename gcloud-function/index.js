@@ -19,27 +19,27 @@ const BASE_TOTAL_VIEWS = 6234;
 const SEED_VIEWS_PER_ITEM = 2435;
 const CACHE_DURATION = 300; // 5 minutes
 
-// Whitelist of valid project/service pages with display names
+// Whitelist of valid project/service pages with display names and title patterns
 const VALID_PAGES = {
-  // Projects
-  '/projects/heat-exchanger': 'Heat Exchanger',
-  '/projects/airasia-id90': 'AirAsia ID90',
-  '/projects/bat-inhouse-app': 'BAT Inhouse App',
-  '/projects/pj-smart-city': 'PJ Smart City',
-  '/projects/gamified-employee-management': 'Gamified Employee Management',
-  '/projects/valet-parking': 'Valet Parking',
-  '/projects/mobile-games': 'Mobile Games',
-  '/projects/uk-property-management': 'UK Property Management',
-  '/projects/g5-pos': 'G5 POS',
-  '/projects/chubb-insurance-applications': 'Chubb Insurance Applications',
-  // Services
-  '/services/full-stack-development': 'Full Stack Development',
-  '/services/azure-cloud-architecture': 'Azure Cloud Architecture',
-  '/services/technical-leadership': 'Technical Leadership',
-  '/services/microservices-architecture': 'Microservices Architecture',
-  '/services/agile-project-management': 'Agile Project Management',
-  '/services/database-design-optimization': 'Database Design Optimization',
-  '/services/mobile-development': 'Mobile Development'
+  // Projects - map both path and title patterns
+  '/projects/heat-exchanger': { name: 'Heat Exchanger', titlePattern: /heat exchanger/i },
+  '/projects/airasia-id90': { name: 'AirAsia ID90', titlePattern: /air asia.*id90|airasia.*id90/i },
+  '/projects/bat-inhouse-app': { name: 'BAT Inhouse App', titlePattern: /bat inhouse/i },
+  '/projects/pj-smart-city': { name: 'PJ Smart City', titlePattern: /pj smart city/i },
+  '/projects/gamified-employee-management': { name: 'Gamified Employee Management', titlePattern: /gamified employee management/i },
+  '/projects/valet-parking': { name: 'Valet Parking', titlePattern: /valet parking/i },
+  '/projects/mobile-games': { name: 'Mobile Games', titlePattern: /mobile games/i },
+  '/projects/uk-property-management': { name: 'UK Property Management', titlePattern: /u\.?k\.? property management/i },
+  '/projects/g5-pos': { name: 'G5 POS', titlePattern: /g5 pos/i },
+  '/projects/chubb-insurance-applications': { name: 'Chubb Insurance Applications', titlePattern: /chubb insurance/i },
+  // Services - map both path and title patterns
+  '/services/full-stack-development': { name: 'Full Stack Development', titlePattern: /full stack development/i },
+  '/services/azure-cloud-architecture': { name: 'Azure Cloud Architecture', titlePattern: /azure cloud architecture/i },
+  '/services/technical-leadership': { name: 'Technical Leadership', titlePattern: /technical leadership/i },
+  '/services/microservices-architecture': { name: 'Microservices Architecture', titlePattern: /microservices architecture/i },
+  '/services/agile-project-management': { name: 'Agile Project Management', titlePattern: /agile project management/i },
+  '/services/database-design-optimization': { name: 'Database Design Optimization', titlePattern: /database design optimization/i },
+  '/services/mobile-development': { name: 'Mobile Development', titlePattern: /mobile development/i }
 };
 
 // Configuration - Tracking
@@ -155,27 +155,39 @@ async function fetchAnalyticsData() {
         normalizedPath = normalizedPath.replace(/^\/portfolio/, '') || '/';
       }
       
-      // Skip home page (exact matches)
-      if (normalizedPath === '' || normalizedPath === '/' || normalizedPath === '/portfolio') {
-        console.log(`❌ SKIPPED: Home page (path="${path}", normalized="${normalizedPath}")`);
+      // Skip home page (exact matches or title contains "Waqas Ahmad" as main title)
+      if (normalizedPath === '' || normalizedPath === '/' || normalizedPath === '/portfolio' ||
+          (title && title.toLowerCase().includes('waqas ahmad') && !title.toLowerCase().includes('hire remote'))) {
+        console.log(`❌ SKIPPED: Home page (path="${path}", normalized="${normalizedPath}", title="${title}")`);
         continue;
       }
       
-      // Check if this path is in our whitelist (try both with and without /portfolio prefix)
-      let displayName = VALID_PAGES[normalizedPath];
+      // Try to match by path first
+      let pageInfo = VALID_PAGES[normalizedPath];
+      let matchedPath = normalizedPath;
       
-      // If not found, try with /portfolio prefix (for GitHub Pages)
-      if (!displayName && normalizedPath.startsWith('/')) {
-        displayName = VALID_PAGES[normalizedPath];
+      // If path doesn't match, try to match by title pattern
+      if (!pageInfo && title) {
+        for (const [pagePath, info] of Object.entries(VALID_PAGES)) {
+          if (info.titlePattern && info.titlePattern.test(title)) {
+            pageInfo = info;
+            matchedPath = pagePath;
+            console.log(`✅ Matched by title pattern: "${title}" -> ${pagePath}`);
+            break;
+          }
+        }
       }
       
-      // If still not found, try without leading slash
-      if (!displayName && !normalizedPath.startsWith('/')) {
-        displayName = VALID_PAGES['/' + normalizedPath];
+      // If still not found, try path variations
+      if (!pageInfo) {
+        // Try with /portfolio prefix
+        const withPortfolio = '/portfolio' + normalizedPath;
+        pageInfo = VALID_PAGES[withPortfolio];
+        if (pageInfo) matchedPath = withPortfolio;
       }
       
-      if (!displayName) {
-        console.log(`❌ SKIPPED: Not in whitelist (path="${path}", normalized="${normalizedPath}")`);
+      if (!pageInfo) {
+        console.log(`❌ SKIPPED: Not in whitelist (path="${path}", normalized="${normalizedPath}", title="${title}")`);
         continue;
       }
       
@@ -185,12 +197,15 @@ async function fetchAnalyticsData() {
         break;
       }
 
-      console.log(`✅ ADDING ITEM: name="${displayName}", path="${normalizedPath}", views=${views}`);
+      // Use normalized path without /portfolio for URL
+      const urlPath = matchedPath.startsWith('/portfolio/') ? matchedPath.replace(/^\/portfolio/, '') : matchedPath;
+      
+      console.log(`✅ ADDING ITEM: name="${pageInfo.name}", path="${urlPath}", views=${views}`);
       topItems.push({
-        name: displayName,
+        name: pageInfo.name,
         views,
-        url: normalizedPath,
-        type: normalizedPath.startsWith('/projects/') ? 'project' : 'service',
+        url: urlPath,
+        type: urlPath.startsWith('/projects/') ? 'project' : 'service',
       });
     }
   } else {
