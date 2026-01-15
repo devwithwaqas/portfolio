@@ -61,6 +61,13 @@ export function generatePersonSchema() {
   const linkedin = APP_CONFIG.contactLinks.linkedin
   const github = APP_CONFIG.contactLinks.github
   
+  // Build sameAs array with all social profiles and website
+  const sameAs = [
+    linkedin,
+    github,
+    website
+  ].filter(Boolean)
+  
   // Skills from resume/experience - Enhanced for SEO
   const skills = [
     // Core Technologies
@@ -152,11 +159,9 @@ export function generatePersonSchema() {
       addressRegion: location.includes('Selangor') ? 'Selangor' : '',
       addressCountry: 'MY'
     },
-    sameAs: [
-      linkedin,
-      github,
-      website
-    ].filter(Boolean),
+    sameAs: sameAs,
+    // Add additionalProfilePage for social media visibility
+    additionalType: 'https://schema.org/ProfilePage',
     knowsAbout: skills,
     alumniOf: {
       '@type': 'EducationalOrganization',
