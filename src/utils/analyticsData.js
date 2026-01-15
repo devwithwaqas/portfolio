@@ -20,19 +20,6 @@
 const ANALYTICS_API_ENDPOINT = import.meta.env.VITE_ANALYTICS_API_ENDPOINT || ''
 
 /**
- * Get the actual URL to fetch (with CORS proxy if needed)
- * @returns {string}
- */
-function getFetchUrl() {
-  if (!ANALYTICS_API_ENDPOINT) return ''
-  
-  // Use CORS proxy to bypass parent .htaccess restrictions
-  // allorigins.win is a free, reliable CORS proxy service
-  const proxyUrl = 'https://api.allorigins.win/raw?url='
-  return proxyUrl + encodeURIComponent(ANALYTICS_API_ENDPOINT)
-}
-
-/**
  * Fetch analytics data from backend
  * @returns {Promise<{totalViews: number, topItems: Array}>}
  */
@@ -45,11 +32,9 @@ export async function fetchAnalyticsData() {
   }
 
   try {
-    const fetchUrl = getFetchUrl()
     console.log('[Analytics] Fetching from endpoint:', ANALYTICS_API_ENDPOINT)
-    console.log('[Analytics] Using CORS proxy:', fetchUrl)
     
-    const response = await fetch(fetchUrl, {
+    const response = await fetch(ANALYTICS_API_ENDPOINT, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
