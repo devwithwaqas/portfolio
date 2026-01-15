@@ -248,6 +248,12 @@ export default {
   margin-bottom: 30px;
   text-align: justify;
   text-justify: inter-word;
+  
+  /* Mobile: Use hyphen-based justification */
+  @media (max-width: 768px) {
+    text-justify: auto;
+    hyphens: auto;
+  }
 }
 
 /* Tags Container */

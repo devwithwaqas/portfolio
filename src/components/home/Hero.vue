@@ -45,6 +45,9 @@
             Remote Senior Software Engineer, Remote Technical Lead, Remote Azure Cloud Architect, Remote .NET Developer, Remote Full Stack Developer, Available for remote work in USA, Europe, Global. Flexible timezone EST, PST, GMT, CET. Remote consulting, freelance remote developer, contract remote software engineer.
           </div>
           
+          <!-- Analytics Stats -->
+          <AnalyticsStats />
+          
           <!-- Action Buttons -->
           <div class="hero-actions">
             <a href="#portfolio" class="btn btn-primary txt-btn-lg">
@@ -100,9 +103,13 @@
 <script>
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { APP_CONFIG } from '../../config/constants.js'
+import AnalyticsStats from './AnalyticsStats.vue'
 
 export default {
   name: 'Hero',
+  components: {
+    AnalyticsStats
+  },
   data() {
     return {
       ...APP_CONFIG,

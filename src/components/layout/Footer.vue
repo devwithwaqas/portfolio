@@ -13,9 +13,9 @@
               Senior Software Engineer passionate about delivering high-quality solutions with expertise in .NET, Azure Cloud, and enterprise architecture.
             </p>
             <div class="contact-info">
-              <div class="contact-info-item">
+              <a :href="contactLinks.location" target="_blank" class="contact-info-item contact-link">
                 <i class="bi bi-geo-alt-fill me-2 footer-icon-purple icon-sm"></i>{{ location }}
-              </div>
+              </a>
               <a :href="contactLinks.email" class="contact-info-item contact-link">
                 <i class="bi bi-envelope-fill me-2 footer-icon-purple icon-sm"></i>{{ email }}
               </a>
@@ -50,6 +50,22 @@
                 </router-link>
               </li>
               <li>
+                <router-link to="/#technology-expertise" class="footer-nav-link txt-footer-link-md">
+                  <div class="footer-icon-wrapper expertise-icon">
+                    <i class="bi bi-star-fill navicon icon-sm"></i>
+                  </div>
+                  <span>Expertise</span>
+                </router-link>
+              </li>
+              <li>
+                <router-link to="/#skills" class="footer-nav-link txt-footer-link-md">
+                  <div class="footer-icon-wrapper skills-icon">
+                    <i class="bi bi-layers-fill navicon icon-sm"></i>
+                  </div>
+                  <span>Skills</span>
+                </router-link>
+              </li>
+              <li>
                 <router-link to="/#resume" class="footer-nav-link txt-footer-link-md">
                   <div class="footer-icon-wrapper resume-icon">
                     <i class="fas fa-file-lines navicon icon-sm"></i>
@@ -58,7 +74,7 @@
                 </router-link>
               </li>
               <li>
-                <router-link to="/portfolio" class="footer-nav-link txt-footer-link-md">
+                <router-link to="/#portfolio" class="footer-nav-link txt-footer-link-md">
                   <div class="footer-icon-wrapper portfolio-icon">
                     <i class="fas fa-briefcase navicon icon-sm"></i>
                   </div>
@@ -66,7 +82,15 @@
                 </router-link>
               </li>
               <li>
-                <router-link to="/contact" class="footer-nav-link txt-footer-link-md">
+                <router-link to="/#services" class="footer-nav-link txt-footer-link-md">
+                  <div class="footer-icon-wrapper services-icon">
+                    <i class="bi bi-gear-fill navicon icon-sm"></i>
+                  </div>
+                  <span>Services</span>
+                </router-link>
+              </li>
+              <li>
+                <router-link to="/#contact" class="footer-nav-link txt-footer-link-md">
                   <div class="footer-icon-wrapper contact-icon">
                     <i class="fas fa-paper-plane navicon icon-sm"></i>
                   </div>
@@ -85,19 +109,39 @@
             </h5>
             <ul class="footer-list">
               <li class="footer-list-item txt-p-sm">
-                <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Web Development
+                <router-link to="/services/full-stack-development" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Full Stack Development
+                </router-link>
               </li>
               <li class="footer-list-item txt-p-sm">
-                <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Cloud Solutions
+                <router-link to="/services/azure-cloud-architecture" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Azure Cloud Architecture
+                </router-link>
               </li>
               <li class="footer-list-item txt-p-sm">
-                <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Enterprise Architecture
+                <router-link to="/services/microservices-architecture" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Microservices Architecture
+                </router-link>
               </li>
               <li class="footer-list-item txt-p-sm">
-                <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>API Development
+                <router-link to="/services/database-design-optimization" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Database Design & Optimization
+                </router-link>
               </li>
               <li class="footer-list-item txt-p-sm">
-                <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Database Design
+                <router-link to="/services/mobile-development" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Mobile Development
+                </router-link>
+              </li>
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/services/technical-leadership" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Technical Leadership
+                </router-link>
+              </li>
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/services/agile-project-management" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Agile Project Management
+                </router-link>
               </li>
             </ul>
           </div>
@@ -140,8 +184,7 @@
       <div class="copyright-section">
       <div class="container">
         <p class="copyright-text">
-          © 2024 <strong class="footer-copyright-name">{{ fullName }}</strong>. All rights reserved.<br>
-          Designed with <span class="heart">❤️</span> by <a href="https://bootstrapmade.com/" class="footer-bootstrap-link">BootstrapMade</a>
+          © 2024 <strong class="footer-copyright-name">{{ fullName }}</strong>. All rights reserved.
         </p>
       </div>
     </div>
@@ -262,6 +305,19 @@ export default {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.footer-service-link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.footer-service-link:hover {
+  color: rgba(255, 255, 255, 1);
+  text-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+}
+
 .footer-list-icon {
   color: #27ae60;
 }
@@ -320,25 +376,37 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Unique hover backgrounds for each nav link */
+/* Unique hover backgrounds for each nav link - matching icon wrapper colors */
 .footer-nav-links li:nth-child(1) .footer-nav-link:hover {
-  background: rgba(255, 107, 107, 0.45);
+  background: rgba(236, 72, 153, 0.45);
 }
 
 .footer-nav-links li:nth-child(2) .footer-nav-link:hover {
-  background: rgba(0, 184, 148, 0.45);
+  background: rgba(16, 185, 129, 0.45);
 }
 
 .footer-nav-links li:nth-child(3) .footer-nav-link:hover {
-  background: rgba(116, 185, 255, 0.45);
+  background: rgba(5, 99, 187, 0.45);
 }
 
 .footer-nav-links li:nth-child(4) .footer-nav-link:hover {
-  background: rgba(162, 155, 254, 0.45);
+  background: rgba(147, 51, 234, 0.45);
 }
 
 .footer-nav-links li:nth-child(5) .footer-nav-link:hover {
-  background: rgba(253, 121, 168, 0.45);
+  background: rgba(255, 215, 0, 0.45);
+}
+
+.footer-nav-links li:nth-child(6) .footer-nav-link:hover {
+  background: rgba(6, 182, 212, 0.45);
+}
+
+.footer-nav-links li:nth-child(7) .footer-nav-link:hover {
+  background: rgba(251, 146, 60, 0.45);
+}
+
+.footer-nav-links li:nth-child(8) .footer-nav-link:hover {
+  background: rgba(139, 92, 246, 0.45);
 }
 
 /* Icon Wrappers */
@@ -372,59 +440,92 @@ export default {
   opacity: 1;
 }
 
-/* Home Icon - Orange Gradient */
+/* Home Icon - Pink Gradient (matches nav: 236, 72, 153) */
 .footer-icon-wrapper.home-icon {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-  box-shadow: 0 3px 12px rgba(255, 107, 107, 0.25);
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+  box-shadow: 0 3px 12px rgba(236, 72, 153, 0.25);
 }
 
 .footer-nav-link:hover .footer-icon-wrapper.home-icon {
   transform: scale(1.08) rotate(2deg);
-  box-shadow: 0 4px 16px rgba(255, 107, 107, 0.35);
+  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.35);
 }
 
-/* About Icon - Green Gradient */
+/* About Icon - Green Gradient (matches nav: 16, 185, 129) */
 .footer-icon-wrapper.about-icon {
-  background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
-  box-shadow: 0 3px 12px rgba(0, 184, 148, 0.25);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 3px 12px rgba(16, 185, 129, 0.25);
 }
 
 .footer-nav-link:hover .footer-icon-wrapper.about-icon {
   transform: scale(1.08) rotate(-2deg);
-  box-shadow: 0 4px 16px rgba(0, 184, 148, 0.35);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
 }
 
-/* Resume Icon - Blue Gradient */
+/* Resume Icon - Gold/Yellow Gradient (matches nav: 255, 215, 0) */
 .footer-icon-wrapper.resume-icon {
-  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
-  box-shadow: 0 3px 12px rgba(116, 185, 255, 0.25);
+  background: linear-gradient(135deg, #ffd700 0%, #ffb800 100%);
+  box-shadow: 0 3px 12px rgba(255, 215, 0, 0.25);
 }
 
 .footer-nav-link:hover .footer-icon-wrapper.resume-icon {
   transform: scale(1.08) rotate(2deg);
-  box-shadow: 0 4px 16px rgba(116, 185, 255, 0.35);
+  box-shadow: 0 4px 16px rgba(255, 215, 0, 0.35);
 }
 
-/* Portfolio Icon - Purple Gradient */
+/* Portfolio Icon - Cyan Gradient (matches nav: 6, 182, 212) */
 .footer-icon-wrapper.portfolio-icon {
-  background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
-  box-shadow: 0 3px 12px rgba(162, 155, 254, 0.25);
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  box-shadow: 0 3px 12px rgba(6, 182, 212, 0.25);
 }
 
 .footer-nav-link:hover .footer-icon-wrapper.portfolio-icon {
   transform: scale(1.08) rotate(-2deg);
-  box-shadow: 0 4px 16px rgba(162, 155, 254, 0.35);
+  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.35);
 }
 
-/* Contact Icon - Pink Gradient */
+/* Expertise Icon - Blue Gradient (matches nav: 5, 99, 187) */
+.footer-icon-wrapper.expertise-icon {
+  background: linear-gradient(135deg, #0563bb 0%, #034a94 100%);
+  box-shadow: 0 3px 12px rgba(5, 99, 187, 0.25);
+}
+
+.footer-nav-link:hover .footer-icon-wrapper.expertise-icon {
+  transform: scale(1.08) rotate(2deg);
+  box-shadow: 0 4px 16px rgba(5, 99, 187, 0.35);
+}
+
+/* Skills Icon - Purple Gradient (matches nav: 147, 51, 234) */
+.footer-icon-wrapper.skills-icon {
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+  box-shadow: 0 3px 12px rgba(147, 51, 234, 0.25);
+}
+
+.footer-nav-link:hover .footer-icon-wrapper.skills-icon {
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 0 4px 16px rgba(147, 51, 234, 0.35);
+}
+
+/* Services Icon - Orange Gradient (matches nav: 251, 146, 60) */
+.footer-icon-wrapper.services-icon {
+  background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+  box-shadow: 0 3px 12px rgba(251, 146, 60, 0.25);
+}
+
+.footer-nav-link:hover .footer-icon-wrapper.services-icon {
+  transform: scale(1.08) rotate(2deg);
+  box-shadow: 0 4px 16px rgba(251, 146, 60, 0.35);
+}
+
+/* Contact Icon - Purple Gradient (matches nav: 139, 92, 246) - different shade from Skills */
 .footer-icon-wrapper.contact-icon {
-  background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
-  box-shadow: 0 3px 12px rgba(253, 121, 168, 0.25);
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  box-shadow: 0 3px 12px rgba(139, 92, 246, 0.25);
 }
 
 .footer-nav-link:hover .footer-icon-wrapper.contact-icon {
   transform: scale(1.08) rotate(-2deg);
-  box-shadow: 0 4px 16px rgba(253, 121, 168, 0.35);
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.35);
 }
 
 .footer-nav-link .navicon {

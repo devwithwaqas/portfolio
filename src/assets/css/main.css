@@ -583,13 +583,14 @@ h6 {
   word-break: normal;           /* keep natural word boundaries */
 }
 
-/* On small screens, allow hyphenation to reduce awkward spacing */
+/* On small screens, use hyphen-based justification instead of space-based */
 @media (max-width: 576px) {
   .portfolio-details-page .portfolio-details p,
   .portfolio-details-page .portfolio-details li,
   .portfolio-details-page .text-card .card-body p,
   .portfolio-details-page .text-card .card-body li {
-    hyphens: auto;              /* allow hyphens on very small screens */
+    text-justify: auto;         /* hyphen-based justification for mobile */
+    hyphens: auto;              /* allow hyphens on mobile */
   }
 }
 
@@ -597,6 +598,14 @@ h6 {
 .text-justify { text-align: justify !important; text-justify: inter-word !important; }
 .text-no-hyphen { hyphens: none !important; }
 .text-hyphen { hyphens: auto !important; }
+
+/* Mobile: Use hyphen-based justification for utility class */
+@media (max-width: 768px) {
+  .text-justify {
+    text-justify: auto !important;  /* hyphen-based for mobile */
+    hyphens: auto !important;
+  }
+}
 
 /*--------------------------------------------------------------
 # Global content text justification (applies to all sections)
@@ -617,6 +626,23 @@ p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label) {
   hyphens: none !important;
   overflow-wrap: break-word !important;
   word-break: normal !important;
+}
+
+/* Mobile: Use hyphen-based justification instead of space-based */
+@media (max-width: 768px) {
+  .resume-item p,
+  .resume-item li,
+  .service-item p,
+  .testimonial-text,
+  .about p,
+  .about li,
+  .footer p,
+  .project-description,
+  .epic-card p,
+  p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label) {
+    text-justify: auto !important;  /* hyphen-based for mobile */
+    hyphens: auto !important;        /* enable hyphens on mobile */
+  }
 }
 
 /* Exclude headers, titles, labels, and explicitly centered content */

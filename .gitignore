@@ -15,6 +15,10 @@ build/
 .env.test.local
 .env.production.local
 
+# Service account credentials (NEVER commit these!)
+public/ga4-service-account-key.json
+**/ga4-service-account-key.json
+
 # IDE files
 .vscode/
 .idea/
