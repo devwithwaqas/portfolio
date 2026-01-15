@@ -110,11 +110,15 @@ async function fetchAnalyticsData() {
   const topItems = [];
 
   if (topPagesResponse.rows) {
+    console.log(`Processing ${topPagesResponse.rows.length} rows from GA4`);
+    
     for (const row of topPagesResponse.rows) {
       const path = row.dimensionValues[0].value || '';
       const title = row.dimensionValues[1].value || '';
       let views = parseInt(row.metricValues[0].value || '0', 10);
       views += SEED_VIEWS_PER_ITEM;
+
+      console.log(`Processing: path="${path}", title="${title}"`);
 
       // Normalize path for comparison - remove trailing slashes
       const normalizedPath = path.replace(/\/+$/, '').toLowerCase();
@@ -123,6 +127,7 @@ async function fetchAnalyticsData() {
       if (normalizedPath === '' || 
           normalizedPath === '/' || 
           normalizedPath === '/portfolio') {
+        console.log(`Skipping home/portfolio: path="${path}"`);
         continue;
       }
 
@@ -135,6 +140,7 @@ async function fetchAnalyticsData() {
           name = slug
             .replace(/-/g, ' ')
             .replace(/\b\w/g, (l) => l.toUpperCase());
+          console.log(`Extracted name from URL: "${name}"`);
         }
       }
       
@@ -149,6 +155,7 @@ async function fetchAnalyticsData() {
             !titleCleaned.startsWith('/') &&
             !titleCleaned.toLowerCase().includes('portfolio')) {
           name = titleCleaned;
+          console.log(`Extracted name from title: "${name}"`);
         }
       }
 
@@ -158,18 +165,21 @@ async function fetchAnalyticsData() {
         let cleanPath = path.replace(/^\/+|\/+$/g, '').toLowerCase();
         // Skip if path is empty or just 'portfolio'
         if (!cleanPath || cleanPath === 'portfolio') {
+          console.log(`Skipping empty/portfolio path: path="${path}"`);
           continue;
         }
         
         const pathParts = cleanPath.split('/').filter(p => p && p.toLowerCase() !== 'portfolio');
         
         if (pathParts.length === 0) {
+          console.log(`No valid path parts: path="${path}"`);
           continue;
         }
         
         const slug = pathParts[pathParts.length - 1] || pathParts[0] || '';
         if (slug && slug.toLowerCase() !== 'portfolio') {
           name = slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+          console.log(`Extracted name from fallback: "${name}"`);
         }
       }
       
@@ -180,10 +190,11 @@ async function fetchAnalyticsData() {
           name.includes('\\') ||
           name.length < 2 ||
           name.trim() === '') {
-        console.log(`Skipping item: path="${path}", title="${title}", name="${name}"`);
+        console.log(`Final check failed - skipping: path="${path}", title="${title}", name="${name}"`);
         continue;
       }
 
+      console.log(`Adding item: name="${name}", path="${path}", views=${views}`);
       topItems.push({
         name,
         views,
@@ -192,6 +203,8 @@ async function fetchAnalyticsData() {
       });
     }
   }
+
+  console.log(`Returning ${topItems.length} top items`);
 
   return { totalViews, topItems };
 }
