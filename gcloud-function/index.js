@@ -147,11 +147,7 @@ async function fetchAnalyticsData() {
 
       console.log(`\n--- Processing row: path="${path}", title="${title}", views=${views} ---`);
 
-      // Skip if views are too low (likely not a real page view)
-      if (views < SEED_VIEWS_PER_ITEM) {
-        console.log(`❌ SKIPPED: Views too low (${views}), likely not a page view`);
-        continue;
-      }
+      // Don't skip based on views - GA4 might return low numbers initially
 
       // Normalize path - remove trailing slashes and handle /portfolio/ prefix
       let normalizedPath = path.replace(/\/+$/, '');
@@ -167,11 +163,11 @@ async function fetchAnalyticsData() {
         continue;
       }
       
-      // Skip if path doesn't look like a page (has file extensions, is too short, etc.)
-      if (normalizedPath.includes('.') && 
+      // Skip if path has file extensions (but allow /projects/ and /services/)
+      if (normalizedPath.match(/\.[a-z]{2,4}$/i) && 
           !normalizedPath.startsWith('/projects/') && 
           !normalizedPath.startsWith('/services/')) {
-        console.log(`❌ SKIPPED: Path looks like a file, not a page (path="${normalizedPath}")`);
+        console.log(`❌ SKIPPED: Path has file extension (path="${normalizedPath}")`);
         continue;
       }
       
@@ -189,22 +185,24 @@ async function fetchAnalyticsData() {
         }
       }
       
-      // Only use title matching as last resort if path doesn't match
+      // Use title matching if path doesn't match (this is the primary method based on GA4 data)
       if (!pageInfo && title) {
-        // Extract the main part of title (before " - " or " | ")
-        const titleMain = title.split(' - ')[0].split(' | ')[0].trim();
-        
-        // Skip if title is just the home page title
-        if (titleMain.toLowerCase().includes('waqas ahmad') && 
-            !titleMain.toLowerCase().includes('hire remote') &&
-            !titleMain.toLowerCase().includes('heat exchanger') &&
-            !titleMain.toLowerCase().includes('airasia') &&
-            !titleMain.toLowerCase().includes('air asia')) {
-          console.log(`❌ SKIPPED: Home page title (title="${titleMain}")`);
+        // Skip home page title
+        const titleLower = title.toLowerCase();
+        if (titleLower.includes('waqas ahmad') && 
+            !titleLower.includes('hire remote') &&
+            !titleLower.includes('heat exchanger') &&
+            !titleLower.includes('airasia') &&
+            !titleLower.includes('air asia') &&
+            !titleLower.includes('id90') &&
+            !titleLower.includes('property management') &&
+            !titleLower.includes('gamified') &&
+            !titleLower.includes('employee management')) {
+          console.log(`❌ SKIPPED: Home page title (title="${title}")`);
           continue;
         }
         
-        // Try to match by title pattern
+        // Try to match by title pattern - this is how GA4 data comes
         for (const [pagePath, info] of Object.entries(VALID_PAGES)) {
           if (info.titlePattern && info.titlePattern.test(title)) {
             pageInfo = info;
