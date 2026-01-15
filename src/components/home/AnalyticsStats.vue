@@ -100,7 +100,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  gap: 20px;
+  gap: 24px;
   margin-top: 20px;
   margin-bottom: 24px;
   padding: 20px;
@@ -142,12 +142,12 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 16px 20px;
+  padding: 18px 24px;
   background: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(79, 70, 229, 0.1) 100%);
   border-radius: 10px;
   border: 1px solid rgba(167, 139, 250, 0.2);
   flex-shrink: 0;
-  min-width: 180px;
+  min-width: 200px;
 }
 
 .analytics-icon-wrapper {
@@ -225,7 +225,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
+  gap: 8px;
   padding: 12px;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 8px;
@@ -241,6 +241,7 @@ export default {
   background: rgba(167, 139, 250, 0.1);
   border-color: rgba(167, 139, 250, 0.3);
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(167, 139, 250, 0.2);
 }
 
 .analytics-item-rank {
@@ -250,7 +251,7 @@ export default {
   width: 28px;
   height: 28px;
   background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(124, 58, 237, 0.2) 100%);
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 700;
   color: #a78bfa;
@@ -274,8 +275,8 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  line-height: 1.3;
-  min-height: 2.6em;
+  line-height: 1.4;
+  min-height: 2.8em;
 }
 
 .analytics-item-views {
@@ -430,8 +431,8 @@ export default {
   }
 
   .analytics-item-rank {
-    width: 24px;
-    height: 24px;
+  width: 30px;
+  height: 30px;
     font-size: 0.8125rem;
   }
 
