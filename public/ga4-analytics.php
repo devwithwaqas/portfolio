@@ -20,6 +20,47 @@ if (!ob_get_level()) {
 // Suppress errors for production
 error_reporting(0);
 ini_set('display_errors', 0);
+ini_set('log_errors', 0);
+
+// Global error handler to ensure JSON is always returned
+function sendJsonError($message, $code = 500) {
+    // Clear any output
+    if (ob_get_level()) {
+        ob_end_clean();
+        ob_start();
+    }
+    
+    // Set headers
+    @header('Access-Control-Allow-Origin: https://devwithwaqas.github.io');
+    @header('Access-Control-Allow-Methods: GET, OPTIONS, POST');
+    @header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With, Authorization');
+    @header('Content-Type: application/json; charset=utf-8');
+    http_response_code($code);
+    
+    echo json_encode([
+        'error' => 'Failed to fetch analytics data',
+        'message' => $message
+    ]);
+    exit;
+}
+
+// Register shutdown function to catch fatal errors
+register_shutdown_function(function() {
+    $error = error_get_last();
+    if ($error !== NULL && in_array($error['type'], [E_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE])) {
+        sendJsonError('PHP Fatal Error: ' . $error['message'] . ' in ' . $error['file'] . ':' . $error['line']);
+    }
+});
+
+// Set error handler for fatal errors only (warnings/notices are suppressed)
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    // Only handle fatal errors, let others be suppressed
+    if ($errno === E_ERROR || $errno === E_CORE_ERROR || $errno === E_COMPILE_ERROR || $errno === E_PARSE) {
+        sendJsonError("PHP Fatal Error: $errstr in $errfile:$errline");
+        return true;
+    }
+    return false; // Let other errors be handled normally (or suppressed)
+});
 
 // ============================================
 // CORS Headers - Aggressive approach to override parent .htaccess
