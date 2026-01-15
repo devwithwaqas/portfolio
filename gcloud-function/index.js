@@ -104,9 +104,10 @@ async function fetchAnalyticsData() {
         desc: true,
       },
     ],
-    limit: 3,
+    limit: 10, // Get more items since we filter some out
   });
 
+  console.log(`GA4 returned ${topPagesResponse.rows?.length || 0} rows`);
   const topItems = [];
 
   if (topPagesResponse.rows) {
@@ -144,14 +145,14 @@ async function fetchAnalyticsData() {
         }
       }
       
-      // Try to improve name from title, but avoid generic/home page titles
-      if (title && !name) {
+      // Try to improve name from title if URL extraction didn't work
+      if (!name && title) {
         const titleCleaned = title.split(' - ')[0].trim();
         // Skip generic titles that are likely home page
         const genericTitles = ['Waqas Ahmad', 'Home', 'Portfolio', 'Main'];
         if (titleCleaned && 
             !genericTitles.includes(titleCleaned) && 
-            titleCleaned.length > 3 && 
+            titleCleaned.length > 2 && 
             !titleCleaned.startsWith('/') &&
             !titleCleaned.toLowerCase().includes('portfolio')) {
           name = titleCleaned;
@@ -159,7 +160,7 @@ async function fetchAnalyticsData() {
         }
       }
 
-      // Fallback to path-based name if still empty
+      // Fallback to path-based name if still empty - accept any valid path segment
       if (!name) {
         // Clean the path - remove leading/trailing slashes
         let cleanPath = path.replace(/^\/+|\/+$/g, '').toLowerCase();
@@ -169,14 +170,23 @@ async function fetchAnalyticsData() {
           continue;
         }
         
-        const pathParts = cleanPath.split('/').filter(p => p && p.toLowerCase() !== 'portfolio');
+        // Get all path parts and use the last non-portfolio one
+        const pathParts = cleanPath.split('/').filter(p => p);
         
         if (pathParts.length === 0) {
           console.log(`No valid path parts: path="${path}"`);
           continue;
         }
         
-        const slug = pathParts[pathParts.length - 1] || pathParts[0] || '';
+        // Find the last segment that's not 'portfolio'
+        let slug = '';
+        for (let i = pathParts.length - 1; i >= 0; i--) {
+          if (pathParts[i].toLowerCase() !== 'portfolio') {
+            slug = pathParts[i];
+            break;
+          }
+        }
+        
         if (slug && slug.toLowerCase() !== 'portfolio') {
           name = slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
           console.log(`Extracted name from fallback: "${name}"`);
@@ -188,10 +198,16 @@ async function fetchAnalyticsData() {
           name.toLowerCase() === 'portfolio' || 
           name.includes('/') || 
           name.includes('\\') ||
-          name.length < 2 ||
+          name.length < 1 ||
           name.trim() === '') {
         console.log(`Final check failed - skipping: path="${path}", title="${title}", name="${name}"`);
         continue;
+      }
+      
+      // Stop after we have 3 valid items
+      if (topItems.length >= 3) {
+        console.log(`Reached limit of 3 items, stopping`);
+        break;
       }
 
       console.log(`Adding item: name="${name}", path="${path}", views=${views}`);
@@ -330,9 +346,12 @@ exports.portfolioAnalyticsAPI = async (req, res) => {
   }
 
   try {
-    // Check cache
+    // Check cache (allow bypass with ?nocache=true)
     const now = Math.floor(Date.now() / 1000);
-    if (cache && (now - cache.timestamp) < CACHE_DURATION) {
+    const bypassCache = req.query.nocache === 'true';
+    
+    if (!bypassCache && cache && (now - cache.timestamp) < CACHE_DURATION) {
+      console.log('Returning cached data');
       res.set(CORS_HEADERS);
       res.set('Content-Type', 'application/json');
       res.status(200).json({
@@ -340,6 +359,10 @@ exports.portfolioAnalyticsAPI = async (req, res) => {
         cached: true,
       });
       return;
+    }
+    
+    if (bypassCache) {
+      console.log('Cache bypass requested, fetching fresh data');
     }
 
     // Fetch analytics data
