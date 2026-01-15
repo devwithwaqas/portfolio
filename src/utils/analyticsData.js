@@ -35,16 +35,20 @@ export async function fetchAnalyticsData() {
     console.log('[Analytics] Fetching from endpoint:', ANALYTICS_API_ENDPOINT)
     
     // Try direct fetch first (no custom headers to avoid preflight)
+    // Cloudflare blocks OPTIONS preflight, so direct fetch will likely fail
     let response
     try {
       response = await fetch(ANALYTICS_API_ENDPOINT, {
         method: 'GET',
         // No custom headers to avoid OPTIONS preflight that Cloudflare blocks
-        cache: 'default'
+        cache: 'default',
+        mode: 'cors' // Explicitly request CORS
       })
     } catch (directError) {
-      // If direct fetch fails (CORS), use CORS proxy
-      console.warn('[Analytics] Direct fetch failed, using CORS proxy:', directError.message)
+      // Direct fetch failed (CORS blocked by Cloudflare) - use CORS proxy
+      console.warn('[Analytics] Direct fetch blocked by CORS, using proxy:', directError.message)
+      
+      // Use allorigins.win CORS proxy (free, reliable)
       const proxyUrl = 'https://api.allorigins.win/raw?url='
       const proxiedUrl = proxyUrl + encodeURIComponent(ANALYTICS_API_ENDPOINT)
       console.log('[Analytics] Using CORS proxy:', proxiedUrl)
