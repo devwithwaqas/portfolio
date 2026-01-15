@@ -147,74 +147,50 @@ async function fetchAnalyticsData() {
 
       console.log(`\n--- Processing row: path="${path}", title="${title}", views=${views} ---`);
 
-      // Don't skip based on views - GA4 might return low numbers initially
-
-      // Normalize path - remove trailing slashes and handle /portfolio/ prefix
-      let normalizedPath = path.replace(/\/+$/, '');
-      
-      // Handle GitHub Pages base path - remove /portfolio if present
-      if (normalizedPath.startsWith('/portfolio/')) {
-        normalizedPath = normalizedPath.replace(/^\/portfolio/, '') || '/';
-      }
-      
-      // Skip home page (exact matches)
-      if (normalizedPath === '' || normalizedPath === '/' || normalizedPath === '/portfolio') {
-        console.log(`❌ SKIPPED: Home page (path="${path}")`);
+      // Skip home page - match exact home page title
+      if (title && title.toLowerCase().includes('waqas ahmad - remote senior software engineer') && 
+          !title.toLowerCase().includes('hire remote') &&
+          !title.toLowerCase().includes('heat exchanger') &&
+          !title.toLowerCase().includes('airasia') &&
+          !title.toLowerCase().includes('air asia')) {
+        console.log(`❌ SKIPPED: Home page (title="${title}")`);
         continue;
       }
       
-      // Skip if path has file extensions (but allow /projects/ and /services/)
-      if (normalizedPath.match(/\.[a-z]{2,4}$/i) && 
-          !normalizedPath.startsWith('/projects/') && 
-          !normalizedPath.startsWith('/services/')) {
-        console.log(`❌ SKIPPED: Path has file extension (path="${normalizedPath}")`);
-        continue;
-      }
+      // PRIMARY: Match by title - this is what GA4 returns
+      let pageInfo = null;
+      let matchedPath = null;
       
-      // Try to match by path first (most reliable)
-      let pageInfo = VALID_PAGES[normalizedPath];
-      let matchedPath = normalizedPath;
-      
-      // If path doesn't match exactly, try path variations
-      if (!pageInfo) {
-        // Try with /portfolio prefix
-        const withPortfolio = '/portfolio' + normalizedPath;
-        if (VALID_PAGES[withPortfolio]) {
-          pageInfo = VALID_PAGES[withPortfolio];
-          matchedPath = withPortfolio;
-        }
-      }
-      
-      // Use title matching if path doesn't match (this is the primary method based on GA4 data)
-      if (!pageInfo && title) {
-        // Skip home page title
-        const titleLower = title.toLowerCase();
-        if (titleLower.includes('waqas ahmad') && 
-            !titleLower.includes('hire remote') &&
-            !titleLower.includes('heat exchanger') &&
-            !titleLower.includes('airasia') &&
-            !titleLower.includes('air asia') &&
-            !titleLower.includes('id90') &&
-            !titleLower.includes('property management') &&
-            !titleLower.includes('gamified') &&
-            !titleLower.includes('employee management')) {
-          console.log(`❌ SKIPPED: Home page title (title="${title}")`);
-          continue;
-        }
-        
-        // Try to match by title pattern - this is how GA4 data comes
+      if (title) {
+        // Try to match by title pattern - iterate through all valid pages
         for (const [pagePath, info] of Object.entries(VALID_PAGES)) {
           if (info.titlePattern && info.titlePattern.test(title)) {
             pageInfo = info;
             matchedPath = pagePath;
-            console.log(`✅ Matched by title pattern: "${title}" -> ${pagePath}`);
+            console.log(`✅ Matched by title: "${title}" -> ${pagePath} (${info.name})`);
             break;
           }
         }
       }
       
+      // FALLBACK: Try path matching if title didn't match
+      if (!pageInfo && path) {
+        let normalizedPath = path.replace(/\/+$/, '');
+        if (normalizedPath.startsWith('/portfolio/')) {
+          normalizedPath = normalizedPath.replace(/^\/portfolio/, '') || '/';
+        }
+        
+        if (normalizedPath && normalizedPath !== '/' && normalizedPath !== '/portfolio') {
+          pageInfo = VALID_PAGES[normalizedPath];
+          if (pageInfo) {
+            matchedPath = normalizedPath;
+            console.log(`✅ Matched by path: "${normalizedPath}" -> ${pageInfo.name}`);
+          }
+        }
+      }
+      
       if (!pageInfo) {
-        console.log(`❌ SKIPPED: Not in whitelist (path="${path}", normalized="${normalizedPath}", title="${title}")`);
+        console.log(`❌ SKIPPED: No match (path="${path}", title="${title}")`);
         continue;
       }
       
