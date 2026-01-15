@@ -17,7 +17,7 @@
  * }
  */
 
-const ANALYTICS_API_ENDPOINT = import.meta.env.VITE_ANALYTICS_API_ENDPOINT || ''
+const PORTFOLIO_GA4_API_ENDPOINT = import.meta.env.VITE_PORTFOLIO_GA4_API_ENDPOINT || ''
 
 /**
  * Fetch analytics data from backend
@@ -25,20 +25,20 @@ const ANALYTICS_API_ENDPOINT = import.meta.env.VITE_ANALYTICS_API_ENDPOINT || ''
  */
 export async function fetchAnalyticsData() {
   // If no endpoint configured, return mock data for development
-  if (!ANALYTICS_API_ENDPOINT) {
+  if (!PORTFOLIO_GA4_API_ENDPOINT) {
     console.warn('[Analytics] No API endpoint configured. Using mock data.')
-    console.warn('[Analytics] Set VITE_ANALYTICS_API_ENDPOINT in GitHub Secrets')
+    console.warn('[Analytics] Set VITE_PORTFOLIO_GA4_API_ENDPOINT in GitHub Secrets')
     return getMockAnalyticsData()
   }
 
   try {
-    console.log('[Analytics] Fetching from endpoint:', ANALYTICS_API_ENDPOINT)
+    console.log('[Analytics] Fetching from endpoint:', PORTFOLIO_GA4_API_ENDPOINT)
     
     // Try direct fetch first (no custom headers to avoid preflight)
     // Cloudflare blocks OPTIONS preflight, so direct fetch will likely fail
     let response
     try {
-      response = await fetch(ANALYTICS_API_ENDPOINT, {
+      response = await fetch(PORTFOLIO_GA4_API_ENDPOINT, {
         method: 'GET',
         // No custom headers to avoid OPTIONS preflight that Cloudflare blocks
         cache: 'default',
@@ -52,15 +52,15 @@ export async function fetchAnalyticsData() {
       const proxies = [
         {
           name: 'corsproxy.io',
-          url: `https://corsproxy.io/?${encodeURIComponent(ANALYTICS_API_ENDPOINT)}`
+          url: `https://corsproxy.io/?${encodeURIComponent(PORTFOLIO_GA4_API_ENDPOINT)}`
         },
         {
           name: 'allorigins.win',
-          url: `https://api.allorigins.win/raw?url=${encodeURIComponent(ANALYTICS_API_ENDPOINT)}`
+          url: `https://api.allorigins.win/raw?url=${encodeURIComponent(PORTFOLIO_GA4_API_ENDPOINT)}`
         },
         {
           name: 'cors-anywhere (herokuapp)',
-          url: `https://cors-anywhere.herokuapp.com/${ANALYTICS_API_ENDPOINT}`
+          url: `https://cors-anywhere.herokuapp.com/${PORTFOLIO_GA4_API_ENDPOINT}`
         }
       ]
       

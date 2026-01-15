@@ -99,13 +99,14 @@ export default {
 .analytics-stats-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 24px;
-  padding: 20px;
+  gap: 12px;
+  margin-top: 20px;
+  margin-bottom: 24px;
+  padding: 16px;
   background: linear-gradient(135deg, rgba(30, 10, 60, 0.4) 0%, rgba(20, 5, 40, 0.5) 100%);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-radius: 16px;
+  border-radius: 12px;
   border: 1px solid rgba(167, 139, 250, 0.2);
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.3),
@@ -138,10 +139,10 @@ export default {
 .analytics-total-card {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px;
+  gap: 12px;
+  padding: 12px;
   background: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(79, 70, 229, 0.1) 100%);
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid rgba(167, 139, 250, 0.2);
 }
 
@@ -149,15 +150,16 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(124, 58, 237, 0.2) 100%);
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid rgba(167, 139, 250, 0.3);
+  flex-shrink: 0;
 }
 
 .analytics-icon {
-  font-size: 24px;
+  font-size: 20px;
   color: #a78bfa;
   filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.6));
 }
@@ -174,7 +176,7 @@ export default {
 }
 
 .analytics-value {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #ffffff;
   text-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
@@ -185,7 +187,7 @@ export default {
 .analytics-top-items {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .analytics-top-label {
@@ -210,16 +212,16 @@ export default {
 .analytics-items-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .analytics-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
+  gap: 10px;
+  padding: 10px;
   background: rgba(255, 255, 255, 0.03);
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid rgba(167, 139, 250, 0.1);
   text-decoration: none;
   color: inherit;
@@ -237,11 +239,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(124, 58, 237, 0.2) 100%);
-  border-radius: 8px;
-  font-size: 0.875rem;
+  border-radius: 6px;
+  font-size: 0.8125rem;
   font-weight: 700;
   color: #a78bfa;
   flex-shrink: 0;
@@ -253,7 +255,7 @@ export default {
 }
 
 .analytics-item-name {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: #ffffff;
   margin-bottom: 2px;
@@ -282,60 +284,63 @@ export default {
 /* Responsive Design - Using existing patterns */
 @media (max-width: 992px) {
   .analytics-stats-container {
-    padding: 16px;
-    gap: 14px;
+    padding: 14px;
+    gap: 10px;
+    margin-bottom: 20px;
   }
 
   .analytics-total-card {
-    padding: 14px;
+    padding: 10px;
+    gap: 10px;
   }
 
   .analytics-icon-wrapper {
-    width: 44px;
-    height: 44px;
+    width: 36px;
+    height: 36px;
   }
 
   .analytics-icon {
-    font-size: 22px;
-  }
-
-  .analytics-value {
-    font-size: 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .analytics-stats-container {
-    margin-top: 20px;
-    padding: 14px;
-    gap: 12px;
-  }
-
-  .analytics-total-card {
-    gap: 12px;
-    padding: 12px;
-  }
-
-  .analytics-icon-wrapper {
-    width: 40px;
-    height: 40px;
-  }
-
-  .analytics-icon {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .analytics-value {
     font-size: 1.375rem;
   }
+}
 
-  .analytics-item {
-    padding: 10px;
+@media (max-width: 768px) {
+  .analytics-stats-container {
+    margin-top: 16px;
+    margin-bottom: 18px;
+    padding: 12px;
     gap: 10px;
   }
 
+  .analytics-total-card {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .analytics-icon-wrapper {
+    width: 32px;
+    height: 32px;
+  }
+
+  .analytics-icon {
+    font-size: 16px;
+  }
+
+  .analytics-value {
+    font-size: 1.25rem;
+  }
+
+  .analytics-item {
+    padding: 8px;
+    gap: 8px;
+  }
+
   .analytics-item-name {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
   }
 }
 

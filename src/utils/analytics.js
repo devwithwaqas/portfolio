@@ -9,10 +9,9 @@
 const GA4_MEASUREMENT_ID = (typeof window !== 'undefined' && window.GA4_MEASUREMENT_ID) || 
                            import.meta.env.VITE_GA4_MEASUREMENT_ID || ''
 
-// Server-side PHP endpoint for fallback tracking (bypasses ad blockers)
-// Set this to your PHP host URL once you set up server-side tracking
-// See docs/GA4_PHP_SERVER_SIDE_SETUP.md for setup instructions
-const GA4_PHP_ENDPOINT = import.meta.env.VITE_GA4_PHP_ENDPOINT || ''
+// Unified endpoint for both analytics and tracking (bypasses ad blockers)
+// Set this to your Google Cloud Function URL in GitHub Secrets
+const PORTFOLIO_GA4_API_ENDPOINT = import.meta.env.VITE_PORTFOLIO_GA4_API_ENDPOINT || ''
 
 // TESTING FLAG: Force server-side tracking only (bypasses client-side)
 // Set VITE_GA4_FORCE_SERVER_SIDE=true in GitHub Secrets to test server-side endpoint
@@ -152,7 +151,7 @@ export function trackPageView(path, title) {
   } catch (error) {
     console.warn('[GA4] Client-side page view tracking failed, trying server-side:', error)
     // Fallback to server-side if client-side fails
-    if (GA4_PHP_ENDPOINT) {
+    if (PORTFOLIO_GA4_API_ENDPOINT) {
       trackServerSide('page_view', {
         page_path: path,
         page_title: title
@@ -163,8 +162,8 @@ export function trackPageView(path, title) {
   // Always use server-side as backup when endpoint is configured
   // GA4 will deduplicate events with same client_id and timestamp
   // This ensures we capture events even if collect requests fail silently (e.g., cookies blocked)
-  if (GA4_PHP_ENDPOINT) {
-    console.log('[GA4] PHP endpoint configured:', GA4_PHP_ENDPOINT)
+  if (PORTFOLIO_GA4_API_ENDPOINT) {
+    console.log('[GA4] API endpoint configured:', PORTFOLIO_GA4_API_ENDPOINT)
     // Use a small delay to let client-side try first, then send server-side
     // This helps with deduplication (same timestamp)
     setTimeout(() => {
@@ -177,8 +176,8 @@ export function trackPageView(path, title) {
       })
     }, 100) // 100ms delay to let client-side go first
   } else {
-    console.warn('[GA4] PHP endpoint NOT configured - server-side backup disabled')
-    console.warn('[GA4] Set VITE_GA4_PHP_ENDPOINT in GitHub Secrets to enable server-side tracking')
+    console.warn('[GA4] API endpoint NOT configured - server-side backup disabled')
+    console.warn('[GA4] Set VITE_PORTFOLIO_GA4_API_ENDPOINT in GitHub Secrets to enable server-side tracking')
   }
 }
 
@@ -275,10 +274,10 @@ export function trackEvent(eventName, eventParams = {}) {
   // TESTING MODE: Force server-side only
   if (FORCE_SERVER_SIDE) {
     console.log('[GA4] ⚠️ FORCE SERVER-SIDE MODE: Skipping client-side, using server-side only for:', eventName)
-    if (GA4_PHP_ENDPOINT) {
+    if (PORTFOLIO_GA4_API_ENDPOINT) {
       trackServerSide(eventName, eventParams)
     } else {
-      console.error('[GA4] ❌ FORCE SERVER-SIDE enabled but PHP endpoint not configured!')
+      console.error('[GA4] ❌ FORCE SERVER-SIDE enabled but API endpoint not configured!')
     }
     return
   }
@@ -294,7 +293,7 @@ export function trackEvent(eventName, eventParams = {}) {
     console.log('[GA4] Queued event (GA4 not ready yet):', eventName)
     
     // Also try server-side as fallback
-    if (GA4_PHP_ENDPOINT) {
+    if (PORTFOLIO_GA4_API_ENDPOINT) {
       trackServerSide(eventName, eventParams)
     }
     return
@@ -311,7 +310,7 @@ export function trackEvent(eventName, eventParams = {}) {
     clientSideError = error
     console.warn('[GA4] Client-side tracking failed, trying server-side:', error)
     // Fallback to server-side if client-side fails
-    if (GA4_PHP_ENDPOINT) {
+    if (PORTFOLIO_GA4_API_ENDPOINT) {
       console.log('[GA4] Using server-side fallback due to client-side error:', eventName)
       trackServerSide(eventName, eventParams)
     }
@@ -319,7 +318,7 @@ export function trackEvent(eventName, eventParams = {}) {
   
   // Also check if client-side is blocked (even if no error thrown)
   // This handles cases where cookies are blocked but gtag still loads
-  if (GA4_PHP_ENDPOINT && isClientSideBlocked()) {
+  if (PORTFOLIO_GA4_API_ENDPOINT && isClientSideBlocked()) {
     console.log('[GA4] Client-side blocked detected, using server-side fallback for:', eventName)
     // Use server-side as backup (non-blocking, doesn't wait for response)
     trackServerSide(eventName, eventParams).catch(() => {
@@ -330,7 +329,7 @@ export function trackEvent(eventName, eventParams = {}) {
   // ALWAYS use server-side as backup when cookies might be blocked
   // Even if client-side seems to work, collect requests might fail silently
   // GA4 will deduplicate events with same client_id and timestamp
-  if (GA4_PHP_ENDPOINT && shouldUseServerSideBackup()) {
+  if (PORTFOLIO_GA4_API_ENDPOINT && shouldUseServerSideBackup()) {
     // Use a small delay to let client-side try first, then send server-side
     // This helps with deduplication (same timestamp)
     setTimeout(() => {
@@ -339,8 +338,8 @@ export function trackEvent(eventName, eventParams = {}) {
         console.warn('[GA4] Server-side backup failed:', err)
       })
     }, 100) // 100ms delay to let client-side go first
-  } else if (!GA4_PHP_ENDPOINT) {
-    console.warn('[GA4] PHP endpoint NOT configured - server-side backup disabled for:', eventName)
+  } else if (!PORTFOLIO_GA4_API_ENDPOINT) {
+    console.warn('[GA4] API endpoint NOT configured - server-side backup disabled for:', eventName)
   }
 }
 
@@ -349,7 +348,7 @@ export function trackEvent(eventName, eventParams = {}) {
  * Uses GA4 Measurement Protocol API
  */
 async function trackServerSide(eventName, eventParams = {}) {
-  console.log('[GA4] trackServerSide called for:', eventName, '| Endpoint:', GA4_PHP_ENDPOINT)
+  console.log('[GA4] trackServerSide called for:', eventName, '| Endpoint:', PORTFOLIO_GA4_API_ENDPOINT)
   
   const measurementId = (typeof window !== 'undefined' && window.GA4_MEASUREMENT_ID) || GA4_MEASUREMENT_ID
   
@@ -358,8 +357,8 @@ async function trackServerSide(eventName, eventParams = {}) {
     return false
   }
   
-  if (!GA4_PHP_ENDPOINT) {
-    console.warn('[GA4] Server-side tracking: PHP endpoint not configured')
+  if (!PORTFOLIO_GA4_API_ENDPOINT) {
+    console.warn('[GA4] Server-side tracking: API endpoint not configured')
     return false
   }
   
@@ -385,14 +384,8 @@ async function trackServerSide(eventName, eventParams = {}) {
       }]
     }
     
-    // Send to PHP endpoint (which proxies to GA4 Measurement Protocol)
-    if (!GA4_PHP_ENDPOINT) {
-      console.warn('[GA4] Server-side tracking: PHP endpoint not configured')
-      return false
-    }
-    
-    // Prepare payload for PHP endpoint (matches PHP file format)
-    const phpPayload = {
+    // Prepare payload for API endpoint
+    const apiPayload = {
       event_name: eventName,
       event_params: eventParams,
       client_id: clientId,
@@ -400,29 +393,26 @@ async function trackServerSide(eventName, eventParams = {}) {
       page_title: document.title
     }
     
-    console.log('[GA4] Sending POST request to:', GA4_PHP_ENDPOINT)
-    console.log('[GA4] Payload:', JSON.stringify(phpPayload, null, 2))
+    console.log('[GA4] Sending POST request to:', PORTFOLIO_GA4_API_ENDPOINT)
+    console.log('[GA4] Payload:', JSON.stringify(apiPayload, null, 2))
     
-    // Use mode: 'no-cors' as workaround if CORS is blocked by hosting provider
-    // This sends the request but we won't get response (fire and forget)
-    // The PHP endpoint will still receive and process the data
-    // Use mode: 'no-cors' to bypass CORS check
-    // Note: With no-cors, we can't read the response, but the request is sent
-    // The PHP endpoint will still receive and process the data
-    const response = await fetch(GA4_PHP_ENDPOINT, {
+    // Send to unified API endpoint (handles CORS properly)
+    const response = await fetch(PORTFOLIO_GA4_API_ENDPOINT, {
       method: 'POST',
-      mode: 'no-cors', // Bypass CORS - fire and forget
-      body: JSON.stringify(phpPayload),
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify(apiPayload)
     })
     
-    // With no-cors mode, response is opaque - we can't read it
-    // But the request was sent, so assume success
-    console.log('[GA4] Server-side request sent (no-cors mode):', eventName)
-    console.log('[GA4] Data should be processed by PHP endpoint and sent to GA4')
-    return true // Assume success since we can't verify response
+    if (response.ok) {
+      const result = await response.json()
+      console.log('[GA4] Server-side tracking successful:', result)
+      return true
+    } else {
+      console.warn('[GA4] Server-side tracking failed:', response.status, response.statusText)
+      return false
+    }
   } catch (error) {
     console.warn('[GA4] Server-side tracking error:', error)
     return false

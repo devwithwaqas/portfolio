@@ -628,6 +628,19 @@ p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label) {
   word-break: normal !important;
 }
 
+/* Override justified text for badge sections */
+.available-badge,
+.available-badge *,
+.available-badge p,
+.available-badge span,
+.badge-text,
+.remote-available-badge,
+.remote-available-badge * {
+  text-align: left !important;
+  text-justify: auto !important;
+  hyphens: none !important;
+}
+
 /* Mobile: Use hyphen-based justification instead of space-based */
 @media (max-width: 768px) {
   .resume-item p,

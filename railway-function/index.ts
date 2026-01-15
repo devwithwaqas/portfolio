@@ -39,7 +39,6 @@ async function getAccessToken(serviceAccountJson: string): Promise<string> {
   }
 
   // Import private key for jose library
-  const { importPKCS8 } = await import('jose')
   const key = await importPKCS8(privateKey, 'RS256')
 
   // Create and sign JWT

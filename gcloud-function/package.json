@@ -1,0 +1,12 @@
+{
+  "name": "ga4-analytics-function",
+  "version": "1.0.0",
+  "description": "GA4 Analytics Data Fetcher for Google Cloud Functions",
+  "main": "index.js",
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "@google-analytics/data": "^4.0.0"
+  }
+}
