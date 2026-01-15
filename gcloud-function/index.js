@@ -147,12 +147,8 @@ async function fetchAnalyticsData() {
       const lowerPath = path.toLowerCase();
       const isTechnicalFile = 
         lowerPath === '/index.html' ||
-        lowerPath.endsWith('/index.html') ||
+        lowerPath === '/portfolio/index.html' ||
         lowerPath.includes('/ga4-analytics.php') ||
-        lowerPath.includes('/ga4-analytics.ph') ||
-        lowerPath.includes('/api/') ||
-        (lowerPath.endsWith('.php') && !lowerPath.includes('/projects/') && !lowerPath.includes('/services/')) ||
-        (lowerPath.endsWith('.js') && lowerPath.includes('/api/')) ||
         lowerPath.includes('/.git/') ||
         lowerPath.includes('/node_modules/');
         
@@ -160,6 +156,8 @@ async function fetchAnalyticsData() {
         console.log(`❌ SKIPPED: Technical/system file: ${path}`);
         continue;
       }
+      
+      // ACCEPT everything else - we'll extract a name no matter what
 
       // Extract name - be VERY permissive
       let name = '';
@@ -204,9 +202,22 @@ async function fetchAnalyticsData() {
         }
       }
       
-      // Final validation - be VERY lenient
+      // Final validation - if we still don't have a name, create one from path
       if (!name || name.trim() === '' || name.toLowerCase() === 'portfolio') {
-        console.log(`❌ SKIPPED: No valid name extracted (name="${name}")`);
+        // Last resort: use the path itself, cleaned up
+        const pathForName = path.replace(/^\/+|\/+$/g, '').replace(/\/+/g, ' ');
+        if (pathForName && pathForName.length > 0) {
+          name = pathForName
+            .replace(/\.(html|php|js|json|xml|txt|css|md)$/gi, '')
+            .replace(/-/g, ' ')
+            .replace(/\b\w/g, (l) => l.toUpperCase());
+          console.log(`✅ Created name from path as last resort: "${name}"`);
+        }
+      }
+      
+      // If STILL no name, skip
+      if (!name || name.trim() === '' || name.toLowerCase() === 'portfolio') {
+        console.log(`❌ SKIPPED: Could not create any name from path="${path}"`);
         continue;
       }
       
