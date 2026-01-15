@@ -12,6 +12,9 @@
  * 4. Grant service account email access to GA4 property
  */
 
+// Start output buffering to ensure headers are sent first
+ob_start();
+
 // Suppress errors for production
 error_reporting(0);
 ini_set('display_errors', 0);
@@ -20,15 +23,19 @@ ini_set('display_errors', 0);
 // CORS Headers - Use specific domain (wildcard didn't work)
 // ============================================
 // Use specific domain instead of * (wildcard didn't work with your hosting)
-header('Access-Control-Allow-Origin: https://devwithwaqas.github.io');
-header('Access-Control-Allow-Methods: GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With');
-header('Access-Control-Max-Age: 86400');
-header('Content-Type: application/json; charset=utf-8');
+// Set headers with explicit values
+header('Access-Control-Allow-Origin: https://devwithwaqas.github.io', true);
+header('Access-Control-Allow-Methods: GET, OPTIONS, POST', true);
+header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With, Authorization', true);
+header('Access-Control-Allow-Credentials: false', true);
+header('Access-Control-Max-Age: 86400', true);
+header('Content-Type: application/json; charset=utf-8', true);
 
-// Handle OPTIONS preflight request
+// Handle OPTIONS preflight request FIRST
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
+    header('Content-Length: 0', true);
+    ob_end_flush();
     exit;
 }
 
@@ -330,10 +337,19 @@ try {
     echo json_encode($result);
     
 } catch (Exception $e) {
+    // Ensure CORS headers are sent even on error
+    header('Access-Control-Allow-Origin: https://devwithwaqas.github.io', true);
+    header('Access-Control-Allow-Methods: GET, OPTIONS, POST', true);
+    header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With, Authorization', true);
+    header('Content-Type: application/json; charset=utf-8', true);
+    
     http_response_code(500);
     echo json_encode([
         'error' => 'Failed to fetch analytics data',
         'message' => $e->getMessage()
     ]);
 }
+
+// Flush output buffer
+ob_end_flush();
 ?>
