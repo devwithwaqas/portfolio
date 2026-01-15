@@ -111,6 +111,7 @@ const routes = [
 ]
 
 function generateSitemap() {
+  // Use current date for lastmod - ensures sitemap is always "fresh"
   const today = new Date().toISOString().split('T')[0]
   
   // Start with XML declaration and root element (no trailing newline in header)
