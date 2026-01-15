@@ -45,17 +45,54 @@ export async function fetchAnalyticsData() {
         mode: 'cors' // Explicitly request CORS
       })
     } catch (directError) {
-      // Direct fetch failed (CORS blocked by Cloudflare) - use CORS proxy
-      console.warn('[Analytics] Direct fetch blocked by CORS, using proxy:', directError.message)
+      // Direct fetch failed (CORS blocked by Cloudflare) - try CORS proxies
+      console.warn('[Analytics] Direct fetch blocked by CORS, trying proxies:', directError.message)
       
-      // Use allorigins.win CORS proxy (free, reliable)
-      const proxyUrl = 'https://api.allorigins.win/raw?url='
-      const proxiedUrl = proxyUrl + encodeURIComponent(ANALYTICS_API_ENDPOINT)
-      console.log('[Analytics] Using CORS proxy:', proxiedUrl)
-      response = await fetch(proxiedUrl, {
-        method: 'GET',
-        cache: 'default'
-      })
+      // Try multiple CORS proxy services as fallbacks
+      const proxies = [
+        {
+          name: 'corsproxy.io',
+          url: `https://corsproxy.io/?${encodeURIComponent(ANALYTICS_API_ENDPOINT)}`
+        },
+        {
+          name: 'allorigins.win',
+          url: `https://api.allorigins.win/raw?url=${encodeURIComponent(ANALYTICS_API_ENDPOINT)}`
+        },
+        {
+          name: 'cors-anywhere (herokuapp)',
+          url: `https://cors-anywhere.herokuapp.com/${ANALYTICS_API_ENDPOINT}`
+        }
+      ]
+      
+      let lastError = directError
+      for (const proxy of proxies) {
+        try {
+          console.log(`[Analytics] Trying proxy: ${proxy.name}`)
+          response = await fetch(proxy.url, {
+            method: 'GET',
+            cache: 'default',
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+          // If we get a response, break out of the loop
+          if (response && response.status !== 500) {
+            console.log(`[Analytics] Success with proxy: ${proxy.name}`)
+            break
+          } else {
+            throw new Error(`Proxy ${proxy.name} returned ${response.status}`)
+          }
+        } catch (proxyError) {
+          console.warn(`[Analytics] Proxy ${proxy.name} failed:`, proxyError.message)
+          lastError = proxyError
+          continue // Try next proxy
+        }
+      }
+      
+      // If all proxies failed, throw the last error
+      if (!response || response.status === 500) {
+        throw lastError
+      }
     }
 
     console.log('[Analytics] Response status:', response.status, response.statusText)
