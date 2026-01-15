@@ -174,7 +174,7 @@ async function fetchAnalyticsData() {
         }
       }
 
-      // Fallback to path-based name if still empty
+      // Fallback to path-based name if still empty - be more lenient
       if (!name) {
         // Clean the path - remove leading/trailing slashes
         let cleanPath = path.replace(/^\/+|\/+$/g, '').toLowerCase();
@@ -184,28 +184,24 @@ async function fetchAnalyticsData() {
           continue;
         }
         
-        // Get all path parts and use the last non-portfolio one
-        const pathParts = cleanPath.split('/').filter(p => p);
+        // Get all path parts
+        const pathParts = cleanPath.split('/').filter(p => p && p.toLowerCase() !== 'portfolio');
         
         if (pathParts.length === 0) {
           console.log(`No valid path parts: path="${path}"`);
           continue;
         }
         
-        // Find the last segment that's not 'portfolio'
-        let slug = '';
-        for (let i = pathParts.length - 1; i >= 0; i--) {
-          if (pathParts[i].toLowerCase() !== 'portfolio') {
-            slug = pathParts[i];
-            break;
-          }
-        }
+        // Use the last segment
+        const slug = pathParts[pathParts.length - 1] || pathParts[0] || '';
         
         if (slug && slug.toLowerCase() !== 'portfolio') {
           // Remove file extensions
           const cleanSlug = slug.replace(/\.(html|php|js|json|xml|txt)$/i, '');
-          name = cleanSlug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
-          console.log(`Extracted name from fallback: "${name}"`);
+          if (cleanSlug && cleanSlug.length > 0) {
+            name = cleanSlug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+            console.log(`Extracted name from fallback: "${name}"`);
+          }
         }
       }
       
@@ -214,9 +210,25 @@ async function fetchAnalyticsData() {
           name.toLowerCase() === 'portfolio' || 
           name.includes('/') || 
           name.includes('\\') ||
-          name.length < 1 ||
-          name.trim() === '') {
+          name.trim().length < 1) {
         console.log(`Final check failed - skipping: path="${path}", title="${title}", name="${name}"`);
+        continue;
+      }
+      
+      // If we still don't have a name but have a valid path, create a basic name
+      if (!name || name.trim() === '') {
+        const lastPart = path.split('/').filter(p => p && p.toLowerCase() !== 'portfolio').pop();
+        if (lastPart) {
+          name = lastPart.replace(/\.(html|php|js|json|xml|txt)$/i, '')
+            .replace(/-/g, ' ')
+            .replace(/\b\w/g, (l) => l.toUpperCase());
+          console.log(`Created fallback name: "${name}"`);
+        }
+      }
+      
+      // Final check again
+      if (!name || name.trim() === '' || name.toLowerCase() === 'portfolio') {
+        console.log(`Still no valid name - skipping: path="${path}"`);
         continue;
       }
       
