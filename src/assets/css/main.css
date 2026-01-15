@@ -659,20 +659,32 @@ p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label):not(.r
 }
 
 /* Ensure remote work section paragraphs start from left and don't justify - MORE SPECIFIC */
-.about .remote-work-section,
-.about .remote-work-section *,
+/* This MUST come after the global .about p rule to override it */
 .about .remote-work-section p,
-.about .remote-work-section p *,
-.about .remote-work-content,
-.about .remote-work-content *,
 .about .remote-work-content p,
-.about .remote-work-content p *,
 .remote-work-section p,
-.remote-work-content p {
+.remote-work-content p,
+.remote-work-section .remote-work-content p,
+div.remote-work-section p,
+div.remote-work-content p {
   text-align: left !important;
   text-justify: none !important;
   hyphens: none !important;
   text-indent: 0 !important;
+}
+
+/* Override ALL nested elements */
+.about .remote-work-section,
+.about .remote-work-section *,
+.about .remote-work-section p *,
+.about .remote-work-content,
+.about .remote-work-content *,
+.about .remote-work-content p *,
+.remote-work-section *,
+.remote-work-content * {
+  text-align: left !important;
+  text-justify: none !important;
+  hyphens: none !important;
 }
 
 /* Ensure strong tags (headings) in remote work section are left-aligned */
