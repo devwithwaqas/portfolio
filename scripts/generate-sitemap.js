@@ -113,12 +113,12 @@ const routes = [
 function generateSitemap() {
   const today = new Date().toISOString().split('T')[0]
   
-  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-`
+  // Start with XML declaration and root element (no trailing newline in header)
+  let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n'
+  sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+  sitemap += '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n'
+  sitemap += '        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9\n'
+  sitemap += '        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n'
 
   routes.forEach(route => {
     // Ensure path starts with / and ends correctly
@@ -127,7 +127,8 @@ function generateSitemap() {
       path = '/' + path
     }
     
-    const url = `${BASE_URL}${path}`
+    // Ensure URL is properly encoded (escape special characters if any)
+    const url = `${BASE_URL}${path}`.replace(/&/g, '&amp;')
     const lastmod = route.lastmod || today
     const changefreq = route.changefreq || 'monthly'
     const priority = route.priority || 0.5
@@ -137,16 +138,15 @@ function generateSitemap() {
     const validPriority = Math.max(0.0, Math.min(1.0, priority))
     const formattedPriority = validPriority.toFixed(1) // Always format as "1.0", "0.8", etc.
     
-    sitemap += `  <url>
-    <loc>${url}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>${changefreq}</changefreq>
-    <priority>${formattedPriority}</priority>
-  </url>
-`
+    sitemap += '  <url>\n'
+    sitemap += `    <loc>${url}</loc>\n`
+    sitemap += `    <lastmod>${lastmod}</lastmod>\n`
+    sitemap += `    <changefreq>${changefreq}</changefreq>\n`
+    sitemap += `    <priority>${formattedPriority}</priority>\n`
+    sitemap += '  </url>\n'
   })
 
-  sitemap += `</urlset>`
+  sitemap += '</urlset>\n'
 
   // Ensure dist directory exists
   if (!fs.existsSync(DIST_DIR)) {
