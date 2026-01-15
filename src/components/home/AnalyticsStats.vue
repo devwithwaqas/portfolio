@@ -98,11 +98,12 @@ export default {
 /* Analytics Stats Container */
 .analytics-stats-container {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
   margin-top: 20px;
   margin-bottom: 24px;
-  padding: 16px;
+  padding: 20px;
   background: linear-gradient(135deg, rgba(30, 10, 60, 0.4) 0%, rgba(20, 5, 40, 0.5) 100%);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -114,6 +115,7 @@ export default {
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
   animation: fadeInUp 0.6s ease-out;
+  width: 100%;
 }
 
 .analytics-stats-container:hover {
@@ -140,10 +142,12 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px;
+  padding: 16px 20px;
   background: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(79, 70, 229, 0.1) 100%);
   border-radius: 10px;
   border: 1px solid rgba(167, 139, 250, 0.2);
+  flex-shrink: 0;
+  min-width: 180px;
 }
 
 .analytics-icon-wrapper {
@@ -187,7 +191,9 @@ export default {
 .analytics-top-items {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
 }
 
 .analytics-top-label {
@@ -210,16 +216,17 @@ export default {
 }
 
 .analytics-items-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
 }
 
 .analytics-item {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 12px;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 8px;
   border: 1px solid rgba(167, 139, 250, 0.1);
@@ -227,41 +234,48 @@ export default {
   color: inherit;
   transition: all 0.3s ease;
   cursor: pointer;
+  min-width: 0;
 }
 
 .analytics-item:hover {
   background: rgba(167, 139, 250, 0.1);
   border-color: rgba(167, 139, 250, 0.3);
-  transform: translateX(4px);
+  transform: translateY(-2px);
 }
 
 .analytics-item-rank {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   background: linear-gradient(135deg, rgba(167, 139, 250, 0.3) 0%, rgba(124, 58, 237, 0.2) 100%);
   border-radius: 6px;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: #a78bfa;
   flex-shrink: 0;
+  align-self: flex-start;
 }
 
 .analytics-item-content {
   flex: 1;
   min-width: 0;
+  width: 100%;
 }
 
 .analytics-item-name {
   font-size: 0.875rem;
   font-weight: 600;
   color: #ffffff;
-  margin-bottom: 2px;
-  white-space: nowrap;
+  margin-bottom: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.3;
+  min-height: 2.6em;
 }
 
 .analytics-item-views {
@@ -270,6 +284,7 @@ export default {
 }
 
 .analytics-item-arrow {
+  display: none;
   font-size: 16px;
   color: rgba(167, 139, 250, 0.6);
   transition: all 0.3s ease;
@@ -284,14 +299,25 @@ export default {
 /* Responsive Design - Using existing patterns */
 @media (max-width: 992px) {
   .analytics-stats-container {
+    flex-direction: column;
     padding: 14px;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 20px;
   }
 
   .analytics-total-card {
-    padding: 10px;
+    padding: 12px;
     gap: 10px;
+    width: 100%;
+    min-width: unset;
+  }
+
+  .analytics-top-items {
+    width: 100%;
+  }
+
+  .analytics-items-list {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .analytics-icon-wrapper {
@@ -314,11 +340,48 @@ export default {
     margin-bottom: 18px;
     padding: 12px;
     gap: 10px;
+    flex-direction: column;
   }
 
   .analytics-total-card {
     gap: 10px;
     padding: 10px;
+    width: 100%;
+  }
+
+  .analytics-top-items {
+    width: 100%;
+  }
+
+  .analytics-items-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .analytics-item {
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .analytics-item-arrow {
+    display: block;
+    font-size: 16px;
+    color: rgba(167, 139, 250, 0.6);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .analytics-item:hover .analytics-item-arrow {
+    color: #a78bfa;
+    transform: translateX(4px);
+  }
+
+  .analytics-item-name {
+    -webkit-line-clamp: 1;
+    min-height: unset;
+    white-space: nowrap;
   }
 
   .analytics-icon-wrapper {
@@ -332,15 +395,6 @@ export default {
 
   .analytics-value {
     font-size: 1.25rem;
-  }
-
-  .analytics-item {
-    padding: 8px;
-    gap: 8px;
-  }
-
-  .analytics-item-name {
-    font-size: 0.8125rem;
   }
 }
 

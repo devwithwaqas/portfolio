@@ -90,11 +90,11 @@
                       </div>
                       
                       <!-- Remote Work Ready Section -->
-                      <div style="background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(32, 201, 151, 0.1) 100%); border: 2px solid rgba(40, 167, 69, 0.3); padding: 25px; border-radius: 15px; margin-top: 25px;">
+                      <div class="remote-work-section" style="background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(32, 201, 151, 0.1) 100%); border: 2px solid rgba(40, 167, 69, 0.3); padding: 25px; border-radius: 15px; margin-top: 25px;">
                         <h5 style="color: #28a745; margin-bottom: 15px; font-weight: 600;">
                           <i class="fas fa-globe" style="margin-right: 8px;"></i>Global Availability & Ready to Work
                         </h5>
-                        <div style="color: #45505b; line-height: 1.8;">
+                        <div class="remote-work-content" style="color: #45505b; line-height: 1.8;">
                           <p style="margin-bottom: 12px;"><strong>🌍 Global Availability:</strong> Working with clients in <strong>USA, Europe (UK, Germany, Netherlands, Switzerland), and worldwide</strong>. No location restrictions.</p>
                           <p style="margin-bottom: 12px;"><strong>⏰ Flexible Timezone:</strong> Experienced in distributed team collaboration across <strong>EST, PST, GMT, and CET</strong> timezones.</p>
                           <p style="margin-bottom: 12px;"><strong>💼 Experience:</strong> {{ totalExperience }}+ years working with <strong>Fortune 500 companies globally</strong>. Delivered enterprise solutions to clients across 5+ countries.</p>

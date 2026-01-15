@@ -635,7 +635,12 @@ p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label) {
 .available-badge span,
 .badge-text,
 .remote-available-badge,
-.remote-available-badge * {
+.remote-available-badge *,
+.remote-work-section,
+.remote-work-section *,
+.remote-work-section p,
+.remote-work-content,
+.remote-work-content p {
   text-align: left !important;
   text-justify: auto !important;
   hyphens: none !important;
@@ -655,6 +660,17 @@ p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label) {
   p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label) {
     text-justify: auto !important;  /* hyphen-based for mobile */
     hyphens: auto !important;        /* enable hyphens on mobile */
+  }
+  
+  /* Ensure remote work section stays left-aligned on mobile */
+  .remote-work-section,
+  .remote-work-section *,
+  .remote-work-section p,
+  .remote-work-content,
+  .remote-work-content p {
+    text-align: left !important;
+    text-justify: auto !important;
+    hyphens: none !important;
   }
 }
 
