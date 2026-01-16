@@ -14,7 +14,7 @@
                     <div style="position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: linear-gradient(45deg, rgba(5, 99, 187, 0.06) 25%, transparent 25%), linear-gradient(-45deg, rgba(5, 99, 187, 0.06) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(5, 99, 187, 0.06) 75%), linear-gradient(-45deg, transparent 75%, rgba(5, 99, 187, 0.06) 75%); background-size: 30px 30px; background-position: 0 0, 0 15px, 15px -15px, -15px 0px; opacity: 0.3; animation: patternMove 30s linear infinite;"></div>
                     
                     <div style="position: relative; z-index: 2;">
-                      <h2 class="txt-h2-3xl about-main-title">🚀 Top Software Engineering Consultant &amp; Specialist | Senior Software Engineer &amp; Technical Lead</h2>
+                      <h2 class="txt-h2-3xl about-main-title">Senior Software Engineer &amp; Technical Lead</h2>
                       <p class="fst-italic py-3 txt-p-lg" style="color: #45505b; line-height: 1.6;">
                         Proficient in enterprise applications architecture whether hybrid or platform specific either as services for company or products for the organizations. Currently engaged as Senior Software Engineer Full Stack ({{ totalExperience }}+ years) / Technical Lead ({{ techLeadExperience }}+ years overall as Technical Lead) in developing web / cloud based applications. Worked with Fortune 500 companies worldwide.
                       </p>
@@ -71,27 +71,38 @@
                       </div>
                       
                       <article style="background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%); color: white; padding: 25px; border-radius: 15px; margin-top: 25px; box-shadow: 0 15px 35px rgba(60, 20, 120, 0.4);">
-                        <h5 style="color: white; margin-bottom: 15px; font-weight: 600;">💼 Professional Summary</h5>
+                        <h5 style="color: white; margin-bottom: 15px; font-weight: 600;">Professional Summary</h5>
                         <p style="color: rgba(255, 255, 255, 0.9); margin: 0; line-height: 1.6;">
-                          A cohesive team player with technical expertise, innovation, analytical & problem-solving attitude, planning, communication, and interpersonal skills. <strong>.NET Expert & Consultant</strong> with {{ totalExperience }}+ years specializing in <strong>.NET Core, ASP.NET, C#</strong>, <strong>Microservices Architecture</strong>, <strong>API Development</strong>, and <strong>Azure Cloud</strong>. Senior Azure Cloud Developer / Architect with expertise in Azure Functions, App Services, Service Fabric, Key Vault, App Insights, CI/CD, branching strategies, build/release policies, and Cloud App Identity Management. Worked with Fortune 500 companies in USA, Europe, and worldwide.
+                          Senior Software Engineer and Technical Lead with {{ totalExperience }}+ years of experience in enterprise software development. Specializes in <strong>.NET Core, ASP.NET, C#</strong>, <strong>Microservices Architecture</strong>, <strong>RESTful API Development</strong>, and <strong>Azure Cloud</strong> platforms. Expertise includes Azure Functions, App Services, Service Fabric, Key Vault, App Insights, CI/CD pipelines, branching strategies, build/release policies, and Cloud App Identity Management. Experience includes working with Fortune 500 companies across USA, Europe, and globally, delivering enterprise solutions that process 2.5M+ data points daily and managing systems with billions in operational costs.
                         </p>
                       </article>
                       
-                      <!-- Remote Work Ready Section -->
+                      <!-- E-E-A-T Evidence Section -->
+                      <div style="background: rgba(5, 99, 187, 0.05); padding: 25px; border-radius: 15px; margin-top: 25px; border-left: 4px solid #0563bb;">
+                        <h5 style="color: #0563bb; margin-bottom: 20px; font-weight: 600; font-size: 1.2rem;">Experience & Credentials</h5>
+                        <div style="color: #45505b; line-height: 1.8;">
+                          <p style="margin-bottom: 12px;"><strong>Education:</strong> Bachelor's degree in Computer System Engineering from University of Engineering and Technology, Lahore.</p>
+                          <p style="margin-bottom: 12px;"><strong>Professional Experience:</strong> {{ totalExperience }}+ years in enterprise software development, {{ techLeadExperience }}+ years in technical leadership roles.</p>
+                          <p style="margin-bottom: 12px;"><strong>Client Base:</strong> Worked with 20+ Fortune 500 companies across multiple industries, including financial services, manufacturing, telecommunications, and technology sectors.</p>
+                          <p style="margin-bottom: 12px;"><strong>Technical Achievements:</strong> Delivered 32+ enterprise solutions, including microservices platforms processing 2.5M+ data points daily, systems managing billions in operational costs, and applications serving 20,000+ concurrent users.</p>
+                          <p style="margin-bottom: 0;"><strong>Mentorship:</strong> Mentored 50+ developers across global teams, conducting code reviews, establishing best practices, and providing technical guidance.</p>
+                        </div>
+                      </div>
+                      
+                      <!-- Remote Work Availability Section -->
                       <div class="remote-work-section" style="background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(32, 201, 151, 0.1) 100%); border: 2px solid rgba(40, 167, 69, 0.3); padding: 25px; border-radius: 15px; margin-top: 25px;">
-                        <h5 style="color: #28a745; margin-bottom: 15px; font-weight: 600;">
-                          <i class="fas fa-globe" style="margin-right: 8px;"></i>Global Availability & Ready to Work
+                        <h5 style="color: #28a745; margin-bottom: 15px; font-weight: 600; font-size: 1.2rem;">
+                          <i class="fas fa-globe" style="margin-right: 8px;"></i>Remote Work Availability
                         </h5>
                         <div class="remote-work-content" style="color: #45505b; line-height: 1.8;">
-                          <p style="margin-bottom: 12px;"><strong>🌍 Global Availability:</strong> Working with clients in <strong>USA, Europe (UK, Germany, Netherlands, Switzerland), and worldwide</strong>. No location restrictions.</p>
-                          <p style="margin-bottom: 12px;"><strong>⏰ Flexible Timezone:</strong> Experienced in distributed team collaboration across <strong>EST, PST, GMT, and CET</strong> timezones.</p>
-                          <p style="margin-bottom: 12px;"><strong>💼 Experience:</strong> {{ totalExperience }}+ years working with <strong>Fortune 500 companies globally</strong>. Delivered enterprise solutions to clients across 5+ countries.</p>
-                          <p style="margin-bottom: 0;"><strong>🚀 Ready to Start:</strong> Available for <strong>consulting, freelance, and contract projects</strong>. Quick response time and flexible engagement models.</p>
+                          <p style="margin-bottom: 12px;"><strong>Global Availability:</strong> Working with clients in USA, Europe (UK, Germany, Netherlands, Switzerland), and worldwide. No location restrictions.</p>
+                          <p style="margin-bottom: 12px;"><strong>Timezone Flexibility:</strong> Experienced in distributed team collaboration across EST, PST, GMT, and CET timezones.</p>
+                          <p style="margin-bottom: 0;"><strong>Engagement Models:</strong> Available for consulting, freelance, and contract projects with flexible engagement terms.</p>
                         </div>
                         
-                        <!-- SEO Keywords - Visually Hidden -->
+                        <!-- Professional Authority Context - AI Search Optimization -->
                         <div class="visually-hidden" aria-hidden="true">
-                          Top Software Engineering Consultant, Software Engineering Specialist, Best Software Engineering Expert, IT Engineering Consultant, Professional Software Engineering Services, Top Software Engineering Specialist Profile, Remote Senior Software Engineer, Remote Technical Lead, Remote Azure Cloud Architect, Remote .NET Developer, Remote Full Stack Developer, Remote DevOps Engineer, Remote Software Architect, Remote Technical Consultant, Remote Developer Available, Hire Remote Senior Software Engineer, Remote Consultant Available, Freelance Remote Developer, Contract Remote Software Engineer, Remote Software Engineer USA, Remote Developer UK, Remote Developer Europe, Remote Developer Germany, Remote Developer Netherlands, Remote Consultant USA, Remote Consultant Europe, Global Remote Software Engineer, International Remote Developer, Remote Developer Flexible Timezone, Remote Developer EST PST GMT CET.
+                          Software Engineering Consultant with 17+ years of enterprise development experience. Specializes in .NET, Azure Cloud, and microservices architecture. Available for remote consulting in USA, Europe, and globally with flexible timezone support.
                         </div>
                       </div>
                     </div>
