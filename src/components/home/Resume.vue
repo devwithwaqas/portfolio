@@ -552,16 +552,6 @@ export default {
     }
   },
   computed: {
-    currentAge() {
-      const today = new Date()
-      const birth = new Date(1987, 8, 21) // September 21, 1987 - Month is 0-indexed
-      let age = today.getFullYear() - birth.getFullYear()
-      const monthDiff = today.getMonth() - birth.getMonth()
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-        age--
-      }
-      return age
-    },
     calculatedTotalExperience() {
       // Calculate total experience from first job (Jan 1, 2008) to present
       const startDate = new Date(2008, 0, 1) // January 1, 2008
