@@ -18,7 +18,7 @@
           <li class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
             <meta itemprop="position" :content="parentLink ? '3' : '2'" />
             <span itemprop="name">{{ currentPage }}</span>
-            <meta itemprop="item" :content="window.location.href" />
+            <meta itemprop="item" :content="currentUrl" />
           </li>
         </ol>
       </nav>
@@ -47,12 +47,28 @@ export default {
       default: 'Portfolio'
     }
   },
+  computed: {
+    currentUrl() {
+      // Safely get current URL using router or window
+      if (typeof window !== 'undefined' && window.location) {
+        return window.location.href
+      }
+      // Fallback: build URL from router
+      if (this.$route) {
+        const baseUrl = SITE_URL.replace(/\/$/, '')
+        const path = this.$route.path.startsWith('/') ? this.$route.path : `/${this.$route.path}`
+        return `${baseUrl}${path}`
+      }
+      // Last resort fallback
+      return SITE_URL
+    }
+  },
   mounted() {
     // Generate and inject BreadcrumbList structured data for SEO
     const breadcrumbItems = [
       { name: 'Home', url: SITE_URL },
       { name: this.parentLabel, url: `${SITE_URL}${this.parentLink.replace(/^\/#/, '')}` },
-      { name: this.currentPage, url: window.location.href }
+      { name: this.currentPage, url: this.currentUrl }
     ]
     
     const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems)
