@@ -34,68 +34,68 @@
             </h5>
             <ul class="footer-nav-links">
               <li>
-                <router-link to="/" class="footer-nav-link txt-footer-link-md">
+                <a @click.prevent="scrollToSection('hero', $event)" href="#" class="footer-nav-link txt-footer-link-md">
                   <div class="footer-icon-wrapper home-icon">
                     <i class="fas fa-house navicon icon-sm"></i>
                   </div>
                   <span>Home</span>
-                </router-link>
+                </a>
               </li>
               <li>
-                <router-link to="/#about" class="footer-nav-link txt-footer-link-md">
+                <a @click.prevent="scrollToSection('about', $event)" href="#" class="footer-nav-link txt-footer-link-md">
                   <div class="footer-icon-wrapper about-icon">
                     <i class="fas fa-user-circle navicon icon-sm"></i>
                   </div>
                   <span>About</span>
-                </router-link>
+                </a>
               </li>
               <li>
-                <router-link to="/#technology-expertise" class="footer-nav-link txt-footer-link-md">
+                <a @click.prevent="scrollToSection('technology-expertise', $event)" href="#" class="footer-nav-link txt-footer-link-md">
                   <div class="footer-icon-wrapper expertise-icon">
                     <i class="bi bi-star-fill navicon icon-sm"></i>
                   </div>
                   <span>Expertise</span>
-                </router-link>
+                </a>
               </li>
               <li>
-                <router-link to="/#skills" class="footer-nav-link txt-footer-link-md">
+                <a @click.prevent="scrollToSection('skills', $event)" href="#" class="footer-nav-link txt-footer-link-md">
                   <div class="footer-icon-wrapper skills-icon">
                     <i class="bi bi-layers-fill navicon icon-sm"></i>
                   </div>
                   <span>Skills</span>
-                </router-link>
+                </a>
               </li>
               <li>
-                <router-link to="/#resume" class="footer-nav-link txt-footer-link-md">
+                <a @click.prevent="scrollToSection('resume', $event)" href="#" class="footer-nav-link txt-footer-link-md">
                   <div class="footer-icon-wrapper resume-icon">
                     <i class="fas fa-file-lines navicon icon-sm"></i>
                   </div>
                   <span>Resume</span>
-                </router-link>
+                </a>
               </li>
               <li>
-                <router-link to="/#portfolio" class="footer-nav-link txt-footer-link-md">
+                <a @click.prevent="scrollToSection('portfolio', $event)" href="#" class="footer-nav-link txt-footer-link-md">
                   <div class="footer-icon-wrapper portfolio-icon">
                     <i class="fas fa-briefcase navicon icon-sm"></i>
                   </div>
                   <span>Portfolio</span>
-                </router-link>
+                </a>
               </li>
               <li>
-                <router-link to="/#services" class="footer-nav-link txt-footer-link-md">
+                <a @click.prevent="scrollToSection('services', $event)" href="#" class="footer-nav-link txt-footer-link-md">
                   <div class="footer-icon-wrapper services-icon">
                     <i class="bi bi-gear-fill navicon icon-sm"></i>
                   </div>
                   <span>Services</span>
-                </router-link>
+                </a>
               </li>
               <li>
-                <router-link to="/#contact" class="footer-nav-link txt-footer-link-md">
+                <a @click.prevent="scrollToSection('contact', $event)" href="#" class="footer-nav-link txt-footer-link-md">
                   <div class="footer-icon-wrapper contact-icon">
                     <i class="fas fa-paper-plane navicon icon-sm"></i>
                   </div>
                   <span>Contact</span>
-                </router-link>
+                </a>
               </li>
             </ul>
           </div>
@@ -202,16 +202,20 @@ export default {
     }
   },
   methods: {
-    scrollToContact() {
+    scrollToSection(sectionId, event) {
+      if (event) {
+        event.preventDefault()
+      }
+      
       // Navigate to home if not already there
       if (this.$route.path !== '/') {
         this.$router.push('/').then(() => {
           this.$nextTick(() => {
             requestAnimationFrame(() => {
-              const contactSection = document.getElementById('contact')
-              if (contactSection) {
+              const element = document.getElementById(sectionId)
+              if (element) {
                 const headerOffset = 100
-                const elementPosition = contactSection.getBoundingClientRect().top
+                const elementPosition = element.getBoundingClientRect().top
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset
                 window.scrollTo({
                   top: offsetPosition,
@@ -224,10 +228,10 @@ export default {
       } else {
         // Already on home page, just scroll
         requestAnimationFrame(() => {
-          const contactSection = document.getElementById('contact')
-          if (contactSection) {
+          const element = document.getElementById(sectionId)
+          if (element) {
             const headerOffset = 100
-            const elementPosition = contactSection.getBoundingClientRect().top
+            const elementPosition = element.getBoundingClientRect().top
             const offsetPosition = elementPosition + window.pageYOffset - headerOffset
             window.scrollTo({
               top: offsetPosition,
@@ -236,6 +240,9 @@ export default {
           }
         })
       }
+    },
+    scrollToContact() {
+      this.scrollToSection('contact')
     }
   }
 }
