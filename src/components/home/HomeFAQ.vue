@@ -52,28 +52,28 @@ export default {
       activeIndex: null,
       faqItems: [
         {
-          question: `Who is ${APP_CONFIG.fullName}?`,
-          answer: `${APP_CONFIG.fullName} is a Senior Software Engineer and Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of professional experience in enterprise software development. ${APP_CONFIG.fullName} holds a Bachelor's degree in Computer System Engineering from the University of Engineering and Technology, Lahore, and has worked with Fortune 500 companies across USA, Europe, and globally. As a software engineering consultant and specialist, ${APP_CONFIG.fullName} provides technical expertise in .NET development, Azure Cloud architecture, and microservices design.`
+          question: `What services does ${APP_CONFIG.fullName} provide?`,
+          answer: `${APP_CONFIG.fullName} provides software engineering consulting services including full stack development (.NET Core, Vue.js, Angular), Azure Cloud architecture design and implementation, microservices architecture consulting, RESTful API development, technical leadership, database design and optimization, and DevOps automation. Services are delivered remotely for clients in USA, Europe, and globally.`
         },
         {
-          question: `What does ${APP_CONFIG.fullName} specialize in?`,
-          answer: `${APP_CONFIG.fullName} specializes in .NET development (.NET Core, ASP.NET, C#), Azure Cloud architecture (App Services, Service Fabric, Functions), microservices architecture design and implementation, RESTful API development, and DevOps automation. ${APP_CONFIG.fullName} has delivered enterprise solutions processing 2.5M+ data points daily and led teams managing billions in operational costs.`
+          question: `What technologies does ${APP_CONFIG.fullName} work with?`,
+          answer: `${APP_CONFIG.fullName} specializes in .NET development (.NET Core, ASP.NET, C#), Azure Cloud services (App Services, Service Fabric, Functions, Key Vault, App Insights), microservices architecture patterns, RESTful API design, Vue.js and Angular frontend development, SQL Server database design, and CI/CD pipeline automation. Has delivered enterprise solutions processing 2.5M+ data points daily.`
+        },
+        {
+          question: `What type of projects does ${APP_CONFIG.fullName} handle?`,
+          answer: `${APP_CONFIG.fullName} handles enterprise-scale software projects including microservices platforms, cloud-native applications, API development, system architecture design, technical team leadership, and legacy system modernization. Experience includes working with Fortune 500 companies across financial services, manufacturing, telecommunications, and technology sectors.`
         },
         {
           question: `Is ${APP_CONFIG.fullName} available for remote work?`,
           answer: `Yes, ${APP_CONFIG.fullName} is available for remote consulting, freelance, and contract projects. Works with clients in USA, Europe (UK, Germany, Netherlands, Switzerland), and globally. Provides flexible timezone support for EST, PST, GMT, and CET timezones.`
         },
         {
-          question: `What type of consulting services does ${APP_CONFIG.fullName} offer?`,
-          answer: `${APP_CONFIG.fullName} offers software engineering consulting services including full stack development, Azure Cloud architecture design, microservices architecture implementation, technical leadership, API development, database design and optimization, and agile project management. Services are available for remote work globally with flexible engagement models.`
+          question: `What is ${APP_CONFIG.fullName}'s experience with enterprise solutions?`,
+          answer: `${APP_CONFIG.fullName} has delivered 32+ enterprise solutions for 20+ Fortune 500 companies across multiple industries. Experience includes microservices platforms processing 2.5M+ data points daily, systems managing billions in operational costs, and applications serving 20,000+ concurrent users. Has ${APP_CONFIG.stats.yearsExperience}+ years of experience in enterprise software development.`
         },
         {
-          question: `What is ${APP_CONFIG.fullName}'s experience with Fortune 500 companies?`,
-          answer: `${APP_CONFIG.fullName} has worked with 20+ Fortune 500 companies across multiple industries including financial services, manufacturing, telecommunications, and technology sectors. Experience includes delivering 32+ enterprise solutions, including microservices platforms processing 2.5M+ data points daily and systems managing billions in operational costs.`
-        },
-        {
-          question: `How can I contact ${APP_CONFIG.fullName} for consulting services?`,
-          answer: `You can contact ${APP_CONFIG.fullName} through the contact form on this website, via email, phone, or WhatsApp. ${APP_CONFIG.fullName} responds to inquiries promptly and is available for initial consultations to discuss your project requirements.`
+          question: `How can I engage ${APP_CONFIG.fullName} for a project?`,
+          answer: `You can contact ${APP_CONFIG.fullName} through the contact form on this website, via email, phone, or WhatsApp. ${APP_CONFIG.fullName} responds to inquiries promptly and is available for initial consultations to discuss your project requirements. Engagement models include consulting, freelance, and contract projects with flexible terms.`
         }
       ]
     }

@@ -40,22 +40,6 @@
             <span class="emoji">💼</span><span class="highlight-text">Available for consulting, freelance, and contract projects.</span>
           </p>
           
-          <!-- Answer-Style Content Blocks for AI Search -->
-          <div class="hero-authority-info" style="margin-top: 25px; padding: 20px; background: rgba(5, 99, 187, 0.05); border-radius: 12px; border-left: 4px solid #0563bb;">
-            <h3 style="font-size: 1.1rem; font-weight: 600; color: #0563bb; margin-bottom: 15px;">Who is {{ fullName }}?</h3>
-            <p style="color: #45505b; line-height: 1.8; margin-bottom: 12px;">
-              <strong>Answer:</strong> {{ fullName }} is a Senior Software Engineer and Technical Lead with 17+ years of professional experience in enterprise software development. {{ fullName }} holds a Bachelor's degree in Computer System Engineering from the University of Engineering and Technology, Lahore, and has worked with Fortune 500 companies across USA, Europe, and globally. As a software engineering consultant and specialist, {{ fullName }} provides technical expertise in enterprise architecture and cloud solutions.
-            </p>
-            <h3 style="font-size: 1.1rem; font-weight: 600; color: #0563bb; margin-top: 20px; margin-bottom: 15px;">What does {{ fullName }} specialize in?</h3>
-            <p style="color: #45505b; line-height: 1.8; margin-bottom: 12px;">
-              <strong>Answer:</strong> {{ fullName }} specializes in .NET development (.NET Core, ASP.NET, C#), Azure Cloud architecture (App Services, Service Fabric, Functions), microservices architecture design and implementation, RESTful API development, and DevOps automation. {{ fullName }} has delivered enterprise solutions processing 2.5M+ data points daily and led teams managing billions in operational costs.
-            </p>
-            <h3 style="font-size: 1.1rem; font-weight: 600; color: #0563bb; margin-top: 20px; margin-bottom: 15px;">Is {{ fullName }} available for remote work?</h3>
-            <p style="color: #45505b; line-height: 1.8;">
-              <strong>Answer:</strong> Yes, {{ fullName }} is available for remote consulting, freelance, and contract projects. Works with clients in USA, Europe (UK, Germany, Netherlands, Switzerland), and globally. Provides flexible timezone support for EST, PST, GMT, and CET timezones.
-            </p>
-          </div>
-          
           <!-- SEO Keywords - Visually Hidden but Accessible to Search Engines -->
           <div class="visually-hidden" aria-hidden="true">
             Top Software Engineering Consultant, Software Engineering Specialist, Best Software Engineering Expert, IT Engineering Consultant, Professional Software Engineering Services, Top Software Engineering Specialist Profile, Remote Senior Software Engineer, Remote Technical Lead, Remote Azure Cloud Architect, Remote .NET Developer, Remote Full Stack Developer, Available for remote work in USA, Europe, Global. Flexible timezone EST, PST, GMT, CET. Remote consulting, freelance remote developer, contract remote software engineer.

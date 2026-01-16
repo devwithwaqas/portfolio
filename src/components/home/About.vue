@@ -118,6 +118,22 @@
                           Top Software Engineering Consultant, Software Engineering Specialist, Best Software Engineering Expert, IT Engineering Consultant, Professional Software Engineering Services, Top Software Engineering Specialist Profile, Remote Senior Software Engineer, Remote Technical Lead, Remote Azure Cloud Architect, Remote .NET Developer, Remote Full Stack Developer, Remote DevOps Engineer, Remote Software Architect, Remote Technical Consultant, Remote Developer Available, Hire Remote Senior Software Engineer, Remote Consultant Available, Freelance Remote Developer, Contract Remote Software Engineer, Remote Software Engineer USA, Remote Developer UK, Remote Developer Europe, Remote Developer Germany, Remote Developer Netherlands, Remote Consultant USA, Remote Consultant Europe, Global Remote Software Engineer, International Remote Developer, Remote Developer Flexible Timezone, Remote Developer EST PST GMT CET.
                         </div>
                       </div>
+                      
+                      <!-- Answer-Style Content Blocks for AI Search - What I Do -->
+                      <div class="about-expertise-info" style="margin-top: 30px; padding: 25px; background: rgba(5, 99, 187, 0.05); border-radius: 12px; border-left: 4px solid #0563bb;">
+                        <h3 style="font-size: 1.3rem; font-weight: 600; color: #0563bb; margin-bottom: 20px;">What Services Does {{ fullName }} Provide?</h3>
+                        <p style="color: #45505b; line-height: 1.8; margin-bottom: 15px;">
+                          <strong>Answer:</strong> {{ fullName }} provides software engineering consulting services including full stack development (.NET Core, Vue.js, Angular), Azure Cloud architecture design and implementation, microservices architecture consulting, RESTful API development, technical leadership, and DevOps automation. Services are delivered remotely for clients in USA, Europe, and globally with flexible timezone support.
+                        </p>
+                        <h3 style="font-size: 1.3rem; font-weight: 600; color: #0563bb; margin-top: 25px; margin-bottom: 15px;">What Technologies Does {{ fullName }} Work With?</h3>
+                        <p style="color: #45505b; line-height: 1.8; margin-bottom: 15px;">
+                          <strong>Answer:</strong> {{ fullName }} specializes in .NET development (.NET Core, ASP.NET, C#), Azure Cloud services (App Services, Service Fabric, Functions, Key Vault, App Insights), microservices architecture patterns, RESTful API design, Vue.js and Angular frontend development, SQL Server database design, and CI/CD pipeline automation. Has delivered enterprise solutions processing 2.5M+ data points daily.
+                        </p>
+                        <h3 style="font-size: 1.3rem; font-weight: 600; color: #0563bb; margin-top: 25px; margin-bottom: 15px;">What Type of Projects Does {{ fullName }} Handle?</h3>
+                        <p style="color: #45505b; line-height: 1.8;">
+                          <strong>Answer:</strong> {{ fullName }} handles enterprise-scale software projects including microservices platforms, cloud-native applications, API development, system architecture design, technical team leadership, and legacy system modernization. Experience includes working with Fortune 500 companies across financial services, manufacturing, telecommunications, and technology sectors. Projects range from consulting engagements to full development and technical leadership roles.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
