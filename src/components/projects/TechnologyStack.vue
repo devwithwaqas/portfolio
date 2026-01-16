@@ -349,6 +349,25 @@ export default {
 
 /* Icon sizes now managed by font-sizes.css */
 
+/* LazyImage Container Constraints - Match icon wrapper sizes */
+.tech-icon-container,
+.category-icon-container {
+  width: 36px !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.tech-icon-container img,
+.category-icon-container img {
+  width: 32px !important;
+  height: 32px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
 /* Text Content - Flexible column */
 .tech-content {
   display: flex;
@@ -375,5 +394,32 @@ export default {
   }
   
   /* Icon sizes now managed by font-sizes.css responsive classes */
+  
+  /* Responsive LazyImage container sizes */
+  .tech-icon-container,
+  .category-icon-container {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  
+  .tech-icon-container img,
+  .category-icon-container img {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .tech-icon-container,
+  .category-icon-container {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  
+  .tech-icon-container img,
+  .category-icon-container img {
+    width: 28px !important;
+    height: 28px !important;
+  }
 }
 </style>
