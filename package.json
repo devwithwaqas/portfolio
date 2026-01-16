@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "serve": "vite preview",
     "optimize-service-images": "node scripts/optimize-service-images.js",
-    "optimize-icons": "node scripts/optimize-icons.js"
+    "optimize-icons": "node scripts/optimize-icons.js",
+    "optimize-gallery-images": "node scripts/optimize-gallery-images.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

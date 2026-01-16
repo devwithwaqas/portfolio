@@ -27,8 +27,8 @@
               <LazyImage 
                 :src="image" 
                 :alt="`${projectName} - Enterprise Software Project - Screenshot ${index + 1} - Remote Consultant`"
-                :lazy="index !== currentIndex"
-                :priority="index === currentIndex ? 'high' : 'low'"
+                :lazy="!shouldEagerLoad(index)"
+                :priority="getImagePriority(index)"
                 container-class="carousel-slide-image"
                 image-class="carousel-slide-img"
               />
@@ -98,7 +98,35 @@ export default {
   beforeUnmount() {
     this.stopAutoplay()
   },
+  watch: {
+    // When currentIndex changes, trigger loading of adjacent slides
+    currentIndex() {
+      // Force adjacent slides to load by updating the lazy state
+      this.$nextTick(() => {
+        // LazyImage will check shouldLoad when mounted, but we need to trigger
+        // loading for slides that are now adjacent
+        const prevIndex = this.currentIndex === 0 ? this.images.length - 1 : this.currentIndex - 1
+        const nextIndex = this.currentIndex === this.images.length - 1 ? 0 : this.currentIndex + 1
+        
+        // The LazyImage component will handle loading based on lazy prop changes
+        // Force update to ensure reactivity
+        this.$forceUpdate()
+      })
+    }
+  },
   methods: {
+    shouldEagerLoad(index) {
+      const prevIndex = this.currentIndex === 0 ? this.images.length - 1 : this.currentIndex - 1
+      const nextIndex = this.currentIndex === this.images.length - 1 ? 0 : this.currentIndex + 1
+      return index === this.currentIndex || index === prevIndex || index === nextIndex
+    },
+    getImagePriority(index) {
+      if (index === this.currentIndex) return 'high'
+      const prevIndex = this.currentIndex === 0 ? this.images.length - 1 : this.currentIndex - 1
+      const nextIndex = this.currentIndex === this.images.length - 1 ? 0 : this.currentIndex + 1
+      if (index === prevIndex || index === nextIndex) return 'auto'
+      return 'low'
+    },
     goToNext() {
       if (this.isTransitioning) return
       this.isTransitioning = true

@@ -1,13 +1,13 @@
 <template>
   <div ref="imageContainer" class="lazy-image-container" :class="containerClass">
-    <!-- Placeholder while loading -->
-    <div v-if="!isLoaded && !hasError" class="lazy-image-placeholder" :style="placeholderStyle">
-      <i class="bi bi-image" style="opacity: 0.2; font-size: 2rem;"></i>
+    <!-- Placeholder while loading - always rendered to maintain layout space -->
+    <div v-show="!isLoaded && !hasError" class="lazy-image-placeholder" :style="placeholderStyle">
+      <i class="bi bi-image" style="opacity: 0.1; font-size: 0.75rem;"></i>
     </div>
     
-    <!-- Actual image -->
+    <!-- Actual image - load when shouldLoad is true -->
     <img 
-      v-if="isLoaded || !lazy"
+      v-if="shouldLoad"
       :src="src" 
       :alt="alt"
       :class="imageClass"
@@ -54,7 +54,7 @@ export default {
     },
     rootMargin: {
       type: String,
-      default: '50px'
+      default: '200px' // Increased default to start loading earlier, before scroll reaches element
     },
     containerClass: {
       type: String,
@@ -82,14 +82,31 @@ export default {
       isLoaded: false,
       hasError: false,
       observer: null,
-      imageElement: null
+      imageElement: null,
+      shouldLoad: false // Separate flag to control when to actually load the image
     }
   },
   expose: ['imageElement'],
+  watch: {
+    // Watch lazy prop changes - if it becomes false, load immediately
+    lazy(newValue, oldValue) {
+      // If lazy was true and now is false, start loading immediately
+      if (oldValue === true && newValue === false && !this.shouldLoad) {
+        // Stop observing since we're loading eagerly now
+        if (this.observer && this.$refs.imageContainer) {
+          this.observer.unobserve(this.$refs.imageContainer)
+          this.observer = null
+        }
+        // Start loading
+        this.shouldLoad = true
+      }
+    }
+  },
   mounted() {
     // If lazy is disabled, load immediately
     if (!this.lazy) {
       this.isLoaded = true
+      this.shouldLoad = true
       // Get image element reference immediately for eager loading
       this.$nextTick(() => {
         if (this.$refs.imageElementRef) {
@@ -99,7 +116,7 @@ export default {
       return
     }
     
-    // Setup lazy loading with IntersectionObserver
+    // For lazy loading, show placeholder immediately but start observing
     this.setupLazyLoading()
   },
   beforeUnmount() {
@@ -117,18 +134,19 @@ export default {
         // Check if IntersectionObserver is supported
         if (typeof IntersectionObserver === 'undefined') {
           // Fallback: load immediately if IntersectionObserver not supported
+          this.shouldLoad = true
           this.isLoaded = true
           return
         }
         
-        // Create IntersectionObserver
+        // Create IntersectionObserver with larger rootMargin to start loading earlier
         this.observer = new IntersectionObserver(
           (entries) => {
             entries.forEach(entry => {
               if (entry.isIntersecting) {
-                // Image is visible, load it
-                this.isLoaded = true
-                // Stop observing once loaded
+                // Image is visible or near viewport, start loading
+                this.shouldLoad = true
+                // Stop observing once we've decided to load
                 if (this.observer) {
                   this.observer.unobserve(entry.target)
                 }
@@ -137,7 +155,7 @@ export default {
           },
           {
             threshold: this.threshold,
-            rootMargin: this.rootMargin
+            rootMargin: this.rootMargin || '100px' // Default to larger margin for earlier loading
           }
         )
         
@@ -165,25 +183,20 @@ export default {
 <style scoped>
 .lazy-image-container {
   position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+  display: inline-block; /* Prevent collapsing for inline contexts */
+  vertical-align: middle; /* Align with text baseline */
+  flex-shrink: 0; /* When used in flex containers, maintain size */
 }
 
 .lazy-image-placeholder,
 .lazy-image-error {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  min-height: 200px;
-  background: linear-gradient(135deg, 
-    rgba(139, 92, 246, 0.05) 0%, 
-    rgba(236, 72, 153, 0.05) 100%
-  );
-  border-radius: 8px;
+  display: inline-block;
+  width: 1em; /* Use em-based sizing to match text/icon context */
+  height: 1em;
+  line-height: 1;
+  text-align: center;
+  vertical-align: middle;
+  opacity: 0.3;
 }
 
 .lazy-image-container img {
