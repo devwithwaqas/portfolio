@@ -692,6 +692,24 @@ export default {
     margin: 0;
   }
   
+  /* Center Services List on Mobile */
+  .footer-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .footer-list-item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .footer-service-link {
+    justify-content: center;
+  }
+  
   .social-links {
     justify-content: center;
   }
