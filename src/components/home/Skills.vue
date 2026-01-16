@@ -270,6 +270,12 @@ export default {
   filter: drop-shadow(0 4px 8px rgba(5, 99, 187, 0.3));
 }
 
+.category-icon-container {
+  width: auto !important;
+  height: auto !important;
+  flex-shrink: 0;
+}
+
 .skills-section-title {
   color: #0563bb;
   font-weight: 600;
