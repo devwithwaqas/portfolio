@@ -315,6 +315,20 @@ export function getHomePageSEO() {
     'remote freelance consultant'
   ]
   
+  // EXPERT-LEVEL KEYWORDS (for "top consultant", "specialist", "best expert" searches)
+  const expertLevelKeywords = [
+    'top software engineering consultant',
+    'software engineering specialist',
+    'best software engineering expert',
+    'IT engineering consultant',
+    'professional software engineering services',
+    'top software engineering specialist profile',
+    'software engineering consultant expert',
+    'leading software engineering consultant',
+    'premier software engineering specialist',
+    'elite software engineering expert'
+  ]
+  
   // Base keywords
   const baseKeywords = [
     'Senior Software Engineer',
@@ -340,6 +354,7 @@ export function getHomePageSEO() {
     title: `${fullName} - Remote Senior Software Engineer & Technical Lead | Available USA, Europe, Global | ${experience}+ Years`,
     description: `Hire ${fullName} - Remote Senior Software Engineer & Technical Lead with ${experience}+ years of experience. Available for remote work in USA, Europe, and globally. Specializing in .NET, Azure Cloud, microservices, and enterprise architecture. Flexible timezone (EST, PST, GMT, CET). Worked with Fortune 500 companies worldwide. Contact for remote consulting, freelance, and contract projects.`,
     keywords: [
+      ...expertLevelKeywords,
       ...baseKeywords,
       ...technologyKeywords,
       ...platformKeywords,

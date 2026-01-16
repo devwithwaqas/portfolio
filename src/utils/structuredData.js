@@ -146,7 +146,13 @@ export function generatePersonSchema() {
       'Microservices Architect',
       'API Development Expert',
       'Enterprise Architect',
-      'DevOps Consultant'
+      'DevOps Consultant',
+      'Software Engineering Consultant',
+      'Software Engineering Specialist',
+      'Software Engineering Expert',
+      'IT Engineering Consultant',
+      'Top Software Engineering Consultant',
+      'Best Software Engineering Expert'
     ],
     description: `Senior Software Engineer & Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of experience in .NET, Azure Cloud, and enterprise architecture. Specializing in full-stack development, microservices, and cloud solutions. Available for remote work globally.`,
     // AI Search Optimization: Add more detailed description for AI engines

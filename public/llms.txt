@@ -7,7 +7,7 @@
 
 # Home Page - Professional Profile
 https://devwithwaqas.github.io/portfolio/
-Description: Waqas Ahmad - Remote Senior Software Engineer & Technical Lead with 17+ years of experience in .NET, Azure Cloud, microservices, and enterprise architecture. Available for remote work globally.
+Description: Waqas Ahmad - Top Software Engineering Consultant, Software Engineering Specialist, and Best Software Engineering Expert with 17+ years of experience. Professional Software Engineering Services provider and IT Engineering Consultant specializing in .NET, Azure Cloud, microservices, and enterprise architecture. Available for remote work globally.
 
 # Key Service Pages
 https://devwithwaqas.github.io/portfolio/services/full-stack-development
@@ -37,6 +37,11 @@ Available: Remote work globally (USA, Europe, Global)
 Timezone: Flexible (EST, PST, GMT, CET)
 
 # Expertise Areas
+- Top Software Engineering Consultant
+- Software Engineering Specialist
+- Best Software Engineering Expert
+- IT Engineering Consultant
+- Professional Software Engineering Services
 - Senior Software Engineer
 - Technical Lead
 - Azure Cloud Architect
