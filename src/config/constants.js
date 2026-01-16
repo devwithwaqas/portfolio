@@ -29,7 +29,6 @@ export const APP_CONFIG = {
   // About section data - Will be calculated dynamically from work experience
   totalExperience: 17, // Calculated from Jan 1, 2008 to present
   techLeadExperience: 9, // Calculated from midway Squad Cell career (2015) to present
-  formattedBirthday: "September 21, 1987",
   // Stats data - Calculated from actual work experience
   stats: {
     enterpriseClients: 20, // Fortune 500 companies and enterprise clients

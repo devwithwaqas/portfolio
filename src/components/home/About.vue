@@ -24,12 +24,6 @@
                           <div style="background: rgba(5, 99, 187, 0.05); padding: 20px; border-radius: 15px; border-left: 4px solid #0563bb;">
                             <ul style="list-style: none; padding-left: 0; margin: 0;">
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-calendar-event icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
-                                <div style="flex: 1; min-width: 0;">
-                                  <strong class="txt-label-md" style="color: #0563bb;">Birthday:</strong> <span class="txt-span-md" style="color: #45505b; margin-left: 5px;">{{ formattedBirthday }}</span>
-                                </div>
-                              </li>
-                              <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
                                 <i class="bi bi-globe icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
                                   <strong class="txt-label-md" style="color: #0563bb;">Website:</strong> <a href="https://devwithwaqas.github.io/portfolio/" target="_blank" class="txt-link-md" style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word; text-decoration: none; transition: all 0.3s ease;" @mouseover="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.4)'" @mouseout="$event.target.style.color='#45505b'; $event.target.style.textShadow='none'">devwithwaqas.github.io/portfolio</a>
@@ -53,12 +47,6 @@
                         <div class="col-lg-6">
                           <div style="background: rgba(5, 99, 187, 0.05); padding: 20px; border-radius: 15px; border-left: 4px solid #0563bb;">
                             <ul style="list-style: none; padding-left: 0; margin: 0;">
-                              <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-person-badge icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
-                                <div style="flex: 1; min-width: 0;">
-                                  <strong class="txt-label-md" style="color: #0563bb;">Age:</strong> <span class="txt-span-md" style="color: #45505b; margin-left: 5px;">{{ currentAge }}</span>
-                                </div>
-                              </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
                                 <i class="bi bi-mortarboard icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
                                 <div style="flex: 1; min-width: 0;">
@@ -130,18 +118,6 @@ export default {
       ...APP_CONFIG
     }
   },
-  computed: {
-    currentAge() {
-      const today = new Date()
-      const birth = new Date(1987, 8, 21) // September 21, 1987 - Month is 0-indexed
-      let age = today.getFullYear() - birth.getFullYear()
-      const monthDiff = today.getMonth() - birth.getMonth()
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-        age--
-      }
-      return age
-    }
-  }
 }
 </script>
 
