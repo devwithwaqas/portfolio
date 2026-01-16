@@ -6,6 +6,27 @@ import { setPageSEO, getHomePageSEO, getProjectPageSEO, getServicePageSEO } from
 import { generateProjectPageStructuredData, generateServicePageStructuredData } from '../utils/structuredData.js'
 import { trackPageView, trackServicePageView, trackProjectPageView } from '../utils/analytics.js'
 
+// Helper function for safe dynamic imports with error handling
+// This prevents "failed to load dynamic modules" errors during memory profiling
+const loadComponent = (componentImport) => {
+  return componentImport().catch((error) => {
+    console.error('Failed to load dynamic module:', error)
+    // Return a fallback error component instead of crashing
+    return {
+      default: {
+        name: 'ErrorComponent',
+        template: `
+          <div class="error-container" style="padding: 40px; text-align: center;">
+            <h2>Failed to Load Page</h2>
+            <p>Sorry, this page could not be loaded. Please try refreshing the page.</p>
+            <button @click="$router.push('/')" class="btn btn-primary">Go Home</button>
+          </div>
+        `
+      }
+    }
+  })
+}
+
 const routes = [
   {
     path: '/',
@@ -75,37 +96,37 @@ const routes = [
     {
       path: '/services/full-stack-development',
       name: 'FullStackDevelopment',
-      component: () => import('../views/services/FullStackDevelopmentPage.vue')
+      component: () => loadComponent(() => import('../views/services/FullStackDevelopmentPage.vue'))
     },
     {
       path: '/services/azure-cloud-architecture',
       name: 'AzureCloudArchitecture',
-      component: () => import('../views/services/AzureCloudArchitecturePage.vue')
+      component: () => loadComponent(() => import('../views/services/AzureCloudArchitecturePage.vue'))
     },
     {
       path: '/services/technical-leadership',
       name: 'TechnicalLeadership',
-      component: () => import('../views/services/TechnicalLeadershipPage.vue')
+      component: () => loadComponent(() => import('../views/services/TechnicalLeadershipPage.vue'))
     },
     {
       path: '/services/microservices-architecture',
       name: 'MicroservicesArchitecture',
-      component: () => import('../views/services/MicroservicesArchitecturePage.vue')
+      component: () => loadComponent(() => import('../views/services/MicroservicesArchitecturePage.vue'))
     },
     {
       path: '/services/agile-project-management',
       name: 'AgileProjectManagement',
-      component: () => import('../views/services/AgileProjectManagementPage.vue')
+      component: () => loadComponent(() => import('../views/services/AgileProjectManagementPage.vue'))
     },
     {
       path: '/services/database-design-optimization',
       name: 'DatabaseDesignOptimization',
-      component: () => import('../views/services/DatabaseDesignOptimizationPage.vue')
+      component: () => loadComponent(() => import('../views/services/DatabaseDesignOptimizationPage.vue'))
     },
     {
       path: '/services/mobile-development',
       name: 'MobileDevelopment',
-      component: () => import('../views/services/MobileDevelopmentPage.vue')
+      component: () => loadComponent(() => import('../views/services/MobileDevelopmentPage.vue'))
     },
   {
     path: '/contact',

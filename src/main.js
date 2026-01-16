@@ -426,6 +426,40 @@ class AnimationController {
     }
   }
 
+  setupPageVisibility() {
+    // Pause animations when tab is hidden to save memory/CPU
+    // Resume when tab becomes visible again
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Tab is hidden - pause animations to save resources
+        if (!this.animationPaused) {
+          this.pauseAnimations()
+          this.pageVisibilityPaused = true
+        }
+      } else {
+        // Tab is visible - resume animations
+        if (this.pageVisibilityPaused) {
+          this.resumeAnimations()
+          this.pageVisibilityPaused = false
+        }
+      }
+    }
+
+    // Use standard Page Visibility API
+    if (typeof document.hidden !== 'undefined') {
+      document.addEventListener('visibilitychange', handleVisibilityChange)
+    } else if (typeof document.webkitHidden !== 'undefined') {
+      // Fallback for older browsers
+      document.addEventListener('webkitvisibilitychange', handleVisibilityChange)
+    } else if (typeof document.mozHidden !== 'undefined') {
+      // Firefox fallback
+      document.addEventListener('mozvisibilitychange', handleVisibilityChange)
+    } else if (typeof document.msHidden !== 'undefined') {
+      // IE fallback
+      document.addEventListener('msvisibilitychange', handleVisibilityChange)
+    }
+  }
+
   handleMenuTransition() {
     if (this.isMenuTransitioning) return
     

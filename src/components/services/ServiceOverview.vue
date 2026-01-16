@@ -3,7 +3,7 @@
     <div class="service-overview-content">
       <!-- Banner Slider at Top (if images provided) -->
       <div v-if="bannerImages && bannerImages.length > 0" class="overview-banner-slider mb-4">
-        <div :id="carouselId" class="carousel slide" data-bs-ride="false" data-bs-interval="5000">
+        <div ref="carouselElement" class="carousel slide" data-bs-ride="false" data-bs-interval="5000">
           <div class="carousel-inner">
             <div 
               v-for="(bannerImg, index) in bannerImages" 
@@ -14,11 +14,25 @@
               <img :src="bannerImg" :alt="`${title} Services - Banner ${index + 1} - Remote Consultant - Available USA, Europe, Global`" class="banner-image" :loading="index === 0 ? 'eager' : 'lazy'" :fetchpriority="index === 0 ? 'high' : 'low'" />
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" :data-bs-target="`#${carouselId}`" data-bs-slide="prev" v-if="bannerImages.length > 1">
+          <button 
+            v-if="bannerImages.length > 1"
+            ref="prevButton"
+            class="carousel-control-prev" 
+            type="button" 
+            data-bs-slide="prev"
+            @click="goToPrev"
+          >
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
           </button>
-          <button class="carousel-control-next" type="button" :data-bs-target="`#${carouselId}`" data-bs-slide="next" v-if="bannerImages.length > 1">
+          <button 
+            v-if="bannerImages.length > 1"
+            ref="nextButton"
+            class="carousel-control-next" 
+            type="button" 
+            data-bs-slide="next"
+            @click="goToNext"
+          >
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
           </button>
@@ -27,11 +41,11 @@
               v-for="(bannerImg, index) in bannerImages" 
               :key="index"
               type="button" 
-              :data-bs-target="`#${carouselId}`" 
               :data-bs-slide-to="index"
-              :class="{ active: index === 0 }"
-              :aria-current="index === 0 ? 'true' : 'false'"
+              :class="{ active: index === currentSlide }"
+              :aria-current="index === currentSlide ? 'true' : 'false'"
               :aria-label="`Slide ${index + 1}`"
+              @click="goToSlide(index)"
             ></button>
           </div>
         </div>
@@ -121,39 +135,127 @@ export default {
   },
   data() {
     return {
-      carouselId: `overviewCarousel-${Math.random().toString(36).substr(2, 9)}`
+      carouselInstance: null,
+      currentSlide: 0,
+      carouselInterval: null
     }
   },
   mounted() {
-    // Initialize Bootstrap carousel after component is mounted
+    // Initialize Bootstrap carousel using Vue refs (proper Vue way)
     this.$nextTick(() => {
-      if (this.bannerImages && this.bannerImages.length > 1 && typeof bootstrap !== 'undefined') {
-        const carouselElement = document.getElementById(this.carouselId)
-        if (carouselElement) {
-          try {
-            // Initialize carousel manually (not auto-ride to prevent memory issues)
-            const carousel = new bootstrap.Carousel(carouselElement, {
-              interval: 5000,
-              ride: false, // Don't auto-start to save memory
-              wrap: true
-            })
-            // Store reference for cleanup
-            this.carouselInstance = carousel
-          } catch (error) {
-            console.warn('Carousel initialization error:', error)
-          }
-        }
-      }
+      this.initCarousel()
     })
+
+    // Listen to page visibility changes to pause/resume carousel
+    this.setupPageVisibilityListener()
   },
   beforeUnmount() {
-    // Clean up Bootstrap carousel instance
-    if (this.carouselInstance) {
+    // Clean up Bootstrap carousel instance and interval
+    this.cleanupCarousel()
+    
+    // Remove page visibility listener
+    this.removePageVisibilityListener()
+  },
+  methods: {
+    initCarousel() {
+      // Use Vue refs instead of getElementById (proper Vue way)
+      if (!this.$refs.carouselElement) return
+      if (!this.bannerImages || this.bannerImages.length <= 1) return
+      if (typeof bootstrap === 'undefined') return
+
       try {
-        this.carouselInstance.dispose()
-        this.carouselInstance = null
+        // Initialize carousel using Vue ref
+        this.carouselInstance = new bootstrap.Carousel(this.$refs.carouselElement, {
+          interval: 5000,
+          ride: false, // Don't auto-start to save memory
+          wrap: true
+        })
+
+        // Set up auto-advance interval manually (only when tab is visible)
+        this.startCarouselInterval()
+
+        // Listen to carousel events to update currentSlide
+        this.$refs.carouselElement.addEventListener('slid.bs.carousel', (event) => {
+          this.currentSlide = event.to
+        })
       } catch (error) {
-        console.warn('Carousel cleanup error:', error)
+        console.warn('Carousel initialization error:', error)
+      }
+    },
+    startCarouselInterval() {
+      // Only start interval if page is visible (saves memory when tab is hidden)
+      if (document.hidden) return
+      
+      this.stopCarouselInterval()
+      this.carouselInterval = setInterval(() => {
+        if (!document.hidden && this.carouselInstance) {
+          this.carouselInstance.next()
+        }
+      }, 5000)
+    },
+    stopCarouselInterval() {
+      if (this.carouselInterval) {
+        clearInterval(this.carouselInterval)
+        this.carouselInterval = null
+      }
+    },
+    goToPrev() {
+      if (this.carouselInstance) {
+        this.carouselInstance.prev()
+      }
+    },
+    goToNext() {
+      if (this.carouselInstance) {
+        this.carouselInstance.next()
+      }
+    },
+    goToSlide(index) {
+      if (this.carouselInstance) {
+        this.carouselInstance.to(index)
+      }
+    },
+    cleanupCarousel() {
+      // Stop interval
+      this.stopCarouselInterval()
+
+      // Dispose Bootstrap carousel instance
+      if (this.carouselInstance) {
+        try {
+          this.carouselInstance.dispose()
+          this.carouselInstance = null
+        } catch (error) {
+          console.warn('Carousel cleanup error:', error)
+        }
+      }
+    },
+    setupPageVisibilityListener() {
+      // Pause carousel when tab is hidden, resume when visible (saves memory)
+      this.handleVisibilityChange = () => {
+        if (document.hidden) {
+          this.stopCarouselInterval()
+        } else {
+          this.startCarouselInterval()
+        }
+      }
+
+      // Use standard Page Visibility API
+      if (typeof document.hidden !== 'undefined') {
+        document.addEventListener('visibilitychange', this.handleVisibilityChange)
+      } else if (typeof document.webkitHidden !== 'undefined') {
+        document.addEventListener('webkitvisibilitychange', this.handleVisibilityChange)
+      } else if (typeof document.mozHidden !== 'undefined') {
+        document.addEventListener('mozvisibilitychange', this.handleVisibilityChange)
+      } else if (typeof document.msHidden !== 'undefined') {
+        document.addEventListener('msvisibilitychange', this.handleVisibilityChange)
+      }
+    },
+    removePageVisibilityListener() {
+      if (this.handleVisibilityChange) {
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange)
+        document.removeEventListener('webkitvisibilitychange', this.handleVisibilityChange)
+        document.removeEventListener('mozvisibilitychange', this.handleVisibilityChange)
+        document.removeEventListener('msvisibilitychange', this.handleVisibilityChange)
+        this.handleVisibilityChange = null
       }
     }
   }

@@ -19,6 +19,8 @@ export default defineConfig({
                              // Also handle favicon paths
                              .replace(/href="\/portfolio\/assets\/img\/(favicon|apple-touch-icon)/g, `href="${base}assets/img/$1`)
                              .replace(/href="\/assets\/img\/(favicon|apple-touch-icon)/g, `href="${base}assets/img/$1`)
+                             // Fix manifest path to include base
+                             .replace(/href="\/site\.webmanifest"/g, `href="${base}site.webmanifest"`)
         // Replace GA4 placeholder with actual Measurement ID if provided
         if (ga4Id) {
           transformed = transformed.replace(/VITE_GA4_MEASUREMENT_ID_PLACEHOLDER/g, ga4Id)
