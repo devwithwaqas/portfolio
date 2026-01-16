@@ -24,6 +24,9 @@
     <!-- Services Section -->
     <Services />
     
+    <!-- FAQ Section -->
+    <HomeFAQ />
+    
     <!-- Testimonials Section -->
     <Testimonials />
     
@@ -62,6 +65,7 @@ export default {
     Portfolio,
     Services,
     Testimonials,
+    HomeFAQ,
     Contact,
     BackToTop
   },

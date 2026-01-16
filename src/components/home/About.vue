@@ -16,8 +16,21 @@
                     <div style="position: relative; z-index: 2;">
                       <h2 class="txt-h2-3xl about-main-title">Senior Software Engineer &amp; Technical Lead</h2>
                       <p class="fst-italic py-3 txt-p-lg" style="color: #45505b; line-height: 1.6;">
-                        Proficient in enterprise applications architecture whether hybrid or platform specific either as services for company or products for the organizations. Currently engaged as Senior Software Engineer Full Stack ({{ totalExperience }}+ years) / Technical Lead ({{ techLeadExperience }}+ years overall as Technical Lead) in developing web / cloud based applications. Worked with Fortune 500 companies worldwide.
+                        Software engineering consultant and technical specialist with {{ totalExperience }}+ years of experience in enterprise applications architecture. Currently engaged as Senior Software Engineer Full Stack ({{ totalExperience }}+ years) / Technical Lead ({{ techLeadExperience }}+ years overall as Technical Lead) in developing web / cloud based applications. Worked with Fortune 500 companies worldwide.
                       </p>
+                      
+                      <!-- Expert-Focused Subheadings -->
+                      <div style="margin-top: 25px; margin-bottom: 25px;">
+                        <h3 style="color: #0563bb; font-size: 1.3rem; font-weight: 600; margin-bottom: 15px;">Software Engineering Consultant & Specialist</h3>
+                        <p style="color: #45505b; line-height: 1.8; margin-bottom: 20px;">
+                          As a software engineering consultant, {{ fullName }} provides technical expertise and architectural guidance to organizations building enterprise-scale applications. Specializes in .NET development, Azure Cloud architecture, and microservices design. Available for consulting engagements, technical leadership roles, and project-based work.
+                        </p>
+                        
+                        <h3 style="color: #0563bb; font-size: 1.3rem; font-weight: 600; margin-bottom: 15px; margin-top: 25px;">Enterprise Architecture & Technical Leadership</h3>
+                        <p style="color: #45505b; line-height: 1.8;">
+                          Technical lead with {{ techLeadExperience }}+ years of experience guiding development teams, establishing best practices, and delivering mission-critical systems. Expertise includes microservices architecture, API design, cloud migration, and DevOps automation. Has led teams managing systems processing millions of data points daily.
+                        </p>
+                      </div>
                       
                       <div class="row">
                         <div class="col-lg-6">
@@ -73,7 +86,7 @@
                       <article style="background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%); color: white; padding: 25px; border-radius: 15px; margin-top: 25px; box-shadow: 0 15px 35px rgba(60, 20, 120, 0.4);">
                         <h5 style="color: white; margin-bottom: 15px; font-weight: 600;">Professional Summary</h5>
                         <p style="color: rgba(255, 255, 255, 0.9); margin: 0; line-height: 1.6;">
-                          Senior Software Engineer and Technical Lead with {{ totalExperience }}+ years of experience in enterprise software development. Specializes in <strong>.NET Core, ASP.NET, C#</strong>, <strong>Microservices Architecture</strong>, <strong>RESTful API Development</strong>, and <strong>Azure Cloud</strong> platforms. Expertise includes Azure Functions, App Services, Service Fabric, Key Vault, App Insights, CI/CD pipelines, branching strategies, build/release policies, and Cloud App Identity Management. Experience includes working with Fortune 500 companies across USA, Europe, and globally, delivering enterprise solutions that process 2.5M+ data points daily and managing systems with billions in operational costs.
+                          {{ fullName }} is a Senior Software Engineer and Technical Lead with {{ totalExperience }}+ years of experience in enterprise software development. As a software engineering consultant and specialist, {{ fullName }} provides technical expertise in <strong>.NET Core, ASP.NET, C#</strong>, <strong>Microservices Architecture</strong>, <strong>RESTful API Development</strong>, and <strong>Azure Cloud</strong> platforms. Expertise includes Azure Functions, App Services, Service Fabric, Key Vault, App Insights, CI/CD pipelines, branching strategies, build/release policies, and Cloud App Identity Management. Experience includes working with Fortune 500 companies across USA, Europe, and globally, delivering enterprise solutions that process 2.5M+ data points daily and managing systems with billions in operational costs.
                         </p>
                       </article>
                       
