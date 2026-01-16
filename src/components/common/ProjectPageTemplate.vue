@@ -40,7 +40,7 @@
         <slot name="additional-content"></slot>
         
       </div>
-    </section>
+    </article>
 
   </div>
 </template>
