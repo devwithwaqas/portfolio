@@ -1,17 +1,21 @@
 const fs = require('fs')
 const path = require('path')
 
-const src404 = path.resolve(__dirname, '../public/404.html')
+// For GitHub Pages SPA routing, 404.html should be identical to index.html
+// This allows Vue Router to handle routes correctly when GitHub Pages serves 404.html
+const indexHtml = path.resolve(__dirname, '../dist/index.html')
 const dest404 = path.resolve(__dirname, '../dist/404.html')
 
-if (fs.existsSync(src404)) {
+if (fs.existsSync(indexHtml)) {
   try {
-    fs.copyFileSync(src404, dest404)
-    console.log('✓ Copied 404.html to dist/')
+    // Copy index.html to 404.html so Vue Router can handle all routes
+    fs.copyFileSync(indexHtml, dest404)
+    console.log('✓ Copied index.html to 404.html for GitHub Pages SPA routing')
   } catch (err) {
-    console.error('Failed to copy 404.html:', err)
+    console.error('Failed to copy index.html to 404.html:', err)
     process.exit(1)
   }
 } else {
-  console.warn('404.html not found in public/')
+  console.error('index.html not found in dist/ - build may have failed')
+  process.exit(1)
 }

@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Redirecting...</title>
   <script>
-    // Redirect to index.html with base path
-    window.location.replace('/portfolio/index.html');
+    // This file will be replaced by index.html during build
+    // For GitHub Pages SPA routing, 404.html must be identical to index.html
+    // so Vue Router can handle routes when GitHub Pages serves 404.html
+    window.location.replace('/portfolio/');
   </script>
 </head>
 <body>
