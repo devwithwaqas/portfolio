@@ -58,7 +58,7 @@ export default {
     },
     introduction: {
       type: String,
-      default: 'Explore related projects I\'ve worked on:'
+      default: 'Explore related enterprise projects delivered by this software engineering consultant:'
     }
   }
 }

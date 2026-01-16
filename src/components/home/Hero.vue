@@ -42,7 +42,7 @@
           
           <!-- SEO Keywords - Visually Hidden but Accessible to Screen Readers & Search Engines -->
           <div class="visually-hidden" aria-hidden="true">
-            Remote Senior Software Engineer, Remote Technical Lead, Remote Azure Cloud Architect, Remote .NET Developer, Remote Full Stack Developer, Available for remote work in USA, Europe, Global. Flexible timezone EST, PST, GMT, CET. Remote consulting, freelance remote developer, contract remote software engineer.
+            Top Software Engineering Consultant, Software Engineering Specialist, Best Software Engineering Expert, IT Engineering Consultant, Professional Software Engineering Services, Remote Senior Software Engineer, Remote Technical Lead, Remote Azure Cloud Architect, Remote .NET Developer, Remote Full Stack Developer, Available for remote work in USA, Europe, Global. Flexible timezone EST, PST, GMT, CET. Remote consulting, freelance remote developer, contract remote software engineer.
           </div>
           
           <!-- Analytics Stats -->

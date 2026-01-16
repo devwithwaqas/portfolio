@@ -47,7 +47,7 @@ export default {
     },
     introduction: {
       type: String,
-      default: 'Explore related services I offer:'
+      default: 'Explore related professional software engineering services offered by this IT engineering consultant:'
     }
   }
 }
