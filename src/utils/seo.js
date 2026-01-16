@@ -351,8 +351,8 @@ export function getHomePageSEO() {
   ]
   
   return {
-    title: `${fullName} - Top Software Engineering Consultant & Specialist | Best Software Engineering Expert | IT Engineering Consultant | ${experience}+ Years`,
-    description: `Hire ${fullName} - Top Software Engineering Consultant & Software Engineering Specialist with ${experience}+ years of experience. Best Software Engineering Expert offering professional software engineering services. IT Engineering Consultant specializing in .NET, Azure Cloud, microservices, and enterprise architecture. Available for remote work in USA, Europe, and globally. Flexible timezone (EST, PST, GMT, CET). Worked with Fortune 500 companies worldwide. Contact for remote consulting, freelance, and contract projects.`,
+    title: `${fullName} - Software Engineering Consultant & Specialist | Best Software Engineering Expert | IT Engineering Consultant | ${experience}+ Years`,
+    description: `Hire ${fullName} - Software Engineering Consultant & Software Engineering Specialist with ${experience}+ years of experience. Best Software Engineering Expert offering professional software engineering services. IT Engineering Consultant specializing in .NET, Azure Cloud, microservices, and enterprise architecture. Available for remote work in USA, Europe, and globally. Flexible timezone (EST, PST, GMT, CET). Worked with Fortune 500 companies worldwide. Contact for remote consulting, freelance, and contract projects.`,
     keywords: [
       ...expertLevelKeywords,
       ...baseKeywords,
