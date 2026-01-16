@@ -21,11 +21,12 @@
                 :title="category.name"
               />
               <!-- Local Image -->
-              <img 
+              <LazyImage 
                 v-else-if="getCategoryIconData(category.icon).type === 'local'" 
                 :src="getCategoryIconData(category.icon).src" 
                 :alt="category.name"
-                class="category-icon icon-img-xl"
+                image-class="category-icon icon-img-xl"
+                container-class="category-icon-container"
               />
               <!-- Emoji Fallback -->
               <span 
@@ -51,11 +52,12 @@
                   :title="tech.name"
                 />
                 <!-- Local Image -->
-                <img 
+                <LazyImage 
                   v-else-if="tech.iconData.type === 'local'" 
                   :src="tech.iconData.src" 
                   :alt="tech.iconData.alt"
-                  class="icon-img-xl"
+                  image-class="icon-img-xl"
+                  container-class="tech-icon-container"
                 />
                 <!-- Emoji Fallback -->
                 <span 
@@ -78,6 +80,7 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
+import LazyImage from '../common/LazyImage.vue'
 import { resolveIcon, getDeviconClass as getDeviconClassUtil, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
 import { TECH_CATEGORIES, TECH_CATEGORY_LABELS } from '../../config/constants.js'
 
@@ -102,7 +105,8 @@ const CATEGORIES = [
 export default {
   name: 'TechnologyStack',
   components: {
-    ReusableCard
+    ReusableCard,
+    LazyImage
   },
   props: {
     title: {

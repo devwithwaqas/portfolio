@@ -7,10 +7,13 @@
         <h4 class="challenge-layer-title txt-h4-xl">
           <div class="challenge-layer-icon-wrapper icon-wrapper-xl">
             <span class="challenge-layer-icon icon-xl">
-              <img v-if="getChallengeIcon(challenge.icon).type === 'local'" 
-                   :src="getChallengeIcon(challenge.icon).src" 
-                   :alt="getChallengeIcon(challenge.icon).alt" 
-                   class="icon-img-xl" />
+              <LazyImage 
+                v-if="getChallengeIcon(challenge.icon).type === 'local'" 
+                :src="getChallengeIcon(challenge.icon).src" 
+                :alt="getChallengeIcon(challenge.icon).alt" 
+                image-class="icon-img-xl"
+                container-class="challenge-icon-container"
+              />
               <span v-else class="icon-xl">{{ getChallengeIcon(challenge.icon).src }}</span>
             </span>
           </div>
@@ -58,10 +61,13 @@
       <div class="business-impact">
         <h4 class="impact-title txt-h4-xl">
           <span class="impact-icon">
-            <img v-if="getChallengeIcon('target').type === 'local'" 
-                 :src="getChallengeIcon('target').src" 
-                 :alt="getChallengeIcon('target').alt" 
-                 class="icon-img-lg" />
+            <LazyImage 
+              v-if="getChallengeIcon('target').type === 'local'" 
+              :src="getChallengeIcon('target').src" 
+              :alt="getChallengeIcon('target').alt" 
+              image-class="icon-img-lg"
+              container-class="impact-icon-container"
+            />
             <span v-else class="icon-lg">{{ getChallengeIcon('target').src }}</span>
           </span>
           Business Impact & Results
@@ -75,12 +81,14 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
+import LazyImage from '../common/LazyImage.vue'
 import { resolveIcon, getDeviconClass as getDeviconClassUtil, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
 
 export default {
   name: 'EngineeringChallenges',
   components: {
-    ReusableCard
+    ReusableCard,
+    LazyImage
   },
   props: {
     title: {

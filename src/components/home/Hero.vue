@@ -5,7 +5,14 @@
         <!-- Profile Card -->
         <div class="hero-profile-side">
           <div class="profile-image-container-side">
-            <img :src="$assetPath('/assets/img/waqas-microsoft-profile-optimized.jpg')" :alt="`${fullName} - Senior Software Engineer & Technical Lead - Available USA, Europe, Global - 17+ Years Experience`" class="profile-image-side">
+            <LazyImage 
+              :src="$assetPath('/assets/img/waqas-microsoft-profile-optimized.jpg')" 
+              :alt="`${fullName} - Senior Software Engineer & Technical Lead - Available USA, Europe, Global - 17+ Years Experience`" 
+              image-class="profile-image-side"
+              container-class="profile-image-container"
+              :lazy="false"
+              priority="high"
+            />
           </div>
         </div>
         
@@ -104,11 +111,13 @@
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { APP_CONFIG } from '../../config/constants.js'
 import AnalyticsStats from './AnalyticsStats.vue'
+import LazyImage from '../common/LazyImage.vue'
 
 export default {
   name: 'Hero',
   components: {
-    AnalyticsStats
+    AnalyticsStats,
+    LazyImage
   },
   data() {
     return {

@@ -17,10 +17,14 @@
           class="tag-badge txt-label-sm"
         >
           <span v-if="getTagIcon(tag)" class="tag-icon">
-            <img v-if="getTagIcon(tag).type === 'local'" 
-                 :src="getTagIcon(tag).src" 
-                 :alt="getTagIcon(tag).alt" 
-                 class="icon-img-xs" />
+            <LazyImage 
+              v-if="getTagIcon(tag).type === 'local'" 
+              :src="getTagIcon(tag).src" 
+              :alt="getTagIcon(tag).alt" 
+              image-class="icon-img-xs"
+              container-class="tag-icon-container"
+              :lazy="true"
+            />
             <span v-else class="icon-xs">{{ getTagIcon(tag).src }}</span>
           </span>
           {{ tag }}
@@ -36,10 +40,14 @@
             class="achievement-item"
           >
             <span class="achievement-emoji icon-lg">
-              <img v-if="getAchievementIcon(achievement.emoji).type === 'local'" 
-                   :src="getAchievementIcon(achievement.emoji).src" 
-                   :alt="getAchievementIcon(achievement.emoji).alt" 
-                   class="icon-img-lg" />
+              <LazyImage 
+                v-if="getAchievementIcon(achievement.emoji).type === 'local'" 
+                :src="getAchievementIcon(achievement.emoji).src" 
+                :alt="getAchievementIcon(achievement.emoji).alt" 
+                image-class="icon-img-lg"
+                container-class="achievement-icon-container"
+                :lazy="true"
+              />
               <span v-else class="icon-lg">{{ getAchievementIcon(achievement.emoji).src }}</span>
             </span>
             <span class="achievement-label txt-label-md">{{ achievement.label }}:</span>
@@ -54,10 +62,14 @@
             class="achievement-item"
           >
             <span class="achievement-emoji icon-lg">
-              <img v-if="getAchievementIcon(achievement.emoji).type === 'local'" 
-                   :src="getAchievementIcon(achievement.emoji).src" 
-                   :alt="getAchievementIcon(achievement.emoji).alt" 
-                   class="icon-img-lg" />
+              <LazyImage 
+                v-if="getAchievementIcon(achievement.emoji).type === 'local'" 
+                :src="getAchievementIcon(achievement.emoji).src" 
+                :alt="getAchievementIcon(achievement.emoji).alt" 
+                image-class="icon-img-lg"
+                container-class="achievement-icon-container"
+                :lazy="true"
+              />
               <span v-else class="icon-lg">{{ getAchievementIcon(achievement.emoji).src }}</span>
             </span>
             <span class="achievement-label txt-label-md">{{ achievement.label }}:</span>
@@ -72,9 +84,13 @@
 
 <script>
 import { resolveIcon } from '../../utils/iconResolver.js'
+import LazyImage from '../common/LazyImage.vue'
 
 export default {
   name: 'ProjectHeroCard',
+  components: {
+    LazyImage
+  },
   props: {
     title: {
       type: String,

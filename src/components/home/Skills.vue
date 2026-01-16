@@ -94,7 +94,12 @@
                 <div class="col-12 mb-5">
                   <div class="skill-category-card">
                     <div class="category-header">
-                      <img :src="$assetPath('/assets/img/Icons/analytics.png')" alt="Data Analytics - Performance Monitoring - Database Optimization - Remote Consultant" class="category-icon icon-img-lg" />
+                      <LazyImage 
+                        :src="$assetPath('/assets/img/Icons/analytics.png')" 
+                        alt="Data Analytics - Performance Monitoring - Database Optimization - Remote Consultant" 
+                        image-class="category-icon icon-img-lg"
+                        container-class="category-icon-container"
+                      />
                       <h5>📊 Data & Analytics</h5>
                     </div>
                     <div class="row">
@@ -113,7 +118,12 @@
                 <div class="col-12 mb-5">
                   <div class="skill-category-card">
                     <div class="category-header">
-                      <img :src="$assetPath('/assets/img/Icons/pipelines.png')" alt="Project Management - Agile Scrum - Team Leadership - Remote Consultant" class="category-icon icon-img-lg" />
+                      <LazyImage 
+                        :src="$assetPath('/assets/img/Icons/pipelines.png')" 
+                        alt="Project Management - Agile Scrum - Team Leadership - Remote Consultant" 
+                        image-class="category-icon icon-img-lg"
+                        container-class="category-icon-container"
+                      />
                       <h5>🎯 Project Management</h5>
                     </div>
                     <div class="row">
@@ -132,7 +142,12 @@
                 <div class="col-12">
                   <div class="skill-category-card">
                     <div class="category-header">
-                      <img :src="$assetPath('/assets/img/Icons/power apps.png')" alt="Microsoft Enterprise Tools - Power Apps SharePoint SignalR - Remote Consultant" class="category-icon icon-img-lg" />
+                      <LazyImage 
+                        :src="$assetPath('/assets/img/Icons/power apps.png')" 
+                        alt="Microsoft Enterprise Tools - Power Apps SharePoint SignalR - Remote Consultant" 
+                        image-class="category-icon icon-img-lg"
+                        container-class="category-icon-container"
+                      />
                       <h5>🛠️ Microsoft & Enterprise Tools</h5>
                     </div>
                     <div class="row">
@@ -158,6 +173,7 @@
 import ReusableCard from '../common/ReusableCard.vue'
 import SkillCard from '../common/SkillCard.vue'
 import IconComponent from '../common/IconComponent.vue'
+import LazyImage from '../common/LazyImage.vue'
 import { assetPath } from '../../utils/assetPath.js'
 
 export default {
@@ -165,7 +181,8 @@ export default {
   components: {
     ReusableCard,
     SkillCard,
-    IconComponent
+    IconComponent,
+    LazyImage
   },
   data() {
     return {

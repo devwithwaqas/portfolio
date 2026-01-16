@@ -150,11 +150,15 @@
     <div class="diagram-container">
       <div class="diagram-content" id="diagram-content">
         <div class="diagram-wrapper">
-          <img 
+          <LazyImage 
             :src="diagramSrc" 
             alt="Architecture Diagram" 
-            class="architecture-diagram"
-            ref="diagramImage"
+            image-class="architecture-diagram"
+            container-class="diagram-image-container"
+            :lazy="false"
+            priority="high"
+            @load="onDiagramImageLoad"
+            ref="diagramLazyImage"
           />
           
           <!-- Highlight Overlay - positioned relative to diagram and transforms with zoom -->
@@ -180,6 +184,7 @@ import ReusableCard from '../common/ReusableCard.vue'
 import DiagramNarrator from './DiagramNarrator.vue'
 import HighlightOverlay from './HighlightOverlay.vue'
 import CustomLoader from '../common/CustomLoader.vue'
+import LazyImage from '../common/LazyImage.vue'
 import Panzoom from '@panzoom/panzoom'
 import highlightService from '@/services/HighlightService.js'
 import narrationService from '@/services/NarrationService.js'
@@ -191,7 +196,8 @@ export default {
     ReusableCard,
     DiagramNarrator,
     HighlightOverlay,
-    CustomLoader
+    CustomLoader,
+    LazyImage
   },
   props: {
     title: {
@@ -271,7 +277,8 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.initializePanzoom()
+      // Don't initialize panzoom here - wait for image to load via onDiagramImageLoad
+      // Diagram images load eagerly (lazy=false) so they'll load quickly
       this.initializeUnifiedServices()
     })
   },
@@ -355,6 +362,17 @@ export default {
       }
     },
     
+    onDiagramImageLoad(event) {
+      // Image loaded, now initialize panzoom
+      // Get the actual img element from the event or LazyImage component
+      const imgElement = event?.target || (this.$refs.diagramLazyImage?.imageElement)
+      if (imgElement) {
+        this.diagramImage = imgElement
+      }
+      this.$nextTick(() => {
+        this.initializePanzoom()
+      })
+    },
     initializePanzoom() {
       // Find the ReusableCard element (skip Teleport)
       const cardElement = this.$el?.nodeType === 1 ? this.$el : this.$el?.nextElementSibling

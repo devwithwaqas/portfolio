@@ -24,7 +24,14 @@
                 'next': index === currentIndex + 1
               }"
             >
-              <img :src="image" :alt="`${projectName} - Enterprise Software Project - Screenshot ${index + 1} - Remote Consultant`" />
+              <LazyImage 
+                :src="image" 
+                :alt="`${projectName} - Enterprise Software Project - Screenshot ${index + 1} - Remote Consultant`"
+                :lazy="index !== currentIndex"
+                :priority="index === currentIndex ? 'high' : 'low'"
+                container-class="carousel-slide-image"
+                image-class="carousel-slide-img"
+              />
             </div>
           </div>
         </div>
@@ -57,8 +64,13 @@
 </template>
 
 <script>
+import LazyImage from '../common/LazyImage.vue'
+
 export default {
   name: 'ProjectGallery',
+  components: {
+    LazyImage
+  },
   props: {
     title: {
       type: String,
@@ -248,7 +260,13 @@ export default {
   transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.carousel-slide img {
+.carousel-slide-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+.carousel-slide-img {
   width: 100%;
   height: 100%;
   object-fit: cover;

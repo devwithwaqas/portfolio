@@ -19,11 +19,12 @@
                   :alt="category.title"
                   class="category-icon icon-img-xl"
                 />
-                <img 
+                <LazyImage 
                   v-else-if="getCategoryIconData(category.icon).type === 'local'" 
                   :src="getCategoryIconData(category.icon).src" 
                   :alt="category.title"
-                  class="category-icon icon-img-xl"
+                  image-class="category-icon icon-img-xl"
+                  container-class="category-icon-container"
                 />
                 <span 
                   v-else 
@@ -74,11 +75,12 @@
                       alt="measurement"
                       class="detail-icon icon-img-xl"
                     />
-                    <img 
+                    <LazyImage 
                       v-else-if="getDetailIconData('measurement').type === 'local'" 
                       :src="getDetailIconData('measurement').src" 
                       alt="Measurement"
-                      class="detail-icon icon-img-xl"
+                      image-class="detail-icon icon-img-xl"
+                      container-class="detail-icon-container"
                     />
                     <span 
                       v-else 
@@ -109,10 +111,13 @@
                       v-else 
                       class="detail-icon icon-xl"
                     >
-                      <img v-if="getFrameworkIcon('target').type === 'local'" 
-                           :src="getFrameworkIcon('target').src" 
-                           :alt="getFrameworkIcon('target').alt" 
-                           class="icon-img-xl" />
+                      <LazyImage 
+                        v-if="getFrameworkIcon('target').type === 'local'" 
+                        :src="getFrameworkIcon('target').src" 
+                        :alt="getFrameworkIcon('target').alt" 
+                        image-class="icon-img-xl"
+                        container-class="framework-icon-container"
+                      />
                       <span v-else class="icon-xl">{{ getFrameworkIcon('target').src }}</span>
                     </span>
                   </div>
@@ -140,10 +145,13 @@
                       v-else 
                       class="detail-icon icon-xl"
                     >
-                      <img v-if="getFrameworkIcon('validation').type === 'local'" 
-                           :src="getFrameworkIcon('validation').src" 
-                           :alt="getFrameworkIcon('validation').alt" 
-                           class="icon-img-xl" />
+                      <LazyImage 
+                        v-if="getFrameworkIcon('validation').type === 'local'" 
+                        :src="getFrameworkIcon('validation').src" 
+                        :alt="getFrameworkIcon('validation').alt" 
+                        image-class="icon-img-xl"
+                        container-class="framework-icon-container"
+                      />
                       <span v-else class="icon-xl">{{ getFrameworkIcon('validation').src }}</span>
                     </span>
                   </div>
@@ -160,10 +168,13 @@
       <div class="measurement-framework">
         <h4 class="framework-title">
           <span class="framework-icon">
-            <img v-if="getFrameworkIcon('monitoring').type === 'local'" 
-                 :src="getFrameworkIcon('monitoring').src" 
-                 :alt="getFrameworkIcon('monitoring').alt" 
-                 class="icon-img-lg" />
+            <LazyImage 
+              v-if="getFrameworkIcon('monitoring').type === 'local'" 
+              :src="getFrameworkIcon('monitoring').src" 
+              :alt="getFrameworkIcon('monitoring').alt" 
+              image-class="icon-img-lg"
+              container-class="framework-icon-container"
+            />
             <span v-else class="icon-lg">{{ getFrameworkIcon('monitoring').src }}</span>
           </span>
           Measurement Framework & Validation
@@ -206,12 +217,14 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
+import LazyImage from '../common/LazyImage.vue'
 import { resolveIcon, getDeviconClass as getDeviconClassUtil, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
 
 export default {
   name: 'MetricsFramework',
   components: {
-    ReusableCard
+    ReusableCard,
+    LazyImage
   },
   props: {
     title: {

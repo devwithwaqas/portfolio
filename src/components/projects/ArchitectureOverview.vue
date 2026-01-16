@@ -7,10 +7,13 @@
         <h4 class="txt-h4-xl layer-title">
           <div class="layer-icon-wrapper icon-wrapper-xl">
             <span class="layer-icon icon-xl">
-              <img v-if="getLayerIcon(layer.icon).type === 'local'" 
-                   :src="getLayerIcon(layer.icon).src" 
-                   :alt="getLayerIcon(layer.icon).alt" 
-                   class="icon-img-xl" />
+              <LazyImage 
+                v-if="getLayerIcon(layer.icon).type === 'local'" 
+                :src="getLayerIcon(layer.icon).src" 
+                :alt="getLayerIcon(layer.icon).alt" 
+                image-class="icon-img-xl"
+                container-class="layer-icon-container"
+              />
               <span v-else class="icon-xl">{{ getLayerIcon(layer.icon).src }}</span>
             </span>
           </div>
@@ -35,12 +38,13 @@
                   class="feature-tech-icon icon-img-xl"
                   :title="feature.name"
                 />
-                <img 
+                <LazyImage 
                   v-else-if="getFeatureIconData(feature).type === 'local'" 
                   :src="getFeatureIconData(feature).src" 
                   :alt="feature.name"
                   :title="feature.name"
-                  class="feature-tech-icon icon-img-xl"
+                  image-class="feature-tech-icon icon-img-xl"
+                  container-class="feature-icon-container"
                 />
                 <span 
                   v-else 
@@ -59,10 +63,13 @@
         <h4 class="txt-h4-xl layer-title">
           <div class="layer-icon-wrapper icon-wrapper-xl">
             <span class="benefits-icon icon-xl">
-              <img v-if="getLayerIcon('diamond').type === 'local'" 
-                   :src="getLayerIcon('diamond').src" 
-                   :alt="getLayerIcon('diamond').alt" 
-                   class="icon-img-xl" />
+              <LazyImage 
+                v-if="getLayerIcon('diamond').type === 'local'" 
+                :src="getLayerIcon('diamond').src" 
+                :alt="getLayerIcon('diamond').alt" 
+                image-class="icon-img-xl"
+                container-class="benefits-icon-container"
+              />
               <span v-else class="icon-xl">{{ getLayerIcon('diamond').src }}</span>
             </span>
           </div>
@@ -79,12 +86,14 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
+import LazyImage from '../common/LazyImage.vue'
 import { resolveIcon, getDeviconClass as getDeviconClassUtil, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
 
 export default {
   name: 'ArchitectureOverview',
   components: {
-    ReusableCard
+    ReusableCard,
+    LazyImage
   },
   props: {
     title: {

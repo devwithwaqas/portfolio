@@ -5,9 +5,12 @@
         <strong class="txt-label-md">Category:</strong>
         <div class="info-value">
           <span class="info-icon">
-            <img :src="getIconData('enterprise').src" 
-                 :alt="getIconData('enterprise').alt" 
-                 class="icon-img-md" />
+            <LazyImage 
+              :src="getIconData('enterprise').src" 
+              :alt="getIconData('enterprise').alt" 
+              image-class="icon-img-md"
+              container-class="info-icon-container"
+            />
           </span>
           <span class="txt-p-sm">{{ category }}</span>
         </div>
@@ -27,9 +30,12 @@
         <strong class="txt-label-md">Project Date:</strong>
         <div class="info-value">
           <span class="info-icon">
-            <img :src="getIconData('calendar').src" 
-                 :alt="getIconData('calendar').alt" 
-                 class="icon-img-md" />
+            <LazyImage 
+              :src="getIconData('calendar').src" 
+              :alt="getIconData('calendar').alt" 
+              image-class="icon-img-md"
+              container-class="info-icon-container"
+            />
           </span>
           <span class="txt-p-sm">{{ projectDate }}</span>
         </div>
@@ -49,9 +55,12 @@
         <strong class="txt-label-md">Company Size:</strong>
         <div class="info-value">
           <span class="info-icon">
-            <img :src="getIconData('award').src" 
-                 :alt="getIconData('award').alt" 
-                 class="icon-img-md" />
+            <LazyImage 
+              :src="getIconData('award').src" 
+              :alt="getIconData('award').alt" 
+              image-class="icon-img-md"
+              container-class="info-icon-container"
+            />
           </span>
           <span class="txt-p-sm">{{ companySize }}</span>
         </div>
@@ -62,12 +71,14 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
+import LazyImage from '../common/LazyImage.vue'
 import { resolveIcon, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
 
 export default {
   name: 'ProjectInfo',
   components: {
-    ReusableCard
+    ReusableCard,
+    LazyImage
   },
   props: {
     title: {
