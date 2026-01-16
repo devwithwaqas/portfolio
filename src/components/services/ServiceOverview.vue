@@ -3,7 +3,7 @@
     <div class="service-overview-content">
       <!-- Banner Slider at Top (if images provided) -->
       <div v-if="bannerImages && bannerImages.length > 0" class="overview-banner-slider mb-4">
-        <div id="overviewCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+        <div :id="carouselId" class="carousel slide" data-bs-ride="false" data-bs-interval="5000">
           <div class="carousel-inner">
             <div 
               v-for="(bannerImg, index) in bannerImages" 
@@ -11,14 +11,14 @@
               class="carousel-item"
               :class="{ active: index === 0 }"
             >
-              <img :src="bannerImg" :alt="`${title} Services - Banner ${index + 1} - Remote Consultant - Available USA, Europe, Global`" class="banner-image" />
+              <img :src="bannerImg" :alt="`${title} Services - Banner ${index + 1} - Remote Consultant - Available USA, Europe, Global`" class="banner-image" :loading="index === 0 ? 'eager' : 'lazy'" :fetchpriority="index === 0 ? 'high' : 'low'" />
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#overviewCarousel" data-bs-slide="prev" v-if="bannerImages.length > 1">
+          <button class="carousel-control-prev" type="button" :data-bs-target="`#${carouselId}`" data-bs-slide="prev" v-if="bannerImages.length > 1">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
           </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#overviewCarousel" data-bs-slide="next" v-if="bannerImages.length > 1">
+          <button class="carousel-control-next" type="button" :data-bs-target="`#${carouselId}`" data-bs-slide="next" v-if="bannerImages.length > 1">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
           </button>
@@ -27,7 +27,7 @@
               v-for="(bannerImg, index) in bannerImages" 
               :key="index"
               type="button" 
-              data-bs-target="#overviewCarousel" 
+              :data-bs-target="`#${carouselId}`" 
               :data-bs-slide-to="index"
               :class="{ active: index === 0 }"
               :aria-current="index === 0 ? 'true' : 'false'"
@@ -118,6 +118,44 @@ export default {
       type: Array,
       default: () => []
     }
+  },
+  data() {
+    return {
+      carouselId: `overviewCarousel-${Math.random().toString(36).substr(2, 9)}`
+    }
+  },
+  mounted() {
+    // Initialize Bootstrap carousel after component is mounted
+    this.$nextTick(() => {
+      if (this.bannerImages && this.bannerImages.length > 1 && typeof bootstrap !== 'undefined') {
+        const carouselElement = document.getElementById(this.carouselId)
+        if (carouselElement) {
+          try {
+            // Initialize carousel manually (not auto-ride to prevent memory issues)
+            const carousel = new bootstrap.Carousel(carouselElement, {
+              interval: 5000,
+              ride: false, // Don't auto-start to save memory
+              wrap: true
+            })
+            // Store reference for cleanup
+            this.carouselInstance = carousel
+          } catch (error) {
+            console.warn('Carousel initialization error:', error)
+          }
+        }
+      }
+    })
+  },
+  beforeUnmount() {
+    // Clean up Bootstrap carousel instance
+    if (this.carouselInstance) {
+      try {
+        this.carouselInstance.dispose()
+        this.carouselInstance = null
+      } catch (error) {
+        console.warn('Carousel cleanup error:', error)
+      }
+    }
   }
 }
 </script>
@@ -133,7 +171,7 @@ export default {
   margin-bottom: 30px;
 }
 
-#overviewCarousel {
+.overview-banner-slider .carousel {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);

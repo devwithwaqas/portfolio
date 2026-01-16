@@ -33,6 +33,7 @@ class AnimationController {
     this.scrollTimeout = null
     this.menuTransitionTimeout = null
     this.animationPaused = false
+    this.pageVisibilityPaused = false // Track if paused due to page visibility
     
     this.init()
   }
@@ -42,6 +43,7 @@ class AnimationController {
     this.setupMenuTransitionDetection()
     this.setupGlobalCSS()
     this.setupDeviceDetection()
+    this.setupPageVisibility()
     
     // FIXED: Defer heavy DOM operations to avoid forced reflows during DOMContentLoaded
     requestAnimationFrame(() => {
@@ -181,6 +183,11 @@ class AnimationController {
 
   setOptimizedWillChange(card) {
     // FIXED: Wrap all will-change modifications in requestAnimationFrame to avoid forced reflow
+    // Only set will-change when animation is actually running (not paused)
+    if (this.animationPaused || this.pageVisibilityPaused) {
+      return // Don't set will-change if animations are paused
+    }
+    
     requestAnimationFrame(() => {
       const trackers = card.querySelectorAll('.cyber-tracker')
       const glows = card.querySelectorAll('.cyber-glow-1, .cyber-glow-2, .cyber-glow-3')

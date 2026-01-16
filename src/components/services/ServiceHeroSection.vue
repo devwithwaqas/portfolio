@@ -3,7 +3,7 @@
     <div class="service-hero-content">
       <!-- Hero Image -->
       <div v-if="heroImage" class="hero-image-container mb-4">
-        <img :src="heroImage" :alt="`${title} Services - Remote Consultant - Available USA, Europe, Global - 17+ Years Experience`" class="hero-image" />
+        <img :src="heroImage" :alt="`${title} Services - Remote Consultant - Available USA, Europe, Global - 17+ Years Experience`" class="hero-image" loading="eager" fetchpriority="high" />
       </div>
       
       <!-- Remote Available Badge -->

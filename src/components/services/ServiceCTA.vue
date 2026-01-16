@@ -5,7 +5,7 @@
         <!-- CTA Image (if provided) -->
         <div v-if="ctaImage" class="col-lg-4">
           <div class="cta-image-container">
-            <img :src="ctaImage" :alt="`Get Started - Remote Consultant Services - Available USA, Europe, Global`" class="cta-image" />
+            <img :src="ctaImage" :alt="`Get Started - Remote Consultant Services - Available USA, Europe, Global`" class="cta-image" loading="lazy" />
           </div>
         </div>
         

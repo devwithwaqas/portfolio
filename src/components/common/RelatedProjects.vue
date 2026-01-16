@@ -17,7 +17,7 @@
         >
           <router-link :to="project.path" class="project-link-card">
             <div v-if="project.image" class="project-link-image">
-              <img :src="project.image" :alt="`${project.title} - Enterprise Software Project`" />
+              <img :src="project.image" :alt="`${project.title} - Enterprise Software Project`" loading="lazy" />
             </div>
             <div class="project-link-content">
               <h5 class="project-link-title txt-h5-lg">{{ project.title }}</h5>

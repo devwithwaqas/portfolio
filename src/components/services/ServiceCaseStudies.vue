@@ -13,7 +13,7 @@
         >
           <div class="case-study-card">
             <div v-if="study.image" class="case-study-image">
-              <img :src="study.image" :alt="`${study.project} - Case Study - Enterprise Software Project - Remote Consultant`" class="study-image" />
+              <img :src="study.image" :alt="`${study.project} - Case Study - Enterprise Software Project - Remote Consultant`" class="study-image" loading="lazy" />
             </div>
             <div class="case-study-content">
               <h5 class="study-project txt-h5-lg">
