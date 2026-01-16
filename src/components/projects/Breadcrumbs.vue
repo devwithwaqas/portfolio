@@ -18,7 +18,7 @@
           <li class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
             <meta itemprop="position" :content="parentLink ? '3' : '2'" />
             <span itemprop="name">{{ currentPage }}</span>
-            <meta itemprop="item" :content="currentUrl" />
+            <meta itemprop="item" :content="safeCurrentUrl" />
           </li>
         </ol>
       </nav>
@@ -47,23 +47,34 @@ export default {
       default: 'Portfolio'
     }
   },
+  data() {
+    return {
+      currentUrl: SITE_URL // Default fallback
+    }
+  },
   computed: {
-    currentUrl() {
-      // Safely get current URL using router or window
-      if (typeof window !== 'undefined' && window.location) {
-        return window.location.href
-      }
-      // Fallback: build URL from router
-      if (this.$route) {
-        const baseUrl = SITE_URL.replace(/\/$/, '')
-        const path = this.$route.path.startsWith('/') ? this.$route.path : `/${this.$route.path}`
-        return `${baseUrl}${path}`
-      }
-      // Last resort fallback
-      return SITE_URL
+    safeCurrentUrl() {
+      // Return the data property, which is set safely in mounted()
+      return this.currentUrl || SITE_URL
     }
   },
   mounted() {
+    // Safely get current URL - window is guaranteed to exist in mounted()
+    try {
+      if (typeof window !== 'undefined' && window.location && window.location.href) {
+        this.currentUrl = window.location.href
+      } else if (this.$route && this.$route.path) {
+        // Fallback: build URL from router
+        const baseUrl = SITE_URL.replace(/\/$/, '')
+        const path = this.$route.path.startsWith('/') ? this.$route.path : `/${this.$route.path}`
+        this.currentUrl = `${baseUrl}${path}`
+      }
+    } catch (e) {
+      // If anything fails, keep the default SITE_URL
+      console.warn('Failed to get current URL:', e)
+      this.currentUrl = SITE_URL
+    }
+    
     // Generate and inject BreadcrumbList structured data for SEO
     const breadcrumbItems = [
       { name: 'Home', url: SITE_URL },
