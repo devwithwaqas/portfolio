@@ -7,9 +7,11 @@
         title="Testimonials" 
         icon-name="testimonials"
         body-padding="0"
+        class="testimonials-card-wrapper"
       >
         <!-- Custom Testimonial Slider -->
-        <CustomSlider
+        <div class="testimonials-slider-container">
+          <CustomSlider
           :slides="testimonials"
           :autoplay="true"
           :autoplay-interval="5000"
@@ -20,9 +22,9 @@
         >
           <template #default="{ slide }">
             <div class="testimonial-item">
-              <div class="row gy-4 justify-content-center">
+              <div class="row gy-4 justify-content-center align-items-center" style="min-height: 300px;">
                 <div class="col-lg-8">
-                  <div class="testimonial-content">
+                  <div class="testimonial-content" style="display: flex; flex-direction: column; justify-content: center;">
                     <p class="testimonial-text txt-p-lg">
                       <i class="bi bi-quote quote-icon-left testimonial-quote-icon icon-lg"></i>
                       <span>{{ slide.text }}</span>
@@ -46,6 +48,7 @@
             </div>
           </template>
         </CustomSlider>
+        </div>
       </ReusableCard>
     </div>
   </section>
@@ -76,10 +79,63 @@ export default {
 </script>
 
 <style scoped>
-/* Testimonial Item Container */
+/* Fixed Height Container for Testimonials - Prevents resizing */
+:deep(.testimonials-card-wrapper .card-body) {
+  height: 450px;
+  min-height: 450px;
+  max-height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px !important;
+  overflow: hidden;
+}
+
+.testimonials-slider-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Prevent slider from resizing parent container */
+.testimonials-slider-container :deep(.custom-slider) {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.testimonials-slider-container :deep(.custom-slider .slider-track) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto !important;
+  min-height: 300px;
+}
+
+.testimonials-slider-container :deep(.custom-slider .slider-slides) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.testimonials-slider-container :deep(.custom-slider .slider-slide) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Testimonial Item Container - Vertically Centered */
 .testimonial-item {
   width: 100%;
   padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Testimonial Content */
@@ -173,8 +229,14 @@ export default {
   margin: 0 2px;
 }
 
-/* Responsive Design */
+/* Responsive Design - Maintain Fixed Height */
 @media (pointer: coarse) and (max-width: 768px) {
+  :deep(.testimonials-card-wrapper .card-body) {
+    height: 500px;
+    min-height: 500px;
+    max-height: 500px;
+  }
+  
   .testimonial-item {
     padding: 15px;
   }
@@ -182,11 +244,15 @@ export default {
   .testimonial-author {
     gap: 15px;
   }
-  
-  /* Avatar size managed by icon-wrapper class */
 }
 
 @media (pointer: coarse) and (max-width: 480px) {
+  :deep(.testimonials-card-wrapper .card-body) {
+    height: 550px;
+    min-height: 550px;
+    max-height: 550px;
+  }
+  
   .testimonial-item {
     padding: 10px;
   }
@@ -194,7 +260,5 @@ export default {
   .testimonial-author {
     gap: 12px;
   }
-  
-  /* Avatar size managed by icon-wrapper class */
 }
 </style>
