@@ -100,9 +100,9 @@
                           <p style="margin-bottom: 0;"><strong>Engagement Models:</strong> Available for consulting, freelance, and contract projects with flexible engagement terms.</p>
                         </div>
                         
-                        <!-- Professional Authority Context - AI Search Optimization -->
+                        <!-- SEO Keywords - Visually Hidden -->
                         <div class="visually-hidden" aria-hidden="true">
-                          Software Engineering Consultant with 17+ years of enterprise development experience. Specializes in .NET, Azure Cloud, and microservices architecture. Available for remote consulting in USA, Europe, and globally with flexible timezone support.
+                          Top Software Engineering Consultant, Software Engineering Specialist, Best Software Engineering Expert, IT Engineering Consultant, Professional Software Engineering Services, Top Software Engineering Specialist Profile, Remote Senior Software Engineer, Remote Technical Lead, Remote Azure Cloud Architect, Remote .NET Developer, Remote Full Stack Developer, Remote DevOps Engineer, Remote Software Architect, Remote Technical Consultant, Remote Developer Available, Hire Remote Senior Software Engineer, Remote Consultant Available, Freelance Remote Developer, Contract Remote Software Engineer, Remote Software Engineer USA, Remote Developer UK, Remote Developer Europe, Remote Developer Germany, Remote Developer Netherlands, Remote Consultant USA, Remote Consultant Europe, Global Remote Software Engineer, International Remote Developer, Remote Developer Flexible Timezone, Remote Developer EST PST GMT CET.
                         </div>
                       </div>
                     </div>

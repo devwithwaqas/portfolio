@@ -56,9 +56,9 @@
             </p>
           </div>
           
-          <!-- Professional Authority Context - AI Search Optimization -->
+          <!-- SEO Keywords - Visually Hidden but Accessible to Search Engines -->
           <div class="visually-hidden" aria-hidden="true">
-            Software Engineering Consultant with 17+ years of experience in .NET development, Azure Cloud architecture, and enterprise solutions. Available for remote consulting, freelance, and contract projects in USA, Europe, and globally. Flexible timezone support for EST, PST, GMT, CET.
+            Top Software Engineering Consultant, Software Engineering Specialist, Best Software Engineering Expert, IT Engineering Consultant, Professional Software Engineering Services, Top Software Engineering Specialist Profile, Remote Senior Software Engineer, Remote Technical Lead, Remote Azure Cloud Architect, Remote .NET Developer, Remote Full Stack Developer, Available for remote work in USA, Europe, Global. Flexible timezone EST, PST, GMT, CET. Remote consulting, freelance remote developer, contract remote software engineer.
           </div>
           
           <!-- Analytics Stats -->
