@@ -119,6 +119,7 @@
 import emailjs from '@emailjs/browser'
 import { APP_CONFIG } from '../../config/constants.js'
 import { trackContactFormSubmission } from '../../utils/analytics.js'
+import { sendEmailViaSMTP, isSMTPConfigured } from '../../utils/emailService.js'
 
 export default {
   name: 'ContactForm',
@@ -133,8 +134,21 @@ export default {
       validationErrors: {},
       isLoading: false,
       successMessage: '',
-      errorMessage: ''
+      errorMessage: '',
+      userTimezone: null
     }
+  },
+  mounted() {
+    // Capture user's timezone on component mount
+    // Note: This uses the browser's system timezone, not GPS location
+    this.userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    console.log('🌍 Detected Browser Timezone:', this.userTimezone)
+    console.log('📍 Browser Location Info:', {
+      timezone: this.userTimezone,
+      offset: new Date().getTimezoneOffset(),
+      locale: navigator.language,
+      platform: navigator.platform
+    })
   },
   computed: {
     emailjsConfig() {
@@ -143,6 +157,16 @@ export default {
     isEmailjsConfigured() {
       const config = this.emailjsConfig
       return config.publicKey && config.serviceId && config.templateId
+    },
+    smtpFallbackConfig() {
+      return APP_CONFIG.smtpFallback
+    },
+    isSMTPFallbackEnabled() {
+      return this.smtpFallbackConfig.enabled && isSMTPConfigured(this.smtpFallbackConfig)
+    },
+    // Check if any email service is available
+    isEmailServiceAvailable() {
+      return this.isEmailjsConfigured || this.isSMTPFallbackEnabled
     }
   },
   methods: {
@@ -181,8 +205,8 @@ export default {
         return
       }
 
-      // Check if EmailJS is configured
-      if (!this.isEmailjsConfigured) {
+      // Check if any email service is available
+      if (!this.isEmailServiceAvailable) {
         this.errorMessage = 'Email service is not configured. Please email me directly at ' + APP_CONFIG.email
         return
       }
@@ -191,26 +215,81 @@ export default {
       this.successMessage = ''
       this.errorMessage = ''
 
-      try {
-        // Initialize EmailJS with public key
-        emailjs.init(this.emailjsConfig.publicKey)
+      let emailSent = false
+      let emailMethod = null
+      let lastError = null
 
-        // Prepare template parameters
-        const templateParams = {
-          from_name: this.formData.name,
-          from_email: this.formData.email,
-          subject: this.formData.subject,
-          message: this.formData.message,
-          to_email: APP_CONFIG.email // Recipient email
+      // Strategy 1: Try EmailJS first (if configured and flag is not forcing SMTP)
+      if (this.isEmailjsConfigured && !this.isSMTPFallbackEnabled) {
+        try {
+          emailMethod = 'EmailJS'
+          
+          // Initialize EmailJS with public key
+          emailjs.init(this.emailjsConfig.publicKey)
+
+          // Prepare template parameters
+          const templateParams = {
+            from_name: this.formData.name,
+            from_email: this.formData.email,
+            subject: this.formData.subject,
+            message: this.formData.message,
+            to_email: APP_CONFIG.email // Recipient email
+          }
+
+          // Send email using EmailJS
+          await emailjs.send(
+            this.emailjsConfig.serviceId,
+            this.emailjsConfig.templateId,
+            templateParams
+          )
+          
+          emailSent = true
+          console.log('✓ Email sent successfully via EmailJS')
+        } catch (error) {
+          console.error('EmailJS Error:', error)
+          lastError = error
+          // Will fall through to SMTP fallback if available
         }
+      }
 
-        // Send email using EmailJS
-        await emailjs.send(
-          this.emailjsConfig.serviceId,
-          this.emailjsConfig.templateId,
-          templateParams
-        )
-        
+      // Strategy 2: Try SMTP fallback if EmailJS failed OR flag is forcing SMTP
+      if (!emailSent && this.isSMTPFallbackEnabled) {
+        try {
+          emailMethod = 'SMTP'
+          
+          // Add timezone and timestamp to form data
+          // Get fresh timezone at submit time (in case system changed)
+          const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+          const timezoneToSend = this.userTimezone || currentTimezone
+          
+          console.log('📧 Sending email with metadata:', {
+            timezone: timezoneToSend,
+            timestamp: new Date().toISOString(),
+            detectedAt: 'submit-time'
+          })
+          
+          const formDataWithMetadata = {
+            ...this.formData,
+            timezone: timezoneToSend,
+            timestamp: new Date().toISOString(), // ISO format with UTC
+            userAgent: navigator.userAgent,
+            language: navigator.language
+          }
+          
+          // Send email via SMTP fallback
+          await sendEmailViaSMTP(formDataWithMetadata, this.smtpFallbackConfig)
+          
+          emailSent = true
+          console.log('✓ Email sent successfully via SMTP fallback')
+        } catch (error) {
+          console.error('SMTP Fallback Error:', error)
+          lastError = error
+          // Will continue to error handling
+        }
+      }
+
+      // Handle success or failure
+      if (emailSent) {
         // Track conversion in Google Analytics
         trackContactFormSubmission(this.formData)
         
@@ -221,12 +300,14 @@ export default {
           subject: '',
           message: ''
         }
-      } catch (error) {
-        console.error('EmailJS Error:', error)
-        this.errorMessage = 'Oops! Something went wrong. Please try again or email me directly at ' + APP_CONFIG.email
-      } finally {
-        this.isLoading = false
+      } else {
+        // Both methods failed or not available
+        const errorDetails = lastError ? ` (${lastError.message})` : ''
+        console.error(`Both email methods failed${errorDetails}`)
+        this.errorMessage = 'Email service temporarily unavailable. Please try again or email me directly at ' + APP_CONFIG.email
       }
+
+      this.isLoading = false
     }
   }
 }

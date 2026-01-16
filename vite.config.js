@@ -16,6 +16,9 @@ export default defineConfig({
         // Replace absolute asset paths with base-prefixed paths
         let transformed = html.replace(/href="\/assets\//g, `href="${base}assets/`)
                              .replace(/src="\/assets\//g, `src="${base}assets/`)
+                             // Also handle favicon paths
+                             .replace(/href="\/portfolio\/assets\/img\/(favicon|apple-touch-icon)/g, `href="${base}assets/img/$1`)
+                             .replace(/href="\/assets\/img\/(favicon|apple-touch-icon)/g, `href="${base}assets/img/$1`)
         // Replace GA4 placeholder with actual Measurement ID if provided
         if (ga4Id) {
           transformed = transformed.replace(/VITE_GA4_MEASUREMENT_ID_PLACEHOLDER/g, ga4Id)

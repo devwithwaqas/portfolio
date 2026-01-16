@@ -26,6 +26,15 @@ export const APP_CONFIG = {
     serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || '', // From .env file
     templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '' // From .env file
   },
+  // SMTP Fallback Configuration for Contact Form
+  // Used when EmailJS fails or feature flag is enabled
+  // Feature flag: VITE_SMTP_FALLBACK_ENABLED (default: false/empty = OFF)
+  // See docs/SMTP_FALLBACK_PLAN.md for setup instructions
+  smtpFallback: {
+    enabled: import.meta.env.VITE_SMTP_FALLBACK_ENABLED === 'true', // Feature flag (OFF by default)
+    endpoint: import.meta.env.VITE_SMTP_FALLBACK_ENDPOINT || '', // Serverless function endpoint
+    apiKey: import.meta.env.VITE_SMTP_FALLBACK_API_KEY || '' // Optional API key for function authentication
+  },
   // About section data - Will be calculated dynamically from work experience
   totalExperience: 17, // Calculated from Jan 1, 2008 to present
   techLeadExperience: 9, // Calculated from midway Squad Cell career (2015) to present
