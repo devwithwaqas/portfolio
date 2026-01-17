@@ -139,6 +139,12 @@ const routes = [
   {
     path: '/resume',
     redirect: '/'
+  },
+  // Catch-all route for 404 errors - must be last
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('../views/NotFound.vue')
   }
 ]
 
@@ -213,6 +219,14 @@ router.beforeEach((to, from, next) => {
     })
     // Generate structured data (FAQ will be added by component)
     generateServicePageStructuredData(serviceData, [])
+  } else if (to.name === 'NotFound') {
+    // 404 page SEO
+    setPageSEO({
+      title: '404 - Page Not Found | Waqas Ahmad Portfolio',
+      description: 'The page you are looking for does not exist. Return to the homepage to explore Waqas Ahmad\'s portfolio and services.',
+      keywords: ['404', 'Page Not Found'],
+      url: `${SITE_URL}${to.path}`
+    })
   } else {
     // Default SEO for other pages
     setPageSEO({
