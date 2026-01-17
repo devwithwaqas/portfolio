@@ -468,6 +468,32 @@ export default {
   display: block;
 }
 
+/* LazyImage Container - Make it behave exactly like a direct img tag */
+.tech-icon-container {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  line-height: 0 !important;
+  vertical-align: middle !important;
+  flex-shrink: 0 !important;
+}
+
+.tech-icon-container img {
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 .tech-title {
   color: #0563bb;
   line-height: 1.4;

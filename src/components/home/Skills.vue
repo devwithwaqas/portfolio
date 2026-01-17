@@ -271,9 +271,28 @@ export default {
 }
 
 .category-icon-container {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
   width: auto !important;
   height: auto !important;
-  flex-shrink: 0;
+  line-height: 0 !important;
+  vertical-align: middle !important;
+  flex-shrink: 0 !important;
+}
+
+.category-icon-container img {
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .skills-section-title {

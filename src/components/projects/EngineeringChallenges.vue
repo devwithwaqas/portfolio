@@ -204,6 +204,7 @@ export default {
   flex-shrink: 0;
 }
 
+
 .solution-name {
   color: #7c3aed;
 }

@@ -333,6 +333,8 @@ export default {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  width: 36px;
+  height: 36px;
 }
 
 /* Metrics Grid */
@@ -372,24 +374,6 @@ export default {
   flex-shrink: 0;
 }
 
-/* Icon sizes now managed by font-sizes.css */
-
-/* LazyImage Container Constraints - Match icon wrapper sizes */
-.category-icon-container {
-  width: 36px !important;
-  height: 36px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-shrink: 0 !important;
-}
-
-.category-icon-container img {
-  width: 32px !important;
-  height: 32px !important;
-  object-fit: contain !important;
-  object-position: center !important;
-}
 
 .metric-name {
   color: #7c3aed;
@@ -527,18 +511,6 @@ export default {
     padding-bottom: 20px;
   }
   
-  /* Font sizes managed by font-sizes.css */
-  
-  /* Responsive LazyImage container sizes */
-  .category-icon-container {
-    width: 34px !important;
-    height: 34px !important;
-  }
-  
-  .category-icon-container img {
-    width: 30px !important;
-    height: 30px !important;
-  }
   
   .metric-item {
     padding: 16px;

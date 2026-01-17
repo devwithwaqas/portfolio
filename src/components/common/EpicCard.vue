@@ -593,22 +593,10 @@ export default {
 }
 
 .tech-icon-box {
-  width: 32px;
-  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  padding: 4px;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.tech-icon-box:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
 }
 
 .tech-stack-icon {
@@ -617,6 +605,7 @@ export default {
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
+
 
 /* Banner Section */
 .banner-section {
@@ -1038,11 +1027,6 @@ export default {
     height: 180px;
   }
   
-  .tech-icon-box {
-    width: 28px;
-    height: 28px;
-  }
-  
   .tech-stack-row {
     gap: 6px;
   }
@@ -1070,11 +1054,6 @@ export default {
   
   .banner-section {
     height: 160px;
-  }
-  
-  .tech-icon-box {
-    width: 24px;
-    height: 24px;
   }
   
   .content-section {

@@ -217,24 +217,10 @@ export default {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  width: 36px;
+  height: 36px;
 }
 
-/* LazyImage Container Constraints - Match icon wrapper sizes */
-.feature-icon-container {
-  width: 36px !important;
-  height: 36px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-shrink: 0 !important;
-}
-
-.feature-icon-container img {
-  width: 32px !important;
-  height: 32px !important;
-  object-fit: contain !important;
-  object-position: center !important;
-}
 
 .feature-name {
   color: #7c3aed;
@@ -302,39 +288,5 @@ export default {
     margin: 25px 0;
   }
   
-  /* Font sizes managed by font-sizes.css */
-  
-  /* Responsive LazyImage container sizes */
-  .feature-icon-container {
-    width: 34px !important;
-    height: 34px !important;
-    align-self: center !important;
-  }
-  
-  .feature-icon-container img {
-    width: 30px !important;
-    height: 30px !important;
-  }
-  
-  .tech-icon-wrapper {
-    align-self: center !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .feature-icon-container {
-    width: 32px !important;
-    height: 32px !important;
-    align-self: center !important;
-  }
-  
-  .feature-icon-container img {
-    width: 28px !important;
-    height: 28px !important;
-  }
-  
-  .tech-icon-wrapper {
-    align-self: center !important;
-  }
 }
 </style>

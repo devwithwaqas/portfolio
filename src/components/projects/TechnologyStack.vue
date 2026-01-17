@@ -257,6 +257,8 @@ export default {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  width: 36px;
+  height: 36px;
 }
 
 .local-category-icon {
@@ -328,45 +330,9 @@ export default {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: linear-gradient(135deg, 
-    rgba(139, 92, 246, 0.12) 0%, 
-    rgba(236, 72, 153, 0.1) 100%
-  );
-  border-radius: 10px;
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.tech-item:hover .tech-icon-wrapper {
-  background: linear-gradient(135deg, 
-    rgba(139, 92, 246, 0.2) 0%, 
-    rgba(236, 72, 153, 0.16) 100%
-  );
-  border-color: rgba(139, 92, 246, 0.4);
-  transform: scale(1.1) rotate(-3deg);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-}
 
-/* Icon sizes now managed by font-sizes.css */
-
-/* LazyImage Container Constraints - Match icon wrapper sizes */
-.tech-icon-container,
-.category-icon-container {
-  width: 36px !important;
-  height: 36px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-shrink: 0 !important;
-}
-
-.tech-icon-container img,
-.category-icon-container img {
-  width: 32px !important;
-  height: 32px !important;
-  object-fit: contain !important;
-  object-position: center !important;
-}
 
 /* Text Content - Flexible column */
 .tech-content {
@@ -394,55 +360,5 @@ export default {
     align-items: center !important;
   }
   
-  /* Icon sizes now managed by font-sizes.css responsive classes */
-  
-  /* Responsive LazyImage container sizes */
-  .tech-icon-container,
-  .category-icon-container {
-    width: 34px !important;
-    height: 34px !important;
-    margin: 0 !important;
-    align-self: center !important;
-  }
-  
-  .tech-icon-container img,
-  .category-icon-container img {
-    width: 30px !important;
-    height: 30px !important;
-  }
-  
-  /* Ensure icon wrapper maintains alignment */
-  .tech-icon-wrapper {
-    align-self: center !important;
-  }
-  
-  /* Ensure category icon wrapper maintains alignment */
-  .category-icon-wrapper {
-    align-self: center !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .tech-icon-container,
-  .category-icon-container {
-    width: 32px !important;
-    height: 32px !important;
-    margin: 0 !important;
-    align-self: center !important;
-  }
-  
-  .tech-icon-container img,
-  .category-icon-container img {
-    width: 28px !important;
-    height: 28px !important;
-  }
-  
-  .tech-icon-wrapper {
-    align-self: center !important;
-  }
-  
-  .category-icon-wrapper {
-    align-self: center !important;
-  }
 }
 </style>

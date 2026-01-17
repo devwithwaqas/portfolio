@@ -183,29 +183,32 @@ export default {
 <style scoped>
 .lazy-image-container {
   position: relative;
-  display: inline-block; /* Prevent collapsing for inline contexts */
-  vertical-align: middle; /* Align with text baseline */
-  flex-shrink: 0; /* When used in flex containers, maintain size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: top;
+  line-height: 0;
 }
 
 .lazy-image-placeholder,
 .lazy-image-error {
-  display: inline-block;
-  width: 1em; /* Use em-based sizing to match text/icon context */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
   height: 1em;
   line-height: 1;
-  text-align: center;
-  vertical-align: middle;
+  vertical-align: top;
   opacity: 0.3;
+  font-size: 0.75rem;
 }
 
 .lazy-image-container img {
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   display: block;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .lazy-image-container img[src] {
