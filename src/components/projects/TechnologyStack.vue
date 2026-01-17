@@ -391,6 +391,7 @@ export default {
   .tech-item {
     grid-template-columns: 36px 1fr;
     gap: 10px;
+    align-items: center !important;
   }
   
   /* Icon sizes now managed by font-sizes.css responsive classes */
@@ -400,12 +401,24 @@ export default {
   .category-icon-container {
     width: 34px !important;
     height: 34px !important;
+    margin: 0 !important;
+    align-self: center !important;
   }
   
   .tech-icon-container img,
   .category-icon-container img {
     width: 30px !important;
     height: 30px !important;
+  }
+  
+  /* Ensure icon wrapper maintains alignment */
+  .tech-icon-wrapper {
+    align-self: center !important;
+  }
+  
+  /* Ensure category icon wrapper maintains alignment */
+  .category-icon-wrapper {
+    align-self: center !important;
   }
 }
 
@@ -414,12 +427,22 @@ export default {
   .category-icon-container {
     width: 32px !important;
     height: 32px !important;
+    margin: 0 !important;
+    align-self: center !important;
   }
   
   .tech-icon-container img,
   .category-icon-container img {
     width: 28px !important;
     height: 28px !important;
+  }
+  
+  .tech-icon-wrapper {
+    align-self: center !important;
+  }
+  
+  .category-icon-wrapper {
+    align-self: center !important;
   }
 }
 </style>

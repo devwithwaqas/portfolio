@@ -130,7 +130,7 @@ export default {
 
 .list-item {
   display: flex;
-  align-items: flex-start;
+  align-items: baseline;
   margin-bottom: 0.5rem;
   gap: 0.5rem;
 }
@@ -140,8 +140,10 @@ export default {
   font-weight: bold;
   flex-shrink: 0;
   font-size: 1.1rem;
-  margin-top: 0.1rem;
+  margin-top: 0;
   min-width: 1.2rem;
+  line-height: 1.5;
+  vertical-align: baseline;
 }
 
 .item-text {
