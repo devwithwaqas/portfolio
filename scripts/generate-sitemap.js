@@ -3,9 +3,10 @@
  * Run this after build: node scripts/generate-sitemap.js
  * 
  * This script:
- * 1. Reads routes from router configuration
- * 2. Generates sitemap.xml with proper formatting
- * 3. Writes to both dist/ and public/ folders
+ * 1. Automatically reads routes from router configuration
+ * 2. Filters out redirects and 404 routes
+ * 3. Generates sitemap.xml with proper formatting
+ * 4. Writes to both dist/ and public/ folders
  */
 
 const fs = require('fs')
@@ -14,103 +15,92 @@ const path = require('path')
 const BASE_URL = 'https://devwithwaqas.github.io/portfolio'
 const DIST_DIR = path.resolve(__dirname, '../dist')
 const PUBLIC_DIR = path.resolve(__dirname, '../public')
+const ROUTER_FILE = path.resolve(__dirname, '../src/router/index.js')
 
-// Routes from router configuration
-const routes = [
-  {
-    path: '/',
-    priority: 1.0,
-    changefreq: 'weekly',
-    lastmod: new Date().toISOString().split('T')[0]
-  },
-  {
-    path: '/projects/heat-exchanger',
-    priority: 0.8,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/projects/airasia-id90',
-    priority: 0.8,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/projects/bat-inhouse-app',
-    priority: 0.8,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/projects/pj-smart-city',
-    priority: 0.8,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/projects/gamified-employee-management',
-    priority: 0.8,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/projects/valet-parking',
-    priority: 0.8,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/projects/mobile-games',
-    priority: 0.8,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/projects/uk-property-management',
-    priority: 0.8,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/projects/g5-pos',
-    priority: 0.8,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/projects/chubb-insurance-applications',
-    priority: 0.8,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/services/full-stack-development',
-    priority: 0.9,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/services/azure-cloud-architecture',
-    priority: 0.9,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/services/technical-leadership',
-    priority: 0.9,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/services/microservices-architecture',
-    priority: 0.9,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/services/agile-project-management',
-    priority: 0.9,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/services/database-design-optimization',
-    priority: 0.9,
-    changefreq: 'monthly'
-  },
-  {
-    path: '/services/mobile-development',
-    priority: 0.9,
-    changefreq: 'monthly'
+/**
+ * Extract routes from router file
+ * Parses the router configuration to get all valid routes
+ */
+function extractRoutesFromRouter() {
+  const routerContent = fs.readFileSync(ROUTER_FILE, 'utf8')
+  const routes = []
+  
+  // Match route objects in the routes array
+  // Pattern: { path: '...', name: '...', component: ... }
+  const routePattern = /\{\s*path:\s*['"`]([^'"`]+)['"`]\s*,\s*name:\s*['"`]([^'"`]+)['"`]\s*(?:,\s*component:\s*[^}]+)?\s*\}/g
+  const redirectPattern = /\{\s*path:\s*['"`]([^'"`]+)['"`]\s*,\s*redirect:/g
+  const catchAllPattern = /path:\s*['"`]\/:pathMatch\(\.\*\)\*['"`]/g
+  
+  let match
+  
+  // Extract all route definitions
+  const allRoutes = []
+  while ((match = routePattern.exec(routerContent)) !== null) {
+    const routePath = match[1]
+    const routeName = match[2]
+    
+    // Skip if it's a catch-all route (404)
+    if (routePath.includes('pathMatch')) {
+      continue
+    }
+    
+    allRoutes.push({ path: routePath, name: routeName })
   }
-]
+  
+  // Check for redirects and exclude them
+  const redirectPaths = new Set()
+  while ((match = redirectPattern.exec(routerContent)) !== null) {
+    redirectPaths.add(match[1])
+  }
+  
+  // Filter out redirects and assign priorities
+  allRoutes.forEach(route => {
+    // Skip redirects
+    if (redirectPaths.has(route.path)) {
+      return
+    }
+    
+    // Skip 404 route
+    if (route.name === 'NotFound' || route.path.includes('pathMatch')) {
+      return
+    }
+    
+    // Determine priority and changefreq based on path
+    let priority = 0.5
+    let changefreq = 'monthly'
+    
+    if (route.path === '/') {
+      priority = 1.0
+      changefreq = 'weekly'
+    } else if (route.path.startsWith('/projects/')) {
+      priority = 0.8
+      changefreq = 'monthly'
+    } else if (route.path.startsWith('/services/')) {
+      priority = 0.9
+      changefreq = 'monthly'
+    }
+    
+    const routeEntry = {
+      path: route.path,
+      priority,
+      changefreq
+    }
+    
+    // Add lastmod for home page
+    if (route.path === '/') {
+      routeEntry.lastmod = new Date().toISOString().split('T')[0]
+    }
+    
+    routes.push(routeEntry)
+  })
+  
+  return routes
+}
 
 function generateSitemap() {
+  // Automatically extract routes from router
+  const routes = extractRoutesFromRouter()
+  
   // Use current date for lastmod - ensures sitemap is always "fresh"
   const today = new Date().toISOString().split('T')[0]
   
@@ -123,13 +113,13 @@ function generateSitemap() {
 
   routes.forEach(route => {
     // Ensure path starts with / and ends correctly
-    let path = route.path
-    if (!path.startsWith('/')) {
-      path = '/' + path
+    let routePath = route.path
+    if (!routePath.startsWith('/')) {
+      routePath = '/' + routePath
     }
     
     // Ensure URL is properly encoded (escape special characters if any)
-    const url = `${BASE_URL}${path}`.replace(/&/g, '&amp;')
+    const url = `${BASE_URL}${routePath}`.replace(/&/g, '&amp;')
     const lastmod = route.lastmod || today
     const changefreq = route.changefreq || 'monthly'
     const priority = route.priority || 0.5
@@ -174,7 +164,7 @@ function generateSitemap() {
   console.log('✓ Copied sitemap.xml to public/ folder')
   
   console.log('✓ Sitemap URL: https://devwithwaqas.github.io/portfolio/sitemap.xml')
-  console.log(`✓ Total URLs: ${routes.length}`)
+  console.log(`✓ Total URLs: ${routes.length} (auto-discovered from router)`)
   console.log(`✓ Last modified: ${today}`)
 }
 
