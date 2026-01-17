@@ -659,7 +659,7 @@ export default {
   }
 }
 
-/* PERFORMANCE: Optimize icon wrappers for GPU acceleration */
+/* Remove icon wrapper boxes (background, border, border-radius) in Resume section */
 .resume-item strong .icon-wrapper-xs,
 .resume-item strong .icon-wrapper-sm,
 .resume-item strong .icon-wrapper-md,
@@ -672,13 +672,17 @@ export default {
 .resume-item h4 .icon-wrapper-lg,
 .resume-item h4 .icon-wrapper-xl,
 .resume-item h4 .icon-wrapper-2xl {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
   transform: none !important;
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
-/* PERFORMANCE: Optimized hover effects with GPU acceleration */
+/* Remove hover effects on icon wrappers in Resume section */
 .resume-item strong .icon-wrapper-xs:hover,
 .resume-item strong .icon-wrapper-sm:hover,
 .resume-item strong .icon-wrapper-md:hover,
@@ -691,8 +695,11 @@ export default {
 .resume-item h4 .icon-wrapper-lg:hover,
 .resume-item h4 .icon-wrapper-xl:hover,
 .resume-item h4 .icon-wrapper-2xl:hover {
-  transform: scale(1.05) rotate(-2deg) !important; /* Reduced scale and rotation for better performance */
-  transition: transform 0.2s ease-out; /* Added smooth transition */
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 /* PERFORMANCE: Reduce animation frequency for better performance */

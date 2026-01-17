@@ -13,7 +13,13 @@
             <!-- Icon Resolver Support -->
             <span v-if="iconName && iconData" class="title-icon icon-wrapper-lg">
               <i v-if="iconData.type === 'devicon'" :class="deviconClass + ' icon-lg'"></i>
-              <img v-else-if="iconData.type === 'local'" :src="iconData.src" :alt="iconData.alt" class="icon-img-lg" />
+              <OptimizedImage 
+                v-else-if="iconData.type === 'local'" 
+                :src="iconData.src" 
+                :alt="iconData.alt" 
+                image-class="icon-img-lg"
+                :lazy="false"
+              />
               <span v-else class="icon-lg">{{ iconData.src }}</span>
             </span>
             <!-- Fallback to emoji if iconName provided but no iconData found -->
@@ -38,9 +44,13 @@
 
 <script>
 import { resolveIcon, getDeviconClass } from '../../utils/iconResolver.js'
+import OptimizedImage from './OptimizedImage.vue'
 
 export default {
   name: 'ReusableCard',
+  components: {
+    OptimizedImage
+  },
   props: {
     title: {
       type: String,

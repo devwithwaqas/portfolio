@@ -47,11 +47,31 @@ export default defineConfig({
     // Code splitting for better performance
     rollupOptions: {
       output: {
-        manualChunks: {
+        manualChunks: (id) => {
           // Separate vendor chunks
-          'vue-vendor': ['vue', 'vue-router'],
-          'chart-vendor': ['chart.js'],
-          'ui-vendor': ['swiper', 'vue3-carousel', '@panzoom/panzoom']
+          if (id.includes('node_modules')) {
+            // Vue core libraries
+            if (id.includes('vue') || id.includes('vue-router')) {
+              return 'vue-vendor'
+            }
+            // Everything else goes into separate chunks (lazy loaded)
+            // This allows better code splitting
+            return undefined // Let Vite handle automatic splitting for other node_modules
+          }
+          
+          // Split large utility files into their own chunks for better caching
+          if (id.includes('src/utils/iconResolver')) {
+            return 'utils-icon-resolver'
+          }
+          if (id.includes('src/services/')) {
+            return 'services'
+          }
+          if (id.includes('src/utils/')) {
+            return 'utils'
+          }
+          
+          // Let Vite handle automatic splitting for everything else
+          return undefined
         }
       }
     },

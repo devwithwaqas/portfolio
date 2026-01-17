@@ -42,8 +42,6 @@
 </template>
 
 <script>
-import Panzoom from '@panzoom/panzoom'
-
 export default {
   name: 'ImagePreview',
   props: {
@@ -59,7 +57,8 @@ export default {
   data() {
     return {
       visible: false,
-      panzoomInstance: null
+      panzoomInstance: null,
+      Panzoom: null // Lazy loaded Panzoom class
     }
   },
   methods: {
@@ -78,8 +77,19 @@ export default {
         this.panzoomInstance = null
       }
     },
-    initPanzoom() {
+    async initPanzoom() {
       if (!this.$refs.zoomImage) return
+      
+      // Lazy load Panzoom only when needed
+      if (!this.Panzoom) {
+        try {
+          const panzoomModule = await import('@panzoom/panzoom')
+          this.Panzoom = panzoomModule.default
+        } catch (error) {
+          console.error('Failed to load Panzoom:', error)
+          return
+        }
+      }
       
       const img = this.$refs.zoomImage
       const wrapper = img.parentElement
@@ -107,7 +117,7 @@ export default {
       }
       
       // Initialize panzoom on the IMAGE element
-      this.panzoomInstance = Panzoom(img, {
+      this.panzoomInstance = this.Panzoom(img, {
         maxScale: 5,
         minScale: 0.05,
         cursor: 'move',

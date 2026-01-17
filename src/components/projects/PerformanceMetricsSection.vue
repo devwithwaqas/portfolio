@@ -54,44 +54,11 @@
 </template>
 
 <script>
-import { 
-  Chart,
-  ArcElement,
-  LineElement,
-  BarElement,
-  PointElement,
-  BarController,
-  LineController,
-  DoughnutController,
-  PolarAreaController,
-  CategoryScale,
-  LinearScale,
-  RadialLinearScale,
-  Filler,
-  Legend,
-  Title,
-  Tooltip
-} from 'chart.js'
 import { resolveIcon, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
 
-// Register only the components we need
-Chart.register(
-  ArcElement,
-  LineElement,
-  BarElement,
-  PointElement,
-  BarController,
-  LineController,
-  DoughnutController,
-  PolarAreaController,
-  CategoryScale,
-  LinearScale,
-  RadialLinearScale,
-  Filler,
-  Legend,
-  Title,
-  Tooltip
-)
+// Lazy load Chart.js only when needed
+let Chart = null
+let chartComponents = null
 
 export default {
   name: 'PerformanceMetricsSection',
@@ -110,7 +77,54 @@ export default {
       chartInstances: []
     }
   },
-  mounted() {
+  async mounted() {
+    // Lazy load Chart.js only when component is mounted
+    if (!Chart) {
+      try {
+        const chartModule = await import('chart.js')
+        Chart = chartModule.Chart
+        chartComponents = {
+          ArcElement: chartModule.ArcElement,
+          LineElement: chartModule.LineElement,
+          BarElement: chartModule.BarElement,
+          PointElement: chartModule.PointElement,
+          BarController: chartModule.BarController,
+          LineController: chartModule.LineController,
+          DoughnutController: chartModule.DoughnutController,
+          PolarAreaController: chartModule.PolarAreaController,
+          CategoryScale: chartModule.CategoryScale,
+          LinearScale: chartModule.LinearScale,
+          RadialLinearScale: chartModule.RadialLinearScale,
+          Filler: chartModule.Filler,
+          Legend: chartModule.Legend,
+          Title: chartModule.Title,
+          Tooltip: chartModule.Tooltip
+        }
+        
+        // Register only the components we need
+        Chart.register(
+          chartComponents.ArcElement,
+          chartComponents.LineElement,
+          chartComponents.BarElement,
+          chartComponents.PointElement,
+          chartComponents.BarController,
+          chartComponents.LineController,
+          chartComponents.DoughnutController,
+          chartComponents.PolarAreaController,
+          chartComponents.CategoryScale,
+          chartComponents.LinearScale,
+          chartComponents.RadialLinearScale,
+          chartComponents.Filler,
+          chartComponents.Legend,
+          chartComponents.Title,
+          chartComponents.Tooltip
+        )
+      } catch (error) {
+        console.error('Failed to load Chart.js:', error)
+        return
+      }
+    }
+    
     // Wait for DOM to be fully rendered before initializing charts
     this.$nextTick(() => {
       // Add a small delay to ensure canvas elements are rendered
@@ -193,6 +207,11 @@ export default {
         }
         
         try {
+          if (!Chart) {
+            console.warn('PerformanceMetricsSection: Chart.js not loaded yet')
+            return
+          }
+          
           const ctx = canvas.getContext('2d')
           if (!ctx) {
             console.warn(`PerformanceMetricsSection: Could not get 2d context for canvas "${chartConfig.id}"`)

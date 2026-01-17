@@ -185,7 +185,7 @@ import DiagramNarrator from './DiagramNarrator.vue'
 import HighlightOverlay from './HighlightOverlay.vue'
 import CustomLoader from '../common/CustomLoader.vue'
 import LazyImage from '../common/LazyImage.vue'
-import Panzoom from '@panzoom/panzoom'
+// Panzoom will be lazy loaded when needed
 import highlightService from '@/services/HighlightService.js'
 import narrationService from '@/services/NarrationService.js'
 import { assetPath } from '@/utils/assetPath.js'
@@ -241,6 +241,7 @@ export default {
   data() {
     return {
       panzoomInstance: null,
+      Panzoom: null, // Lazy loaded Panzoom class
       originalDimensions: {
         width: 0,
         height: 0
@@ -397,7 +398,18 @@ export default {
       }
     },
 
-    setupPanzoom(diagramElement, wrapperElement, containerElement) {
+    async setupPanzoom(diagramElement, wrapperElement, containerElement) {
+      // Lazy load Panzoom only when needed
+      if (!this.Panzoom) {
+        try {
+          const panzoomModule = await import('@panzoom/panzoom')
+          this.Panzoom = panzoomModule.default
+        } catch (error) {
+          console.error('Failed to load Panzoom:', error)
+          return
+        }
+      }
+      
       // Store original dimensions
       this.originalDimensions = {
         width: diagramElement.naturalWidth || diagramElement.offsetWidth,
@@ -406,7 +418,7 @@ export default {
 
       // Initialize Panzoom on the wrapper (which contains both image and highlights)
       // Use contain: 'outside' for initial fit, but override zoom limits
-      this.panzoomInstance = Panzoom(wrapperElement, {
+      this.panzoomInstance = this.Panzoom(wrapperElement, {
         contain: 'outside',
         cursor: 'move',
         canvas: true,

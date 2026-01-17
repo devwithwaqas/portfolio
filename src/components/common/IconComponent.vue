@@ -8,15 +8,17 @@
     <!-- Devicon -->
     <i v-if="iconData && iconData.type === 'devicon'" :class="deviconClass + ' ' + iconClass"></i>
     
-    <!-- Local Image with optional lazy loading -->
-    <img 
-      v-else-if="iconData && iconData.type === 'local' && (isLoaded || !lazy)" 
-      :src="iconData.src" 
-      :alt="iconData.alt" 
-      :class="imageClass"
-      :loading="lazy ? 'lazy' : 'eager'"
+    <!-- Local Image with optional lazy loading and WebP/AVIF support -->
+    <OptimizedImage
+      v-else-if="iconData && iconData.type === 'local' && (isLoaded || !lazy)"
+      :src="iconData.src"
+      :alt="iconData.alt"
+      :image-class="imageClass"
+      :container-class="''"
+      :lazy="lazy"
+      :threshold="threshold"
+      :root-margin="rootMargin"
       @load="onImageLoad"
-      @error="onImageError"
     />
     
     <!-- Emoji Fallback -->
@@ -32,9 +34,13 @@
 
 <script>
 import { resolveIcon, getDeviconClass } from '../../utils/iconResolver.js'
+import OptimizedImage from './OptimizedImage.vue'
 
 export default {
   name: 'IconComponent',
+  components: {
+    OptimizedImage
+  },
   props: {
     iconName: {
       type: String,

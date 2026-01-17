@@ -1486,6 +1486,8 @@ export function resolveIcon(techName, fallbackName = null) {
       // Check for explicit local property first (if available)
       const localIcon = exactMatch.local || exactMatch.icon
       if (localIcon) {
+        // Prefer optimized version if available (will be handled by OptimizedImage component)
+        // For now, return the original path - OptimizedImage will auto-detect optimized versions
         return {
           type: 'local',
           src: assetPath(`/assets/img/Icons/${localIcon}`),

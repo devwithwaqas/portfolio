@@ -611,17 +611,21 @@ export default {
 .banner-section {
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 160px;
   overflow: hidden;
   border-radius: 8px;
   margin: 0;
   flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(20, 20, 30, 0.5), rgba(30, 30, 50, 0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .banner-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.4s ease;
 }
 
@@ -1024,7 +1028,7 @@ export default {
   }
   
   .banner-section {
-    height: 180px;
+    height: 140px;
   }
   
   .tech-stack-row {
@@ -1053,7 +1057,7 @@ export default {
   }
   
   .banner-section {
-    height: 160px;
+    height: 120px;
   }
   
   .content-section {

@@ -116,6 +116,11 @@ export default {
   transition: all 0.3s ease;
   animation: fadeInUp 0.6s ease-out;
   width: 100%;
+  /* Prevent layout shifts - reserve space */
+  min-height: 120px; /* Reserve space for content */
+  contain: layout style paint; /* CSS containment */
+  /* Don't start with opacity: 0 - it causes layout shift when it appears */
+  /* Animation will handle the fade-in without layout shift */
 }
 
 .analytics-stats-container:hover {
@@ -129,7 +134,7 @@ export default {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(0); /* Don't translate - just fade to prevent layout shift */
   }
   to {
     opacity: 1;

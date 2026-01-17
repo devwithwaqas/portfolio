@@ -5,7 +5,7 @@
         <!-- Profile Card -->
         <div class="hero-profile-side">
           <div class="profile-image-container-side">
-            <LazyImage 
+            <OptimizedImage 
               :src="$assetPath('/assets/img/waqas-microsoft-profile-optimized.jpg')" 
               :alt="`${fullName} - Senior Software Engineer & Technical Lead - Available USA, Europe, Global - 17+ Years Experience`" 
               image-class="profile-image-side"
@@ -111,13 +111,13 @@
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { APP_CONFIG } from '../../config/constants.js'
 import AnalyticsStats from './AnalyticsStats.vue'
-import LazyImage from '../common/LazyImage.vue'
+import OptimizedImage from '../common/OptimizedImage.vue'
 
 export default {
   name: 'Hero',
   components: {
     AnalyticsStats,
-    LazyImage
+    OptimizedImage
   },
   data() {
     return {

@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import HeatExchangerPage from '../views/projects/HeatExchangerPage.vue'
-import AirAsiaID90Page from '../views/projects/AirAsiaID90Page.vue'
+// Lazy load all views for better code splitting
 import { setPageSEO, getHomePageSEO, getProjectPageSEO, getServicePageSEO } from '../utils/seo.js'
 import { generateProjectPageStructuredData, generateServicePageStructuredData } from '../utils/structuredData.js'
 import { trackPageView, trackServicePageView, trackProjectPageView } from '../utils/analytics.js'
@@ -31,58 +29,58 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: () => loadComponent(() => import('../views/Home.vue'))
   },
   {
     path: '/projects/heat-exchanger',
     name: 'HeatExchanger',
-    component: HeatExchangerPage
+    component: () => loadComponent(() => import('../views/projects/HeatExchangerPage.vue'))
   },
   {
     path: '/projects/airasia-id90',
     name: 'AirAsiaID90',
-    component: AirAsiaID90Page
+    component: () => loadComponent(() => import('../views/projects/AirAsiaID90Page.vue'))
   },
   // Placeholder routes for projects not yet implemented
   {
     path: '/projects/bat-inhouse-app',
     name: 'BATInhouseApp',
-    component: () => import('../views/projects/BATInhouseAppPage.vue')
+    component: () => loadComponent(() => import('../views/projects/BATInhouseAppPage.vue'))
   },
   {
     path: '/projects/pj-smart-city',
     name: 'PJSmartCity',
-    component: () => import('../views/projects/SmartCityPage.vue')
+    component: () => loadComponent(() => import('../views/projects/SmartCityPage.vue'))
   },
   {
     path: '/projects/gamified-employee-management',
     name: 'GamifiedEmployeeManagement',
-    component: () => import('../views/projects/GamifiedEmployeeManagementPage.vue')
+    component: () => loadComponent(() => import('../views/projects/GamifiedEmployeeManagementPage.vue'))
   },
     {
       path: '/projects/valet-parking',
       name: 'ValetParking',
-      component: () => import('../views/projects/ValetParkingPage.vue')
+      component: () => loadComponent(() => import('../views/projects/ValetParkingPage.vue'))
     },
   {
     path: '/projects/mobile-games',
     name: 'MobileGames',
-    component: () => import('../views/projects/MobileGamesPage.vue')
+    component: () => loadComponent(() => import('../views/projects/MobileGamesPage.vue'))
   },
   {
     path: '/projects/uk-property-management',
     name: 'UKPropertyManagement',
-    component: () => import('../views/projects/UKPropertyManagementPage.vue')
+    component: () => loadComponent(() => import('../views/projects/UKPropertyManagementPage.vue'))
   },
   {
     path: '/projects/g5-pos',
     name: 'G5POS',
-    component: () => import('../views/projects/G5POSPage.vue')
+    component: () => loadComponent(() => import('../views/projects/G5POSPage.vue'))
   },
   {
     path: '/projects/chubb-insurance-applications',
     name: 'ChubbInsuranceApplications',
-    component: () => import('../views/projects/InsuranceClientsPage.vue')
+    component: () => loadComponent(() => import('../views/projects/InsuranceClientsPage.vue'))
   },
   // Redirect any old routes to home (no hash)
   {
@@ -144,7 +142,7 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: () => import('../views/NotFound.vue')
+    component: () => loadComponent(() => import('../views/NotFound.vue'))
   }
 ]
 

@@ -45,6 +45,7 @@
 # 01) Variables
 # Help: https://bootstrapmade.com/color-system/
 --------------------------------------------------------------*/
+
 /* Fonts & global color variables. Update here to theme the site. */
 :root {
   /* Fonts */
@@ -630,6 +631,13 @@ p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label):not(.r
 }
 
 /* Override justified text for badge sections and remote work section - HIGH SPECIFICITY */
+/* Available Badge - Prevent layout shifts */
+.available-badge {
+  /* Reserve space to prevent layout shift */
+  min-height: 3rem; /* Reserve space for badge content */
+  contain: layout style; /* Prevent shifts */
+}
+
 .available-badge,
 .available-badge *,
 .available-badge p,
@@ -1005,6 +1013,8 @@ section,
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 1;
+  /* Prevent layout shifts - rings are decorative */
+  contain: strict; /* Strict containment to prevent any layout impact */
 }
 
 .hero .ring {
@@ -1021,6 +1031,9 @@ section,
     0 0 0 0.25vw rgba(0,0,0,0.2),
     inset 4vw 4vw 4vw rgba(167,139,250,0.25),
     -2.5vw -2.5vw 5vw rgba(167,139,250,0.2);
+  /* Prevent layout shifts - rings are decorative and shouldn't affect layout */
+  contain: strict; /* Strict containment to prevent any layout impact */
+  will-change: transform, opacity; /* Optimize animations */
 }
 
 .hero .ring:nth-child(2) {
@@ -1112,6 +1125,9 @@ section,
   flex-direction: column;
   align-items: center;
   max-width: 800px;
+  /* Prevent layout shifts - reserve space for content */
+  min-height: 600px; /* Reserve space for all content including AnalyticsStats */
+  contain: layout style paint; /* CSS containment to prevent shifts */
 }
 
 /* SPECIAL PROFILE CARD STYLING */
@@ -1119,12 +1135,18 @@ section,
   position: relative;
   padding: 0;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Reserve space to prevent layout shift when image loads */
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 800 / 260; /* Match actual image dimensions (800x260) */
+  min-height: 260px; /* Fallback for browsers without aspect-ratio support */
+  contain: layout style paint; /* Prevent layout shifts */
 }
 
 .profile-image-side {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%; /* Fill container */
   object-fit: cover;
   object-position: center center;
   border-radius: 20px;
@@ -1139,6 +1161,8 @@ section,
   position: relative;
   z-index: 2;
   filter: brightness(1.05) contrast(1.1);
+  /* Prevent layout shift - image fills reserved container */
+  contain: layout style paint;
 }
 
 
@@ -1150,6 +1174,9 @@ section,
   font-weight: 900;
   line-height: 1.1;
   margin: 0.5rem 0 1rem;
+  /* Prevent layout shift from font loading */
+  min-height: 3.5rem; /* Reserve space for text */
+  contain: layout style; /* Prevent shifts */
 }
 
 .name-text {
@@ -1177,6 +1204,9 @@ section,
   margin: 0 0 .6rem;
   color: #fff;
   animation: fadeInUp 0.8s ease-out 0.4s both;
+  /* Prevent layout shift from rotating text */
+  min-height: 2.5em; /* Reserve space for longest rotating text */
+  contain: layout style; /* Prevent shifts */
 }
 
 .title-prefix,
@@ -1346,6 +1376,9 @@ h2.hero-title .title-name,
   margin-bottom: 1.2rem;
   font-size: 1.15rem;
   line-height: 1.8;
+  /* Prevent layout shift from font loading */
+  min-height: 5.4rem; /* Reserve space for 3 lines of text */
+  contain: layout style; /* Prevent shifts */
   text-align: center;
   animation: fadeInUp 0.8s ease-out 1s both;
   text-shadow: 0 2px 10px rgba(0,0,0,0.3);
@@ -1429,6 +1462,9 @@ h2.hero-title .title-name,
   flex-wrap: wrap;
   margin-bottom: 1.1rem;
   justify-content: center;
+  /* Prevent layout shift */
+  min-height: 3.5rem; /* Reserve space for buttons */
+  contain: layout style; /* Prevent shifts */
 }
 
 .hero-actions .btn {
@@ -1540,6 +1576,9 @@ h2.hero-title .title-name,
   margin-top: 1.5rem;
   flex-wrap: wrap;
   justify-content: center;
+  /* Prevent layout shift */
+  min-height: 3rem; /* Reserve space for social links */
+  contain: layout style; /* Prevent shifts */
 }
 
 .social-link {
@@ -1777,7 +1816,7 @@ h2.hero-title .title-name,
   
   .profile-image-side {
     width: 100%;
-    height: auto;
+    height: 100%; /* Maintain aspect ratio from container */
   }
   
   .hero-name {
@@ -1819,7 +1858,7 @@ h2.hero-title .title-name,
   
   .profile-image-side {
     width: 100%;
-    height: auto;
+    height: 100%; /* Maintain aspect ratio from container */
   }
   
   .hero-name {

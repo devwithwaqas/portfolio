@@ -5,12 +5,16 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/copy-sitemap.js && node scripts/validate-sitemap.js",
+    "build": "vite build && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/copy-sitemap.js && node scripts/validate-sitemap.js",
     "preview": "vite preview",
     "serve": "vite preview",
     "optimize-service-images": "node scripts/optimize-service-images.js",
     "optimize-icons": "node scripts/optimize-icons.js",
-    "optimize-gallery-images": "node scripts/optimize-gallery-images.js"
+    "optimize-gallery-images": "node scripts/optimize-gallery-images.js",
+    "optimize-critical-images": "node scripts/optimize-critical-images.js",
+    "optimize-all-icons": "node scripts/optimize-all-icons.js",
+    "check-performance": "node scripts/check-performance.js",
+    "check-performance:url": "node scripts/check-performance.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
