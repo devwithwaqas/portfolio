@@ -137,16 +137,17 @@ export default {
       this.goToSlide(prevIndex)
     },
     updateHeight() {
-      // VUE-NATIVE: No forced reflows - use computed properties or Vue reactive approach
       const activeSlide = this.$refs.slideRefs
       const track = this.$refs.sliderTrack
       if (activeSlide && track) {
-        // Vue handles height changes reactively with v-style or computed height
-        const estimatedHeight = activeSlide.offsetHeight || 300
-        if (Math.abs(estimatedHeight - this.currentHeight) > 10) {
-          // VUE REACTIVE: height change handled by :style="{ height: currentHeight + 'px' }"
-          this.currentHeight = estimatedHeight
-        }
+        requestAnimationFrame(() => {
+          // Vue handles height changes reactively with v-style or computed height
+          const estimatedHeight = activeSlide.offsetHeight || 300
+          if (Math.abs(estimatedHeight - this.currentHeight) > 10) {
+            // VUE REACTIVE: height change handled by :style="{ height: currentHeight + 'px' }"
+            this.currentHeight = estimatedHeight
+          }
+        })
       }
     },
     startAutoplay() {

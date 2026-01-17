@@ -205,55 +205,59 @@ export default {
         
         // Calculate aspect ratio and adjust offsets dynamically
         function updateSVGPosition() {
-          const rect = card.getBoundingClientRect()
-          
-          // Skip update if size hasn't changed significantly (within 1px tolerance)
-          if (Math.abs(rect.width - lastCardSize.width) < 1 && Math.abs(rect.height - lastCardSize.height) < 1) {
-            return
-          }
-          lastCardSize = { width: rect.width, height: rect.height }
-          
-          // Cache wrapper padding to avoid repeated getComputedStyle calls
-          if (cachedWrapperPadding === null) {
-            const wrapperStyle = getComputedStyle(cardWrapper)
-            cachedWrapperPadding = parseFloat(wrapperStyle.getPropertyValue('--wrapper-padding')) || 20.25
-          }
-          
-          // Calculate desired stroke in pixels (105% of padding)
-          const desiredStrokePx = cachedWrapperPadding * 1.05
-          
-          // Convert to viewBox units: (desiredPx / actualWidth) × viewboxWidth
-          const viewboxWidth = 400
-          const viewboxHeight = 570
-          const strokeWidthViewbox = (desiredStrokePx / rect.width) * viewboxWidth
-          
-          const baseOffset = 10
-          
-          // Update the actual SVG stroke-width attributes dynamically
-          seg1.setAttribute('stroke-width', strokeWidthViewbox)
-          seg2.setAttribute('stroke-width', strokeWidthViewbox)
-          track.setAttribute('stroke-width', strokeWidthViewbox * 0.23) // Track is ~23% of main stroke
-          
-          // Calculate actual stroke width in pixels for EACH dimension separately
-          // This is the key: stroke scales differently in X and Y directions
-          const strokeFullHorizontal = (strokeWidthViewbox / viewboxWidth) * rect.width
-          const strokeHalfHorizontal = strokeFullHorizontal / 2
-          
-          const strokeFullVertical = (strokeWidthViewbox / viewboxHeight) * rect.height
-          const strokeHalfVertical = strokeFullVertical / 2
-          
-          // Horizontal offset: use horizontal stroke calculation
-          // Don't multiply by aspectRatio - just add the full strokeHalf
-          const horizontalOffset = baseOffset + strokeHalfHorizontal
-          
-          // Vertical offset: use vertical stroke calculation (not affected by aspect ratio)
-          const verticalOffset = baseOffset + strokeHalfVertical
-          
-          // Apply calculated offsets
-          borderOverlay.style.top = `-${verticalOffset}px`
-          borderOverlay.style.left = `-${horizontalOffset}px`
-          borderOverlay.style.width = `calc(100% + ${horizontalOffset * 2}px)`
-          borderOverlay.style.height = `calc(100% + ${verticalOffset * 2}px)`
+          requestAnimationFrame(() => {
+            const rect = card.getBoundingClientRect()
+            
+            // Skip update if size hasn't changed significantly (within 1px tolerance)
+            if (Math.abs(rect.width - lastCardSize.width) < 1 && Math.abs(rect.height - lastCardSize.height) < 1) {
+              return
+            }
+            lastCardSize = { width: rect.width, height: rect.height }
+            
+            // Cache wrapper padding to avoid repeated getComputedStyle calls
+            if (cachedWrapperPadding === null) {
+              const wrapperStyle = getComputedStyle(cardWrapper)
+              cachedWrapperPadding = parseFloat(wrapperStyle.getPropertyValue('--wrapper-padding')) || 20.25
+            }
+            
+            // Calculate desired stroke in pixels (105% of padding)
+            const desiredStrokePx = cachedWrapperPadding * 1.05
+            
+            // Convert to viewBox units: (desiredPx / actualWidth) × viewboxWidth
+            const viewboxWidth = 400
+            const viewboxHeight = 570
+            const strokeWidthViewbox = (desiredStrokePx / rect.width) * viewboxWidth
+            
+            const baseOffset = 10
+            
+            // Calculate actual stroke width in pixels for EACH dimension separately
+            // This is the key: stroke scales differently in X and Y directions
+            const strokeFullHorizontal = (strokeWidthViewbox / viewboxWidth) * rect.width
+            const strokeHalfHorizontal = strokeFullHorizontal / 2
+            
+            const strokeFullVertical = (strokeWidthViewbox / viewboxHeight) * rect.height
+            const strokeHalfVertical = strokeFullVertical / 2
+            
+            // Horizontal offset: use horizontal stroke calculation
+            // Don't multiply by aspectRatio - just add the full strokeHalf
+            const horizontalOffset = baseOffset + strokeHalfHorizontal
+            
+            // Vertical offset: use vertical stroke calculation (not affected by aspect ratio)
+            const verticalOffset = baseOffset + strokeHalfVertical
+            
+            requestAnimationFrame(() => {
+              // Update the actual SVG stroke-width attributes dynamically
+              seg1.setAttribute('stroke-width', strokeWidthViewbox)
+              seg2.setAttribute('stroke-width', strokeWidthViewbox)
+              track.setAttribute('stroke-width', strokeWidthViewbox * 0.23) // Track is ~23% of main stroke
+              
+              // Apply calculated offsets
+              borderOverlay.style.top = `-${verticalOffset}px`
+              borderOverlay.style.left = `-${horizontalOffset}px`
+              borderOverlay.style.width = `calc(100% + ${horizontalOffset * 2}px)`
+              borderOverlay.style.height = `calc(100% + ${verticalOffset * 2}px)`
+            })
+          })
         }
         
         // Initial position update

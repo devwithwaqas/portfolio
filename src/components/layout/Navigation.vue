@@ -241,21 +241,23 @@ export default {
         })
       } else {
         // On home page, just scroll without hash
-        const element = document.getElementById(sectionId)
-        if (element) {
-          const headerOffset = 100
-          const elementPosition = element.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          })
-          // Re-enable intersection observer after scroll completes (smooth scroll takes ~500ms)
-          this.userScrollTimeout = setTimeout(() => {
-            this.isUserScrolling = false
-            this.userScrollTimeout = null
-          }, 800)
-        }
+        requestAnimationFrame(() => {
+          const element = document.getElementById(sectionId)
+          if (element) {
+            const headerOffset = 100
+            const elementPosition = element.getBoundingClientRect().top
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            })
+            // Re-enable intersection observer after scroll completes (smooth scroll takes ~500ms)
+            this.userScrollTimeout = setTimeout(() => {
+              this.isUserScrolling = false
+              this.userScrollTimeout = null
+            }, 800)
+          }
+        })
       }
     },
     setupIntersectionObserver() {

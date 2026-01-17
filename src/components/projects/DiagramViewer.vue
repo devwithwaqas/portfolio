@@ -311,24 +311,26 @@ export default {
           this.$nextTick(() => {
             const img = this.$refs.fullscreenWrapper?.querySelector('.fullscreen-diagram-img')
             if (img && img.complete) {
-              // Calculate the actual rendered size accounting for aspect ratio and object-fit: contain
-              const containerRect = this.$refs.fullscreenWrapper.getBoundingClientRect()
-              const imgAspect = this.svgWidth / this.svgHeight
-              const containerAspect = containerRect.width / containerRect.height
-              
-              if (containerAspect > imgAspect) {
-                // Container is wider - image is limited by height
-                this.baseDiagramHeight = containerRect.height
-                this.baseDiagramWidth = containerRect.height * imgAspect
-              } else {
-                // Container is taller - image is limited by width
-                this.baseDiagramWidth = containerRect.width
-                this.baseDiagramHeight = containerRect.width / imgAspect
-              }
-              
-              this.debugLog('Cached base diagram size:', this.baseDiagramWidth, 'x', this.baseDiagramHeight)
-              this.debugLog('Container size:', containerRect.width, 'x', containerRect.height)
-              this.debugLog('SVG aspect:', imgAspect, 'Container aspect:', containerAspect)
+              requestAnimationFrame(() => {
+                // Calculate the actual rendered size accounting for aspect ratio and object-fit: contain
+                const containerRect = this.$refs.fullscreenWrapper.getBoundingClientRect()
+                const imgAspect = this.svgWidth / this.svgHeight
+                const containerAspect = containerRect.width / containerRect.height
+                
+                if (containerAspect > imgAspect) {
+                  // Container is wider - image is limited by height
+                  this.baseDiagramHeight = containerRect.height
+                  this.baseDiagramWidth = containerRect.height * imgAspect
+                } else {
+                  // Container is taller - image is limited by width
+                  this.baseDiagramWidth = containerRect.width
+                  this.baseDiagramHeight = containerRect.width / imgAspect
+                }
+                
+                this.debugLog('Cached base diagram size:', this.baseDiagramWidth, 'x', this.baseDiagramHeight)
+                this.debugLog('Container size:', containerRect.width, 'x', containerRect.height)
+                this.debugLog('SVG aspect:', imgAspect, 'Container aspect:', containerAspect)
+              })
             }
           })
         }
@@ -410,10 +412,20 @@ export default {
         }
       }
       
-      // Store original dimensions
-      this.originalDimensions = {
-        width: diagramElement.naturalWidth || diagramElement.offsetWidth,
-        height: diagramElement.naturalHeight || diagramElement.offsetHeight
+      // Store original dimensions (prefer natural size, fallback to layout read)
+      const naturalWidth = diagramElement.naturalWidth
+      const naturalHeight = diagramElement.naturalHeight
+      if (naturalWidth && naturalHeight) {
+        this.originalDimensions = {
+          width: naturalWidth,
+          height: naturalHeight
+        }
+      } else {
+        await new Promise(resolve => requestAnimationFrame(resolve))
+        this.originalDimensions = {
+          width: diagramElement.offsetWidth,
+          height: diagramElement.offsetHeight
+        }
       }
 
       // Initialize Panzoom on the wrapper (which contains both image and highlights)
@@ -485,25 +497,27 @@ export default {
       
       if (!containerElement || !diagramElement) return
 
-      const containerRect = containerElement.getBoundingClientRect()
-      const diagramWidth = this.originalDimensions.width
-      const diagramHeight = this.originalDimensions.height
+      requestAnimationFrame(() => {
+        const containerRect = containerElement.getBoundingClientRect()
+        const diagramWidth = this.originalDimensions.width
+        const diagramHeight = this.originalDimensions.height
 
-      // Calculate scale to fit
-      const scaleX = containerRect.width / diagramWidth // No padding needed
-      const scaleY = containerRect.height / diagramHeight
-      const scale = Math.min(scaleX, scaleY, 1) // Don't scale up beyond 100%
+        // Calculate scale to fit
+        const scaleX = containerRect.width / diagramWidth // No padding needed
+        const scaleY = containerRect.height / diagramHeight
+        const scale = Math.min(scaleX, scaleY, 1) // Don't scale up beyond 100%
 
-      // Center the diagram
-      const x = (containerRect.width - diagramWidth * scale) / 2
-      const y = (containerRect.height - diagramHeight * scale) / 2
+        // Center the diagram
+        const x = (containerRect.width - diagramWidth * scale) / 2
+        const y = (containerRect.height - diagramHeight * scale) / 2
 
-      this.panzoomInstance.zoom(scale, {
-        animate: true
-      })
+        this.panzoomInstance.zoom(scale, {
+          animate: true
+        })
 
-      this.panzoomInstance.pan(x, y, {
-        animate: true
+        this.panzoomInstance.pan(x, y, {
+          animate: true
+        })
       })
     },
 
@@ -1098,21 +1112,23 @@ export default {
         const toolbar = cardElement?.querySelector('.diagram-toolbar-compact')
         
         if (dropdown && toolbar) {
-          const toolbarRect = toolbar.getBoundingClientRect()
-          const dropdownHeight = 400 // max-height
-          
-          // Position below toolbar, but adjust if too close to bottom
-          let top = toolbarRect.bottom + 10
-          if (top + dropdownHeight > window.innerHeight - 20) {
-            top = toolbarRect.top - dropdownHeight - 10
-          }
-          
-          // Center horizontally relative to toolbar
-          const left = toolbarRect.left + (toolbarRect.width / 2)
-          
-          dropdown.style.top = `${top}px`
-          dropdown.style.left = `${left}px`
-          dropdown.style.transform = 'translateX(-50%)'
+          requestAnimationFrame(() => {
+            const toolbarRect = toolbar.getBoundingClientRect()
+            const dropdownHeight = 400 // max-height
+            
+            // Position below toolbar, but adjust if too close to bottom
+            let top = toolbarRect.bottom + 10
+            if (top + dropdownHeight > window.innerHeight - 20) {
+              top = toolbarRect.top - dropdownHeight - 10
+            }
+            
+            // Center horizontally relative to toolbar
+            const left = toolbarRect.left + (toolbarRect.width / 2)
+            
+            dropdown.style.top = `${top}px`
+            dropdown.style.left = `${left}px`
+            dropdown.style.transform = 'translateX(-50%)'
+          })
         }
       })
     },
