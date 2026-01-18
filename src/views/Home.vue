@@ -4,34 +4,54 @@
     <Hero />
     
     <!-- About Section -->
-    <About />
+    <LazyRender>
+      <About />
+    </LazyRender>
     
     <!-- Technology Expertise Section -->
-    <TechnologyExpertise />
+    <LazyRender>
+      <TechnologyExpertise />
+    </LazyRender>
     
     <!-- Stats Section -->
-    <Stats />
+    <LazyRender>
+      <Stats />
+    </LazyRender>
     
     <!-- Skills Section -->
-    <Skills />
+    <LazyRender>
+      <Skills />
+    </LazyRender>
     
     <!-- Resume Section -->
-    <Resume />
+    <LazyRender>
+      <Resume />
+    </LazyRender>
     
     <!-- Portfolio Section -->
-    <Portfolio />
+    <LazyRender>
+      <Portfolio />
+    </LazyRender>
     
     <!-- Services Section -->
-    <Services />
+    <LazyRender>
+      <Services />
+    </LazyRender>
     
     <!-- FAQ Section -->
-    <HomeFAQ />
+    <LazyRender>
+      <HomeFAQ />
+    </LazyRender>
     
     <!-- Testimonials Section -->
-    <Testimonials />
+    <LazyRender>
+      <Testimonials />
+    </LazyRender>
     
     <!-- Contact Section -->
-    <Contact />
+    <LazyRender>
+      <Contact />
+    </LazyRender>
     
     <!-- Back to Top Button -->
     <BackToTop />
@@ -39,25 +59,27 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
 import Hero from '../components/home/Hero.vue'
-import About from '../components/home/About.vue'
-import TechnologyExpertise from '../components/home/TechnologyExpertise.vue'
-import Stats from '../components/home/Stats.vue'
-import Skills from '../components/home/Skills.vue'
-import Resume from '../components/home/Resume.vue'
-import Portfolio from '../components/home/Portfolio.vue'
-import Services from '../components/home/Services.vue'
-import Testimonials from '../components/home/Testimonials.vue'
-import HomeFAQ from '../components/home/HomeFAQ.vue'
-import Contact from '../components/home/Contact.vue'
 import BackToTop from '../components/layout/BackToTop.vue'
-import { generateHomePageStructuredData } from '../utils/structuredData.js'
-import { testimonialsData } from '../config/testimonials.js'
+import LazyRender from '../components/common/LazyRender.vue'
+
+const About = defineAsyncComponent(() => import('../components/home/About.vue'))
+const TechnologyExpertise = defineAsyncComponent(() => import('../components/home/TechnologyExpertise.vue'))
+const Stats = defineAsyncComponent(() => import('../components/home/Stats.vue'))
+const Skills = defineAsyncComponent(() => import('../components/home/Skills.vue'))
+const Resume = defineAsyncComponent(() => import('../components/home/Resume.vue'))
+const Portfolio = defineAsyncComponent(() => import('../components/home/Portfolio.vue'))
+const Services = defineAsyncComponent(() => import('../components/home/Services.vue'))
+const Testimonials = defineAsyncComponent(() => import('../components/home/Testimonials.vue'))
+const HomeFAQ = defineAsyncComponent(() => import('../components/home/HomeFAQ.vue'))
+const Contact = defineAsyncComponent(() => import('../components/home/Contact.vue'))
 
 export default {
   name: 'Home',
   components: {
     Hero,
+    LazyRender,
     About,
     TechnologyExpertise,
     Stats,
@@ -71,8 +93,22 @@ export default {
     BackToTop
   },
   mounted() {
-    // Generate structured data for SEO with reviews
-    generateHomePageStructuredData(testimonialsData)
+    const runWhenIdle = (callback) => {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(callback, { timeout: 2000 })
+      } else {
+        setTimeout(callback, 1000)
+      }
+    }
+
+    // Generate structured data for SEO with reviews (defer to idle)
+    runWhenIdle(async () => {
+      const [{ generateHomePageStructuredData }, { testimonialsData }] = await Promise.all([
+        import('../utils/structuredData.js'),
+        import('../config/testimonials.js')
+      ])
+      generateHomePageStructuredData(testimonialsData)
+    })
   }
 }
 </script>

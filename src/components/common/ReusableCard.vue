@@ -306,10 +306,10 @@ export default {
 
 @keyframes underlineGlow {
   0%, 100% {
-    box-shadow: 0 0 5px rgba(80, 30, 140, 0.6);
+    opacity: 0.85;
   }
   50% {
-    box-shadow: 0 0 15px rgba(80, 30, 140, 0.9);
+    opacity: 1;
   }
 }
 

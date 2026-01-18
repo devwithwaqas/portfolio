@@ -137,7 +137,8 @@ export default {
     return {
       carouselInstance: null,
       currentSlide: 0,
-      carouselInterval: null
+      carouselInterval: null,
+      bootstrapReady: null
     }
   },
   mounted() {
@@ -157,10 +158,11 @@ export default {
     this.removePageVisibilityListener()
   },
   methods: {
-    initCarousel() {
+    async initCarousel() {
       // Use Vue refs instead of getElementById (proper Vue way)
       if (!this.$refs.carouselElement) return
       if (!this.bannerImages || this.bannerImages.length <= 1) return
+      await this.loadBootstrap()
       if (typeof bootstrap === 'undefined') return
 
       try {
@@ -181,6 +183,36 @@ export default {
       } catch (error) {
         console.warn('Carousel initialization error:', error)
       }
+    },
+    loadBootstrap() {
+      if (typeof window.bootstrap !== 'undefined') {
+        return Promise.resolve()
+      }
+
+      if (this.bootstrapReady) {
+        return this.bootstrapReady
+      }
+
+      this.bootstrapReady = new Promise((resolve, reject) => {
+        const existing = document.getElementById('bootstrap-bundle-js')
+        if (existing) {
+          existing.addEventListener('load', () => resolve(), { once: true })
+          existing.addEventListener('error', () => reject(new Error('Bootstrap load failed')), { once: true })
+          return
+        }
+
+        const script = document.createElement('script')
+        script.id = 'bootstrap-bundle-js'
+        script.async = true
+        script.src = this.$assetPath
+          ? this.$assetPath('/assets/vendor/bootstrap/js/bootstrap.bundle.min.js')
+          : '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'
+        script.onload = () => resolve()
+        script.onerror = () => reject(new Error('Bootstrap load failed'))
+        document.head.appendChild(script)
+      })
+
+      return this.bootstrapReady
     },
     startCarouselInterval() {
       // Only start interval if page is visible (saves memory when tab is hidden)

@@ -629,13 +629,9 @@ export default {
   border-radius: 2px;
   transform: rotate(45deg);
   flex-shrink: 0;
-  box-shadow: 
-    0 0 8px rgba(139, 92, 246, 0.7),
-    0 0 15px rgba(139, 92, 246, 0.4),
-    inset 0 0 4px rgba(255, 255, 255, 0.4);
-  /* PERFORMANCE: Reduced animation frequency and added will-change for GPU acceleration */
+  /* PERFORMANCE: Composited-only animation */
   animation: bulletPulse 4s ease-in-out infinite;
-  will-change: transform, opacity, box-shadow;
+  will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
@@ -644,18 +640,10 @@ export default {
   0%, 100% {
     opacity: 1;
     transform: rotate(45deg) scale(1);
-    box-shadow: 
-      0 0 8px rgba(139, 92, 246, 0.7),
-      0 0 15px rgba(139, 92, 246, 0.4),
-      inset 0 0 4px rgba(255, 255, 255, 0.4);
   }
   50% {
     opacity: 0.85;
     transform: rotate(45deg) scale(1.1); /* Reduced scale for better performance */
-    box-shadow: 
-      0 0 10px rgba(139, 92, 246, 0.8), /* Reduced shadow complexity */
-      0 0 20px rgba(139, 92, 246, 0.5),
-      inset 0 0 5px rgba(255, 255, 255, 0.4);
   }
 }
 
