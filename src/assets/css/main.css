@@ -16,7 +16,7 @@
   - 13) Stats
   - 14) Skills
   - 15) Resume
-  - 16) Portfolio & Glightbox overrides
+  - 16) Portfolio overrides
   - 17) Services
   - 18) Testimonials
   - 19) Contact
@@ -857,6 +857,14 @@ h1, h2, h3, h4, h5, h6,
 /*--------------------------------------------------------------
 # Disable aos animation delay on mobile devices
 --------------------------------------------------------------*/
+[data-aos]:not(.aos-init),
+[data-aos].aos-init,
+[data-aos].aos-animate {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
 @media screen and (max-width: 768px) {
   [data-aos-delay] {
     transition-delay: 0 !important;
@@ -908,7 +916,7 @@ section,
 .section {
   color: var(--default-color);
   background-color: var(--background-color);
-  padding: 60px 0;
+  padding: 10px 0;
   overflow: clip;
   width: 100% !important;
 }
@@ -1103,13 +1111,14 @@ section,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 0.6rem;
   width: 100%;
 }
 
 /* Profile Card - Centered */
 .hero-profile-side {
   max-width: 380px;
+  margin-bottom: 0;
   transform-origin: center;
   transition: transform .2s ease;
   z-index: 20;
@@ -1117,7 +1126,7 @@ section,
 
 /* Content - Centered */
 .hero-content {
-  padding: 1rem;
+  padding: 0.25rem 1rem 1rem;
   z-index: 20;
   color: #ffffff;
   text-align: center;
@@ -1126,7 +1135,7 @@ section,
   align-items: center;
   max-width: 800px;
   /* Prevent layout shifts - reserve space for content */
-  min-height: 600px; /* Reserve space for all content including AnalyticsStats */
+  min-height: 0;
   contain: layout style paint; /* CSS containment to prevent shifts */
 }
 
@@ -1138,24 +1147,24 @@ section,
   /* Reserve space to prevent layout shift when image loads */
   width: 100%;
   max-width: 380px;
-  aspect-ratio: 800 / 260; /* Match actual image dimensions (800x260) */
-  min-height: 260px; /* Fallback for browsers without aspect-ratio support */
+  aspect-ratio: auto;
+  min-height: 0;
+  height: auto;
+  background: transparent;
+  border-radius: 20px;
+  overflow: hidden;
   contain: layout style paint; /* Prevent layout shifts */
 }
 
 .profile-image-side {
   display: block;
   width: 100%;
-  height: 100%; /* Fill container */
+  height: auto;
   object-fit: cover;
   object-position: center center;
   border-radius: 20px;
-  border: 3px solid rgba(124,58,237,0.3);
-  box-shadow: 
-    0 0 0 1px rgba(255,255,255,0.1),
-    0 20px 60px rgba(124,58,237,0.3),
-    0 0 40px rgba(124,58,237,0.2),
-    inset 0 1px 0 rgba(255,255,255,0.1);
+  border: none;
+  box-shadow: none;
   transform-origin: center;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -1453,6 +1462,39 @@ h2.hero-title .title-name,
   color: inherit !important;
   text-shadow: none !important;
   font-weight: normal !important;
+}
+
+/* Remote work badge - keep width aligned to hero text */
+.available-badge {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 12px 0;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+  animation: badgePulse 2s ease-in-out infinite;
+  max-width: 44rem;
+  width: fit-content;
+  align-self: center;
+  box-sizing: border-box;
+}
+
+.available-badge .badge-text {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+@keyframes badgePulse {
+  0%, 100% { 
+    transform: scale(1);
+  }
+  50% { 
+    transform: scale(1.02);
+  }
 }
 
 /* MODERN BUTTONS - Centered */
@@ -1805,9 +1847,9 @@ h2.hero-title .title-name,
   }
   
   .hero .row {
-    gap: 1.2rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    gap: 0.6rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
   
   .hero-profile-side {
@@ -1841,6 +1883,13 @@ h2.hero-title .title-name,
   
   .hero-content {
     text-align: center;
+  }
+
+  .available-badge {
+    max-width: 100%;
+    width: 100%;
+    border-radius: 20px;
+    padding: 10px 14px;
   }
   
   .hero::after {
@@ -2156,71 +2205,9 @@ h2.hero-title .title-name,
     row-gap: 0.5rem;
   }
 }
-.portfolio .portfolio-filters {
-  padding: 0;
-  margin: 0 auto 20px auto;
-  list-style: none;
-  text-align: center;
-}
-
-.portfolio .portfolio-filters li {
-  cursor: pointer;
-  display: inline-block;
-  padding: 8px 20px 10px 20px;
-  margin: 0;
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1;
-  margin-bottom: 5px;
-  border-radius: 50px;
-  transition: all 0.3s ease-in-out;
-  font-family: var(--heading-font);
-}
-
-.portfolio .portfolio-filters li:hover,
-.portfolio .portfolio-filters li.filter-active {
-  color: var(--contrast-color);
-  background-color: var(--accent-color);
-}
-
-.portfolio .portfolio-filters li:first-child {
-  margin-left: 0;
-}
-
-.portfolio .portfolio-filters li:last-child {
-  margin-right: 0;
-}
-
-@media (max-width: 575px) {
-  .portfolio .portfolio-filters li {
-    font-size: 14px;
-    margin: 0 0 10px 0;
-  }
-}
-
 .portfolio .portfolio-item {
   position: relative;
   overflow: hidden;
-}
-
-.portfolio .portfolio-item .portfolio-info {
-  opacity: 0;
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: -100%;
-  z-index: 3;
-  transition: all ease-in-out 0.5s;
-  background: linear-gradient(135deg, rgba(30,20,50,0.95), rgba(45,30,70,0.9));
-  border: 1px solid rgba(124,58,237,0.3);
-  padding: 15px;
-  transform: translateY(20px);
-  backdrop-filter: blur(15px);
-  box-shadow: 
-    0px 10px 40px 0px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255,255,255,0.05),
-    inset 0 1px 0 rgba(255,255,255,0.1);
-  border-radius: 10px;
 }
 
 /* Enhanced portfolio image hover effects */
@@ -2229,312 +2216,9 @@ h2.hero-title .title-name,
   filter: brightness(1.1) contrast(1.1);
 }
 
-.portfolio .portfolio-item:hover .portfolio-info .overlay {
-  opacity: 1;
-}
-
 /* Prevent browser zoom globally */
 body {
   touch-action: pan-y pan-x;
-}
-
-/* Custom Image Preview - Clean and Simple */
-
-/* Enhanced Glightbox Modal Styling */
-.glightbox-container {
-  backdrop-filter: blur(10px);
-}
-
-.glightbox-container .goverlay {
-  background: rgba(0, 0, 0, 0.85) !important;
-  backdrop-filter: blur(15px);
-}
-
-.glightbox-container .ginner-container {
-  padding: 20px;
-}
-
-.glightbox-container .gslide-media {
-  border-radius: 20px !important;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4) !important;
-  border: 3px solid rgba(255, 255, 255, 0.1) !important;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
-  backdrop-filter: blur(10px) !important;
-  overflow: hidden;
-}
-
-.glightbox-container .gslide-media img {
-  border-radius: 17px !important;
-  transition: all 0.3s ease;
-}
-
-.glightbox-container .gslide-media:hover img {
-  transform: scale(1.02);
-}
-
-/* Hide navigation arrows */
-.glightbox-container .gnext,
-.glightbox-container .gprev {
-  display: none !important;
-}
-
-/* Style close button */
-.glightbox-container .gclose {
-  background: linear-gradient(135deg, #0563bb 0%, #0d8aa3 100%) !important;
-  border-radius: 50% !important;
-  width: 50px !important;
-  height: 50px !important;
-  box-shadow: 0 8px 25px rgba(5, 99, 187, 0.3) !important;
-  border: 2px solid rgba(255, 255, 255, 0.2) !important;
-  transition: all 0.3s ease !important;
-  backdrop-filter: blur(10px) !important;
-}
-
-.glightbox-container .gclose:hover {
-  transform: scale(1.1) !important;
-  box-shadow: 0 12px 35px rgba(5, 99, 187, 0.4) !important;
-  background: linear-gradient(135deg, #0d8aa3 0%, #0563bb 100%) !important;
-}
-
-.glightbox-container .gclose svg {
-  width: 20px !important;
-  height: 20px !important;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)) !important;
-}
-
-.glightbox-container .gclose svg path {
-  fill: white !important;
-}
-
-/* Enhanced Loading Animation */
-.glightbox-container .gloader {
-  border: 3px solid rgba(5, 99, 187, 0.2) !important;
-  border-top: 3px solid #0563bb !important;
-  border-radius: 50% !important;
-  width: 40px !important;
-  height: 40px !important;
-  animation: glightboxLoader 1s linear infinite !important;
-}
-
-@keyframes glightboxLoader {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Style description panel */
-.glightbox-container .gslide-description {
-  background: linear-gradient(135deg, rgba(5, 99, 187, 0.95) 0%, rgba(13, 138, 163, 0.95) 100%) !important;
-  border-radius: 20px !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3) !important;
-  border: 2px solid rgba(255, 255, 255, 0.2) !important;
-  backdrop-filter: blur(15px) !important;
-  padding: 20px 25px !important;
-  margin: 0 !important;
-  display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  position: fixed !important;
-  bottom: 30px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  max-width: 90% !important;
-  width: auto !important;
-  min-width: 300px !important;
-  z-index: 999999 !important;
-}
-
-/* Force description to show */
-.glightbox-container .gslide-description.gdesc-hidden {
-  display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-.glightbox-container .gslide-title {
-  color: white !important;
-  font-weight: 800 !important;
-  font-size: 1.4rem !important;
-  margin-bottom: 8px !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
-  text-align: center !important;
-  letter-spacing: 0.5px !important;
-}
-
-/* Basic zoom effect */
-.glightbox-container .gslide-media img {
-  transition: transform 0.3s ease !important;
-  cursor: pointer !important;
-}
-
-.glightbox-container .gslide-media img.zoomed {
-  transform: scale(1.5) !important;
-  transition: transform 0.3s ease !important;
-  cursor: pointer !important;
-}
-
-/* Enable zoom on click */
-.glightbox-container .gslide-media {
-  cursor: pointer !important;
-}
-
-.glightbox-container .gslide-desc {
-  color: rgba(255, 255, 255, 0.95) !important;
-  font-size: 1.1rem !important;
-  line-height: 1.5 !important;
-  font-weight: 500 !important;
-  text-align: center !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
-}
-
-/* Ensure description is always visible regardless of image size */
-.glightbox-container .ginner-container {
-  padding-bottom: 120px !important;
-}
-
-.glightbox-container .gslide-media {
-  max-height: calc(100vh - 150px) !important;
-}
-
-.glightbox-container .gslide-media img {
-  max-height: calc(100vh - 150px) !important;
-  max-width: 100% !important;
-  object-fit: contain !important;
-  cursor: zoom-in !important;
-}
-
-/* Mobile Responsive Enhancements */
-@media (max-width: 768px) {
-  .glightbox-container .gslide-media {
-    border-radius: 15px !important;
-    margin: 10px !important;
-  }
-  
-  .glightbox-container .gclose {
-    width: 45px !important;
-    height: 45px !important;
-    top: 15px !important;
-    right: 15px !important;
-  }
-  
-  .glightbox-container .gslide-description {
-    border-radius: 15px !important;
-    bottom: 20px !important;
-    left: 20px !important;
-    right: 20px !important;
-    transform: none !important;
-    max-width: none !important;
-    min-width: auto !important;
-    padding: 15px 20px !important;
-  }
-  
-  .glightbox-container .gslide-title {
-    font-size: 1.2rem !important;
-  }
-  
-  .glightbox-container .gslide-desc {
-    font-size: 1rem !important;
-  }
-  
-  .glightbox-container .ginner-container {
-    padding-bottom: 100px !important;
-  }
-  
-  .glightbox-container .gslide-media {
-    max-height: calc(100vh - 120px) !important;
-  }
-  
-  .glightbox-container .gslide-media img {
-    max-height: calc(100vh - 120px) !important;
-  }
-}
-
-/* Enhanced Zoom Effect (consolidated) handled above at base and .zoomed */
-
-/* Zoom controls */
-.glightbox-container .gzoom-btn {
-  background: linear-gradient(135deg, #0563bb 0%, #0d8aa3 100%) !important;
-  border-radius: 50% !important;
-  width: 40px !important;
-  height: 40px !important;
-  box-shadow: 0 5px 15px rgba(5, 99, 187, 0.3) !important;
-  border: 2px solid rgba(255, 255, 255, 0.2) !important;
-  transition: all 0.3s ease !important;
-  backdrop-filter: blur(10px) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.glightbox-container .gzoom-btn:hover {
-  transform: scale(1.1) !important;
-  box-shadow: 0 8px 20px rgba(5, 99, 187, 0.4) !important;
-}
-
-.glightbox-container .gzoom-btn svg {
-  width: 16px !important;
-  height: 16px !important;
-  fill: white !important;
-}
-
-/* Enhanced Counter */
-.glightbox-container .gcounter {
-  background: linear-gradient(135deg, rgba(5, 99, 187, 0.9) 0%, rgba(13, 138, 163, 0.9) 100%) !important;
-  color: white !important;
-  padding: 8px 15px !important;
-  border-radius: 20px !important;
-  font-weight: 600 !important;
-  font-size: 0.9rem !important;
-  box-shadow: 0 5px 15px rgba(5, 99, 187, 0.3) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  backdrop-filter: blur(10px) !important;
-}
-
-.portfolio .portfolio-item .portfolio-info h4 {
-  font-size: 18px;
-  font-weight: 600;
-  padding-right: 50px;
-  color: #ffffff;
-}
-
-.portfolio .portfolio-item .portfolio-info p {
-  color: rgba(255,255,255,0.8);
-  font-size: 14px;
-  margin-bottom: 0;
-  padding-right: 50px;
-}
-
-.portfolio .portfolio-item .portfolio-info .preview-link,
-.portfolio .portfolio-item .portfolio-info .details-link {
-  position: absolute;
-  right: 50px;
-  font-size: 24px;
-  top: calc(50% - 14px);
-  color: color-mix(in srgb, var(--default-color), transparent 30%);
-  transition: 0.3s;
-  line-height: 0;
-}
-
-.portfolio .portfolio-item .portfolio-info .preview-link:hover,
-.portfolio .portfolio-item .portfolio-info .details-link:hover {
-  color: var(--accent-color);
-}
-
-.portfolio .portfolio-item .portfolio-info .details-link {
-  right: 14px;
-  font-size: 28px;
-}
-
-.portfolio .portfolio-item:hover .portfolio-info {
-  opacity: 1;
-  bottom: 0;
-  transform: translateY(0);
-  backdrop-filter: blur(15px);
-  background: linear-gradient(135deg, rgba(30,20,50,1), rgba(45,30,70,0.95));
-  box-shadow: 
-    0px 20px 60px 0px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(124,58,237,0.4),
-    inset 0 1px 0 rgba(255,255,255,0.2);
-  border-color: rgba(124,58,237,0.5);
 }
 
 
@@ -2872,156 +2556,9 @@ body {
   color: var(--contrast-color);
 }
 
-.contact .php-email-form {
-  height: 100%;
-}
-
-.contact .php-email-form input[type=text],
-.contact .php-email-form input[type=email],
-.contact .php-email-form textarea {
-  font-size: 14px;
-  padding: 10px 15px;
-  box-shadow: none;
-  border-radius: 0;
-  color: var(--default-color);
-  background-color: color-mix(in srgb, var(--background-color), transparent 50%);
-  border-color: color-mix(in srgb, var(--default-color), transparent 80%);
-}
-
-.contact .php-email-form input[type=text]:focus,
-.contact .php-email-form input[type=email]:focus,
-.contact .php-email-form textarea:focus {
-  border-color: var(--accent-color);
-}
-
-.contact .php-email-form input[type=text]::placeholder,
-.contact .php-email-form input[type=email]::placeholder,
-.contact .php-email-form textarea::placeholder {
-  color: color-mix(in srgb, var(--default-color), transparent 70%);
-}
-
-.contact .php-email-form button[type=submit] {
-  color: var(--contrast-color);
-  background: var(--accent-color);
-  border: 0;
-  padding: 10px 30px;
-  transition: 0.4s;
-  border-radius: 50px;
-}
-
-.contact .php-email-form button[type=submit]:hover {
-  background: color-mix(in srgb, var(--accent-color), transparent 25%);
-}
-
 /*--------------------------------------------------------------
 # Portfolio Details Section
 --------------------------------------------------------------*/
-.portfolio-details .portfolio-details-slider img {
-  width: 100%;
-}
-
-.portfolio-details .swiper-wrapper {
-  height: auto;
-}
-
-.portfolio-details .swiper-button-prev,
-.portfolio-details .swiper-button-next {
-  width: 48px;
-  height: 48px;
-}
-
-.portfolio-details .swiper-button-prev:after,
-.portfolio-details .swiper-button-next:after {
-  color: rgba(255, 255, 255, 0.8);
-  background-color: rgba(0, 0, 0, 0.15);
-  font-size: 24px;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.3s;
-}
-
-.portfolio-details .swiper-button-prev:hover:after,
-.portfolio-details .swiper-button-next:hover:after {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-@media (max-width: 575px) {
-
-  .portfolio-details .swiper-button-prev,
-  .portfolio-details .swiper-button-next {
-    display: none;
-  }
-}
-
-.portfolio-details .swiper-pagination {
-  margin-top: 20px;
-  position: relative;
-}
-
-.portfolio-details .swiper-pagination .swiper-pagination-bullet {
-  width: 10px;
-  height: 10px;
-  background-color: color-mix(in srgb, var(--default-color), transparent 85%);
-  opacity: 1;
-}
-
-.portfolio-details .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: var(--accent-color);
-}
-
-.portfolio-details .portfolio-info h3 {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  position: relative;
-}
-
-.portfolio-details .portfolio-info h3:after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 50px;
-  height: 3px;
-  background: var(--accent-color);
-  left: 0;
-  bottom: 0;
-}
-
-.portfolio-details .portfolio-info ul {
-  list-style: none;
-  padding: 0;
-  font-size: 15px;
-}
-
-.portfolio-details .portfolio-info ul li {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 15px;
-}
-
-.portfolio-details .portfolio-info ul strong {
-  text-transform: uppercase;
-  font-weight: 400;
-  color: color-mix(in srgb, var(--default-color), transparent 50%);
-  font-size: 14px;
-}
-
-.portfolio-details .portfolio-info .btn-visit {
-  padding: 8px 40px;
-  background: var(--accent-color);
-  color: var(--contrast-color);
-  border-radius: 50px;
-  transition: 0.3s;
-}
-
-.portfolio-details .portfolio-info .btn-visit:hover {
-  background: color-mix(in srgb, var(--accent-color), transparent 20%);
-}
 
 .portfolio-details .portfolio-description h2 {
   font-size: 26px;
@@ -3770,75 +3307,6 @@ body {
   font-size: 12px;
   font-weight: 600;
   color: var(--heading-color);
-}
-
-/* Portfolio specific styles */
-.portfolio-wrap {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.portfolio-wrap:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-}
-
-.portfolio-wrap img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  transition: all 0.3s ease;
-}
-
-.portfolio-wrap:hover img {
-  transform: scale(1.05);
-}
-
-.portfolio-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(135deg, rgba(5, 99, 187, 0.95) 0%, rgba(13, 138, 163, 0.95) 100%);
-  color: white;
-  padding: 20px;
-  transform: translateY(100%);
-  transition: all 0.3s ease;
-}
-
-.portfolio-wrap:hover .portfolio-info {
-  transform: translateY(0);
-}
-
-.portfolio-info h4 {
-  margin: 0 0 10px 0;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.portfolio-info p {
-  margin: 0 0 15px 0;
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.portfolio-links {
-  display: flex;
-  gap: 10px;
-}
-
-.portfolio-links a {
-  color: white;
-  font-size: 20px;
-  transition: all 0.3s ease;
-}
-
-.portfolio-links a:hover {
-  color: #ffc107;
-  transform: scale(1.1);
 }
 
 

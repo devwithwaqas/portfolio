@@ -25,6 +25,15 @@ router.isReady().then(() => {
   }, 500)
 })
 
+// Register service worker for better asset caching on repeat visits
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/portfolio/sw.js').catch(() => {
+      // Silent fail; caching is optional
+    })
+  })
+}
+
 // Global Animation Control System
 class AnimationController {
   constructor() {
@@ -722,32 +731,42 @@ class AnimationController {
 document.addEventListener('DOMContentLoaded', function() {
   // FIXED: Use requestAnimationFrame to avoid blocking DOMContentLoaded
   requestAnimationFrame(() => {
-    // Initialize Global Animation Controller
-    window.animationController = new AnimationController()
-    
-    // OPTIMIZED AOS: Performance-optimized configuration to reduce forced reflows
-    if (typeof AOS !== 'undefined') {
-      requestAnimationFrame(() => {
-        AOS.init({
-          duration: 800, // Reduced duration for better performance
-          easing: 'ease-out', // More performant easing
-          once: true,
-          mirror: false,
-          // Performance optimizations
-          offset: 50, // Reduced offset to trigger animations earlier
-          delay: 0, // No delay to prevent staggered performance issues
-          anchorPlacement: 'top-bottom', // More predictable triggering
-          // Disable expensive features
-          disable: false,
-          startEvent: 'DOMContentLoaded',
-          initClassName: 'aos-init',
-          animatedClassName: 'aos-animate',
-          useClassNames: false, // Disable class-based animations for better performance
-          disableMutationObserver: false,
-          debounceDelay: 50, // Debounce scroll events
-          throttleDelay: 99 // Throttle scroll events for better performance
-        })
+    const initAOS = () => {
+      if (typeof window.AOS === 'undefined') {
+        return false
+      }
+
+      window.AOS.init({
+        duration: 800, // Reduced duration for better performance
+        easing: 'ease-out', // More performant easing
+        once: true,
+        mirror: false,
+        // Performance optimizations
+        offset: 50, // Reduced offset to trigger animations earlier
+        delay: 0, // No delay to prevent staggered performance issues
+        anchorPlacement: 'top-bottom', // More predictable triggering
+        // Disable expensive features
+        disable: false,
+        startEvent: 'DOMContentLoaded',
+        initClassName: 'aos-init',
+        animatedClassName: 'aos-animate',
+        useClassNames: false, // Disable class-based animations for better performance
+        disableMutationObserver: true,
+        debounceDelay: 100, // Debounce scroll events
+        throttleDelay: 150 // Throttle scroll events for better performance
       })
+      return true
+    }
+
+    if (!initAOS()) {
+      let attempts = 0
+      const maxAttempts = 15
+      const intervalId = setInterval(() => {
+        attempts += 1
+        if (initAOS() || attempts >= maxAttempts) {
+          clearInterval(intervalId)
+        }
+      }, 200)
     }
 
     // VUE INTERGATION: These are handled by individual Vue components:

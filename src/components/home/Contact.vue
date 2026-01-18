@@ -19,7 +19,7 @@
                 />
                 <!-- SEO: Address semantic markup -->
                 <address class="visually-hidden" aria-hidden="true">
-                  {{ location }} - Available for remote work globally (USA, Europe, Global)
+                  {{ location }} - Remote work available globally
                 </address>
 
                 <!-- Phone Card -->

@@ -32,8 +32,8 @@
           </h2>
           
           <!-- Available for Remote Work Badge -->
-          <div class="available-badge" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 14px 24px; border-radius: 25px; display: inline-block; margin: 15px 0; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); animation: pulse 2s infinite;">
-            <span class="badge-text" style="font-size: 1rem; font-weight: 600;">
+          <div class="available-badge">
+            <span class="badge-text">
               <i class="fas fa-globe" style="margin-right: 8px;"></i>
               <strong>Available for Remote Work</strong> - USA, Europe, Global | Flexible Timezone (EST, PST, GMT, CET) | 17+ Years Experience
             </span>
@@ -49,7 +49,7 @@
           
           <!-- SEO Keywords - Visually Hidden but Accessible to Search Engines -->
           <div class="visually-hidden" aria-hidden="true">
-            Top Software Engineering Consultant, Software Engineering Specialist, Best Software Engineering Expert, IT Engineering Consultant, Professional Software Engineering Services, Top Software Engineering Specialist Profile, Remote Senior Software Engineer, Remote Technical Lead, Remote Azure Cloud Architect, Remote .NET Developer, Remote Full Stack Developer, Available for remote work in USA, Europe, Global. Flexible timezone EST, PST, GMT, CET. Remote consulting, freelance remote developer, contract remote software engineer.
+            Senior Software Engineer and Technical Lead. Remote consulting available globally (USA, Europe, GMT, CET).
           </div>
           
           <!-- Analytics Stats -->

@@ -423,7 +423,7 @@ export default {
 
 <style scoped>
 .technology-expertise {
-  padding: 60px 0;
+  padding: 10px 0;
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
 }
 

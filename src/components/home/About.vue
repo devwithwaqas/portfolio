@@ -115,7 +115,7 @@
                         
                         <!-- SEO Keywords - Visually Hidden -->
                         <div class="visually-hidden" aria-hidden="true">
-                          Top Software Engineering Consultant, Software Engineering Specialist, Best Software Engineering Expert, IT Engineering Consultant, Professional Software Engineering Services, Top Software Engineering Specialist Profile, Remote Senior Software Engineer, Remote Technical Lead, Remote Azure Cloud Architect, Remote .NET Developer, Remote Full Stack Developer, Remote DevOps Engineer, Remote Software Architect, Remote Technical Consultant, Remote Developer Available, Hire Remote Senior Software Engineer, Remote Consultant Available, Freelance Remote Developer, Contract Remote Software Engineer, Remote Software Engineer USA, Remote Developer UK, Remote Developer Europe, Remote Developer Germany, Remote Developer Netherlands, Remote Consultant USA, Remote Consultant Europe, Global Remote Software Engineer, International Remote Developer, Remote Developer Flexible Timezone, Remote Developer EST PST GMT CET.
+                          Software Engineering Consultant specializing in .NET, Azure, microservices, and remote delivery worldwide.
                         </div>
                       </div>
                       

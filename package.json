@@ -11,6 +11,7 @@
     "optimize-service-images": "node scripts/optimize-service-images.js",
     "optimize-icons": "node scripts/optimize-icons.js",
     "optimize-gallery-images": "node scripts/optimize-gallery-images.js",
+    "optimize-portfolio-thumbs": "node scripts/optimize-portfolio-thumbs.js",
     "optimize-critical-images": "node scripts/optimize-critical-images.js",
     "optimize-all-icons": "node scripts/optimize-all-icons.js",
     "check-performance": "node scripts/check-performance.js",

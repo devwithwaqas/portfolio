@@ -13,7 +13,7 @@
 
                 <!-- Portfolio Filters Removed - All projects are Enterprise Projects -->
 
-                <div class="isotope-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="isotope-container">
 
                   <!-- Heat Exchanger Portal -->
                   <EpicCard

@@ -11,7 +11,7 @@
 
               <div class="services-grid">
 
-                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
                   <div class="service-item item-cyan position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -26,7 +26,7 @@
                   </div>
                 </div><!-- End Service Item -->
 
-                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
                   <div class="service-item item-orange position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -41,7 +41,7 @@
                   </div>
                 </div><!-- End Service Item -->
 
-                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="300">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
                   <div class="service-item item-teal position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -56,7 +56,7 @@
                   </div>
                 </div><!-- End Service Item -->
 
-                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="400">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
                   <div class="service-item item-red position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +71,7 @@
                   </div>
                 </div><!-- End Service Item -->
 
-                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="500">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
                   <div class="service-item item-indigo position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -86,7 +86,7 @@
                   </div>
                 </div><!-- End Service Item -->
 
-                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="600">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
                   <div class="service-item item-pink position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -101,7 +101,7 @@
                   </div>
                 </div><!-- End Service Item -->
 
-                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120" data-aos="fade-up" data-aos-delay="700">
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
                   <div class="service-item item-green position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">

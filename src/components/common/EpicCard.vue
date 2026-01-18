@@ -41,7 +41,7 @@
           
           <!-- Main Banner -->
           <div class="banner-section">
-            <LazyImage 
+            <OptimizedImage 
               :src="bannerImage" 
               :alt="`${title} - ${subtitle} - Remote Consultant - Available USA, Europe, Global`" 
               image-class="banner-img"
@@ -95,12 +95,14 @@
 <script>
 import ImagePreview from './ImagePreview.vue'
 import LazyImage from './LazyImage.vue'
+import OptimizedImage from './OptimizedImage.vue'
 
 export default {
   name: 'EpicCard',
   components: {
     ImagePreview,
-    LazyImage
+    LazyImage,
+    OptimizedImage
   },
   props: {
     title: {
@@ -449,10 +451,12 @@ export default {
                     // Recalculate SVG position based on new aspect ratio
                     updateSVGPosition()
                     
-                    // Recalculate and update border path (viewBox is fixed, so path doesn't need to change)
-                    const adjustedD = buildPath()
-                    ;[track, seg1, seg2].forEach(el => el.setAttribute('d', adjustedD))
-                    
+                  // Recalculate and update border path (viewBox is fixed, so path doesn't need to change)
+                  const adjustedD = buildPath()
+                  ;[track, seg1, seg2].forEach(el => el.setAttribute('d', adjustedD))
+                  
+                  // Defer layout reads to avoid forced reflows after writes
+                  requestAnimationFrame(() => {
                     // Update animation parameters
                     const newP = track.getTotalLength()
                     const newSEG_WANTED = Math.min(700, newP * 0.4)
@@ -460,8 +464,11 @@ export default {
                     const newGap = newP - newSEG_LEN
                     const newDash = `${newSEG_LEN} ${newGap}`
                     
-                    seg1.style.strokeDasharray = newDash
-                    seg2.style.strokeDasharray = newDash
+                    requestAnimationFrame(() => {
+                      seg1.style.strokeDasharray = newDash
+                      seg2.style.strokeDasharray = newDash
+                    })
+                  })
                   })
                 }, 100) // 100ms debounce
               })

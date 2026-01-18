@@ -10,7 +10,7 @@
       >
               <div class="row">
 
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-6">
                   <h3 class="resume-title txt-h3-2xl">Summary</h3>
 
                   <div class="resume-item pb-0">
@@ -109,7 +109,7 @@
 
                 </div>
 
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-lg-6">
                   <h3 class="resume-title txt-h3-2xl">Professional Experience</h3>
                   <div class="resume-item">
                     <h4 class="txt-h4-lg">
