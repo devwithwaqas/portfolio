@@ -960,6 +960,57 @@ section,
   min-height: 700px;
 }
 
+/* MOBILE CLS FIX: Taller min-heights for mobile (single column = more vertical space) */
+@media (max-width: 768px) {
+  .about.section {
+    min-height: 1200px;
+  }
+  
+  .skills.section {
+    min-height: 2500px;
+  }
+  
+  .resume.section {
+    min-height: 3000px;
+  }
+  
+  .portfolio.section {
+    min-height: 1800px;
+  }
+  
+  .services.section {
+    min-height: 1400px;
+  }
+  
+  .testimonials.section {
+    min-height: 650px;
+  }
+  
+  .contact.section {
+    min-height: 1200px;
+  }
+  
+  .footer {
+    min-height: 900px !important;
+  }
+  
+  /* Ensure hero has reserved space on mobile */
+  .hero {
+    min-height: 100vh;
+  }
+  
+  /* Ensure all images maintain aspect ratio on mobile */
+  img {
+    height: auto;
+    max-width: 100%;
+  }
+  
+  /* Prevent profile image from causing shifts */
+  .profile-image-container-side {
+    min-height: 280px;
+  }
+}
+
 /*--------------------------------------------------------------
 # Global Section Titles
 --------------------------------------------------------------*/
