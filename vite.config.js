@@ -2,29 +2,44 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import Critters from 'critters'
+import fs from 'fs'
 
 export default defineConfig({
   base: '/portfolio/', // GitHub Pages base path - repo name is 'portfolio', so site is at /portfolio/
   publicDir: 'public',
   plugins: [
     vue(),
-    // Critical CSS inlining - extracts and inlines critical CSS
+    // Critical CSS inlining - run AFTER build completes
     {
       name: 'vite-plugin-critters',
       apply: 'build',
-      transformIndexHtml: {
-        order: 'post',
-        handler: async (html) => {
-          const critters = new Critters({
-            path: 'dist',
-            publicPath: '/portfolio/',
-            preload: 'swap', // Preload non-critical CSS
-            noscriptFallback: true,
-            inlineFonts: false, // Don't inline fonts (too large)
-            pruneSource: false, // Keep original CSS for fallback
-            logLevel: 'warn'
-          })
-          return await critters.process(html)
+      async closeBundle() {
+        const distPath = path.resolve(__dirname, 'dist')
+        const indexPath = path.join(distPath, 'index.html')
+        
+        if (!fs.existsSync(indexPath)) {
+          console.warn('index.html not found, skipping critical CSS')
+          return
+        }
+        
+        const critters = new Critters({
+          path: distPath,
+          publicPath: '/portfolio/',
+          preload: 'swap',
+          noscriptFallback: true,
+          inlineFonts: false,
+          pruneSource: false,
+          compress: true,
+          logLevel: 'info'
+        })
+        
+        try {
+          const html = fs.readFileSync(indexPath, 'utf-8')
+          const processedHtml = await critters.process(html)
+          fs.writeFileSync(indexPath, processedHtml)
+          console.log('✅ Critical CSS inlined successfully')
+        } catch (error) {
+          console.warn('⚠️ Critters failed:', error.message)
         }
       }
     },
