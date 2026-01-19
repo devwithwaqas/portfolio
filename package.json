@@ -28,7 +28,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",
-    "critters": "^0.0.23",
     "sass": "^1.93.2",
     "sharp": "^0.34.5",
     "vite": "^5.4.0"
