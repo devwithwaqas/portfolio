@@ -30,26 +30,34 @@
           class="slider-arrow slider-arrow-prev icon-wrapper-lg" 
           @click="goToPrevious"
           :disabled="!canGoPrevious"
+          aria-label="Previous testimonial"
+          :aria-disabled="!canGoPrevious"
         >
-          <i class="fas fa-chevron-left icon-md"></i>
+          <i class="fas fa-chevron-left icon-md" aria-hidden="true"></i>
         </button>
         <button 
           class="slider-arrow slider-arrow-next icon-wrapper-lg" 
           @click="goToNext"
           :disabled="!canGoNext"
+          aria-label="Next testimonial"
+          :aria-disabled="!canGoNext"
         >
-          <i class="fas fa-chevron-right icon-md"></i>
+          <i class="fas fa-chevron-right icon-md" aria-hidden="true"></i>
         </button>
       </div>
 
       <!-- Pagination Dots -->
-      <div class="slider-pagination" v-if="showPagination">
+      <div class="slider-pagination" v-if="showPagination" role="tablist" aria-label="Testimonials navigation">
         <button
           v-for="(slide, index) in slides"
           :key="index"
           class="slider-dot icon-wrapper-xs"
           :class="{ active: index === currentIndex }"
           @click="goToSlide(index)"
+          :aria-label="`Go to testimonial ${index + 1}`"
+          :aria-selected="index === currentIndex"
+          :aria-current="index === currentIndex ? 'true' : 'false'"
+          role="tab"
         ></button>
       </div>
     </div>
