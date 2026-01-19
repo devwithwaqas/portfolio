@@ -32,6 +32,13 @@ export default {
   mounted() {
     // Update page title
     document.title = '404 - Page Not Found | Waqas Ahmad Portfolio'
+    try {
+      sessionStorage.setItem('home:forceAll', '1')
+      sessionStorage.setItem('home:returnSection', 'hero')
+      sessionStorage.removeItem('scroll:/')
+    } catch (error) {
+      // Ignore storage errors
+    }
   }
 }
 </script>

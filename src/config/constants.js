@@ -165,5 +165,11 @@ export const DEBUG_CONFIG = {
   
   // Main.js
   DeviceDetection: false,
-  AnimationController: false
+  AnimationController: false,
+
+  // Analytics & Logging
+  GA4: false,
+  AnalyticsData: false,
+  AnalyticsStats: false,
+  ScrollRestore: false
 };

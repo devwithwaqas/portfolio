@@ -1,6 +1,6 @@
 <template>
   <div ref="placeholder">
-    <slot v-if="isVisible"></slot>
+    <slot></slot>
   </div>
 </template>
 
@@ -15,45 +15,14 @@ export default {
     threshold: {
       type: Number,
       default: 0.1
-    }
-  },
-  data() {
-    return {
-      isVisible: false,
-      observer: null
-    }
-  },
-  mounted() {
-    if (this.isVisible) return
-    if (typeof IntersectionObserver === 'undefined') {
-      this.isVisible = true
-      return
-    }
-
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.isVisible = true
-            if (this.observer) {
-              this.observer.disconnect()
-              this.observer = null
-            }
-          }
-        })
-      },
-      {
-        rootMargin: this.rootMargin,
-        threshold: this.threshold
-      }
-    )
-
-    this.observer.observe(this.$refs.placeholder)
-  },
-  beforeUnmount() {
-    if (this.observer) {
-      this.observer.disconnect()
-      this.observer = null
+    },
+    forceVisible: {
+      type: Boolean,
+      default: false
+    },
+    minHeight: {
+      type: String,
+      default: '1px'
     }
   }
 }

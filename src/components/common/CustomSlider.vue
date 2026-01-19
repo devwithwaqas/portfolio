@@ -102,9 +102,20 @@ export default {
     }
   },
   mounted() {
-    this.updateHeight()
-    this.startAutoplay()
-    this.setupResizeObserver()
+    const runWhenIdle = (callback) => {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(callback, { timeout: 2000 })
+      } else {
+        setTimeout(callback, 1000)
+      }
+    }
+
+    // Height calculation can wait until idle to reduce main-thread work
+    runWhenIdle(() => {
+      this.updateHeight()
+      this.startAutoplay()
+      this.setupResizeObserver()
+    })
   },
   beforeUnmount() {
     this.stopAutoplay()
@@ -140,9 +151,10 @@ export default {
       const activeSlide = this.$refs.slideRefs
       const track = this.$refs.sliderTrack
       if (activeSlide && track) {
+        // Read layout BEFORE entering RAF to avoid forced reflow
+        const estimatedHeight = activeSlide.offsetHeight || 300
+        
         requestAnimationFrame(() => {
-          // Vue handles height changes reactively with v-style or computed height
-          const estimatedHeight = activeSlide.offsetHeight || 300
           if (Math.abs(estimatedHeight - this.currentHeight) > 10) {
             // VUE REACTIVE: height change handled by :style="{ height: currentHeight + 'px' }"
             this.currentHeight = estimatedHeight

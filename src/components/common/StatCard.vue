@@ -18,7 +18,7 @@
             <path fill="currentColor" :d="iconPath"></path>
           </svg>
           <div class="label-text txt-label-lg">{{ label }}</div>
-          <div class="name txt-h2-3xl">{{ animatedValue }}</div>
+          <div class="name txt-h2-3xl" :style="{ minWidth: valueMinWidth }">{{ animatedValue }}</div>
         </div>
       </div>
     </div>
@@ -49,6 +49,13 @@ export default {
   data() {
     return {
       animatedValue: 0
+    }
+  },
+  computed: {
+    // Reserve space for final value to prevent layout shift during animation
+    valueMinWidth() {
+      const digits = String(this.value).length
+      return `${digits * 0.6}em`
     }
   },
   mounted() {

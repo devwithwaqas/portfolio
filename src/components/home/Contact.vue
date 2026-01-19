@@ -6,7 +6,7 @@
         icon-name="contact"
         body-padding="0"
       >
-              <div class="row gy-3 gx-2">
+              <div class="row gy-3 gx-2" v-if="showContact">
                 <!-- Location Card -->
                 <ContactCard 
                   iconClass="bi bi-geo-alt-fill"
@@ -65,10 +65,12 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
 import ReusableCard from '../common/ReusableCard.vue'
-import ContactForm from '../common/ContactForm.vue'
-import ContactCard from '../common/ContactCard.vue'
 import { APP_CONFIG } from '../../config/constants.js'
+
+const ContactForm = defineAsyncComponent(() => import('../common/ContactForm.vue'))
+const ContactCard = defineAsyncComponent(() => import('../common/ContactCard.vue'))
 
 export default {
   name: 'Contact',
@@ -79,7 +81,11 @@ export default {
   },
   data() {
     return {
-      ...APP_CONFIG
+      location: APP_CONFIG.location,
+      phone: APP_CONFIG.phone,
+      email: APP_CONFIG.email,
+      contactLinks: APP_CONFIG.contactLinks,
+      showContact: true
     }
   }
 }

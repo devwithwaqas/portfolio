@@ -54,10 +54,28 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
 import ReusableCard from '../common/ReusableCard.vue'
-import StatCard from '../common/StatCard.vue'
 import IconComponent from '../common/IconComponent.vue'
-import { APP_CONFIG, ANIMATION_CONFIG } from '../../config/constants.js'
+
+const StatCard = defineAsyncComponent(() => import('../common/StatCard.vue'))
+
+// Calculate stats immediately
+const calculateStats = () => {
+  const startDate = new Date(2008, 0, 1)
+  const today = new Date()
+  const diffTime = Math.abs(today - startDate)
+  const totalYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365.25))
+  const techLeadStartDate = new Date(2015, 0, 1)
+  const diffTimeTechLead = Math.abs(today - techLeadStartDate)
+  const techLeadYears = Math.floor(diffTimeTechLead / (1000 * 60 * 60 * 24 * 365.25))
+  return {
+    enterpriseClients: 20,
+    enterpriseSolutions: 32,
+    yearsExperience: totalYears,
+    yearsAsTechLead: techLeadYears
+  }
+}
 
 export default {
   components: {
@@ -66,26 +84,9 @@ export default {
     IconComponent
   },
   name: 'Stats',
-  computed: {
-    // Calculate stats dynamically based on work experience
-    calculatedStats() {
-      // Calculate total experience from first job (Jan 1, 2008) to present
-      const startDate = new Date(2008, 0, 1) // January 1, 2008
-      const today = new Date()
-      const diffTime = Math.abs(today - startDate)
-      const totalYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365.25))
-      
-      // Tech Lead experience: From midway Squad Cell career (around 2015) to present
-      const techLeadStartDate = new Date(2015, 0, 1) // Midway through Squad Cell career
-      const diffTimeTechLead = Math.abs(today - techLeadStartDate)
-      const techLeadYears = Math.floor(diffTimeTechLead / (1000 * 60 * 60 * 24 * 365.25))
-      
-      return {
-        enterpriseClients: 20, // Fortune 500 companies and enterprise clients
-        enterpriseSolutions: 32, // Major enterprise solutions delivered (~2 per year over 17 years)
-        yearsExperience: totalYears,
-        yearsAsTechLead: techLeadYears
-      }
+  data() {
+    return {
+      calculatedStats: calculateStats()
     }
   }
 }

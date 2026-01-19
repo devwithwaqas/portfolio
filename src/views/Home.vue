@@ -4,54 +4,34 @@
     <Hero />
     
     <!-- About Section -->
-    <LazyRender>
-      <About />
-    </LazyRender>
+    <About />
     
     <!-- Technology Expertise Section -->
-    <LazyRender>
-      <TechnologyExpertise />
-    </LazyRender>
+    <TechnologyExpertise />
     
     <!-- Stats Section -->
-    <LazyRender>
-      <Stats />
-    </LazyRender>
+    <Stats />
     
     <!-- Skills Section -->
-    <LazyRender>
-      <Skills />
-    </LazyRender>
+    <Skills />
     
     <!-- Resume Section -->
-    <LazyRender>
-      <Resume />
-    </LazyRender>
+    <Resume />
     
     <!-- Portfolio Section -->
-    <LazyRender>
-      <Portfolio />
-    </LazyRender>
+    <Portfolio />
     
     <!-- Services Section -->
-    <LazyRender>
-      <Services />
-    </LazyRender>
+    <Services />
     
     <!-- FAQ Section -->
-    <LazyRender>
-      <HomeFAQ />
-    </LazyRender>
+    <HomeFAQ />
     
     <!-- Testimonials Section -->
-    <LazyRender>
-      <Testimonials />
-    </LazyRender>
+    <Testimonials />
     
     <!-- Contact Section -->
-    <LazyRender>
-      <Contact />
-    </LazyRender>
+    <Contact />
     
     <!-- Back to Top Button -->
     <BackToTop />
@@ -59,27 +39,23 @@
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue'
 import Hero from '../components/home/Hero.vue'
 import BackToTop from '../components/layout/BackToTop.vue'
-import LazyRender from '../components/common/LazyRender.vue'
-
-const About = defineAsyncComponent(() => import('../components/home/About.vue'))
-const TechnologyExpertise = defineAsyncComponent(() => import('../components/home/TechnologyExpertise.vue'))
-const Stats = defineAsyncComponent(() => import('../components/home/Stats.vue'))
-const Skills = defineAsyncComponent(() => import('../components/home/Skills.vue'))
-const Resume = defineAsyncComponent(() => import('../components/home/Resume.vue'))
-const Portfolio = defineAsyncComponent(() => import('../components/home/Portfolio.vue'))
-const Services = defineAsyncComponent(() => import('../components/home/Services.vue'))
-const Testimonials = defineAsyncComponent(() => import('../components/home/Testimonials.vue'))
-const HomeFAQ = defineAsyncComponent(() => import('../components/home/HomeFAQ.vue'))
-const Contact = defineAsyncComponent(() => import('../components/home/Contact.vue'))
+import About from '../components/home/About.vue'
+import TechnologyExpertise from '../components/home/TechnologyExpertise.vue'
+import Stats from '../components/home/Stats.vue'
+import Skills from '../components/home/Skills.vue'
+import Resume from '../components/home/Resume.vue'
+import Portfolio from '../components/home/Portfolio.vue'
+import Services from '../components/home/Services.vue'
+import Testimonials from '../components/home/Testimonials.vue'
+import HomeFAQ from '../components/home/HomeFAQ.vue'
+import Contact from '../components/home/Contact.vue'
 
 export default {
   name: 'Home',
   components: {
     Hero,
-    LazyRender,
     About,
     TechnologyExpertise,
     Stats,
@@ -109,6 +85,61 @@ export default {
       ])
       generateHomePageStructuredData(testimonialsData)
     })
+
+    // Handle scroll restoration for back navigation
+    const navEntry = performance.getEntriesByType('navigation')[0]
+    const navType = navEntry ? navEntry.type : 'navigate'
+
+    if (navType === 'back_forward') {
+      // Let browser handle scroll restoration naturally
+      // Clear any stored state
+      try {
+        sessionStorage.removeItem('home:returnSection')
+        sessionStorage.removeItem('home:forceAll')
+      } catch (error) {
+        // Ignore storage errors
+      }
+    }
+
+    if (navType === 'reload') {
+      // On reload, DON'T clear scroll - let browser restore it
+      // Only clear return section flags
+      try {
+        sessionStorage.removeItem('home:returnSection')
+        sessionStorage.removeItem('home:forceAll')
+      } catch (error) {
+        // Ignore storage errors
+      }
+    }
+
+    // Handle return section scrolling (from project/service pages)
+    const returnSection = (() => {
+      try {
+        return sessionStorage.getItem('home:returnSection')
+      } catch (error) {
+        return null
+      }
+    })()
+
+    if (returnSection) {
+      const scrollToSection = () => {
+        const element = document.getElementById(returnSection)
+        if (element) {
+          const headerOffset = 100
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+          try {
+            sessionStorage.removeItem('home:returnSection')
+          } catch (error) {
+            // Ignore storage errors
+          }
+        }
+      }
+
+      // Wait for content to render
+      setTimeout(scrollToSection, 500)
+    }
   }
 }
 </script>

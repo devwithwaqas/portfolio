@@ -146,21 +146,113 @@ const routes = [
   }
 ]
 
+const scrollKey = (path) => `scroll:${path}`
+const returnSectionKey = 'home:returnSection'
+
+const saveScrollPosition = (path) => {
+  if (typeof window === 'undefined') return
+  if (path !== '/') return
+  try {
+    sessionStorage.setItem(scrollKey(path), String(window.scrollY))
+  } catch (error) {
+    // Ignore storage errors (private mode, quota, etc.)
+  }
+}
+
+const getSavedScrollPosition = (path) => {
+  if (typeof window === 'undefined') return null
+  if (path !== '/') return null
+  try {
+    const raw = sessionStorage.getItem(scrollKey(path))
+    if (!raw) return null
+    const value = Number(raw)
+    return Number.isFinite(value) ? value : null
+  } catch (error) {
+    return null
+  }
+}
+
+const getReturnSection = () => {
+  if (typeof window === 'undefined') return null
+  try {
+    return sessionStorage.getItem(returnSectionKey)
+  } catch (error) {
+    return null
+  }
+}
+
+const clearReturnSection = () => {
+  if (typeof window === 'undefined') return
+  try {
+    sessionStorage.removeItem(returnSectionKey)
+  } catch (error) {
+    // Ignore storage errors
+  }
+}
+
+const detectHomeSection = () => {
+  if (typeof window === 'undefined') return null
+  const sections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
+  const scrollPosition = window.scrollY + window.innerHeight / 3
+  for (let i = sections.length - 1; i >= 0; i -= 1) {
+    const section = document.getElementById(sections[i])
+    if (section && section.offsetTop <= scrollPosition) {
+      return sections[i]
+    }
+  }
+  return 'hero'
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL), // Use Vite's base URL for router
   routes,
   scrollBehavior(to, from, savedPosition) {
-    // Always scroll to top on route change - no hash handling
+    // For back/forward navigation, use browser's saved position
     if (savedPosition) {
       return savedPosition
-    } else {
-      return { top: 0, behavior: 'smooth' }
     }
+
+    // For project/service/404 pages, always scroll to top
+    if (to.path.startsWith('/projects/') || to.path.startsWith('/services/') || to.name === 'NotFound') {
+      return { top: 0, behavior: 'auto' }
+    }
+
+    // For home page with return section, let Home.vue handle scrolling
+    if (to.path === '/') {
+      const returnSection = getReturnSection()
+      if (returnSection) {
+        // Don't scroll here - Home.vue will handle it after content renders
+        return { top: 0, behavior: 'auto' }
+      }
+    }
+
+    // Handle hash links
+    if (to.hash) {
+      return { el: to.hash, behavior: 'smooth' }
+    }
+
+    // Default: scroll to top
+    return { top: 0, behavior: 'smooth' }
   }
 })
 
 // SEO Meta Tags - Set on route change
 router.beforeEach((to, from, next) => {
+  if (from?.path === '/' && (to.path.startsWith('/projects/') || to.path.startsWith('/services/'))) {
+    const sectionId = detectHomeSection()
+    if (sectionId) {
+      try {
+        sessionStorage.setItem(returnSectionKey, sectionId)
+      } catch (error) {
+        // Ignore storage errors
+      }
+    }
+  }
+
+  if (from && from.fullPath) {
+    saveScrollPosition(from.fullPath)
+  }
+
   const BASE_URL = import.meta.env.BASE_URL || '/portfolio/'
   // Ensure SITE_URL always includes /portfolio/ for GitHub Pages
   const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'

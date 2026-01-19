@@ -26,14 +26,10 @@ const PORTFOLIO_GA4_API_ENDPOINT = import.meta.env.VITE_PORTFOLIO_GA4_API_ENDPOI
 export async function fetchAnalyticsData() {
   // If no endpoint configured, return mock data for development
   if (!PORTFOLIO_GA4_API_ENDPOINT) {
-    console.warn('[Analytics] No API endpoint configured. Using mock data.')
-    console.warn('[Analytics] Set VITE_PORTFOLIO_GA4_API_ENDPOINT in GitHub Secrets')
     return getMockAnalyticsData()
   }
 
   try {
-    console.log('[Analytics] Fetching from endpoint:', PORTFOLIO_GA4_API_ENDPOINT)
-    
     // Try direct fetch first (no custom headers to avoid preflight)
     // Cloudflare blocks OPTIONS preflight, so direct fetch will likely fail
     let response
@@ -46,8 +42,6 @@ export async function fetchAnalyticsData() {
       })
     } catch (directError) {
       // Direct fetch failed (CORS blocked by Cloudflare) - try CORS proxies
-      console.warn('[Analytics] Direct fetch blocked by CORS, trying proxies:', directError.message)
-      
       // Try multiple CORS proxy services as fallbacks
       const proxies = [
         {
@@ -67,7 +61,6 @@ export async function fetchAnalyticsData() {
       let lastError = directError
       for (const proxy of proxies) {
         try {
-          console.log(`[Analytics] Trying proxy: ${proxy.name}`)
           response = await fetch(proxy.url, {
             method: 'GET',
             cache: 'default',
@@ -77,13 +70,11 @@ export async function fetchAnalyticsData() {
           })
           // If we get a response, break out of the loop
           if (response && response.status !== 500) {
-            console.log(`[Analytics] Success with proxy: ${proxy.name}`)
             break
           } else {
             throw new Error(`Proxy ${proxy.name} returned ${response.status}`)
           }
         } catch (proxyError) {
-          console.warn(`[Analytics] Proxy ${proxy.name} failed:`, proxyError.message)
           lastError = proxyError
           continue // Try next proxy
         }
@@ -95,22 +86,16 @@ export async function fetchAnalyticsData() {
       }
     }
 
-    console.log('[Analytics] Response status:', response.status, response.statusText)
-    console.log('[Analytics] Response Content-Type:', response.headers.get('content-type'))
-
     // Check if response is actually JSON
     const contentType = response.headers.get('content-type') || ''
     const responseText = await response.text()
     
     if (!contentType.includes('application/json')) {
       // Response is not JSON - likely an HTML error page
-      console.error('[Analytics] Non-JSON response received. Content-Type:', contentType)
-      console.error('[Analytics] Response preview (first 500 chars):', responseText.substring(0, 500))
       throw new Error(`PHP endpoint returned HTML instead of JSON. Check server logs or PHP file.`)
     }
 
     if (!response.ok) {
-      console.error('[Analytics] API error response:', responseText)
       throw new Error(`Analytics API error: ${response.status} - ${responseText.substring(0, 200)}`)
     }
 
@@ -119,19 +104,14 @@ export async function fetchAnalyticsData() {
     try {
       data = JSON.parse(responseText)
     } catch (parseError) {
-      console.error('[Analytics] Failed to parse JSON. Response:', responseText.substring(0, 500))
       throw new Error(`Invalid JSON response: ${parseError.message}`)
     }
     
-    console.log('[Analytics] Parsed data:', data)
     return {
       totalViews: data.totalViews || 0,
       topItems: data.topItems || []
     }
   } catch (error) {
-    console.error('[Analytics] Failed to fetch analytics data:', error)
-    console.error('[Analytics] Error details:', error.message)
-    console.warn('[Analytics] Cloudflare is blocking CORS requests. Contact ProFreeHost support to configure Cloudflare CORS settings.')
     // Fallback to mock data on error
     return getMockAnalyticsData()
   }

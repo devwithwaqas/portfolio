@@ -60,14 +60,11 @@ export default {
     const loadAnalyticsData = async () => {
       try {
         loading.value = true
-        console.log('[AnalyticsStats] Fetching analytics data...')
         const data = await fetchAnalyticsData()
-        console.log('[AnalyticsStats] Received data:', data)
         totalViews.value = data.totalViews || 0
         topItems.value = data.topItems || []
-        console.log('[AnalyticsStats] Total views:', totalViews.value, 'Top items:', topItems.value.length)
       } catch (error) {
-        console.error('[AnalyticsStats] Failed to load analytics:', error)
+        // Silent fail: analytics are optional
       } finally {
         loading.value = false
       }

@@ -9,7 +9,7 @@
         body-padding="0"
       >
         
-        <div class="technology-sections">
+        <div class="technology-sections" v-if="showTechnology">
           
           <!-- .NET Expertise Section -->
           <div class="tech-section mb-4">
@@ -414,6 +414,11 @@ export default {
   components: {
     ReusableCard,
     LazyImage
+  },
+  data() {
+    return {
+      showTechnology: true
+    }
   },
   methods: {
     assetPath

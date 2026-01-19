@@ -22,22 +22,33 @@ export default {
     }
   },
   mounted() {
-    // Use passive listener and RAF to batch updates
+    let ticking = false
+    
+    // Throttled scroll handler - only updates once per frame
     this.scrollHandler = () => {
-      requestAnimationFrame(() => {
-        this.isVisible = window.scrollY > 100
-      })
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(() => {
+          // Batch read operation (single reflow)
+          const scrollY = window.scrollY
+          // Then update state
+          this.isVisible = scrollY > 100
+          ticking = false
+        })
+      }
     }
+    
     window.addEventListener('scroll', this.scrollHandler, { passive: true })
+    
+    // Initial check
+    this.isVisible = window.scrollY > 100
   },
   beforeUnmount() {
-    window.removeEventListener('scroll', this.scrollHandler)
+    if (this.scrollHandler) {
+      window.removeEventListener('scroll', this.scrollHandler)
+    }
   },
   methods: {
-    handleScroll() {
-      // This method is kept for compatibility but not used directly
-      this.isVisible = window.scrollY > 100
-    },
     scrollToTop() {
       window.scrollTo({
         top: 0,

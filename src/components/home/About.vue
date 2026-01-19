@@ -7,7 +7,7 @@
         icon-name="about me"
         body-padding="0"
       >
-              <div class="row gy-4 justify-content-center">
+              <div class="row gy-4 justify-content-center" v-if="isReady">
                 <div class="col-lg-12 content">
                   <div class="about-me-main-card" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); padding: 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); border: 1px solid #e9ecef; position: relative; overflow: hidden;">
                     <!-- Animated Background Pattern -->
@@ -144,8 +144,8 @@
 </template>
 
 <script>
-import { APP_CONFIG } from '../../config/constants.js'
 import ReusableCard from '../common/ReusableCard.vue'
+import { APP_CONFIG } from '../../config/constants.js'
 
 export default {
   name: 'About',
@@ -154,10 +154,15 @@ export default {
   },
   data() {
     return {
-      // VUE PROPER: Import constants instead of deleted personalData.js
-      ...APP_CONFIG
+      fullName: APP_CONFIG.fullName,
+      totalExperience: APP_CONFIG.totalExperience,
+      techLeadExperience: APP_CONFIG.techLeadExperience,
+      phone: APP_CONFIG.phone,
+      email: APP_CONFIG.email,
+      contactLinks: APP_CONFIG.contactLinks,
+      isReady: true
     }
-  },
+  }
 }
 </script>
 

@@ -67,7 +67,12 @@
                     <span class="button_text txt-btn-sm">Preview</span>
                   </span>
                 </button>
-                <router-link :to="detailsLink" title="More Details" class="button details-btn">
+                <router-link
+                  :to="detailsLink"
+                  title="More Details"
+                  class="button details-btn"
+                  @click="rememberReturnSection('portfolio')"
+                >
                   <span class="button_lg">
                     <span class="button_sl"></span>
                     <span class="button_text txt-btn-sm">Details</span>
@@ -78,6 +83,7 @@
             
             <!-- Image Preview Modal -->
             <ImagePreview 
+              v-if="showPreview"
               ref="imagePreview"
               :imageSrc="bannerImage" 
               :imageAlt="title"
@@ -93,9 +99,11 @@
 </template>
 
 <script>
-import ImagePreview from './ImagePreview.vue'
+import { defineAsyncComponent } from 'vue'
 import LazyImage from './LazyImage.vue'
 import OptimizedImage from './OptimizedImage.vue'
+
+const ImagePreview = defineAsyncComponent(() => import('./ImagePreview.vue'))
 
 export default {
   name: 'EpicCard',
@@ -140,7 +148,8 @@ export default {
       touchStartY: 0,
       touchMoved: false,
       uniqueId: `epic-${Math.random().toString(36).substr(2, 9)}`,
-      resizeTimeout: null
+      resizeTimeout: null,
+      showPreview: false
     }
   },
   computed: {
@@ -177,8 +186,41 @@ export default {
     }
   },
   methods: {
-    openPreview() {
-      this.$refs.imagePreview.show()
+    async openPreview() {
+      if (!this.showPreview) {
+        this.showPreview = true
+      }
+      await this.$nextTick()
+
+      const waitForPreview = () => new Promise((resolve) => {
+        let attempts = 0
+        const check = () => {
+          if (this.$refs.imagePreview) {
+            resolve(true)
+            return
+          }
+          attempts += 1
+          if (attempts > 60) {
+            resolve(false)
+            return
+          }
+          requestAnimationFrame(check)
+        }
+        check()
+      })
+
+      const ready = await waitForPreview()
+      if (ready && this.$refs.imagePreview) {
+        this.$refs.imagePreview.show()
+      }
+    },
+    rememberReturnSection(sectionId) {
+      if (typeof window === 'undefined') return
+      try {
+        sessionStorage.setItem('home:returnSection', sectionId)
+      } catch (error) {
+        // Ignore storage errors
+      }
     },
     initBorderAnimation() {
       // VUE NATIVE SOLUTION: No more direct DOM querying to avoid forced reflows
@@ -207,20 +249,22 @@ export default {
         
         // Calculate aspect ratio and adjust offsets dynamically
         function updateSVGPosition() {
+          // Read layout BEFORE entering RAF to avoid forced reflow
+          const rect = card.getBoundingClientRect()
+          
+          // Skip update if size hasn't changed significantly (within 1px tolerance)
+          if (Math.abs(rect.width - lastCardSize.width) < 1 && Math.abs(rect.height - lastCardSize.height) < 1) {
+            return
+          }
+          lastCardSize = { width: rect.width, height: rect.height }
+          
+          // Cache wrapper padding to avoid repeated getComputedStyle calls
+          if (cachedWrapperPadding === null) {
+            const wrapperStyle = getComputedStyle(cardWrapper)
+            cachedWrapperPadding = parseFloat(wrapperStyle.getPropertyValue('--wrapper-padding')) || 20.25
+          }
+          
           requestAnimationFrame(() => {
-            const rect = card.getBoundingClientRect()
-            
-            // Skip update if size hasn't changed significantly (within 1px tolerance)
-            if (Math.abs(rect.width - lastCardSize.width) < 1 && Math.abs(rect.height - lastCardSize.height) < 1) {
-              return
-            }
-            lastCardSize = { width: rect.width, height: rect.height }
-            
-            // Cache wrapper padding to avoid repeated getComputedStyle calls
-            if (cachedWrapperPadding === null) {
-              const wrapperStyle = getComputedStyle(cardWrapper)
-              cachedWrapperPadding = parseFloat(wrapperStyle.getPropertyValue('--wrapper-padding')) || 20.25
-            }
             
             // Calculate desired stroke in pixels (105% of padding)
             const desiredStrokePx = cachedWrapperPadding * 1.05
@@ -247,18 +291,16 @@ export default {
             // Vertical offset: use vertical stroke calculation (not affected by aspect ratio)
             const verticalOffset = baseOffset + strokeHalfVertical
             
-            requestAnimationFrame(() => {
-              // Update the actual SVG stroke-width attributes dynamically
-              seg1.setAttribute('stroke-width', strokeWidthViewbox)
-              seg2.setAttribute('stroke-width', strokeWidthViewbox)
-              track.setAttribute('stroke-width', strokeWidthViewbox * 0.23) // Track is ~23% of main stroke
-              
-              // Apply calculated offsets
-              borderOverlay.style.top = `-${verticalOffset}px`
-              borderOverlay.style.left = `-${horizontalOffset}px`
-              borderOverlay.style.width = `calc(100% + ${horizontalOffset * 2}px)`
-              borderOverlay.style.height = `calc(100% + ${verticalOffset * 2}px)`
-            })
+            // Update the actual SVG stroke-width attributes dynamically
+            seg1.setAttribute('stroke-width', strokeWidthViewbox)
+            seg2.setAttribute('stroke-width', strokeWidthViewbox)
+            track.setAttribute('stroke-width', strokeWidthViewbox * 0.23) // Track is ~23% of main stroke
+            
+            // Apply calculated offsets
+            borderOverlay.style.top = `-${verticalOffset}px`
+            borderOverlay.style.left = `-${horizontalOffset}px`
+            borderOverlay.style.width = `calc(100% + ${horizontalOffset * 2}px)`
+            borderOverlay.style.height = `calc(100% + ${verticalOffset * 2}px)`
           })
         }
         
@@ -381,7 +423,7 @@ export default {
               vm.touchStartX = e.touches[0].clientX
               vm.touchStartY = e.touches[0].clientY
               vm.touchMoved = false
-            })
+            }, { passive: true })
             
             card.addEventListener('touchmove', (e) => {
               const touchX = e.touches[0].clientX
@@ -393,7 +435,7 @@ export default {
               if (deltaX > 10 || deltaY > 10) {
                 vm.touchMoved = true
               }
-            })
+            }, { passive: true })
             
             card.addEventListener('touchend', (e) => {
               // Ignore if it was a drag
@@ -429,7 +471,7 @@ export default {
               } else {
                 stopAnim()
               }
-            })
+            }, { passive: true })
             
             // Initialize: Start with animations hidden on all devices
             requestAnimationFrame(() => {

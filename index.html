@@ -71,14 +71,28 @@
   <script>
     // CRITICAL: This script MUST run immediately when HTML loads
     // It initializes GA4 before Vue.js takes over
+    try {
+      localStorage.removeItem('ga4:debug');
+      sessionStorage.removeItem('ga4:debug');
+    } catch (e) {
+      // Ignore storage errors
+    }
+    window.GA4_DEBUG = false;
+    const GA4_DEBUG = false;
+    const ga4Console = {
+      log: () => {},
+      warn: () => {},
+      error: () => {},
+      info: () => {}
+    };
     
     // IMMEDIATE TEST - This should appear FIRST in console
     (function() {
-      console.log('[GA4] ========================================');
-      console.log('[GA4] Script block STARTING - index.html loaded');
-      console.log('[GA4] Timestamp:', new Date().toISOString());
-      console.log('[GA4] Document readyState:', document.readyState);
-      console.log('[GA4] ========================================');
+      ga4Console.log('[GA4] ========================================');
+      ga4Console.log('[GA4] Script block STARTING - index.html loaded');
+      ga4Console.log('[GA4] Timestamp:', new Date().toISOString());
+      ga4Console.log('[GA4] Document readyState:', document.readyState);
+      ga4Console.log('[GA4] ========================================');
     })();
     
     // Standard GA4 implementation pattern
@@ -94,7 +108,7 @@
     // Use fallback if placeholder wasn't replaced
     let GA4_MEASUREMENT_ID = GA4_MEASUREMENT_ID_RAW;
     if (GA4_MEASUREMENT_ID === 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER') {
-      console.warn('[GA4] ⚠️ Placeholder not replaced - using fallback ID');
+      ga4Console.warn('[GA4] ⚠️ Placeholder not replaced - using fallback ID');
       GA4_MEASUREMENT_ID = GA4_MEASUREMENT_ID_FALLBACK;
     }
     
@@ -106,12 +120,12 @@
                       measurementId.length > 2;
     
     // Debug: Always log what we have
-    console.log('[GA4] Raw Measurement ID:', GA4_MEASUREMENT_ID_RAW);
-    console.log('[GA4] Final Measurement ID:', measurementId);
-    console.log('[GA4] Is valid ID:', isValidId);
+    ga4Console.log('[GA4] Raw Measurement ID:', GA4_MEASUREMENT_ID_RAW);
+    ga4Console.log('[GA4] Final Measurement ID:', measurementId);
+    ga4Console.log('[GA4] Is valid ID:', isValidId);
     
     if (isValidId) {
-      console.log('[GA4] ✅ Valid Measurement ID detected, proceeding with script load');
+      ga4Console.log('[GA4] ✅ Valid Measurement ID detected, proceeding with script load');
       // Store Measurement ID globally so analytics.js can access it
       window.GA4_MEASUREMENT_ID = measurementId;
       
@@ -141,20 +155,20 @@
           (window.dataLayer && window.dataLayer.length > 0)
         );
         
-        console.log('[GA4] Script onload fired - checking if Google script executed...');
-        console.log('[GA4] gtag function length:', gtagString.length, 'chars');
-        console.log('[GA4] gtag.q (queue) exists:', realGtag && realGtag.q !== undefined);
-        console.log('[GA4] dataLayer entries:', window.dataLayer ? window.dataLayer.length : 0);
+        ga4Console.log('[GA4] Script onload fired - checking if Google script executed...');
+        ga4Console.log('[GA4] gtag function length:', gtagString.length, 'chars');
+        ga4Console.log('[GA4] gtag.q (queue) exists:', realGtag && realGtag.q !== undefined);
+        ga4Console.log('[GA4] dataLayer entries:', window.dataLayer ? window.dataLayer.length : 0);
         
         // Note: Even if gtag function looks short, if collect requests work, GA4 is functioning
         // The function might be wrapped or Google uses a different mechanism
         if (!hasGoogleGtag) {
-          console.warn('[GA4] ⚠️ gtag function detection inconclusive');
-          console.warn('[GA4] But if you see collect requests in Network tab, GA4 IS working!');
-          console.warn('[GA4] Google may use a different implementation method');
+          ga4Console.warn('[GA4] ⚠️ gtag function detection inconclusive');
+          ga4Console.warn('[GA4] But if you see collect requests in Network tab, GA4 IS working!');
+          ga4Console.warn('[GA4] Google may use a different implementation method');
           // Don't return - proceed anyway, as collect requests indicate it's working
         } else {
-          console.log('[GA4] ✅ Google gtag.js successfully loaded and executed!');
+          ga4Console.log('[GA4] ✅ Google gtag.js successfully loaded and executed!');
         }
         
         // Initialize GA4 after script loads (only if real script executed)
@@ -170,45 +184,45 @@
         });
         
         // Debug logging
-        console.log('[GA4] ✅ GA4 initialized with Measurement ID:', measurementId);
-        console.log('[GA4] Check Network tab for collect requests to google-analytics.com/g/collect');
+        ga4Console.log('[GA4] ✅ GA4 initialized with Measurement ID:', measurementId);
+        ga4Console.log('[GA4] Check Network tab for collect requests to google-analytics.com/g/collect');
         
         // Verify script is in DOM
         const scriptInDOM = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
         if (scriptInDOM) {
-          console.log('[GA4] ✅ Script tag confirmed in DOM');
+          ga4Console.log('[GA4] ✅ Script tag confirmed in DOM');
         } else {
-          console.error('[GA4] ❌ Script tag NOT found in DOM - this is a problem!');
+          ga4Console.error('[GA4] ❌ Script tag NOT found in DOM - this is a problem!');
         }
       };
       
       script.onerror = function() {
-        console.error('[GA4] ❌ Failed to load gtag.js script');
-        console.error('[GA4] This is usually caused by:');
-        console.error('[GA4] 1. Ad blocker or privacy extension blocking the request');
-        console.error('[GA4] 2. Network/firewall blocking googletagmanager.com');
-        console.error('[GA4] 3. CORS or security policy blocking the script');
-        console.error('[GA4] Check Network tab for blocked requests to googletagmanager.com');
+        ga4Console.error('[GA4] ❌ Failed to load gtag.js script');
+        ga4Console.error('[GA4] This is usually caused by:');
+        ga4Console.error('[GA4] 1. Ad blocker or privacy extension blocking the request');
+        ga4Console.error('[GA4] 2. Network/firewall blocking googletagmanager.com');
+        ga4Console.error('[GA4] 3. CORS or security policy blocking the script');
+        ga4Console.error('[GA4] Check Network tab for blocked requests to googletagmanager.com');
       };
       
       // Debug logging (before script loads)
-      console.log('[GA4] Loading GA4 script with Measurement ID:', measurementId);
-      console.log('[GA4] Script URL:', script.src);
-      console.log('[GA4] Check Network tab for request to:', script.src);
+      ga4Console.log('[GA4] Loading GA4 script with Measurement ID:', measurementId);
+      ga4Console.log('[GA4] Script URL:', script.src);
+      ga4Console.log('[GA4] Check Network tab for request to:', script.src);
       
       // Append script to DOM immediately - async and defer prevent blocking
       document.head.appendChild(script);
-      console.log('[GA4] Script appended to DOM');
+      ga4Console.log('[GA4] Script appended to DOM');
       
       // Check if script was added (after a brief delay to allow DOM update)
       setTimeout(function() {
         const scriptCheck = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
         if (scriptCheck) {
-          console.log('[GA4] ✅ Script tag found in DOM:', scriptCheck.src);
-          console.log('[GA4] Script element:', scriptCheck);
+          ga4Console.log('[GA4] ✅ Script tag found in DOM:', scriptCheck.src);
+          ga4Console.log('[GA4] Script element:', scriptCheck);
         } else {
-          console.error('[GA4] ❌ Script tag NOT found in DOM after adding!');
-          console.error('[GA4] This means the script was never added to the page');
+          ga4Console.error('[GA4] ❌ Script tag NOT found in DOM after adding!');
+          ga4Console.error('[GA4] This means the script was never added to the page');
         }
       }, 100);
       
@@ -220,76 +234,76 @@
         
         // Check if collect requests are working (best indicator)
         // This is more reliable than checking gtag function length
-        console.log('[GA4] === 3 Second Status Check ===');
-        console.log('[GA4] Script in DOM:', scriptCheck ? '✅ YES' : '❌ NO');
-        console.log('[GA4] gtag function exists:', gtagFunc ? '✅ YES' : '❌ NO');
-        console.log('[GA4] gtag function length:', gtagString.length, 'chars');
-        console.log('[GA4] dataLayer entries:', window.dataLayer ? window.dataLayer.length : 0);
-        console.log('[GA4]');
-        console.log('[GA4] ✅ VERIFICATION: Check Network tab for collect requests');
-        console.log('[GA4]   1. Open Network tab (F12 > Network)');
-        console.log('[GA4]   2. Filter by: collect');
-        console.log('[GA4]   3. If you see requests to google-analytics.com/g/collect with status 200/204:');
-        console.log('[GA4]      → GA4 IS WORKING! ✅');
-        console.log('[GA4]   4. If you see blocked/failed requests:');
-        console.log('[GA4]      → Check ad blockers or privacy settings');
+        ga4Console.log('[GA4] === 3 Second Status Check ===');
+        ga4Console.log('[GA4] Script in DOM:', scriptCheck ? '✅ YES' : '❌ NO');
+        ga4Console.log('[GA4] gtag function exists:', gtagFunc ? '✅ YES' : '❌ NO');
+        ga4Console.log('[GA4] gtag function length:', gtagString.length, 'chars');
+        ga4Console.log('[GA4] dataLayer entries:', window.dataLayer ? window.dataLayer.length : 0);
+        ga4Console.log('[GA4]');
+        ga4Console.log('[GA4] ✅ VERIFICATION: Check Network tab for collect requests');
+        ga4Console.log('[GA4]   1. Open Network tab (F12 > Network)');
+        ga4Console.log('[GA4]   2. Filter by: collect');
+        ga4Console.log('[GA4]   3. If you see requests to google-analytics.com/g/collect with status 200/204:');
+        ga4Console.log('[GA4]      → GA4 IS WORKING! ✅');
+        ga4Console.log('[GA4]   4. If you see blocked/failed requests:');
+        ga4Console.log('[GA4]      → Check ad blockers or privacy settings');
         
         if (!scriptCheck) {
-          console.error('[GA4] ❌ Script tag not in DOM - script was never added!');
+          ga4Console.error('[GA4] ❌ Script tag not in DOM - script was never added!');
         } else {
-          console.log('[GA4] ✅ Script tag confirmed in DOM');
-          console.log('[GA4] 💡 Tip: The best way to verify GA4 is working is to check Network tab for collect requests');
+          ga4Console.log('[GA4] ✅ Script tag confirmed in DOM');
+          ga4Console.log('[GA4] 💡 Tip: The best way to verify GA4 is working is to check Network tab for collect requests');
         }
       }, 3000);
       
       // Make diagnostic function available immediately
       window.manualGA4Check = function() {
-        console.log('=== Manual GA4 Check ===');
+        ga4Console.log('=== Manual GA4 Check ===');
         const scriptCheck = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
         const gtagFunc = window.gtag;
         const gtagString = gtagFunc ? gtagFunc.toString() : '';
         const isRealGtag = gtagString.length > 200;
         
-        console.log('1. Script in DOM:', scriptCheck ? `✅ YES (${scriptCheck.src})` : '❌ NO');
-        console.log('2. gtag function:', gtagFunc ? `✅ YES (${gtagString.length} chars)` : '❌ NO');
-        console.log('3. Is real Google gtag:', isRealGtag ? '✅ YES' : '❌ NO');
-        console.log('4. dataLayer entries:', window.dataLayer ? window.dataLayer.length : 0);
-        console.log('5. Measurement ID:', window.GA4_MEASUREMENT_ID || 'NOT FOUND');
+        ga4Console.log('1. Script in DOM:', scriptCheck ? `✅ YES (${scriptCheck.src})` : '❌ NO');
+        ga4Console.log('2. gtag function:', gtagFunc ? `✅ YES (${gtagString.length} chars)` : '❌ NO');
+        ga4Console.log('3. Is real Google gtag:', isRealGtag ? '✅ YES' : '❌ NO');
+        ga4Console.log('4. dataLayer entries:', window.dataLayer ? window.dataLayer.length : 0);
+        ga4Console.log('5. Measurement ID:', window.GA4_MEASUREMENT_ID || 'NOT FOUND');
         
         if (scriptCheck && !isRealGtag) {
-          console.error('❌ PROBLEM: Script tag exists but Google script did not load!');
-          console.error('Check Network tab for blocked/failed requests to googletagmanager.com');
+          ga4Console.error('❌ PROBLEM: Script tag exists but Google script did not load!');
+          ga4Console.error('Check Network tab for blocked/failed requests to googletagmanager.com');
         }
         
         // Try to manually trigger a test event
         if (gtagFunc && window.GA4_MEASUREMENT_ID) {
-          console.log('6. Testing manual event...');
+          ga4Console.log('6. Testing manual event...');
           try {
             gtagFunc('event', 'manual_test', { test: true });
-            console.log('   ✅ Event sent - check Network tab for collect request');
+            ga4Console.log('   ✅ Event sent - check Network tab for collect request');
           } catch (e) {
-            console.error('   ❌ Error:', e);
+            ga4Console.error('   ❌ Error:', e);
           }
         }
         
-        console.log('=== End Check ===');
+        ga4Console.log('=== End Check ===');
       };
     } else {
       // Log why script loading is being skipped
       if (!measurementId) {
-        console.error('[GA4] ❌ Measurement ID is empty or undefined');
+        ga4Console.error('[GA4] ❌ Measurement ID is empty or undefined');
       } else if (measurementId === 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER') {
-        console.error('[GA4] ❌ Measurement ID placeholder was NOT replaced during build!');
-        console.error('[GA4] This means VITE_GA4_MEASUREMENT_ID was not set in GitHub Secrets or build process');
-        console.error('[GA4] Check: Repository > Settings > Secrets and variables > Actions');
-        console.error('[GA4] Secret name must be: VITE_GA4_MEASUREMENT_ID');
-        console.error('[GA4] Value must be: G-1HMMJLP7GK');
+        ga4Console.error('[GA4] ❌ Measurement ID placeholder was NOT replaced during build!');
+        ga4Console.error('[GA4] This means VITE_GA4_MEASUREMENT_ID was not set in GitHub Secrets or build process');
+        ga4Console.error('[GA4] Check: Repository > Settings > Secrets and variables > Actions');
+        ga4Console.error('[GA4] Secret name must be: VITE_GA4_MEASUREMENT_ID');
+        ga4Console.error('[GA4] Value must be: G-1HMMJLP7GK');
       } else if (!measurementId.startsWith('G-')) {
-        console.error('[GA4] ❌ Measurement ID format invalid (should start with G-):', measurementId);
+        ga4Console.error('[GA4] ❌ Measurement ID format invalid (should start with G-):', measurementId);
       } else {
-        console.error('[GA4] ❌ Measurement ID validation failed:', measurementId);
+        ga4Console.error('[GA4] ❌ Measurement ID validation failed:', measurementId);
       }
-      console.error('[GA4] Script loading will NOT proceed - GA4 will not work!');
+      ga4Console.error('[GA4] Script loading will NOT proceed - GA4 will not work!');
     }
   </script>
   

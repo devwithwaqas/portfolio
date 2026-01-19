@@ -420,17 +420,22 @@ export default {
     setupSwipeGestures() {
       document.addEventListener('touchstart', this.handleTouchStart, { passive: true })
       document.addEventListener('touchend', this.handleTouchEnd, { passive: true })
-      document.addEventListener('touchmove', this.handleTouchMove, { passive: false }) // Non-passive to allow preventDefault
     },
     handleTouchStart(event) {
       this.touchStartX = event.changedTouches[0].screenX
       this.touchStartY = event.changedTouches[0].screenY
       this.touchMoveX = this.touchStartX
+
+      // Only attach non-passive touchmove during an active gesture
+      document.addEventListener('touchmove', this.handleTouchMove, { passive: false })
     },
     handleTouchEnd(event) {
       this.touchEndX = event.changedTouches[0].screenX
       this.touchEndY = event.changedTouches[0].screenY
       this.handleSwipe()
+
+      // Clean up touchmove listener after gesture completes
+      document.removeEventListener('touchmove', this.handleTouchMove)
     },
     handleTouchMove(event) {
       this.touchMoveX = event.changedTouches[0].screenX

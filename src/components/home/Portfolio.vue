@@ -15,94 +15,14 @@
 
                 <div class="isotope-container">
 
-                  <!-- Heat Exchanger Portal -->
                   <EpicCard
-                    :title="projects[0].title"
-                    :subtitle="projects[0].subtitle"
-                    :bannerImage="projects[0].bannerImage"
-                    :detailsLink="projects[0].detailsLink"
-                    :techStack="projects[0].techStack"
-                  />
-
-                  <!-- Air Asia ID90 -->
-                  <EpicCard
-                    :title="projects[1].title"
-                    :subtitle="projects[1].subtitle"
-                    :bannerImage="projects[1].bannerImage"
-                    :detailsLink="projects[1].detailsLink"
-                    :techStack="projects[1].techStack"
-                  />
-
-                  <!-- BAT Inhouse App -->
-                  <EpicCard
-                    :title="projects[2].title"
-                    :subtitle="projects[2].subtitle"
-                    :bannerImage="projects[2].bannerImage"
-                    :detailsLink="projects[2].detailsLink"
-                    :techStack="projects[2].techStack"
-                  />
-
-                  <!-- PJ Smart City -->
-                  <EpicCard
-                    :title="projects[3].title"
-                    :subtitle="projects[3].subtitle"
-                    :bannerImage="projects[3].bannerImage"
-                    :detailsLink="projects[3].detailsLink"
-                    :techStack="projects[3].techStack"
-                  />
-
-                  <!-- G5 POS -->
-                  <EpicCard
-                    :title="projects[8].title"
-                    :subtitle="projects[8].subtitle"
-                    :bannerImage="projects[8].bannerImage"
-                    :detailsLink="projects[8].detailsLink"
-                    :techStack="projects[8].techStack"
-                  />
-
-                  <!-- Gamified Employee Management -->
-                  <EpicCard
-                    :title="projects[4].title"
-                    :subtitle="projects[4].subtitle"
-                    :bannerImage="projects[4].bannerImage"
-                    :detailsLink="projects[4].detailsLink"
-                    :techStack="projects[4].techStack"
-                  />
-
-                  <!-- Valet Parking -->
-                  <EpicCard
-                    :title="projects[5].title"
-                    :subtitle="projects[5].subtitle"
-                    :bannerImage="projects[5].bannerImage"
-                    :detailsLink="projects[5].detailsLink"
-                    :techStack="projects[5].techStack"
-                  />
-
-                  <!-- Mobile Games Collection -->
-                  <EpicCard
-                    :title="projects[6].title"
-                    :subtitle="projects[6].subtitle"
-                    :bannerImage="projects[6].bannerImage"
-                    :detailsLink="projects[6].detailsLink"
-                    :techStack="projects[6].techStack"
-                  />
-
-                  <!-- Confidential Insurance Clients -->
-                  <EpicCard
-                    :title="projects[9].title"
-                    :subtitle="projects[9].subtitle"
-                    :bannerImage="projects[9].bannerImage"
-                    :detailsLink="projects[9].detailsLink"
-                    :techStack="projects[9].techStack"
-                  />
-
-                  <!-- UK Property Management Platform -->
-                  <EpicCard
-                    :title="projects[7].title"
-                    :subtitle="projects[7].subtitle"
-                    :bannerImage="projects[7].bannerImage"
-                    :detailsLink="projects[7].detailsLink"
-                    :techStack="projects[7].techStack"
+                    v-for="project in projects"
+                    :key="project.detailsLink"
+                    :title="project.title"
+                    :subtitle="project.subtitle"
+                    :bannerImage="project.bannerImage"
+                    :detailsLink="project.detailsLink"
+                    :techStack="project.techStack"
                   />
 
                 </div><!-- End Portfolio Container -->
@@ -116,9 +36,11 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
 import ReusableCard from '../common/ReusableCard.vue'
-import EpicCard from '../common/EpicCard.vue'
-import { assetPath } from '../../utils/assetPath.js'
+import { portfolioProjects } from '../../data/portfolioProjects.js'
+
+const EpicCard = defineAsyncComponent(() => import('../common/EpicCard.vue'))
 
 export default {
   name: 'Portfolio',
@@ -128,127 +50,7 @@ export default {
   },
   data() {
     return {
-      projects: [
-        {
-          title: 'Heat Exchanger Portal',
-          subtitle: 'Enterprise Thermal Management',
-          bannerImage: assetPath('/assets/img/he1-thumb.jpg'),
-          detailsLink: '/projects/heat-exchanger',
-          techStack: [
-            { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
-            { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
-            { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' },
-            { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
-            { name: 'Redis', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg' }
-          ]
-        },
-        {
-          title: 'Air Asia ID90',
-          subtitle: 'Allstars Portal & Refund System',
-          bannerImage: assetPath('/assets/img/aa1-thumb.jpg'),
-          detailsLink: '/projects/airasia-id90',
-          techStack: [
-            { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
-            { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
-            { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' },
-            { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
-            { name: 'Redis', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg' }
-          ]
-        },
-        {
-          title: 'BAT Inhouse App',
-          subtitle: 'British American Tobacco Management',
-          bannerImage: assetPath('/assets/img/bat1-thumb.jpg'),
-          detailsLink: '/projects/bat-inhouse-app',
-          techStack: [
-            { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
-            { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' },
-            { name: 'jQuery', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-original.svg' },
-            { name: 'Bootstrap', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg' }
-          ]
-        },
-        {
-          title: 'PJ Smart City',
-          subtitle: 'Petaling Jaya Smart City Platform',
-          bannerImage: assetPath('/assets/img/pj1-thumb.jpg'),
-          detailsLink: '/projects/pj-smart-city',
-          techStack: [
-            { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
-            { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
-            { name: 'Azure', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg' },
-            { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' }
-          ]
-        },
-        {
-          title: 'Gamified Employee Management',
-          subtitle: 'Syntronic Employee Engagement Platform',
-          bannerImage: assetPath('/assets/img/sf1-thumb.jpg'),
-          detailsLink: '/projects/gamified-employee-management',
-          techStack: [
-            { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
-            { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
-            { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' },
-            { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' }
-          ]
-        },
-        {
-          title: 'Valet Parking',
-          subtitle: 'Secure Parking UAE Management System',
-          bannerImage: assetPath('/assets/img/vp1-thumb.jpg'),
-          detailsLink: '/projects/valet-parking',
-          techStack: [
-            { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
-            { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
-            { name: 'MongoDB', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg' },
-            { name: 'Redis', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg' }
-          ]
-        },
-        {
-          title: 'Mobile Games Collection',
-          subtitle: 'Geniteam Java & AndEngine Games',
-          bannerImage: assetPath('/assets/img/gd1-thumb.jpg'),
-          detailsLink: '/projects/mobile-games',
-          techStack: [
-            { name: 'Java', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg' },
-            { name: 'Android', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg' }
-          ]
-        },
-        {
-          title: 'UK Property Management Platform',
-          subtitle: 'Azure-Based Residential Property Management System',
-          bannerImage: assetPath('/assets/img/gpc1-thumb.jpg'),
-          detailsLink: '/projects/uk-property-management',
-          techStack: [
-            { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
-            { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
-            { name: 'Azure', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg' },
-            { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' }
-          ]
-        },
-        {
-          title: 'G5 POS',
-          subtitle: 'Squad Cell Point of Sale System',
-          bannerImage: assetPath('/assets/img/g51-thumb.jpg'),
-          detailsLink: '/projects/g5-pos',
-          techStack: [
-            { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
-            { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' },
-            { name: 'jQuery', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-original.svg' }
-          ]
-        },
-        {
-          title: 'Confidential Insurance Clients',
-          subtitle: 'Enterprise Insurance Management Platform',
-          bannerImage: assetPath('/assets/img/in1-thumb.jpg'),
-          detailsLink: '/projects/chubb-insurance-applications',
-          techStack: [
-            { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
-            { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
-            { name: 'Azure', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg' },
-            { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' }
-          ]
-        }
-      ]
+      projects: portfolioProjects
     }
   }
 }

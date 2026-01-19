@@ -4,7 +4,7 @@
       <div class="row">
         <!-- Profile Card -->
         <div class="hero-profile-side">
-          <div class="profile-image-container-side">
+          <div class="profile-image-container-side" style="height: auto !important; min-height: 0 !important;">
             <OptimizedImage 
               :src="$assetPath('/assets/img/waqas-microsoft-profile-optimized.jpg')" 
               :alt="`${fullName} - Senior Software Engineer & Technical Lead - Available USA, Europe, Global - 17+ Years Experience`" 
@@ -12,6 +12,7 @@
               container-class="profile-image-container"
               :lazy="false"
               priority="high"
+              :image-style="{ width: '100%', height: 'auto' }"
             />
           </div>
         </div>
@@ -53,7 +54,7 @@
           </div>
           
           <!-- Analytics Stats -->
-          <AnalyticsStats />
+          <AnalyticsStats v-if="showAnalytics" />
           
           <!-- Action Buttons -->
           <div class="hero-actions">
@@ -108,10 +109,11 @@
 </template>
 
 <script>
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { defineAsyncComponent } from 'vue'
 import { APP_CONFIG } from '../../config/constants.js'
-import AnalyticsStats from './AnalyticsStats.vue'
 import OptimizedImage from '../common/OptimizedImage.vue'
+
+const AnalyticsStats = defineAsyncComponent(() => import('./AnalyticsStats.vue'))
 
 export default {
   name: 'Hero',
@@ -137,7 +139,8 @@ export default {
       ],
       i: 0,
       rotating: 'Scalable Microservices',
-      rotTimer: null
+      rotTimer: null,
+      showAnalytics: false
     }
   },
   mounted() {
@@ -146,6 +149,65 @@ export default {
       this.i = (this.i + 1) % this.phrases.length
       this.rotating = this.phrases[this.i]
     }, 3000) // Change phrase every 3s
+
+    const runWhenIdle = (callback) => {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(callback, { timeout: 2000 })
+      } else {
+        setTimeout(callback, 1000)
+      }
+    }
+
+    runWhenIdle(() => {
+      this.showAnalytics = true
+    })
+    
+    // DEBUG: Monitor profile container height changes (always on)
+    this.$nextTick(() => {
+      const container = document.querySelector('.profile-image-container-side')
+      if (container) {
+        // Log initial state
+        const initialComputed = getComputedStyle(container)
+        console.log('🎯 INITIAL Profile Container:', {
+          computedHeight: initialComputed.height,
+          computedMinHeight: initialComputed.minHeight,
+          computedMaxHeight: initialComputed.maxHeight,
+          inlineStyle: container.style.cssText,
+          offsetHeight: container.offsetHeight
+        })
+        
+        // Watch for style changes
+        const observer = new MutationObserver(() => {
+          const computed = getComputedStyle(container)
+          console.log('🔄 Profile Container CHANGED:', {
+            computedHeight: computed.height,
+            inlineStyle: container.style.cssText,
+            offsetHeight: container.offsetHeight
+          })
+        })
+        observer.observe(container, { attributes: true, attributeFilter: ['style', 'class'] })
+        
+        // Check periodically
+        const checkHeight = () => {
+          const computed = getComputedStyle(container).height
+          const heightPx = parseInt(computed)
+          if (heightPx > 200) {
+            console.warn('⚠️ Profile Container > 200px:', {
+              computedHeight: computed,
+              inlineStyle: container.style.cssText,
+              allComputedStyles: {
+                height: computed,
+                minHeight: getComputedStyle(container).minHeight,
+                maxHeight: getComputedStyle(container).maxHeight,
+                aspectRatio: getComputedStyle(container).aspectRatio
+              }
+            })
+          }
+        }
+        setTimeout(checkHeight, 1000)
+        setInterval(checkHeight, 3000)
+      }
+    })
   },
   beforeUnmount() {
     if (this.rotTimer) {

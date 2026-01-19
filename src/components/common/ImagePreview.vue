@@ -106,12 +106,14 @@ export default {
         return
       }
       
-      // Calculate scale to fit image in wrapper
+      // Read layout BEFORE entering RAF to avoid forced reflow
+      const wrapperRect = wrapper.getBoundingClientRect()
+      const widthScale = wrapperRect.width / img.naturalWidth
+      const heightScale = wrapperRect.height / img.naturalHeight
+      fitScale = Math.min(widthScale, heightScale)
+      
+      // Apply initialization in RAF
       requestAnimationFrame(() => {
-        const wrapperRect = wrapper.getBoundingClientRect()
-        const widthScale = wrapperRect.width / img.naturalWidth
-        const heightScale = wrapperRect.height / img.naturalHeight
-        fitScale = Math.min(widthScale, heightScale)
         
         if (import.meta.env.DEV) {
           console.log('🖼️ PANZOOM INIT:', {

@@ -9,7 +9,7 @@
         body-padding="0"
       >
 
-              <div class="services-grid">
+              <div class="services-grid" v-if="showServices">
 
                 <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
                   <div class="service-item item-cyan position-relative">
@@ -19,7 +19,7 @@
                       </svg>
                       <i class="bi bi-activity icon-2xl"></i>
                     </div>
-                    <router-link to="/services/full-stack-development" class="stretched-link">
+                    <router-link to="/services/full-stack-development" class="stretched-link" @click="rememberReturnSection">
                       <h3 class="txt-h3-xl">Full Stack Development</h3>
                     </router-link>
                     <p class="txt-p-lg">End-to-end development of enterprise applications using .NET Core, Angular, SQL Server, and modern web technologies with focus on performance and scalability.</p>
@@ -34,7 +34,7 @@
                       </svg>
                       <i class="bi bi-broadcast icon-2xl"></i>
                     </div>
-                    <router-link to="/services/azure-cloud-architecture" class="stretched-link">
+                    <router-link to="/services/azure-cloud-architecture" class="stretched-link" @click="rememberReturnSection">
                       <h3 class="txt-h3-xl">Azure Cloud Architecture</h3>
                     </router-link>
                     <p class="txt-p-lg">Design and implementation of cloud-native solutions using Microsoft Azure services including App Services, Service Fabric, Functions, and comprehensive DevOps practices.</p>
@@ -49,7 +49,7 @@
                       </svg>
                       <i class="bi bi-easel icon-2xl"></i>
                     </div>
-                    <router-link to="/services/technical-leadership" class="stretched-link">
+                    <router-link to="/services/technical-leadership" class="stretched-link" @click="rememberReturnSection">
                       <h3 class="txt-h3-xl">Technical Leadership</h3>
                     </router-link>
                     <p class="txt-p-lg">Leading development teams, mentoring junior developers, conducting code reviews, and establishing best practices for software development and architecture.</p>
@@ -64,7 +64,7 @@
                       </svg>
                       <i class="bi bi-bounding-box-circles icon-2xl"></i>
                     </div>
-                    <router-link to="/services/microservices-architecture" class="stretched-link">
+                    <router-link to="/services/microservices-architecture" class="stretched-link" @click="rememberReturnSection">
                       <h3 class="txt-h3-xl">Microservices Architecture</h3>
                     </router-link>
                     <p class="txt-p-lg">Design and implementation of scalable microservices-based applications using Azure Service Fabric, Docker containers, and modern architectural patterns.</p>
@@ -79,7 +79,7 @@
                       </svg>
                       <i class="bi bi-calendar4-week icon-2xl"></i>
                     </div>
-                    <router-link to="/services/agile-project-management" class="stretched-link">
+                    <router-link to="/services/agile-project-management" class="stretched-link" @click="rememberReturnSection">
                       <h3 class="txt-h3-xl">Agile Project Management</h3>
                     </router-link>
                     <p class="txt-p-lg">Leading agile development teams, conducting sprint planning, retrospectives, and ensuring timely delivery of high-quality software products.</p>
@@ -94,7 +94,7 @@
                       </svg>
                       <i class="bi bi-chat-square-text icon-2xl"></i>
                     </div>
-                    <router-link to="/services/database-design-optimization" class="stretched-link">
+                    <router-link to="/services/database-design-optimization" class="stretched-link" @click="rememberReturnSection">
                       <h3 class="txt-h3-xl">Database Design & Optimization</h3>
                     </router-link>
                     <p class="txt-p-lg">Designing and optimizing SQL Server databases, implementing Entity Framework best practices, and ensuring high-performance data access patterns.</p>
@@ -109,7 +109,7 @@
                       </svg>
                       <i class="bi bi-phone icon-2xl"></i>
                     </div>
-                    <router-link to="/services/mobile-development" class="stretched-link">
+                    <router-link to="/services/mobile-development" class="stretched-link" @click="rememberReturnSection">
                       <h3 class="txt-h3-xl">Mobile Development</h3>
                     </router-link>
                     <p class="txt-p-lg">Native and cross-platform mobile application development for iOS and Android. Whether you need Swift, Kotlin, React Native, Flutter, or Xamarin, I deliver high-performance mobile solutions.</p>
@@ -131,6 +131,21 @@ export default {
   name: 'Services',
   components: {
     ReusableCard
+  },
+  data() {
+    return {
+      showServices: true
+    }
+  },
+  methods: {
+    rememberReturnSection() {
+      if (typeof window === 'undefined') return
+      try {
+        sessionStorage.setItem('home:returnSection', 'services')
+      } catch (error) {
+        // Ignore storage errors
+      }
+    }
   }
 }
 </script>

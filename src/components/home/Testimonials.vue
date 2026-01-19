@@ -12,42 +12,43 @@
         <!-- Custom Testimonial Slider -->
         <div class="testimonials-slider-container">
           <CustomSlider
-          :slides="testimonials"
-          :autoplay="true"
-          :autoplay-interval="5000"
-          :show-arrows="true"
-          :show-pagination="true"
-          :loop="true"
-          @slide-change="onSlideChange"
-        >
-          <template #default="{ slide }">
-            <div class="testimonial-item">
-              <div class="row gy-4 justify-content-center align-items-center" style="min-height: 300px;">
-                <div class="col-lg-8">
-                  <div class="testimonial-content" style="display: flex; flex-direction: column; justify-content: center;">
-                    <p class="testimonial-text txt-p-lg">
-                      <i class="bi bi-quote quote-icon-left testimonial-quote-icon icon-lg"></i>
-                      <span>{{ slide.text }}</span>
-                      <i class="bi bi-quote quote-icon-right testimonial-quote-icon icon-lg"></i>
-                    </p>
-                    <div class="testimonial-author">
-                      <div class="author-avatar icon-wrapper-4xl">
-                        {{ slide.initials }}
+            v-if="testimonials.length"
+            :slides="testimonials"
+            :autoplay="true"
+            :autoplay-interval="5000"
+            :show-arrows="true"
+            :show-pagination="true"
+            :loop="true"
+            @slide-change="onSlideChange"
+          >
+            <template #default="{ slide }">
+              <div class="testimonial-item">
+                <div class="row gy-4 justify-content-center align-items-center" style="min-height: 300px;">
+                  <div class="col-lg-8">
+                    <div class="testimonial-content" style="display: flex; flex-direction: column; justify-content: center;">
+                      <p class="testimonial-text txt-p-lg">
+                        <i class="bi bi-quote quote-icon-left testimonial-quote-icon icon-lg"></i>
+                        <span>{{ slide.text }}</span>
+                        <i class="bi bi-quote quote-icon-right testimonial-quote-icon icon-lg"></i>
+                      </p>
+                      <div class="testimonial-author">
+                        <div class="author-avatar icon-wrapper-4xl">
+                          {{ slide.initials }}
+                        </div>
+                        <div class="author-info">
+                          <h3 class="testimonial-name txt-h3-xl">{{ slide.name }}</h3>
+                          <h4 class="testimonial-title txt-h4-lg">{{ slide.title }}</h4>
+                        </div>
                       </div>
-                      <div class="author-info">
-                        <h3 class="testimonial-name txt-h3-xl">{{ slide.name }}</h3>
-                        <h4 class="testimonial-title txt-h4-lg">{{ slide.title }}</h4>
+                      <div class="stars">
+                        <i v-for="star in 5" :key="star" class="bi bi-star-fill testimonial-star"></i>
                       </div>
-                    </div>
-                    <div class="stars">
-                      <i v-for="star in 5" :key="star" class="bi bi-star-fill testimonial-star"></i>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </template>
-        </CustomSlider>
+            </template>
+          </CustomSlider>
         </div>
       </ReusableCard>
     </div>
@@ -55,9 +56,11 @@
 </template>
 
 <script>
-import CustomSlider from '../common/CustomSlider.vue'
+import { defineAsyncComponent } from 'vue'
 import ReusableCard from '../common/ReusableCard.vue'
 import { testimonialsData } from '../../config/testimonials.js'
+
+const CustomSlider = defineAsyncComponent(() => import('../common/CustomSlider.vue'))
 
 export default {
   name: 'Testimonials',

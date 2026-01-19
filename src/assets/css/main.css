@@ -167,6 +167,12 @@ h6 {
   min-height: 100vh;
 }
 
+/* CLS FIX: Reserve space for main content to prevent footer from shifting */
+.main-content main {
+  min-height: calc(100vh * 8);
+  /* Reserve ~8 viewport heights for typical home page content */
+}
+
 /* Desktop Layout: Fixed nav + offset content */
 @media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
   .main-content {
@@ -919,6 +925,39 @@ section,
   padding: 10px 0;
   overflow: clip;
   width: 100% !important;
+  
+  /* CLS FIX: Reserve minimum space to prevent layout shifts */
+  min-height: 300px;
+  contain: layout style;
+}
+
+/* CLS FIX: Specific min-heights for major sections */
+.about.section {
+  min-height: 800px;
+}
+
+.skills.section {
+  min-height: 1200px;
+}
+
+.resume.section {
+  min-height: 1000px;
+}
+
+.portfolio.section {
+  min-height: 800px;
+}
+
+.services.section {
+  min-height: 600px;
+}
+
+.testimonials.section {
+  min-height: 500px;
+}
+
+.contact.section {
+  min-height: 700px;
 }
 
 /*--------------------------------------------------------------
@@ -1140,13 +1179,25 @@ section,
   /* Reserve space to prevent layout shift when image loads */
   width: 100%;
   max-width: 380px;
-  aspect-ratio: auto;
-  min-height: 0;
-  height: auto;
+  /* REMOVED aspect-ratio - it was causing fixed 356px height! */
+  /* CRITICAL: Force height to auto, override ANY conflicting rule */
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
   background: transparent;
   border-radius: 20px;
   overflow: hidden;
   contain: layout style paint; /* Prevent layout shifts */
+}
+
+/* CRITICAL: Force all profile image containers to never have fixed height */
+.hero-profile-side .profile-image-container-side,
+#hero .profile-image-container-side,
+.profile-image-container-side {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  aspect-ratio: auto !important;
 }
 
 .profile-image-side {

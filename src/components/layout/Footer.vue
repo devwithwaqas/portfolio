@@ -1,5 +1,5 @@
 <template>
-  <footer id="footer" class="footer">
+  <footer id="footer" class="footer" :class="{ 'footer-ready': isReady }">
     <div class="container">
       <!-- Main Footer Content -->
       <div class="row mb-4">
@@ -198,8 +198,13 @@ export default {
   name: 'Footer',
   data() {
     return {
-      ...APP_CONFIG
+      ...APP_CONFIG,
+      isReady: false
     }
+  },
+  mounted() {
+    // Make footer visible immediately to prevent CLS
+    this.isReady = true
   },
   methods: {
     scrollToSection(sectionId, event) {
@@ -211,34 +216,38 @@ export default {
       if (this.$route.path !== '/') {
         this.$router.push('/').then(() => {
           this.$nextTick(() => {
-            requestAnimationFrame(() => {
-              const element = document.getElementById(sectionId)
-              if (element) {
-                const headerOffset = 100
-                const elementPosition = element.getBoundingClientRect().top
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+            const element = document.getElementById(sectionId)
+            if (element) {
+              const headerOffset = 100
+              // Read layout BEFORE RAF
+              const elementPosition = element.getBoundingClientRect().top
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+              
+              requestAnimationFrame(() => {
                 window.scrollTo({
                   top: offsetPosition,
                   behavior: 'smooth'
                 })
-              }
-            })
+              })
+            }
           })
         })
       } else {
         // Already on home page, just scroll
-        requestAnimationFrame(() => {
-          const element = document.getElementById(sectionId)
-          if (element) {
-            const headerOffset = 100
-            const elementPosition = element.getBoundingClientRect().top
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+        const element = document.getElementById(sectionId)
+        if (element) {
+          const headerOffset = 100
+          // Read layout BEFORE RAF
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          
+          requestAnimationFrame(() => {
             window.scrollTo({
               top: offsetPosition,
               behavior: 'smooth'
             })
-          }
-        })
+          })
+        }
       }
     },
     scrollToContact() {
@@ -249,7 +258,7 @@ export default {
 </script>
 
 <style scoped>
-/* Footer Main Background */
+/* Footer Main Background - CLS FIX: Reserve space BEFORE render */
 .footer {
   background: linear-gradient(135deg, rgba(20, 0, 40, 0.9) 0%, rgba(15, 0, 30, 0.95) 50%, rgba(10, 0, 20, 1) 100%), 
               radial-gradient(circle at 20% 20%, rgba(40, 10, 80, 0.1) 0%, transparent 50%), 
@@ -263,6 +272,20 @@ export default {
               0 12px 40px rgba(0, 0, 0, 0.5), 
               inset 0 1px 0 rgba(255, 255, 255, 0.05), 
               inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  
+  /* CLS FIX: Reserve exact height and hide until ready */
+  min-height: 680px;
+  height: auto;
+  overflow: visible;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.1s ease, visibility 0.1s ease;
+}
+
+/* Show footer when Vue is ready */
+.footer.footer-ready {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Section Titles */

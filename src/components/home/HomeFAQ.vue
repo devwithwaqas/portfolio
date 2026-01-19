@@ -6,7 +6,7 @@
         icon-name="faq"
         body-padding="0"
       >
-        <div class="faq-content">
+        <div class="faq-content" v-if="faqItems.length">
           <div class="faq-accordion">
             <div 
               v-for="(item, index) in faqItems" 
@@ -38,8 +38,11 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
-import { generateFAQPageSchema, injectStructuredData } from '../../utils/structuredData.js'
 import { APP_CONFIG } from '../../config/constants.js'
+import { buildFaqItems } from '../../data/faqData.js'
+import { generateFAQPageSchema, injectStructuredData } from '../../utils/structuredData.js'
+
+const faqItemsData = buildFaqItems(APP_CONFIG)
 
 export default {
   name: 'HomeFAQ',
@@ -48,41 +51,24 @@ export default {
   },
   data() {
     return {
-      ...APP_CONFIG,
       activeIndex: null,
-      faqItems: [
-        {
-          question: `What services does ${APP_CONFIG.fullName} provide?`,
-          answer: `${APP_CONFIG.fullName} provides software engineering consulting services including full stack development (.NET Core, Vue.js, Angular), Azure Cloud architecture design and implementation, microservices architecture consulting, RESTful API development, technical leadership, database design and optimization, and DevOps automation. Services are delivered remotely for clients in USA, Europe, and globally.`
-        },
-        {
-          question: `What technologies does ${APP_CONFIG.fullName} work with?`,
-          answer: `${APP_CONFIG.fullName} specializes in .NET development (.NET Core, ASP.NET, C#), Azure Cloud services (App Services, Service Fabric, Functions, Key Vault, App Insights), microservices architecture patterns, RESTful API design, Vue.js and Angular frontend development, SQL Server database design, and CI/CD pipeline automation. Has delivered enterprise solutions processing 2.5M+ data points daily.`
-        },
-        {
-          question: `What type of projects does ${APP_CONFIG.fullName} handle?`,
-          answer: `${APP_CONFIG.fullName} handles enterprise-scale software projects including microservices platforms, cloud-native applications, API development, system architecture design, technical team leadership, and legacy system modernization. Experience includes working with Fortune 500 companies across financial services, manufacturing, telecommunications, and technology sectors.`
-        },
-        {
-          question: `Is ${APP_CONFIG.fullName} available for remote work?`,
-          answer: `Yes, ${APP_CONFIG.fullName} is available for remote consulting, freelance, and contract projects. Works with clients in USA, Europe (UK, Germany, Netherlands, Switzerland), and globally. Provides flexible timezone support for EST, PST, GMT, and CET timezones.`
-        },
-        {
-          question: `What is ${APP_CONFIG.fullName}'s experience with enterprise solutions?`,
-          answer: `${APP_CONFIG.fullName} has delivered 32+ enterprise solutions for 20+ Fortune 500 companies across multiple industries. Experience includes microservices platforms processing 2.5M+ data points daily, systems managing billions in operational costs, and applications serving 20,000+ concurrent users. Has ${APP_CONFIG.stats.yearsExperience}+ years of experience in enterprise software development.`
-        },
-        {
-          question: `How can I engage ${APP_CONFIG.fullName} for a project?`,
-          answer: `You can contact ${APP_CONFIG.fullName} through the contact form on this website, via email, phone, or WhatsApp. ${APP_CONFIG.fullName} responds to inquiries promptly and is available for initial consultations to discuss your project requirements. Engagement models include consulting, freelance, and contract projects with flexible terms.`
-        }
-      ]
+      faqItems: faqItemsData
     }
   },
   mounted() {
-    // Generate FAQ schema for SEO
-    if (this.faqItems && this.faqItems.length > 0) {
-      const faqSchema = generateFAQPageSchema(this.faqItems)
-      injectStructuredData([faqSchema])
+    // Generate FAQ schema for SEO (defer to idle)
+    if (this.faqItems.length > 0) {
+      const runWhenIdle = (callback) => {
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(callback, { timeout: 2000 })
+        } else {
+          setTimeout(callback, 1000)
+        }
+      }
+      runWhenIdle(() => {
+        const faqSchema = generateFAQPageSchema(this.faqItems)
+        injectStructuredData([faqSchema])
+      })
     }
   },
   methods: {

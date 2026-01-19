@@ -142,13 +142,6 @@ export default {
     // Capture user's timezone on component mount
     // Note: This uses the browser's system timezone, not GPS location
     this.userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    console.log('🌍 Detected Browser Timezone:', this.userTimezone)
-    console.log('📍 Browser Location Info:', {
-      timezone: this.userTimezone,
-      offset: new Date().getTimezoneOffset(),
-      locale: navigator.language,
-      platform: navigator.platform
-    })
   },
   computed: {
     emailjsConfig() {
