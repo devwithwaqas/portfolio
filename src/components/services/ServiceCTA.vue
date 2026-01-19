@@ -135,34 +135,38 @@ export default {
       if (this.$route.path !== '/') {
         this.$router.push('/').then(() => {
           this.$nextTick(() => {
-            requestAnimationFrame(() => {
-              const element = document.getElementById('contact')
-              if (element) {
-                const headerOffset = 100
-                const elementPosition = element.getBoundingClientRect().top
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+            const element = document.getElementById('contact')
+            if (element) {
+              const headerOffset = 100
+              // Read layout BEFORE RAF to avoid forced reflow
+              const elementPosition = element.getBoundingClientRect().top
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+              
+              requestAnimationFrame(() => {
                 window.scrollTo({
                   top: offsetPosition,
                   behavior: 'smooth'
                 })
-              }
-            })
+              })
+            }
           })
         })
       } else {
         // Already on home page, just scroll
-        requestAnimationFrame(() => {
-          const element = document.getElementById('contact')
-          if (element) {
-            const headerOffset = 100
-            const elementPosition = element.getBoundingClientRect().top
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+        const element = document.getElementById('contact')
+        if (element) {
+          const headerOffset = 100
+          // Read layout BEFORE RAF to avoid forced reflow
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          
+          requestAnimationFrame(() => {
             window.scrollTo({
               top: offsetPosition,
               behavior: 'smooth'
             })
-          }
-        })
+          })
+        }
       }
     },
     scrollToPortfolio() {
@@ -170,34 +174,38 @@ export default {
       if (this.$route.path !== '/') {
         this.$router.push('/').then(() => {
           this.$nextTick(() => {
-            requestAnimationFrame(() => {
-              const element = document.getElementById('portfolio')
-              if (element) {
-                const headerOffset = 100
-                const elementPosition = element.getBoundingClientRect().top
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+            const element = document.getElementById('portfolio')
+            if (element) {
+              const headerOffset = 100
+              // Read layout BEFORE RAF to avoid forced reflow
+              const elementPosition = element.getBoundingClientRect().top
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+              
+              requestAnimationFrame(() => {
                 window.scrollTo({
                   top: offsetPosition,
                   behavior: 'smooth'
                 })
-              }
-            })
+              })
+            }
           })
         })
       } else {
         // Already on home page, just scroll
-        requestAnimationFrame(() => {
-          const element = document.getElementById('portfolio')
-          if (element) {
-            const headerOffset = 100
-            const elementPosition = element.getBoundingClientRect().top
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+        const element = document.getElementById('portfolio')
+        if (element) {
+          const headerOffset = 100
+          // Read layout BEFORE RAF to avoid forced reflow
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          
+          requestAnimationFrame(() => {
             window.scrollTo({
               top: offsetPosition,
               behavior: 'smooth'
             })
-          }
-        })
+          })
+        }
       }
     }
   }

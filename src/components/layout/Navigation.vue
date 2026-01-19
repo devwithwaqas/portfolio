@@ -220,12 +220,14 @@ export default {
         // If not on home page, navigate to home first, then scroll
         this.$router.push('/').then(() => {
           this.$nextTick(() => {
-            requestAnimationFrame(() => {
-              const element = document.getElementById(sectionId)
-              if (element) {
-                const headerOffset = 100
-                const elementPosition = element.getBoundingClientRect().top
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+            const element = document.getElementById(sectionId)
+            if (element) {
+              const headerOffset = 100
+              // Read layout BEFORE RAF to avoid forced reflow
+              const elementPosition = element.getBoundingClientRect().top
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+              
+              requestAnimationFrame(() => {
                 window.scrollTo({
                   top: offsetPosition,
                   behavior: 'smooth'
@@ -235,18 +237,20 @@ export default {
                   this.isUserScrolling = false
                   this.userScrollTimeout = null
                 }, 800)
-              }
-            })
+              })
+            }
           })
         })
       } else {
         // On home page, just scroll without hash
-        requestAnimationFrame(() => {
-          const element = document.getElementById(sectionId)
-          if (element) {
-            const headerOffset = 100
-            const elementPosition = element.getBoundingClientRect().top
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+        const element = document.getElementById(sectionId)
+        if (element) {
+          const headerOffset = 100
+          // Read layout BEFORE RAF to avoid forced reflow
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+          
+          requestAnimationFrame(() => {
             window.scrollTo({
               top: offsetPosition,
               behavior: 'smooth'
@@ -256,8 +260,8 @@ export default {
               this.isUserScrolling = false
               this.userScrollTimeout = null
             }, 800)
-          }
-        })
+          })
+        }
       }
     },
     setupIntersectionObserver() {
