@@ -168,14 +168,38 @@ export default {
     this.$nextTick(() => {
       const container = document.querySelector('.profile-image-container-side')
       if (container) {
-        // Log initial state
-        const initialComputed = getComputedStyle(container)
-        console.log('🎯 INITIAL Profile Container:', {
-          computedHeight: initialComputed.height,
-          computedMinHeight: initialComputed.minHeight,
-          computedMaxHeight: initialComputed.maxHeight,
-          inlineStyle: container.style.cssText,
-          offsetHeight: container.offsetHeight
+        // Log EVERYTHING about the container and its parents
+        const computed = getComputedStyle(container)
+        const parent = container.parentElement
+        const parentComputed = parent ? getComputedStyle(parent) : null
+        const img = container.querySelector('img')
+        
+        console.log('🎯 FULL Profile Debug:', {
+          container: {
+            width: computed.width,
+            height: computed.height,
+            aspectRatio: computed.aspectRatio,
+            minHeight: computed.minHeight,
+            maxHeight: computed.maxHeight,
+            display: computed.display,
+            position: computed.position,
+            offsetHeight: container.offsetHeight,
+            offsetWidth: container.offsetWidth,
+            inlineStyle: container.style.cssText
+          },
+          parent: parent ? {
+            className: parent.className,
+            width: parentComputed.width,
+            height: parentComputed.height,
+            aspectRatio: parentComputed.aspectRatio,
+            offsetHeight: parent.offsetHeight
+          } : null,
+          image: img ? {
+            naturalWidth: img.naturalWidth,
+            naturalHeight: img.naturalHeight,
+            width: img.width,
+            height: img.height
+          } : null
         })
         
         // Watch for style changes
