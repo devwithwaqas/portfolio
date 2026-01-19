@@ -1226,6 +1226,9 @@ section,
   transform-origin: center;
   transition: transform .2s ease;
   z-index: 20;
+  /* Force container to NOT be square */
+  height: auto !important;
+  aspect-ratio: auto !important;
 }
 
 /* Content - Centered */
