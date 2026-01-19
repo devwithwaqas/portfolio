@@ -17,7 +17,7 @@ const CORS_HEADERS = {
 const PROPERTY_ID = '519885223';
 const BASE_TOTAL_VIEWS = 6234;
 const SEED_VIEWS_PER_ITEM = 2435;
-const CACHE_DURATION = 300; // 5 minutes
+const CACHE_DURATION = 3600; // 1 hour (increased from 5min to reduce API calls)
 
 // Whitelist of valid project/service pages with display names and title patterns
 const VALID_PAGES = {
