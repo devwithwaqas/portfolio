@@ -1009,6 +1009,11 @@ section,
   .profile-image-container-side {
     min-height: 280px;
   }
+  
+  /* CRITICAL: Hide rotating rings on mobile - causing 0.295 CLS! */
+  .hero .rings {
+    display: none !important;
+  }
 }
 
 /*--------------------------------------------------------------
