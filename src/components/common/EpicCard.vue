@@ -488,30 +488,27 @@ export default {
                   clearTimeout(vm.resizeTimeout)
                 }
                 vm.resizeTimeout = setTimeout(() => {
-                  // Use RAF to batch all DOM updates and avoid forced reflows
-                  requestAnimationFrame(() => {
-                    // Recalculate SVG position based on new aspect ratio
-                    updateSVGPosition()
-                    
-                  // Recalculate and update border path (viewBox is fixed, so path doesn't need to change)
+                  // Call updateSVGPosition directly (it handles RAF internally)
+                  updateSVGPosition()
+                  
+                  // Build path and read length BEFORE RAF
                   const adjustedD = buildPath()
                   ;[track, seg1, seg2].forEach(el => el.setAttribute('d', adjustedD))
                   
-                  // Defer layout reads to avoid forced reflows after writes
-                  requestAnimationFrame(() => {
-                    // Update animation parameters
+                  // Wait for path to update, then read length
+                  setTimeout(() => {
                     const newP = track.getTotalLength()
                     const newSEG_WANTED = Math.min(700, newP * 0.4)
                     const newSEG_LEN = Math.min(newSEG_WANTED, newP * 0.3)
                     const newGap = newP - newSEG_LEN
                     const newDash = `${newSEG_LEN} ${newGap}`
                     
+                    // Apply dasharray update in RAF
                     requestAnimationFrame(() => {
                       seg1.style.strokeDasharray = newDash
                       seg2.style.strokeDasharray = newDash
                     })
-                  })
-                  })
+                  }, 16) // One frame delay
                 }, 100) // 100ms debounce
               })
               
