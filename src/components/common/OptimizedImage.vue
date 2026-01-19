@@ -18,6 +18,8 @@
     <LazyImage
       :src="fallbackSrc"
       :alt="alt"
+      :width="width"
+      :height="height"
       :image-class="imageClass"
       :container-class="''"
       :lazy="lazy"
@@ -48,6 +50,14 @@ export default {
     alt: {
       type: String,
       default: 'Image'
+    },
+    width: {
+      type: [String, Number],
+      default: null
+    },
+    height: {
+      type: [String, Number],
+      default: null
     },
     lazy: {
       type: Boolean,

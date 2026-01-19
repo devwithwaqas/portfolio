@@ -13,6 +13,8 @@
               :lazy="false"
               priority="high"
               :image-style="{ width: '100%', height: 'auto' }"
+              width="400"
+              height="400"
             />
           </div>
         </div>

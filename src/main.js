@@ -24,10 +24,14 @@ app.use(router)
 app.mount('#app')
 
 // Track initial page view after app mounts (ensures GA4 is loaded)
+// MOBILE OPTIMIZATION: Defer analytics on mobile to prioritize content loading
 router.isReady().then(() => {
+  const isMobile = window.innerWidth <= 768
+  const delay = isMobile ? 3000 : 500 // 3s on mobile, 500ms on desktop
+  
   setTimeout(() => {
     trackPageView(window.location.pathname + window.location.search, document.title)
-  }, 500)
+  }, delay)
 })
 
 // Register service worker for better asset caching on repeat visits

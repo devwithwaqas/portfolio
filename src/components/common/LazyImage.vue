@@ -12,6 +12,8 @@
       :alt="alt"
       :class="imageClass"
       :style="imageStyle"
+      :width="width"
+      :height="height"
       @load="onImageLoad"
       @error="onImageError"
       :loading="lazy ? 'lazy' : 'eager'"
@@ -38,6 +40,14 @@ export default {
     alt: {
       type: String,
       default: 'Image'
+    },
+    width: {
+      type: [String, Number],
+      default: null
+    },
+    height: {
+      type: [String, Number],
+      default: null
     },
     lazy: {
       type: Boolean,

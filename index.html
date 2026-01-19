@@ -69,22 +69,24 @@
   <!-- Google Analytics 4 (GA4) -->
   <!-- GA4 Measurement ID will be injected from environment variable VITE_GA4_MEASUREMENT_ID -->
   <script>
-    // CRITICAL: This script MUST run immediately when HTML loads
-    // It initializes GA4 before Vue.js takes over
-    try {
-      localStorage.removeItem('ga4:debug');
-      sessionStorage.removeItem('ga4:debug');
-    } catch (e) {
-      // Ignore storage errors
-    }
-    window.GA4_DEBUG = false;
-    const GA4_DEBUG = false;
-    const ga4Console = {
-      log: () => {},
-      warn: () => {},
-      error: () => {},
-      info: () => {}
-    };
+    // MOBILE OPTIMIZATION: Defer GA4 on mobile to prioritize content loading
+    const isMobileDevice = window.innerWidth <= 768;
+    const initGA4 = function() {
+      // CRITICAL: This initializes GA4
+      try {
+        localStorage.removeItem('ga4:debug');
+        sessionStorage.removeItem('ga4:debug');
+      } catch (e) {
+        // Ignore storage errors
+      }
+      window.GA4_DEBUG = false;
+      const GA4_DEBUG = false;
+      const ga4Console = {
+        log: () => {},
+        warn: () => {},
+        error: () => {},
+        info: () => {}
+      };
     
     // IMMEDIATE TEST - This should appear FIRST in console
     (function() {
@@ -132,10 +134,13 @@
       // Make gtag available globally immediately (for queuing)
       window.gtag = gtag;
       
-      // Load the GA4 script - async to avoid blocking render
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+      // MOBILE OPTIMIZATION: Defer GA4 on mobile to prioritize content loading
+      const isMobile = window.innerWidth <= 768;
+      const loadGA4 = function() {
+        // Load the GA4 script - async to avoid blocking render
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
       
       // Wait for script to load before initializing
       script.onload = function() {
@@ -305,6 +310,16 @@
       }
       ga4Console.error('[GA4] Script loading will NOT proceed - GA4 will not work!');
     }
+    }; // End initGA4 function
+    
+    // MOBILE OPTIMIZATION: Load GA4 based on device type
+    if (isMobileDevice) {
+      // On mobile: Defer GA4 until page is interactive (after 3 seconds)
+      setTimeout(initGA4, 3000);
+    } else {
+      // On desktop: Load GA4 immediately
+      initGA4();
+    }
   </script>
   
   <!-- Favicons - Multiple sizes for better compatibility -->
@@ -324,27 +339,9 @@
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   
-  <!-- Non-critical CSS - Load asynchronously -->
+  <!-- Non-critical CSS - Load asynchronously (FA includes its own @font-face with font-display) -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"></noscript>
-  
-  <!-- Font Display Optimization: Use 'optional' to make fonts non-blocking -->
-  <style>
-    @font-face {
-      font-family: "Font Awesome 6 Brands";
-      font-style: normal;
-      font-weight: 400;
-      font-display: optional;
-      src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2") format("woff2");
-    }
-    @font-face {
-      font-family: "Font Awesome 6 Free";
-      font-style: normal;
-      font-weight: 900;
-      font-display: optional;
-      src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2") format("woff2");
-    }
-  </style>
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"></noscript>
