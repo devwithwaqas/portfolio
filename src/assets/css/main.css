@@ -1014,6 +1014,22 @@ section,
   .hero .rings {
     display: none !important;
   }
+  
+  /* MOBILE CLS FIX: Reserve space for hero content to prevent shifts */
+  .hero-content {
+    min-height: 500px;
+    contain: strict;
+  }
+  
+  /* Reserve space for hero description text */
+  .hero-description {
+    min-height: 120px;
+  }
+  
+  /* Reserve space for hero action buttons */
+  .hero-actions {
+    min-height: 60px;
+  }
 }
 
 /*--------------------------------------------------------------
