@@ -1,12 +1,33 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+import Critters from 'critters'
 
 export default defineConfig({
   base: '/portfolio/', // GitHub Pages base path - repo name is 'portfolio', so site is at /portfolio/
   publicDir: 'public',
   plugins: [
     vue(),
+    // Critical CSS inlining - extracts and inlines critical CSS
+    {
+      name: 'vite-plugin-critters',
+      apply: 'build',
+      transformIndexHtml: {
+        order: 'post',
+        handler: async (html) => {
+          const critters = new Critters({
+            path: 'dist',
+            publicPath: '/portfolio/',
+            preload: 'swap', // Preload non-critical CSS
+            noscriptFallback: true,
+            inlineFonts: false, // Don't inline fonts (too large)
+            pruneSource: false, // Keep original CSS for fallback
+            logLevel: 'warn'
+          })
+          return await critters.process(html)
+        }
+      }
+    },
     // Plugin to transform HTML asset paths
     {
       name: 'transform-html-assets',
