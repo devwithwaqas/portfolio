@@ -18,15 +18,32 @@
  */
 
 const PORTFOLIO_GA4_API_ENDPOINT = import.meta.env.VITE_PORTFOLIO_GA4_API_ENDPOINT || ''
+const CACHE_KEY = 'analytics_data_cache'
+const CACHE_DURATION = 60 * 60 * 1000 // 1 hour in milliseconds
 
 /**
- * Fetch analytics data from backend
+ * Fetch analytics data from backend with caching to prevent rate limiting
  * @returns {Promise<{totalViews: number, topItems: Array}>}
  */
 export async function fetchAnalyticsData() {
   // If no endpoint configured, return mock data for development
   if (!PORTFOLIO_GA4_API_ENDPOINT) {
     return getMockAnalyticsData()
+  }
+
+  // Check cache first
+  try {
+    const cached = localStorage.getItem(CACHE_KEY)
+    if (cached) {
+      const { data, timestamp } = JSON.parse(cached)
+      const age = Date.now() - timestamp
+      if (age < CACHE_DURATION) {
+        console.log('[Analytics] Using cached data (age: ' + Math.round(age / 1000 / 60) + ' minutes)')
+        return data
+      }
+    }
+  } catch (e) {
+    // Ignore cache errors
   }
 
   try {
@@ -107,12 +124,26 @@ export async function fetchAnalyticsData() {
       throw new Error(`Invalid JSON response: ${parseError.message}`)
     }
     
-    return {
+    const result = {
       totalViews: data.totalViews || 0,
       topItems: data.topItems || []
     }
+    
+    // Cache the successful result
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        data: result,
+        timestamp: Date.now()
+      }))
+      console.log('[Analytics] Data cached for 1 hour')
+    } catch (e) {
+      // Ignore cache errors (quota, private mode, etc.)
+    }
+    
+    return result
   } catch (error) {
     // Fallback to mock data on error
+    console.warn('[Analytics] Fetch failed, using mock data:', error.message)
     return getMockAnalyticsData()
   }
 }
