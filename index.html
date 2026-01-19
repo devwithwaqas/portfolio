@@ -134,13 +134,10 @@
       // Make gtag available globally immediately (for queuing)
       window.gtag = gtag;
       
-      // MOBILE OPTIMIZATION: Defer GA4 on mobile to prioritize content loading
-      const isMobile = window.innerWidth <= 768;
-      const loadGA4 = function() {
-        // Load the GA4 script - async to avoid blocking render
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+      // Load the GA4 script - async to avoid blocking render
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
       
       // Wait for script to load before initializing
       script.onload = function() {
