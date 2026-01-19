@@ -8,6 +8,13 @@ import { trackPageView } from './utils/analytics.js'
 import './assets/css/font-sizes.css'
 import './assets/css/main.css'
 
+// PERF: Load fonts early and apply gradient when ready
+if ('fonts' in document) {
+  document.fonts.ready.then(() => {
+    document.documentElement.classList.add('fonts-loaded')
+  })
+}
+
 const app = createApp(App)
 
 // Add global asset path helper for use in templates
