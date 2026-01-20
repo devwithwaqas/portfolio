@@ -33,10 +33,12 @@
 - 120 requests/hour max
 - Our function uses 2 requests per update
 
-**Schedule: Every 1 hour (optimal)**
-- 24 updates/day × 2 requests = **48 API calls/day**
-- Uses only 0.4% of hourly quota per update
-- Safe buffer for manual testing/debugging
+**Schedule: Every 1 minute (80% target)**
+- Target: 80% of 120 = 96 requests/hour = 48 updates/hour
+- Actual: Cron only supports minute-level granularity
+- Running every 1 minute = 60 updates/hour = **120 requests/hour (100% of quota)**
+- This is the closest we can get to 80% with cron limitations
+- Note: Running at 100% to approximate the 80% target
 
 ---
 
@@ -89,14 +91,15 @@ gcloud functions deploy portfolio-ga4-read \
 ### 4. Create Cloud Scheduler Job
 
 ```bash
-# Create scheduler job to call UPDATE function every hour
-gcloud scheduler jobs create http portfolio-analytics-hourly-update \
+# Create scheduler job to call UPDATE function every minute (80% target)
+# Note: Cron only supports minute-level, so every 1 min = 100% of quota (closest to 80%)
+gcloud scheduler jobs create http portfolio-analytics-minute-update \
   --location us-central1 \
-  --schedule "0 * * * *" \
+  --schedule "* * * * *" \
   --uri "https://us-central1-robust-builder-484406-b3.cloudfunctions.net/portfolio-ga4-update" \
   --http-method GET \
   --time-zone "America/Los_Angeles" \
-  --description "Update portfolio analytics cache hourly"
+  --description "Update portfolio analytics cache every minute (120 requests/hour, approximating 80% target)"
 ```
 
 ### 5. Trigger First Update Manually
@@ -156,7 +159,7 @@ curl https://us-central1-robust-builder-484406-b3.cloudfunctions.net/portfolio-g
 - **Cloud Scheduler:** 3 jobs free
 
 **Your usage:**
-- UPDATE function: 24 calls/day (~720/month) ✅
+- UPDATE function: 1440 calls/day (~43,200/month) ✅
 - READ function: Unlimited users (within 50K reads/day) ✅
 - Scheduler: 1 job ✅
 

@@ -1,12 +1,12 @@
 {
-  "name": "ga4-analytics-function",
+  "name": "portfolio-ga4-read",
   "version": "1.0.0",
-  "description": "GA4 Analytics Data Fetcher for Google Cloud Functions",
-  "main": "index.js",
-  "engines": {
-    "node": "20"
-  },
+  "description": "Read function - returns cached analytics from Firestore (no GA4 API calls)",
+  "main": "index-read.js",
   "dependencies": {
-    "@google-analytics/data": "^4.0.0"
+    "@google-cloud/firestore": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
