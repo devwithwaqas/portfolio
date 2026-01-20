@@ -28,6 +28,41 @@ export default defineConfig({
         return transformed
       }
     },
+    // Plugin to defer CSS loading (non-blocking) for better mobile performance
+    {
+      name: 'defer-css-loading',
+      closeBundle() {
+        // This runs after build - we'll modify the built HTML file
+        const fs = require('fs')
+        const path = require('path')
+        const htmlPath = path.resolve(__dirname, 'dist/index.html')
+        
+        if (fs.existsSync(htmlPath)) {
+          let html = fs.readFileSync(htmlPath, 'utf-8')
+          
+          // Defer Vite-generated CSS by using print media trick
+          // Match CSS links that don't already have media attribute
+          html = html.replace(
+            /<link([^>]*rel=["']stylesheet["'][^>]*)>/gi,
+            (match, attrs) => {
+              // Skip if already has media attribute, is in noscript, or is a vendor/external CSS
+              if (attrs.includes('media=') || 
+                  attrs.includes('noscript') || 
+                  attrs.includes('vendor/') ||
+                  attrs.includes('cdnjs.cloudflare.com') ||
+                  attrs.includes('fonts.googleapis.com') ||
+                  attrs.includes('cdn.jsdelivr.net')) {
+                return match
+              }
+              // Defer Vite-generated CSS (main bundle)
+              return `<link${attrs} media="print" onload="this.media='all'"><noscript>${match}</noscript>`
+            }
+          )
+          
+          fs.writeFileSync(htmlPath, html, 'utf-8')
+        }
+      }
+    },
   ],
   resolve: {
     alias: {
