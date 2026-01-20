@@ -19,7 +19,7 @@
 
 const PORTFOLIO_GA4_API_ENDPOINT = import.meta.env.VITE_PORTFOLIO_GA4_API_ENDPOINT || ''
 const CACHE_KEY = 'analytics_data_cache'
-const CACHE_DURATION = 60 * 60 * 1000 // 1 hour in milliseconds
+const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes in milliseconds (backend updates every minute, so 5min cache is sufficient)
 
 /**
  * Fetch analytics data from backend with caching to prevent rate limiting
