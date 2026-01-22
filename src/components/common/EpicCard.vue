@@ -140,13 +140,21 @@ export default {
       borderResizeObserver: null,
       intersectionObserver: null,
       animationFrame: null,
-      animationStart: null,
+      animationStart: null, // Will be set to performance.now() when animation starts
       isPaused: false,
+      pauseStartTime: null, // Track when pause started
       isTouchAnimating: false,
       lastTapTime: 0,
       touchStartX: 0,
       touchStartY: 0,
       touchMoved: false,
+      animationInitialized: false, // Track if animation system has been set up
+      animationReady: false, // Track if animation is fully registered and ready
+      isCurrentlyHovering: false, // Track if user is hovering when registration completes
+      isCurrentlyTouching: false, // Track if user is touching when registration completes
+      pendingTouchAnimation: false, // Track if user wants animation but it's not ready yet
+      animationJustStartedFromPending: false, // Track if animation just started from pending (ignore touchend for short time)
+      animationStartTime: 0, // Track when animation started from pending
       uniqueId: `epic-${Math.random().toString(36).substr(2, 9)}`,
       resizeTimeout: null,
       showPreview: false
@@ -164,7 +172,66 @@ export default {
     }
   },
   mounted() {
-    this.initBorderAnimation()
+    // Initialize global animation controller if it doesn't exist
+    if (!window.epicCardAnimationController) {
+      window.epicCardAnimationController = {
+        activeCardId: null,
+        stopActiveCard: null // Function to stop the currently active card
+      }
+    }
+    
+    // CRITICAL: Hide SVG immediately to prevent pink splash during registration
+    this.$nextTick(() => {
+      const borderOverlay = this.$el.querySelector('.border-overlay')
+      if (borderOverlay) {
+        borderOverlay.style.opacity = '0'
+        borderOverlay.style.visibility = 'hidden'
+      }
+    })
+    
+    // LCP OPTIMIZATION: Don't initialize animations on mount
+    // They will be initialized on first user interaction (touch/click/hover)
+    // This prevents blocking the main thread during initial render
+    
+    // Set up lightweight listeners to trigger initialization on first interaction
+    this.$nextTick(() => {
+      const card = this.$el.querySelector(`.epic-card[data-card-id="${this.uniqueId}"]`)
+      if (!card) return
+      
+      // Single-use initialization trigger
+      const initOnce = (event) => {
+        if (!this.animationInitialized) {
+          this.animationInitialized = true
+          
+          // Track if user is currently interacting
+          if (event.type === 'mouseenter') {
+            this.isCurrentlyHovering = true
+          } else if (event.type === 'touchstart' || event.type === 'click') {
+            this.isCurrentlyTouching = true
+            // On first touch, set pending so animation starts when ready (just like desktop hover)
+            this.pendingTouchAnimation = true
+            this.isTouchAnimating = true
+            console.log(`[EpicCard ${this.uniqueId}] FIRST TOUCH - touchstart:`, {
+              pendingTouchAnimation: this.pendingTouchAnimation,
+              isTouchAnimating: this.isTouchAnimating,
+              animationInitialized: this.animationInitialized,
+              animationReady: this.animationReady
+            })
+          }
+          
+          this.initBorderAnimation()
+          // Remove listeners after initialization
+          card.removeEventListener('mouseenter', initOnce)
+          card.removeEventListener('touchstart', initOnce, { passive: true })
+          card.removeEventListener('click', initOnce)
+        }
+      }
+      
+      // Listen for first interaction
+      card.addEventListener('mouseenter', initOnce)
+      card.addEventListener('touchstart', initOnce, { passive: true })
+      card.addEventListener('click', initOnce)
+    })
   },
   beforeUnmount() {
     // Clean up all observers and animations
@@ -184,35 +251,34 @@ export default {
       clearTimeout(this.resizeTimeout)
       this.resizeTimeout = null
     }
+    
+    // Clear from global controller if this was the active card
+    if (window.epicCardAnimationController && window.epicCardAnimationController.activeCardId === this.uniqueId) {
+      window.epicCardAnimationController.activeCardId = null
+      window.epicCardAnimationController.stopActiveCard = null
+    }
   },
   methods: {
     async openPreview() {
-      if (!this.showPreview) {
-        this.showPreview = true
-      }
+      this.showPreview = true
+      // Wait for Vue to render the component
       await this.$nextTick()
-
-      const waitForPreview = () => new Promise((resolve) => {
-        let attempts = 0
-        const check = () => {
-          if (this.$refs.imagePreview) {
-            resolve(true)
-            return
-          }
-          attempts += 1
-          if (attempts > 60) {
-            resolve(false)
-            return
-          }
-          requestAnimationFrame(check)
+      // Wait a bit more for async component to fully load
+      await new Promise(resolve => setTimeout(resolve, 100))
+      // Try to show the preview, retry if component not ready
+      let attempts = 0
+      const maxAttempts = 10
+      const tryShow = () => {
+        attempts++
+        if (this.$refs.imagePreview && typeof this.$refs.imagePreview.show === 'function') {
+          this.$refs.imagePreview.show()
+        } else if (attempts < maxAttempts) {
+          setTimeout(tryShow, 50)
+        } else {
+          console.warn('[EpicCard] ImagePreview component failed to load after', maxAttempts, 'attempts')
         }
-        check()
-      })
-
-      const ready = await waitForPreview()
-      if (ready && this.$refs.imagePreview) {
-        this.$refs.imagePreview.show()
       }
+      tryShow()
     },
     rememberReturnSection(sectionId) {
       if (typeof window === 'undefined') return
@@ -243,28 +309,34 @@ export default {
         
         if (!card || !cardWrapper || !borderOverlay) return
         
+        // Store startAnim/stopAnim functions for event listeners (declared in outer scope)
+        let startAnimFn = null
+        let stopAnimFn = null
+        
         // Cache for expensive operations
         let cachedWrapperPadding = null
         let lastCardSize = { width: 0, height: 0 }
         
         // Calculate aspect ratio and adjust offsets dynamically
         function updateSVGPosition() {
-          // Read layout BEFORE entering RAF to avoid forced reflow
-          const rect = card.getBoundingClientRect()
-          
-          // Skip update if size hasn't changed significantly (within 1px tolerance)
-          if (Math.abs(rect.width - lastCardSize.width) < 1 && Math.abs(rect.height - lastCardSize.height) < 1) {
-            return
-          }
-          lastCardSize = { width: rect.width, height: rect.height }
-          
-          // Cache wrapper padding to avoid repeated getComputedStyle calls
-          if (cachedWrapperPadding === null) {
-            const wrapperStyle = getComputedStyle(cardWrapper)
-            cachedWrapperPadding = parseFloat(wrapperStyle.getPropertyValue('--wrapper-padding')) || 20.25
-          }
-          
+          // OPTIMIZATION: Use double RAF to avoid forced reflow
           requestAnimationFrame(() => {
+            // Read layout inside RAF (after previous frame) to avoid forced reflow
+            const rect = card.getBoundingClientRect()
+            
+            // Skip update if size hasn't changed significantly (within 1px tolerance)
+            if (Math.abs(rect.width - lastCardSize.width) < 1 && Math.abs(rect.height - lastCardSize.height) < 1) {
+              return
+            }
+            lastCardSize = { width: rect.width, height: rect.height }
+            
+            // Cache wrapper padding to avoid repeated getComputedStyle calls
+            if (cachedWrapperPadding === null) {
+              const wrapperStyle = getComputedStyle(cardWrapper)
+              cachedWrapperPadding = parseFloat(wrapperStyle.getPropertyValue('--wrapper-padding')) || 20.25
+            }
+            
+            requestAnimationFrame(() => {
             
             // Calculate desired stroke in pixels (105% of padding)
             const desiredStrokePx = cachedWrapperPadding * 1.05
@@ -301,6 +373,7 @@ export default {
             borderOverlay.style.left = `-${horizontalOffset}px`
             borderOverlay.style.width = `calc(100% + ${horizontalOffset * 2}px)`
             borderOverlay.style.height = `calc(100% + ${verticalOffset * 2}px)`
+            })
           })
         }
         
@@ -330,6 +403,95 @@ export default {
         const d = buildPath();
         [track, seg1, seg2].forEach(el => el.setAttribute('d', d))
         
+        // Define setupAnimation function BEFORE using it
+        function setupAnimation(P, SPEED) {
+          const step = (ts) => {
+          // Check if animations are paused globally
+          if (window.animationController && window.animationController.animationPaused) {
+            vm.isPaused = true
+            vm.animationFrame = requestAnimationFrame(step)
+            return
+          }
+          
+          if (vm.isPaused) {
+            // Resume: adjust start time to account for pause duration
+            const pauseDuration = ts - (vm.pauseStartTime || ts)
+            vm.animationStart = (vm.animationStart || ts) + pauseDuration
+            vm.isPaused = false
+            vm.pauseStartTime = null
+          }
+          
+          // Initialize start time on first frame (only if not already set)
+          if (vm.animationStart === null || vm.animationStart === undefined) {
+            vm.animationStart = ts
+          }
+          
+          // IMPROVED: Direct style assignment bundled to avoid forced reflow
+          const dist = ((ts - vm.animationStart) / 1000 * SPEED) % P
+          seg1.style.strokeDashoffset = -dist
+          seg2.style.strokeDashoffset = -(dist + P / 2)
+          
+          // CRITICAL: Always continue animation loop - this keeps animation running
+          vm.animationFrame = requestAnimationFrame(step)
+          }
+          
+          const startAnim = () => { 
+          // CRITICAL: Stop any other active card animation first
+          if (window.epicCardAnimationController && window.epicCardAnimationController.activeCardId !== vm.uniqueId) {
+            if (window.epicCardAnimationController.stopActiveCard) {
+              window.epicCardAnimationController.stopActiveCard()
+            }
+          }
+          
+          if (!vm.animationFrame) { 
+            // Reset animation start time - will be set to current timestamp in first step()
+            vm.animationStart = null
+            vm.isPaused = false
+            // Start the animation loop immediately
+            vm.animationFrame = requestAnimationFrame(step)
+            
+            // CRITICAL FIX: Sync the flag when animation starts
+            // This ensures flag stays in sync with actual animation state
+            vm.isTouchAnimating = true
+            
+            // Register this card as the active one
+            if (window.epicCardAnimationController) {
+              window.epicCardAnimationController.activeCardId = vm.uniqueId
+              window.epicCardAnimationController.stopActiveCard = stopAnim
+            }
+          } 
+        }
+        
+        const stopAnim = () => { 
+          if (vm.animationFrame) {
+            cancelAnimationFrame(vm.animationFrame)
+            vm.animationFrame = null
+          }
+          
+          // CRITICAL: Hide border overlay when animation stops
+          // This prevents the last animation frame from remaining visible
+          requestAnimationFrame(() => {
+            if (borderOverlay) {
+              borderOverlay.style.opacity = '0'
+              borderOverlay.style.visibility = 'hidden'
+            }
+          })
+          
+          // CRITICAL FIX: Sync the flag when animation is stopped programmatically
+          // This ensures flag stays in sync with actual animation state
+          vm.isTouchAnimating = false
+          
+          // Clear active card if this was the active one
+          if (window.epicCardAnimationController && window.epicCardAnimationController.activeCardId === vm.uniqueId) {
+            window.epicCardAnimationController.activeCardId = null
+            window.epicCardAnimationController.stopActiveCard = null
+          }
+          }
+          
+          // Return functions so they can be called from outside
+          return { startAnim, stopAnim }
+        }
+        
         // Wait for SVG to render before getting length
         setTimeout(() => {
           const P = track.getTotalLength()
@@ -354,67 +516,116 @@ export default {
           })
           
           // Now set up the animation step function with the correct P value
-          setupAnimation(P, SPEED)
-        }, 100)
-        
-        function setupAnimation(P, SPEED) {
-        
-        const step = (ts) => {
-          // Check if animations are paused globally
-          if (window.animationController && window.animationController.animationPaused) {
-            vm.isPaused = true
-            vm.animationFrame = requestAnimationFrame(step)
-            return
+          const animFunctions = setupAnimation(P, SPEED)
+          startAnimFn = animFunctions.startAnim
+          stopAnimFn = animFunctions.stopAnim
+          
+          // Mark animation as ready AFTER setup is complete
+          vm.animationReady = true
+          
+          console.log(`[EpicCard ${vm.uniqueId}] ANIMATION READY:`, {
+            pendingTouchAnimation: vm.pendingTouchAnimation,
+            isTouchAnimating: vm.isTouchAnimating,
+            isCurrentlyHovering: vm.isCurrentlyHovering,
+            isCurrentlyTouching: vm.isCurrentlyTouching,
+            animationInitialized: vm.animationInitialized,
+            hasStartAnimFn: !!startAnimFn
+          })
+          
+          // CRITICAL FIX: Check for pending touch animation FIRST, before any other checks
+          // This must happen IMMEDIATELY when animation becomes ready
+          if (vm.pendingTouchAnimation && startAnimFn) {
+            console.log(`[EpicCard ${vm.uniqueId}] ✅ STARTING ANIMATION (pending=true):`, {
+              pendingTouchAnimation: vm.pendingTouchAnimation,
+              isTouchAnimating: vm.isTouchAnimating,
+              willSetFlag: true
+            })
+            // First tap - user wants animation ON, start it now
+            vm.isTouchAnimating = true
+            vm.animationJustStartedFromPending = true
+            vm.animationStartTime = Date.now()
+            requestAnimationFrame(() => {
+              if (borderOverlay) {
+                borderOverlay.style.opacity = '1'
+                borderOverlay.style.visibility = 'visible'
+              }
+              startAnimFn()
+              // Clear pending since we've started
+              vm.pendingTouchAnimation = false
+              console.log(`[EpicCard ${vm.uniqueId}] ✅ ANIMATION STARTED:`, {
+                pendingTouchAnimation: vm.pendingTouchAnimation,
+                isTouchAnimating: vm.isTouchAnimating,
+                animationJustStartedFromPending: vm.animationJustStartedFromPending
+              })
+              // Clear the flag after 500ms to allow normal toggling
+              setTimeout(() => {
+                vm.animationJustStartedFromPending = false
+                console.log(`[EpicCard ${vm.uniqueId}] 🔓 Animation start protection cleared`)
+              }, 500)
+            })
+          } else {
+            console.log(`[EpicCard ${vm.uniqueId}] ❌ NOT STARTING ANIMATION:`, {
+              pendingTouchAnimation: vm.pendingTouchAnimation,
+              isTouchAnimating: vm.isTouchAnimating,
+              hasStartAnimFn: !!startAnimFn,
+              reason: !vm.pendingTouchAnimation ? 'pendingTouchAnimation is false' : 'startAnimFn is missing'
+            })
           }
           
-          if (vm.isPaused) {
-            vm.animationStart = ts - (vm.animationStart || 0)
-            vm.isPaused = false
+          // CRITICAL: If user was hovering when registration started, start animation immediately
+          // This works for desktop hover
+          const startAnimationIfInteracting = () => {
+            // Check if card is currently being hovered (CSS :hover pseudo-class)
+            const isHovered = card.matches(':hover')
+            
+            // For desktop: if hovering, start animation
+            // Don't check touch flags here - already handled above
+            if ((vm.isCurrentlyHovering || isHovered) && startAnimFn) {
+              // Show SVG immediately
+              if (borderOverlay) {
+                borderOverlay.style.opacity = '1'
+                borderOverlay.style.visibility = 'visible'
+              }
+              // Start animation - functions are now guaranteed to be available
+              startAnimFn()
+            }
           }
           
-          if (!vm.animationStart) vm.animationStart = ts
+          // Use requestAnimationFrame to ensure setup is complete and functions are available
+          requestAnimationFrame(() => {
+            startAnimationIfInteracting()
+          })
           
-          // IMPROVED: Direct style assignment bundled to avoid forced reflow
-          const dist = ((ts - vm.animationStart) / 1000 * SPEED) % P
-          seg1.style.strokeDashoffset = -dist
-          seg2.style.strokeDashoffset = -(dist + P / 2)
-          
-          vm.animationFrame = requestAnimationFrame(step)
-        }
-        
-        const startAnim = () => { 
-          if (!vm.animationFrame) { 
-            vm.animationStart = 0
-            vm.animationFrame = requestAnimationFrame(step)
-          } 
-        }
-        
-        const stopAnim = () => { 
-          if (vm.animationFrame) {
-            cancelAnimationFrame(vm.animationFrame)
-            vm.animationFrame = null
-          }
-        }
-
-        // Event listeners setup
-        if (card && borderOverlay && cardWrapper) {
+          // Event listeners setup - must be inside setTimeout to access startAnimFn/stopAnimFn
+          if (card && borderOverlay && cardWrapper) {
             // Mouse-triggered animation for all devices
             card.addEventListener('mouseenter', () => {
-              requestAnimationFrame(() => {
-                if (borderOverlay) {
-                  borderOverlay.style.opacity = '1'
-                }
-              })
-              startAnim()
+              vm.isCurrentlyHovering = true
+              // Only show and start if animation is ready
+              if (vm.animationReady && startAnimFn) {
+                requestAnimationFrame(() => {
+                  if (borderOverlay) {
+                    borderOverlay.style.opacity = '1'
+                    borderOverlay.style.visibility = 'visible'
+                  }
+                  startAnimFn()
+                })
+              }
             })
             
             card.addEventListener('mouseleave', () => {
-              requestAnimationFrame(() => {
-                if (borderOverlay) {
-                  borderOverlay.style.opacity = '0'
-                }
-              })
-              stopAnim()
+              vm.isCurrentlyHovering = false
+              // CRITICAL FIX: Only stop animation if not in touch-animated state
+              // This prevents mouseleave from interfering with touch toggle
+              if (!vm.isTouchAnimating) {
+                requestAnimationFrame(() => {
+                  if (borderOverlay) {
+                    borderOverlay.style.opacity = '0'
+                    borderOverlay.style.visibility = 'hidden'
+                  }
+                })
+                if (stopAnimFn) stopAnimFn()
+              }
             })
             
             // Touch devices: Toggle animation on tap (persistent until tapped again)
@@ -423,6 +634,8 @@ export default {
               vm.touchStartX = e.touches[0].clientX
               vm.touchStartY = e.touches[0].clientY
               vm.touchMoved = false
+              // Mark that user is touching - will be used if animation becomes ready during touch
+              vm.isCurrentlyTouching = true
             }, { passive: true })
             
             card.addEventListener('touchmove', (e) => {
@@ -438,8 +651,20 @@ export default {
             }, { passive: true })
             
             card.addEventListener('touchend', (e) => {
+              console.log(`[EpicCard ${vm.uniqueId}] TOUCHEND FIRED:`, {
+                touchMoved: vm.touchMoved,
+                animationInitialized: vm.animationInitialized,
+                animationReady: vm.animationReady,
+                pendingTouchAnimation: vm.pendingTouchAnimation,
+                isTouchAnimating: vm.isTouchAnimating,
+                animationJustStartedFromPending: vm.animationJustStartedFromPending,
+                timeSinceStart: vm.animationStartTime ? Date.now() - vm.animationStartTime : 0
+              })
+              
               // Ignore if it was a drag
               if (vm.touchMoved) {
+                console.log(`[EpicCard ${vm.uniqueId}] ❌ IGNORED (drag detected)`)
+                vm.isCurrentlyTouching = false
                 return
               }
               
@@ -448,35 +673,103 @@ export default {
               
               // Detect double-tap (taps within 300ms)
               if (tapInterval < 300 && tapInterval > 0) {
-                // Double-tap: do nothing
+                console.log(`[EpicCard ${vm.uniqueId}] ❌ IGNORED (double-tap detected, interval: ${tapInterval}ms)`)
                 return
+              }
+              
+              // CRITICAL FIX: Ignore touchend if animation just started from pending
+              // This prevents touchend from immediately stopping animation after it starts
+              if (vm.animationJustStartedFromPending) {
+                const timeSinceStart = Date.now() - vm.animationStartTime
+                if (timeSinceStart < 500) {
+                  console.log(`[EpicCard ${vm.uniqueId}] 🛡️ IGNORED (animation just started from pending, ${timeSinceStart}ms ago)`)
+                  vm.lastTapTime = currentTime
+                  setTimeout(() => {
+                    vm.isCurrentlyTouching = false
+                  }, 100)
+                  return
+                }
               }
               
               vm.lastTapTime = currentTime
               
-              // Check current animation state from the DOM
-              const isCurrentlyAnimating = borderOverlay && borderOverlay.style.opacity === '1'
+              // CRITICAL FIX: Only toggle if animation system is already initialized
+              // On first tap, touchstart initializes and sets pending=true, flag=true
+              // Don't toggle on first tap's touchend - let initialization handle it
+              if (!vm.animationInitialized) {
+                console.log(`[EpicCard ${vm.uniqueId}] ⏳ FIRST TAP - animation not initialized yet, waiting...`)
+                // First tap - initialization will handle starting animation
+                // Just clear touch state
+                setTimeout(() => {
+                  vm.isCurrentlyTouching = false
+                }, 100)
+                return
+              }
               
-              // Toggle based on ACTUAL current state, not flag
-              vm.isTouchAnimating = !isCurrentlyAnimating
+              // Animation is initialized - toggle the flag (just like desktop hover)
+              const wasAnimating = vm.isTouchAnimating
+              vm.isTouchAnimating = !vm.isTouchAnimating
               
-              requestAnimationFrame(() => {
-                if (borderOverlay) {
-                  borderOverlay.style.opacity = vm.isTouchAnimating ? '1' : '0'
-                }
+              console.log(`[EpicCard ${vm.uniqueId}] TOGGLE FLAG:`, {
+                wasAnimating,
+                nowAnimating: vm.isTouchAnimating,
+                animationReady: vm.animationReady,
+                hasStartAnimFn: !!startAnimFn,
+                hasStopAnimFn: !!stopAnimFn
               })
               
-              if (vm.isTouchAnimating) {
-                startAnim()
+              if (vm.animationReady && startAnimFn && stopAnimFn) {
+                // Animation is ready - start/stop immediately
+                console.log(`[EpicCard ${vm.uniqueId}] ${vm.isTouchAnimating ? '▶️ STARTING' : '⏹️ STOPPING'} ANIMATION (ready)`)
+                requestAnimationFrame(() => {
+                  if (borderOverlay) {
+                    borderOverlay.style.opacity = vm.isTouchAnimating ? '1' : '0'
+                    borderOverlay.style.visibility = vm.isTouchAnimating ? 'visible' : 'hidden'
+                  }
+                  
+                  if (vm.isTouchAnimating) {
+                    startAnimFn()
+                    console.log(`[EpicCard ${vm.uniqueId}] ✅ ANIMATION STARTED via touchend`)
+                  } else {
+                    stopAnimFn()
+                    console.log(`[EpicCard ${vm.uniqueId}] ✅ ANIMATION STOPPED via touchend`)
+                  }
+                })
+                vm.pendingTouchAnimation = false
               } else {
-                stopAnim()
+                // Animation not ready - sync pending with flag
+                vm.pendingTouchAnimation = vm.isTouchAnimating
+                console.log(`[EpicCard ${vm.uniqueId}] ⏳ QUEUED (animation not ready):`, {
+                  pendingTouchAnimation: vm.pendingTouchAnimation,
+                  animationReady: vm.animationReady
+                })
               }
+              
+              // Clear touch state
+              setTimeout(() => {
+                vm.isCurrentlyTouching = false
+              }, 100)
             }, { passive: true })
             
             // Initialize: Start with animations hidden on all devices
             requestAnimationFrame(() => {
               if (borderOverlay) {
                 borderOverlay.style.opacity = '0'
+                borderOverlay.style.visibility = 'hidden'
+              }
+            })
+            
+            // CRITICAL: If mouse is already over the card when listeners are set up, start animation immediately
+            // This handles the case where user hovered, animation registered, and mouse is still over card
+            requestAnimationFrame(() => {
+              // Check if card is currently being hovered
+              if (card.matches(':hover') && vm.animationReady && startAnimFn) {
+                vm.isCurrentlyHovering = true
+                if (borderOverlay) {
+                  borderOverlay.style.opacity = '1'
+                  borderOverlay.style.visibility = 'visible'
+                }
+                startAnimFn()
               }
             })
             
@@ -518,8 +811,8 @@ export default {
               // Store observer for cleanup
               vm.borderResizeObserver = resizeObserver
             }
-        }
-        } // End of setupAnimation function
+          } // End of if (card && borderOverlay && cardWrapper)
+        }) // End of setTimeout
       })
     }
   }
@@ -611,6 +904,10 @@ export default {
   pointer-events: none;
   z-index: 10;
   border-radius: 24px; /* Matches card's subtle rounded corners */
+  /* CRITICAL: Hidden by default until animation is registered */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 /* Tech Stack Section */

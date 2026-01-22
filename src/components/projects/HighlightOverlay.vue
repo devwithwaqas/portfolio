@@ -76,9 +76,10 @@ export default {
     },
     
     getHighlightStyle(highlight) {
+      const rgb = this.hexToRgb(this.highlightColor)
       return {
-        '--highlight-color': this.highlightColor,
-        '--highlight-rgb': this.hexToRgb(this.highlightColor)
+        '--highlight-rgb': rgb,
+        '--highlight-color': this.highlightColor
       }
     },
     

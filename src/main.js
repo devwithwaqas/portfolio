@@ -12,6 +12,8 @@ import './assets/css/main.css'
 if ('fonts' in document) {
   document.fonts.ready.then(() => {
     document.documentElement.classList.add('fonts-loaded')
+  }).catch(() => {
+    // Silently fail - fonts are optional
   })
 }
 
@@ -19,6 +21,25 @@ const app = createApp(App)
 
 // Add global asset path helper for use in templates
 app.config.globalProperties.$assetPath = assetPath
+
+// Global error handler for unhandled promise rejections (prevents console errors)
+window.addEventListener('unhandledrejection', (event) => {
+  // Only log in development, silently fail in production
+  if (import.meta.env.DEV) {
+    console.warn('[Unhandled Promise Rejection]', event.reason)
+  }
+  // Prevent default error logging to console
+  event.preventDefault()
+})
+
+// Global error handler for uncaught errors (prevents console errors)
+window.addEventListener('error', (event) => {
+  // Only log in development, silently fail in production
+  if (import.meta.env.DEV) {
+    console.warn('[Uncaught Error]', event.error)
+  }
+  // Don't prevent default - let Vue handle it
+})
 
 app.use(router)
 app.mount('#app')
@@ -30,14 +51,29 @@ router.isReady().then(() => {
   const delay = isMobile ? 3000 : 500 // 3s on mobile, 500ms on desktop
   
   setTimeout(() => {
-    trackPageView(window.location.pathname + window.location.search, document.title)
+    try {
+      trackPageView(window.location.pathname + window.location.search, document.title)
+    } catch (error) {
+      // Silently fail - analytics are optional
+      if (import.meta.env.DEV) {
+        console.warn('[Analytics] Failed to track page view:', error.message)
+      }
+    }
   }, delay)
+}).catch((error) => {
+  // Silently fail if router isn't ready - analytics are optional
+  if (import.meta.env.DEV) {
+    console.warn('[Router] Router not ready:', error.message)
+  }
 })
 
 // Register service worker for better asset caching on repeat visits
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/portfolio/sw.js').catch(() => {
+    // Use dynamic base URL: '/' for Firebase, '/portfolio/' for GitHub Pages
+    const baseUrl = import.meta.env.BASE_URL || '/'
+    const swPath = `${baseUrl}sw.js`
+    navigator.serviceWorker.register(swPath).catch(() => {
       // Silent fail; caching is optional
     })
   })

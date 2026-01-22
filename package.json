@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/copy-sitemap.js && node scripts/validate-sitemap.js",
+    "build": "vite build && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/copy-sitemap.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
+    "build:firebase": "vite build --mode firebase && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/copy-sitemap.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
     "preview": "vite preview",
     "serve": "vite preview",
     "optimize-service-images": "node scripts/optimize-service-images.js",
@@ -14,8 +15,20 @@
     "optimize-portfolio-thumbs": "node scripts/optimize-portfolio-thumbs.js",
     "optimize-critical-images": "node scripts/optimize-critical-images.js",
     "optimize-all-icons": "node scripts/optimize-all-icons.js",
+    "convert-svgs-to-webp": "node scripts/convert-svgs-to-webp.js",
+    "convert-svgs-to-png": "node scripts/convert-svgs-to-webp.js",
+    "generate-icon-sizes": "node scripts/generate-icon-sizes.js",
+    "generate-mobile-hero": "node scripts/generate-mobile-hero-image.js",
     "check-performance": "node scripts/check-performance.js",
-    "check-performance:url": "node scripts/check-performance.js"
+    "check-performance:url": "node scripts/check-performance.js",
+    "analyze-css": "node scripts/analyze-css-usage.js",
+    "test-css": "node scripts/test-css-cleanup.js",
+    "cleanup-css": "node scripts/cleanup-css.js",
+    "cleanup-css:apply": "node scripts/cleanup-css.js --apply",
+    "analyze-js": "node scripts/analyze-js-usage.js",
+    "test-js": "node scripts/test-js-cleanup.js",
+    "cleanup-js": "node scripts/cleanup-js.js",
+    "cleanup-js:apply": "node scripts/cleanup-js.js --apply"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -27,6 +40,7 @@
     "vue3-carousel": "^0.16.0"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.0",
     "@vitejs/plugin-vue": "^5.0.0",
     "sass": "^1.93.2",
     "sharp": "^0.34.5",

@@ -9,6 +9,8 @@
     <img 
       v-if="shouldLoad"
       :src="src" 
+      :srcset="srcset"
+      :sizes="sizes"
       :alt="alt"
       :class="imageClass"
       :style="imageStyle"
@@ -18,6 +20,7 @@
       @error="onImageError"
       :loading="lazy ? 'lazy' : 'eager'"
       :fetchpriority="priority"
+      decoding="async"
       ref="imageElementRef"
     />
     
@@ -36,6 +39,14 @@ export default {
     src: {
       type: String,
       required: true
+    },
+    srcset: {
+      type: String,
+      default: null
+    },
+    sizes: {
+      type: String,
+      default: null
     },
     alt: {
       type: String,

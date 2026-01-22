@@ -3,7 +3,7 @@
     <div class="metrics-framework-content">
       
       <!-- Introduction -->
-      <p class="framework-intro">{{ introduction }}</p>
+      <p class="framework-intro txt-p-md">{{ introduction }}</p>
       
       <!-- Metrics Categories -->
       <div 
@@ -11,7 +11,7 @@
         :key="index" 
         class="metrics-category"
       >
-        <h4 class="category-title">
+        <h4 class="category-title txt-h4-xl">
               <div class="category-icon-wrapper icon-wrapper-xl">
                 <img 
                   v-if="getCategoryIconData(category.icon).type === 'devicon'" 
@@ -62,7 +62,7 @@
                   class="metric-tech-icon icon-xl"
                 >{{ getMetricIconData(metric.icon).src }}</span>
               </div>
-              <strong class="metric-name">{{ metric.name }}</strong>
+              <strong class="metric-name txt-p-md">{{ metric.name }}</strong>
             </div>
             
             <div class="metric-details">
@@ -89,7 +89,7 @@
                   </div>
                   <strong class="detail-label txt-label-md">Measurement Method</strong>
                 </div>
-                <p class="detail-text">{{ metric.measurementMethod }}</p>
+                <p class="detail-text txt-p-sm">{{ metric.measurementMethod }}</p>
               </div>
               
               <div class="metric-detail">
@@ -123,7 +123,7 @@
                   </div>
                   <strong class="detail-label txt-label-md">Project Context</strong>
                 </div>
-                <p class="detail-text">{{ metric.context }}</p>
+                <p class="detail-text txt-p-sm">{{ metric.context }}</p>
               </div>
               
               <div class="metric-detail">
@@ -157,7 +157,7 @@
                   </div>
                   <strong class="detail-label txt-label-md">Improvement Validation</strong>
                 </div>
-                <p class="detail-text">{{ metric.validation }}</p>
+                <p class="detail-text txt-p-sm">{{ metric.validation }}</p>
               </div>
             </div>
           </div>
@@ -204,9 +204,9 @@
                   class="framework-item-icon icon-xl"
                 >{{ getFrameworkIconData(item).src }}</span>
               </div>
-              <strong class="framework-item-title">{{ item.title }}</strong>
+              <strong class="framework-item-title txt-p-md">{{ item.title }}</strong>
             </div>
-            <p class="framework-item-description">{{ item.description }}</p>
+            <p class="framework-item-description txt-p-sm">{{ item.description }}</p>
           </div>
         </div>
       </div>

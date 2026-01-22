@@ -8,9 +8,19 @@
     <!-- Devicon -->
     <i v-if="iconData && iconData.type === 'devicon'" :class="deviconClass + ' ' + iconClass"></i>
     
-    <!-- Local Image with optional lazy loading and WebP/AVIF support -->
+    <!-- SVG files - render directly (no optimization needed) -->
+    <img
+      v-else-if="iconData && iconData.type === 'local' && isSvgFile && (isLoaded || !lazy)"
+      :src="iconData.src"
+      :alt="iconData.alt"
+      :class="imageClass"
+      @load="onImageLoad"
+      @error="onImageError"
+    />
+    
+    <!-- Local Image (PNG/JPG) with optional lazy loading and WebP/AVIF support -->
     <OptimizedImage
-      v-else-if="iconData && iconData.type === 'local' && (isLoaded || !lazy)"
+      v-else-if="iconData && iconData.type === 'local' && !isSvgFile && (isLoaded || !lazy)"
       :src="iconData.src"
       :alt="iconData.alt"
       :image-class="imageClass"
@@ -117,28 +127,42 @@ export default {
           return
         }
         
-        // Create IntersectionObserver
-        this.observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                // Icon is visible, load it
-                this.isLoaded = true
-                // Stop observing once loaded
-                if (this.observer) {
-                  this.observer.unobserve(entry.target)
+        // Create IntersectionObserver with error handling
+        try {
+          this.observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  // Icon is visible, load it
+                  this.isLoaded = true
+                  // Stop observing once loaded
+                  if (this.observer && entry.target) {
+                    try {
+                      this.observer.unobserve(entry.target)
+                    } catch (e) {
+                      // Element might have been removed, ignore
+                    }
+                  }
                 }
-              }
-            })
-          },
-          {
-            threshold: this.threshold,
-            rootMargin: this.rootMargin
+              })
+            },
+            {
+              threshold: this.threshold,
+              rootMargin: this.rootMargin
+            }
+          )
+          
+          // Start observing with error handling
+          if (this.$refs.iconContainer) {
+            this.observer.observe(this.$refs.iconContainer)
           }
-        )
-        
-        // Start observing
-        this.observer.observe(this.$refs.iconContainer)
+        } catch (error) {
+          // Fallback: load immediately if IntersectionObserver fails
+          if (import.meta.env.DEV) {
+            console.warn('[IconComponent] IntersectionObserver failed, loading immediately:', error.message)
+          }
+          this.isLoaded = true
+        }
       })
     },
     onImageLoad() {
@@ -157,6 +181,13 @@ export default {
         return getDeviconClass(this.iconData.src)
       }
       return null
+    },
+    isSvgFile() {
+      // Check if the icon is an SVG file (should be handled separately from OptimizedImage)
+      return this.iconData && 
+             this.iconData.type === 'local' && 
+             this.iconData.src && 
+             this.iconData.src.toLowerCase().endsWith('.svg')
     },
     wrapperClass() {
       return `icon-wrapper-${this.size}`

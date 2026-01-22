@@ -136,42 +136,42 @@ export default {
     },
     // Group technologies by category and resolve icons
     categoriesWithTech() {
-      if (!this.technologies || this.technologies.length === 0) {
-        console.warn('TechnologyStack: No technologies provided')
+      if (!this.technologies || !Array.isArray(this.technologies)) {
         return []
       }
       
+      // Group technologies by category
       const grouped = {}
       
-      // Initialize all categories
-      CATEGORIES.forEach(cat => {
-        grouped[cat.key] = {
-          ...cat,
-          technologies: []
-        }
-      })
-      
-      // Group technologies
       this.technologies.forEach(tech => {
-        const category = tech.category || 'other'
-        if (grouped[category]) {
-          grouped[category].technologies.push({
-            ...tech,
-            iconData: tech.icon ? { type: 'local', src: tech.icon, alt: tech.name } : resolveIcon(tech.name)
-          })
+        const categoryKey = tech.category || 'other'
+        
+        if (!grouped[categoryKey]) {
+          // Find category definition
+          const categoryDef = CATEGORIES.find(cat => cat.key === categoryKey) || CATEGORIES[CATEGORIES.length - 1]
+          grouped[categoryKey] = {
+            key: categoryKey,
+            name: categoryDef.name,
+            icon: categoryDef.icon,
+            technologies: []
+          }
         }
+        
+        // Resolve icon for this technology
+        const iconData = resolveIcon(tech.name)
+        
+        // Add technology with resolved icon
+        grouped[categoryKey].technologies.push({
+          name: tech.name,
+          description: tech.description,
+          iconData: iconData
+        })
       })
       
-      // Return only categories that have technologies
-      const result = CATEGORIES
+      // Return only categories that have technologies, sorted by CATEGORIES order
+      return CATEGORIES
         .map(cat => grouped[cat.key])
-        .filter(cat => cat.technologies.length > 0)
-      
-      // Log only in development
-      if (import.meta.env.DEV) {
-        console.log('TechnologyStack categories:', result)
-      }
-      return result
+        .filter(cat => cat && cat.technologies.length > 0)
     }
   },
   methods: {

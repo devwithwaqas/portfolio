@@ -1,0 +1,227 @@
+/**
+ * Generate Comprehensive JavaScript Analysis Summary
+ * Reads js-analysis-report.json and creates a detailed, human-readable summary
+ */
+
+const fs = require('fs')
+const path = require('path')
+
+function generateSummary() {
+  const reportPath = path.resolve(__dirname, '..', 'js-analysis-report.json')
+  
+  if (!fs.existsSync(reportPath)) {
+    console.error('❌ js-analysis-report.json not found. Run npm run analyze-js first.')
+    process.exit(1)
+  }
+  
+  const report = JSON.parse(fs.readFileSync(reportPath, 'utf-8'))
+  
+  // Group unused functions by file
+  const functionsByFile = new Map()
+  for (const func of report.unusedFunctions) {
+    if (!functionsByFile.has(func.file)) {
+      functionsByFile.set(func.file, [])
+    }
+    functionsByFile.get(func.file).push(func)
+  }
+  
+  // Group unused variables by file
+  const variablesByFile = new Map()
+  for (const variable of report.unusedVariables) {
+    if (!variablesByFile.has(variable.file)) {
+      variablesByFile.set(variable.file, [])
+    }
+    variablesByFile.get(variable.file).push(variable)
+  }
+  
+  // Group Vue internals by component
+  const vueInternalsByComponent = new Map()
+  for (const internal of report.unusedVueInternals) {
+    if (!vueInternalsByComponent.has(internal.file)) {
+      vueInternalsByComponent.set(internal.file, { computed: [], methods: [], data: [] })
+    }
+    const component = vueInternalsByComponent.get(internal.file)
+    if (component && component[internal.type]) {
+      component[internal.type].push(internal.name)
+    }
+  }
+  
+  // Identify critical files
+  const criticalFiles = []
+  for (const func of report.unusedFunctions) {
+    if (func.file.includes('main.js') || 
+        func.file.includes('router/index.js') ||
+        func.file.includes('App.vue')) {
+      criticalFiles.push(func)
+    }
+  }
+  
+  // Categorize by priority
+  const highPriority = []
+  const mediumPriority = []
+  const lowPriority = []
+  
+  for (const func of report.unusedFunctions) {
+    // High priority: backup files, script files, definitely unused
+    if (func.file.includes('backup') || 
+        func.file.includes('scripts/') ||
+        (func.reason === 'not_found' && !func.file.includes('src/components/'))) {
+      highPriority.push(func)
+    }
+    // Low priority: Vue component methods (might be used in templates)
+    else if (func.file.includes('src/components/') || func.file.includes('src/views/')) {
+      lowPriority.push(func)
+    }
+    // Medium priority: everything else
+    else {
+      mediumPriority.push(func)
+    }
+  }
+  
+  // Generate summary
+  console.log('## 📊 JavaScript Cleanup Analysis Summary\n')
+  
+  console.log('### Overall Statistics')
+  console.log(`- **Total Files**: ${report.summary.totalFiles}`)
+  console.log(`- **Total Functions**: ${report.summary.totalFunctions} (${report.summary.usedFunctions} used, ${report.summary.unusedFunctions} unused - ${((report.summary.unusedFunctions / report.summary.totalFunctions) * 100).toFixed(1)}% unused)`)
+  console.log(`- **Total Variables**: ${report.summary.totalVariables} (${report.summary.usedVariables} used, ${report.summary.unusedVariables} unused - ${((report.summary.unusedVariables / report.summary.totalVariables) * 100).toFixed(1)}% unused)`)
+  console.log(`- **Vue Components**: ${report.summary.vueComponents}`)
+  console.log(`- **Unused Vue Internals**: ${report.summary.unusedVueInternals} (computed: ${report.unusedVueInternals.filter(u => u.type === 'computed').length}, methods: ${report.unusedVueInternals.filter(u => u.type === 'method').length}, data: ${report.unusedVueInternals.filter(u => u.type === 'data').length})`)
+  console.log(`- **Duplicate Code**: ${report.summary.duplicateComputed} computed properties, ${report.summary.duplicateMethods} methods\n`)
+  
+  console.log('### 🔴 High Priority Cleanup\n')
+  
+  console.log(`#### Unused Functions (Showing Top 20 of ${report.unusedFunctions.length} total)`)
+  console.log(`**⚠️ IMPORTANT: Cleanup will remove ALL ${report.unusedFunctions.length} unused functions, not just these 20!**\n`)
+  const top20Functions = report.unusedFunctions.slice(0, 20)
+  top20Functions.forEach((func, idx) => {
+    console.log(`${idx + 1}. \`${func.name}\` - \`${func.file}\` (${func.type}, ${func.reason})`)
+  })
+  if (report.unusedFunctions.length > 20) {
+    console.log(`\n... and ${report.unusedFunctions.length - 20} more unused functions will be removed\n`)
+  }
+  console.log('')
+  
+  console.log('#### Files with Most Unused Code')
+  const sortedFiles = Array.from(functionsByFile.entries())
+    .sort((a, b) => b[1].length - a[1].length)
+    .slice(0, 10)
+  sortedFiles.forEach(([file, funcs]) => {
+    console.log(`- \`${file}\`: ${funcs.length} unused functions`)
+  })
+  console.log('')
+  
+  if (criticalFiles.length > 0) {
+    console.log('#### ⚠️ Critical Files with Unused Code')
+    criticalFiles.forEach(func => {
+      console.log(`- \`${func.name}\` in \`${func.file}\` - **REVIEW CAREFULLY**`)
+    })
+    console.log('')
+  }
+  
+  console.log(`#### Unused Variables (Showing Top 20 of ${report.unusedVariables.length} total)`)
+  console.log(`**⚠️ IMPORTANT: Cleanup will remove ALL ${report.unusedVariables.length} unused variables, not just these 20!**\n`)
+  const top20Variables = report.unusedVariables.slice(0, 20)
+  top20Variables.forEach((variable, idx) => {
+    console.log(`${idx + 1}. \`${variable.name}\` - \`${variable.file}\` (${variable.type}, ${variable.reason})`)
+  })
+  if (report.unusedVariables.length > 20) {
+    console.log(`\n... and ${report.unusedVariables.length - 20} more unused variables will be removed\n`)
+  }
+  console.log('')
+  
+  console.log('### 🟡 Medium Priority (Needs Review)\n')
+  console.log('These items might be used but appear unused:')
+  mediumPriority.slice(0, 10).forEach(func => {
+    console.log(`- \`${func.name}\` in \`${func.file}\` - Check for dynamic usage`)
+  })
+  console.log('')
+  
+  console.log('### 🟢 Low Priority (Likely False Positives)\n')
+  console.log('These are likely used in templates or event handlers:')
+  lowPriority.slice(0, 10).forEach(func => {
+    console.log(`- \`${func.name}\` in \`${func.file}\` - Likely used in template`)
+  })
+  console.log('')
+  
+  console.log('### 🔄 Duplicate Code Opportunities\n')
+  
+  console.log('#### Computed Properties')
+  report.duplicateComponentInternals.computed.forEach(dup => {
+    console.log(`- \`${dup.name}\` appears in:`)
+    dup.files.forEach(f => {
+      console.log(`  - \`${f.file}\``)
+    })
+    console.log(`  - **Recommendation**: Extract to a composable or mixin\n`)
+  })
+  
+  console.log('#### Methods')
+  report.duplicateComponentInternals.methods.forEach(dup => {
+    console.log(`- \`${dup.name}\` appears in:`)
+    dup.files.forEach(f => {
+      console.log(`  - \`${f.file}\``)
+    })
+    console.log(`  - **Recommendation**: Extract to a shared utility or mixin\n`)
+  })
+  
+  console.log('### 📋 Vue Component Internals Analysis\n')
+  
+  console.log('#### Unused Computed Properties')
+  report.unusedVueInternals.filter(u => u.type === 'computed').forEach(u => {
+    console.log(`- \`${u.name}\` in \`${u.file}\``)
+  })
+  console.log('')
+  
+  console.log('#### Unused Methods')
+  report.unusedVueInternals.filter(u => u.type === 'method').forEach(u => {
+    console.log(`- \`${u.name}\` in \`${u.file}\``)
+  })
+  console.log('')
+  
+  console.log('#### Unused Data Properties')
+  report.unusedVueInternals.filter(u => u.type === 'data').forEach(u => {
+    console.log(`- \`${u.name}\` in \`${u.file}\``)
+  })
+  console.log('')
+  
+  console.log('#### Components with Most Unused Internals')
+  const sortedComponents = Array.from(vueInternalsByComponent.entries())
+    .map(([file, internals]) => ({
+      file,
+      count: internals.computed.length + internals.methods.length + internals.data.length,
+      ...internals
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10)
+  sortedComponents.forEach(comp => {
+    console.log(`- \`${comp.file}\`: ${comp.count} unused (${comp.computed.length} computed, ${comp.methods.length} methods, ${comp.data.length} data)`)
+  })
+  console.log('')
+  
+  console.log('### ⚠️ Safety Warnings\n')
+  console.log('**Potential False Positives:**')
+  console.log('- Functions in Vue components marked as unused might be used in templates')
+  console.log('- Methods like `handleClick`, `scrollToTop` are likely event handlers')
+  console.log('- Computed properties might be used in templates with different syntax')
+  console.log('- Functions in `router/index.js` are used by Vue Router')
+  console.log('- Functions in backup files (`*-backup.js`) are safe to remove\n')
+  
+  console.log('**Files to Focus On:**')
+  console.log('1. `public/assets/js/hx-inline-backup.js` - Backup file, safe to clean')
+  console.log('2. `public/assets/js/diag4-prehook.js` - Review for actual usage')
+  console.log('3. `scripts/` directory - Build scripts, review carefully')
+  console.log('4. Vue component methods - Verify template usage before removing\n')
+  
+  console.log('### 📋 Next Steps\n')
+  console.log('1. Review high priority items (backup files first - safest)')
+  console.log('2. Extract duplicate code to shared utilities/mixins')
+  console.log('3. Manually verify Vue component internals in templates')
+  console.log('4. Test after each cleanup batch')
+  console.log('5. Remove unused code from backup files first (safest cleanup)')
+}
+
+if (require.main === module) {
+  generateSummary()
+}
+
+module.exports = { generateSummary }

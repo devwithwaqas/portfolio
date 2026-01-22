@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="format-detection" content="telephone=no">
   
   <!-- Google Search Console Verification -->
@@ -60,11 +60,36 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://us-central1-robust-builder-484406-b3.cloudfunctions.net" crossorigin>
+  
+  <!-- CRITICAL: Preload LCP image FIRST (highest priority) -->
+  <!-- Mobile: Preload mobile JPG (smaller, faster on mobile) -->
+  <link rel="preload" href="/assets/img/waqas-microsoft-profile-mobile.jpg" as="image" type="image/jpeg" fetchpriority="high" media="(max-width: 768px)">
+  <!-- Desktop: Preload desktop JPG (fallback, browser will use WebP if supported) -->
+  <link rel="preload" href="/assets/img/waqas-microsoft-profile-optimized.jpg" as="image" type="image/jpeg" fetchpriority="high" media="(min-width: 769px)">
   
   <!-- Performance: Preload critical resources -->
   <link rel="preload" href="/assets/vendor/bootstrap/css/bootstrap.min.css" as="style">
   <link rel="preload" href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" as="style">
+  <!-- Preload Bootstrap Icons font to prevent icon loading delay (hamburger menu icon) -->
+  <link rel="preload" href="/assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff2?e34853135f9e39acf64315236852cd5a" as="font" type="font/woff2" crossorigin>
+  <!-- Note: WebP versions are loaded via <picture> element automatically - no need to preload separately -->
+  <!-- Note: Fonts use display=optional to prevent layout shifts, and min-height reserves space for text -->
+  
+  <!-- CRITICAL: CSS for inline hero image (positioned inside hero section) -->
+  <!-- TEMPORARILY DISABLED: Checking if this is causing page visibility issues -->
+  <style>
+    /* Hide inline hero image completely for now - troubleshooting */
+    #hero-image-inline { 
+      display: none !important; 
+    }
+    /* Ensure Vue-rendered image is always visible */
+    .hero-profile-side .optimized-image-container {
+      display: block !important;
+    }
+  </style>
   
   <!-- Google Analytics 4 (GA4) -->
   <!-- GA4 Measurement ID will be injected from environment variable VITE_GA4_MEASUREMENT_ID -->
@@ -332,21 +357,53 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Raleway:wght@400;500;600;700;800;900&display=optional" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Raleway:wght@400;500;600;700;800;900&display=optional" rel="stylesheet"></noscript>
   
-  <!-- Critical CSS - Load immediately -->
+  <!-- Critical CSS - Load immediately (render-blocking for above-fold content) -->
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   
-  <!-- Non-critical CSS - Load asynchronously (FA includes its own @font-face with font-display) -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"></noscript>
+  <!-- CRITICAL: Inline hero section CSS to prevent render-blocking -->
+  <style>
+    /* Hero section critical CSS - inlined for instant render */
+    .hero.section { min-height: 100vh; contain: layout style; }
+    .hero-profile-side { position: relative; }
+    .profile-image-container-side { position: relative; width: 100%; }
+    .profile-image-side { width: 100%; height: auto; display: block; }
+    @media (max-width: 768px) {
+      .hero { padding: 20px 0; }
+      .hero-profile-side { margin-bottom: 20px; position: relative; }
+    }
+  </style>
   
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" media="print" onload="this.media='all'">
+  <!-- Non-critical CSS - Load asynchronously (Self-hosted Font Awesome with font-display: swap) -->
+  <link href="/assets/fonts/fontawesome/all.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="/assets/fonts/fontawesome/all.css" rel="stylesheet"></noscript>
+  
+  <!-- Devicon CSS - Deferred to reduce critical path (diag4-prehook.js intercepts most icon requests anyway) -->
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"></noscript>
   
   <!-- Swiper/Glide/GLightbox/AOS CSS removed - not used in Vue components -->
 </head>
 <body>
   <div id="app"></div>
+  
+  <!-- CRITICAL: Inline hero image for instant LCP on mobile -->
+  <!-- Positioned absolutely within hero section when Vue mounts -->
+  <picture id="hero-image-inline" aria-hidden="true" style="display: none;">
+    <!-- Mobile WebP (best compression) -->
+    <source srcset="/assets/img/waqas-microsoft-profile-mobile.webp" type="image/webp" media="(max-width: 768px)">
+    <!-- Mobile JPG fallback -->
+    <img 
+      src="/assets/img/waqas-microsoft-profile-mobile.jpg" 
+      alt="Waqas Ahmad - Senior Software Engineer"
+      width="300"
+      height="95"
+      fetchpriority="high"
+      loading="eager"
+      decoding="async"
+      class="profile-image-side"
+    />
+  </picture>
   
   <!-- Removed unused vendor scripts to shorten critical chain -->
   

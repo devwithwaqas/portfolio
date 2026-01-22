@@ -6,9 +6,9 @@
         <!-- About Section -->
         <div class="col-lg-3 col-md-6 mb-4">
           <div class="footer-section">
-            <h5 class="footer-section-title txt-footer-header-lg">
+            <h2 class="footer-section-title txt-footer-header-lg">
               <i class="bi bi-person-circle me-2 footer-icon-purple icon-md"></i>About Me
-            </h5>
+            </h2>
             <p class="footer-description-text txt-p-md">
               Senior Software Engineer passionate about delivering high-quality solutions with expertise in .NET, Azure Cloud, and enterprise architecture.
             </p>
@@ -29,9 +29,9 @@
         <!-- Quick Links -->
         <div class="col-lg-3 col-md-6 mb-4">
           <div class="footer-section">
-            <h5 class="footer-section-title txt-footer-header-lg">
+            <h2 class="footer-section-title txt-footer-header-lg">
               <i class="bi bi-link-45deg me-2 footer-icon-purple icon-md"></i>Quick Links
-            </h5>
+            </h2>
             <ul class="footer-nav-links">
               <li>
                 <a @click.prevent="scrollToSection('hero', $event)" href="#" class="footer-nav-link txt-footer-link-md">
@@ -150,23 +150,23 @@
         <!-- Social & Contact -->
         <div class="col-lg-3 col-md-6 mb-4">
           <div class="footer-section">
-            <h5 class="footer-section-title txt-footer-header-lg">
+            <h2 class="footer-section-title txt-footer-header-lg">
               <i class="bi bi-share me-2 footer-icon-purple icon-md"></i>Connect With Me
-            </h5>
+            </h2>
             <p class="footer-connect-text txt-p-md">
               Let's collaborate and build something amazing together!
             </p>
             <div class="social-links">
-              <a :href="linkedin" target="_blank" class="social-btn linkedin">
+              <a :href="linkedin" target="_blank" class="social-btn linkedin" aria-label="Visit my LinkedIn profile">
                 <i class="bi bi-linkedin icon-md"></i>
               </a>
-              <a :href="github" target="_blank" class="social-btn github">
+              <a :href="github" target="_blank" class="social-btn github" aria-label="Visit my GitHub profile">
                 <i class="bi bi-github icon-md"></i>
               </a>
-              <a :href="portfolio" class="social-btn portfolio">
+              <a :href="portfolio" class="social-btn portfolio" aria-label="View my portfolio">
                 <i class="bi bi-briefcase icon-md"></i>
               </a>
-              <a :href="contactLinks.email" class="social-btn email">
+              <a :href="contactLinks.email" class="social-btn email" aria-label="Send me an email">
                 <i class="bi bi-envelope icon-md"></i>
               </a>
             </div>
@@ -219,14 +219,19 @@ export default {
             const element = document.getElementById(sectionId)
             if (element) {
               const headerOffset = 100
-              // Read layout BEFORE RAF
-              const elementPosition = element.getBoundingClientRect().top
-              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-              
+              // OPTIMIZATION: Read layout inside RAF to avoid forced reflow
               requestAnimationFrame(() => {
-                window.scrollTo({
-                  top: offsetPosition,
-                  behavior: 'smooth'
+                // Batch layout reads in one synchronous operation
+                const elementPosition = element.getBoundingClientRect().top
+                const scrollY = window.pageYOffset || window.scrollY || 0
+                const offsetPosition = elementPosition + scrollY - headerOffset
+                
+                // Scroll in next frame
+                requestAnimationFrame(() => {
+                  window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                  })
                 })
               })
             }
@@ -309,13 +314,18 @@ export default {
 }
 
 /* Contact Info */
+/* ACCESSIBILITY: Ensure touch targets are at least 44x44px */
 .contact-info-item {
   color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   display: block;
   text-decoration: none;
   transition: all 0.3s ease;
   /* Font size handled by font-sizes.css */
+  /* Add padding to ensure minimum 44px touch target */
+  padding: 8px 4px;
+  min-height: 44px;
+  line-height: 1.5;
 }
 
 .contact-link:hover {
@@ -575,12 +585,15 @@ export default {
   justify-content: center;
 }
 
+/* ACCESSIBILITY: Ensure touch targets are at least 44x44px */
 .social-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 45px;
-  height: 45px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
   border-radius: 50%;
   text-decoration: none;
   /* Font size handled by font-sizes.css */

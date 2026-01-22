@@ -103,24 +103,16 @@ export default {
       return `${this.speechProgress}%`
     },
     resolvedIcon() {
-      if (!this.step) return null
+      if (!this.step || !this.step.icon) {
+        return null
+      }
       
-      // Use the generic icon resolver
-      const iconText = this.step.icon || this.step.title || ''
+      const iconData = resolveIcon(this.step.icon)
       
-      try {
-        const iconResult = resolveIcon(iconText, this.step.title)
-        
-        if (iconResult && iconResult.src) {
-          // Handle devicon types by generating the full CDN URL
-          if (iconResult.type === 'devicon') {
-            return getDeviconSvgUrl(iconResult.src)
-          }
-          // For local icons, use the src directly
-          return iconResult.src
-        }
-      } catch (error) {
-        console.warn('[NarrationBubble] Icon resolution failed:', error)
+      if (iconData.type === 'devicon') {
+        return getDeviconSvgUrl(iconData.src)
+      } else if (iconData.type === 'local') {
+        return iconData.src
       }
       
       return null

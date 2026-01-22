@@ -39,8 +39,9 @@
 </template>
 
 <script>
+// All components load immediately (no lazy loading to avoid scroll issues)
+// Internal images/charts within components can still be lazy loaded
 import Hero from '../components/home/Hero.vue'
-import BackToTop from '../components/layout/BackToTop.vue'
 import About from '../components/home/About.vue'
 import TechnologyExpertise from '../components/home/TechnologyExpertise.vue'
 import Stats from '../components/home/Stats.vue'
@@ -51,6 +52,7 @@ import Services from '../components/home/Services.vue'
 import Testimonials from '../components/home/Testimonials.vue'
 import HomeFAQ from '../components/home/HomeFAQ.vue'
 import Contact from '../components/home/Contact.vue'
+import BackToTop from '../components/layout/BackToTop.vue'
 
 export default {
   name: 'Home',
@@ -79,39 +81,49 @@ export default {
 
     // Generate structured data for SEO with reviews (defer to idle)
     runWhenIdle(async () => {
-      const [{ generateHomePageStructuredData }, { testimonialsData }] = await Promise.all([
-        import('../utils/structuredData.js'),
-        import('../config/testimonials.js')
-      ])
-      generateHomePageStructuredData(testimonialsData)
+      try {
+        const [{ generateHomePageStructuredData }, { testimonialsData }] = await Promise.all([
+          import('../utils/structuredData.js'),
+          import('../config/testimonials.js')
+        ])
+        generateHomePageStructuredData(testimonialsData)
+      } catch (error) {
+        // Silently fail - structured data is optional for SEO, not critical for functionality
+        console.warn('[Home] Failed to generate structured data:', error.message)
+      }
     })
 
-    // Handle scroll restoration for back navigation
+    // Handle scroll restoration - CRITICAL: Only restore on navigation, NOT on refresh
     const navEntry = performance.getEntriesByType('navigation')[0]
     const navType = navEntry ? navEntry.type : 'navigate'
 
-    if (navType === 'back_forward') {
-      // Let browser handle scroll restoration naturally
-      // Clear any stored state
-      try {
-        sessionStorage.removeItem('home:returnSection')
-        sessionStorage.removeItem('home:forceAll')
-      } catch (error) {
-        // Ignore storage errors
-      }
-    }
-
+    // On reload/refresh: Clear all scroll restoration flags (let browser handle natural scroll)
     if (navType === 'reload') {
-      // On reload, DON'T clear scroll - let browser restore it
-      // Only clear return section flags
+      try {
+        sessionStorage.removeItem('home:returnSection')
+        sessionStorage.removeItem('home:forceAll')
+        // Also clear any saved scroll positions to prevent restoration on refresh
+        sessionStorage.removeItem('scroll:/')
+      } catch (error) {
+        // Ignore storage errors
+      }
+      // Don't restore scroll on refresh - let browser handle it naturally
+      return
+    }
+
+    // On back/forward navigation: Let browser handle scroll restoration naturally
+    if (navType === 'back_forward') {
       try {
         sessionStorage.removeItem('home:returnSection')
         sessionStorage.removeItem('home:forceAll')
       } catch (error) {
         // Ignore storage errors
       }
+      // Browser will handle scroll restoration for back/forward
+      return
     }
 
+    // Only restore scroll position when coming from another page (navigation, not refresh)
     // Handle return section scrolling (from project/service pages)
     const returnSection = (() => {
       try {
@@ -122,23 +134,90 @@ export default {
     })()
 
     if (returnSection) {
+      // Wait for lazy components to load before scrolling
+      // OPTIMIZATION: Batch layout reads to avoid forced reflows
       const scrollToSection = () => {
         const element = document.getElementById(returnSection)
         if (element) {
-          const headerOffset = 100
-          const elementPosition = element.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-          window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
-          try {
-            sessionStorage.removeItem('home:returnSection')
-          } catch (error) {
-            // Ignore storage errors
+          // OPTIMIZATION: Read layout properties once and batch them
+          let cachedLayout = null
+          const readLayoutOnce = () => {
+            if (!cachedLayout) {
+              // Batch all layout reads in one synchronous operation
+              const rect = element.getBoundingClientRect()
+              const scrollY = window.pageYOffset
+              cachedLayout = {
+                top: rect.top,
+                scrollY: scrollY,
+                offset: rect.top + scrollY - 100 // headerOffset
+              }
+            }
+            return cachedLayout
+          }
+          
+          // Use IntersectionObserver with rootMargin to start earlier (reduces layout work)
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting || entry.intersectionRatio > 0) {
+                // Element is visible/loaded, safe to scroll
+                // Read layout once, then scroll in RAF
+                const layout = readLayoutOnce()
+                
+                requestAnimationFrame(() => {
+                  window.scrollTo({ top: layout.offset, behavior: 'smooth' })
+                  try {
+                    sessionStorage.removeItem('home:returnSection')
+                  } catch (error) {
+                    // Ignore storage errors
+                  }
+                })
+                observer.disconnect()
+              }
+            })
+          }, { 
+            threshold: 0.1,
+            rootMargin: '100px' // Start detecting earlier to reduce layout work
+          })
+          
+          observer.observe(element)
+          
+          // Fallback: If element doesn't become visible within 3 seconds, scroll anyway
+          setTimeout(() => {
+            observer.disconnect()
+            // Use cached layout if available, otherwise read once
+            const layout = readLayoutOnce()
+            requestAnimationFrame(() => {
+              window.scrollTo({ top: layout.offset, behavior: 'smooth' })
+              try {
+                sessionStorage.removeItem('home:returnSection')
+              } catch (error) {
+                // Ignore storage errors
+              }
+            })
+          }, 3000)
+        } else {
+          // Element not found yet, wait a bit and try again (for lazy components)
+          // Use requestIdleCallback for better timing
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(scrollToSection, { timeout: 500 })
+          } else {
+            setTimeout(scrollToSection, 200)
           }
         }
       }
 
-      // Wait for content to render
-      setTimeout(scrollToSection, 500)
+      // Wait for initial render, then wait for lazy components
+      // OPTIMIZATION: Use requestIdleCallback to defer non-critical work
+      this.$nextTick(() => {
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(() => {
+            setTimeout(scrollToSection, 100)
+          }, { timeout: 1000 })
+        } else {
+          // Fallback for browsers without requestIdleCallback
+          setTimeout(scrollToSection, 300)
+        }
+      })
     }
   }
 }

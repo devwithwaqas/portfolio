@@ -100,7 +100,7 @@
                         image-class="category-icon icon-img-lg"
                         container-class="category-icon-container"
                       />
-                      <h5>📊 Data & Analytics</h5>
+                      <h3>📊 Data & Analytics</h3>
                     </div>
                     <div class="row">
                       <SkillCard v-for="(skill, index) in dataAnalyticsSkills" :key="'data-' + index"
@@ -124,7 +124,7 @@
                         image-class="category-icon icon-img-lg"
                         container-class="category-icon-container"
                       />
-                      <h5>🎯 Project Management</h5>
+                      <h4>🎯 Project Management</h4>
                     </div>
                     <div class="row">
                       <SkillCard v-for="(skill, index) in projectManagementSkills" :key="'pm-' + index"
@@ -148,7 +148,7 @@
                         image-class="category-icon icon-img-lg"
                         container-class="category-icon-container"
                       />
-                      <h5>🛠️ Microsoft & Enterprise Tools</h5>
+                      <h4>🛠️ Microsoft & Enterprise Tools</h4>
                     </div>
                     <div class="row">
                       <SkillCard v-for="(skill, index) in microsoftToolsSkills" :key="'ms-' + index"

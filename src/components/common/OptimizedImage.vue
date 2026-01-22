@@ -2,21 +2,38 @@
   <picture ref="pictureElement" :class="containerClass" class="optimized-image-container">
     <!-- AVIF (best compression, newer browsers) -->
     <source 
-      v-if="avifSrc"
+      v-if="avifSrcset"
+      :srcset="avifSrcset"
+      type="image/avif"
+    />
+    
+    <!-- WebP (good compression, good browser support) - Profile image with responsive srcset -->
+    <source 
+      v-if="profileImageWebPSrcset || webpSrcset"
+      :srcset="profileImageWebPSrcset || webpSrcset"
+      :sizes="profileImageSizes"
+      type="image/webp"
+    />
+    
+    <!-- AVIF single source (fallback for non-responsive) -->
+    <source 
+      v-else-if="avifSrc"
       :srcset="avifSrc"
       type="image/avif"
     />
     
-    <!-- WebP (good compression, good browser support) -->
+    <!-- WebP single source (fallback for non-responsive) -->
     <source 
-      v-if="webpSrc"
+      v-else-if="webpSrc"
       :srcset="webpSrc"
       type="image/webp"
     />
     
-    <!-- Fallback (JPG/PNG) -->
+    <!-- Fallback (JPG/PNG) - Profile image with responsive srcset -->
     <LazyImage
       :src="fallbackSrc"
+      :srcset="profileImageSrcset || fallbackSrcset"
+      :sizes="profileImageSizes || iconSizes"
       :alt="alt"
       :width="width"
       :height="height"
@@ -98,11 +115,132 @@ export default {
     }
   },
   computed: {
+    // Check if this is an icon file
+    isIconFile() {
+      return /\/[Ii]cons\//.test(this.src)
+    },
+    
+    // Check if this is the profile hero image (LCP element)
+    isProfileImage() {
+      return /waqas-microsoft-profile/.test(this.src)
+    },
+    
+    // Generate responsive srcset for profile image (mobile/desktop)
+    profileImageSrcset() {
+      if (!this.isProfileImage) return null
+      
+      // Generate srcsets for mobile (300w) and desktop (365w) variants
+      const base = this.src.replace(/\.(jpg|jpeg|png|webp)$/i, '')
+      const ext = this.getExtension(this.src)
+      
+      // Mobile: 300w (smaller file for mobile devices)
+      const mobileSrc = base.replace('-optimized', '-mobile') + ext
+      // Desktop: 365w (already optimized version - this.src is already the optimized path)
+      const desktopSrc = this.src // Already -optimized.jpg
+      
+      return `${mobileSrc} 300w, ${desktopSrc} 365w`
+    },
+    
+    // Generate WebP srcset for profile image
+    profileImageWebPSrcset() {
+      if (!this.isProfileImage) return null
+      
+      const base = this.src.replace(/\.(jpg|jpeg|png)$/i, '')
+      // Mobile WebP: 300w
+      const mobileSrc = base.replace('-optimized', '-mobile') + '.webp'
+      // Desktop WebP: 365w (desktop.webp)
+      const desktopSrc = base.replace('-optimized', '-desktop') + '.webp'
+      
+      return `${mobileSrc} 300w, ${desktopSrc} 365w`
+    },
+    
+    // Generate sizes attribute for profile image
+    profileImageSizes() {
+      if (!this.isProfileImage) return null
+      // Mobile: max 300px, Desktop: max 365px
+      return '(max-width: 768px) 300px, 365px'
+    },
+    
+    // Generate responsive srcset for icons (1x and 2x)
+    // NOTE: Disabled until icon sizes are generated - will be enabled after running generate-icon-sizes
+    webpSrcset() {
+      // Disable srcset for now - files don't exist yet
+      // Will be enabled after running: npm run generate-icon-sizes
+      return null
+      
+      // if (!this.isIconFile) return null
+      // 
+      // const base = this.src.replace(/\.(jpg|jpeg|png)$/i, '')
+      // 
+      // // Generate srcset for responsive icons: 1x (42px) and 2x (84px)
+      // const webp1x = `${base}-optimized.webp`
+      // const webp2x = `${base}-2x-optimized.webp`
+      // 
+      // // Return srcset string if files exist (browser will handle 404 gracefully)
+      // return `${webp1x} 1x, ${webp2x} 2x`
+    },
+    
+    avifSrcset() {
+      // Disable srcset for now - files don't exist yet
+      return null
+      
+      // if (!this.isIconFile) return null
+      // 
+      // const base = this.src.replace(/\.(jpg|jpeg|png)$/i, '')
+      // const avif1x = `${base}-optimized.avif`
+      // const avif2x = `${base}-2x-optimized.avif`
+      // 
+      // return `${avif1x} 1x, ${avif2x} 2x`
+    },
+    
+    fallbackSrcset() {
+      // Disable srcset for now - files don't exist yet
+      return null
+      
+      // if (!this.isIconFile) return null
+      // 
+      // const base = this.src.replace(/\.(jpg|jpeg|png)$/i, '')
+      // const ext = this.getExtension(this.src)
+      // const png1x = `${base}${ext}`
+      // const png2x = `${base}-2x${ext}`
+      // 
+      // return `${png1x} 1x, ${png2x} 2x`
+    },
+    
+    iconSizes() {
+      // Only use sizes attribute for icons
+      return this.isIconFile ? '42px' : undefined
+    },
+    
     // Generate WebP version path
     webpSrc() {
       if (!this.src) return null
+      // Skip SVG files - they don't have WebP versions
+      if (this.src.toLowerCase().endsWith('.svg')) return null
+      
       // Replace extension with .webp
       const base = this.src.replace(/\.(jpg|jpeg|png)$/i, '')
+      
+      // Don't create WebP for files with special suffixes (they're already optimized)
+      if (base.includes('-thumb') || base.includes('-backup') || base.includes('-original')) {
+        return null
+      }
+      
+      // For icon files, try optimized WebP versions if available
+      if (/\/[Ii]cons\//.test(this.src)) {
+        // Icons may have -optimized versions or -2x versions
+        const base = this.src.replace(/\.(png|jpg|jpeg)$/i, '')
+        // Try -optimized.webp first, then base.webp
+        if (base.endsWith('-optimized')) {
+          return `${base}.webp`
+        } else if (base.endsWith('-2x')) {
+          return `${base.replace('-2x', '')}-optimized.webp`
+        } else {
+          // Try optimized version
+          return `${base}-optimized.webp`
+        }
+      }
+      
       // Handle both cases: already has -optimized or needs it added
       if (base.endsWith('-optimized')) {
         return `${base}.webp`
@@ -117,7 +255,30 @@ export default {
     // Generate AVIF version path
     avifSrc() {
       if (!this.src) return null
+      // Skip SVG files - they don't have AVIF versions
+      if (this.src.toLowerCase().endsWith('.svg')) return null
+      
       const base = this.src.replace(/\.(jpg|jpeg|png)$/i, '')
+      
+      // Don't create AVIF for files with special suffixes (they're already optimized)
+      if (base.includes('-thumb') || base.includes('-backup') || base.includes('-original')) {
+        return null
+      }
+      
+      // For icon files, try optimized AVIF versions if available
+      if (/\/[Ii]cons\//.test(this.src)) {
+        const base = this.src.replace(/\.(png|jpg|jpeg)$/i, '')
+        // Try -optimized.avif first, then base.avif
+        if (base.endsWith('-optimized')) {
+          return `${base}.avif`
+        } else if (base.endsWith('-2x')) {
+          return `${base.replace('-2x', '')}-optimized.avif`
+        } else {
+          // Try optimized version
+          return `${base}-optimized.avif`
+        }
+      }
+      
       // Handle both cases: already has -optimized or needs it added
       if (base.endsWith('-optimized')) {
         return `${base}.avif`
@@ -131,14 +292,23 @@ export default {
     
     // Fallback to original if optimized doesn't exist, otherwise use optimized
     fallbackSrc() {
-      if (!this.src) return ''
-      // If src already has -optimized, use it, otherwise try -optimized version
-      if (this.src.includes('-optimized')) {
+      // For icons, use the src as-is (iconResolver already handles optimization paths)
+      if (this.isIconFile) {
         return this.src
       }
-      // Try optimized version (fallback will handle if doesn't exist)
+      
+      // For other images, try optimized version first, fallback to original
+      // The browser will automatically fallback if optimized doesn't exist
       const base = this.src.replace(/\.(jpg|jpeg|png)$/i, '')
-      return `${base}-optimized${this.getExtension(this.src)}`
+      const ext = this.getExtension(this.src)
+      
+      // If src already has -optimized, use it
+      if (base.endsWith('-optimized')) {
+        return this.src
+      }
+      
+      // Otherwise, try optimized version (browser will fallback to original if 404)
+      return `${base}-optimized${ext}`
     }
   },
   methods: {

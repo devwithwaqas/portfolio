@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     safeCurrentUrl() {
-      // Return the data property, which is set safely in mounted()
+      // Return the current URL safely, ensuring it's always a string
       return this.currentUrl || SITE_URL
     }
   },

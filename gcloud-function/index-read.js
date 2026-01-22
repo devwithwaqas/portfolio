@@ -6,13 +6,24 @@
 
 const { Firestore } = require('@google-cloud/firestore');
 
-// CORS Headers
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': 'https://devwithwaqas.github.io',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Accept, Origin, X-Requested-With',
-  'Access-Control-Max-Age': '86400',
-};
+// CORS Headers - Allow both GitHub Pages and Firebase Hosting
+const ALLOWED_ORIGINS = [
+  'https://devwithwaqas.github.io',
+  'https://portfolio-staging-test.web.app',
+  'https://portfolio-staging-test.firebaseapp.com',
+  'https://portfolio-test-4108729.web.app',
+  'https://portfolio-test-4108729.firebaseapp.com'
+];
+
+function getCorsHeaders(origin) {
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Accept, Origin, X-Requested-With',
+    'Access-Control-Max-Age': '86400',
+  };
+}
 
 // Configuration - Tracking
 const MEASUREMENT_ID = 'G-1HMMJLP7GK';
@@ -77,6 +88,9 @@ async function sendTrackingEvent(clientId, eventName, eventParams, pageLocation,
  * Cloud Function entry point - reads cached analytics data (GET) or handles tracking (POST)
  */
 exports.readPortfolioAnalytics = async (req, res) => {
+  const origin = req.headers.origin || '';
+  const CORS_HEADERS = getCorsHeaders(origin);
+  
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     res.set(CORS_HEADERS);

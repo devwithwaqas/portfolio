@@ -84,7 +84,7 @@
                       </div>
                       
                       <article style="background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%); color: white; padding: 25px; border-radius: 15px; margin-top: 25px; box-shadow: 0 15px 35px rgba(60, 20, 120, 0.4);">
-                        <h5 style="color: white; margin-bottom: 15px; font-weight: 600;">Professional Summary</h5>
+                        <h3 style="color: white; margin-bottom: 15px; font-weight: 600;">Professional Summary</h3>
                         <p style="color: rgba(255, 255, 255, 0.9); margin: 0; line-height: 1.6;">
                           {{ fullName }} is a Senior Software Engineer and Technical Lead with {{ totalExperience }}+ years of experience in enterprise software development. As a software engineering consultant and specialist, {{ fullName }} provides technical expertise in <strong>.NET Core, ASP.NET, C#</strong>, <strong>Microservices Architecture</strong>, <strong>RESTful API Development</strong>, and <strong>Azure Cloud</strong> platforms. Expertise includes Azure Functions, App Services, Service Fabric, Key Vault, App Insights, CI/CD pipelines, branching strategies, build/release policies, and Cloud App Identity Management. Experience includes working with Fortune 500 companies across USA, Europe, and globally, delivering enterprise solutions that process 2.5M+ data points daily and managing systems with billions in operational costs.
                         </p>
@@ -92,7 +92,7 @@
                       
                       <!-- E-E-A-T Evidence Section -->
                       <div style="background: rgba(5, 99, 187, 0.05); padding: 25px; border-radius: 15px; margin-top: 25px; border-left: 4px solid #0563bb;">
-                        <h5 style="color: #0563bb; margin-bottom: 20px; font-weight: 600; font-size: 1.2rem;">Experience & Credentials</h5>
+                        <h4 style="color: #0563bb; margin-bottom: 20px; font-weight: 600; font-size: 1.2rem;">Experience & Credentials</h4>
                         <div style="color: #45505b; line-height: 1.8;">
                           <p style="margin-bottom: 12px;"><strong>Education:</strong> Bachelor's degree in Computer System Engineering from University of Engineering and Technology, Lahore.</p>
                           <p style="margin-bottom: 12px;"><strong>Professional Experience:</strong> {{ totalExperience }}+ years in enterprise software development, {{ techLeadExperience }}+ years in technical leadership roles.</p>

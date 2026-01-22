@@ -152,10 +152,22 @@ export default {
   },
   methods: {
     getChartColumnClass(width) {
-      if (width === 'full') {
-        return 'col-12'
+      // Return Bootstrap column class based on chart width
+      // width can be: 'full' (12 cols), 'half' (6 cols), 'third' (4 cols), 'quarter' (3 cols)
+      const widthMap = {
+        'full': 'col-12',
+        'half': 'col-12 col-md-6',
+        'third': 'col-12 col-md-6 col-lg-4',
+        'quarter': 'col-12 col-md-6 col-lg-3',
+        // Also support numeric values
+        '12': 'col-12',
+        '6': 'col-12 col-md-6',
+        '4': 'col-12 col-md-6 col-lg-4',
+        '3': 'col-12 col-md-6 col-lg-3'
       }
-      return 'col-md-6 col-12'
+      
+      // Default to full width if width not specified or unknown
+      return widthMap[width] || widthMap['full']
     },
     
     getChartIcon(iconName) {

@@ -83,6 +83,31 @@ export default {
     if (this.iconName) {
       this.resolvedIconData = resolveIcon(this.iconName)
     }
+    
+    // LCP OPTIMIZATION: Defer animations until page is loaded
+    const startAnimations = () => {
+      if (this.$el) {
+        this.$el.classList.add('animations-active')
+      }
+    }
+    
+    // Wait for page load or first interaction
+    if (document.readyState === 'complete') {
+      setTimeout(startAnimations, 2000)
+    } else {
+      window.addEventListener('load', () => {
+        setTimeout(startAnimations, 2000)
+      }, { once: true })
+    }
+    
+    // Also start on first interaction
+    const onInteraction = () => {
+      startAnimations()
+      window.removeEventListener('touchstart', onInteraction, { passive: true })
+      window.removeEventListener('click', onInteraction)
+    }
+    window.addEventListener('touchstart', onInteraction, { passive: true, once: true })
+    window.addEventListener('click', onInteraction, { once: true })
   },
   computed: {
     // Extract emoji from title and separate icon from text
@@ -118,6 +143,11 @@ export default {
       }
       return null
     },
+    bodyStyle() {
+      return {
+        padding: this.bodyPadding
+      }
+    },
     deviconClass() {
       if (this.iconData && this.iconData.type === 'devicon') {
         return getDeviconClass(this.iconData.src)
@@ -152,11 +182,6 @@ export default {
         zIndex: '10'
       }
     },
-    bodyStyle() {
-      return {
-        padding: this.bodyPadding
-      }
-    }
   }
 }
 </script>
@@ -177,8 +202,13 @@ export default {
   right: 0;
   bottom: 0;
   background: linear-gradient(45deg, transparent 30%, rgba(40, 10, 80, 0.3) 50%, transparent 70%);
-  animation: headerShimmer 3s ease-in-out infinite;
+  /* LCP OPTIMIZATION: Animation only when .animations-active */
+  animation: none;
   z-index: 1;
+}
+
+.reusable-card.animations-active .header-background-animation {
+  animation: headerShimmer 3s ease-in-out infinite;
 }
 
 .header-particles {
@@ -196,6 +226,11 @@ export default {
   height: 4px;
   background: rgba(100, 50, 200, 0.8);
   border-radius: 50%;
+  /* LCP OPTIMIZATION: Animation only when .animations-active */
+  animation: none;
+}
+
+.reusable-card.animations-active .header-particles .particle {
   animation: particleFloat 4s ease-in-out infinite;
 }
 
@@ -236,8 +271,13 @@ export default {
 
 .title-icon {
   display: inline-block;
-  animation: iconPulse 2s ease-in-out infinite;
+  /* LCP OPTIMIZATION: Animation only when .animations-active */
+  animation: none;
   margin-right: 10px;
+}
+
+.reusable-card.animations-active .title-icon {
+  animation: iconPulse 2s ease-in-out infinite;
 }
 
 .title-text {
@@ -258,6 +298,11 @@ export default {
   height: 3px;
   background: linear-gradient(90deg, #a855f7 0%, #9333ea 100%);
   border-radius: 2px;
+  /* LCP OPTIMIZATION: Animation only when .animations-active */
+  animation: none;
+}
+
+.reusable-card.animations-active .title-underline {
   animation: underlineGlow 2s ease-in-out infinite;
 }
 
@@ -270,8 +315,13 @@ export default {
   height: 200px;
   background: radial-gradient(circle, rgba(80, 30, 140, 0.15) 0%, transparent 70%);
   border-radius: 50%;
-  animation: glowPulse 3s ease-in-out infinite;
+  /* LCP OPTIMIZATION: Animation only when .animations-active */
+  animation: none;
   z-index: 1;
+}
+
+.reusable-card.animations-active .header-glow-effect {
+  animation: glowPulse 3s ease-in-out infinite;
 }
 
 /* Animations */

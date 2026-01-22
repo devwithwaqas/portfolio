@@ -321,6 +321,25 @@ export function generateProfessionalServiceSchema() {
 }
 
 /**
+ * Generate ProfessionalService schema with reviews
+ * Similar to generateProfessionalServiceSchema but includes review/rating data
+ */
+export function generateProfessionalServiceSchemaWithReviews(testimonials = []) {
+  const baseSchema = generateProfessionalServiceSchema()
+  
+  // Add reviews if testimonials provided
+  if (testimonials && testimonials.length > 0) {
+    const reviewData = generateReviewSchema(testimonials)
+    
+    // Add reviews and aggregateRating to the service schema
+    baseSchema.review = reviewData.reviews
+    baseSchema.aggregateRating = reviewData.aggregateRating
+  }
+  
+  return baseSchema
+}
+
+/**
  * Generate Organization schema
  */
 export function generateOrganizationSchema() {
@@ -580,17 +599,6 @@ export function generateReviewSchema(testimonials) {
  * Generate ProfessionalService schema with reviews
  * Enhanced version that includes review data
  */
-export function generateProfessionalServiceSchemaWithReviews(testimonials) {
-  const serviceSchema = generateProfessionalServiceSchema()
-  const reviewData = generateReviewSchema(testimonials)
-  
-  // Add reviews and aggregateRating to the service schema
-  return {
-    ...serviceSchema,
-    review: reviewData.reviews,
-    aggregateRating: reviewData.aggregateRating
-  }
-}
 
 /**
  * Generate Service schema

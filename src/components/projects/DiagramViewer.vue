@@ -2,7 +2,9 @@
   <!-- Fullscreen Overlay -->
   <Teleport to="body">
     <div v-if="isFullscreen" class="fullscreen-overlay">
-      <button class="fullscreen-close-btn" @click="exitFullscreen" title="Exit Fullscreen (ESC)">×</button>
+      <button class="close-btn" @click="exitFullscreen" title="Exit Fullscreen (ESC)" aria-label="Close">
+        <img :src="$assetPath('/assets/img/Icons/close.png')" alt="Close" class="icon-img-2xl" />
+      </button>
       
       <!-- Loading overlay -->
       <div v-if="isFullscreenLoading" class="fullscreen-loading">
@@ -436,8 +438,15 @@ export default {
         canvas: true,
         // Set very wide zoom limits to effectively make it unlimited
         minScale: 0.001,  // 0.1% of original size
-        maxScale: 100     // 10000% of original size
+        maxScale: 100,     // 10000% of original size
+        // Disable panzoom's built-in event handlers - we'll handle touch manually
+        noBind: true
       })
+      
+      // Bind panzoom for desktop (mouse events only)
+      if (!('ontouchstart' in window)) {
+        this.panzoomInstance.bind()
+      }
       
       this.debugLog('Panzoom instance created with unlimited zoom (SVG)')
 
@@ -453,6 +462,9 @@ export default {
         }
         // Otherwise, let the event bubble up for normal page scrolling
       }, { passive: false })
+
+      // Mobile: Detect scrolling vs. panning to prevent hijacking page scroll
+      this.setupTouchScrollDetection(containerElement, wrapperElement)
 
       // Initial fit to view
       this.$nextTick(() => {
@@ -547,6 +559,101 @@ export default {
       }
     },
 
+
+    setupTouchScrollDetection(containerElement, wrapperElement) {
+      // Only on mobile/touch devices
+      if (!('ontouchstart' in window)) {
+        return
+      }
+
+      let touchStartY = 0
+      let touchStartX = 0
+      let isScrolling = false
+      let touchMoved = false
+      let panStartX = 0
+      let panStartY = 0
+      const scrollThreshold = 15 // pixels to move before deciding if it's a scroll
+
+      // Allow vertical scrolling by default on both container and wrapper
+      containerElement.style.touchAction = 'pan-y pinch-zoom'
+      wrapperElement.style.touchAction = 'pan-y pinch-zoom'
+
+      containerElement.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          touchStartY = e.touches[0].clientY
+          touchStartX = e.touches[0].clientX
+          isScrolling = false
+          touchMoved = false
+          // Store panzoom's current pan position if it exists
+          if (this.panzoomInstance) {
+            try {
+              const pan = this.panzoomInstance.getPan()
+              panStartX = pan.x || 0
+              panStartY = pan.y || 0
+            } catch (e) {
+              panStartX = 0
+              panStartY = 0
+            }
+          }
+        }
+      }, { passive: true })
+
+      containerElement.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 1) {
+          const touch = e.touches[0]
+          const deltaY = Math.abs(touch.clientY - touchStartY)
+          const deltaX = Math.abs(touch.clientX - touchStartX)
+          
+          if (!touchMoved && (deltaY > 3 || deltaX > 3)) {
+            touchMoved = true
+          }
+
+          if (!touchMoved) return
+
+          // If vertical movement is significantly greater than horizontal, it's a scroll
+          if (deltaY > scrollThreshold && deltaY > deltaX * 2) {
+            // This is a scroll - let the browser handle it
+            isScrolling = true
+            containerElement.style.touchAction = 'pan-y'
+            wrapperElement.style.touchAction = 'pan-y'
+            wrapperElement.style.pointerEvents = 'none'
+            // Don't prevent default - allow page to scroll
+            return
+          } 
+          
+          // Horizontal or diagonal movement - likely panning
+          if (deltaX > scrollThreshold || (deltaX > deltaY * 1.5)) {
+            // This is a pan - prevent page scroll and pan the diagram
+            isScrolling = false
+            e.preventDefault()
+            e.stopPropagation()
+            containerElement.style.touchAction = 'none'
+            wrapperElement.style.touchAction = 'none'
+            wrapperElement.style.pointerEvents = 'auto'
+            
+            if (this.panzoomInstance) {
+              // Manually pan the diagram
+              const panX = touch.clientX - touchStartX
+              const panY = touch.clientY - touchStartY
+              
+              // Apply pan relative to starting position
+              this.panzoomInstance.pan(panStartX + panX, panStartY + panY, { animate: false })
+            }
+          }
+        }
+      }, { passive: false })
+
+      containerElement.addEventListener('touchend', () => {
+        // Reset after touch ends
+        setTimeout(() => {
+          isScrolling = false
+          touchMoved = false
+          containerElement.style.touchAction = 'pan-y pinch-zoom'
+          wrapperElement.style.touchAction = 'pan-y pinch-zoom'
+          wrapperElement.style.pointerEvents = 'auto'
+        }, 50)
+      }, { passive: true })
+    },
 
     getCurrentScale() {
       // Get the current scale from panzoom instance
@@ -1181,15 +1288,6 @@ export default {
       }
     },
 
-    selectVoice(voiceObj) {
-      this.selectedVoice = voiceObj.name
-      this.showVoiceSelection = false
-      
-      // Pass selected voice to narrator
-      if (this.isFullscreen && this.$refs.narrator) {
-        this.$refs.narrator.setVoice(voiceObj.voice)
-      }
-    }
   }
 }
 </script>
@@ -1863,7 +1961,9 @@ export default {
 .fullscreen-toolbar .toolbar-btn {
   background: rgba(139, 92, 246, 0.2);
   border: 1px solid rgba(139, 92, 246, 0.4);
-  padding: 12px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -1877,29 +1977,40 @@ export default {
   transform: translateY(-2px);
 }
 
-.fullscreen-close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  color: white;
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
-  z-index: 10001;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.fullscreen-toolbar .toolbar-btn img {
+  width: 24px !important;
+  height: 24px !important;
+  object-fit: contain;
+  pointer-events: none;
 }
 
-.fullscreen-close-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+/* Fullscreen Close Button - Using ImagePreview close button styling */
+.close-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 10002;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background: rgba(220, 38, 38, 0.3);
+  border-color: rgba(220, 38, 38, 0.5);
   transform: scale(1.1);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .close-btn {
+    top: 15px;
+    right: 15px;
+  }
 }
 
 .fullscreen-diagram-container {

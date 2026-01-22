@@ -1,0 +1,742 @@
+{
+  "summary": {
+    "totalSelectors": 381,
+    "unusedCount": 52,
+    "duplicateCount": 0,
+    "conflictCount": 0,
+    "usedClasses": 864,
+    "usedIds": 140
+  },
+  "unused": [
+    {
+      "key": ".layer-description",
+      "selector": ".layer-description",
+      "properties": "",
+      "lineNumber": 125,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/font-sizes.css"
+    },
+    {
+      "key": ".benefits-title",
+      "selector": ".benefits-title",
+      "properties": "",
+      "lineNumber": 126,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/font-sizes.css"
+    },
+    {
+      "key": ".benefits-description",
+      "selector": ".benefits-description",
+      "properties": "",
+      "lineNumber": 127,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/font-sizes.css"
+    },
+    {
+      "key": ".feature-description",
+      "selector": ".feature-description",
+      "properties": "",
+      "lineNumber": 129,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/font-sizes.css"
+    },
+    {
+      "key": ".chart-subtitle",
+      "selector": ".chart-subtitle",
+      "properties": "",
+      "lineNumber": 138,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/font-sizes.css"
+    },
+    {
+      "key": ".diagram-title",
+      "selector": ".diagram-title",
+      "properties": "",
+      "lineNumber": 141,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/font-sizes.css"
+    },
+    {
+      "key": ".diagram-placeholder",
+      "selector": ".diagram-placeholder",
+      "properties": "",
+      "lineNumber": 142,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/font-sizes.css"
+    },
+    {
+      "key": ".diagram-text",
+      "selector": ".diagram-text",
+      "properties": "",
+      "lineNumber": 143,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/font-sizes.css"
+    },
+    {
+      "key": ".project-info-item",
+      "selector": ".project-info-item",
+      "properties": "",
+      "lineNumber": 149,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/font-sizes.css"
+    },
+    {
+      "key": ".challenge-title",
+      "selector": ".challenge-title",
+      "properties": "",
+      "lineNumber": 152,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/font-sizes.css"
+    },
+    {
+      "key": "@media (max-width: 768px) .text-justify",
+      "selector": ".text-justify",
+      "properties": "",
+      "lineNumber": 651,
+      "mediaQuery": "(max-width: 768px)",
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "[data-aos].aos-animate",
+      "selector": "[data-aos].aos-animate",
+      "properties": "",
+      "lineNumber": 893,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@media screen and (max-width: 768px) [data-aos-delay]",
+      "selector": "[data-aos-delay]",
+      "properties": "",
+      "lineNumber": 900,
+      "mediaQuery": "screen and (max-width: 768px)",
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes drift",
+      "selector": "@keyframes drift",
+      "properties": "",
+      "lineNumber": 1271,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "from",
+      "selector": "from",
+      "properties": "",
+      "lineNumber": 1272,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "to",
+      "selector": "to",
+      "properties": "",
+      "lineNumber": 1273,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes ringRotate",
+      "selector": "@keyframes ringRotate",
+      "properties": "0% {\ntransform: scale(1) rotate(0deg);\nopacity: 0;",
+      "lineNumber": 1276,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes backgroundPulse",
+      "selector": "@keyframes backgroundPulse",
+      "properties": "0% {\nopacity: 0.3;\ntransform: scale(1);",
+      "lineNumber": 1296,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".typed",
+      "selector": ".typed",
+      "properties": "",
+      "lineNumber": 1536,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".typed-cursor",
+      "selector": ".typed-cursor",
+      "properties": "",
+      "lineNumber": 1546,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes blink",
+      "selector": "@keyframes blink",
+      "properties": "",
+      "lineNumber": 1552,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "0%",
+      "selector": "0%",
+      "properties": "",
+      "lineNumber": 1553,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "50%",
+      "selector": "50%",
+      "properties": "",
+      "lineNumber": 1553,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "51%",
+      "selector": "51%",
+      "properties": "",
+      "lineNumber": 1554,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "100%",
+      "selector": "100%",
+      "properties": "",
+      "lineNumber": 1554,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes textGlow",
+      "selector": "@keyframes textGlow",
+      "properties": "0% {\ntext-shadow: 0 8px 24px rgba(124,58,237,0.3);\nfilter: brightness(1);",
+      "lineNumber": 1557,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes emojiFloat",
+      "selector": "@keyframes emojiFloat",
+      "properties": "0% {\ntransform: translateY(0px) scale(1);",
+      "lineNumber": 1568,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes pulse",
+      "selector": "@keyframes pulse",
+      "properties": "0%, 100% {\ntransform: scale(1);\nopacity: 1;",
+      "lineNumber": 1577,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes slideInLeft",
+      "selector": "@keyframes slideInLeft",
+      "properties": "from {\nopacity: 0;\ntransform: translateX(-30px);",
+      "lineNumber": 1588,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes slideInRight",
+      "selector": "@keyframes slideInRight",
+      "properties": "from {\nopacity: 0;\ntransform: translateX(30px);",
+      "lineNumber": 1599,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes fadeInUp",
+      "selector": "@keyframes fadeInUp",
+      "properties": "from {\nopacity: 0;\ntransform: translateY(20px);",
+      "lineNumber": 1610,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes badgePulse",
+      "selector": "@keyframes badgePulse",
+      "properties": "0%, 100% {\ntransform: scale(1);",
+      "lineNumber": 1731,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes scrollBounce",
+      "selector": "@keyframes scrollBounce",
+      "properties": "0%, 100% {\ntransform: translateY(0);",
+      "lineNumber": 2038,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".service-details .service-box",
+      "selector": ".service-details .service-box",
+      "properties": "",
+      "lineNumber": 2879,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 2,
+        "element": 0,
+        "total": 20
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".service-details .service-box+.service-box",
+      "selector": ".service-details .service-box+.service-box",
+      "properties": "",
+      "lineNumber": 2884,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 3,
+        "element": 0,
+        "total": 30
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".service-details .help-box",
+      "selector": ".service-details .help-box",
+      "properties": "",
+      "lineNumber": 2958,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 2,
+        "element": 0,
+        "total": 20
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".service-details .help-box .help-icon",
+      "selector": ".service-details .help-box .help-icon",
+      "properties": "",
+      "lineNumber": 2965,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 3,
+        "element": 0,
+        "total": 30
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".container-fluid",
+      "selector": ".container-fluid",
+      "properties": "",
+      "lineNumber": 3025,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".diagram-controls",
+      "selector": ".diagram-controls",
+      "properties": "",
+      "lineNumber": 3030,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".diagram-control-btn",
+      "selector": ".diagram-control-btn",
+      "properties": "",
+      "lineNumber": 3040,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".diagram-control-btn:hover",
+      "selector": ".diagram-control-btn:hover",
+      "properties": "",
+      "lineNumber": 3056,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".diagram-control-btn:active",
+      "selector": ".diagram-control-btn:active",
+      "properties": "",
+      "lineNumber": 3064,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".diagram-viewport",
+      "selector": ".diagram-viewport",
+      "properties": "",
+      "lineNumber": 3072,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".diagram-viewport:active",
+      "selector": ".diagram-viewport:active",
+      "properties": "",
+      "lineNumber": 3084,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@media (max-width: 768px) .diagram-viewport",
+      "selector": ".diagram-viewport",
+      "properties": "",
+      "lineNumber": 3148,
+      "mediaQuery": "(max-width: 768px)",
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@media (min-width: 769px) 255",
+      "selector": "255",
+      "properties": "",
+      "lineNumber": 3284,
+      "mediaQuery": "(min-width: 769px)",
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@media (min-width: 769px) 0.3)\"]",
+      "selector": "0.3)\"]",
+      "properties": "",
+      "lineNumber": 3284,
+      "mediaQuery": "(min-width: 769px)",
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "255",
+      "selector": "255",
+      "properties": "",
+      "lineNumber": 3311,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "0.3)\"]",
+      "selector": "0.3)\"]",
+      "properties": "",
+      "lineNumber": 3311,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes patternMove",
+      "selector": "@keyframes patternMove",
+      "properties": "",
+      "lineNumber": 3513,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": "@keyframes float",
+      "selector": "@keyframes float",
+      "properties": "",
+      "lineNumber": 3518,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 0,
+        "element": 0,
+        "total": 0
+      },
+      "file": "src/assets/css/main.css"
+    },
+    {
+      "key": ".tech-icon",
+      "selector": ".tech-icon",
+      "properties": "",
+      "lineNumber": 3540,
+      "mediaQuery": null,
+      "specificity": {
+        "id": 0,
+        "class": 1,
+        "element": 0,
+        "total": 10
+      },
+      "file": "src/assets/css/main.css"
+    }
+  ],
+  "duplicates": [],
+  "conflicts": []
+}

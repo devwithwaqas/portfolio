@@ -121,10 +121,17 @@ export default {
       return index === this.currentIndex || index === prevIndex || index === nextIndex
     },
     getImagePriority(index) {
-      if (index === this.currentIndex) return 'high'
+      // First image (index 0) should be high priority for LCP
+      if (index === 0) {
+        return 'high'
+      }
+      // Current slide and adjacent slides should be auto priority
       const prevIndex = this.currentIndex === 0 ? this.images.length - 1 : this.currentIndex - 1
       const nextIndex = this.currentIndex === this.images.length - 1 ? 0 : this.currentIndex + 1
-      if (index === prevIndex || index === nextIndex) return 'auto'
+      if (index === this.currentIndex || index === prevIndex || index === nextIndex) {
+        return 'auto'
+      }
+      // Other images can be low priority
       return 'low'
     },
     goToNext() {

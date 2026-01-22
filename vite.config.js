@@ -1,17 +1,31 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+import fs from 'fs'
+import { fileURLToPath } from 'url'
+import splitMobileCSS from './scripts/split-css-plugin.js'
 
-export default defineConfig({
-  base: '/portfolio/', // GitHub Pages base path - repo name is 'portfolio', so site is at /portfolio/
+// ES module equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+export default defineConfig(({ mode }) => {
+  // Set analytics endpoint for Firebase builds if not provided via env
+  if (mode === 'firebase' && !process.env.VITE_PORTFOLIO_GA4_API_ENDPOINT) {
+    process.env.VITE_PORTFOLIO_GA4_API_ENDPOINT = 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net/portfolio-ga4-read'
+  }
+  
+  return {
+  base: mode === 'firebase' ? '/' : '/portfolio/', // Use root for Firebase, /portfolio/ for GitHub Pages
   publicDir: 'public',
   plugins: [
     vue(),
     // Plugin to transform HTML asset paths
     {
       name: 'transform-html-assets',
-      transformIndexHtml(html) {
-        const base = '/portfolio/'
+      transformIndexHtml(html, context) {
+        // Use the base path from config (dynamic based on mode)
+        const base = mode === 'firebase' ? '/' : '/portfolio/'
         const ga4Id = process.env.VITE_GA4_MEASUREMENT_ID || ''
         // Replace absolute asset paths with base-prefixed paths
         let transformed = html.replace(/href="\/assets\//g, `href="${base}assets/`)
@@ -21,6 +35,8 @@ export default defineConfig({
                              .replace(/href="\/assets\/img\/(favicon|apple-touch-icon)/g, `href="${base}assets/img/$1`)
                              // Fix manifest path to include base
                              .replace(/href="\/site\.webmanifest"/g, `href="${base}site.webmanifest"`)
+                             // Fix Font Awesome CSS path (already handled by above, but ensure it works)
+                             .replace(/href="\/assets\/fonts\/fontawesome\//g, `href="${base}assets/fonts/fontawesome/`)
         // Replace GA4 placeholder with actual Measurement ID if provided
         if (ga4Id) {
           transformed = transformed.replace(/VITE_GA4_MEASUREMENT_ID_PLACEHOLDER/g, ga4Id)
@@ -28,13 +44,14 @@ export default defineConfig({
         return transformed
       }
     },
+    // Plugin to split CSS into mobile/desktop for better mobile performance
+    splitMobileCSS(),
     // Plugin to defer CSS loading (non-blocking) for better mobile performance
     {
       name: 'defer-css-loading',
       closeBundle() {
         // This runs after build - we'll modify the built HTML file
-        const fs = require('fs')
-        const path = require('path')
+        // NOTE: This runs BEFORE split-css-plugin, so we need to skip split CSS files
         const htmlPath = path.resolve(__dirname, 'dist/index.html')
         
         if (fs.existsSync(htmlPath)) {
@@ -46,9 +63,13 @@ export default defineConfig({
             /<link([^>]*rel=["']stylesheet["'][^>]*)>/gi,
             (match, attrs) => {
               // Skip if already has media attribute, is in noscript, or is a vendor/external CSS
+              // ALSO skip split CSS files (handled by split-css-plugin)
               if (attrs.includes('media=') || 
                   attrs.includes('noscript') || 
                   attrs.includes('vendor/') ||
+                  attrs.includes('shared.css') ||
+                  attrs.includes('mobile.css') ||
+                  attrs.includes('desktop.css') ||
                   attrs.includes('cdnjs.cloudflare.com') ||
                   attrs.includes('fonts.googleapis.com') ||
                   attrs.includes('cdn.jsdelivr.net')) {
@@ -71,8 +92,13 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
-    port: 3000,
-    open: true
+    port: 3001,
+    open: true,
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+      port: 3001
+    }
   },
   build: {
     outDir: 'dist',
@@ -83,34 +109,118 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // Separate vendor chunks
+          // Separate vendor chunks - more aggressive splitting
           if (id.includes('node_modules')) {
-            // Vue core libraries
+            // Vue core libraries (small, critical)
             if (id.includes('vue') || id.includes('vue-router')) {
               return 'vue-vendor'
             }
-            // Everything else goes into separate chunks (lazy loaded)
-            // This allows better code splitting
-            return undefined // Let Vite handle automatic splitting for other node_modules
+            // Heavy chart library - lazy load separately
+            if (id.includes('chart.js')) {
+              return 'vendor-chartjs'
+            }
+            // Panzoom - lazy loaded
+            if (id.includes('@panzoom')) {
+              return 'vendor-panzoom'
+            }
+            // EmailJS - lazy load when contact form is needed
+            if (id.includes('@emailjs')) {
+              return 'vendor-emailjs'
+            }
+            // Carousel - lazy load when needed
+            if (id.includes('vue3-carousel')) {
+              return 'vendor-carousel'
+            }
+            // Swiper - separate chunk if bundled
+            if (id.includes('swiper')) {
+              return 'vendor-swiper'
+            }
+            // Everything else from node_modules
+            return 'vendor-other'
           }
           
           // Split large utility files into their own chunks for better caching
           if (id.includes('src/utils/iconResolver')) {
             return 'utils-icon-resolver'
           }
+          
+          // OPTIMIZATION: Split large data/config files separately
+          if (id.includes('src/data/') || id.includes('src/config/')) {
+            return 'data-config'
+          }
+          
+          // Split components that use heavy libraries
+          if (id.includes('src/components/projects/PerformanceMetricsSection')) {
+            return 'components-charts'
+          }
+          if (id.includes('src/components/projects/DiagramViewer')) {
+            return 'components-diagrams'
+          }
+          if (id.includes('src/components/projects/ProjectGallery')) {
+            return 'components-gallery'
+          }
+          
+          // OPTIMIZATION: Split home components more granularly
+          if (id.includes('src/components/home/Portfolio')) {
+            return 'components-portfolio'
+          }
+          if (id.includes('src/components/home/Services')) {
+            return 'components-services'
+          }
+          if (id.includes('src/components/home/Testimonials')) {
+            return 'components-testimonials'
+          }
+          
+          // Group services
           if (id.includes('src/services/')) {
             return 'services'
           }
+          
+          // OPTIMIZATION: Split utils more granularly
+          if (id.includes('src/utils/structuredData')) {
+            return 'utils-structured-data'
+          }
+          if (id.includes('src/utils/analyticsData')) {
+            return 'utils-analytics'
+          }
+          // Group other utils
           if (id.includes('src/utils/')) {
-            return 'utils'
+            return 'utils-other'
           }
           
           // Let Vite handle automatic splitting for everything else
           return undefined
+        },
+        // Optimize chunk file names for better caching
+        chunkFileNames: (chunkInfo) => {
+          const facadeModuleId = chunkInfo.facadeModuleId
+            ? chunkInfo.facadeModuleId.split('/').pop().replace('.vue', '').replace('.js', '')
+            : 'chunk'
+          return `assets/js/${facadeModuleId}-[hash].js`
+        },
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.')
+          const ext = info[info.length - 1]
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
+            return `assets/img/[name]-[hash][extname]`
+          }
+          if (/woff2?|eot|ttf|otf/i.test(ext)) {
+            return `assets/fonts/[name]-[hash][extname]`
+          }
+          return `assets/[ext]/[name]-[hash][extname]`
         }
       }
     },
-    // Chunk size warnings
-    chunkSizeWarningLimit: 1000
+    // Chunk size warnings (increased for better splitting)
+    chunkSizeWarningLimit: 500,
+    // Enable source maps for production debugging (optional, can disable for smaller bundles)
+    sourcemap: false,
+    // Optimize dependencies
+    optimizeDeps: {
+      include: ['vue', 'vue-router'],
+      exclude: ['@panzoom/panzoom', 'chart.js'] // These are lazy loaded
+    }
+  }
   }
 })

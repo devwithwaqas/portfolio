@@ -26,7 +26,7 @@
           <!-- Card Header -->
           <div class="card-header-section">
             <div class="emoji-wrapper icon-wrapper-3xl">
-              <img :src="emojiUrl" :alt="emoji" class="emoji-3d icon-img-xl">
+              <span class="emoji-3d icon-xl">{{ emoji }}</span>
             </div>
             <p class="label-text txt-label-md">{{ label }}</p>
           </div>
@@ -93,13 +93,6 @@ export default {
       return {
         color: this.iconColor
       }
-    },
-    emojiUrl() {
-      // Convert emoji to codepoint for CDN URL
-      const codePoint = this.emoji.codePointAt(0).toString(16).toLowerCase()
-      
-      // Using Twemoji CDN (Twitter's high-quality emoji images)
-      return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/${codePoint}.png`
     }
   }
 }
@@ -147,13 +140,17 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* LCP OPTIMIZATION: Only use will-change on hover to avoid layout work on load */
+  contain: layout style paint;
 }
 
 .elegant-card:hover {
+  will-change: transform;
   transform: translateY(-4px) translateZ(0);
   border-color: rgba(167, 139, 250, 0.6);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5),
