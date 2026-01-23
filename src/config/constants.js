@@ -1,3 +1,24 @@
+// Experience calculation functions - Single source of truth
+const calculateTotalExperience = () => {
+  const startDate = new Date(2008, 0, 1) // January 1, 2008
+  const today = new Date()
+  const diffTime = Math.abs(today - startDate)
+  const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365.25))
+  return diffYears
+}
+
+const calculateTechLeadExperience = () => {
+  const techLeadStartDate = new Date(2015, 0, 1) // January 1, 2015
+  const today = new Date()
+  const diffTime = Math.abs(today - techLeadStartDate)
+  const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365.25))
+  return diffYears
+}
+
+// Calculate experience values once
+const totalExperience = calculateTotalExperience()
+const techLeadExperience = calculateTechLeadExperience()
+
 // Basic constants for the portfolio application
 // All personal information comes from environment variables (.env file)
 // See .env.example for setup instructions
@@ -18,32 +39,22 @@ export const APP_CONFIG = {
     whatsapp: import.meta.env.VITE_WHATSAPP_URL || "",
     location: import.meta.env.VITE_GOOGLE_MAPS_URL || ""
   },
-  // EmailJS Configuration for Contact Form
-  // These values come from environment variables (.env file)
-  // See .env.example for setup instructions
-  emailjs: {
-    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '', // From .env file
-    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || '', // From .env file
-    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '' // From .env file
+  // SMTP Configuration for Contact Form (Google Cloud Functions)
+  // This is the primary and only email method
+  // See docs/SMTP_SETUP.md for setup instructions
+  smtp: {
+    endpoint: import.meta.env.VITE_SMTP_ENDPOINT || '', // Google Cloud Function endpoint
+    apiKey: import.meta.env.VITE_SMTP_API_KEY || '' // Optional API key for function authentication
   },
-  // SMTP Fallback Configuration for Contact Form
-  // Used when EmailJS fails or feature flag is enabled
-  // Feature flag: VITE_SMTP_FALLBACK_ENABLED (default: false/empty = OFF)
-  // See docs/SMTP_FALLBACK_PLAN.md for setup instructions
-  smtpFallback: {
-    enabled: import.meta.env.VITE_SMTP_FALLBACK_ENABLED === 'true', // Feature flag (OFF by default)
-    endpoint: import.meta.env.VITE_SMTP_FALLBACK_ENDPOINT || '', // Serverless function endpoint
-    apiKey: import.meta.env.VITE_SMTP_FALLBACK_API_KEY || '' // Optional API key for function authentication
-  },
-  // About section data - Will be calculated dynamically from work experience
-  totalExperience: 17, // Calculated from Jan 1, 2008 to present
-  techLeadExperience: 9, // Calculated from midway Squad Cell career (2015) to present
+  // About section data - Calculated dynamically from work experience
+  totalExperience: totalExperience, // Calculated from Jan 1, 2008 to present
+  techLeadExperience: techLeadExperience, // Calculated from Jan 1, 2015 to present
   // Stats data - Calculated from actual work experience
   stats: {
     enterpriseClients: 20, // Fortune 500 companies and enterprise clients
-    enterpriseSolutions: 32, // Major enterprise solutions delivered (~2 per year over 17 years)
-    yearsExperience: 17, // Jan 1, 2008 to present
-    yearsAsTechLead: 9 // Midway Squad Cell career (2015) to present
+    enterpriseSolutions: 32, // Major enterprise solutions delivered (~2 per year over totalExperience years)
+    yearsExperience: totalExperience, // Jan 1, 2008 to present (calculated)
+    yearsAsTechLead: techLeadExperience // Jan 1, 2015 to present (calculated)
   }
 };
 

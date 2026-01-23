@@ -15,6 +15,11 @@ export default defineConfig(({ mode }) => {
     process.env.VITE_PORTFOLIO_GA4_API_ENDPOINT = 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net/portfolio-ga4-read'
   }
   
+  // Set SMTP endpoint for Firebase builds if not provided via env
+  if (mode === 'firebase' && !process.env.VITE_SMTP_ENDPOINT) {
+    process.env.VITE_SMTP_ENDPOINT = 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net/sendEmail'
+  }
+  
   return {
   base: mode === 'firebase' ? '/' : '/portfolio/', // Use root for Firebase, /portfolio/ for GitHub Pages
   publicDir: 'public',

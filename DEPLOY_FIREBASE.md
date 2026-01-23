@@ -10,6 +10,7 @@ This will:
 - Build your Vue app with Firebase base path (`/`)
 - Generate service worker with correct paths
 - Create all necessary files in `dist/` folder
+- **Automatically sets SMTP endpoint** (Google Cloud Functions) - no `.env` file needed for SMTP
 
 ## Step 2: Deploy to Firebase Hosting
 

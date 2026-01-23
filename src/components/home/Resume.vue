@@ -548,18 +548,9 @@ export default {
   data() {
     return {
       // VUE PROPER: Import constants instead of deleted personalData.js
+      // totalExperience and techLeadExperience are now calculated dynamically in constants.js
       ...APP_CONFIG
     }
-  },
-  computed: {
-    calculatedTotalExperience() {
-      // Calculate total experience from first job (Jan 1, 2008) to present
-      const startDate = new Date(2008, 0, 1) // January 1, 2008
-      const today = new Date()
-      const diffTime = Math.abs(today - startDate)
-      const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365.25))
-      return diffYears
-    },
   }
 }
 </script>
@@ -640,6 +631,12 @@ export default {
 }
 
 /* Remove icon wrapper boxes (background, border, border-radius) in Resume section */
+.resume-title .icon-wrapper-xs,
+.resume-title .icon-wrapper-sm,
+.resume-title .icon-wrapper-md,
+.resume-title .icon-wrapper-lg,
+.resume-title .icon-wrapper-xl,
+.resume-title .icon-wrapper-2xl,
 .resume-item strong .icon-wrapper-xs,
 .resume-item strong .icon-wrapper-sm,
 .resume-item strong .icon-wrapper-md,
@@ -663,6 +660,12 @@ export default {
 }
 
 /* Remove hover effects on icon wrappers in Resume section */
+.resume-title .icon-wrapper-xs:hover,
+.resume-title .icon-wrapper-sm:hover,
+.resume-title .icon-wrapper-md:hover,
+.resume-title .icon-wrapper-lg:hover,
+.resume-title .icon-wrapper-xl:hover,
+.resume-title .icon-wrapper-2xl:hover,
 .resume-item strong .icon-wrapper-xs:hover,
 .resume-item strong .icon-wrapper-sm:hover,
 .resume-item strong .icon-wrapper-md:hover,

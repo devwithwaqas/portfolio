@@ -239,7 +239,7 @@ export function getHomePageSEO() {
     'enterprise .net consultant',
     'senior .net consultant',
     'experienced .net expert',
-    '17 years .net experience',
+    `${APP_CONFIG.stats.yearsExperience} years .net experience`,
     // Microservices Keywords
     'microservices architect',
     'microservices consultant',

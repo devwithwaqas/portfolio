@@ -526,7 +526,7 @@ export function generateHowToSchema(howToData) {
     '@type': 'HowTo',
     '@id': `${SITE_URL}${howToData.url || ''}#howto`,
     name: howToData.name || 'How to Hire a Senior Software Engineer',
-    description: howToData.description || `Learn how to hire ${fullName}, a Senior Software Engineer with 17+ years of experience.`,
+    description: howToData.description || `Learn how to hire ${fullName}, a Senior Software Engineer with ${APP_CONFIG.stats.yearsExperience}+ years of experience.`,
     image: howToData.image || `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`,
     totalTime: howToData.totalTime || 'PT1H', // 1 hour in ISO 8601
     estimatedCost: {

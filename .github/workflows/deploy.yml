@@ -50,15 +50,9 @@ jobs:
           VITE_WHATSAPP_URL: ${{ secrets.VITE_WHATSAPP_URL }}
           VITE_GOOGLE_MAPS_URL: ${{ secrets.VITE_GOOGLE_MAPS_URL }}
           
-          # EmailJS Configuration
-          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
-          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
-          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
-          
-          # SMTP Fallback Configuration (OFF by default)
-          VITE_SMTP_FALLBACK_ENABLED: ${{ secrets.VITE_SMTP_FALLBACK_ENABLED }}
-          VITE_SMTP_FALLBACK_ENDPOINT: ${{ secrets.VITE_SMTP_FALLBACK_ENDPOINT }}
-          VITE_SMTP_FALLBACK_API_KEY: ${{ secrets.VITE_SMTP_FALLBACK_API_KEY }}
+          # SMTP Configuration (Google Cloud Functions)
+          VITE_SMTP_ENDPOINT: ${{ secrets.VITE_SMTP_ENDPOINT }}
+          VITE_SMTP_API_KEY: ${{ secrets.VITE_SMTP_API_KEY }}
           
           # Google Analytics 4
           VITE_GA4_MEASUREMENT_ID: ${{ secrets.VITE_GA4_MEASUREMENT_ID }}

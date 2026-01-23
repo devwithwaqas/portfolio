@@ -430,6 +430,7 @@ h6 {
 }
 
 /* Extra large devices (1200px and up) - 7 CARDS */
+@media (min-width: 1200px) {
   .mb-xl-120-1 { margin-bottom: 0.25rem !important; }    /* 4px - minimal spacing */
   .mb-xl-120-2 { margin-bottom: 0.5rem !important; }     /* 8px - small spacing */
   .mb-xl-120-3 { margin-bottom: 0.75rem !important; }    /* 12px - small spacing */
@@ -449,6 +450,7 @@ h6 {
 }
 
 /* Medium devices (768px and up) - 5 CARDS */
+@media (min-width: 768px) {
   .mb-md-120-1 { margin-bottom: 0.25rem !important; }    /* 4px - minimal spacing */
   .mb-md-120-2 { margin-bottom: 0.5rem !important; }     /* 8px - small spacing */
   .mb-md-120-3 { margin-bottom: 0.75rem !important; }    /* 12px - small spacing */
@@ -468,6 +470,7 @@ h6 {
 }
 
 /* Extra small devices (480px and up) - 3 CARDS */
+@media (min-width: 480px) {
   .mb-xs-120-1 { margin-bottom: 0.25rem !important; }    /* 4px - minimal spacing */
   .mb-xs-120-2 { margin-bottom: 0.5rem !important; }     /* 8px - small spacing */
   .mb-xs-120-3 { margin-bottom: 0.75rem !important; }    /* 12px - small spacing */
@@ -754,6 +757,7 @@ div.remote-work-content p {
 }
 
 /* Mobile: Use hyphen-based justification instead of space-based */
+@media (max-width: 767px) {
   p:not(.text-center):not(.info-value):not(.info-subtitle):not(.stat-label):not(.remote-work-section p):not(.remote-work-content p) {
     text-justify: auto !important;  /* hyphen-based for mobile */
     hyphens: auto !important;        /* enable hyphens on mobile */
@@ -986,6 +990,7 @@ section,
 }
 
 /* MOBILE CLS FIX: Taller min-heights for mobile (single column = more vertical space) */
+@media (max-width: 767px) {
   .about.section {
     min-height: 1200px;
   }
@@ -1347,10 +1352,11 @@ section,
   max-width: 800px;
   /* CRITICAL CLS FIX: Reserve space immediately to prevent 1.000 CLS */
   min-height: 600px; /* Base min-height for desktop */
-  contain: layout style paint;
+  /* Allow glow effects from social links to show */
+  overflow: visible;
+  contain: layout style; /* Removed 'paint' to allow glow effects to show */
   /* CLS FIX: Reserve minimum space for content to prevent layout shifts */
   min-height: 400px; /* Reserve space for: typed label + name + title + badge + description + analytics + actions + social */
-  contain: layout style paint; /* CSS containment to prevent shifts */
 }
 
 /* SPECIAL PROFILE CARD STYLING */
@@ -1863,6 +1869,9 @@ h2.hero-title .title-name,
   /* Prevent layout shift */
   min-height: 3rem; /* Reserve space for social links */
   contain: layout style; /* Prevent shifts */
+  /* Allow glow effects to show - add padding for shadows */
+  padding: 20px 0;
+  overflow: visible;
 }
 
 .social-link {
@@ -1878,7 +1887,7 @@ h2.hero-title .title-name,
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Changed from hidden to allow glow effects */
 }
 
 .social-link::before {

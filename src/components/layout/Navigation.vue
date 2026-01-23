@@ -556,8 +556,25 @@ i.mobile-nav-toggle,
   line-height: 1 !important;
 }
 
-.mobile-nav-toggle:hover {
+/* Purple overlay on hover - keep dark background visible (use ::after to avoid conflict with icon ::before) */
+.mobile-nav-toggle::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
   background: rgba(139, 92, 246, 0.15) !important;
+  border-radius: 50% !important;
+  opacity: 0 !important;
+  transition: opacity 0.3s ease !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.mobile-nav-toggle:hover {
+  /* Keep dark background - don't change it on hover */
+  background: rgba(18, 18, 18, 0.95) !important;
   border-color: rgba(139, 92, 246, 0.6) !important;
   color: rgba(139, 92, 246, 1) !important;
   box-shadow: 
@@ -569,6 +586,11 @@ i.mobile-nav-toggle,
   right: 20px !important;
   left: auto !important;
   bottom: auto !important;
+}
+
+/* Show purple overlay on hover */
+.mobile-nav-toggle:hover::after {
+  opacity: 1 !important;
 }
 
 .mobile-nav-toggle:active {
@@ -586,6 +608,9 @@ i.mobile-nav-toggle,
   font-style: normal !important;
   display: inline-block !important;
   content: "\f479" !important;
+  position: relative !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
 }
 
 /* Hide on desktop */

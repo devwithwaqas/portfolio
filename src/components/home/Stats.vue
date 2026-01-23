@@ -57,23 +57,18 @@
 import { defineAsyncComponent } from 'vue'
 import ReusableCard from '../common/ReusableCard.vue'
 import IconComponent from '../common/IconComponent.vue'
+import { APP_CONFIG } from '../../config/constants.js'
 
 const StatCard = defineAsyncComponent(() => import('../common/StatCard.vue'))
 
-// Calculate stats immediately
+// Calculate stats - Use same calculation as APP_CONFIG for consistency
 const calculateStats = () => {
-  const startDate = new Date(2008, 0, 1)
-  const today = new Date()
-  const diffTime = Math.abs(today - startDate)
-  const totalYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365.25))
-  const techLeadStartDate = new Date(2015, 0, 1)
-  const diffTimeTechLead = Math.abs(today - techLeadStartDate)
-  const techLeadYears = Math.floor(diffTimeTechLead / (1000 * 60 * 60 * 24 * 365.25))
+  // Use APP_CONFIG calculated values to ensure consistency across all components
   return {
-    enterpriseClients: 20,
-    enterpriseSolutions: 32,
-    yearsExperience: totalYears,
-    yearsAsTechLead: techLeadYears
+    enterpriseClients: APP_CONFIG.stats.enterpriseClients,
+    enterpriseSolutions: APP_CONFIG.stats.enterpriseSolutions,
+    yearsExperience: APP_CONFIG.stats.yearsExperience,
+    yearsAsTechLead: APP_CONFIG.stats.yearsAsTechLead
   }
 }
 
@@ -99,6 +94,33 @@ export default {
 .stats-section-title {
   color: #0563bb;
   font-weight: 600;
+}
+
+/* Remove icon wrapper boxes (background, border, border-radius) in Stats section */
+.stats-section-title .icon-wrapper-xs,
+.stats-section-title .icon-wrapper-sm,
+.stats-section-title .icon-wrapper-md,
+.stats-section-title .icon-wrapper-lg,
+.stats-section-title .icon-wrapper-xl,
+.stats-section-title .icon-wrapper-2xl {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.stats-section-title .icon-wrapper-xs:hover,
+.stats-section-title .icon-wrapper-sm:hover,
+.stats-section-title .icon-wrapper-md:hover,
+.stats-section-title .icon-wrapper-lg:hover,
+.stats-section-title .icon-wrapper-xl:hover,
+.stats-section-title .icon-wrapper-2xl:hover {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 /* Responsive adjustments for row/card-body */

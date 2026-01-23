@@ -119,13 +119,30 @@ export default {
 <style>
 /* CRITICAL: Non-scoped styles for fixed buttons to ensure they work */
 /* These buttons are teleported to body, so scoped styles might not apply correctly */
-.scroll-top {
+.scroll-top,
+button.scroll-top {
   position: fixed !important;
   bottom: 20px !important;
   right: 20px !important;
   z-index: 9998 !important;
   contain: none !important;
   will-change: auto !important;
+}
+
+/* Ensure hover effects work on all pages including home - Keep dark background with purple overlay */
+.scroll-top:hover,
+button.scroll-top:hover {
+  /* Keep dark background and add purple overlay - match project pages behavior */
+  background: linear-gradient(135deg, 
+    rgba(18, 18, 18, 0.95) 0%, 
+    rgba(18, 18, 18, 0.95) 50%,
+    rgba(139, 92, 246, 0.2) 100%
+  ) !important;
+  transform: scale(1.05) !important;
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 9998 !important;
 }
 </style>
 
@@ -166,6 +183,23 @@ export default {
   outline: none !important;
   text-decoration: none !important;
   line-height: 1 !important;
+  overflow: visible !important;
+}
+
+/* Purple overlay on hover - keep dark background visible */
+.scroll-top::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(139, 92, 246, 0.15) !important;
+  border-radius: 50% !important;
+  opacity: 0 !important;
+  transition: opacity 0.3s ease !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
 }
 
 .scroll-top.active {
@@ -174,18 +208,31 @@ export default {
   transform: translateY(0) !important;
 }
 
-.scroll-top:hover {
-  background: rgba(139, 92, 246, 0.15) !important;
+.scroll-top:hover,
+button.scroll-top:hover,
+.scroll-top.active:hover,
+button.scroll-top.active:hover {
+  /* Keep dark background - don't change it on hover */
+  background: rgba(18, 18, 18, 0.95) !important;
   border-color: rgba(139, 92, 246, 0.6) !important;
   color: rgba(139, 92, 246, 1) !important;
   box-shadow: 
     0 4px 16px rgba(139, 92, 246, 0.3),
     0 0 20px rgba(139, 92, 246, 0.2) !important;
-  /* CRITICAL: Use transform on hover but ensure position stays fixed */
-  transform: translateY(-4px) scale(1.05) !important;
+  /* Match hamburger button hover effect - only scale, no translateY */
+  transform: scale(1.05) !important;
   position: fixed !important;
   bottom: 20px !important;
   right: 20px !important;
+  z-index: 9998 !important;
+}
+
+/* Show purple overlay on hover */
+.scroll-top:hover::before,
+button.scroll-top:hover::before,
+.scroll-top.active:hover::before,
+button.scroll-top.active:hover::before {
+  opacity: 1 !important;
 }
 
 .scroll-top:active {
@@ -204,8 +251,7 @@ export default {
   pointer-events: none !important;
 }
 
-/* Reset any pseudo-elements or inherited styles */
-.scroll-top::before,
+/* Reset any other pseudo-elements */
 .scroll-top::after {
   display: none !important;
   content: none !important;

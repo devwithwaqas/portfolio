@@ -1,29 +1,26 @@
 /**
- * SMTP Email Service Utility
- * Handles email sending via serverless function fallback
- * Used when EmailJS fails or feature flag is enabled
+ * Email Service Utility - Google Cloud Functions (SMTP)
+ * Handles email sending via Google Cloud Functions serverless endpoint
+ * This is the primary and only email method for the contact form
  */
 
 /**
- * Send email via SMTP fallback endpoint
- * @param {Object} formData - Form data containing name, email, subject, message
+ * Send email via Google Cloud Functions SMTP endpoint
+ * @param {Object} formData - Form data containing name, email, subject, message, timezone, timestamp, etc.
  * @param {Object} config - SMTP configuration (endpoint, apiKey)
  * @returns {Promise<Object>} - Success/error response
  */
 export async function sendEmailViaSMTP(formData, config) {
   const { endpoint, apiKey } = config
 
-  // Validate endpoint
   if (!endpoint) {
     throw new Error('SMTP endpoint is not configured')
   }
 
-  // Validate form data
   if (!formData.name || !formData.email || !formData.subject || !formData.message) {
     throw new Error('Missing required form fields')
   }
 
-  // Prepare request payload - ALWAYS include timestamp and timezone if they exist
   const payload = {
     name: formData.name.trim(),
     email: formData.email.trim(),
@@ -31,51 +28,67 @@ export async function sendEmailViaSMTP(formData, config) {
     message: formData.message.trim()
   }
   
-  // Add metadata fields if they exist (don't use spread with condition - always include)
   if (formData.timezone) payload.timezone = formData.timezone
   if (formData.timestamp) payload.timestamp = formData.timestamp
   if (formData.userAgent) payload.userAgent = formData.userAgent
   if (formData.language) payload.language = formData.language
   
-  console.log('📤 SMTP Payload being sent to server:')
-  console.log('  - Has timestamp:', !!payload.timestamp, payload.timestamp)
-  console.log('  - Has timezone:', !!payload.timezone, payload.timezone)
-  console.log('  - Full payload:', JSON.stringify(payload, null, 2))
+  console.log('Sending email via Google Cloud Functions (SMTP):')
+  console.log('  - Endpoint:', endpoint)
 
-  // Prepare request headers
   const headers = {
     'Content-Type': 'application/json'
   }
 
-  // Add API key to headers if provided
   if (apiKey) {
     headers['X-API-Key'] = apiKey
   }
 
   try {
-    // Send POST request to serverless function
+    console.log('📤 Fetching endpoint:', endpoint)
+    console.log('📤 Payload:', JSON.stringify(payload, null, 2))
+    
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(payload)
     })
 
-    // Parse response
-    const data = await response.json()
+    console.log('📥 Response status:', response.status, response.statusText)
+    console.log('📥 Response headers:', Object.fromEntries(response.headers.entries()))
 
-    // Check if request was successful
-    if (!response.ok) {
-      throw new Error(data.error || `HTTP error! status: ${response.status}`)
+    // Check if response is JSON
+    const contentType = response.headers.get('content-type')
+    let data
+    
+    if (contentType && contentType.includes('application/json')) {
+      data = await response.json()
+    } else {
+      // If not JSON, read as text
+      const text = await response.text()
+      console.log('📥 Response text (non-JSON):', text)
+      data = { message: text || 'Email sent successfully' }
     }
 
-    // Return success response
+    console.log('📥 Response data:', data)
+
+    if (!response.ok) {
+      const errorMsg = data.error || data.message || `HTTP error! status: ${response.status}`
+      console.error('❌ HTTP Error:', errorMsg)
+      throw new Error(errorMsg)
+    }
+
     return {
       success: true,
       message: data.message || 'Email sent successfully'
     }
   } catch (error) {
-    // Handle network errors or parsing errors
-    console.error('SMTP Email Service Error:', error)
+    console.error('❌ SMTP Email Service Error:', error)
+    console.error('❌ Error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    })
     throw new Error(error.message || 'Failed to send email via SMTP')
   }
 }

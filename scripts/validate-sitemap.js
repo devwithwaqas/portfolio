@@ -141,6 +141,7 @@ while ((match = changefreqRegex.exec(sitemapContent)) !== null) {
 }
 
 // Check 6: Validate lastmod format (YYYY-MM-DD)
+const dateRegex = /^\d{4}-\d{2}-\d{2}$/
 const lastmodRegex = /<lastmod>(.*?)<\/lastmod>/g
 while ((match = lastmodRegex.exec(sitemapContent)) !== null) {
   const date = match[1]

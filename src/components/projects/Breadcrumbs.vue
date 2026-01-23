@@ -71,7 +71,6 @@ export default {
       }
     } catch (e) {
       // If anything fails, keep the default SITE_URL
-      console.warn('Failed to get current URL:', e)
       this.currentUrl = SITE_URL
     }
     
@@ -162,10 +161,60 @@ export default {
 }
 
 /* Mobile */
-@media (pointer: coarse) and (max-width: 767px) {
+@media (max-width: 767px) {
   .page-title {
-    padding: 14px 0;
-    min-height: 48px;
+    padding: 12px 0;
+    min-height: auto;
+  }
+  
+  /* Mobile: Make breadcrumbs more compact and allow wrapping */
+  .breadcrumbs {
+    width: 100%;
+    overflow: visible;
+  }
+  
+  .breadcrumbs ol {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2px 0;
+    row-gap: 4px;
+  }
+  
+  /* Mobile: Reduce font size for all breadcrumb items */
+  .breadcrumbs a,
+  .breadcrumbs .current {
+    font-size: 0.8rem !important;
+    line-height: 1.2;
+  }
+  
+  /* Mobile: Reduce separator padding and size */
+  .breadcrumbs li + li::before {
+    padding: 0 4px;
+    font-size: 0.7rem;
+    margin: 0 2px;
+  }
+  
+  /* Mobile: Truncate only long project names with ellipsis, keep links visible */
+  .breadcrumbs .current {
+    max-width: calc(100vw - 100px); /* Account for container padding, hamburger button, and other breadcrumb items */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    flex-shrink: 1;
+    min-width: 0; /* Allow flex item to shrink below content size */
+  }
+  
+  /* Mobile: Keep all links visible but make them compact */
+  .breadcrumbs li {
+    flex-shrink: 0; /* Don't shrink Home and Portfolio links */
+  }
+  
+  /* Mobile: Allow Home and Portfolio to wrap if absolutely necessary */
+  .breadcrumbs li:not(.current) {
+    white-space: nowrap;
   }
 }
 </style>

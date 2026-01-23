@@ -5,7 +5,7 @@ Complete guide for deploying this portfolio to various hosting platforms.
 ## 📋 Pre-Deployment Checklist
 
 - [ ] All environment variables are set in your hosting platform
-- [ ] EmailJS is configured (if using contact form)
+- [ ] Google Cloud Functions (SMTP) is configured (if using contact form)
 - [ ] Build command works locally: `npm run build`
 - [ ] Preview works locally: `npm run preview`
 
@@ -170,7 +170,7 @@ For hosts that don't support SPA routing natively, create redirect rules:
 
 ## 🔒 Security Notes
 
-- EmailJS public keys are safe to expose (they're meant to be public)
+- SMTP endpoint URL is safe to expose, but keep API key secure
 - Personal information in environment variables is only used at build time
 - The built bundle contains your information (it's static HTML/JS)
 - This is normal for portfolio sites - all content is public anyway

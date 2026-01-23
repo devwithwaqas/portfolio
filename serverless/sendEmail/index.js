@@ -20,17 +20,28 @@ functions.http('sendEmail', async (req, res) => {
   // CORS handling - Allow requests from your portfolio domain
   const allowedOrigins = [
     'https://devwithwaqas.github.io',
+    'http://localhost:3001',
     'http://localhost:5173',
-    'http://localhost:4173'
+    'http://localhost:4173',
+    'http://127.0.0.1:3001',
+    'http://127.0.0.1:5173'
   ];
   
-  const origin = req.get('origin');
-  if (allowedOrigins.includes(origin)) {
+  // Get origin from request (case-insensitive)
+  const origin = req.get('origin') || req.get('Origin') || '';
+  
+  // Set CORS headers - ALWAYS set them
+  // If origin is in allowed list, use it; otherwise allow all (for now)
+  if (origin && allowedOrigins.includes(origin)) {
     res.set('Access-Control-Allow-Origin', origin);
+  } else {
+    // Allow all origins for now (you can restrict this later)
+    // This ensures CORS works from any origin
+    res.set('Access-Control-Allow-Origin', '*');
   }
   
   res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.set('Access-Control-Allow-Headers', 'Content-Type, X-API-Key');
+  res.set('Access-Control-Allow-Headers', 'Content-Type, X-API-Key, Authorization');
   res.set('Access-Control-Max-Age', '3600');
 
   // Handle preflight OPTIONS request

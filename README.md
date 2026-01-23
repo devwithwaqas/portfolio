@@ -8,7 +8,7 @@ A modern, responsive portfolio website template built with Vue.js 3 and Vite. Pe
 - **⚡ Vue.js 3** - Built with Composition API and Vue Router
 - **📱 Fully Responsive** - Works perfectly on desktop, tablet, and mobile
 - **🎯 Interactive Diagrams** - C4 architecture diagrams with narration support
-- **📧 Contact Form** - EmailJS integration for contact form submissions
+- **📧 Contact Form** - Google Cloud Functions (SMTP) integration for contact form submissions
 - **🎭 Component-Based** - Modular architecture for easy customization
 - **🚀 Fast Development** - Vite for instant HMR and optimized builds
 - **🔍 SEO Optimized** - Proper meta tags and semantic HTML
@@ -53,7 +53,7 @@ A modern, responsive portfolio website template built with Vue.js 3 and Vite. Pe
    ```
 
 5. **Open your browser:**
-   - Navigate to `http://localhost:3000`
+   - Navigate to `http://localhost:5173`
    - The app will automatically reload when you make changes
 
 6. **Build for production:**
@@ -102,7 +102,7 @@ portfolio/
 │   ├── router/                   # Vue Router configuration
 │   │   └── index.js              # Routes definition
 │   ├── config/                   # Configuration files
-│   │   ├── constants.js          # App constants (EmailJS, contact info, categories)
+│   │   ├── constants.js          # App constants (SMTP, contact info, categories)
 │   │   └── *_Narration.js        # Narration configs (optional, for diagrams with narration)
 │   ├── utils/                  # Utility functions
 │   │   └── iconResolver.js       # Dynamic icon resolution
@@ -179,8 +179,8 @@ portfolio/
    - Use service page components
 
 5. **Set Up Contact Form:**
-   - Follow [EmailJS Setup Guide](./docs/EMAILJS_SETUP.md)
-   - Free tier: 200 emails/month
+   - Follow [Google Cloud Functions (SMTP) Setup Guide](./docs/SMTP_SETUP.md)
+   - Uses Google Cloud Functions with Gmail SMTP
 
 ### Styling
 
@@ -206,7 +206,7 @@ portfolio/
 - **Bootstrap Icons** - Icon library (via CDN)
 
 ### Features
-- **@emailjs/browser** - Email service integration
+- **Google Cloud Functions** - SMTP email service integration
 - **chart.js** - Charts and graphs
 - **@panzoom/panzoom** - Diagram zoom/pan
 - **swiper** - Touch slider
@@ -265,9 +265,8 @@ For static hosting (GitHub Pages, Netlify, Vercel, etc.), environment variables 
              VITE_WEBSITE_URL: ${{ secrets.VITE_WEBSITE_URL }}
              VITE_WHATSAPP_URL: ${{ secrets.VITE_WHATSAPP_URL }}
              VITE_GOOGLE_MAPS_URL: ${{ secrets.VITE_GOOGLE_MAPS_URL }}
-             VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
-             VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
-             VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+             VITE_SMTP_ENDPOINT: ${{ secrets.VITE_SMTP_ENDPOINT }}
+             VITE_SMTP_API_KEY: ${{ secrets.VITE_SMTP_API_KEY }}
          - uses: peaceiris/actions-gh-pages@v3
            with:
              github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -288,7 +287,7 @@ For static hosting (GitHub Pages, Netlify, Vercel, etc.), environment variables 
    - Build command: `npm run build`
    - Output directory: `dist`
 
-**Important:** Environment variables are injected at build time, so they become part of the static bundle. This is secure for public values but remember that EmailJS public keys are meant to be public anyway.
+**Important:** Environment variables are injected at build time, so they become part of the static bundle. The SMTP endpoint URL is safe to expose, but keep the API key secure.
 
 **📚 See [DEPLOYMENT_GUIDE.md](./docs/DEPLOYMENT_GUIDE.md) for detailed step-by-step deployment instructions for all platforms.**
 
@@ -305,7 +304,7 @@ This is a portfolio template - feel free to fork and customize for your needs!
 **Waqas Ahmad**
 - Senior Software Engineer & Technical Lead
 - Email: devwithwaqas@gmail.com
-- Portfolio: [www.waqasahmad.com](https://www.waqasahmad.com)
+- Portfolio: [devwithwaqas.github.io/portfolio](https://devwithwaqas.github.io/portfolio/)
 
 ---
 

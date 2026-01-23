@@ -185,7 +185,7 @@ export default {
           try {
             chart.destroy()
           } catch (error) {
-            console.warn('Error destroying chart:', error)
+            // Silently fail - chart destruction is optional
           }
         }
       })
@@ -194,12 +194,10 @@ export default {
     
     initializeCharts() {
       if (!this.charts || !Array.isArray(this.charts)) {
-        console.warn('PerformanceMetricsSection: charts prop is not defined or not an array', this.charts)
         return
       }
       
       if (this.charts.length === 0) {
-        console.warn('PerformanceMetricsSection: charts array is empty')
         return
       }
       
@@ -208,25 +206,21 @@ export default {
       
       this.charts.forEach((chartConfig, index) => {
         if (!chartConfig || !chartConfig.id) {
-          console.warn(`PerformanceMetricsSection: Chart at index ${index} is missing id`, chartConfig)
           return
         }
         
         const canvas = document.getElementById(chartConfig.id)
         if (!canvas) {
-          console.warn(`PerformanceMetricsSection: Canvas element with id "${chartConfig.id}" not found`)
           return
         }
         
         try {
           if (!Chart) {
-            console.warn('PerformanceMetricsSection: Chart.js not loaded yet')
             return
           }
           
           const ctx = canvas.getContext('2d')
           if (!ctx) {
-            console.warn(`PerformanceMetricsSection: Could not get 2d context for canvas "${chartConfig.id}"`)
             return
           }
           
@@ -240,25 +234,10 @@ export default {
             }
           })
           this.chartInstances.push(chartInstance)
-          // Log only in development
-          if (import.meta.env.DEV) {
-            console.log(`PerformanceMetricsSection: Successfully initialized chart "${chartConfig.id}"`)
-          }
         } catch (error) {
-          console.error(`PerformanceMetricsSection: Error initializing chart "${chartConfig.id}":`, error)
+          // Silently fail - chart initialization errors are handled gracefully
         }
       })
-      
-      if (this.chartInstances.length === 0) {
-        if (import.meta.env.DEV) {
-          console.warn('PerformanceMetricsSection: No charts were successfully initialized')
-        }
-      } else {
-        // Log only in development
-        if (import.meta.env.DEV) {
-          console.log(`PerformanceMetricsSection: Successfully initialized ${this.chartInstances.length} chart(s)`)
-        }
-      }
     }
   }
 }

@@ -36,22 +36,25 @@
                         <div class="col-lg-6">
                           <div style="background: rgba(5, 99, 187, 0.05); padding: 20px; border-radius: 15px; border-left: 4px solid #0563bb;">
                             <ul style="list-style: none; padding-left: 0; margin: 0;">
-                              <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-globe icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
-                                <div style="flex: 1; min-width: 0;">
-                                  <strong class="txt-label-md" style="color: #0563bb;">Website:</strong> <a href="https://devwithwaqas.github.io/portfolio/" target="_blank" class="txt-link-md" style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word; text-decoration: none; transition: all 0.3s ease;" @mouseover="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.4)'" @mouseout="$event.target.style.color='#45505b'; $event.target.style.textShadow='none'">devwithwaqas.github.io/portfolio</a>
+                              <li style="margin-bottom: 12px; display: flex; align-items: center;">
+                                <i class="bi bi-globe icon-sm" style="color: #0563bb; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center;"></i>
+                                <div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 5px;">
+                                  <strong class="txt-label-md" style="color: #0563bb; min-width: 70px; flex-shrink: 0;">Website:</strong>
+                                  <a href="https://devwithwaqas.github.io/portfolio/" target="_blank" class="txt-link-md" style="color: #45505b; word-wrap: break-word; overflow-wrap: break-word; text-decoration: none; transition: all 0.3s ease; flex: 1;" @mouseover="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.4)'" @mouseout="$event.target.style.color='#45505b'; $event.target.style.textShadow='none'">devwithwaqas.github.io/portfolio</a>
                                 </div>
                               </li>
-                              <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-telephone icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
-                                <div style="flex: 1; min-width: 0;">
-                                  <strong class="txt-label-md" style="color: #0563bb;">Phone:</strong> <a :href="contactLinks.phone" class="txt-link-md" style="color: #45505b; margin-left: 5px; text-decoration: none;">{{ phone }}</a>
+                              <li style="margin-bottom: 12px; display: flex; align-items: center;">
+                                <i class="bi bi-telephone icon-sm" style="color: #0563bb; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center;"></i>
+                                <div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 5px;">
+                                  <strong class="txt-label-md" style="color: #0563bb; min-width: 70px; flex-shrink: 0;">Phone:</strong>
+                                  <a :href="contactLinks.phone" class="txt-link-md" style="color: #45505b; text-decoration: none; flex: 1;">{{ phone }}</a>
                                 </div>
                               </li>
-                              <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-geo-alt icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
-                                <div style="flex: 1; min-width: 0;">
-                                  <strong class="txt-label-md" style="color: #0563bb;">Location:</strong> <address class="txt-span-md" style="color: #45505b; margin-left: 5px; font-style: normal; display: inline;">Selangor, Malaysia</address>
+                              <li style="margin-bottom: 12px; display: flex; align-items: center;">
+                                <i class="bi bi-geo-alt icon-sm" style="color: #0563bb; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center;"></i>
+                                <div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 5px;">
+                                  <strong class="txt-label-md" style="color: #0563bb; min-width: 70px; flex-shrink: 0;">Location:</strong>
+                                  <address class="txt-span-md" style="color: #45505b; font-style: normal; flex: 1; margin: 0;">Selangor, Malaysia</address>
                                 </div>
                               </li>
                             </ul>
@@ -60,22 +63,25 @@
                         <div class="col-lg-6">
                           <div style="background: rgba(5, 99, 187, 0.05); padding: 20px; border-radius: 15px; border-left: 4px solid #0563bb;">
                             <ul style="list-style: none; padding-left: 0; margin: 0;">
-                              <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-mortarboard icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
-                                <div style="flex: 1; min-width: 0;">
-                                  <strong class="txt-label-md" style="color: #0563bb;">Degree:</strong> <span class="txt-span-md" style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word;">Bachelor's in Computer System Engineering</span>
+                              <li style="margin-bottom: 12px; display: flex; align-items: center;">
+                                <i class="bi bi-mortarboard icon-sm" style="color: #0563bb; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center;"></i>
+                                <div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 5px;">
+                                  <strong class="txt-label-md" style="color: #0563bb; min-width: 70px; flex-shrink: 0;">Degree:</strong>
+                                  <span class="txt-span-md" style="color: #45505b; word-wrap: break-word; overflow-wrap: break-word; flex: 1;">Bachelor's in Computer System Engineering</span>
                                 </div>
                               </li>
-                              <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-envelope icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
-                                <div style="flex: 1; min-width: 0;">
-                                  <strong class="txt-label-md" style="color: #0563bb;">Email:</strong> <a :href="contactLinks.email" class="txt-link-md" style="color: #45505b; margin-left: 5px; word-wrap: break-word; overflow-wrap: break-word; text-decoration: none;">{{ email }}</a>
+                              <li style="margin-bottom: 12px; display: flex; align-items: center;">
+                                <i class="bi bi-envelope icon-sm" style="color: #0563bb; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center;"></i>
+                                <div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 5px;">
+                                  <strong class="txt-label-md" style="color: #0563bb; min-width: 70px; flex-shrink: 0;">Email:</strong>
+                                  <a :href="contactLinks.email" class="txt-link-md" style="color: #45505b; word-wrap: break-word; overflow-wrap: break-word; text-decoration: none; flex: 1;">{{ email }}</a>
                                 </div>
                               </li>
-                              <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                                <i class="bi bi-briefcase icon-sm" style="color: #0563bb; margin-right: 10px; margin-top: 2px; flex-shrink: 0;"></i>
-                                <div style="flex: 1; min-width: 0;">
-                                  <strong class="txt-label-md" style="color: #0563bb;">Freelance:</strong> <span class="txt-span-md" style="color: #28a745; margin-left: 5px; font-weight: 600;">Available</span>
+                              <li style="margin-bottom: 12px; display: flex; align-items: center;">
+                                <i class="bi bi-briefcase icon-sm" style="color: #0563bb; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center;"></i>
+                                <div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 5px;">
+                                  <strong class="txt-label-md" style="color: #0563bb; min-width: 70px; flex-shrink: 0;">Freelance:</strong>
+                                  <span class="txt-span-md" style="color: #28a745; font-weight: 600; flex: 1;">Available</span>
                                 </div>
                               </li>
                             </ul>

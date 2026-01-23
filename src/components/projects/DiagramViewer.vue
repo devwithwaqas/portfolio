@@ -297,8 +297,6 @@ export default {
       // Save current diagram state before entering fullscreen (only if panzoom is initialized)
       if (this.panzoomInstance) {
         this.saveCurrentDiagramState()
-      } else {
-        this.debugWarn('Panzoom not initialized, cannot save diagram state')
       }
       
       this.isFullscreen = true
@@ -329,9 +327,6 @@ export default {
                   this.baseDiagramHeight = containerRect.width / imgAspect
                 }
                 
-                this.debugLog('Cached base diagram size:', this.baseDiagramWidth, 'x', this.baseDiagramHeight)
-                this.debugLog('Container size:', containerRect.width, 'x', containerRect.height)
-                this.debugLog('SVG aspect:', imgAspect, 'Container aspect:', containerAspect)
               })
             }
           })
@@ -355,7 +350,7 @@ export default {
           window.hxNarratorPro.stop()
         }
       } catch (e) {
-        this.debugWarn('Error cleaning up inline narration on fullscreen exit:', e)
+        // Silently fail - cleanup errors are non-critical
       }
       
       // Comprehensive cleanup of ALL highlight systems
@@ -448,7 +443,6 @@ export default {
         this.panzoomInstance.bind()
       }
       
-      this.debugLog('Panzoom instance created with unlimited zoom (SVG)')
 
       // Enable zoom with mouse wheel ONLY when Ctrl/Cmd key is pressed
       // This prevents hijacking normal page scroll
@@ -484,17 +478,12 @@ export default {
       if (this.panzoomInstance) {
         // Get current scale for debugging
         const currentScale = this.getCurrentScale()
-        this.debugLog('Zoom out - Current scale:', currentScale)
         
         this.panzoomInstance.zoomOut({
           animate: true
         })
         
         // Check scale after zoom out
-        setTimeout(() => {
-          const newScale = this.getCurrentScale()
-          this.debugLog('Zoom out - New scale:', newScale)
-        }, 100)
       }
     },
 
@@ -537,7 +526,6 @@ export default {
       // Reset to the default panzoom state (which is the initial scale)
       if (!this.panzoomInstance) return
       
-      this.debugLog('Fitting to initial size (reset to default)')
       
       // Reset to default state
       this.panzoomInstance.reset({
@@ -676,7 +664,6 @@ export default {
           }
         }
       } catch (error) {
-        this.debugWarn('Could not get current scale:', error)
       }
       
       return 1
@@ -730,9 +717,7 @@ export default {
             translateX: translateX,
             translateY: translateY
           }
-          this.debugLog('Saved pre-narration state:', this.preNarrationState)
         } catch (error) {
-          this.debugWarn('Could not save diagram state:', error)
           // Fallback to default state
           this.preNarrationState = {
             scale: 1,
@@ -746,8 +731,6 @@ export default {
     restorePreviousDiagramState() {
       // Restore the diagram to its state before narration started
       if (this.panzoomInstance && this.preNarrationState) {
-        this.debugLog('Restoring pre-narration state:', this.preNarrationState)
-        
         try {
           // Method 1: Try setTransform (newer versions)
           if (typeof this.panzoomInstance.setTransform === 'function') {
@@ -756,29 +739,24 @@ export default {
               y: this.preNarrationState.translateY,
               scale: this.preNarrationState.scale
             })
-            this.debugLog('Successfully restored state using setTransform')
           }
           // Method 2: Try zoomTo and panTo (older versions)
           else if (typeof this.panzoomInstance.zoomTo === 'function' && typeof this.panzoomInstance.panTo === 'function') {
             this.panzoomInstance.zoomTo(this.preNarrationState.scale)
             this.panzoomInstance.panTo(this.preNarrationState.translateX, this.preNarrationState.translateY)
-            this.debugLog('Successfully restored state using zoomTo/panTo')
           }
           // Method 3: Try moveTo and zoomTo
           else if (typeof this.panzoomInstance.moveTo === 'function' && typeof this.panzoomInstance.zoomTo === 'function') {
             this.panzoomInstance.zoomTo(this.preNarrationState.scale)
             this.panzoomInstance.moveTo(this.preNarrationState.translateX, this.preNarrationState.translateY)
-            this.debugLog('Successfully restored state using moveTo/zoomTo')
           }
           // Method 4: Fallback - reset to default (silent, this is expected behavior)
           else {
-            this.debugLog('Using fallback reset to default state')
             if (typeof this.panzoomInstance.reset === 'function') {
               this.panzoomInstance.reset()
             }
           }
         } catch (error) {
-          this.debugLog('Error restoring diagram state, using reset fallback:', error.message)
           // Fallback to reset
           if (typeof this.panzoomInstance.reset === 'function') {
             this.panzoomInstance.reset()
@@ -860,7 +838,7 @@ export default {
             window.hxNarratorPro.stop()
           }
         } catch (e) {
-          this.debugWarn('Error cleaning up legacy narration:', e)
+          // Silently fail - cleanup errors are non-critical
         }
         
         this.isNarrating = false
@@ -874,12 +852,6 @@ export default {
       if (this.isFullscreen && this.$refs.narrator) {
         const currentStep = this.$refs.narrator.currentStep
         if (currentStep && currentStep.highlights) {
-          this.debugLog('Updating highlights for step:', currentStep.title)
-          this.debugLog('Step description:', currentStep.description)
-          this.debugLog('Step highlights:', currentStep.highlights)
-          currentStep.highlights.forEach((highlight, index) => {
-            this.debugLog(`Highlight ${index}: x=${highlight.x}, y=${highlight.y}, width=${highlight.width}, height=${highlight.height}`)
-          })
           this.currentHighlights = currentStep.highlights
         } else {
           this.currentHighlights = []
@@ -907,28 +879,12 @@ export default {
             this.baseDiagramHeight = containerRect.width / imgAspect
           }
           
-          this.debugLog('Cached base diagram size:', this.baseDiagramWidth, 'x', this.baseDiagramHeight)
-          this.debugLog('Container size:', containerRect.width, 'x', containerRect.height)
-          this.debugLog('SVG aspect:', imgAspect, 'Container aspect:', containerAspect)
         }
       }
     },
 
-    // Debug logging helper
-    debugLog(message, ...args) {
-      if (this.debugMode) {
-        console.log(`[DiagramViewer] ${message}`, ...args)
-      }
-    },
-    
-    debugWarn(message, ...args) {
-      if (this.debugMode) {
-        console.warn(`[DiagramViewer] ${message}`, ...args)
-      }
-    },
 
     initializeUnifiedServices() {
-      this.debugLog('Initializing unified services...')
       
       // Initialize highlight service
       this.highlightService = highlightService
@@ -943,8 +899,6 @@ export default {
     },
 
     clearAllHighlights() {
-      this.debugLog('Clearing ALL highlight systems...')
-      
       // Use unified service first
       if (this.highlightService) {
         this.highlightService.clearAllHighlights()
@@ -965,7 +919,7 @@ export default {
           })
         })
       } catch (e) {
-        this.debugWarn('Error clearing SVG highlights:', e)
+        // Silently fail - cleanup errors are non-critical
       }
       
       // Clear any remaining badges or focus rectangles
@@ -980,23 +934,17 @@ export default {
           if (rect.style) rect.style.display = 'none'
         })
       } catch (e) {
-        this.debugWarn('Error clearing badges and focus rectangles:', e)
+        // Silently fail - cleanup errors are non-critical
       }
-      
-      this.$nextTick(() => {
-        this.debugLog('Highlight cleanup completed')
-      })
     },
 
     onNarrationStarted() {
-      this.debugLog('Narration started')
       this.isNarrating = true
       this.updateHighlights()
     },
 
     onStepChanged(stepIndex, currentStep) {
       this.currentStepIndex = stepIndex
-      this.debugLog('Step changed to:', stepIndex, currentStep)
       if (currentStep && currentStep.highlights) {
         this.currentHighlights = currentStep.highlights
         // Update highlights with debug logging
@@ -1015,7 +963,6 @@ export default {
     animateToHighlight(highlight) {
       if (!this.isFullscreen || !this.$refs.fullscreenWrapper) return
       if (!this.baseDiagramWidth || !this.baseDiagramHeight) {
-        this.debugWarn('Base diagram dimensions not cached yet')
         return
       }
       
@@ -1083,14 +1030,6 @@ export default {
       // If calculated zoom would make highlight too big for screen, use fit-to-screen zoom instead
       if (zoomScale > maxZoomForFit) {
         zoomScale = maxZoomForFit
-        this.debugLog('Large highlight - using fit-to-screen zoom:', {
-          originalZoom: baseZoomScale,
-          fitZoom: zoomScale.toFixed(2),
-          highlightSize: `${highlight.width}x${highlight.height}`,
-          screenSize: `${containerRect.width}x${containerRect.height}`,
-          targetSide: willBeOnLeftSide ? 'left' : 'right',
-          sideOffset: sideOffset.toFixed(0) + 'px'
-        })
       }
       
       // Get container dimensions (reuse containerRect from above)
@@ -1121,25 +1060,9 @@ export default {
       wrapper.style.transition = 'transform 0.5s ease-in-out'
       wrapper.style.transform = `scale(${zoomScale}) translate(${translateX}px, ${translateY}px)`
       
-      this.debugLog('Animated to highlight:', {
-        highlight,
-        zoomScale,
-        svgSizeRatio: svgSizeRatio.toFixed(2),
-        baseZoomScale: baseZoomScale.toFixed(2),
-        highlightArea: highlightArea.toFixed(1) + '%',
-        imgDimensions: `${imgWidth}x${imgHeight}`,
-        svgDimensions: `${this.svgWidth}x${this.svgHeight}`,
-        renderedHighlight: `${renderedHighlightX}, ${renderedHighlightY}`,
-        translate: `${translateX}px, ${translateY}px`,
-        highlightSide: highlightCenterX < diagramCenter ? 'left' : 'right',
-        targetPosition: `${targetX}px (${targetX === leftHalfCenter ? 'left half' : 'right half'})`,
-        positioningMode: zoomScale === maxZoomForFit ? 'fit-to-screen (side-based)' : 'normal zoom',
-        containerWidth: `${containerWidth}px`
-      })
     },
 
     onNarrationStopped() {
-      this.debugLog('Narration stopped, clearing highlights')
       this.isNarrating = false
       this.currentHighlights = []
       
@@ -1149,7 +1072,6 @@ export default {
 
     nextNarration() {
       if (this.isFullscreen && this.$refs.narrator) {
-        this.debugLog('Next narration button pressed')
         this.$refs.narrator.next()
         this.$nextTick(() => {
           this.updateHighlights()
@@ -1159,7 +1081,6 @@ export default {
 
     previousNarration() {
       if (this.isFullscreen && this.$refs.narrator) {
-        this.debugLog('Previous narration button pressed')
         this.$refs.narrator.previous()
         this.$nextTick(() => {
           this.updateHighlights()
@@ -1168,12 +1089,9 @@ export default {
     },
 
     toggleVoiceSelection() {
-      this.debugLog('Voice button clicked, current state:', this.showVoiceSelection)
       this.showVoiceSelection = !this.showVoiceSelection
-      this.debugLog('Voice dropdown now:', this.showVoiceSelection)
       
       if (this.showVoiceSelection && this.availableVoices.length === 0) {
-        this.debugLog('Loading available voices...')
         this.loadAvailableVoices()
       }
       
@@ -1242,12 +1160,9 @@ export default {
 
     loadAvailableVoices() {
       if ('speechSynthesis' in window) {
-        this.debugLog('Speech synthesis supported, loading voices...')
         // Load voices when user opens the dropdown
         const loadVoices = () => {
           const allVoices = window.speechSynthesis.getVoices()
-          this.debugLog('Total voices found:', allVoices.length)
-          
           this.availableVoices = allVoices.filter(voice => 
             voice.lang.startsWith('en') // Filter for English voices
           ).map(voice => ({
@@ -1256,12 +1171,8 @@ export default {
             voice: voice
           }))
           
-          this.debugLog('English voices found:', this.availableVoices.length)
-          this.debugLog('Available voices:', this.availableVoices.map(v => v.name))
-          
           // If no English voices found, use all voices
           if (this.availableVoices.length === 0) {
-            this.debugLog('No English voices found, using all voices')
             this.availableVoices = allVoices.map(voice => ({
               name: voice.name,
               lang: voice.lang,
@@ -1272,7 +1183,6 @@ export default {
           // Set default voice if none selected
           if (!this.selectedVoice && this.availableVoices.length > 0) {
             this.selectedVoice = this.availableVoices[0].name
-            this.debugLog('Default voice set to:', this.selectedVoice)
           }
         }
         
@@ -1283,8 +1193,6 @@ export default {
         if (window.speechSynthesis.onvoiceschanged !== undefined) {
           window.speechSynthesis.onvoiceschanged = loadVoices
         }
-      } else {
-        this.debugLog('Speech synthesis not supported')
       }
     },
 

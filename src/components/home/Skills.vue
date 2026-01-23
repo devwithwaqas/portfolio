@@ -266,4 +266,31 @@ export default {
   font-weight: 600;
   /* Font size handled by font-sizes.css */
 }
+
+/* Remove icon wrapper boxes (background, border, border-radius) in Skills section */
+.skills-section-title .icon-wrapper-xs,
+.skills-section-title .icon-wrapper-sm,
+.skills-section-title .icon-wrapper-md,
+.skills-section-title .icon-wrapper-lg,
+.skills-section-title .icon-wrapper-xl,
+.skills-section-title .icon-wrapper-2xl {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.skills-section-title .icon-wrapper-xs:hover,
+.skills-section-title .icon-wrapper-sm:hover,
+.skills-section-title .icon-wrapper-md:hover,
+.skills-section-title .icon-wrapper-lg:hover,
+.skills-section-title .icon-wrapper-xl:hover,
+.skills-section-title .icon-wrapper-2xl:hover {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
 </style>

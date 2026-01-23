@@ -159,6 +159,7 @@ function generateSitemap() {
   console.log('✓ Generated sitemap.xml at:', distSitemapPath)
   
   // Also write to public directory (as backup and for Vite to copy)
+  const publicSitemapPath = path.join(PUBLIC_DIR, 'sitemap.xml')
   fs.writeFileSync(publicSitemapPath, sitemap, 'utf8')
   console.log('✓ Copied sitemap.xml to public/ folder')
   

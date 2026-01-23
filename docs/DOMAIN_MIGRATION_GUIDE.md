@@ -12,7 +12,7 @@
 - `https://devwithwaqas.github.io/portfolio/`
 
 ### **Future Domain (Example):**
-- `https://waqasahmad.com/` (or any custom domain)
+- `https://devwithwaqas.github.io/portfolio/` (GitHub Pages)
 
 **Google's Perspective:** This is a **site migration**, not duplicate content. Google understands that businesses move domains all the time.
 
@@ -29,7 +29,7 @@
 **Example:**
 ```
 Old: https://devwithwaqas.github.io/portfolio/services/full-stack-development
-New: https://waqasahmad.com/services/full-stack-development
+New: https://devwithwaqas.github.io/portfolio/services/full-stack-development
 ```
 
 **301 Redirect tells Google:**
@@ -50,7 +50,7 @@ const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
 
 **After Migration:**
 ```javascript
-const SITE_URL = 'https://waqasahmad.com/'  // Your new domain
+const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'  // GitHub Pages URL
 ```
 
 **What this does:**
@@ -191,7 +191,7 @@ const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
 
 **Replace with:**
 ```javascript
-const SITE_URL = 'https://waqasahmad.com/'  // Your new domain
+const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'  // GitHub Pages URL
 ```
 
 ### **2. Update Router (`src/router/index.js`):**
@@ -203,7 +203,7 @@ const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
 
 **Replace with:**
 ```javascript
-const SITE_URL = 'https://waqasahmad.com/'  // Your new domain
+const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'  // GitHub Pages URL
 ```
 
 ### **3. Update index.html:**
@@ -215,7 +215,7 @@ const SITE_URL = 'https://waqasahmad.com/'  // Your new domain
 
 **Replace with:**
 ```html
-<meta property="og:url" content="https://waqasahmad.com/">
+<meta property="og:url" content="https://devwithwaqas.github.io/portfolio/">
 ```
 
 ### **4. Update robots.txt:**

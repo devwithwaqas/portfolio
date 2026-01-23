@@ -302,12 +302,7 @@ export default function splitMobileCSS() {
           }
         }
         
-        // Verify base path by checking if files would exist at that path
-        // This is a safety check - if wrong base path, CSS won't load
-        if (!fs.existsSync(testSharedPath)) {
-          console.warn(`[split-css] ⚠️  Warning: shared.css not found at expected path, but will be generated`)
-        }
-        
+        // Log detected base path
         console.log(`[split-css] ✅ Detected base path: "${basePath}"`)
         
         // Remove ALL existing split CSS links if they exist (to avoid duplicates)
