@@ -11,7 +11,15 @@
               class="carousel-item"
               :class="{ active: index === 0 }"
             >
-              <img :src="bannerImg" :alt="`${title} Services - Banner ${index + 1} - Remote Consultant - Available USA, Europe, Global`" class="banner-image" :loading="index === 0 ? 'eager' : 'lazy'" :fetchpriority="index === 0 ? 'high' : 'low'" />
+              <ResponsiveImage
+                :src="bannerImg"
+                :alt="`${title} Services - Banner ${index + 1} - Remote Consultant - Available USA, Europe, Global`"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+                :lazy="index !== 0"
+                :priority="index === 0 ? 'high' : 'low'"
+                container-class="banner-image-wrapper"
+                image-class="banner-image"
+              />
             </div>
           </div>
           <button 
@@ -103,11 +111,13 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
+import ResponsiveImage from '../common/ResponsiveImage.vue'
 
 export default {
   name: 'ServiceOverview',
   components: {
-    ReusableCard
+    ReusableCard,
+    ResponsiveImage
   },
   props: {
     title: {
@@ -339,6 +349,10 @@ export default {
   overflow: hidden;
 }
 
+.banner-image-wrapper {
+  width: 100%;
+  height: 300px;
+}
 .banner-image {
   width: 100%;
   height: 300px;

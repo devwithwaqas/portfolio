@@ -19,7 +19,7 @@
             <div class="service-link-icon">
               <i :class="service.icon || 'bi bi-code-square'"></i>
             </div>
-            <h5 class="service-link-title txt-h5-lg">{{ service.title }}</h5>
+            <h4 class="service-link-title txt-h5-lg">{{ service.title }}</h4>
             <p class="service-link-description txt-p-md">{{ service.description }}</p>
             <div class="service-link-arrow">
               <i class="bi bi-arrow-right"></i>

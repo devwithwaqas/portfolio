@@ -525,10 +525,10 @@ The Mobile Games Collection has successfully established a presence in the compe
         icon: 'analytics',
         width: 'full',
         data: {
-          labels: ['Frame Rate (fps)', 'User Rating', 'Downloads (K)', 'Games Published', 'Retention Rate (%)', 'Session Time (min)'],
+          labels: ['Frame Rate (fps)', 'User Rating', 'Retention Rate (%)', 'Session Time (min)', 'Daily Active Users (K)', 'Avg Session Duration (min)'],
           datasets: [{
             label: 'Performance Metrics',
-            data: [60, 4.2, 500, 5, 75, 12],
+            data: [60, 4.2, 75, 12, 45, 15],
             backgroundColor: [
               'rgba(34, 197, 94, 0.8)',
               'rgba(78, 205, 196, 0.8)',
@@ -566,16 +566,16 @@ The Mobile Games Collection has successfully established a presence in the compe
                 label: (context) => {
                   const value = context.parsed.y
                   const label = context.label || ''
-                  if (label.includes('Rating')) {
-                    return `${label}: ${value}/5.0`
-                  } else if (label.includes('Downloads')) {
-                    return `${label}: ${value}K+`
-                  } else if (label.includes('Rate')) {
-                    return `${label}: ${value}%`
-                  } else if (label.includes('Time')) {
-                    return `${label}: ${value} min`
-                  } else if (label.includes('Frame Rate')) {
+                  if (label.includes('Frame Rate')) {
                     return `${label}: ${value} fps`
+                  } else if (label.includes('User Rating')) {
+                    return `${label}: ${value}/5.0`
+                  } else if (label.includes('Retention Rate')) {
+                    return `${label}: ${value}%`
+                  } else if (label.includes('Session Time') || label.includes('Duration')) {
+                    return `${label}: ${value} min`
+                  } else if (label.includes('Active Users')) {
+                    return `${label}: ${value}K`
                   } else {
                     return `${label}: ${value}`
                   }

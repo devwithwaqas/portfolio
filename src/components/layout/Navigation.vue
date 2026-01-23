@@ -125,6 +125,7 @@ export default {
       minSwipeDistance: 50,
       intersectionObserver: null, // Store observer for cleanup
       scrollTimeout: null, // Store scroll timeout for debouncing
+      scrollIdleCallback: null, // Store idle callback for scroll handler
       isUserScrolling: false, // Flag to temporarily disable intersection observer during user-initiated scrolls
       userScrollTimeout: null // Timeout to re-enable intersection observer after scroll
     }
@@ -133,12 +134,24 @@ export default {
     // CRITICAL: Ensure button is in body and force fixed positioning
     // Teleport should handle this, but verify and force if needed
     this.$nextTick(() => {
-      setTimeout(() => {
-        const button = document.querySelector('.mobile-nav-toggle')
-        if (button && button.parentElement !== document.body) {
-          document.body.appendChild(button)
-        }
-      }, 200)
+      // Use requestIdleCallback for non-critical DOM check
+      if (window.requestIdleCallback) {
+        requestIdleCallback(() => {
+          const button = document.querySelector('.mobile-nav-toggle')
+          if (button && button.parentElement !== document.body) {
+            document.body.appendChild(button)
+          }
+        }, { timeout: 500 })
+      } else {
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            const button = document.querySelector('.mobile-nav-toggle')
+            if (button && button.parentElement !== document.body) {
+              document.body.appendChild(button)
+            }
+          }, 0)
+        })
+      }
     })
     
     this.setActiveSectionFromRoute()
@@ -146,13 +159,14 @@ export default {
     if (this.$route.path === '/') {
       // Wait for DOM to be fully rendered before setting up observers
       this.$nextTick(() => {
-        setTimeout(() => {
+        // Use requestAnimationFrame for better performance
+        requestAnimationFrame(() => {
           this.setupIntersectionObserver()
           // Check initial scroll position to set active section
           this.checkInitialScrollPosition()
           // Add scroll listener as fallback
           window.addEventListener('scroll', this.handleScroll, { passive: true })
-        }, 100)
+        })
       })
     }
     this.setupClickOutsideListener()
@@ -169,6 +183,9 @@ export default {
     window.removeEventListener('scroll', this.handleScroll)
     if (this.scrollTimeout) {
       clearTimeout(this.scrollTimeout)
+    }
+    if (this.scrollIdleCallback && window.cancelIdleCallback) {
+      cancelIdleCallback(this.scrollIdleCallback)
     }
     if (this.userScrollTimeout) {
       clearTimeout(this.userScrollTimeout)
@@ -236,14 +253,15 @@ export default {
             const element = document.getElementById(sectionId)
             if (element) {
               const headerOffset = 100
-              // OPTIMIZATION: Batch layout reads - read all properties in one operation
+              // OPTIMIZATION: Batch ALL layout reads in a single RAF to minimize forced reflows
               requestAnimationFrame(() => {
-                // Read layout inside RAF (after previous frame) to avoid forced reflow
-                const elementPosition = element.getBoundingClientRect().top
+                // Batch read: getBoundingClientRect + scrollY in one operation
+                // This reduces forced reflows by reading all layout properties together
+                const rect = element.getBoundingClientRect()
                 const scrollY = window.pageYOffset || window.scrollY || 0
-                const offsetPosition = elementPosition + scrollY - headerOffset
+                const offsetPosition = rect.top + scrollY - headerOffset
                 
-                // Scroll in next frame to avoid blocking
+                // Scroll in next frame to avoid blocking current frame
                 requestAnimationFrame(() => {
                   window.scrollTo({
                     top: offsetPosition,
@@ -393,7 +411,15 @@ export default {
       }
       
       // Only run fallback scroll handler infrequently (IntersectionObserver is primary)
-      this.scrollTimeout = setTimeout(() => {
+      // Use requestIdleCallback if available for better performance
+      if (this.scrollTimeout) {
+        clearTimeout(this.scrollTimeout)
+        if (this.scrollIdleCallback) {
+          cancelIdleCallback(this.scrollIdleCallback)
+        }
+      }
+      
+      const performScrollCheck = () => {
         // OPTIMIZATION: Use single RAF and batch layout reads
         // IntersectionObserver handles most work, this is just a lightweight fallback
         requestAnimationFrame(() => {
@@ -406,7 +432,13 @@ export default {
           // For other sections, rely on IntersectionObserver (which is more efficient)
           // No need to check sections here - IntersectionObserver handles it
         })
-      }, 200) // Increased debounce - IntersectionObserver is primary
+      }
+      
+      if (window.requestIdleCallback) {
+        this.scrollIdleCallback = requestIdleCallback(performScrollCheck, { timeout: 200 })
+      } else {
+        this.scrollTimeout = setTimeout(performScrollCheck, 200)
+      }
     },
     setupClickOutsideListener() {
       document.addEventListener('click', this.handleClickOutside)

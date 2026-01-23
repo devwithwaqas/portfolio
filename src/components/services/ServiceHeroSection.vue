@@ -3,7 +3,15 @@
     <div class="service-hero-content">
       <!-- Hero Image -->
       <div v-if="heroImage" class="hero-image-container mb-4">
-        <img :src="heroImage" :alt="`${title} Services - Remote Consultant - Available USA, Europe, Global - 17+ Years Experience`" class="hero-image" loading="eager" fetchpriority="high" />
+        <ResponsiveImage
+          :src="heroImage"
+          :alt="`${title} Services - Remote Consultant - Available USA, Europe, Global - 17+ Years Experience`"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+          :lazy="false"
+          priority="high"
+          container-class="hero-image-wrapper"
+          image-class="hero-image"
+        />
       </div>
       
       <!-- Remote Available Badge -->
@@ -60,12 +68,14 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
+import ResponsiveImage from '../common/ResponsiveImage.vue'
 import { resolveIcon } from '../../utils/iconResolver.js'
 
 export default {
   name: 'ServiceHeroSection',
   components: {
-    ReusableCard
+    ReusableCard,
+    ResponsiveImage
   },
   props: {
     title: {
@@ -117,7 +127,9 @@ export default {
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
-
+.hero-image-wrapper {
+  width: 100%;
+}
 .hero-image {
   width: 100%;
   height: auto;

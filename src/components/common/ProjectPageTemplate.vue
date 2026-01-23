@@ -66,6 +66,21 @@ export default {
       type: String,
       default: 'Portfolio'
     }
+  },
+  mounted() {
+    // CRITICAL: Scroll to top immediately on mount to prevent "filling from bottom" effect
+    // This ensures scroll happens even if router scrollBehavior didn't fire
+    // Works for both desktop and mobile
+    if (typeof window !== 'undefined') {
+      // Use instant scroll to prevent any visual flash
+      window.scrollTo({ top: 0, behavior: 'instant' })
+      
+      // Also set scroll position directly as backup (for older browsers)
+      if (window.scrollY > 0) {
+        document.documentElement.scrollTop = 0
+        document.body.scrollTop = 0
+      }
+    }
   }
 }
 </script>

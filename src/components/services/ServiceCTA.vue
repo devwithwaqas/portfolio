@@ -5,7 +5,15 @@
         <!-- CTA Image (if provided) -->
         <div v-if="ctaImage" class="col-lg-4">
           <div class="cta-image-container">
-            <img :src="ctaImage" :alt="`Get Started - Remote Consultant Services - Available USA, Europe, Global`" class="cta-image" loading="lazy" />
+            <ResponsiveImage
+              :src="ctaImage"
+              :alt="`Get Started - Remote Consultant Services - Available USA, Europe, Global`"
+              sizes="(max-width: 991px) 100vw, 33vw"
+              :lazy="true"
+              priority="auto"
+              container-class="cta-image-wrapper"
+              image-class="cta-image"
+            />
           </div>
         </div>
         
@@ -84,11 +92,13 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
+import ResponsiveImage from '../common/ResponsiveImage.vue'
 
 export default {
   name: 'ServiceCTA',
   components: {
-    ReusableCard
+    ReusableCard,
+    ResponsiveImage
   },
   props: {
     ctaText: {
@@ -223,7 +233,10 @@ export default {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   height: 100%;
 }
-
+.cta-image-wrapper {
+  width: 100%;
+  height: 100%;
+}
 .cta-image {
   width: 100%;
   height: 100%;

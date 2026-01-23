@@ -99,11 +99,17 @@ export default defineConfig(({ mode }) => {
     host: '0.0.0.0',
     port: 3001,
     open: true,
-    hmr: {
+    hmr: mode === 'development' ? {
       protocol: 'ws',
       host: 'localhost',
-      port: 3001
-    }
+      port: 3001,
+      // Disable HMR client auto-reconnect attempts when server is off
+      // This prevents "vite connecting" messages when dev server is not running
+      client: {
+        reconnect: 3, // Limit reconnection attempts
+        overlay: true
+      }
+    } : false // Completely disable HMR in production/firebase mode
   },
   build: {
     outDir: 'dist',
@@ -225,7 +231,12 @@ export default defineConfig(({ mode }) => {
     optimizeDeps: {
       include: ['vue', 'vue-router'],
       exclude: ['@panzoom/panzoom', 'chart.js'] // These are lazy loaded
-    }
+    },
+    // Disable HMR in production builds to prevent connection attempts when server is off
+    // HMR is only needed in development - this prevents "vite connecting" messages in production
+    define: mode === 'production' || mode === 'firebase' ? {
+      'import.meta.hot': 'undefined' // Disable HMR client in production builds
+    } : {}
   }
   }
 })

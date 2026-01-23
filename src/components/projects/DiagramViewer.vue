@@ -157,8 +157,8 @@
             alt="Architecture Diagram" 
             image-class="architecture-diagram"
             container-class="diagram-image-container"
-            :lazy="false"
-            priority="high"
+            :lazy="true"
+            priority="auto"
             @load="onDiagramImageLoad"
             ref="diagramLazyImage"
           />

@@ -64,12 +64,32 @@
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://us-central1-robust-builder-484406-b3.cloudfunctions.net" crossorigin>
   
-  <!-- CRITICAL: Preload LCP image FIRST (highest priority) -->
-  <!-- Mobile: Preload mobile JPG (smaller, faster on mobile) -->
-  <link rel="preload" href="/assets/img/waqas-microsoft-profile-mobile.jpg" as="image" type="image/jpeg" fetchpriority="high" media="(max-width: 768px)">
-  <!-- Desktop: Preload desktop JPG (fallback, browser will use WebP if supported) -->
-  <link rel="preload" href="/assets/img/waqas-microsoft-profile-optimized.jpg" as="image" type="image/jpeg" fetchpriority="high" media="(min-width: 769px)">
-  
+  <!-- CRITICAL: Preload LCP hero image ONLY on home (avoids "preloaded but not used" on project/service pages) -->
+  <script>
+    (function() {
+      var p = window.location.pathname;
+      var isHome = p === '/' || p === '/portfolio' || p === '/portfolio/';
+      if (!isHome) return;
+      var base = p.startsWith('/portfolio') ? '/portfolio/' : '/';
+      var mobile = document.createElement('link');
+      mobile.rel = 'preload';
+      mobile.as = 'image';
+      mobile.type = 'image/jpeg';
+      mobile.href = base + 'assets/img/waqas-microsoft-profile-mobile.jpg';
+      mobile.setAttribute('fetchpriority', 'high');
+      mobile.media = '(max-width: 768px)';
+      document.head.appendChild(mobile);
+      var desktop = document.createElement('link');
+      desktop.rel = 'preload';
+      desktop.as = 'image';
+      desktop.type = 'image/jpeg';
+      desktop.href = base + 'assets/img/waqas-microsoft-profile-optimized.jpg';
+      desktop.setAttribute('fetchpriority', 'high');
+      desktop.media = '(min-width: 769px)';
+      document.head.appendChild(desktop);
+    })();
+  </script>
+
   <!-- Performance: Preload critical resources -->
   <link rel="preload" href="/assets/vendor/bootstrap/css/bootstrap.min.css" as="style">
   <link rel="preload" href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" as="style">

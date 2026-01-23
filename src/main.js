@@ -67,14 +67,42 @@ router.isReady().then(() => {
   }
 })
 
-// Register service worker for better asset caching on repeat visits
+// Service Worker Management
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    // Use dynamic base URL: '/' for Firebase, '/portfolio/' for GitHub Pages
-    const baseUrl = import.meta.env.BASE_URL || '/'
-    const swPath = `${baseUrl}sw.js`
-    navigator.serviceWorker.register(swPath).catch(() => {
-      // Silent fail; caching is optional
+  if (import.meta.env.PROD) {
+    // Register service worker ONLY in production (not in dev mode)
+    // In dev mode, service worker can interfere with HMR and cause connection issues
+    window.addEventListener('load', () => {
+      // Use dynamic base URL: '/' for Firebase, '/portfolio/' for GitHub Pages
+      const baseUrl = import.meta.env.BASE_URL || '/'
+      const swPath = `${baseUrl}sw.js`
+      navigator.serviceWorker.register(swPath).catch(() => {
+        // Silent fail; caching is optional
+      })
     })
-  })
+  } else {
+    // In dev mode: IMMEDIATELY unregister any existing service workers to prevent interference
+    // Don't wait for 'load' - do it immediately to prevent caching issues
+    ;(async () => {
+      try {
+        const registrations = await navigator.serviceWorker.getRegistrations()
+        for (const registration of registrations) {
+          const unregistered = await registration.unregister()
+          if (unregistered) {
+            console.log('[Dev] Unregistered service worker:', registration.scope)
+          }
+        }
+        // Also clear all caches to prevent stale cached content
+        if ('caches' in window) {
+          const cacheNames = await caches.keys()
+          await Promise.all(cacheNames.map(name => caches.delete(name)))
+          if (cacheNames.length > 0) {
+            console.log('[Dev] Cleared all caches:', cacheNames)
+          }
+        }
+      } catch (error) {
+        // Silent fail
+      }
+    })()
+  }
 }

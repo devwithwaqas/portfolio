@@ -34,9 +34,14 @@
             </h2>
             <ul class="footer-nav-links">
               <li>
-                <a @click.prevent="scrollToSection('hero', $event)" href="#" class="footer-nav-link txt-footer-link-md">
+                <a 
+                  @click.prevent="scrollToSection('hero', $event)" 
+                  href="#" 
+                  class="footer-nav-link txt-footer-link-md"
+                  aria-label="Scroll to home section in footer navigation"
+                >
                   <div class="footer-icon-wrapper home-icon">
-                    <i class="fas fa-house navicon icon-sm"></i>
+                    <i class="fas fa-house navicon icon-sm" aria-hidden="true"></i>
                   </div>
                   <span>Home</span>
                 </a>
@@ -104,9 +109,9 @@
         <!-- Services -->
         <div class="col-lg-2 col-md-6 mb-4">
           <div class="footer-section">
-            <h5 class="footer-section-title txt-footer-header-lg">
+            <h2 class="footer-section-title txt-footer-header-lg">
               <i class="bi bi-gear-fill me-2 footer-icon-purple icon-md"></i>Services
-            </h5>
+            </h2>
             <ul class="footer-list">
               <li class="footer-list-item txt-p-sm">
                 <router-link to="/services/full-stack-development" class="footer-service-link">

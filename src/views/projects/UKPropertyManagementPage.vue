@@ -577,25 +577,25 @@ The UK Property Management Platform has successfully transformed property manage
         icon: 'success',
         width: 'full',
         data: {
-          labels: ['Properties Managed', 'Portfolio Value', 'Tenant Satisfaction', 'System Uptime', 'Operational Efficiency', 'Cost Reduction'],
+          labels: ['Tenant Satisfaction', 'System Uptime', 'Operational Efficiency', 'Cost Reduction', 'Rent Collection Speed', 'Maintenance Resolution'],
           datasets: [{
-            label: 'Success Metrics',
-            data: [9000, 3, 80, 99.9, 60, 40],
+            label: 'Performance Metrics (%)',
+            data: [80, 99.9, 60, 40, 45, 70],
             backgroundColor: [
-              'rgba(14, 162, 189, 0.8)',
-              'rgba(255, 107, 53, 0.8)',
               'rgba(40, 167, 69, 0.8)',
               'rgba(111, 66, 193, 0.8)',
               'rgba(255, 193, 7, 0.8)',
-              'rgba(23, 162, 184, 0.8)'
+              'rgba(23, 162, 184, 0.8)',
+              'rgba(14, 162, 189, 0.8)',
+              'rgba(255, 107, 53, 0.8)'
             ],
             borderColor: [
-              '#0ea2bd',
-              '#ff6b35',
               '#28a745',
               '#6f42c1',
               '#ffc107',
-              '#17a2b8'
+              '#17a2b8',
+              '#0ea2bd',
+              '#ff6b35'
             ],
             borderWidth: 2,
             borderRadius: 8,
@@ -618,16 +618,14 @@ The UK Property Management Platform has successfully transformed property manage
                 label: (context) => {
                   const value = context.parsed.y
                   const label = context.label || ''
-                  if (label.includes('Properties')) {
-                    return `${label}: ${value.toLocaleString()}+`
-                  } else if (label.includes('Portfolio Value')) {
-                    return `${label}: £${value}B+`
-                  } else if (label.includes('Uptime')) {
+                  if (label.includes('Uptime')) {
                     return `${label}: ${value}%`
-                  } else if (label.includes('Satisfaction') || label.includes('Efficiency') || label.includes('Reduction')) {
+                  } else if (label.includes('Satisfaction')) {
+                    return `${label}: ${value}%`
+                  } else if (label.includes('Efficiency') || label.includes('Reduction') || label.includes('Speed') || label.includes('Resolution')) {
                     return `${label}: ${value}% improvement`
                   } else {
-                    return `${label}: ${value}`
+                    return `${label}: ${value}%`
                   }
                 }
               }
@@ -636,12 +634,16 @@ The UK Property Management Platform has successfully transformed property manage
           scales: {
             y: {
               beginAtZero: true,
+              max: 100,
               grid: {
                 color: 'rgba(0, 0, 0, 0.05)'
               },
               ticks: {
                 font: { size: 11 },
-                color: '#6B7280'
+                color: '#6B7280',
+                callback: function(value) {
+                  return value + '%'
+                }
               }
             },
             x: {

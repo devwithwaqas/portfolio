@@ -83,7 +83,7 @@
         :businessImpact="businessImpactResults"
       />
       
-      <!-- Enhanced Performance Metrics & Analytics -->
+      <!-- Performance Metrics & Analytics -->
       <PerformanceMetricsSection 
         title="Performance Metrics & Analytics"
         :icon-name="PROJECT_ICON_NAMES.PERFORMANCE_METRICS"
@@ -119,7 +119,6 @@
     
     <!-- Additional Content Slot (Full Width) -->
     <template #additional-content>
-      <!-- Related Services -->
       <RelatedServices
         :services="relatedServices"
         introduction="This project utilized the following services I offer:"

@@ -91,8 +91,8 @@ export default {
   data() {
     return {
       bubbleStyle: {},
-      // Debug flag to control console logging
-      debugMode: import.meta.env.DEV // Only debug in development
+      // Debug flag to control console logging (disabled by default - set to true only when debugging)
+      debugMode: false
     }
   },
   computed: {

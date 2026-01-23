@@ -5,13 +5,14 @@
       class="test-nav-link"
       :class="buttonClasses"
       :style="customStyles"
+      :aria-label="`Navigate to ${label} section`"
       @click="handleClick"
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
       @focus="handleFocus"
       @blur="handleBlur"
     >
-      <svg class="test-icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="test-icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path v-for="(path, index) in svgPaths" :key="'path-' + index" :d="path.d"></path>
         <polyline v-for="(polyline, index) in svgPolylines" :key="'polyline-' + index" :points="polyline.points"></polyline>
         <circle v-for="(circle, index) in svgCircles" :key="'circle-' + index" :cx="circle.cx" :cy="circle.cy" :r="circle.r"></circle>

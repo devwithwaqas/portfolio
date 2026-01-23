@@ -190,13 +190,48 @@ const clearReturnSection = () => {
   }
 }
 
+// Cache section positions to avoid repeated layout reads
+let sectionPositionsCache = null
+let cacheTimestamp = 0
+const CACHE_DURATION = 1000 // Cache for 1 second
+
 const detectHomeSection = () => {
   if (typeof window === 'undefined') return null
+  
+  const now = Date.now()
   const sections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
   const scrollPosition = window.scrollY + window.innerHeight / 3
-  for (let i = sections.length - 1; i >= 0; i -= 1) {
+  
+  // Use cached positions if available and fresh
+  if (sectionPositionsCache && (now - cacheTimestamp) < CACHE_DURATION) {
+    for (let i = sections.length - 1; i >= 0; i -= 1) {
+      const cached = sectionPositionsCache[sections[i]]
+      if (cached !== undefined && cached <= scrollPosition) {
+        return sections[i]
+      }
+    }
+    return 'hero'
+  }
+  
+  // Batch all layout reads in a single operation to minimize forced reflows
+  // Use requestAnimationFrame to read layout after any pending style changes
+  const positions = {}
+  for (let i = 0; i < sections.length; i += 1) {
     const section = document.getElementById(sections[i])
-    if (section && section.offsetTop <= scrollPosition) {
+    if (section) {
+      // Read offsetTop once and cache it
+      positions[sections[i]] = section.offsetTop
+    }
+  }
+  
+  // Update cache
+  sectionPositionsCache = positions
+  cacheTimestamp = now
+  
+  // Find matching section using cached positions
+  for (let i = sections.length - 1; i >= 0; i -= 1) {
+    const pos = positions[sections[i]]
+    if (pos !== undefined && pos <= scrollPosition) {
       return sections[i]
     }
   }
@@ -212,9 +247,14 @@ const router = createRouter({
       return savedPosition
     }
 
-    // For project/service/404 pages, always scroll to top
+    // For project/service/404 pages, always scroll to top IMMEDIATELY (before content renders)
     if (to.path.startsWith('/projects/') || to.path.startsWith('/services/') || to.name === 'NotFound') {
-      return { top: 0, behavior: 'auto' }
+      // Use 'instant' behavior to scroll immediately, preventing content flash
+      // This ensures scroll happens before Vue renders the new page
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'instant' })
+      }
+      return { top: 0, behavior: 'instant' }
     }
 
     // For home page with return section, let Home.vue handle scrolling

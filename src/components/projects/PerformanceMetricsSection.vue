@@ -127,22 +127,40 @@ export default {
     
     // Wait for DOM to be fully rendered before initializing charts
     this.$nextTick(() => {
-      // Add a small delay to ensure canvas elements are rendered
-      setTimeout(() => {
-        this.initializeCharts()
-      }, 100)
+      // Use requestAnimationFrame for better performance (runs before next paint)
+      requestAnimationFrame(() => {
+        // Use requestIdleCallback if available, otherwise use minimal setTimeout
+        if (window.requestIdleCallback) {
+          requestIdleCallback(() => {
+            this.initializeCharts()
+          }, { timeout: 200 })
+        } else {
+          setTimeout(() => {
+            this.initializeCharts()
+          }, 0)
+        }
+      })
     })
   },
   watch: {
     charts: {
       handler() {
-        // Re-initialize charts when the prop changes
-        this.destroyCharts()
-        this.$nextTick(() => {
-          setTimeout(() => {
-            this.initializeCharts()
-          }, 100)
+      // Re-initialize charts when the prop changes
+      this.destroyCharts()
+      this.$nextTick(() => {
+        // Use requestAnimationFrame for better performance
+        requestAnimationFrame(() => {
+          if (window.requestIdleCallback) {
+            requestIdleCallback(() => {
+              this.initializeCharts()
+            }, { timeout: 200 })
+          } else {
+            setTimeout(() => {
+              this.initializeCharts()
+            }, 0)
+          }
         })
+      })
       },
       deep: true
     }
@@ -204,40 +222,88 @@ export default {
       // Destroy existing charts first
       this.destroyCharts()
       
-      this.charts.forEach((chartConfig, index) => {
-        if (!chartConfig || !chartConfig.id) {
-          return
-        }
-        
-        const canvas = document.getElementById(chartConfig.id)
-        if (!canvas) {
-          return
-        }
-        
-        try {
-          if (!Chart) {
-            return
-          }
+      if (!Chart) {
+        return
+      }
+      
+      // OPTIMIZATION: Batch all DOM reads first to avoid forced reflows
+      // Read all canvas elements in a single operation
+      const chartConfigsWithCanvas = this.charts
+        .filter(chartConfig => chartConfig && chartConfig.id)
+        .map(chartConfig => {
+          const canvas = document.getElementById(chartConfig.id)
+          if (!canvas) return null
           
           const ctx = canvas.getContext('2d')
-          if (!ctx) {
-            return
-          }
+          if (!ctx) return null
           
-          const chartInstance = new Chart(ctx, {
-            type: chartConfig.type,
-            data: chartConfig.data,
-            options: {
+          return { chartConfig, canvas, ctx }
+        })
+        .filter(item => item !== null)
+      
+      if (chartConfigsWithCanvas.length === 0) {
+        return
+      }
+      
+      // OPTIMIZATION: Initialize charts one at a time using requestIdleCallback
+      // This spreads heavy Chart.js initialization across idle periods
+      let chartIndex = 0
+      const initializeNextChart = (deadline) => {
+        // Process charts during idle time, but yield if deadline is approaching
+        while (chartIndex < chartConfigsWithCanvas.length && 
+               (deadline ? deadline.timeRemaining() > 5 : true)) {
+          const { chartConfig, canvas, ctx } = chartConfigsWithCanvas[chartIndex]
+          
+          try {
+            const chartOpts = {
               responsive: true,
               maintainAspectRatio: false,
               ...chartConfig.options
             }
-          })
-          this.chartInstances.push(chartInstance)
-        } catch (error) {
-          // Silently fail - chart initialization errors are handled gracefully
+            // Ensure Filler plugin config exists for line/area charts with fill (avoids getDatasetClipArea "disabled" undefined)
+            const plugins = { ...(chartOpts.plugins || {}) }
+            if (!plugins.filler) {
+              plugins.filler = { propagate: false }
+            }
+            chartOpts.plugins = plugins
+
+            const chartInstance = new Chart(ctx, {
+              type: chartConfig.type,
+              data: chartConfig.data,
+              options: chartOpts
+            })
+            this.chartInstances.push(chartInstance)
+          } catch (error) {
+            // Silently fail - chart initialization errors are handled gracefully
+          }
+          
+          chartIndex++
         }
-      })
+        
+        // Continue with next chart(s) if there are more
+        if (chartIndex < chartConfigsWithCanvas.length) {
+          if (window.requestIdleCallback) {
+            requestIdleCallback(initializeNextChart, { timeout: 100 })
+          } else {
+            // Fallback: use setTimeout with minimal delay
+            setTimeout(() => {
+              requestAnimationFrame(() => {
+                initializeNextChart(null)
+              })
+            }, 0)
+          }
+        }
+      }
+      
+      // Start initialization chain using requestIdleCallback
+      if (window.requestIdleCallback) {
+        requestIdleCallback(initializeNextChart, { timeout: 200 })
+      } else {
+        // Fallback: use requestAnimationFrame
+        requestAnimationFrame(() => {
+          initializeNextChart(null)
+        })
+      }
     }
   }
 }

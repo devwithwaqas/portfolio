@@ -106,188 +106,192 @@ export default {
         return
       }
       
-      // Read layout BEFORE entering RAF to avoid forced reflow
-      const wrapperRect = wrapper.getBoundingClientRect()
-      const widthScale = wrapperRect.width / img.naturalWidth
-      const heightScale = wrapperRect.height / img.naturalHeight
-      fitScale = Math.min(widthScale, heightScale)
-      
-      // Apply initialization in RAF
+      // OPTIMIZATION: Batch layout reads in RAF to avoid forced reflow
+      // Read all layout properties together in a single operation
       requestAnimationFrame(() => {
+        // Batch read: getBoundingClientRect + naturalWidth/Height in one operation
+        const wrapperRect = wrapper.getBoundingClientRect()
+        const widthScale = wrapperRect.width / img.naturalWidth
+        const heightScale = wrapperRect.height / img.naturalHeight
+        fitScale = Math.min(widthScale, heightScale)
         
-        if (import.meta.env.DEV) {
-          console.log('🖼️ PANZOOM INIT:', {
-            imageNaturalWidth: img.naturalWidth,
-            imageNaturalHeight: img.naturalHeight,
-            wrapperWidth: wrapperRect.width,
-            wrapperHeight: wrapperRect.height,
-            fitScale: fitScale.toFixed(3)
-          })
-        }
-        
-        // Initialize panzoom on the IMAGE element
-        this.panzoomInstance = this.Panzoom(img, {
-          maxScale: 5,
-          minScale: 0.05,
-          cursor: 'move',
-          canvas: false,
-          startScale: fitScale,
-          startX: 0,
-          startY: 0,
-          panOnlyWhenZoomed: true,
-          noBind: true  // Disable panzoom's built-in touch/pointer handlers
-        })
-        
-        // Track pinch and pan state
-        this.initialPinchDistance = 0
-        this.initialPinchScale = fitScale
-        this.justFinishedPinch = false
-        this.panStartX = null
-        this.panStartY = null
-        this.panStartImageX = null
-        this.panStartImageY = null
-        
-        // Log scale changes and keep image centered
-        img.addEventListener('panzoomchange', (e) => {
+        // Apply initialization in next RAF to avoid blocking
+        requestAnimationFrame(() => {
           if (import.meta.env.DEV) {
-            console.log('📏 SCALE CHANGED:', {
-              scale: e.detail.scale.toFixed(3),
-              x: e.detail.x.toFixed(1),
-              y: e.detail.y.toFixed(1)
+            console.log('🖼️ PANZOOM INIT:', {
+              imageNaturalWidth: img.naturalWidth,
+              imageNaturalHeight: img.naturalHeight,
+              wrapperWidth: wrapperRect.width,
+              wrapperHeight: wrapperRect.height,
+              fitScale: fitScale.toFixed(3)
             })
           }
           
-          // If image is at or below fit scale, reset pan to center
-          if (e.detail.scale <= fitScale * 1.1) {
-            this.panzoomInstance.pan(0, 0, { force: true })
-          }
-        })
-      
-        // Handle wheel events (touchpad pinch) - MUST prevent default
-        this.onWheelPreventPinch = (e) => {
-          if (e.ctrlKey || e.metaKey) {
-            e.preventDefault()
-            e.stopPropagation()
+          // Initialize panzoom on the IMAGE element
+          this.panzoomInstance = this.Panzoom(img, {
+            maxScale: 5,
+            minScale: 0.05,
+            cursor: 'move',
+            canvas: false,
+            startScale: fitScale,
+            startX: 0,
+            startY: 0,
+            panOnlyWhenZoomed: true,
+            noBind: true  // Disable panzoom's built-in touch/pointer handlers
+          })
+          
+          // Track pinch and pan state
+          this.initialPinchDistance = 0
+          this.initialPinchScale = fitScale
+          this.justFinishedPinch = false
+          this.panStartX = null
+          this.panStartY = null
+          this.panStartImageX = null
+          this.panStartImageY = null
+          
+          // Log scale changes and keep image centered
+          img.addEventListener('panzoomchange', (e) => {
             if (import.meta.env.DEV) {
-              console.log('🖱️ WHEEL EVENT:', { ctrlKey: e.ctrlKey, deltaY: e.deltaY })
+              console.log('📏 SCALE CHANGED:', {
+                scale: e.detail.scale.toFixed(3),
+                x: e.detail.x.toFixed(1),
+                y: e.detail.y.toFixed(1)
+              })
             }
             
-            // Manually zoom without pan
-            const currentScale = this.panzoomInstance.getScale()
-            const delta = e.deltaY > 0 ? 0.9 : 1.1
-            const newScale = Math.max(0.05, Math.min(5, currentScale * delta))
-            
-            this.panzoomInstance.zoom(newScale, { animate: false })
-            
-            // Force center
-            if (newScale <= fitScale * 1.1) {
-              this.panzoomInstance.pan(0, 0, { force: true, animate: false })
+            // If image is at or below fit scale, reset pan to center
+            if (e.detail.scale <= fitScale * 1.1) {
+              this.panzoomInstance.pan(0, 0, { force: true })
+            }
+          })
+        
+          // Handle wheel events (touchpad pinch) - MUST prevent default
+          this.onWheelPreventPinch = (e) => {
+            if (e.ctrlKey || e.metaKey) {
+              e.preventDefault()
+              e.stopPropagation()
+              if (import.meta.env.DEV) {
+                console.log('🖱️ WHEEL EVENT:', { ctrlKey: e.ctrlKey, deltaY: e.deltaY })
+              }
+              
+              // Manually zoom without pan
+              const currentScale = this.panzoomInstance.getScale()
+              const delta = e.deltaY > 0 ? 0.9 : 1.1
+              const newScale = Math.max(0.05, Math.min(5, currentScale * delta))
+              
+              this.panzoomInstance.zoom(newScale, { animate: false })
+              
+              // Force center
+              if (newScale <= fitScale * 1.1) {
+                this.panzoomInstance.pan(0, 0, { force: true, animate: false })
+              }
             }
           }
-        }
-        
-        // Add non-passive wheel listener to wrapper AND image
-        wrapper.addEventListener('wheel', this.onWheelPreventPinch, { passive: false })
-        img.addEventListener('wheel', this.onWheelPreventPinch, { passive: false })
-        
-        this.handleTouchStart = (e) => {
-          if (e.touches.length === 2) {
-            e.preventDefault()
-            this.initialPinchDistance = getDistance(e.touches[0], e.touches[1])
-            this.initialPinchScale = this.panzoomInstance.getScale()
-            this.justFinishedPinch = false
-            if (import.meta.env.DEV) {
-              console.log('📱 PINCH START:', { scale: this.initialPinchScale.toFixed(3) })
+          
+          // Add non-passive wheel listener to wrapper AND image
+          wrapper.addEventListener('wheel', this.onWheelPreventPinch, { passive: false })
+          img.addEventListener('wheel', this.onWheelPreventPinch, { passive: false })
+          
+          this.handleTouchStart = (e) => {
+            if (e.touches.length === 2) {
+              e.preventDefault()
+              this.initialPinchDistance = getDistance(e.touches[0], e.touches[1])
+              this.initialPinchScale = this.panzoomInstance.getScale()
+              this.justFinishedPinch = false
+              if (import.meta.env.DEV) {
+                console.log('📱 PINCH START:', { scale: this.initialPinchScale.toFixed(3) })
+              }
+            } else if (e.touches.length === 1 && !this.justFinishedPinch) {
+              // Single touch - only if NOT just after pinching
+              const currentScale = this.panzoomInstance.getScale()
+              if (currentScale > fitScale * 1.1) {
+                // Record starting position for pan
+                this.panStartX = e.touches[0].clientX
+                this.panStartY = e.touches[0].clientY
+                const pan = this.panzoomInstance.getPan()
+                this.panStartImageX = pan.x
+                this.panStartImageY = pan.y
+                if (import.meta.env.DEV) {
+                  console.log('📱 PAN START')
+                }
+              }
             }
-          } else if (e.touches.length === 1 && !this.justFinishedPinch) {
-            // Single touch - only if NOT just after pinching
-            const currentScale = this.panzoomInstance.getScale()
-            if (currentScale > fitScale * 1.1) {
-              // Record starting position for pan
+          }
+          
+          this.handleTouchMove = (e) => {
+            if (e.touches.length === 2 && this.initialPinchDistance > 0) {
+              e.preventDefault()
+              const currentDistance = getDistance(e.touches[0], e.touches[1])
+              const scaleChange = currentDistance / this.initialPinchDistance
+              const newScale = Math.max(0.05, Math.min(5, this.initialPinchScale * scaleChange))
+              
+              // Zoom without changing pan position
+              this.panzoomInstance.zoom(newScale, { animate: false })
+              
+              // Force center if near fit scale
+              if (newScale <= fitScale * 1.1) {
+                this.panzoomInstance.pan(0, 0, { force: true, animate: false })
+              }
+            } else if (e.touches.length === 1 && !this.justFinishedPinch && this.panStartX !== null) {
+              // Single-touch pan - only if we recorded a pan start position
+              const currentScale = this.panzoomInstance.getScale()
+              if (currentScale > fitScale * 1.1) {
+                const deltaX = e.touches[0].clientX - this.panStartX
+                const deltaY = e.touches[0].clientY - this.panStartY
+                
+                const newX = this.panStartImageX + deltaX
+                const newY = this.panStartImageY + deltaY
+                
+                this.panzoomInstance.pan(newX, newY, { force: true, animate: false })
+              }
+            }
+          }
+          
+          this.handleTouchEnd = (e) => {
+            if (e.touches.length === 1 && this.initialPinchDistance > 0) {
+              // Just lifted one finger during pinch - image stays exactly where it is
+              const currentScale = this.panzoomInstance.getScale()
+              if (import.meta.env.DEV) {
+                console.log('📱 ONE FINGER LIFTED:', { scale: currentScale.toFixed(3) })
+              }
+              
+              // Reset pinch tracking
+              this.initialPinchDistance = 0
+              this.initialPinchScale = currentScale
+              
+              // Mark that we just finished pinching
+              this.justFinishedPinch = true
+              
+              // Record the remaining finger's position as the new pan start
               this.panStartX = e.touches[0].clientX
               this.panStartY = e.touches[0].clientY
               const pan = this.panzoomInstance.getPan()
               this.panStartImageX = pan.x
               this.panStartImageY = pan.y
+              
               if (import.meta.env.DEV) {
-                console.log('📱 PAN START')
+                console.log('📱 READY - Pan will start from current finger position')
+              }
+              
+              e.preventDefault()
+            } else if (e.touches.length === 0) {
+              // All fingers lifted - reset everything
+              this.justFinishedPinch = false
+              this.initialPinchDistance = 0
+              this.panStartX = null
+              this.panStartY = null
+              this.panStartImageX = null
+              this.panStartImageY = null
+              if (import.meta.env.DEV) {
+                console.log('📱 ALL FINGERS LIFTED')
               }
             }
           }
-        }
-      this.handleTouchMove = (e) => {
-        if (e.touches.length === 2 && this.initialPinchDistance > 0) {
-          e.preventDefault()
-          const currentDistance = getDistance(e.touches[0], e.touches[1])
-          const scaleChange = currentDistance / this.initialPinchDistance
-          const newScale = Math.max(0.05, Math.min(5, this.initialPinchScale * scaleChange))
           
-          // Zoom without changing pan position
-          this.panzoomInstance.zoom(newScale, { animate: false })
-          
-          // Force center if near fit scale
-          if (newScale <= fitScale * 1.1) {
-            this.panzoomInstance.pan(0, 0, { force: true, animate: false })
-          }
-        } else if (e.touches.length === 1 && !this.justFinishedPinch && this.panStartX !== null) {
-          // Single-touch pan - only if we recorded a pan start position
-          const currentScale = this.panzoomInstance.getScale()
-          if (currentScale > fitScale * 1.1) {
-            const deltaX = e.touches[0].clientX - this.panStartX
-            const deltaY = e.touches[0].clientY - this.panStartY
-            
-            const newX = this.panStartImageX + deltaX
-            const newY = this.panStartImageY + deltaY
-            
-            this.panzoomInstance.pan(newX, newY, { force: true, animate: false })
-          }
-        }
-      }
-      
-      this.handleTouchEnd = (e) => {
-        if (e.touches.length === 1 && this.initialPinchDistance > 0) {
-          // Just lifted one finger during pinch - image stays exactly where it is
-          const currentScale = this.panzoomInstance.getScale()
-          if (import.meta.env.DEV) {
-            console.log('📱 ONE FINGER LIFTED:', { scale: currentScale.toFixed(3) })
-          }
-          
-          // Reset pinch tracking
-          this.initialPinchDistance = 0
-          this.initialPinchScale = currentScale
-          
-          // Mark that we just finished pinching
-          this.justFinishedPinch = true
-          
-          // Record the remaining finger's position as the new pan start
-          this.panStartX = e.touches[0].clientX
-          this.panStartY = e.touches[0].clientY
-          const pan = this.panzoomInstance.getPan()
-          this.panStartImageX = pan.x
-          this.panStartImageY = pan.y
-          
-          if (import.meta.env.DEV) {
-            console.log('📱 READY - Pan will start from current finger position')
-          }
-          
-          e.preventDefault()
-        } else if (e.touches.length === 0) {
-          // All fingers lifted - reset everything
-          this.justFinishedPinch = false
-          this.initialPinchDistance = 0
-          this.panStartX = null
-          this.panStartY = null
-          this.panStartImageX = null
-          this.panStartImageY = null
-          if (import.meta.env.DEV) {
-            console.log('📱 ALL FINGERS LIFTED')
-          }
-        }
-      }
-      
-      wrapper.addEventListener('touchstart', this.handleTouchStart, { passive: false })
-      wrapper.addEventListener('touchmove', this.handleTouchMove, { passive: false })
-      wrapper.addEventListener('touchend', this.handleTouchEnd, { passive: false })
+          wrapper.addEventListener('touchstart', this.handleTouchStart, { passive: false })
+          wrapper.addEventListener('touchmove', this.handleTouchMove, { passive: false })
+          wrapper.addEventListener('touchend', this.handleTouchEnd, { passive: false })
+        })
       })
     },
     zoomIn() {

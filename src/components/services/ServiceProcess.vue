@@ -3,7 +3,15 @@
     <div class="service-process-content">
       <!-- Process Flow Image (if provided) -->
       <div v-if="processImage" class="process-image-container mb-5">
-        <img :src="processImage" :alt="`Service Process Flow - Remote Consultant - Available USA, Europe, Global`" class="process-image" loading="lazy" />
+        <ResponsiveImage
+          :src="processImage"
+          :alt="`Service Process Flow - Remote Consultant - Available USA, Europe, Global`"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+          :lazy="true"
+          priority="auto"
+          container-class="process-image-wrapper"
+          image-class="process-image"
+        />
       </div>
       
       <!-- Process Steps -->
@@ -62,11 +70,13 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
+import ResponsiveImage from '../common/ResponsiveImage.vue'
 
 export default {
   name: 'ServiceProcess',
   components: {
-    ReusableCard
+    ReusableCard,
+    ResponsiveImage
   },
   props: {
     steps: {
@@ -100,7 +110,9 @@ export default {
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
-
+.process-image-wrapper {
+  width: 100%;
+}
 .process-image {
   width: 100%;
   height: auto;

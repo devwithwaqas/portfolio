@@ -5,10 +5,10 @@
     <div class="gallery-carousel-container">
       
       <!-- Section Title - Inside Card -->
-      <h3 class="gallery-title txt-h3-2xl">{{ title }}</h3>
+      <h2 class="gallery-title txt-h3-2xl">{{ title }}</h2>
       
       <!-- Custom Cool Carousel -->
-      <div class="custom-cool-carousel">
+      <div class="custom-cool-carousel" id="gallery-carousel" role="region" :aria-label="`${projectName} project gallery with ${images.length} images`">
         <div class="carousel-container" ref="carouselContainer">
           <div 
             class="carousel-track" 
@@ -17,15 +17,18 @@
             <div 
               v-for="(image, index) in images" 
               :key="index"
+              :id="`gallery-slide-${index}`"
               class="carousel-slide"
               :class="{ 
                 'active': index === currentIndex,
                 'prev': index === currentIndex - 1,
                 'next': index === currentIndex + 1
               }"
+              role="tabpanel"
+              :aria-hidden="index !== currentIndex"
             >
-              <LazyImage 
-                :src="image" 
+              <GallerySlideImage
+                :src="image"
                 :alt="`${projectName} - Enterprise Software Project - Screenshot ${index + 1} - Remote Consultant`"
                 :lazy="!shouldEagerLoad(index)"
                 :priority="getImagePriority(index)"
@@ -38,22 +41,38 @@
 
         <!-- Custom Navigation -->
         <div class="custom-navigation">
-          <button class="nav-btn prev-btn" @click="goToPrevious" :disabled="currentIndex === 0">
-            <i class="fas fa-chevron-left"></i>
+          <button 
+            class="nav-btn prev-btn" 
+            @click="goToPrevious" 
+            :disabled="currentIndex === 0"
+            :aria-label="`Previous image in ${projectName} gallery`"
+            aria-controls="gallery-carousel"
+          >
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
           </button>
-          <button class="nav-btn next-btn" @click="goToNext" :disabled="currentIndex === images.length - 1">
-            <i class="fas fa-chevron-right"></i>
+          <button 
+            class="nav-btn next-btn" 
+            @click="goToNext" 
+            :disabled="currentIndex === images.length - 1"
+            :aria-label="`Next image in ${projectName} gallery`"
+            aria-controls="gallery-carousel"
+          >
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
           </button>
         </div>
 
         <!-- Custom Pagination - Overlay on image -->
-        <div class="custom-pagination-overlay">
+        <div class="custom-pagination-overlay" role="tablist" :aria-label="`Gallery pagination for ${projectName}`">
           <button
             v-for="(image, index) in images"
             :key="index"
             class="pagination-dot"
             :class="{ active: index === currentIndex }"
             @click="goToSlide(index)"
+            :aria-label="`Go to image ${index + 1} of ${images.length} in ${projectName} gallery`"
+            :aria-selected="index === currentIndex"
+            role="tab"
+            :aria-controls="`gallery-slide-${index}`"
           ></button>
         </div>
       </div>
@@ -64,12 +83,12 @@
 </template>
 
 <script>
-import LazyImage from '../common/LazyImage.vue'
+import GallerySlideImage from './GallerySlideImage.vue'
 
 export default {
   name: 'ProjectGallery',
   components: {
-    LazyImage
+    GallerySlideImage
   },
   props: {
     title: {
@@ -404,6 +423,7 @@ export default {
   display: flex;
   gap: 8px;
   justify-content: center;
+  align-items: center;
   z-index: 15;
   background: rgba(0, 0, 0, 0.3);
   padding: 8px 16px;
@@ -412,21 +432,25 @@ export default {
 }
 
 .pagination-dot {
-  width: 12px;
-  height: 12px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.6);
   border: 2px solid rgba(255, 255, 255, 0.8);
   padding: 0;
-  margin: 0;
+  margin: 0 4px;
   transition: all 0.25s ease;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
 }
 
 .pagination-dot.active {
   background: linear-gradient(135deg, rgba(139, 92, 246, 1), rgba(168, 85, 247, 1));
-  width: 32px;
+  width: 44px;
+  min-width: 44px;
   border-radius: 6px;
   box-shadow: 0 0 15px rgba(139, 92, 246, 0.9), 0 0 30px rgba(168, 85, 247, 0.5);
   border-color: rgba(168, 85, 247, 1);

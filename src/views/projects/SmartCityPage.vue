@@ -1014,7 +1014,7 @@ export default {
             borderSkipped: false
           }, {
             label: 'Target Performance',
-            data: [1000, 95, 200, 80, 70, 50],
+            data: [850, 96, 195, 72, 58, 48],
             backgroundColor: 'rgba(156, 163, 175, 0.3)',
             borderColor: '#9CA3AF',
             borderWidth: 2,
