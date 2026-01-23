@@ -202,8 +202,8 @@ const ICON_MAP = {
   // AWS & Azure Mobile Services
   'aws amplify': { type: 'local', icon: 'cloud.png', fallback: '☁️' },
   'AWS Amplify': { type: 'local', icon: 'cloud.png', fallback: '☁️' },
-  'aws': { type: 'devicon', icon: 'amazonwebservices', local: 'cloud.png', fallback: '☁️' },
-  'AWS': { type: 'devicon', icon: 'amazonwebservices', local: 'cloud.png', fallback: '☁️' },
+  'aws': { type: 'local', icon: 'cloud hosting.png', fallback: '☁️' },
+  'AWS': { type: 'local', icon: 'cloud hosting.png', fallback: '☁️' },
   'azure mobile apps': { type: 'local', icon: 'Azure.svg', fallback: '☁️' },
   'Azure Mobile Apps': { type: 'local', icon: 'Azure.svg', fallback: '☁️' },
   
@@ -254,8 +254,8 @@ const ICON_MAP = {
   'vuex': { type: 'devicon', icon: 'vuejs', fallback: '💚' },
   'redux': { type: 'devicon', icon: 'redux', fallback: '⚛️' },
   'tailwind css': { type: 'devicon', icon: 'tailwindcss', fallback: '🎨' },
-  'aws': { type: 'devicon', icon: 'amazonwebservices', fallback: '☁️' },
-  'amazon web services': { type: 'devicon', icon: 'amazonwebservices', fallback: '☁️' },
+  'amazon web services': { type: 'local', icon: 'cloud hosting.png', fallback: '☁️' },
+  'Amazon Web Services': { type: 'local', icon: 'cloud hosting.png', fallback: '☁️' },
   
   // DevOps & Container
   'openshift gateway': { type: 'local', icon: 'api gateway.svg', fallback: '🚪' },
