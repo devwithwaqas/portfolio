@@ -11,6 +11,7 @@
           priority="auto"
           container-class="process-image-wrapper"
           image-class="process-image"
+          :image-style="{ borderRadius: '12px' }"
         />
       </div>
       
@@ -24,7 +25,7 @@
           >
             <div class="process-step-card">
               <div class="step-number">{{ step.step }}</div>
-              <h5 class="step-title txt-h5-lg">{{ step.title }}</h5>
+              <h4 class="step-title txt-h5-lg">{{ step.title }}</h4>
               <p class="step-description txt-p-md">{{ step.description }}</p>
               <div v-if="step.duration" class="step-duration">
                 <i class="bi bi-clock"></i>
@@ -43,7 +44,7 @@
             <div class="info-icon">
               <i class="bi bi-calendar-check"></i>
             </div>
-            <h5 class="info-title txt-h5-lg">Typical Timeline</h5>
+            <h4 class="info-title txt-h5-lg">Typical Timeline</h4>
             <p class="info-text txt-p-lg">{{ timeline }}</p>
           </div>
         </div>
@@ -54,7 +55,7 @@
             <div class="info-icon">
               <i class="bi bi-people"></i>
             </div>
-            <h5 class="info-title txt-h5-lg">Engagement Models</h5>
+            <h4 class="info-title txt-h5-lg">Engagement Models</h4>
             <ul class="engagement-models-list">
               <li v-for="(model, index) in engagementModels" :key="index" class="engagement-model-item">
                 <span class="model-icon">✓</span>
@@ -100,26 +101,65 @@ export default {
 </script>
 
 <style scoped>
+/* Ensure card body allows shadows to show */
+:deep(.card-body) {
+  overflow: visible !important;
+}
 .service-process-content {
   padding: 20px 0;
 }
 
 .process-image-container {
   width: 100%;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  /* Remove white background - only glossy border on image */
+  background: transparent;
+  padding: 20px; /* Add padding to accommodate shadows */
+  overflow: visible !important; /* Allow shadows to show */
+  position: relative; /* Ensure proper stacking */
 }
-.process-image-wrapper {
+.process-image-wrapper,
+.process-image-container .responsive-image-container {
   width: 100%;
+  border-radius: 12px !important; /* Rounded corners */
+  overflow: visible !important; /* Allow shadows to show */
+  background: transparent; /* No white background */
+  position: relative; /* Ensure proper stacking */
 }
-.process-image {
-  width: 100%;
-  height: auto;
-  display: block;
+/* Target ResponsiveImage component structure - use :deep() to penetrate scoped styles */
+.process-image-container :deep(.responsive-image-container),
+.process-image-container :deep(.responsive-image-container.process-image-wrapper) {
+  overflow: visible !important;
+  position: relative;
+}
+
+/* Apply shadow directly to the img element using :deep() - this is the key */
+.process-image-container :deep(img),
+.process-image-container :deep(.responsive-image-container img),
+.process-image-container :deep(.process-image-wrapper img),
+.process-image-container :deep(.responsive-image-container.process-image-wrapper img),
+.process-image-container :deep(picture img),
+.process-image-container :deep(.responsive-image-container picture img),
+.process-image-container :deep(.process-image) {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  border-radius: 12px !important;
+  /* 3D Embossed effect - image appears to come out of the page */
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.4),
+    0 10px 25px rgba(0, 0, 0, 0.3),
+    0 5px 15px rgba(139, 92, 246, 0.3),
+    0 2px 8px rgba(168, 85, 247, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.15),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.1) !important;
+  transform: translateZ(0) scale(1.01) !important;
+  filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.25)) !important;
+  background: transparent !important;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: auto;
   -ms-interpolation-mode: bicubic;
+  position: relative;
+  z-index: 1;
 }
 
 .process-steps {

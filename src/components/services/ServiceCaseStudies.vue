@@ -16,9 +16,9 @@
               <img :src="study.image" :alt="`${study.project} - Case Study - Enterprise Software Project - Remote Consultant`" class="study-image" loading="lazy" />
             </div>
             <div class="case-study-content">
-              <h5 class="study-project txt-h5-lg">
+              <h4 class="study-project txt-h5-lg">
                 <router-link :to="study.link" class="study-link">{{ study.project }}</router-link>
-              </h5>
+              </h4>
               <p class="study-description txt-p-md">{{ study.description }}</p>
               <div v-if="study.technologies && study.technologies.length > 0" class="study-technologies">
                 <span 

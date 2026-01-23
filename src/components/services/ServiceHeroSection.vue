@@ -11,6 +11,7 @@
           priority="high"
           container-class="hero-image-wrapper"
           image-class="hero-image"
+          :image-style="{ borderRadius: '12px' }"
         />
       </div>
       
@@ -35,17 +36,22 @@
           class="col-md-6 col-lg-4"
         >
           <div class="benefit-card">
+            <!-- CLS FIX: Reserve space for icon to prevent layout shift -->
             <div class="benefit-icon">
               <img 
                 v-if="getBenefitIcon(benefit.icon)" 
                 :src="getBenefitIcon(benefit.icon)" 
                 :alt="`${benefit.label} - ${title} Services - Remote Consultant`"
                 class="icon-img-4xl"
+                loading="lazy"
+                decoding="async"
               />
               <i v-else-if="benefit.icon" :class="benefit.icon + ' icon-4xl'"></i>
+              <!-- Placeholder to reserve space if icon is loading -->
+              <span v-if="!benefit.icon && !getBenefitIcon(benefit.icon)" class="icon-placeholder" aria-hidden="true"></span>
             </div>
             <div class="benefit-content">
-              <h5 class="benefit-label txt-label-md">{{ benefit.label }}</h5>
+              <h4 class="benefit-label txt-label-md">{{ benefit.label }}</h4>
               <span class="benefit-value" style="font-size: 0.75rem !important;">{{ benefit.value }}</span>
             </div>
           </div>
@@ -117,28 +123,67 @@ export default {
 </script>
 
 <style scoped>
+/* Ensure card body allows shadows to show */
+:deep(.card-body) {
+  overflow: visible !important;
+}
 .service-hero-content {
   padding: 20px 0;
 }
 
 .hero-image-container {
   width: 100%;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  /* Remove white background - only glossy border on image */
+  background: transparent;
+  padding: 20px; /* Add padding to accommodate shadows */
+  overflow: visible !important; /* Allow shadows to show */
+  position: relative; /* Ensure proper stacking */
 }
-.hero-image-wrapper {
+.hero-image-wrapper,
+.hero-image-container .responsive-image-container {
   width: 100%;
+  border-radius: 12px !important; /* Rounded corners */
+  overflow: visible !important; /* Allow shadows to show */
+  background: transparent; /* No white background */
+  position: relative; /* Ensure proper stacking */
 }
-.hero-image {
-  width: 100%;
-  height: auto;
-  max-height: 500px;
-  object-fit: cover;
-  display: block;
+/* Target ResponsiveImage component structure - use :deep() to penetrate scoped styles */
+.hero-image-container :deep(.responsive-image-container),
+.hero-image-container :deep(.responsive-image-container.hero-image-wrapper) {
+  overflow: visible !important;
+  position: relative;
+}
+
+/* Apply shadow directly to the img element using :deep() - this is the key */
+.hero-image-container :deep(img),
+.hero-image-container :deep(.responsive-image-container img),
+.hero-image-container :deep(.hero-image-wrapper img),
+.hero-image-container :deep(.responsive-image-container.hero-image-wrapper img),
+.hero-image-container :deep(picture img),
+.hero-image-container :deep(.responsive-image-container picture img),
+.hero-image-container :deep(.hero-image) {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 500px !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 12px !important;
+  /* 3D Embossed effect - image appears to come out of the page */
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.4),
+    0 10px 25px rgba(0, 0, 0, 0.3),
+    0 5px 15px rgba(139, 92, 246, 0.3),
+    0 2px 8px rgba(168, 85, 247, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.15),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.1) !important;
+  transform: translateZ(0) scale(1.01) !important;
+  filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.25)) !important;
+  background: transparent !important;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: auto;
   -ms-interpolation-mode: bicubic;
+  position: relative;
+  z-index: 1;
 }
 
 .service-tagline {
@@ -150,6 +195,10 @@ export default {
 
 .key-benefits {
   margin: 30px 0;
+  /* CLS FIX: Reserve space for benefits section to prevent layout shift */
+  min-height: 200px;
+  /* CLS FIX: Use contain layout to prevent shifts */
+  contain: layout style;
 }
 
 .benefit-card {
@@ -159,12 +208,16 @@ export default {
   padding: 20px;
   text-align: center;
   transition: all 0.3s ease;
+  /* CLS FIX: Set min-height to prevent layout shift as content loads */
+  min-height: 180px;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);
+  /* CLS FIX: Ensure consistent sizing */
+  box-sizing: border-box;
 }
 
 .benefit-card:hover {
@@ -181,20 +234,49 @@ export default {
   justify-content: center;
   height: 80px;
   min-height: 80px;
+  /* CLS FIX: Reserve space to prevent layout shift when icons load */
+  width: 100%;
+  position: relative;
 }
 
 .benefit-icon img {
   width: 60px;
-  height: auto;
+  height: 60px;
+  /* CLS FIX: Set explicit dimensions to prevent layout shift */
+  object-fit: contain;
+  display: block;
 }
 
 .benefit-icon i {
   color: rgba(139, 92, 246, 0.9);
   font-size: 3.5rem;
+  /* CLS FIX: Reserve space for icon font */
+  line-height: 1;
+  display: block;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* CLS FIX: Placeholder to reserve space if icon is loading */
+.benefit-icon .icon-placeholder {
+  width: 60px;
+  height: 60px;
+  display: block;
+  visibility: hidden;
 }
 
 .benefit-content {
   text-align: center;
+  /* CLS FIX: Reserve space for content to prevent layout shift */
+  min-height: 60px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .benefit-label {

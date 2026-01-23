@@ -50,11 +50,11 @@
       <div class="slider-pagination" v-if="showPagination" role="tablist" aria-label="Testimonials navigation">
         <button
           v-for="(slide, index) in slides"
-          :key="index"
-          class="slider-dot icon-wrapper-xs"
+          :key="`slide-${index}`"
+          class="slider-dot"
           :class="{ active: index === currentIndex }"
           @click="goToSlide(index)"
-          :aria-label="`Go to testimonial ${index + 1}`"
+          :aria-label="`Go to slide ${index + 1} of ${slides.length}`"
           :aria-selected="index === currentIndex"
           :aria-current="index === currentIndex ? 'true' : 'false'"
           role="tab"
@@ -361,31 +361,44 @@ export default {
 
 .slider-dot:hover {
   background: rgba(60, 20, 120, 0.6);
+}
+
+.slider-dot:hover::before {
   transform: scale(1.2);
 }
 
 .slider-dot.active {
+  background: rgba(60, 20, 120, 0.2);
+}
+
+.slider-dot.active::before {
   background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%);
   transform: scale(1.3);
   box-shadow: 0 4px 15px rgba(60, 20, 120, 0.4);
 }
 
-/* Mobile pagination dots fix - prevent vertical squeezing */
+/* Mobile pagination dots - maintain touch target size */
 @media (pointer: coarse) and (max-width: 768px) {
   .slider-pagination {
     flex-direction: row !important;
     justify-content: center !important;
     align-items: center !important;
     flex-wrap: nowrap !important;
+    gap: 8px !important;
   }
   
   .slider-dot {
+    /* Maintain 44x44px touch target on mobile */
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    padding: 16px !important;
+  }
+  
+  .slider-dot::before {
     width: 12px !important;
     height: 12px !important;
-    border-radius: 50% !important;
-    flex-shrink: 0 !important;
-    min-width: 12px !important;
-    min-height: 12px !important;
   }
 }
 
@@ -408,8 +421,17 @@ export default {
   }
   
   .slider-dot {
-    width: 12px;
-    height: 12px;
+    /* Maintain 44x44px touch target */
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    padding: 16px !important;
+  }
+  
+  .slider-dot::before {
+    width: 12px !important;
+    height: 12px !important;
   }
 }
 
@@ -431,8 +453,17 @@ export default {
   }
   
   .slider-dot {
-    width: 10px;
-    height: 10px;
+    /* Maintain 44x44px touch target on small mobile */
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    padding: 16px !important;
+  }
+  
+  .slider-dot::before {
+    width: 10px !important;
+    height: 10px !important;
   }
 }
 </style>

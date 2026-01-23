@@ -20,7 +20,7 @@
               <img :src="project.image" :alt="`${project.title} - Enterprise Software Project`" loading="lazy" />
             </div>
             <div class="project-link-content">
-              <h5 class="project-link-title txt-h5-lg">{{ project.title }}</h5>
+              <h4 class="project-link-title txt-h5-lg">{{ project.title }}</h4>
               <p class="project-link-description txt-p-md">{{ project.description }}</p>
               <div class="project-link-tech">
                 <span 
