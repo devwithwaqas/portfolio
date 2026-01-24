@@ -12,10 +12,33 @@
 const fs = require('fs')
 const path = require('path')
 
-const BASE_URL = 'https://devwithwaqas.github.io/portfolio'
+// Detect build mode from environment or check dist/index.html for base path
+// Firebase builds use base="/", GitHub Pages uses base="/portfolio/"
 const DIST_DIR = path.resolve(__dirname, '../dist')
 const PUBLIC_DIR = path.resolve(__dirname, '../public')
 const ROUTER_FILE = path.resolve(__dirname, '../src/router/index.js')
+
+// Determine SITE_URL based on build mode
+let BASE_URL = 'https://devwithwaqas.github.io/portfolio'
+if (process.env.FIREBASE_SITE_URL) {
+  // Explicit Firebase URL from environment
+  BASE_URL = process.env.FIREBASE_SITE_URL.replace(/\/$/, '') // Remove trailing slash
+} else if (process.env.MODE === 'firebase' || process.env.NODE_ENV === 'firebase') {
+  // Firebase build mode detected
+  BASE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
+  BASE_URL = BASE_URL.replace(/\/$/, '') // Remove trailing slash
+} else {
+  // Check dist/index.html for base path hint (if dist exists)
+  const indexPath = path.join(DIST_DIR, 'index.html')
+  if (fs.existsSync(indexPath)) {
+    const htmlContent = fs.readFileSync(indexPath, 'utf8')
+    // If base is "/" (not "/portfolio/"), likely Firebase build
+    if (htmlContent.includes('base="/"') || htmlContent.includes('base="/"')) {
+      BASE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
+      BASE_URL = BASE_URL.replace(/\/$/, '') // Remove trailing slash
+    }
+  }
+}
 
 /**
  * Extract routes from router file
@@ -163,7 +186,7 @@ function generateSitemap() {
   fs.writeFileSync(publicSitemapPath, sitemap, 'utf8')
   console.log('✓ Copied sitemap.xml to public/ folder')
   
-  console.log('✓ Sitemap URL: https://devwithwaqas.github.io/portfolio/sitemap.xml')
+  console.log(`✓ Sitemap URL: ${BASE_URL}/sitemap.xml`)
   console.log(`✓ Total URLs: ${routes.length} (auto-discovered from router)`)
   console.log(`✓ Last modified: ${today}`)
 }

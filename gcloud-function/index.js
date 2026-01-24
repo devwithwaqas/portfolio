@@ -5,13 +5,26 @@
 
 const { BetaAnalyticsDataClient } = require('@google-analytics/data');
 
-// CORS Headers
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': 'https://devwithwaqas.github.io',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Accept, Origin, X-Requested-With, Authorization',
-  'Access-Control-Max-Age': '86400',
-};
+// CORS Headers - Allow both GitHub Pages and Firebase Hosting
+const ALLOWED_ORIGINS = [
+  'https://devwithwaqas.github.io',
+  'https://waqasahmad-portfolio.web.app',
+  'https://waqasahmad-portfolio.firebaseapp.com',
+  'https://portfolio-staging-test.web.app',
+  'https://portfolio-staging-test.firebaseapp.com',
+  'https://portfolio-test-4108729.web.app',
+  'https://portfolio-test-4108729.firebaseapp.com'
+];
+
+function getCorsHeaders(origin) {
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Accept, Origin, X-Requested-With, Authorization',
+    'Access-Control-Max-Age': '86400',
+  };
+}
 
 // Configuration - Analytics
 const PROPERTY_ID = '519885223';
@@ -285,6 +298,9 @@ async function sendTrackingEvent(clientId, eventName, eventParams, pageLocation,
  * Main Cloud Function handler - handles both analytics (GET) and tracking (POST)
  */
 exports.portfolioAnalyticsAPI = async (req, res) => {
+  const origin = req.headers.origin || '';
+  const CORS_HEADERS = getCorsHeaders(origin);
+  
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     res.set(CORS_HEADERS);

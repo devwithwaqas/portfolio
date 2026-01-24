@@ -79,9 +79,15 @@ console.log('🔗 Validating URLs...\n')
 let validCount = 0
 let invalidCount = 0
 
+// Support both GitHub Pages and Firebase URLs
+const GITHUB_PAGES_URL = 'https://devwithwaqas.github.io/portfolio'
+const FIREBASE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
+const isValidBaseUrl = (url) => url.startsWith(GITHUB_PAGES_URL) || url.startsWith(FIREBASE_URL)
+
 urls.forEach((url, index) => {
-  const isValid = url.startsWith('https://devwithwaqas.github.io/portfolio/')
-  const isHome = url === 'https://devwithwaqas.github.io/portfolio/' || url === 'https://devwithwaqas.github.io/portfolio'
+  const isValid = isValidBaseUrl(url)
+  const isHome = url === `${GITHUB_PAGES_URL}/` || url === GITHUB_PAGES_URL || 
+                 url === `${FIREBASE_URL}/` || url === FIREBASE_URL
   
   if (isValid) {
     validCount++

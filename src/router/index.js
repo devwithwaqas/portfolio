@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { setPageSEO, getHomePageSEO, getProjectPageSEO, getServicePageSEO } from '../utils/seo.js'
 import { generateProjectPageStructuredData, generateServicePageStructuredData } from '../utils/structuredData.js'
 import { trackPageView, trackServicePageView, trackProjectPageView } from '../utils/analytics.js'
+import { SITE_URL } from '../config/constants.js'
 
 // Service Data Map - Actual service titles and descriptions for SEO
 const SERVICE_DATA_MAP = {
@@ -390,8 +391,6 @@ router.beforeEach((to, from, next) => {
   }
 
   const BASE_URL = import.meta.env.BASE_URL || '/portfolio/'
-  // Ensure SITE_URL always includes /portfolio/ for GitHub Pages
-  const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
   
   // Set SEO based on route
   if (to.name === 'Home') {

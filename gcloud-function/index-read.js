@@ -9,6 +9,8 @@ const { Firestore } = require('@google-cloud/firestore');
 // CORS Headers - Allow both GitHub Pages and Firebase Hosting
 const ALLOWED_ORIGINS = [
   'https://devwithwaqas.github.io',
+  'https://waqasahmad-portfolio.web.app',
+  'https://waqasahmad-portfolio.firebaseapp.com',
   'https://portfolio-staging-test.web.app',
   'https://portfolio-staging-test.firebaseapp.com',
   'https://portfolio-test-4108729.web.app',

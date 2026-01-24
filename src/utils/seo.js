@@ -3,11 +3,9 @@
  * Handles dynamic meta tags, Open Graph, and Twitter Cards
  */
 
-import { APP_CONFIG } from '../config/constants.js'
+import { APP_CONFIG, SITE_URL } from '../config/constants.js'
 
 const BASE_URL = import.meta.env.BASE_URL || '/portfolio/'
-// Ensure SITE_URL always includes /portfolio/ for GitHub Pages
-const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
 
 /**
  * Update document title

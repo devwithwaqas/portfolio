@@ -71,7 +71,9 @@ Sends tracking events to GA4:
 
 - Uses Application Default Credentials (your service account)
 - No need to upload JSON key file
-- CORS enabled for `https://devwithwaqas.github.io`
+- CORS enabled for:
+  - `https://devwithwaqas.github.io` (GitHub Pages)
+  - `https://waqasahmad-portfolio.web.app` (Firebase Hosting)
 - Automatic scaling
 - 5-minute caching for analytics data to reduce API calls
 - Unified endpoint - one URL for both analytics and tracking

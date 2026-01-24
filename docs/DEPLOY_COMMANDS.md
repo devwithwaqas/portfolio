@@ -84,7 +84,7 @@ After `npm run build:firebase`, you should see:
 After `firebase deploy --only hosting`, you should see:
 ```
 ✔ Deploy complete!
-Hosting URL: https://your-project.web.app
+Hosting URL: https://waqasahmad-portfolio.web.app
 ```
 
 ---

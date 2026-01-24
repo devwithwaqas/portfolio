@@ -20,6 +20,16 @@ export default defineConfig(({ mode }) => {
     process.env.VITE_SMTP_ENDPOINT = 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net/sendEmail'
   }
   
+  // Set Firebase site URL for Firebase builds if not provided via env
+  if (mode === 'firebase' && !process.env.VITE_FIREBASE_SITE_URL) {
+    process.env.VITE_FIREBASE_SITE_URL = 'https://waqasahmad-portfolio.web.app'
+  }
+  
+  // Pass Firebase site URL to sitemap generation script
+  if (mode === 'firebase') {
+    process.env.FIREBASE_SITE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
+  }
+  
   return {
   base: mode === 'firebase' ? '/' : '/portfolio/', // Use root for Firebase, /portfolio/ for GitHub Pages
   publicDir: 'public',

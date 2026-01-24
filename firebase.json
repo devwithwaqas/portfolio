@@ -3,8 +3,18 @@
     "public": "dist",
     "ignore": [
       "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      ".firebase/**",
+      ".firebase",
+      "**/.firebase/**",
+      "**/.git/**",
+      "**/.git",
+      "**/.DS_Store",
+      "**/Thumbs.db",
+      "**/*.log",
+      "**/.cache/**",
+      "**/.vscode/**",
+      "**/.idea/**"
     ],
     "rewrites": [
       {

@@ -28,8 +28,7 @@
 
 <script>
 import { generateBreadcrumbSchema, injectStructuredData } from '../../utils/structuredData.js'
-
-const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
+import { SITE_URL } from '../../config/constants.js'
 
 export default {
   name: 'Breadcrumbs',

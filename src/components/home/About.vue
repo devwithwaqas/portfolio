@@ -40,7 +40,7 @@
                                 <i class="bi bi-globe icon-sm" style="color: #0563bb; margin-right: 10px; flex-shrink: 0; display: flex; align-items: center;"></i>
                                 <div style="flex: 1; min-width: 0; display: flex; align-items: center; gap: 5px;">
                                   <strong class="txt-label-md" style="color: #0563bb; min-width: 70px; flex-shrink: 0;">Website:</strong>
-                                  <a href="https://devwithwaqas.github.io/portfolio/" target="_blank" class="txt-link-md" style="color: #45505b; word-wrap: break-word; overflow-wrap: break-word; text-decoration: none; transition: all 0.3s ease; flex: 1;" @mouseover="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.4)'" @mouseout="$event.target.style.color='#45505b'; $event.target.style.textShadow='none'">devwithwaqas.github.io/portfolio</a>
+                                  <a :href="websiteUrl" target="_blank" class="txt-link-md" style="color: #45505b; word-wrap: break-word; overflow-wrap: break-word; text-decoration: none; transition: all 0.3s ease; flex: 1;" @mouseover="$event.target.style.color='#667eea'; $event.target.style.textShadow='0 0 8px rgba(102, 126, 234, 0.4)'" @mouseout="$event.target.style.color='#45505b'; $event.target.style.textShadow='none'">{{ websiteDisplay }}</a>
                                 </div>
                               </li>
                               <li style="margin-bottom: 12px; display: flex; align-items: center;">
@@ -151,7 +151,7 @@
 
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
-import { APP_CONFIG } from '../../config/constants.js'
+import { APP_CONFIG, SITE_URL } from '../../config/constants.js'
 
 export default {
   name: 'About',
@@ -166,6 +166,8 @@ export default {
       phone: APP_CONFIG.phone,
       email: APP_CONFIG.email,
       contactLinks: APP_CONFIG.contactLinks,
+      websiteUrl: SITE_URL,
+      websiteDisplay: SITE_URL.replace(/^https?:\/\//, '').replace(/\/$/, ''), // Remove protocol and trailing slash for display
       isReady: true
     }
   }

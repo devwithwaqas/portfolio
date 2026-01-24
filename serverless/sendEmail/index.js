@@ -20,6 +20,10 @@ functions.http('sendEmail', async (req, res) => {
   // CORS handling - Allow requests from your portfolio domain
   const allowedOrigins = [
     'https://devwithwaqas.github.io',
+    'https://waqasahmad-portfolio.web.app',
+    'https://waqasahmad-portfolio.firebaseapp.com',
+    'https://portfolio-staging-test.web.app',
+    'https://portfolio-staging-test.firebaseapp.com',
     'http://localhost:3001',
     'http://localhost:5173',
     'http://localhost:4173',

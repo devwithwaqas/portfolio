@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "node scripts/generate-sw-version.js && vite build && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/copy-sitemap.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
     "build:firebase": "node scripts/generate-sw-version.js && vite build --mode firebase && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/copy-sitemap.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
+    "deploy:firebase": "npm run build:firebase && firebase deploy --only hosting --project waqasahmad-portfolio",
+    "deploy:firebase:hosting": "firebase deploy --only hosting --project waqasahmad-portfolio",
     "preview": "vite preview",
     "serve": "vite preview",
     "optimize-service-images": "node scripts/optimize-service-images.js",

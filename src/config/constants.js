@@ -19,6 +19,14 @@ const calculateTechLeadExperience = () => {
 const totalExperience = calculateTotalExperience()
 const techLeadExperience = calculateTechLeadExperience()
 
+// Site URL Configuration - Supports both GitHub Pages and Firebase Hosting
+// Determines SITE_URL based on build mode (firebase vs production/development)
+const BASE_URL = import.meta.env.BASE_URL || '/portfolio/'
+const isFirebaseBuild = import.meta.env.MODE === 'firebase'
+const FIREBASE_SITE_URL = import.meta.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app/'
+const GITHUB_PAGES_SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
+export const SITE_URL = isFirebaseBuild ? FIREBASE_SITE_URL : GITHUB_PAGES_SITE_URL
+
 // Basic constants for the portfolio application
 // All personal information comes from environment variables (.env file)
 // See .env.example for setup instructions
@@ -35,7 +43,7 @@ export const APP_CONFIG = {
     phone: `tel:${import.meta.env.VITE_PHONE || ""}`,
     linkedin: import.meta.env.VITE_LINKEDIN_URL || "",
     github: import.meta.env.VITE_GITHUB_URL || "",
-    website: import.meta.env.VITE_WEBSITE_URL || "https://devwithwaqas.github.io/portfolio/",
+    website: SITE_URL, // Use dynamic SITE_URL
     whatsapp: import.meta.env.VITE_WHATSAPP_URL || "",
     location: import.meta.env.VITE_GOOGLE_MAPS_URL || ""
   },

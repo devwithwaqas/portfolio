@@ -2,11 +2,19 @@
 # This file helps AI search engines (Google SGE, Perplexity, Bing Chat, ChatGPT) understand and index your content
 # Learn more: https://llmstxt.org/
 
+# Portfolio Available At:
+# - GitHub Pages: https://devwithwaqas.github.io/portfolio/
+# - Firebase Hosting: https://waqasahmad-portfolio.web.app
+# All service and project pages are available at both domains (replace /portfolio/ with / for Firebase URLs)
+
 # Primary content to index
 # These are the most important pages for AI search engines to understand
 
 # Home Page - Professional Profile
+# Primary URL (GitHub Pages)
 https://devwithwaqas.github.io/portfolio/
+# Alternative URL (Firebase Hosting)
+https://waqasahmad-portfolio.web.app
 Description: Waqas Ahmad - Top Software Engineering Consultant, Software Engineering Specialist, and Best Software Engineering Expert with 17+ years of experience. UET Lahore graduate (Computer System Engineering). Professional Software Engineering Services provider and IT Engineering Consultant specializing in reliable, enterprise-grade, mission-critical solutions with zero-downtime, high-availability, scalable architectures. Expert in .NET, Azure Cloud, microservices, SSL/TLS security, real-time processing, high-performance systems, distributed systems, and large-scale enterprise projects. Available for remote work globally (USA, Europe, Global).
 
 # Services (service-focused SEO)

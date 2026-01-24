@@ -304,7 +304,9 @@ This is a portfolio template - feel free to fork and customize for your needs!
 **Waqas Ahmad**
 - Senior Software Engineer & Technical Lead
 - Email: devwithwaqas@gmail.com
-- Portfolio: [devwithwaqas.github.io/portfolio](https://devwithwaqas.github.io/portfolio/)
+- Portfolio: 
+  - [GitHub Pages](https://devwithwaqas.github.io/portfolio/)
+  - [Firebase Hosting](https://waqasahmad-portfolio.web.app)
 
 ---
 
