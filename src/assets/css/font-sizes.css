@@ -108,9 +108,7 @@
 .breadcrumbs a { font-size: 0.95rem !important; }
 .breadcrumbs .current { font-size: 0.95rem !important; }
 
-/* Project Hero Card */
-.hero-main-title { font-size: 1.5rem !important; } /* Same as gallery for consistency */
-.project-description { font-size: 1.05rem !important; }
+/* Project Hero Card - .hero-main-title uses txt-h1-4xl class (no override needed), .project-description font-size is in ProjectHeroCard.vue (explicit px) */
 .tag-badge { font-size: 0.9rem !important; }
 .achievement-emoji { font-size: 1.4rem !important; }
 .achievement-label { font-size: 0.95rem !important; }
@@ -273,9 +271,7 @@
   /* Breadcrumbs */
   .breadcrumbs ol, .breadcrumbs a, .breadcrumbs .current { font-size: 1.14rem !important; } /* +20% from 0.95 */
   
-  /* Project Hero Card */
-  .hero-main-title { font-size: 1.35rem !important; } /* Same as gallery - keep header size */
-  .project-description { font-size: 1.26rem !important; } /* +20% from 1.05 */
+  /* Project Hero Card - .hero-main-title uses txt-h1-4xl class (no override needed), .project-description in component */
   .tag-badge { font-size: 1.08rem !important; } /* +20% from 0.9 */
   .achievement-emoji { font-size: 1.68rem !important; } /* +20% from 1.4 */
   .achievement-label { font-size: 1.14rem !important; } /* +20% from 0.95 */
@@ -441,9 +437,7 @@
   /* Breadcrumbs */
   .breadcrumbs ol, .breadcrumbs a, .breadcrumbs .current { font-size: 1.08rem !important; } /* +20% from 0.9 */
   
-  /* Project Hero Card */
-  .hero-main-title { font-size: 1.25rem !important; } /* Same as gallery - keep header size */
-  .project-description { font-size: 1.2rem !important; } /* +20% from 1.0 */
+  /* Project Hero Card - .hero-main-title uses txt-h1-4xl class (no override needed), .project-description in component */
   .tag-badge { font-size: 1.02rem !important; } /* +20% from 0.85 */
   .achievement-emoji { font-size: 1.6rem !important; } /* +20% from 1.33 */
   .achievement-label { font-size: 1.08rem !important; } /* +20% from 0.9 */

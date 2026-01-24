@@ -71,7 +71,7 @@ router.isReady().then(() => {
 // Expected service worker version - AUTO-GENERATED ON BUILD (from git commit hash)
 // Version is automatically updated by scripts/generate-sw-version.js during build
 // MUST MATCH the version in public/sw.js
-const EXPECTED_SW_VERSION = '9ad2eb7'
+const EXPECTED_SW_VERSION = '8e54a30'
 
 if ('serviceWorker' in navigator) {
   if (import.meta.env.PROD) {
@@ -93,11 +93,15 @@ if ('serviceWorker' in navigator) {
           try {
             // Check if service worker is active and has version info
             if (registration.active) {
-              // Service worker version is stored in self.serviceWorkerVersion
-              // We can't directly access it, so we'll check by attempting to get a message
-              // If the SW responds with version, we'll keep it; otherwise unregister
+              // Service worker version is stored in self.serviceWorkerVersion.
+              // We postMessage GET_VERSION and wait for SW_VERSION reply.
+              // Use 800ms timeout: 100ms was too short (e.g. on hard refresh), so we
+              // often unregistered + re-registered on every load.
               const versionCheck = new Promise((resolve) => {
-                const timeout = setTimeout(() => resolve(null), 100)
+                const timeout = setTimeout(() => {
+                  navigator.serviceWorker.removeEventListener('message', messageHandler)
+                  resolve(null)
+                }, 800)
                 const messageHandler = (event) => {
                   if (event.data && event.data.type === 'SW_VERSION') {
                     clearTimeout(timeout)
@@ -116,7 +120,7 @@ if ('serviceWorker' in navigator) {
               }
             }
             
-            // Unregister old service worker
+            // Unregister only when version mismatch or no active SW (e.g. new build deployed)
             const unregistered = await registration.unregister()
             if (unregistered) {
               console.log('[SW] Unregistered old service worker:', registration.scope)

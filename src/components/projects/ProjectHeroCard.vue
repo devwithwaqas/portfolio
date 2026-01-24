@@ -7,7 +7,7 @@
       <h1 class="hero-main-title txt-h1-4xl">{{ title }}</h1>
       
       <!-- Description -->
-      <p class="project-description txt-p-lg">{{ description }}</p>
+      <p class="project-description">{{ description }}</p>
       
       <!-- Tags/Badges -->
       <div class="project-tags">
@@ -257,16 +257,19 @@ export default {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Description */
+/* Description - Explicit px font-size so identical on localhost and Firebase (no rem/split-CSS variance) */
 .project-description {
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.8;
   margin-bottom: 30px;
   text-align: justify;
   text-justify: inter-word;
-  
-  /* Mobile: Use hyphen-based justification */
-  @media (max-width: 768px) {
+  font-size: 17px !important;
+  font-family: var(--default-font), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+@media (max-width: 768px) {
+  .project-description {
+    font-size: 15px !important;
     text-justify: auto;
     hyphens: auto;
   }

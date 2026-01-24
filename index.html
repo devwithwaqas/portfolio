@@ -188,8 +188,10 @@
   <link rel="preload" href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" as="style">
   <!-- Preload Bootstrap Icons font to prevent icon loading delay (hamburger menu icon) -->
   <link rel="preload" href="/assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff2?e34853135f9e39acf64315236852cd5a" as="font" type="font/woff2" crossorigin>
+  <!-- Preload Google Fonts CSS to ensure fonts load quickly on Firebase -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Raleway:wght@400;500;600;700;800;900&display=swap" as="style">
   <!-- Note: WebP versions are loaded via <picture> element automatically - no need to preload separately -->
-  <!-- Note: Fonts use display=optional to prevent layout shifts, and min-height reserves space for text -->
+  <!-- Note: Fonts use display=swap to ensure fonts always load (even if late) for consistent rendering across localhost and Firebase -->
   
   <!-- CRITICAL: CSS for inline hero image (positioned inside hero section) -->
   <!-- TEMPORARILY DISABLED: Checking if this is causing page visibility issues -->
@@ -466,9 +468,9 @@
   <!-- Fallback for older browsers -->
   <link rel="icon" href="/portfolio/assets/img/favicon.png">
   
-  <!-- Fonts - Load asynchronously with optional display for non-blocking render -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Raleway:wght@400;500;600;700;800;900&display=optional" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Raleway:wght@400;500;600;700;800;900&display=optional" rel="stylesheet"></noscript>
+  <!-- Fonts - Load asynchronously with swap display to ensure fonts always load -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Raleway:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Raleway:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
   
   <!-- Critical CSS - Load immediately (render-blocking for above-fold content) -->
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
