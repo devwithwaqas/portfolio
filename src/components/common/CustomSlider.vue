@@ -346,17 +346,38 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 16px; /* Increased gap for better spacing between 44x44px touch targets */
   padding: 10px 0;
 }
 
 .slider-dot {
-  /* Size managed by icon-wrapper-xs */
+  /* WCAG: Minimum 44x44px touch target size for all devices (desktop and mobile) */
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  /* Visual size: 12px dot with padding to meet touch target */
+  padding: 16px !important;
   border: none;
   border-radius: 50%;
   background: rgba(60, 20, 120, 0.3);
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0; /* Prevent dots from shrinking */
+}
+
+.slider-dot::before {
+  /* Visual dot indicator */
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: inherit;
+  display: block;
 }
 
 .slider-dot:hover {

@@ -77,14 +77,31 @@
 .invalid-feedback { font-size: 0.9rem !important; }
 
 /* Portfolio (Epic Cards) - OLD RULES REMOVED - Now using centralized txt- classes */
+/* Portfolio Cards */
+.project-title { font-size: 1.12rem !important; }
+.project-subtitle { font-size: 0.81rem !important; }
+.built-with-text { font-size: 0.63rem !important; }
+.epic-buttons .button { font-size: 0.7rem !important; }
 
 /* Service Cards - OLD RULES REMOVED - Now using centralized txt- classes */
+.service-item h4 { font-size: 1.25rem !important; }
+.service-item p { font-size: 0.95rem !important; }
 
 /* Resume Section - OLD RULES REMOVED - Now using centralized txt- classes */
 
 /* Testimonials - OLD RULES REMOVED - Now using centralized txt- classes */
 
-/* About Section - OLD RULES REMOVED - Now using centralized txt- classes */
+/* About Section */
+.about h2 { font-size: var(--pf-text-2xl) !important; } /* Desktop: 1.5rem - matches h3 for consistency */
+.about h3 { font-size: var(--pf-text-2xl) !important; } /* Desktop: 1.5rem */
+.about h4 { font-size: var(--pf-text-xl) !important; } /* Desktop: 1.25rem */
+.about h5 { font-size: var(--pf-text-xl) !important; } /* Desktop: 1.25rem */
+.about p, .about ul li { font-size: var(--pf-text-base) !important; } /* Desktop: 1rem */
+
+/* Skills Section */
+.skills .category-header h3 { font-size: var(--pf-text-xl) !important; } /* Desktop: 1.25rem */
+.skills .category-header h4 { font-size: var(--pf-text-lg) !important; } /* Desktop: 1.125rem */
+.skills .category-header h5 { font-size: var(--pf-text-lg) !important; } /* Desktop: 1.125rem */
 
 /* Breadcrumbs */
 .breadcrumbs ol { font-size: 0.95rem !important; }
@@ -170,6 +187,11 @@
 .framework-item-icon { font-size: 1.3rem !important; }
 .framework-item-title { font-size: 1.05rem !important; }
 
+/* Footer */
+.footer h4 { font-size: 1.1rem !important; }
+.footer p { font-size: 0.9rem !important; }
+.contact-info p, .contact-info a, .contact-info-item { font-size: 0.75rem !important; }
+
 /* ================================================================
    TABLET RESPONSIVE (768px - 1199px)
    ================================================================ */
@@ -237,8 +259,16 @@
   .testimonial-title { font-size: 1.14rem !important; } /* +20% from 0.95 */
   
   /* About Section */
-  .about h3 { font-size: 1.35rem !important; } /* Keep header size */
-  .about p, .about ul li { font-size: 1.14rem !important; } /* +20% from 0.95 */
+  .about h2 { font-size: var(--pf-text-2xl) !important; } /* Tablet: 1.35rem - matches h3 for consistency */
+  .about h3 { font-size: var(--pf-text-2xl) !important; } /* Tablet: 1.35rem */
+  .about h4 { font-size: var(--pf-text-xl) !important; } /* Tablet: 1.125rem */
+  .about h5 { font-size: var(--pf-text-xl) !important; } /* Tablet: 1.125rem */
+  .about p, .about ul li { font-size: var(--pf-text-base) !important; } /* Tablet: 0.9rem */
+  
+  /* Skills Section */
+  .skills .category-header h3 { font-size: var(--pf-text-xl) !important; } /* Tablet: 1.125rem */
+  .skills .category-header h4 { font-size: var(--pf-text-lg) !important; } /* Tablet: 1rem */
+  .skills .category-header h5 { font-size: var(--pf-text-lg) !important; } /* Tablet: 1rem */
   
   /* Breadcrumbs */
   .breadcrumbs ol, .breadcrumbs a, .breadcrumbs .current { font-size: 1.14rem !important; } /* +20% from 0.95 */
@@ -397,8 +427,16 @@
   .testimonial-title { font-size: 1.02rem !important; } /* +20% */
   
   /* About Section */
-  .about h3 { font-size: 1.25rem !important; } /* Keep header size */
-  .about p, .about ul li { font-size: 1.02rem !important; } /* +20% */
+  .about h2 { font-size: var(--pf-text-xl) !important; } /* Mobile: 1.05rem - matches h3 for consistency */
+  .about h3 { font-size: var(--pf-text-xl) !important; } /* Mobile: 1.05rem */
+  .about h4 { font-size: var(--pf-text-lg) !important; } /* Mobile: 0.95rem */
+  .about h5 { font-size: var(--pf-text-lg) !important; } /* Mobile: 0.95rem */
+  .about p, .about ul li { font-size: var(--pf-text-base) !important; } /* Mobile: 0.85rem */
+  
+  /* Skills Section */
+  .skills .category-header h3 { font-size: var(--pf-text-lg) !important; } /* Mobile: 0.95rem */
+  .skills .category-header h4 { font-size: var(--pf-text-base) !important; } /* Mobile: 0.85rem */
+  .skills .category-header h5 { font-size: var(--pf-text-base) !important; } /* Mobile: 0.85rem */
   
   /* Breadcrumbs */
   .breadcrumbs ol, .breadcrumbs a, .breadcrumbs .current { font-size: 1.08rem !important; } /* +20% from 0.9 */
@@ -561,122 +599,6 @@
   .pf-text-mobile-4xl { font-size: var(--pf-text-4xl) !important; }
   .pf-text-mobile-5xl { font-size: var(--pf-text-5xl) !important; }
   .pf-text-mobile-6xl { font-size: var(--pf-text-6xl) !important; }
-}
-
-/* ================================================================
-   COMPONENT FONT SIZES - Desktop (1200px+)
-   ================================================================ */
-
-/* Hero Section - OLD RULES REMOVED - Now using centralized txt- classes */
-
-/* Navigation */
-.nav-icon { font-size: 18px !important; }
-.test-icon { width: 22px !important; height: 22px !important; }
-.navmenu a, .nav-link { font-size: 1rem !important; }
-.navmenu span { font-size: 1rem !important; }
-
-/* Skill Cards - OLD RULES REMOVED - Now handled by SkillCard component */
-
-/* Stat Cards */
-.stat-value { font-size: 2.5rem !important; }
-.stat-label { font-size: 1rem !important; }
-
-/* Contact Cards - OLD RULES REMOVED - Now using centralized txt- classes */
-
-/* Contact Form */
-.form-title { font-size: 2.4rem !important; }
-.form-subtitle { font-size: 1.2rem !important; }
-.button_lg { font-size: 1rem !important; }
-.button_text::before { font-size: 16px !important; }
-.invalid-feedback { font-size: 0.9rem !important; }
-
-/* Portfolio Cards */
-.project-title { font-size: 1.12rem !important; }
-.project-subtitle { font-size: 0.81rem !important; }
-.built-with-text { font-size: 0.63rem !important; }
-.epic-buttons .button { font-size: 0.7rem !important; }
-
-/* Service Cards */
-.service-item h4 { font-size: 1.25rem !important; }
-.service-item p { font-size: 0.95rem !important; }
-
-/* Footer */
-.footer h4 { font-size: 1.1rem !important; }
-.footer p { font-size: 0.9rem !important; }
-.contact-info p, .contact-info a, .contact-info-item { font-size: 0.75rem !important; }
-
-/* ================================================================
-   TABLET RESPONSIVE (768px - 1199px) - Component Overrides
-   ================================================================ */
-@media (min-width: 768px) and (max-width: 1199px) {
-  .hero-name { font-size: 3rem !important; }
-  .hero-title { font-size: 1.2rem !important; }
-  .title-name { font-size: 0.85rem !important; }
-  .hero-description { font-size: 1rem !important; }
-  
-  /* Navigation */
-  .nav-icon { font-size: 14px !important; }
-  
-  
-  /* Stat Cards */
-  .stat-value { font-size: 2rem !important; }
-  .stat-label { font-size: 0.9rem !important; }
-  
-  /* Contact Cards */
-  .contact-main-icon { font-size: 42px !important; }
-  .label-text { font-size: 1rem !important; }
-  .info-value { font-size: 0.75rem !important; }
-  .info-subtitle { font-size: 0.68rem !important; }
-  
-  /* Contact Form */
-  .form-title { font-size: 2rem !important; }
-  .form-subtitle { font-size: 1.1rem !important; }
-  
-  /* Portfolio Cards */
-  .project-title { font-size: 1rem !important; }
-  .project-subtitle { font-size: 0.75rem !important; }
-  .built-with-text { font-size: 0.6rem !important; }
-  .epic-buttons .button { font-size: 0.65rem !important; }
-  
-  /* Footer */
-  .contact-info p, .contact-info a, .contact-info-item { font-size: 0.7rem !important; }
-}
-
-/* ================================================================
-   MOBILE RESPONSIVE (max 767px) - Component Overrides
-   ================================================================ */
-@media (max-width: 767px) {
-  .hero-name { font-size: 2.2rem !important; }
-  .hero-title { font-size: 1rem !important; }
-  .title-name { font-size: 0.8rem !important; }
-  .hero-description { font-size: 0.9rem !important; }
-  
-  /* Navigation */
-  .nav-icon { font-size: 16px !important; }
-  
-  
-  /* Stat Cards */
-  .stat-value { font-size: 1.8rem !important; }
-  .stat-label { font-size: 0.85rem !important; }
-  
-  /* Contact Cards */
-  .contact-main-icon { font-size: 45px !important; }
-  .label-text { font-size: 1.2rem !important; }
-  .info-value { font-size: 0.9rem !important; }
-  .info-subtitle { font-size: 0.8rem !important; }
-  
-  /* Contact Form */
-  .form-title { font-size: 1.8rem !important; }
-  .form-subtitle { font-size: 1rem !important; }
-  
-  /* Portfolio Cards */
-  .project-title { font-size: 0.95rem !important; }
-  .project-subtitle { font-size: 0.7rem !important; }
-  .built-with-text { font-size: 0.55rem !important; }
-  .epic-buttons .button { font-size: 0.6rem !important; }
-  
-  /* Footer */
-  .contact-info p, .contact-info a, .contact-info-item { font-size: 0.75rem !important; }
 }
 
 /* ================================================================

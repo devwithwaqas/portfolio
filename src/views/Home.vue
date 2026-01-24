@@ -134,88 +134,44 @@ export default {
     })()
 
     if (returnSection) {
-      // Wait for lazy components to load before scrolling
-      // OPTIMIZATION: Batch layout reads to avoid forced reflows
-      const scrollToSection = () => {
+      // Components load immediately (no lazy loading), so scroll immediately after render
+      this.$nextTick(() => {
         const element = document.getElementById(returnSection)
         if (element) {
-          // OPTIMIZATION: Read layout properties once and batch them
-          let cachedLayout = null
-          const readLayoutOnce = () => {
-            if (!cachedLayout) {
-              // Batch all layout reads in one synchronous operation
-              const rect = element.getBoundingClientRect()
-              const scrollY = window.pageYOffset
-              cachedLayout = {
-                top: rect.top,
-                scrollY: scrollY,
-                offset: rect.top + scrollY - 100 // headerOffset
-              }
-            }
-            return cachedLayout
-          }
-          
-          // Use IntersectionObserver with rootMargin to start earlier (reduces layout work)
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting || entry.intersectionRatio > 0) {
-                // Element is visible/loaded, safe to scroll
-                // Read layout once, then scroll in RAF
-                const layout = readLayoutOnce()
-                
-                requestAnimationFrame(() => {
-                  window.scrollTo({ top: layout.offset, behavior: 'smooth' })
-                  try {
-                    sessionStorage.removeItem('home:returnSection')
-                  } catch (error) {
-                    // Ignore storage errors
-                  }
-                })
-                observer.disconnect()
-              }
-            })
-          }, { 
-            threshold: 0.1,
-            rootMargin: '100px' // Start detecting earlier to reduce layout work
-          })
-          
-          observer.observe(element)
-          
-          // Fallback: If element doesn't become visible within 3 seconds, scroll anyway
-          setTimeout(() => {
-            observer.disconnect()
-            // Use cached layout if available, otherwise read once
-            const layout = readLayoutOnce()
+          // Batch all layout reads in one operation to avoid forced reflows
+          requestAnimationFrame(() => {
+            const rect = element.getBoundingClientRect()
+            const scrollY = window.pageYOffset || window.scrollY || 0
+            const headerOffset = 100
+            const offsetPosition = rect.top + scrollY - headerOffset
+            
+            // Scroll in next frame
             requestAnimationFrame(() => {
-              window.scrollTo({ top: layout.offset, behavior: 'smooth' })
+              window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
               try {
                 sessionStorage.removeItem('home:returnSection')
               } catch (error) {
                 // Ignore storage errors
               }
             })
-          }, 3000)
+          })
         } else {
-          // Element not found yet, wait a bit and try again (for lazy components)
-          // Use requestIdleCallback for better timing
-          if ('requestIdleCallback' in window) {
-            window.requestIdleCallback(scrollToSection, { timeout: 500 })
-          } else {
-            setTimeout(scrollToSection, 200)
-          }
-        }
-      }
-
-      // Wait for initial render, then wait for lazy components
-      // OPTIMIZATION: Use requestIdleCallback to defer non-critical work
-      this.$nextTick(() => {
-        if ('requestIdleCallback' in window) {
-          window.requestIdleCallback(() => {
-            setTimeout(scrollToSection, 100)
-          }, { timeout: 1000 })
-        } else {
-          // Fallback for browsers without requestIdleCallback
-          setTimeout(scrollToSection, 300)
+          // Element not found - try once more after a brief delay
+          setTimeout(() => {
+            const element = document.getElementById(returnSection)
+            if (element) {
+              const rect = element.getBoundingClientRect()
+              const scrollY = window.pageYOffset || window.scrollY || 0
+              const headerOffset = 100
+              const offsetPosition = rect.top + scrollY - headerOffset
+              window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+              try {
+                sessionStorage.removeItem('home:returnSection')
+              } catch (error) {
+                // Ignore storage errors
+              }
+            }
+          }, 100)
         }
       })
     }

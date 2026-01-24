@@ -28,13 +28,37 @@ if (explicitBase) {
   }
 }
 
-// Service worker content with dynamic base path
-const swContent = `const CACHE_VERSION = 'portfolio-static-v4'
+// Read the source sw.js to get the version and use its structure
+const sourceSwPath = path.resolve(__dirname, '../public/sw.js')
+let serviceWorkerVersion = 'unknown'
+let swTemplate = ''
+
+if (fs.existsSync(sourceSwPath)) {
+  const sourceSwContent = fs.readFileSync(sourceSwPath, 'utf-8')
+  // Extract version from source file
+  const versionMatch = sourceSwContent.match(/const SERVICE_WORKER_VERSION = ['"](.*?)['"]/)
+  if (versionMatch) {
+    serviceWorkerVersion = versionMatch[1]
+  }
+  
+  // Use the source sw.js as template, but replace CORE_ASSETS with dynamic base path
+  // Only replace the CORE_ASSETS array, keep everything else intact
+  swTemplate = sourceSwContent.replace(
+    /const CORE_ASSETS = \[[\s\S]*?\]/,
+    `const BASE_PATH = '${basePath}'\nconst CORE_ASSETS = [\n  BASE_PATH,\n  BASE_PATH + 'index.html'\n]`
+  )
+} else {
+  // Fallback if source sw.js doesn't exist
+  serviceWorkerVersion = Date.now().toString(36)
+  swTemplate = `const SERVICE_WORKER_VERSION = '${serviceWorkerVersion}'
+const CACHE_VERSION = \`portfolio-static-\${SERVICE_WORKER_VERSION}\`
 const BASE_PATH = '${basePath}'
 const CORE_ASSETS = [
   BASE_PATH,
   BASE_PATH + 'index.html'
 ]
+
+self.serviceWorkerVersion = SERVICE_WORKER_VERSION
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -46,10 +70,41 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((key) => key !== CACHE_VERSION).map((key) => caches.delete(key)))
-    ).then(() => self.clients.claim())
+    Promise.all([
+      caches.keys().then((keys) =>
+        Promise.all(keys.filter((key) => key !== CACHE_VERSION).map((key) => caches.delete(key)))
+      ),
+      self.clients.claim(),
+      self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
+        clients.forEach((client) => {
+          try {
+            client.postMessage({
+              type: 'SW_UPDATED',
+              version: SERVICE_WORKER_VERSION
+            })
+          } catch (err) {
+            // Ignore errors if client is not ready or postMessage fails
+            // postMessage doesn't return a Promise, so we use try-catch instead
+          }
+        })
+      }).catch(() => {
+        // Ignore errors if matchAll fails
+      })
+    ])
   )
+})
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'GET_VERSION') {
+    event.ports[0]?.postMessage({
+      type: 'SW_VERSION',
+      version: SERVICE_WORKER_VERSION
+    })
+    event.source?.postMessage({
+      type: 'SW_VERSION',
+      version: SERVICE_WORKER_VERSION
+    })
+  }
 })
 
 self.addEventListener('fetch', (event) => {
@@ -59,46 +114,49 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url)
   if (url.origin !== self.location.origin) return
 
-  // Network-first for HTML and CSS (ensures fresh content on Firebase)
-  // This is CRITICAL - cache-first was serving stale CSS causing layout issues
-  const isHTML = request.headers.get('accept')?.includes('text/html')
-  const isCSS = url.pathname.endsWith('.css')
-  
-  if (isHTML || isCSS) {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          // Cache successful responses for offline use
-          if (response && response.ok) {
-            caches.open(CACHE_VERSION).then((cache) => {
-              cache.put(request, responseClone)
+  event.respondWith(
+    (async () => {
+      try {
+        const cache = await caches.open(CACHE_VERSION)
+        const cached = await cache.match(request)
+        
+        if (cached) {
+          return cached
+        }
+
+        try {
+          const response = await fetch(request)
+          
+          if (response && response.ok && response.status === 200) {
+            const responseClone = response.clone()
+            cache.put(request, responseClone).catch((err) => {
+              console.warn('[SW] Cache put failed:', err)
             })
           }
+          
           return response
-        })
-        .catch(() => {
-          // Fallback to cache if network fails
-          return caches.match(request)
-        })
-    )
-  } else {
-    // Cache-first for other assets (images, JS, fonts, etc.)
-    event.respondWith(
-      caches.open(CACHE_VERSION).then((cache) =>
-        cache.match(request).then((cached) => {
-          if (cached) return cached
-          return fetch(request).then((response) => {
-            if (response && response.ok) {
-              cache.put(request, response.clone())
-            }
-            return response
-          })
-        })
-      )
-    )
-  }
-})
-`
+        } catch (fetchErr) {
+          console.warn('[SW] Fetch failed:', fetchErr)
+          const cachedFallback = await cache.match(request)
+          if (cachedFallback) {
+            return cachedFallback
+          }
+          return new Response('Network error', { status: 408, statusText: 'Request Timeout' })
+        }
+      } catch (cacheErr) {
+        console.warn('[SW] Cache operation failed:', cacheErr)
+        try {
+          return await fetch(request)
+        } catch (fetchErr) {
+          return new Response('Service unavailable', { status: 503, statusText: 'Service Unavailable' })
+        }
+      }
+    })()
+  )
+})`
+}
+
+const swContent = swTemplate
 
 // Write service worker to dist folder
 const swPath = path.resolve(distPath, 'sw.js')

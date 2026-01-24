@@ -2,7 +2,7 @@
  * Google Cloud Function: Send Email via Gmail SMTP
  * 
  * This function receives contact form submissions and sends them via Gmail SMTP
- * as a fallback when EmailJS fails or is unavailable.
+ * for the portfolio contact form.
  * 
  * Environment Variables Required:
  * - GMAIL_USER: Your Gmail address

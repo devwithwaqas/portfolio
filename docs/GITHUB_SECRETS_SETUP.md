@@ -32,13 +32,12 @@ Add each of the following secrets one by one. Copy the values from your `.env` f
 | `VITE_WHATSAPP_URL` | `VITE_WHATSAPP_URL=...` | `https://wa.me/60146806067` |
 | `VITE_GOOGLE_MAPS_URL` | `VITE_GOOGLE_MAPS_URL=...` | `https://www.google.com/maps/search/?api=1&query=Kuala+Lumpur,+Malaysia` |
 
-### EmailJS Configuration Secrets
+### SMTP Configuration Secrets (Google Cloud Functions)
 
-| Secret Name | Value from .env | Example |
-|------------|----------------|---------|
-| `VITE_EMAILJS_PUBLIC_KEY` | `VITE_EMAILJS_PUBLIC_KEY=...` | `HIrGCZA4UsU44mz7S` |
-| `VITE_EMAILJS_SERVICE_ID` | `VITE_EMAILJS_SERVICE_ID=...` | `service_t762oxc` |
-| `VITE_EMAILJS_TEMPLATE_ID` | `VITE_EMAILJS_TEMPLATE_ID=...` | `template_clfbq4g` |
+| Secret Name | Value from .env | Example | Notes |
+|------------|----------------|---------|-------|
+| `VITE_SMTP_ENDPOINT` | `VITE_SMTP_ENDPOINT=...` | `https://us-central1-xxx.cloudfunctions.net/sendEmail` | Google Cloud Function URL |
+| `VITE_SMTP_API_KEY` | `VITE_SMTP_API_KEY=...` | `your-api-key` | Optional - for additional security |
 
 ### Google Analytics 4 (GA4) Secret
 
@@ -57,11 +56,11 @@ Add each of the following secrets one by one. Copy the values from your `.env` f
    - Paste the variable name in **Name** field
    - Paste the value in **Secret** field
    - Click **Add secret**
-   - Repeat for all 12 secrets
+   - Repeat for all secrets (10-11 total, depending on optional GA4 and SMTP API key)
 
 ## ✅ Verification
 
-After adding all secrets, you should see 12 secrets listed:
+After adding all secrets, you should see the following secrets listed:
 - VITE_FULL_NAME
 - VITE_LOCATION
 - VITE_CONTACT_EMAIL
@@ -71,9 +70,9 @@ After adding all secrets, you should see 12 secrets listed:
 - VITE_WEBSITE_URL
 - VITE_WHATSAPP_URL
 - VITE_GOOGLE_MAPS_URL
-- VITE_EMAILJS_PUBLIC_KEY
-- VITE_EMAILJS_SERVICE_ID
-- VITE_EMAILJS_TEMPLATE_ID
+- VITE_SMTP_ENDPOINT
+- VITE_SMTP_API_KEY (optional)
+- VITE_GA4_MEASUREMENT_ID (optional)
 
 ## 🔒 Security Note
 

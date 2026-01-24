@@ -37,10 +37,9 @@ Complete guide for deploying this portfolio to various hosting platforms.
    - `VITE_WHATSAPP_URL` - Your WhatsApp link
    - `VITE_GOOGLE_MAPS_URL` - Google Maps link to your location
 
-   **EmailJS Configuration:**
-   - `VITE_EMAILJS_PUBLIC_KEY` - EmailJS Public Key
-   - `VITE_EMAILJS_SERVICE_ID` - EmailJS Service ID
-   - `VITE_EMAILJS_TEMPLATE_ID` - EmailJS Template ID
+   **SMTP Configuration (Google Cloud Functions):**
+   - `VITE_SMTP_ENDPOINT` - Google Cloud Function endpoint URL
+   - `VITE_SMTP_API_KEY` - API key for SMTP function (optional, for security)
 
 ### Step 3: Push to Main Branch
 

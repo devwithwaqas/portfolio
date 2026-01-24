@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div :class="['responsive-image-container', containerClass]">
     <picture>
       <source
@@ -66,10 +66,13 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: visible; /* Allow shadows to show */
+  position: relative;
 }
 .responsive-image-container img {
   max-width: 100%;
   height: auto;
   display: block;
+  position: relative;
 }
 </style>

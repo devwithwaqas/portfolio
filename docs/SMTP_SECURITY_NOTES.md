@@ -43,9 +43,8 @@ Your Gmail App Password (`xdxv dfps iscb svve`) is stored securely in **Google C
 
 2. **GitHub Secrets** (Client-Side - for Vue.js build):
    ```
-   VITE_SMTP_FALLBACK_ENABLED=false  ← Feature flag (ON/OFF)
-   VITE_SMTP_FALLBACK_ENDPOINT=https://...  ← Function URL (public)
-   VITE_SMTP_FALLBACK_API_KEY=...  ← Optional API key (if using)
+   VITE_SMTP_ENDPOINT=https://...  ← Function URL (public)
+   VITE_SMTP_API_KEY=...  ← Optional API key (if using)
    ```
    - These are **safe to expose** (endpoint URL is public)
    - No passwords stored here
@@ -54,7 +53,6 @@ Your Gmail App Password (`xdxv dfps iscb svve`) is stored securely in **Google C
 
 ### ✅ What's Safe to Expose:
 - Function endpoint URL (it's a public HTTP endpoint)
-- Feature flag (true/false - just enables/disables)
 - API key for function authentication (optional, not the Gmail password)
 
 ### 🔐 What's Private:
@@ -87,7 +85,6 @@ gcloud functions describe sendEmail --gen2 --region=us-central1
 |------|----------|----------|
 | Gmail App Password | Google Cloud Function env vars | ✅ Secure (server-side only) |
 | Function Endpoint URL | GitHub Secrets (for build) | ✅ Safe (public endpoint) |
-| Feature Flag | GitHub Secrets (for build) | ✅ Safe (just true/false) |
 | API Key (optional) | GitHub Secrets (for build) | ✅ Safe (function auth only) |
 
 ## 🚨 Important Reminders

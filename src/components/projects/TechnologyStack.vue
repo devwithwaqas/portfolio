@@ -45,17 +45,18 @@
               <div class="tech-icon-wrapper icon-wrapper-xl">
                 <!-- Devicon SVG -->
                 <img 
-                  v-if="tech.iconData.type === 'devicon'" 
+                  v-if="tech.iconData.type === 'devicon' && !failedIcons[tech.name]" 
                   :src="getDeviconSvgUrl(tech.iconData.src)"
                   :alt="tech.name"
                   class="icon-img-xl"
                   :title="tech.name"
+                  @error="handleIconError($event, tech)"
                 />
                 <!-- Local Image -->
                 <LazyImage 
-                  v-else-if="tech.iconData.type === 'local'" 
-                  :src="tech.iconData.src" 
-                  :alt="tech.iconData.alt"
+                  v-else-if="tech.iconData.type === 'local' || failedIcons[tech.name]?.type === 'local'" 
+                  :src="(failedIcons[tech.name] || tech.iconData).src" 
+                  :alt="(failedIcons[tech.name] || tech.iconData).alt"
                   image-class="icon-img-xl"
                   container-class="tech-icon-container"
                 />
@@ -63,7 +64,7 @@
                 <span 
                   v-else 
                   class="icon-xl"
-                >{{ tech.iconData.src }}</span>
+                >{{ (failedIcons[tech.name] || tech.iconData).src }}</span>
               </div>
               <div class="tech-content">
                 <strong class="tech-name txt-p-md">{{ tech.name }}</strong>
@@ -123,6 +124,11 @@ export default {
       validator: (value) => [1, 2, 3, 4].includes(value)
     }
   },
+  data() {
+    return {
+      failedIcons: {} // Track failed icon loads
+    }
+  },
   computed: {
     // Bootstrap column class based on columns per row
     columnClass() {
@@ -158,7 +164,13 @@ export default {
         }
         
         // Resolve icon for this technology
-        const iconData = resolveIcon(tech.name)
+        let iconData = resolveIcon(tech.name)
+        
+        // Check if this icon previously failed to load
+        if (this.failedIcons[tech.name]) {
+          // Use the fallback icon data
+          iconData = this.failedIcons[tech.name]
+        }
         
         // Add technology with resolved icon
         grouped[categoryKey].technologies.push({
@@ -184,6 +196,22 @@ export default {
     getCategoryIconData(iconName) {
       // Use iconResolver to get proper icons for categories
       return resolveIcon(iconName)
+    },
+    handleIconError(event, tech) {
+      // If devicon fails to load, try to use local fallback or emoji
+      const iconData = resolveIcon(tech.name)
+      let fallbackIcon
+      
+      if (iconData && iconData.type === 'local') {
+        // Use local icon as fallback
+        fallbackIcon = iconData
+      } else {
+        // Use emoji fallback
+        fallbackIcon = { type: 'emoji', src: '☁️', alt: tech.name }
+      }
+      
+      // Store the fallback for this tech name (Vue 3 reactivity - direct assignment)
+      this.failedIcons[tech.name] = fallbackIcon
     }
   }
 }

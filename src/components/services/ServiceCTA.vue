@@ -145,38 +145,48 @@ export default {
       if (this.$route.path !== '/') {
         this.$router.push('/').then(() => {
           this.$nextTick(() => {
-            const element = document.getElementById('contact')
-            if (element) {
-              const headerOffset = 100
-              // Read layout BEFORE RAF to avoid forced reflow
-              const elementPosition = element.getBoundingClientRect().top
-              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+            // Batch all layout reads in a single RAF to avoid forced reflow
+            requestAnimationFrame(() => {
+              const element = document.getElementById('contact')
+              if (!element) return
               
+              const headerOffset = 100
+              // Read all layout properties in a single batch
+              const rect = element.getBoundingClientRect()
+              const scrollY = window.scrollY || window.pageYOffset
+              const offsetPosition = rect.top + scrollY - headerOffset
+              
+              // Perform scroll in next frame to avoid forced reflow
               requestAnimationFrame(() => {
                 window.scrollTo({
                   top: offsetPosition,
                   behavior: 'smooth'
                 })
               })
-            }
+            })
           })
         })
       } else {
         // Already on home page, just scroll
-        const element = document.getElementById('contact')
-        if (element) {
-          const headerOffset = 100
-          // Read layout BEFORE RAF to avoid forced reflow
-          const elementPosition = element.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+        // Batch all layout reads in a single RAF to avoid forced reflow
+        requestAnimationFrame(() => {
+          const element = document.getElementById('contact')
+          if (!element) return
           
+          const headerOffset = 100
+          // Read all layout properties in a single batch
+          const rect = element.getBoundingClientRect()
+          const scrollY = window.scrollY || window.pageYOffset
+          const offsetPosition = rect.top + scrollY - headerOffset
+          
+          // Perform scroll in next frame to avoid forced reflow
           requestAnimationFrame(() => {
             window.scrollTo({
               top: offsetPosition,
               behavior: 'smooth'
             })
           })
-        }
+        })
       }
     },
     scrollToPortfolio() {
@@ -184,38 +194,48 @@ export default {
       if (this.$route.path !== '/') {
         this.$router.push('/').then(() => {
           this.$nextTick(() => {
-            const element = document.getElementById('portfolio')
-            if (element) {
-              const headerOffset = 100
-              // Read layout BEFORE RAF to avoid forced reflow
-              const elementPosition = element.getBoundingClientRect().top
-              const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+            // Batch all layout reads in a single RAF to avoid forced reflow
+            requestAnimationFrame(() => {
+              const element = document.getElementById('portfolio')
+              if (!element) return
               
+              const headerOffset = 100
+              // Read all layout properties in a single batch
+              const rect = element.getBoundingClientRect()
+              const scrollY = window.scrollY || window.pageYOffset
+              const offsetPosition = rect.top + scrollY - headerOffset
+              
+              // Perform scroll in next frame to avoid forced reflow
               requestAnimationFrame(() => {
                 window.scrollTo({
                   top: offsetPosition,
                   behavior: 'smooth'
                 })
               })
-            }
+            })
           })
         })
       } else {
         // Already on home page, just scroll
-        const element = document.getElementById('portfolio')
-        if (element) {
-          const headerOffset = 100
-          // Read layout BEFORE RAF to avoid forced reflow
-          const elementPosition = element.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+        // Batch all layout reads in a single RAF to avoid forced reflow
+        requestAnimationFrame(() => {
+          const element = document.getElementById('portfolio')
+          if (!element) return
           
+          const headerOffset = 100
+          // Read all layout properties in a single batch
+          const rect = element.getBoundingClientRect()
+          const scrollY = window.scrollY || window.pageYOffset
+          const offsetPosition = rect.top + scrollY - headerOffset
+          
+          // Perform scroll in next frame to avoid forced reflow
           requestAnimationFrame(() => {
             window.scrollTo({
               top: offsetPosition,
               behavior: 'smooth'
             })
           })
-        }
+        })
       }
     }
   }

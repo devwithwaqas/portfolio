@@ -18,8 +18,6 @@ portfolio/
 │   ├── docs/                     # Detailed guides
 │   │   ├── PROJECT_PAGE_CREATION_GUIDE.md
 │   │   ├── SERVICE_PAGE_CREATION_GUIDE.md
-│   │   ├── FILES_TO_REMOVE_VERIFIED.md
-│   │   ├── EMAILJS_SETUP.md (if exists)
 │   │   └── diagrams/             # PlantUML diagram sources (reference templates)
 │   │       └── *.puml            # C4 architecture diagram source files
 │
@@ -112,7 +110,7 @@ portfolio/
 - **`common/`**: Shared/reusable components used across the app
   - `ProjectPageTemplate.vue`: Wrapper template for all project pages
   - `ReusableCard.vue`: Card component with 3D header effect
-  - `ContactForm.vue`: Contact form with EmailJS integration
+  - `ContactForm.vue`: Contact form with Google Cloud Functions (SMTP) integration
   - `ContactCard.vue`: Contact information cards
   
 - **`home/`**: Home page section components
@@ -162,7 +160,7 @@ portfolio/
 
 #### `src/config/` - Configuration
 - **`constants.js`**: Application constants
-  - EmailJS configuration
+  - SMTP configuration (Google Cloud Functions)
   - Contact information
   - Technology categories
   - Project icon names

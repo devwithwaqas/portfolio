@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { fetchAnalyticsData, formatViews } from '../../utils/analyticsData.js'
 
 export default {
@@ -70,13 +70,20 @@ export default {
       }
     }
 
+    let refreshInterval = null
+    
     onMounted(() => {
       loadAnalyticsData()
-      // Refresh every 5 minutes
-      const refreshInterval = setInterval(loadAnalyticsData, 5 * 60 * 1000)
-      
-      // Cleanup on unmount
-      return () => clearInterval(refreshInterval)
+      // Refresh every 5 minutes (cache duration matches, so it will fetch fresh data)
+      refreshInterval = setInterval(loadAnalyticsData, 5 * 60 * 1000)
+    })
+    
+    onUnmounted(() => {
+      // Cleanup interval on unmount
+      if (refreshInterval) {
+        clearInterval(refreshInterval)
+        refreshInterval = null
+      }
     })
 
     return {

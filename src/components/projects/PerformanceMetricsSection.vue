@@ -74,10 +74,13 @@ export default {
   },
   data() {
     return {
-      chartInstances: []
+      chartInstances: [],
+      isMounted: false
     }
   },
   async mounted() {
+    this.isMounted = true
+    
     // Lazy load Chart.js only when component is mounted
     if (!Chart) {
       try {
@@ -127,45 +130,36 @@ export default {
     
     // Wait for DOM to be fully rendered before initializing charts
     this.$nextTick(() => {
-      // Use requestAnimationFrame for better performance (runs before next paint)
-      requestAnimationFrame(() => {
-        // Use requestIdleCallback if available, otherwise use minimal setTimeout
-        if (window.requestIdleCallback) {
-          requestIdleCallback(() => {
-            this.initializeCharts()
-          }, { timeout: 200 })
-        } else {
-          setTimeout(() => {
-            this.initializeCharts()
-          }, 0)
+      if (!this.isMounted) return
+      // Add a small delay to ensure canvas elements are rendered
+      setTimeout(() => {
+        if (this.isMounted) {
+          this.initializeCharts()
         }
-      })
+      }, 100)
     })
   },
   watch: {
     charts: {
       handler() {
-      // Re-initialize charts when the prop changes
-      this.destroyCharts()
-      this.$nextTick(() => {
-        // Use requestAnimationFrame for better performance
-        requestAnimationFrame(() => {
-          if (window.requestIdleCallback) {
-            requestIdleCallback(() => {
-              this.initializeCharts()
-            }, { timeout: 200 })
-          } else {
+        // Re-initialize charts when the prop changes
+        if (!this.isMounted) return
+        this.destroyCharts()
+        this.$nextTick(() => {
+          if (this.isMounted) {
             setTimeout(() => {
-              this.initializeCharts()
-            }, 0)
+              if (this.isMounted) {
+                this.initializeCharts()
+              }
+            }, 100)
           }
         })
-      })
       },
       deep: true
     }
   },
   beforeUnmount() {
+    this.isMounted = false
     this.destroyCharts()
   },
   methods: {
@@ -211,6 +205,10 @@ export default {
     },
     
     initializeCharts() {
+      if (!this.isMounted) {
+        return
+      }
+      
       if (!this.charts || !Array.isArray(this.charts)) {
         return
       }
@@ -226,84 +224,59 @@ export default {
         return
       }
       
-      // OPTIMIZATION: Batch all DOM reads first to avoid forced reflows
-      // Read all canvas elements in a single operation
-      const chartConfigsWithCanvas = this.charts
-        .filter(chartConfig => chartConfig && chartConfig.id)
-        .map(chartConfig => {
-          const canvas = document.getElementById(chartConfig.id)
-          if (!canvas) return null
-          
-          const ctx = canvas.getContext('2d')
-          if (!ctx) return null
-          
-          return { chartConfig, canvas, ctx }
-        })
-        .filter(item => item !== null)
-      
-      if (chartConfigsWithCanvas.length === 0) {
-        return
-      }
-      
-      // OPTIMIZATION: Initialize charts one at a time using requestIdleCallback
-      // This spreads heavy Chart.js initialization across idle periods
-      let chartIndex = 0
-      const initializeNextChart = (deadline) => {
-        // Process charts during idle time, but yield if deadline is approaching
-        while (chartIndex < chartConfigsWithCanvas.length && 
-               (deadline ? deadline.timeRemaining() > 5 : true)) {
-          const { chartConfig, canvas, ctx } = chartConfigsWithCanvas[chartIndex]
-          
-          try {
-            const chartOpts = {
-              responsive: true,
-              maintainAspectRatio: false,
-              ...chartConfig.options
-            }
-            // Ensure Filler plugin config exists for line/area charts with fill (avoids getDatasetClipArea "disabled" undefined)
-            const plugins = { ...(chartOpts.plugins || {}) }
-            if (!plugins.filler) {
-              plugins.filler = { propagate: false }
-            }
-            chartOpts.plugins = plugins
-
-            const chartInstance = new Chart(ctx, {
-              type: chartConfig.type,
-              data: chartConfig.data,
-              options: chartOpts
-            })
-            this.chartInstances.push(chartInstance)
-          } catch (error) {
-            // Silently fail - chart initialization errors are handled gracefully
-          }
-          
-          chartIndex++
+      this.charts.forEach((chartConfig, index) => {
+        if (!this.isMounted) {
+          return
         }
         
-        // Continue with next chart(s) if there are more
-        if (chartIndex < chartConfigsWithCanvas.length) {
-          if (window.requestIdleCallback) {
-            requestIdleCallback(initializeNextChart, { timeout: 100 })
+        if (!chartConfig || !chartConfig.id) {
+          return
+        }
+        
+        const canvas = document.getElementById(chartConfig.id)
+        if (!canvas) {
+          return
+        }
+        
+        // Verify canvas is still in DOM
+        if (!canvas.isConnected || !document.body.contains(canvas)) {
+          return
+        }
+        
+        try {
+          const ctx = canvas.getContext('2d')
+          if (!ctx) {
+            return
+          }
+          
+          const chartInstance = new Chart(ctx, {
+            type: chartConfig.type,
+            data: chartConfig.data,
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              animation: false, // Disable animations to prevent issues during navigation
+              ...chartConfig.options
+            }
+          })
+          
+          if (this.isMounted) {
+            this.chartInstances.push(chartInstance)
           } else {
-            // Fallback: use setTimeout with minimal delay
-            setTimeout(() => {
-              requestAnimationFrame(() => {
-                initializeNextChart(null)
-              })
-            }, 0)
+            // Component unmounted during chart creation, destroy it
+            try {
+              chartInstance.destroy()
+            } catch (e) {
+              // Ignore destruction errors
+            }
+          }
+        } catch (error) {
+          // Silently fail - chart initialization errors are handled gracefully
+          if (import.meta.env.DEV) {
+            console.warn(`[PerformanceMetricsSection] Error initializing chart "${chartConfig.id}":`, error)
           }
         }
-      }
-      
-      // Start initialization chain using requestIdleCallback
-      if (window.requestIdleCallback) {
-        requestIdleCallback(initializeNextChart, { timeout: 200 })
-      } else {
-        // Fallback: use requestAnimationFrame
-        requestAnimationFrame(() => {
-          initializeNextChart(null)
-        })
-      }
+      })
     }
   }
 }

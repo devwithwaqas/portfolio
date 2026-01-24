@@ -38,8 +38,8 @@ A modern, responsive portfolio website template built with Vue.js 3 and Vite. Pe
    # Edit .env and add your personal information:
    # - Personal info (name, location, email, phone)
    # - Social media links (LinkedIn, GitHub, website, etc.)
-   # - EmailJS credentials (for contact form)
-   # See docs/EMAILJS_SETUP.md for EmailJS setup instructions
+   # - SMTP configuration (for contact form)
+   # See docs/SMTP_FALLBACK_QUICK_START.md for SMTP setup instructions
    ```
 
 3. **Install dependencies:**
@@ -84,7 +84,6 @@ portfolio/
 │   │   ├── PROJECT_PAGE_CREATION_GUIDE.md
 │   │   ├── SERVICE_PAGE_CREATION_GUIDE.md
 │   │   ├── PROJECT_STRUCTURE.md  # Complete structure with flowchart
-│   │   ├── FILES_TO_REMOVE_VERIFIED.md
 │   │   └── diagrams/             # PlantUML diagram sources (reference templates)
 │   │       └── *.puml            # C4 architecture diagram source files
 │
@@ -131,14 +130,14 @@ portfolio/
 
 1. **[📖 PROJECT_PAGE_CREATION_GUIDE.md](./docs/PROJECT_PAGE_CREATION_GUIDE.md)** - Complete guide to creating new project pages with diagrams
 2. **[📖 SERVICE_PAGE_CREATION_GUIDE.md](./docs/SERVICE_PAGE_CREATION_GUIDE.md)** - Complete guide to creating new service pages
-3. **[📧 EmailJS Setup Guide](./docs/EMAILJS_SETUP.md)** - How to set up contact form email functionality (if available)
+3. **[📧 SMTP Email Setup Guide](./docs/SMTP_FALLBACK_QUICK_START.md)** - How to set up contact form email functionality with Google Cloud Functions
 4. **[🚀 Deployment Guide](./docs/DEPLOYMENT_GUIDE.md)** - Complete guide for deploying to GitHub Pages, Netlify, Vercel, and other platforms
 
 ### For Developers (Advanced)
 
-- **[🎨 Component Documentation](./docs/COMPONENTS.md)** - Detailed component reference
-- **[🎯 Icon System Guide](./docs/ICON_SYSTEM.md)** - How to add and manage icons
 - **[📊 Diagram Setup Guide](./docs/DIAGRAM_SETUP_GUIDE.md)** - Creating interactive C4 diagrams (also see PROJECT_PAGE_CREATION_GUIDE.md)
+- **[🎨 Icon System & iconResolver](./docs/PROJECT_PAGE_CREATION_GUIDE.md#-icon-system--iconresolver)** - How icon resolution works (covered in Project Page Creation Guide)
+- **[🔐 GitHub Secrets Setup](./docs/GITHUB_SECRETS_SETUP.md)** - Setting up environment variables for deployment
 
 ## 🎯 Key Pages & Routes
 
@@ -179,8 +178,9 @@ portfolio/
    - Use service page components
 
 5. **Set Up Contact Form:**
-   - Follow [Google Cloud Functions (SMTP) Setup Guide](./docs/SMTP_SETUP.md)
+   - Follow [SMTP Email Setup Guide](./docs/SMTP_FALLBACK_QUICK_START.md)
    - Uses Google Cloud Functions with Gmail SMTP
+   - See [GitHub Secrets Setup](./docs/GITHUB_SECRETS_SETUP.md) for deployment configuration
 
 ### Styling
 
@@ -235,7 +235,7 @@ For static hosting (GitHub Pages, Netlify, Vercel, etc.), environment variables 
    - Add all variables from `.env.example`:
      - `VITE_FULL_NAME`, `VITE_LOCATION`, `VITE_CONTACT_EMAIL`, `VITE_PHONE`
      - `VITE_LINKEDIN_URL`, `VITE_GITHUB_URL`, `VITE_WEBSITE_URL`, `VITE_WHATSAPP_URL`, `VITE_GOOGLE_MAPS_URL`
-     - `VITE_EMAILJS_PUBLIC_KEY`, `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID`
+     - `VITE_SMTP_ENDPOINT`, `VITE_SMTP_API_KEY` (for contact form)
 
 3. **GitHub Actions Workflow Example:**
    ```yaml

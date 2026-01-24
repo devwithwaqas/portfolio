@@ -318,6 +318,7 @@ export default {
   width: 100%;
   height: 100%;
   border-radius: 12px;
+  overflow: hidden; /* Ensure rounded corners are visible */
 }
 
 .carousel-slide-img {
@@ -328,6 +329,24 @@ export default {
   border-radius: 12px;
   transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-style: preserve-3d;
+}
+
+/* Ensure ResponsiveImage component images have rounded corners */
+.carousel-slide :deep(.responsive-image-container),
+.carousel-slide :deep(.gallery-slide-image) {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.carousel-slide :deep(img),
+.carousel-slide :deep(.responsive-image-container img),
+.carousel-slide :deep(.gallery-slide-image img),
+.carousel-slide :deep(picture),
+.carousel-slide :deep(picture img) {
+  border-radius: 12px !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
 }
 
 /* Cool flip transition effects */
@@ -432,10 +451,10 @@ export default {
 }
 
 .pagination-dot {
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  min-height: 44px;
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  min-height: 12px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.6);
   border: 2px solid rgba(255, 255, 255, 0.8);
@@ -445,12 +464,16 @@ export default {
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   position: relative;
+  /* Ensure touch target is still accessible - use padding to increase clickable area */
+  padding: 8px;
+  margin: -8px 4px;
 }
 
 .pagination-dot.active {
   background: linear-gradient(135deg, rgba(139, 92, 246, 1), rgba(168, 85, 247, 1));
-  width: 44px;
-  min-width: 44px;
+  width: 32px;
+  min-width: 32px;
+  height: 12px;
   border-radius: 6px;
   box-shadow: 0 0 15px rgba(139, 92, 246, 0.9), 0 0 30px rgba(168, 85, 247, 0.5);
   border-color: rgba(168, 85, 247, 1);

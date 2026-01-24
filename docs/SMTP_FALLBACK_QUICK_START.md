@@ -1,54 +1,27 @@
-# SMTP Fallback - Quick Start Guide
+# SMTP Email Setup - Quick Start Guide
 
-## ✅ Implementation Complete
+Contact form emails are sent via **Google Cloud Functions** (Gmail SMTP). This guide walks you through setup.
 
-The SMTP fallback system has been implemented and is ready for setup. The feature flag is **OFF by default**, so EmailJS will continue to work as before.
+## 📋 What You Need
 
-## 📋 What Was Implemented
+- Gmail account with 2-Step Verification
+- Google Cloud project (for Cloud Functions)
+- GitHub repository (for secrets)
 
-### Client-Side (Vue.js):
-- ✅ `src/utils/emailService.js` - SMTP email service utility
-- ✅ `src/config/constants.js` - Added SMTP fallback configuration
-- ✅ `src/components/common/ContactForm.vue` - Added fallback logic
-- ✅ `.github/workflows/deploy.yml` - Added SMTP environment variables
-- ✅ `.env.example` - Added SMTP configuration examples
-
-### Serverless Function:
-- ✅ `serverless/sendEmail/index.js` - Google Cloud Function code
-- ✅ `serverless/sendEmail/package.json` - Dependencies
-- ✅ `serverless/README.md` - Deployment instructions
-
-## 🚀 Next Steps (In Order)
+## 🚀 Setup Steps
 
 ### Step 1: Set Up Gmail App Password
 
-**⚠️ IMPORTANT: If you see "App passwords are not available in your account":**
+**If "App passwords are not available":** Enable 2-Step Verification first. See `docs/GMAIL_SETUP_ALTERNATIVES.md` for troubleshooting.
 
-This usually means **2-Step Verification is not enabled**. See `docs/GMAIL_SETUP_ALTERNATIVES.md` for detailed troubleshooting.
+1. Go to: https://myaccount.google.com/security → **2-Step Verification** → complete setup
+2. Go to: https://myaccount.google.com/apppasswords
+3. Select app: **Mail**, device: **Other** → "Portfolio Contact Form"
+4. Copy the 16-character password (`xxxx xxxx xxxx xxxx`)
 
-**Quick Fix:**
-1. **First, enable 2-Step Verification**:
-   - Go to: https://myaccount.google.com/security
-   - Scroll to "How you sign in to Google"
-   - Click "2-Step Verification"
-   - Complete the setup (phone number, verification code)
-   - **Wait 24 hours** (Google sometimes requires this)
+### Step 2: Deploy Google Cloud Function
 
-2. **Then access App Passwords**:
-   - Go to: https://myaccount.google.com/apppasswords
-   - Select app: "Mail"
-   - Select device: "Other (Custom name)" → Enter "Portfolio Contact Form"
-   - Click "Generate"
-   - Copy the 16-character password (format: `xxxx xxxx xxxx xxxx`)
-
-**If App Passwords still don't work after 24 hours**, see `docs/GMAIL_SETUP_ALTERNATIVES.md` for alternative solutions (SendGrid, Mailgun, OAuth2).
-
-### Step 2: Deploy Serverless Function
-Choose one platform:
-
-#### Option A: Google Cloud Functions (Recommended)
 ```bash
-# Install Google Cloud CLI first: https://cloud.google.com/sdk/docs/install
 gcloud auth login
 gcloud config set project YOUR_PROJECT_ID
 
@@ -61,139 +34,57 @@ gcloud functions deploy sendEmail \
   --entry-point=sendEmail \
   --trigger-http \
   --allow-unauthenticated \
-  --set-env-vars GMAIL_USER=devwithwaqas@gmail.com,GMAIL_APP_PASSWORD=xxxx_xxxx_xxxx_xxxx,TO_EMAIL=devwithwaqas@gmail.com
+  --set-env-vars GMAIL_USER=your_email@gmail.com,GMAIL_APP_PASSWORD=xxxx_xxxx_xxxx_xxxx,TO_EMAIL=your_email@gmail.com
 ```
 
-#### Option B: Netlify/Vercel Functions
-See `serverless/README.md` for alternative deployment options.
-
 ### Step 3: Get Function URL
-After deployment, copy the function URL:
+
 ```bash
-# For Google Cloud Functions:
 gcloud functions describe sendEmail --gen2 --region=us-central1 --format="value(serviceConfig.uri)"
 ```
 
-### Step 4: Test Function Directly
+### Step 4: Test Function
+
 ```bash
 curl -X POST https://[YOUR_FUNCTION_URL] \
   -H "Content-Type: application/json" \
-  -d '{
-    "name": "Test User",
-    "email": "test@example.com",
-    "subject": "Test Subject",
-    "message": "Test message"
-  }'
+  -d '{"name":"Test","email":"test@example.com","subject":"Test","message":"Test"}'
 ```
 
-Check your email inbox - you should receive the test email.
+Check your inbox for the test email.
 
-### Step 5: Add GitHub Secrets (Flag OFF Initially)
-```bash
-# Feature flag - OFF by default (EmailJS will be used)
-gh secret set VITE_SMTP_FALLBACK_ENABLED --body "false"
+### Step 5: Add GitHub Secrets
 
-# Function endpoint (from Step 3)
-gh secret set VITE_SMTP_FALLBACK_ENDPOINT --body "https://[region]-[project].cloudfunctions.net/sendEmail"
+1. **Settings** → **Secrets and variables** → **Actions**
+2. **New repository secret**:
+   - `VITE_SMTP_ENDPOINT` = your function URL (from Step 3)
+   - `VITE_SMTP_API_KEY` = optional, if you added API key protection
 
-# Optional: API key (if you set one in function)
-gh secret set VITE_SMTP_FALLBACK_API_KEY --body "your_api_key_here"
-```
+See `docs/GITHUB_SECRETS_SETUP.md` for the full list.
 
-### Step 6: Verify EmailJS Still Works
-1. Deploy the updated code (GitHub Actions will run automatically)
-2. Test the contact form - should use EmailJS (flag is OFF)
-3. Verify email arrives in inbox
+### Step 6: Deploy
 
-### Step 7: Test SMTP Fallback (When Ready)
-```bash
-# Enable SMTP fallback
-gh secret set VITE_SMTP_FALLBACK_ENABLED --body "true"
-
-# Redeploy (or wait for next push)
-```
-
-Test the contact form - should now use SMTP instead of EmailJS.
-
-### Step 8: Production Use
-- **Keep flag OFF** normally (EmailJS works fine)
-- **Enable flag** when:
-  - EmailJS hits 200/month limit
-  - EmailJS service is down
-  - You want to test SMTP
+Push to your deploy branch. The workflow builds with `VITE_SMTP_ENDPOINT` and deploys. Test the contact form on the live site.
 
 ## 🔄 How It Works
 
-### Normal Operation (Flag OFF):
-1. User submits contact form
-2. System tries EmailJS first
-3. If EmailJS succeeds → Done ✅
-4. If EmailJS fails → Shows error (SMTP not used)
-
-### With Flag ON:
-1. User submits contact form
-2. System tries EmailJS first
-3. If EmailJS succeeds → Done ✅
-4. If EmailJS fails → Automatically tries SMTP fallback
-5. If SMTP succeeds → Done ✅
-6. If both fail → Shows error
-
-### Automatic Fallback (Flag ON + EmailJS fails):
-- EmailJS error is logged
-- System automatically tries SMTP
-- User sees success if either method works
-- User sees error only if both fail
-
-## 📊 Monitoring
-
-### Check EmailJS Usage:
-- Login to EmailJS dashboard
-- Check monthly email count
-- Monitor for approaching 200/month limit
-
-### Check SMTP Function:
-- Google Cloud Console → Cloud Functions → Logs
-- Monitor for errors or failures
-- Check Gmail sent folder for delivered emails
+1. User submits contact form → client sends POST to `VITE_SMTP_ENDPOINT`
+2. Google Cloud Function receives request → sends email via Gmail SMTP
+3. User sees success or error message
 
 ## 🛠️ Troubleshooting
 
-### "SMTP endpoint is not configured"
-- Verify `VITE_SMTP_FALLBACK_ENDPOINT` secret is set
-- Check GitHub Actions build logs for environment variables
+| Issue | Check |
+|-------|--------|
+| "SMTP endpoint not configured" | `VITE_SMTP_ENDPOINT` secret set? |
+| "Failed to send email" | Function deployed? Gmail App Password correct? Test with curl. |
+| CORS errors | Function allows your domain; see `serverless/sendEmail` and CORS config. |
 
-### "Failed to send email via SMTP"
-- Verify function is deployed and accessible
-- Check function logs in Google Cloud Console
-- Verify Gmail App Password is correct
-- Test function directly with curl
+**Logs:** Google Cloud Console → Cloud Functions → `sendEmail` → Logs.
 
-### "EmailJS Error" but no SMTP fallback
-- Check if `VITE_SMTP_FALLBACK_ENABLED` is set to `"true"`
-- Verify `VITE_SMTP_FALLBACK_ENDPOINT` is configured
-- Check browser console for detailed error messages
+## 📚 See Also
 
-## 📝 Notes
-
-- **Feature flag defaults to OFF** - EmailJS continues to work normally
-- **SMTP has higher limits** - 500 emails/day vs EmailJS 200/month
-- **Both methods use same email template** - Format is identical
-- **No user-facing changes** - Success/error messages remain the same
-- **Cost**: Effectively $0 (Google Cloud Functions free tier + Gmail free)
-
-## ✅ Checklist
-
-- [ ] Gmail App Password created
-- [ ] Serverless function deployed
-- [ ] Function URL obtained
-- [ ] Function tested directly (curl)
-- [ ] GitHub secrets added (flag = `false`)
-- [ ] EmailJS still works (flag OFF)
-- [ ] SMTP tested (flag ON)
-- [ ] Monitoring set up
-
-## 📚 Additional Documentation
-
-- **Full Plan**: `docs/SMTP_FALLBACK_PLAN.md`
-- **Serverless Setup**: `serverless/README.md`
-- **EmailJS Setup**: `docs/EMAILJS_SETUP.md`
+- **GitHub Secrets**: `docs/GITHUB_SECRETS_SETUP.md`
+- **Deployment**: `docs/DEPLOYMENT_GUIDE.md`
+- **Serverless function**: `serverless/README.md`
+- **Gmail alternatives**: `docs/GMAIL_SETUP_ALTERNATIVES.md`

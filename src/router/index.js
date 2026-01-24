@@ -200,10 +200,14 @@ const detectHomeSection = () => {
   
   const now = Date.now()
   const sections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
-  const scrollPosition = window.scrollY + window.innerHeight / 3
   
   // Use cached positions if available and fresh
   if (sectionPositionsCache && (now - cacheTimestamp) < CACHE_DURATION) {
+    // Batch scroll position reads to avoid forced reflow
+    const scrollY = window.scrollY || window.pageYOffset
+    const innerHeight = window.innerHeight
+    const scrollPosition = scrollY + innerHeight / 3
+    
     for (let i = sections.length - 1; i >= 0; i -= 1) {
       const cached = sectionPositionsCache[sections[i]]
       if (cached !== undefined && cached <= scrollPosition) {
@@ -214,12 +218,18 @@ const detectHomeSection = () => {
   }
   
   // Batch all layout reads in a single operation to minimize forced reflows
-  // Use requestAnimationFrame to read layout after any pending style changes
+  // Read all layout properties together to avoid multiple reflows
   const positions = {}
+  // Batch scroll and viewport reads
+  const scrollY = window.scrollY || window.pageYOffset
+  const innerHeight = window.innerHeight
+  const scrollPosition = scrollY + innerHeight / 3
+  
+  // Batch all offsetTop reads together
   for (let i = 0; i < sections.length; i += 1) {
     const section = document.getElementById(sections[i])
     if (section) {
-      // Read offsetTop once and cache it
+      // Read offsetTop once and cache it (offsetTop doesn't cause reflow)
       positions[sections[i]] = section.offsetTop
     }
   }

@@ -64,29 +64,122 @@
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://us-central1-robust-builder-484406-b3.cloudfunctions.net" crossorigin>
   
-  <!-- CRITICAL: Preload LCP hero image ONLY on home (avoids "preloaded but not used" on project/service pages) -->
+  <!-- CRITICAL: Preload LCP hero image based on route (home, project, or service pages) -->
   <script>
     (function() {
       var p = window.location.pathname;
-      var isHome = p === '/' || p === '/portfolio' || p === '/portfolio/';
-      if (!isHome) return;
       var base = p.startsWith('/portfolio') ? '/portfolio/' : '/';
-      var mobile = document.createElement('link');
-      mobile.rel = 'preload';
-      mobile.as = 'image';
-      mobile.type = 'image/jpeg';
-      mobile.href = base + 'assets/img/waqas-microsoft-profile-mobile.jpg';
-      mobile.setAttribute('fetchpriority', 'high');
-      mobile.media = '(max-width: 768px)';
-      document.head.appendChild(mobile);
-      var desktop = document.createElement('link');
-      desktop.rel = 'preload';
-      desktop.as = 'image';
-      desktop.type = 'image/jpeg';
-      desktop.href = base + 'assets/img/waqas-microsoft-profile-optimized.jpg';
-      desktop.setAttribute('fetchpriority', 'high');
-      desktop.media = '(min-width: 769px)';
-      document.head.appendChild(desktop);
+      var heroImage = null;
+      var isHome = p === '/' || p === '/portfolio' || p === '/portfolio/';
+      
+      // Service page hero images mapping
+      var serviceHeroMap = {
+        '/services/full-stack-development': 'full-stack-hero',
+        '/services/azure-cloud-architecture': 'azure-hero',
+        '/services/technical-leadership': 'leadership-hero',
+        '/services/microservices-architecture': 'microservices-hero',
+        '/services/agile-project-management': 'agile-hero',
+        '/services/database-design-optimization': 'database-hero',
+        '/services/mobile-development': 'mobile-hero'
+      };
+      
+      if (isHome) {
+        // Home page hero images
+        var mobile = document.createElement('link');
+        mobile.rel = 'preload';
+        mobile.as = 'image';
+        mobile.type = 'image/jpeg';
+        mobile.href = base + 'assets/img/waqas-microsoft-profile-mobile.jpg';
+        mobile.setAttribute('fetchpriority', 'high');
+        mobile.media = '(max-width: 768px)';
+        document.head.appendChild(mobile);
+        var desktop = document.createElement('link');
+        desktop.rel = 'preload';
+        desktop.as = 'image';
+        desktop.type = 'image/jpeg';
+        desktop.href = base + 'assets/img/waqas-microsoft-profile-optimized.jpg';
+        desktop.setAttribute('fetchpriority', 'high');
+        desktop.media = '(min-width: 769px)';
+        document.head.appendChild(desktop);
+      } else if (serviceHeroMap[p]) {
+        // Service page hero images - preload responsive variants with imagesrcset
+        // This ensures browser selects the correct image from srcset for LCP
+        var serviceHero = serviceHeroMap[p];
+        var sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px';
+        var basePath = base + 'assets/img/services/' + serviceHero;
+        var srcsetWebp = basePath + '-662w.webp 662w, ' + basePath + '-1324w.webp 1324w';
+        var srcsetJpg = basePath + '-662w.jpg 662w, ' + basePath + '-1324w.jpg 1324w';
+        var srcsetAvif = basePath + '-662w.avif 662w, ' + basePath + '-1324w.avif 1324w';
+        
+        // Preload AVIF first (best format, matches picture source order)
+        var mobileAvif = document.createElement('link');
+        mobileAvif.rel = 'preload';
+        mobileAvif.as = 'image';
+        mobileAvif.type = 'image/avif';
+        mobileAvif.href = basePath + '-662w.avif';
+        mobileAvif.setAttribute('fetchpriority', 'high');
+        mobileAvif.setAttribute('imagesrcset', srcsetAvif);
+        mobileAvif.setAttribute('imagesizes', sizes);
+        mobileAvif.media = '(max-width: 768px)';
+        document.head.appendChild(mobileAvif);
+        
+        var desktopAvif = document.createElement('link');
+        desktopAvif.rel = 'preload';
+        desktopAvif.as = 'image';
+        desktopAvif.type = 'image/avif';
+        desktopAvif.href = basePath + '-1324w.avif';
+        desktopAvif.setAttribute('fetchpriority', 'high');
+        desktopAvif.setAttribute('imagesrcset', srcsetAvif);
+        desktopAvif.setAttribute('imagesizes', sizes);
+        desktopAvif.media = '(min-width: 769px)';
+        document.head.appendChild(desktopAvif);
+        
+        // Preload WebP (second choice, matches picture source order)
+        var mobileWebp = document.createElement('link');
+        mobileWebp.rel = 'preload';
+        mobileWebp.as = 'image';
+        mobileWebp.type = 'image/webp';
+        mobileWebp.href = basePath + '-662w.webp';
+        mobileWebp.setAttribute('fetchpriority', 'high');
+        mobileWebp.setAttribute('imagesrcset', srcsetWebp);
+        mobileWebp.setAttribute('imagesizes', sizes);
+        mobileWebp.media = '(max-width: 768px)';
+        document.head.appendChild(mobileWebp);
+        
+        var desktopWebp = document.createElement('link');
+        desktopWebp.rel = 'preload';
+        desktopWebp.as = 'image';
+        desktopWebp.type = 'image/webp';
+        desktopWebp.href = basePath + '-1324w.webp';
+        desktopWebp.setAttribute('fetchpriority', 'high');
+        desktopWebp.setAttribute('imagesrcset', srcsetWebp);
+        desktopWebp.setAttribute('imagesizes', sizes);
+        desktopWebp.media = '(min-width: 769px)';
+        document.head.appendChild(desktopWebp);
+        
+        // Fallback JPG preload (last choice, matches picture fallback)
+        var mobileJpg = document.createElement('link');
+        mobileJpg.rel = 'preload';
+        mobileJpg.as = 'image';
+        mobileJpg.type = 'image/jpeg';
+        mobileJpg.href = basePath + '-662w.jpg';
+        mobileJpg.setAttribute('fetchpriority', 'high');
+        mobileJpg.setAttribute('imagesrcset', srcsetJpg);
+        mobileJpg.setAttribute('imagesizes', sizes);
+        mobileJpg.media = '(max-width: 768px)';
+        document.head.appendChild(mobileJpg);
+        
+        var desktopJpg = document.createElement('link');
+        desktopJpg.rel = 'preload';
+        desktopJpg.as = 'image';
+        desktopJpg.type = 'image/jpeg';
+        desktopJpg.href = basePath + '-1324w.jpg';
+        desktopJpg.setAttribute('fetchpriority', 'high');
+        desktopJpg.setAttribute('imagesrcset', srcsetJpg);
+        desktopJpg.setAttribute('imagesizes', sizes);
+        desktopJpg.media = '(min-width: 769px)';
+        document.head.appendChild(desktopJpg);
+      }
     })();
   </script>
 

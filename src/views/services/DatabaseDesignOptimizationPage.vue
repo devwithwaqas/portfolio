@@ -1,8 +1,7 @@
 <template>
-  <div class="service-page">
-    <div class="container service-container">
-      
-      <!-- Hero Section -->
+  <ServicePageTemplate serviceTitle="Database Design & Optimization">
+    
+    <!-- Hero Section -->
       <ServiceHeroSection
         title="Database Design & Optimization"
         icon-name="database"
@@ -66,8 +65,7 @@
         class="service-section-last"
       />
 
-    </div>
-  </div>
+  </ServicePageTemplate>
 </template>
 
 <script>
@@ -81,6 +79,7 @@ import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
+import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
 
@@ -95,7 +94,8 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
-    TechnologyStack
+    TechnologyStack,
+    Breadcrumbs
   },
   setup() {
     // Hero Benefits
@@ -415,34 +415,5 @@ export default {
 </script>
 
 <style scoped>
-.service-page {
-  min-height: 100vh;
-  background: linear-gradient(180deg, rgba(20, 0, 40, 0.3) 0%, rgba(10, 0, 20, 0.5) 100%);
-  padding: 10px 0;
-}
-
-.service-container {
-  max-width: 1200px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-/* Remove top margin from first section */
-.service-section-first :deep(.reusable-card.mb-4) {
-  margin-top: 0 !important;
-}
-
-/* Remove bottom margin from last section */
-.service-section-last :deep(.reusable-card.mb-4) {
-  margin-bottom: 0 !important;
-}
-
-/* Alternative: Target first and last child directly */
-.service-container > :first-child :deep(.reusable-card.mb-4) {
-  margin-top: 0 !important;
-}
-
-.service-container > :last-child :deep(.reusable-card.mb-4) {
-  margin-bottom: 0 !important;
-}
+/* Styles moved to ServicePageTemplate component */
 </style>

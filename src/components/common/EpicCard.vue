@@ -144,6 +144,7 @@ export default {
       isPaused: false,
       pauseStartTime: null, // Track when pause started
       isTouchAnimating: false,
+      shouldStopAnimation: false, // Flag to stop animation loop (desktop mouseout fix)
       lastTapTime: 0,
       touchStartX: 0,
       touchStartY: 0,
@@ -157,6 +158,14 @@ export default {
       animationStartTime: 0, // Track when animation started from pending
       uniqueId: `epic-${Math.random().toString(36).substr(2, 9)}`,
       resizeTimeout: null,
+      // Store event listener references for proper cleanup
+      eventListeners: {
+        mouseenter: null,
+        mouseleave: null,
+        touchstart: null,
+        touchmove: null,
+        touchend: null
+      },
       showPreview: false
     }
   },
@@ -189,42 +198,40 @@ export default {
       }
     })
     
-    // LCP OPTIMIZATION: Don't initialize animations on mount
-    // They will be initialized on first user interaction (touch/click/hover)
-    // This prevents blocking the main thread during initial render
-    
-    // Set up lightweight listeners to trigger initialization on first interaction
+    // Initialize animations immediately when card becomes visible
+    // Use IntersectionObserver to detect when card is in viewport
+    // This ensures animations are ready before user interaction (fixes mobile tap issue)
     this.$nextTick(() => {
       const card = this.$el.querySelector(`.epic-card[data-card-id="${this.uniqueId}"]`)
       if (!card) return
       
-      // Single-use initialization trigger
-      const initOnce = (event) => {
-        if (!this.animationInitialized) {
-          this.animationInitialized = true
-          
-          // Track if user is currently interacting
-          if (event.type === 'mouseenter') {
-            this.isCurrentlyHovering = true
-          } else if (event.type === 'touchstart' || event.type === 'click') {
-            this.isCurrentlyTouching = true
-            // On first touch, set pending so animation starts when ready (just like desktop hover)
-            this.pendingTouchAnimation = true
-            this.isTouchAnimating = true
+      // Use IntersectionObserver to initialize when card becomes visible
+      // This works with lazy-loaded portfolio section
+      if ('IntersectionObserver' in window) {
+        this.intersectionObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && !this.animationInitialized) {
+                // Card is visible - initialize animations immediately
+                this.animationInitialized = true
+                this.initBorderAnimation()
+                // Unobserve after initialization
+                this.intersectionObserver.unobserve(entry.target)
+              }
+            })
+          },
+          {
+            rootMargin: '50px', // Start initializing 50px before card enters viewport
+            threshold: 0.01 // Trigger when any part of card is visible
           }
-          
-          this.initBorderAnimation()
-          // Remove listeners after initialization
-          card.removeEventListener('mouseenter', initOnce)
-          card.removeEventListener('touchstart', initOnce, { passive: true })
-          card.removeEventListener('click', initOnce)
-        }
+        )
+        
+        this.intersectionObserver.observe(card)
+      } else {
+        // Fallback: Initialize immediately if IntersectionObserver not supported
+        this.animationInitialized = true
+        this.initBorderAnimation()
       }
-      
-      // Listen for first interaction
-      card.addEventListener('mouseenter', initOnce)
-      card.addEventListener('touchstart', initOnce, { passive: true })
-      card.addEventListener('click', initOnce)
     })
   },
   beforeUnmount() {
@@ -245,6 +252,43 @@ export default {
       clearTimeout(this.resizeTimeout)
       this.resizeTimeout = null
     }
+    
+    // CRITICAL: Remove all event listeners
+    const card = this.$el?.querySelector(`.epic-card[data-card-id="${this.uniqueId}"]`)
+    if (card && this.eventListeners) {
+      if (this.eventListeners.mouseenter) {
+        card.removeEventListener('mouseenter', this.eventListeners.mouseenter)
+      }
+      if (this.eventListeners.mouseleave) {
+        card.removeEventListener('mouseleave', this.eventListeners.mouseleave)
+      }
+      if (this.eventListeners.touchstart) {
+        card.removeEventListener('touchstart', this.eventListeners.touchstart)
+      }
+      if (this.eventListeners.touchmove) {
+        card.removeEventListener('touchmove', this.eventListeners.touchmove)
+      }
+      if (this.eventListeners.touchend) {
+        card.removeEventListener('touchend', this.eventListeners.touchend)
+      }
+      // Clear references
+      this.eventListeners = {
+        mouseenter: null,
+        mouseleave: null,
+        touchstart: null,
+        touchmove: null,
+        touchend: null
+      }
+    }
+    
+    // Reset all flags
+    this.animationInitialized = false
+    this.animationReady = false
+    this.isTouchAnimating = false
+    this.isCurrentlyHovering = false
+    this.isCurrentlyTouching = false
+    this.pendingTouchAnimation = false
+    this.shouldStopAnimation = false
     
     // Clear from global controller if this was the active card
     if (window.epicCardAnimationController && window.epicCardAnimationController.activeCardId === this.uniqueId) {
@@ -395,6 +439,13 @@ export default {
         // Define setupAnimation function BEFORE using it
         function setupAnimation(P, SPEED) {
           const step = (ts) => {
+          // CRITICAL FIX: Check stop flag FIRST (desktop mouseout fix)
+          if (vm.shouldStopAnimation) {
+            vm.animationFrame = null
+            vm.shouldStopAnimation = false
+            return
+          }
+          
           // Check if animations are paused globally
           if (window.animationController && window.animationController.animationPaused) {
             vm.isPaused = true
@@ -433,15 +484,21 @@ export default {
           }
           
           if (!vm.animationFrame) { 
+            // Reset stop flag when starting animation
+            vm.shouldStopAnimation = false
             // Reset animation start time - will be set to current timestamp in first step()
             vm.animationStart = null
             vm.isPaused = false
             // Start the animation loop immediately
             vm.animationFrame = requestAnimationFrame(step)
             
-            // CRITICAL FIX: Sync the flag when animation starts
-            // This ensures flag stays in sync with actual animation state
-            vm.isTouchAnimating = true
+            // CRITICAL FIX: Only set isTouchAnimating if it's actually a touch interaction
+            // On desktop hover, don't set this flag - it should remain false
+            // This flag should only be true for touch-triggered animations
+            if (vm.isCurrentlyTouching || vm.pendingTouchAnimation) {
+              vm.isTouchAnimating = true
+            }
+            // Note: For desktop hover, isTouchAnimating stays false, allowing mouseleave to always stop
             
             // Register this card as the active one
             if (window.epicCardAnimationController) {
@@ -452,15 +509,21 @@ export default {
         }
         
         const stopAnim = () => { 
-          // CRITICAL: Cancel animation frame FIRST to stop the animation loop
+          // CRITICAL FIX: Set stop flag FIRST to prevent animation loop from continuing
+          vm.shouldStopAnimation = true
+          
+          // CRITICAL: Cancel animation frame to stop the animation loop
           if (vm.animationFrame) {
             cancelAnimationFrame(vm.animationFrame)
             vm.animationFrame = null
           }
           
-          // CRITICAL FIX: Sync the flag when animation is stopped programmatically
-          // This ensures flag stays in sync with actual animation state
-          vm.isTouchAnimating = false
+          // CRITICAL FIX: Only clear touch flag if it was actually a touch interaction
+          // On desktop hover, isTouchAnimating should already be false
+          // Only set to false if it was a touch-triggered animation
+          if (vm.isTouchAnimating && !vm.isCurrentlyHovering) {
+            vm.isTouchAnimating = false
+          }
           
           // Clear active card if this was the active one
           if (window.epicCardAnimationController && window.epicCardAnimationController.activeCardId === vm.uniqueId) {
@@ -474,6 +537,12 @@ export default {
             if (borderOverlay) {
               borderOverlay.style.opacity = '0'
               borderOverlay.style.visibility = 'hidden'
+            }
+            // Final safety check - ensure animation is stopped
+            vm.shouldStopAnimation = true
+            if (vm.animationFrame) {
+              cancelAnimationFrame(vm.animationFrame)
+              vm.animationFrame = null
             }
           })
         }
@@ -561,7 +630,7 @@ export default {
           // Event listeners setup - must be inside setTimeout to access startAnimFn/stopAnimFn
           if (card && borderOverlay && cardWrapper) {
             // Mouse-triggered animation for all devices
-            card.addEventListener('mouseenter', () => {
+            const mouseenterHandler = () => {
               vm.isCurrentlyHovering = true
               // Only show and start if animation is ready
               if (vm.animationReady && startAnimFn) {
@@ -573,36 +642,62 @@ export default {
                   startAnimFn()
                 })
               }
-            })
+            }
             
-            card.addEventListener('mouseleave', () => {
+            const mouseleaveHandler = () => {
               vm.isCurrentlyHovering = false
-              // CRITICAL FIX: Only stop animation if not in touch-animated state
-              // This prevents mouseleave from interfering with touch toggle
-              if (!vm.isTouchAnimating && stopAnimFn) {
-                // Stop animation immediately
+              
+              // CRITICAL FIX: On desktop mouseleave, ALWAYS stop animation
+              // Only preserve if it's a touch-triggered animation (user tapped, not hovered)
+              // isTouchAnimating should only be true for touch interactions, not hover
+              const shouldPreserve = vm.isTouchAnimating && !vm.isCurrentlyHovering
+              
+              if (!shouldPreserve && stopAnimFn) {
+                // Set stop flag IMMEDIATELY - this is checked first in animation loop
+                vm.shouldStopAnimation = true
+                
+                // Cancel any pending animation frame
+                if (vm.animationFrame) {
+                  cancelAnimationFrame(vm.animationFrame)
+                  vm.animationFrame = null
+                }
+                
+                // Call stop function to clean up state
                 stopAnimFn()
-                // Hide overlay after stopping
+                
+                // Additional safety: Force stop in next frame to catch any race conditions
                 requestAnimationFrame(() => {
+                  vm.shouldStopAnimation = true
+                  if (vm.animationFrame) {
+                    cancelAnimationFrame(vm.animationFrame)
+                    vm.animationFrame = null
+                  }
                   if (borderOverlay) {
                     borderOverlay.style.opacity = '0'
                     borderOverlay.style.visibility = 'hidden'
                   }
+                  // Reset stroke offsets to hide animation completely
+                  const seg1El = vm.$refs.seg1
+                  const seg2El = vm.$refs.seg2
+                  if (seg1El && seg2El) {
+                    seg1El.style.strokeDashoffset = '0'
+                    seg2El.style.strokeDashoffset = '0'
+                  }
                 })
               }
-            })
+            }
             
             // Touch devices: Toggle animation on tap (persistent until tapped again)
             // Detect drag vs tap to prevent accidental animation triggers
-            card.addEventListener('touchstart', (e) => {
+            const touchstartHandler = (e) => {
               vm.touchStartX = e.touches[0].clientX
               vm.touchStartY = e.touches[0].clientY
               vm.touchMoved = false
               // Mark that user is touching - will be used if animation becomes ready during touch
               vm.isCurrentlyTouching = true
-            }, { passive: true })
+            }
             
-            card.addEventListener('touchmove', (e) => {
+            const touchmoveHandler = (e) => {
               const touchX = e.touches[0].clientX
               const touchY = e.touches[0].clientY
               const deltaX = Math.abs(touchX - vm.touchStartX)
@@ -612,9 +707,9 @@ export default {
               if (deltaX > 10 || deltaY > 10) {
                 vm.touchMoved = true
               }
-            }, { passive: true })
+            }
             
-            card.addEventListener('touchend', (e) => {
+            const touchendHandler = (e) => {
               // Ignore if it was a drag
               if (vm.touchMoved) {
                 vm.isCurrentlyTouching = false
@@ -644,23 +739,14 @@ export default {
               
               vm.lastTapTime = currentTime
               
-              // CRITICAL FIX: Only toggle if animation system is already initialized
-              // On first tap, touchstart initializes and sets pending=true, flag=true
-              // Don't toggle on first tap's touchend - let initialization handle it
-              if (!vm.animationInitialized) {
-                // First tap - initialization will handle starting animation
-                // Just clear touch state
-                setTimeout(() => {
-                  vm.isCurrentlyTouching = false
-                }, 100)
-                return
-              }
-              
-              // Animation is initialized - toggle the flag (just like desktop hover)
-              vm.isTouchAnimating = !vm.isTouchAnimating
-              
+              // Animation is initialized (since we initialize on mount now)
+              // Toggle the flag (just like desktop hover)
+              // CRITICAL FIX: Only toggle flag if animation is ready, otherwise keep in pending state
               if (vm.animationReady && startAnimFn && stopAnimFn) {
-                // Animation is ready - start/stop immediately
+                // Animation is ready - toggle flag and start/stop immediately
+                vm.isTouchAnimating = !vm.isTouchAnimating
+                vm.pendingTouchAnimation = false
+                
                 requestAnimationFrame(() => {
                   if (borderOverlay) {
                     borderOverlay.style.opacity = vm.isTouchAnimating ? '1' : '0'
@@ -671,19 +757,39 @@ export default {
                     startAnimFn()
                   } else {
                     stopAnimFn()
+                    // Ensure animation is fully stopped
+                    if (vm.animationFrame) {
+                      cancelAnimationFrame(vm.animationFrame)
+                      vm.animationFrame = null
+                    }
                   }
                 })
-                vm.pendingTouchAnimation = false
               } else {
-                // Animation not ready - sync pending with flag
-                vm.pendingTouchAnimation = vm.isTouchAnimating
+                // Animation not ready - toggle pending state but don't change flag yet
+                // Flag will be set when animation becomes ready
+                vm.pendingTouchAnimation = !vm.pendingTouchAnimation
+                // Don't toggle isTouchAnimating yet - wait for animation to be ready
               }
               
               // Clear touch state
               setTimeout(() => {
                 vm.isCurrentlyTouching = false
               }, 100)
-            }, { passive: true })
+            }
+            
+            // Store handler references for cleanup
+            vm.eventListeners.mouseenter = mouseenterHandler
+            vm.eventListeners.mouseleave = mouseleaveHandler
+            vm.eventListeners.touchstart = touchstartHandler
+            vm.eventListeners.touchmove = touchmoveHandler
+            vm.eventListeners.touchend = touchendHandler
+            
+            // Add event listeners
+            card.addEventListener('mouseenter', mouseenterHandler)
+            card.addEventListener('mouseleave', mouseleaveHandler)
+            card.addEventListener('touchstart', touchstartHandler, { passive: true })
+            card.addEventListener('touchmove', touchmoveHandler, { passive: true })
+            card.addEventListener('touchend', touchendHandler, { passive: true })
             
             // Initialize: Start with animations hidden on all devices
             requestAnimationFrame(() => {

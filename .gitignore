@@ -54,3 +54,14 @@ temp/
 
 # Performance reports
 performance-report.html
+
+# Temporary analysis and debugging files
+*-analysis-report.json
+*-cleanup-summary.md
+*-comparison.md
+*-order-analysis.md
+*-check.txt
+command-outputs/
+*.backup
+*.pre-restore-backup
+project-page-temp/

@@ -3,7 +3,43 @@
     <div class="service-overview-content">
       <!-- Banner Slider at Top (if images provided) -->
       <div v-if="bannerImages && bannerImages.length > 0" class="overview-banner-slider mb-4">
-        <div ref="carouselElement" class="carousel slide" data-bs-ride="false" data-bs-interval="5000">
+        <CustomSlider
+          v-if="bannerImages.length > 1"
+          :slides="bannerImages"
+          :autoplay="true"
+          :autoplay-interval="5000"
+          :show-arrows="true"
+          :show-pagination="true"
+          :loop="true"
+        >
+          <template #default="{ slide, index }">
+            <ResponsiveImage
+              :src="slide"
+              :alt="`${title} Services - Banner ${index + 1} - Remote Consultant - Available USA, Europe, Global`"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+              :lazy="index !== 0"
+              :priority="index === 0 ? 'high' : 'low'"
+              container-class="banner-image-wrapper"
+              image-class="banner-image"
+              :image-style="{ borderRadius: '12px' }"
+            />
+          </template>
+        </CustomSlider>
+        <!-- Single image (no carousel needed) -->
+        <div v-else class="single-banner-image">
+          <ResponsiveImage
+            :src="bannerImages[0]"
+            :alt="`${title} Services - Banner - Remote Consultant - Available USA, Europe, Global`"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+            :lazy="false"
+            priority="high"
+            container-class="banner-image-wrapper"
+            image-class="banner-image"
+            :image-style="{ borderRadius: '12px' }"
+          />
+        </div>
+        <!-- OLD BOOTSTRAP CAROUSEL - REMOVED -->
+        <!-- <div ref="carouselElement" class="carousel slide" data-bs-ride="false" data-bs-interval="5000">
           <div class="carousel-inner">
             <div 
               v-for="(bannerImg, index) in bannerImages" 
@@ -56,7 +92,7 @@
               @click="goToSlide(index)"
             ></button>
           </div>
-        </div>
+        </div> -->
       </div>
       
       <!-- Content Section (Full Width) -->
@@ -112,12 +148,14 @@
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
 import ResponsiveImage from '../common/ResponsiveImage.vue'
+import CustomSlider from '../common/CustomSlider.vue'
 
 export default {
   name: 'ServiceOverview',
   components: {
     ReusableCard,
-    ResponsiveImage
+    ResponsiveImage,
+    CustomSlider
   },
   props: {
     title: {
@@ -145,183 +183,7 @@ export default {
   },
   data() {
     return {
-      carouselInstance: null,
-      currentSlide: 0,
-      carouselInterval: null,
-      bootstrapReady: null
-    }
-  },
-  mounted() {
-    // LCP OPTIMIZATION: Defer carousel initialization until page is loaded
-    const startCarousel = () => {
-      // Initialize Bootstrap carousel using Vue refs (proper Vue way)
-      this.$nextTick(() => {
-        this.initCarousel()
-      })
-
-      // Listen to page visibility changes to pause/resume carousel
-      this.setupPageVisibilityListener()
-    }
-    
-    // Wait for page load or first interaction
-    if (document.readyState === 'complete') {
-      setTimeout(startCarousel, 2000)
-    } else {
-      window.addEventListener('load', () => {
-        setTimeout(startCarousel, 2000)
-      }, { once: true })
-    }
-    
-    // Also start on first interaction
-    const onInteraction = () => {
-      startCarousel()
-      window.removeEventListener('touchstart', onInteraction, { passive: true })
-      window.removeEventListener('click', onInteraction)
-      window.removeEventListener('scroll', onInteraction, { passive: true })
-    }
-    window.addEventListener('touchstart', onInteraction, { passive: true, once: true })
-    window.addEventListener('click', onInteraction, { once: true })
-    window.addEventListener('scroll', onInteraction, { passive: true, once: true })
-  },
-  beforeUnmount() {
-    // Clean up Bootstrap carousel instance and interval
-    this.cleanupCarousel()
-    
-    // Remove page visibility listener
-    this.removePageVisibilityListener()
-  },
-  methods: {
-    async initCarousel() {
-      // Use Vue refs instead of getElementById (proper Vue way)
-      if (!this.$refs.carouselElement) return
-      if (!this.bannerImages || this.bannerImages.length <= 1) return
-      await this.loadBootstrap()
-      if (typeof bootstrap === 'undefined') return
-
-      try {
-        // Initialize carousel using Vue ref
-        this.carouselInstance = new bootstrap.Carousel(this.$refs.carouselElement, {
-          interval: 5000,
-          ride: false, // Don't auto-start to save memory
-          wrap: true
-        })
-
-        // Set up auto-advance interval manually (only when tab is visible)
-        this.startCarouselInterval()
-
-        // Listen to carousel events to update currentSlide
-        this.$refs.carouselElement.addEventListener('slid.bs.carousel', (event) => {
-          this.currentSlide = event.to
-        })
-      } catch (error) {
-        console.warn('Carousel initialization error:', error)
-      }
-    },
-    loadBootstrap() {
-      if (typeof window.bootstrap !== 'undefined') {
-        return Promise.resolve()
-      }
-
-      if (this.bootstrapReady) {
-        return this.bootstrapReady
-      }
-
-      this.bootstrapReady = new Promise((resolve, reject) => {
-        const existing = document.getElementById('bootstrap-bundle-js')
-        if (existing) {
-          existing.addEventListener('load', () => resolve(), { once: true })
-          existing.addEventListener('error', () => reject(new Error('Bootstrap load failed')), { once: true })
-          return
-        }
-
-        const script = document.createElement('script')
-        script.id = 'bootstrap-bundle-js'
-        script.async = true
-        script.src = this.$assetPath
-          ? this.$assetPath('/assets/vendor/bootstrap/js/bootstrap.bundle.min.js')
-          : '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'
-        script.onload = () => resolve()
-        script.onerror = () => reject(new Error('Bootstrap load failed'))
-        document.head.appendChild(script)
-      })
-
-      return this.bootstrapReady
-    },
-    startCarouselInterval() {
-      // Only start interval if page is visible (saves memory when tab is hidden)
-      if (document.hidden) return
-      
-      this.stopCarouselInterval()
-      this.carouselInterval = setInterval(() => {
-        if (!document.hidden && this.carouselInstance) {
-          this.carouselInstance.next()
-        }
-      }, 5000)
-    },
-    stopCarouselInterval() {
-      if (this.carouselInterval) {
-        clearInterval(this.carouselInterval)
-        this.carouselInterval = null
-      }
-    },
-    goToPrev() {
-      if (this.carouselInstance) {
-        this.carouselInstance.prev()
-      }
-    },
-    goToNext() {
-      if (this.carouselInstance) {
-        this.carouselInstance.next()
-      }
-    },
-    goToSlide(index) {
-      if (this.carouselInstance) {
-        this.carouselInstance.to(index)
-      }
-    },
-    cleanupCarousel() {
-      // Stop interval
-      this.stopCarouselInterval()
-
-      // Dispose Bootstrap carousel instance
-      if (this.carouselInstance) {
-        try {
-          this.carouselInstance.dispose()
-          this.carouselInstance = null
-        } catch (error) {
-          console.warn('Carousel cleanup error:', error)
-        }
-      }
-    },
-    setupPageVisibilityListener() {
-      // Pause carousel when tab is hidden, resume when visible (saves memory)
-      this.handleVisibilityChange = () => {
-        if (document.hidden) {
-          this.stopCarouselInterval()
-        } else {
-          this.startCarouselInterval()
-        }
-      }
-
-      // Use standard Page Visibility API
-      if (typeof document.hidden !== 'undefined') {
-        document.addEventListener('visibilitychange', this.handleVisibilityChange)
-      } else if (typeof document.webkitHidden !== 'undefined') {
-        document.addEventListener('webkitvisibilitychange', this.handleVisibilityChange)
-      } else if (typeof document.mozHidden !== 'undefined') {
-        document.addEventListener('mozvisibilitychange', this.handleVisibilityChange)
-      } else if (typeof document.msHidden !== 'undefined') {
-        document.addEventListener('msvisibilitychange', this.handleVisibilityChange)
-      }
-    },
-    removePageVisibilityListener() {
-      if (this.handleVisibilityChange) {
-        document.removeEventListener('visibilitychange', this.handleVisibilityChange)
-        document.removeEventListener('webkitvisibilitychange', this.handleVisibilityChange)
-        document.removeEventListener('mozvisibilitychange', this.handleVisibilityChange)
-        document.removeEventListener('msvisibilitychange', this.handleVisibilityChange)
-        this.handleVisibilityChange = null
-      }
+      // No longer needed - CustomSlider handles everything
     }
   }
 }
@@ -332,80 +194,256 @@ export default {
   padding: 20px 0;
 }
 
-/* Banner Slider Styles */
+/* Banner Slider Styles - Glossy border effect (no white background) */
 .overview-banner-slider {
   width: 100%;
   margin-bottom: 30px;
+  /* Remove white background - only glossy border on image */
+  background: transparent;
 }
 
-.overview-banner-slider .carousel {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.carousel-inner {
-  border-radius: 12px;
-  overflow: hidden;
-}
-
+/* CLS FIX: Fixed height container to prevent layout shift */
 .banner-image-wrapper {
-  width: 100%;
-  height: 300px;
+  width: 100% !important;
+  height: 400px !important; /* Fixed height to prevent CLS */
+  min-height: 400px !important;
+  max-height: 400px !important;
+  border-radius: 12px !important; /* Rounded corners */
+  overflow: visible !important; /* Allow shadows to show */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  padding: 10px; /* Add padding to accommodate shadows */
 }
+
+/* CLS FIX: Fixed height image with rounded corners and 3D embossed effect */
+.banner-image-wrapper img,
+.banner-image-wrapper picture,
+.banner-image-wrapper picture img,
 .banner-image {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
+  width: 100% !important;
+  height: 400px !important; /* Fixed height to prevent CLS - override ResponsiveImage's height: auto */
+  min-height: 400px !important;
+  max-height: 400px !important;
+  object-fit: cover !important; /* Maintain aspect ratio, crop if needed */
   object-position: center;
   display: block;
+  border-radius: 12px !important; /* Rounded corners - ensure it's applied */
+  overflow: hidden !important; /* Clip content to rounded corners */
+  /* 3D Embossed effect - image appears to come out of the page */
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.4),
+    0 10px 25px rgba(0, 0, 0, 0.3),
+    0 5px 15px rgba(139, 92, 246, 0.3),
+    0 2px 8px rgba(168, 85, 247, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.15),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.1) !important;
+  transform: translateZ(0) scale(1.01); /* Slight scale to enhance 3D effect */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: auto;
   -ms-interpolation-mode: bicubic;
+  background: transparent; /* No white background */
 }
 
-.carousel-control-prev,
-.carousel-control-next {
-  width: 50px;
-  height: 50px;
-  background: rgba(139, 92, 246, 0.8);
-  border-radius: 50%;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.8;
-  transition: all 0.3s ease;
+.single-banner-image {
+  width: 100%;
+  height: 400px !important; /* Fixed height to prevent CLS */
+  min-height: 400px !important;
+  max-height: 400px !important;
+  border-radius: 12px !important;
+  overflow: hidden !important; /* Keep overflow hidden to maintain fixed height */
+  background: transparent; /* No white background */
 }
 
-.carousel-control-prev {
-  left: 20px;
+/* CustomSlider styles for banner images - 3D embossed effect */
+.overview-banner-slider :deep(.custom-slider) {
+  border-radius: 12px !important; /* Rounded corners */
+  overflow: visible !important; /* Allow controls to show */
+  height: 400px !important; /* Fixed height to prevent CLS */
+  min-height: 400px !important;
+  max-height: 400px !important;
+  background: transparent; /* No white background */
+  position: relative !important; /* For z-index stacking */
 }
 
-.carousel-control-next {
-  right: 20px;
+/* Ensure navigation controls appear above images and are clickable */
+.overview-banner-slider :deep(.slider-controls) {
+  position: absolute !important;
+  bottom: 15px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 1000 !important; /* Well above images - high z-index */
+  pointer-events: auto !important; /* Enable clicks */
+  width: auto !important;
+  margin-top: 0 !important; /* Override default margin */
+  padding: 0 !important; /* Remove default padding */
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-  background: rgba(139, 92, 246, 1);
-  opacity: 1;
+.overview-banner-slider :deep(.slider-nav) {
+  position: relative !important;
+  z-index: 1001 !important; /* Above images */
+  pointer-events: auto !important; /* Enable clicks on controls */
+  display: flex !important;
+  gap: 30px;
 }
 
-.carousel-indicators {
-  margin-bottom: 20px;
+.overview-banner-slider :deep(.slider-pagination) {
+  position: relative !important;
+  z-index: 1001 !important; /* Above images */
+  pointer-events: auto !important; /* Enable clicks on controls */
+  display: flex !important;
+  gap: 10px;
 }
 
-.carousel-indicators button {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(139, 92, 246, 0.5);
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  margin: 0 5px;
+.overview-banner-slider :deep(.slider-arrow) {
+  position: relative !important;
+  z-index: 1002 !important; /* Above images */
+  pointer-events: auto !important; /* Enable clicks */
+  cursor: pointer !important;
+  /* Ensure button is visible and clickable */
+  opacity: 1 !important;
+  visibility: visible !important;
+  /* Make buttons more visible over images */
+  background: linear-gradient(135deg, rgba(60, 20, 120, 0.95) 0%, rgba(50, 15, 100, 0.95) 50%, rgba(40, 10, 80, 0.95) 100%) !important;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5) !important;
 }
 
-.carousel-indicators button.active {
-  background: rgba(139, 92, 246, 1);
-  border-color: rgba(255, 255, 255, 1);
+.overview-banner-slider :deep(.slider-dot) {
+  position: relative !important;
+  z-index: 1002 !important; /* Above images */
+  pointer-events: auto !important; /* Enable clicks */
+  cursor: pointer !important;
+  /* Ensure dots are visible and clickable */
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.overview-banner-slider :deep(.slider-track) {
+  height: 400px !important; /* Fixed height to prevent CLS */
+  min-height: 400px !important;
+  max-height: 400px !important;
+  border-radius: 12px !important; /* Rounded corners */
+  overflow: visible !important; /* Allow shadows to show */
+  background: transparent; /* No white background */
+  padding: 10px; /* Add padding to accommodate shadows */
+}
+
+.overview-banner-slider :deep(.slider-slides) {
+  height: 400px !important; /* Fixed height to prevent CLS */
+  min-height: 400px !important;
+  max-height: 400px !important;
+  border-radius: 12px !important; /* Rounded corners */
+  overflow: visible !important; /* Allow shadows to show */
+  background: transparent; /* No white background */
+}
+
+.overview-banner-slider :deep(.slider-slide) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px !important; /* Fixed height to prevent CLS - override CustomSlider's height: auto */
+  min-height: 400px !important;
+  max-height: 400px !important;
+  border-radius: 12px !important; /* Rounded corners */
+  overflow: visible !important; /* Allow shadows to show */
+  background: transparent; /* No white background */
+  padding: 5px; /* Add padding to accommodate shadows */
+}
+
+/* Ensure images inside slider slides have rounded corners and 3D embossed effect */
+.overview-banner-slider :deep(.slider-slide img),
+.overview-banner-slider :deep(.slider-slide picture),
+.overview-banner-slider :deep(.slider-slide picture source),
+.overview-banner-slider :deep(.slider-slide .responsive-image-container),
+.overview-banner-slider :deep(.slider-slide .responsive-image-container img),
+.overview-banner-slider :deep(.slider-slide .responsive-image-container picture),
+.overview-banner-slider :deep(.slider-slide .responsive-image-container picture img) {
+  border-radius: 12px !important; /* Rounded corners - ensure it's applied */
+  width: 100% !important;
+  height: 400px !important; /* Fixed height - override ResponsiveImage's height: auto */
+  object-fit: cover !important;
+  overflow: hidden !important; /* Ensure rounded corners work */
+  /* 3D Embossed effect - image appears to come out of the page (only on actual img elements) */
+  background: transparent; /* No white background */
+  position: relative;
+  z-index: 1; /* Behind navigation controls */
+}
+
+/* Apply 3D effect only to actual image elements, not containers */
+.overview-banner-slider :deep(.slider-slide img),
+.overview-banner-slider :deep(.slider-slide .responsive-image-container img),
+.overview-banner-slider :deep(.slider-slide .responsive-image-container picture img) {
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.4),
+    0 10px 25px rgba(0, 0, 0, 0.3),
+    0 5px 15px rgba(139, 92, 246, 0.3),
+    0 2px 8px rgba(168, 85, 247, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.15),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.1) !important;
+  transform: translateZ(0) scale(1.01); /* Slight scale to enhance 3D effect */
+}
+
+/* Picture element styling - no duplicate shadows */
+.overview-banner-slider :deep(.banner-image-wrapper picture) {
+  border-radius: 12px !important;
+  overflow: hidden !important; /* Clip to rounded corners */
+  width: 100% !important;
+  height: 400px !important;
+  display: block;
+  background: transparent; /* No white background */
+}
+
+/* Mobile responsive height - reduced shadows to prevent overlay stacking */
+@media (max-width: 768px) {
+  .banner-image-wrapper,
+  .banner-image-wrapper img,
+  .banner-image,
+  .single-banner-image,
+  .overview-banner-slider :deep(.custom-slider),
+  .overview-banner-slider :deep(.slider-track),
+  .overview-banner-slider :deep(.slider-slides),
+  .overview-banner-slider :deep(.slider-slide),
+  .overview-banner-slider :deep(.slider-slide img),
+  .overview-banner-slider :deep(.slider-slide .responsive-image-container),
+  .overview-banner-slider :deep(.slider-slide .responsive-image-container img),
+  .overview-banner-slider :deep(.slider-slide picture),
+  .overview-banner-slider :deep(.slider-slide picture img) {
+    height: 250px !important; /* Smaller fixed height on mobile */
+    min-height: 250px !important;
+    max-height: 250px !important;
+    border-radius: 12px !important; /* Rounded corners on mobile too */
+    overflow: hidden !important; /* Prevent shadow stacking issues */
+    padding: 0 !important; /* Remove padding on mobile to prevent overlays */
+  }
+  
+  /* Reduce shadow intensity on mobile to prevent overlay stacking */
+  .banner-image-wrapper img,
+  .banner-image,
+  .overview-banner-slider :deep(.slider-slide img),
+  .overview-banner-slider :deep(.slider-slide .responsive-image-container img),
+  .overview-banner-slider :deep(.slider-slide picture img) {
+    box-shadow: 
+      0 10px 25px rgba(0, 0, 0, 0.3),
+      0 5px 12px rgba(0, 0, 0, 0.2),
+      0 2px 6px rgba(139, 92, 246, 0.25),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+    transform: translateZ(0) scale(1.005) !important; /* Reduced scale on mobile */
+  }
+  
+  /* Remove padding from containers on mobile */
+  .banner-image-wrapper {
+    padding: 0 !important;
+  }
+  
+  .overview-banner-slider :deep(.slider-track),
+  .overview-banner-slider :deep(.slider-slide) {
+    padding: 0 !important;
+  }
 }
 
 .overview-section {

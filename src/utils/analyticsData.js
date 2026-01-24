@@ -38,7 +38,10 @@ export async function fetchAnalyticsData() {
       const { data, timestamp } = JSON.parse(cached)
       const age = Date.now() - timestamp
       if (age < CACHE_DURATION) {
-        console.log('[Analytics] Using cached data (age: ' + Math.round(age / 1000 / 60) + ' minutes)')
+        // Only log in development to avoid console spam
+        if (import.meta.env.DEV) {
+          console.log('[Analytics] Using cached data (age: ' + Math.round(age / 1000 / 60) + ' minutes)')
+        }
         return data
       }
     }
@@ -60,7 +63,10 @@ export async function fetchAnalyticsData() {
     } catch (directError) {
       // Direct fetch failed (CORS blocked) - analytics are optional, fail gracefully
       // No proxy fallbacks - they require payment or are unreliable
-      console.warn('[Analytics] Direct fetch failed (CORS issue). Analytics are optional and will be skipped.', directError.message)
+      // Only log warning in development to avoid console spam in production
+      if (import.meta.env.DEV) {
+        console.warn('[Analytics] Direct fetch failed (CORS issue). Analytics are optional and will be skipped.', directError.message)
+      }
       throw directError // Let it fall through to mock data gracefully
     }
 
@@ -96,7 +102,10 @@ export async function fetchAnalyticsData() {
         data: result,
         timestamp: Date.now()
       }))
-      console.log('[Analytics] Data cached for 1 hour')
+      // Only log in development to avoid console spam
+      if (import.meta.env.DEV) {
+        console.log('[Analytics] Data cached for 5 minutes')
+      }
     } catch (e) {
       // Ignore cache errors (quota, private mode, etc.)
     }
@@ -104,7 +113,10 @@ export async function fetchAnalyticsData() {
     return result
   } catch (error) {
     // Fallback to mock data on error
-    console.warn('[Analytics] Fetch failed, using mock data:', error.message)
+    // Only log warning in development to avoid console spam in production
+    if (import.meta.env.DEV) {
+      console.warn('[Analytics] Fetch failed, using mock data:', error.message)
+    }
     return getMockAnalyticsData()
   }
 }

@@ -248,20 +248,19 @@ export default {
       // Always scroll without changing URL - no hash fragments
       if (this.$route.path !== '/') {
         // If not on home page, navigate to home first, then scroll
+        // Components load immediately, so scroll after navigation completes
         this.$router.push('/').then(() => {
           this.$nextTick(() => {
             const element = document.getElementById(sectionId)
             if (element) {
               const headerOffset = 100
-              // OPTIMIZATION: Batch ALL layout reads in a single RAF to minimize forced reflows
+              // Batch all layout reads in one RAF to avoid forced reflows
               requestAnimationFrame(() => {
-                // Batch read: getBoundingClientRect + scrollY in one operation
-                // This reduces forced reflows by reading all layout properties together
                 const rect = element.getBoundingClientRect()
                 const scrollY = window.pageYOffset || window.scrollY || 0
                 const offsetPosition = rect.top + scrollY - headerOffset
                 
-                // Scroll in next frame to avoid blocking current frame
+                // Scroll in next frame
                 requestAnimationFrame(() => {
                   window.scrollTo({
                     top: offsetPosition,
@@ -279,23 +278,28 @@ export default {
         })
       } else {
         // On home page, just scroll without hash
+        // Components load immediately, so we can scroll right away
         const element = document.getElementById(sectionId)
         if (element) {
           const headerOffset = 100
-          // Read layout BEFORE RAF to avoid forced reflow
-          const elementPosition = element.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-          
+          // Batch all layout reads in one RAF to avoid forced reflows
           requestAnimationFrame(() => {
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: 'smooth'
+            const rect = element.getBoundingClientRect()
+            const scrollY = window.pageYOffset || window.scrollY || 0
+            const offsetPosition = rect.top + scrollY - headerOffset
+            
+            // Scroll in next frame
+            requestAnimationFrame(() => {
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+              })
+              // Re-enable intersection observer after scroll completes (smooth scroll takes ~500ms)
+              this.userScrollTimeout = setTimeout(() => {
+                this.isUserScrolling = false
+                this.userScrollTimeout = null
+              }, 800)
             })
-            // Re-enable intersection observer after scroll completes (smooth scroll takes ~500ms)
-            this.userScrollTimeout = setTimeout(() => {
-              this.isUserScrolling = false
-              this.userScrollTimeout = null
-            }, 800)
           })
         }
       }

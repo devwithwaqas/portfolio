@@ -1,6 +1,6 @@
 # Serverless Email Service
 
-This directory contains the serverless function for sending contact form emails via Gmail SMTP as a fallback when EmailJS fails or reaches its limit.
+This directory contains the serverless function for sending contact form emails via Gmail SMTP (Google Cloud Functions).
 
 ## Overview
 
@@ -157,7 +157,7 @@ curl -X POST https://[region]-[project].cloudfunctions.net/sendEmail \
 
 ## Email Format
 
-The function sends emails matching the EmailJS template format:
+The function sends emails using the contact form payload format:
 
 ```
 Subject: Portfolio Contact: {subject}
@@ -212,19 +212,7 @@ Timestamp: {iso_timestamp}
 
 After deploying the function:
 
-1. Copy the function URL
-2. Add to GitHub secrets:
-   ```bash
-   gh secret set VITE_SMTP_FALLBACK_ENDPOINT --body "https://[region]-[project].cloudfunctions.net/sendEmail"
-   ```
-3. Optionally set API key:
-   ```bash
-   gh secret set VITE_SMTP_FALLBACK_API_KEY --body "your_api_key_here"
-   ```
-4. Keep feature flag OFF initially:
-   ```bash
-   gh secret set VITE_SMTP_FALLBACK_ENABLED --body "false"
-   ```
-5. Test EmailJS still works
-6. Test SMTP function directly
-7. Enable flag when ready: `gh secret set VITE_SMTP_FALLBACK_ENABLED --body "true"`
+1. Copy the function URL (see **Testing** above)
+2. Add GitHub secrets: `VITE_SMTP_ENDPOINT`, optionally `VITE_SMTP_API_KEY`
+3. See `docs/GITHUB_SECRETS_SETUP.md` and `docs/SMTP_FALLBACK_QUICK_START.md` for full setup
+4. Deploy your portfolio; the contact form will use this SMTP endpoint
