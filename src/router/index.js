@@ -4,6 +4,92 @@ import { setPageSEO, getHomePageSEO, getProjectPageSEO, getServicePageSEO } from
 import { generateProjectPageStructuredData, generateServicePageStructuredData } from '../utils/structuredData.js'
 import { trackPageView, trackServicePageView, trackProjectPageView } from '../utils/analytics.js'
 
+// Service Data Map - Actual service titles and descriptions for SEO
+const SERVICE_DATA_MAP = {
+  'FullStackDevelopment': {
+    title: 'Full Stack Development',
+    description: 'End-to-end development of enterprise applications tailored to your requirements. Whether you need Angular, Vue.js, React, or any modern frontend framework combined with robust .NET Core backends, I deliver scalable solutions that drive business growth. IT services and IT consulting for full stack development projects.'
+  },
+  'AzureCloudArchitecture': {
+    title: 'Azure Cloud Architecture',
+    description: 'Design and implementation of cloud-native solutions using Microsoft Azure. From architecture design to deployment, I deliver scalable, secure, and cost-effective cloud infrastructure. IT services for Azure cloud architecture, cloud migration, and enterprise cloud solutions.'
+  },
+  'TechnicalLeadership': {
+    title: 'Technical Leadership',
+    description: 'Leading development teams, establishing best practices, and delivering mission-critical systems. Technical leadership services for engineering teams, code reviews, architecture guidance, and team mentorship. IT services for technical leadership and engineering management.'
+  },
+  'MicroservicesArchitecture': {
+    title: 'Microservices Architecture',
+    description: 'Design and implementation of scalable microservices-based applications using Azure Service Fabric, Docker containers, and modern architectural patterns. IT services for microservices architecture, distributed systems design, and enterprise microservices solutions.'
+  },
+  'AgileProjectManagement': {
+    title: 'Agile Project Management',
+    description: 'Leading agile development teams, conducting sprint planning, retrospectives, and ensuring timely delivery of high-quality software products. IT services for agile project management, Scrum, Kanban, and agile transformation.'
+  },
+  'DatabaseDesignOptimization': {
+    title: 'Database Design & Optimization',
+    description: 'Database schema design, query optimization, indexing strategies, and performance tuning for SQL Server, Azure SQL, and other database systems. IT services for database design, database optimization, and database consulting.'
+  },
+  'MobileDevelopment': {
+    title: 'Mobile Development',
+    description: 'Native and cross-platform mobile application development for iOS and Android. Whether you need native iOS (Swift/Objective-C), native Android (Kotlin/Java), React Native, Flutter, or Xamarin, I deliver high-performance mobile solutions. IT services for mobile app development and mobile consulting.'
+  }
+}
+
+// Project Data Map - Actual project titles and descriptions for SEO
+const PROJECT_DATA_MAP = {
+  'HeatExchanger': {
+    title: 'Heat Exchanger Portal - Mission Critical Petroleum Operations',
+    description: 'Enterprise-grade .NET Core platform for one of the five biggest oil and gas companies in the world, hosted on OpenShift with comprehensive monitoring through Grafana and Prometheus.',
+    technologies: ['.NET Core', 'Angular', 'SQL Server', 'OpenShift', 'Docker', 'Grafana', 'Prometheus', 'Apache Kafka']
+  },
+  'AirAsiaID90': {
+    title: 'AirAsia ID90 Portal - Revolutionary Last-Minute Employee Flight Discount System',
+    description: 'A groundbreaking enterprise platform that revolutionized AirAsia\'s employee travel benefits by enabling 90% discounted flights within the critical 60-minute departure window.',
+    technologies: ['.NET Core', 'Angular', 'SQL Server', 'Azure', 'Google SSO']
+  },
+  'BATInhouseApp': {
+    title: 'BAT Inhouse App',
+    description: 'A comprehensive enterprise application - a microservices platform for British American Tobacco. This project integrates 8+ enterprise systems including SAP Planet 8/9, Cherwell HR/IT, Power Apps, SharePoint.',
+    technologies: ['.NET Core', 'Azure Service Fabric', 'Azure SQL', 'Cosmos DB', 'SAP', 'SharePoint']
+  },
+  'PJSmartCity': {
+    title: 'PJ Smart City',
+    description: 'A comprehensive smart city platform for Petaling Jaya City Council powered by SuperMap GIS technology. This advanced municipal solution integrates Big Data GIS, 3D GIS, and Geospatial AI capabilities.',
+    technologies: ['.NET Core', 'Angular', 'SuperMap GIS', 'IoT', 'Azure']
+  },
+  'GamifiedEmployeeManagement': {
+    title: 'Gamified Employee Management',
+    description: 'Enterprise gamification platform for employee engagement, performance management, and analytics. Built with microservices architecture and real-time processing capabilities.',
+    technologies: ['.NET Core', 'Microservices', 'Real-time Processing', 'Analytics']
+  },
+  'ValetParking': {
+    title: 'Valet Parking',
+    description: 'Enterprise valet parking management system with real-time tracking, mobile applications, and comprehensive analytics.',
+    technologies: ['.NET Core', 'Mobile', 'Real-time', 'Analytics']
+  },
+  'MobileGames': {
+    title: 'Mobile Games Collection',
+    description: 'Collection of mobile game applications developed for iOS and Android platforms with engaging gameplay and modern mobile technologies.',
+    technologies: ['Mobile', 'iOS', 'Android', 'Game Development']
+  },
+  'UKPropertyManagement': {
+    title: 'UK Property Management Platform',
+    description: 'Comprehensive property management platform for UK real estate operations with advanced features and enterprise-scale architecture.',
+    technologies: ['.NET Core', 'Angular', 'SQL Server', 'Enterprise Architecture']
+  },
+  'G5POS': {
+    title: 'G5 POS',
+    description: 'A comprehensive F&B point of sales solution developed in collaboration with Squad Cell, specifically designed for Food & Beverage establishments.',
+    technologies: ['.NET Core', 'Microservices', 'Real-time Processing', 'F&B Management']
+  },
+  'ChubbInsuranceApplications': {
+    title: 'Chubb Insurance Applications',
+    description: 'Enterprise insurance applications for Chubb with comprehensive features, security, and scalability.',
+    technologies: ['.NET Core', 'Enterprise', 'Security', 'Scalability']
+  }
+}
+
 // Helper function for safe dynamic imports with error handling
 // This prevents "failed to load dynamic modules" errors during memory profiling
 const loadComponent = (componentImport) => {
@@ -316,12 +402,17 @@ router.beforeEach((to, from, next) => {
     })
     // Structured data will be generated by Home.vue component with testimonials
   } else if (to.path.startsWith('/projects/')) {
-    // Project page - get data from route meta or use defaults
-    const projectTitle = to.name.replace(/([A-Z])/g, ' $1').trim()
+    // Project page - use actual project data from PROJECT_DATA_MAP
+    const projectData = PROJECT_DATA_MAP[to.name] || {
+      title: to.name.replace(/([A-Z])/g, ' $1').trim(),
+      description: `${to.name.replace(/([A-Z])/g, ' $1').trim()} - Enterprise software project by Waqas Ahmad, Senior Software Engineer & Technical Lead.`,
+      technologies: []
+    }
+    
     const seo = getProjectPageSEO({
-      title: projectTitle,
-      description: `${projectTitle} - Enterprise software project by Waqas Ahmad, Senior Software Engineer & Technical Lead.`,
-      technologies: [],
+      title: projectData.title,
+      description: projectData.description,
+      technologies: projectData.technologies || [],
       url: to.path,
       image: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
     })
@@ -331,25 +422,31 @@ router.beforeEach((to, from, next) => {
       type: 'article'
     })
     generateProjectPageStructuredData({
-      title: projectTitle,
-      description: seo.description,
+      title: projectData.title,
+      description: projectData.description,
       url: to.path,
       image: seo.image
     })
   } else if (to.path.startsWith('/services/')) {
-    // Service page - Enhanced for recruiter searches
-    const serviceTitle = to.name.replace(/([A-Z])/g, ' $1').trim()
+    // Service page - use actual service data from SERVICE_DATA_MAP
+    const serviceInfo = SERVICE_DATA_MAP[to.name] || {
+      title: to.name.replace(/([A-Z])/g, ' $1').trim(),
+      description: `Hire expert ${to.name.replace(/([A-Z])/g, ' $1').trim()} services. ${to.name.replace(/([A-Z])/g, ' $1').trim()} consultant with 17+ years of experience in enterprise solutions, Azure Cloud, and .NET development. Available for consulting, freelance, and contract projects globally.`
+    }
+    
     const serviceData = {
-      title: serviceTitle,
-      description: `Hire expert ${serviceTitle} services. ${serviceTitle} consultant with 17+ years of experience in enterprise solutions, Azure Cloud, and .NET development. Available for consulting, freelance, and contract projects in Malaysia and globally.`,
+      title: serviceInfo.title,
+      description: serviceInfo.description,
       url: to.path,
-      serviceType: serviceTitle,
+      serviceType: serviceInfo.title,
       keywords: [
-        `hire ${serviceTitle.toLowerCase()} malaysia`,
-        `${serviceTitle.toLowerCase()} consultant`,
-        `${serviceTitle.toLowerCase()} expert`,
-        `freelance ${serviceTitle.toLowerCase()} developer`,
-        `contract ${serviceTitle.toLowerCase()} services`
+        `hire ${serviceInfo.title.toLowerCase()}`,
+        `${serviceInfo.title.toLowerCase()} consultant`,
+        `${serviceInfo.title.toLowerCase()} expert`,
+        `freelance ${serviceInfo.title.toLowerCase()} developer`,
+        `contract ${serviceInfo.title.toLowerCase()} services`,
+        `IT services ${serviceInfo.title.toLowerCase()}`,
+        `${serviceInfo.title.toLowerCase()} IT services`
       ]
     }
     const seo = getServicePageSEO(serviceData)

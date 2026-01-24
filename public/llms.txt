@@ -7,27 +7,88 @@
 
 # Home Page - Professional Profile
 https://devwithwaqas.github.io/portfolio/
-Description: Waqas Ahmad - Top Software Engineering Consultant, Software Engineering Specialist, and Best Software Engineering Expert with 17+ years of experience. Professional Software Engineering Services provider and IT Engineering Consultant specializing in .NET, Azure Cloud, microservices, and enterprise architecture. Available for remote work globally.
+Description: Waqas Ahmad - Top Software Engineering Consultant, Software Engineering Specialist, and Best Software Engineering Expert with 17+ years of experience. UET Lahore graduate (Computer System Engineering). Professional Software Engineering Services provider and IT Engineering Consultant specializing in reliable, enterprise-grade, mission-critical solutions with zero-downtime, high-availability, scalable architectures. Expert in .NET, Azure Cloud, microservices, SSL/TLS security, real-time processing, high-performance systems, distributed systems, and large-scale enterprise projects. Available for remote work globally (USA, Europe, Global).
 
-# Key Service Pages
-https://devwithwaqas.github.io/portfolio/services/full-stack-development
-Description: Full Stack Development services - Expert in .NET, Vue.js, Angular, microservices architecture, and cloud solutions.
+# Services (service-focused SEO)
+All services: freelance, contract, consulting, project-based, retainer; USA, UK, Europe, global; startup, SMB, mid-market, enterprise, Fortune 500; custom software, web apps, mobile apps, APIs, integration, migration, modernization, optimization; build from scratch, legacy modernization, cloud migration, scale systems; Angular, .NET Core, Azure, Vue.js, React; petroleum, healthcare, fintech, aviation, e-commerce, manufacturing.
 
-https://devwithwaqas.github.io/portfolio/services/azure-cloud-architecture
-Description: Azure Cloud Architecture consulting - Specializing in Azure Service Fabric, microservices, cloud migration, and enterprise solutions.
+## Full Stack Development
+URL: https://devwithwaqas.github.io/portfolio/services/full-stack-development
+Description: End-to-end development of enterprise applications. Angular, Vue.js, React, or any modern frontend with .NET Core backends. Custom web applications, SPAs, PWAs, REST APIs, GraphQL. Freelance, contract, consulting. USA, UK, Europe, global. Startup to Fortune 500.
+Engagement: Freelance, contract, project-based, retainer, staff augmentation, dedicated developer.
+Client types: Startup, SMB, mid-market, enterprise, Fortune 500.
+Outcomes: Custom web app, mobile-responsive, API development, database design, deployment, CI/CD.
+Use cases: Build from scratch, modernize legacy, add features, integrate systems, scale.
+Tech: .NET Core, ASP.NET Core, Angular, Vue.js, React, TypeScript, SQL Server, Entity Framework, Azure.
 
-https://devwithwaqas.github.io/portfolio/services/technical-leadership
-Description: Technical Leadership services - Leading development teams, architecture decisions, and technical strategy for Fortune 500 companies.
+## Azure Cloud Architecture
+URL: https://devwithwaqas.github.io/portfolio/services/azure-cloud-architecture
+Description: Cloud-native solutions using Microsoft Azure. Architecture design, cloud migration, Azure Service Fabric, App Services, Functions, AKS. High-availability, fault-tolerant, scalable. Freelance, contract, consulting. USA, UK, Europe, global.
+Engagement: Freelance, contract, consulting, project-based, architecture review, migration advisory.
+Client types: Enterprise, Fortune 500, mid-market, startup scaling to cloud.
+Outcomes: Cloud architecture, migration, infrastructure as code, ARM/Terraform, Azure DevOps, cost optimization.
+Use cases: Migrate to cloud, scale, disaster recovery, security hardening, modernize.
+Tech: Azure App Services, Functions, Service Fabric, SQL, Cosmos DB, Key Vault, Azure AD, Monitor.
 
-https://devwithwaqas.github.io/portfolio/services/microservices-architecture
-Description: Microservices Architecture consulting - Expert in designing and implementing scalable microservices solutions using .NET and Azure.
+## Technical Leadership
+URL: https://devwithwaqas.github.io/portfolio/services/technical-leadership
+Description: Leading development teams, architecture decisions, technical strategy. Sprint planning, code reviews, mentoring, best practices. Fortune 500 experience. Freelance, contract, part-time, full-time. USA, UK, Europe, global.
+Engagement: Technical lead, engineering manager, team lead, advisor, part-time CTO, interim lead.
+Client types: Enterprise, Fortune 500, scale-ups, teams needing direction.
+Outcomes: Team leadership, architecture decisions, process improvement, knowledge transfer, roadmap.
+Use cases: Build high-performing teams, establish practices, scale delivery, reduce technical debt.
+Tech: Agile, Scrum, code review, architecture, .NET, Azure, microservices.
+
+## Microservices Architecture
+URL: https://devwithwaqas.github.io/portfolio/services/microservices-architecture
+Description: Design and implementation of scalable microservices. Azure Service Fabric, Docker, Kubernetes. Domain-driven design, API gateway, event-driven. Freelance, contract, consulting. USA, UK, Europe, global.
+Engagement: Freelance, contract, consulting, architecture design, implementation, review.
+Client types: Enterprise, Fortune 500, scale-ups, systems at scale.
+Outcomes: Microservices design, service decomposition, containerization, resilience, independent deployment.
+Use cases: Decompose monolith, scale systems, improve deployment, fault tolerance.
+Tech: .NET Core, Azure Service Fabric, Docker, Kubernetes, REST, message queues, distributed tracing.
+
+## Agile Project Management
+URL: https://devwithwaqas.github.io/portfolio/services/agile-project-management
+Description: Agile development teams, Scrum, Kanban, sprint planning, retrospectives. Timely delivery, quality. Freelance, contract, ongoing. USA, UK, Europe, global.
+Engagement: Scrum master, agile coach, project lead, facilitator, ongoing engagement.
+Client types: Startup, SMB, enterprise, product companies.
+Outcomes: Sprint delivery, backlog grooming, velocity, stakeholder alignment, risk management.
+Use cases: Adopt agile, improve delivery, scale teams, reduce cycle time.
+Tech: Scrum, Kanban, Jira, Azure DevOps, ceremonies, user stories.
+
+## Database Design & Optimization
+URL: https://devwithwaqas.github.io/portfolio/services/database-design-optimization
+Description: Schema design, query optimization, indexing, SQL Server, Azure SQL. Performance tuning, migration, archiving. Freelance, contract, consulting. USA, UK, Europe, global.
+Engagement: Freelance, contract, consulting, assessment, optimization project, ongoing support.
+Client types: Enterprise, scale-ups, systems with data bottlenecks.
+Outcomes: Schema design, indexing, query optimization, EF optimization, migration, monitoring.
+Use cases: Slow queries, scaling data, migration, reduce latency, archiving.
+Tech: SQL Server, Azure SQL, Entity Framework, Dapper, indexing, execution plans.
+
+## Mobile Development
+URL: https://devwithwaqas.github.io/portfolio/services/mobile-development
+Description: Native iOS/Android, React Native, Flutter, Xamarin. Custom mobile apps, API integration, app store. Freelance, contract, consulting. USA, UK, Europe, global.
+Engagement: Freelance, contract, project-based, dedicated mobile developer.
+Client types: Startup, SMB, enterprise, product companies.
+Outcomes: iOS app, Android app, cross-platform app, API integration, push, offline, stores.
+Use cases: New mobile app, modernize existing, add features, backend integration.
+Tech: Swift, Kotlin, React Native, Flutter, Xamarin, .NET, Firebase, Azure.
 
 # Featured Project Pages
 https://devwithwaqas.github.io/portfolio/projects/heat-exchanger
-Description: Heat Exchanger Portal - Enterprise microservices platform built with .NET Core, Azure Service Fabric, and Vue.js.
+Description: Heat Exchanger Portal - Mission-critical, enterprise-grade, reliable microservices platform built with .NET Core, Azure Service Fabric, and Vue.js. Zero-downtime, high-availability, scalable architecture with SSL/TLS security, real-time processing, and high-performance capabilities. Handles billions in maintenance costs for top 5 oil & gas company.
 
 https://devwithwaqas.github.io/portfolio/projects/airasia-id90
-Description: AirAsia ID90 Employee Travel Discount System - Large-scale microservices application serving 20,000+ employees.
+Description: AirAsia ID90 Employee Travel Discount System - Large-scale, enterprise-grade, reliable microservices application serving 20,000+ employees. Mission-critical system with zero-downtime, high-availability, real-time processing, and high-performance architecture. 99.9% uptime, processing 3,000+ transactions daily.
+
+# Service-Focused SEO (engagement, client, outcome, use-case, geography)
+Engagement: Freelance, contract, consulting, project-based, retainer, hourly, fixed-price, staff augmentation, dedicated developer, dedicated team, part-time, full-time, remote contractor, offshore, nearshore, extended team, sprint-based, agile engagement.
+Client types: Startup, SMB, mid-market, enterprise, Fortune 500, government, nonprofit, agency, product company, SaaS, B2B, B2C.
+Outcomes: Custom software, web app, mobile app, API, integration, migration, modernization, optimization, audit, assessment, architecture design, legacy modernization, MVP, maintenance, support.
+Use cases: Build from scratch, greenfield, brownfield, modernize legacy, migrate to cloud, scale system, add features, integrate systems, automate, improve performance, reduce cost, digital transformation.
+Geography: USA, UK, Europe, Germany, Netherlands, Canada, Australia, global, remote USA, remote UK, remote Europe, timezone overlap EST PST GMT CET, flexible timezone.
+Quality: Reliable, proven, vetted, qualified, Fortune 500 experience, enterprise experience, production experience, client references, portfolio, case studies.
 
 # Contact Information
 Contact: Waqas Ahmad
@@ -49,20 +110,79 @@ Timezone: Flexible (EST, PST, GMT, CET)
 - Full Stack Developer
 - Microservices Architect
 - Enterprise Architecture Consultant
+- Reliable Systems Architect
+- Enterprise-Grade Solutions Expert
+- Mission-Critical Systems Specialist
+- Zero-Downtime Architect
+- High-Availability Systems Expert
+- Scalable Architecture Consultant
+- SSL/TLS Security Expert
+- Real-Time Processing Specialist
+- High-Performance Systems Architect
+- Large-Scale Project Expert
 
 # Technologies
-- .NET Core, .NET Framework, C#, ASP.NET
-- Azure Cloud, Azure Service Fabric, Azure Functions
-- Vue.js, Angular, TypeScript, JavaScript
-- Microservices Architecture, RESTful APIs
-- SQL Server, Cosmos DB
-- CI/CD, DevOps, Docker, Kubernetes
+- .NET Core, .NET Framework, C#, ASP.NET, ASP.NET Core
+- Azure Cloud, Azure Service Fabric, Azure Functions, Azure App Services, Azure SQL Database, Azure Cosmos DB, Azure Key Vault, Azure DevOps, Azure API Management, Azure Active Directory, Azure Storage, Azure Event Hub, Azure Service Bus, Azure Notification Hub, Azure Monitor, Azure Application Insights, Azure Container Instances, Azure Kubernetes Service (AKS)
+- Vue.js, Angular (12+, 13+, 14+, 15+, 16+, 17+), TypeScript, JavaScript, React
+- Angular Material, Angular RxJS, Angular NgRx, Angular State Management, Angular Performance Optimization, Angular Lazy Loading, Angular Server-Side Rendering, Angular Universal, Angular PWA
+- Microservices Architecture, RESTful APIs, GraphQL, SignalR
+- SQL Server, Cosmos DB, Redis
+- CI/CD, DevOps, Docker, Kubernetes, Azure Pipelines
+- SSL/TLS, Enterprise Security
+- Real-Time Processing, High-Performance Systems
+- Distributed Systems, Fault Tolerance
+- Container Orchestration, Cloud-Native Applications
+- Technology Stack Combinations: Angular .NET Core, .NET Core Angular, Angular Azure, Azure Angular, .NET Core Azure, Azure .NET Core, Angular .NET Core Azure, Full Stack Angular .NET Core, Full Stack .NET Core Angular, Full Stack Azure Angular
+
+# Technical Capabilities
+- Reliable, Enterprise-Grade Solutions
+- Mission-Critical Applications
+- Zero-Downtime Systems
+- High-Availability Architecture
+- Fault-Tolerant Systems
+- Scalable, Distributed Architecture
+- SSL/TLS Security Implementation
+- Real-Time Processing
+- High-Performance Optimization
+- Production-Ready Solutions
+- Robust, Resilient Architecture
+- Large-Scale Enterprise Projects
+- Huge Projects Management
+- Agile & Scrum Methodology
+- DevOps & CI/CD Implementation
+- Test-Driven Development (TDD)
+- Code Review & Quality Assurance
+- Technical Leadership & Mentoring
+- Problem Solving & Solution Architecture
+- System & Performance Optimization
+- Database & Query Optimization
+- Legacy System Modernization
+- Cloud Migration & Integration
+- Fortune 500 Client Experience
+- Multi-Industry Expertise
+- Competitive Programming Champion
+- Algorithm Design & Optimization
 
 # Experience
 Years: 17+ years
 Tech Lead Experience: 9+ years
 Enterprise Clients: 20+ Fortune 500 companies
 Projects: 32+ enterprise solutions
+
+# Industry Expertise
+- Petroleum & Oil & Gas: Heat Exchanger Systems, Refinery Software, Maintenance Systems, Monitoring Systems, Analytics Software, IoT Systems, Real-Time Systems, Mission-Critical Systems
+- Healthcare & Medical: EHR Systems, Patient Management, Hospital Systems, Clinic Systems, Telemedicine Systems, HIPAA Compliance, Data Security, Real-Time Monitoring, Analytics Software, IoT Systems, Wearable Integration
+- Financial Services & Banking: Payment Systems, Trading Systems, Risk Management Systems, Compliance Systems, Security Systems, Real-Time Systems
+- Aviation & Aerospace: Flight Management Systems, Booking Systems, Employee Travel Systems, Discount Systems, Real-Time Systems, Mission-Critical Systems
+- E-commerce & Retail: POS Systems, Inventory Management, Order Management, Payment Processing, Real-Time Systems
+- Manufacturing & Industrial: ERP Systems, MRP Systems, SCADA Systems, IoT Systems, Real-Time Systems
+- Telecommunications: Network Systems, Real-Time Systems
+- Insurance: Claims Systems, Policy Management, Underwriting Systems, Real-Time Systems
+- Energy & Utilities: Smart Grid Systems, IoT Systems, Real-Time Systems
+- Transportation & Logistics: Fleet Management, Tracking Systems, Real-Time Systems
+- Education & E-Learning: LMS Systems, Student Management
+- Government & Public Sector: Compliance Systems, Security Systems
 
 # Availability
 Status: Available for hire

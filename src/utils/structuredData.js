@@ -151,12 +151,15 @@ export function generatePersonSchema() {
       'Software Engineering Specialist',
       'Software Engineering Expert',
       'IT Engineering Consultant',
+      'IT Services Consultant',
+      'IT Consultant',
+      'IT Services Expert',
       'Top Software Engineering Consultant',
       'Best Software Engineering Expert'
     ],
     description: `Senior Software Engineer & Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of experience in .NET, Azure Cloud, and enterprise architecture. Specializing in full-stack development, microservices, and cloud solutions. Available for remote work globally.`,
     // AI Search Optimization: Add more detailed description for AI engines
-    about: `Waqas Ahmad is a Senior Software Engineer and Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of professional experience. He specializes in .NET development, Azure Cloud architecture, microservices design, and enterprise solutions. With experience working with Fortune 500 companies worldwide, he offers remote consulting, freelance, and contract services. Available for projects in USA, Europe, and globally with flexible timezone support (EST, PST, GMT, CET).`,
+    about: `Waqas Ahmad is a Senior Software Engineer and Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of professional experience. He specializes in reliable, enterprise-grade, mission-critical solutions with zero-downtime, high-availability, scalable architectures. Expert in .NET development, Azure Cloud architecture, microservices design, SSL/TLS security, real-time processing, high-performance systems, distributed systems, and large-scale enterprise projects. With experience working with Fortune 500 companies worldwide, he delivers production-ready, robust, resilient, and optimized solutions. Available for projects in USA, Europe, and globally with flexible timezone support (EST, PST, GMT, CET).`,
     url: website,
     image: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`,
     email: email,
@@ -170,15 +173,191 @@ export function generatePersonSchema() {
     sameAs: sameAs,
     // Add additionalProfilePage for social media visibility
     additionalType: 'https://schema.org/ProfilePage',
-    knowsAbout: skills,
+    knowsAbout: [
+      ...skills,
+      'IT Services',
+      'IT Consulting',
+      'IT Engineering',
+      'IT Solutions',
+      'University of Engineering and Technology Lahore',
+      'UET Lahore',
+      'Computer System Engineering',
+      'Enterprise Architecture',
+      'System Architecture',
+      'Software Architecture',
+      'Reliable Systems',
+      'Enterprise-Grade Solutions',
+      'Mission-Critical Applications',
+      'Zero-Downtime Systems',
+      'High Availability',
+      'Fault Tolerance',
+      'Scalable Architecture',
+      'Distributed Systems',
+      'SSL/TLS',
+      'Enterprise Security',
+      'Real-Time Processing',
+      'High-Performance Systems',
+      'Production-Ready Solutions',
+      'Robust Architecture',
+      'Resilient Systems',
+      'Cloud-Native Applications',
+      'Container Orchestration',
+      'Large-Scale Projects',
+      'Enterprise Projects',
+      'Huge Projects',
+      'Agile Methodology',
+      'Scrum',
+      'DevOps',
+      'CI/CD',
+      'Test-Driven Development',
+      'Code Review',
+      'Technical Leadership',
+      'Team Leadership',
+      'Mentoring',
+      'Problem Solving',
+      'Solution Architecture',
+      'System Optimization',
+      'Performance Optimization',
+      'Database Optimization',
+      'Legacy Modernization',
+      'Cloud Migration',
+      'System Integration',
+      'Fortune 500 Experience',
+      'Multi-Industry Experience',
+      'Competitive Programming',
+      'Algorithm Design',
+      'National Programming Champion',
+      'ACM Programming Competition',
+      // Industry-Specific Expertise
+      'Petroleum Software Development',
+      'Oil and Gas Software Development',
+      'Petroleum Systems',
+      'Oil and Gas Systems',
+      'Petroleum Heat Exchanger Systems',
+      'Oil and Gas Heat Exchanger Systems',
+      'Petroleum Refinery Software',
+      'Oil and Gas Refinery Software',
+      'Petroleum Maintenance Systems',
+      'Oil and Gas Maintenance Systems',
+      'Petroleum Monitoring Systems',
+      'Oil and Gas Monitoring Systems',
+      'Petroleum Analytics Software',
+      'Oil and Gas Analytics Software',
+      'Petroleum IoT Systems',
+      'Oil and Gas IoT Systems',
+      'Petroleum Real-Time Systems',
+      'Oil and Gas Real-Time Systems',
+      'Healthcare Software Development',
+      'Medical Software Development',
+      'Healthcare Systems',
+      'Medical Systems',
+      'Healthcare EHR Systems',
+      'Medical EHR Systems',
+      'Healthcare Patient Management',
+      'Medical Patient Management',
+      'Healthcare Hospital Systems',
+      'Medical Hospital Systems',
+      'Healthcare Telemedicine Systems',
+      'Medical Telemedicine Systems',
+      'Healthcare HIPAA Compliance',
+      'Medical HIPAA Compliance',
+      'Healthcare Data Security',
+      'Medical Data Security',
+      'Healthcare Real-Time Monitoring',
+      'Medical Real-Time Monitoring',
+      'Healthcare IoT Systems',
+      'Medical IoT Systems',
+      'FinTech Software Development',
+      'Banking Software Development',
+      'Financial Services Software Development',
+      'FinTech Payment Systems',
+      'Banking Payment Systems',
+      'Financial Services Payment Systems',
+      'FinTech Trading Systems',
+      'Banking Trading Systems',
+      'Financial Services Trading Systems',
+      'FinTech Risk Management',
+      'Banking Risk Management',
+      'Financial Services Risk Management',
+      'FinTech Compliance Systems',
+      'Banking Compliance Systems',
+      'Financial Services Compliance Systems',
+      'FinTech Security Systems',
+      'Banking Security Systems',
+      'Financial Services Security Systems',
+      'Aviation Software Development',
+      'Aerospace Software Development',
+      'Aviation Booking Systems',
+      'Aerospace Booking Systems',
+      'Aviation Employee Travel Systems',
+      'Aerospace Employee Travel Systems',
+      'Aviation Discount Systems',
+      'Aerospace Discount Systems',
+      'E-commerce Software Development',
+      'Retail Software Development',
+      'E-commerce POS Systems',
+      'Retail POS Systems',
+      'E-commerce Inventory Management',
+      'Retail Inventory Management',
+      'E-commerce Order Management',
+      'Retail Order Management',
+      'E-commerce Payment Processing',
+      'Retail Payment Processing',
+      'Manufacturing Software Development',
+      'Industrial Software Development',
+      'Manufacturing ERP Systems',
+      'Industrial ERP Systems',
+      'Manufacturing SCADA Systems',
+      'Industrial SCADA Systems',
+      'Manufacturing IoT Systems',
+      'Industrial IoT Systems',
+      // Technology Stack Expertise
+      'Angular .NET Core',
+      '.NET Core Angular',
+      'Angular Azure',
+      'Azure Angular',
+      '.NET Core Azure',
+      'Azure .NET Core',
+      'Angular .NET Core Azure',
+      '.NET Core Angular Azure',
+      'Azure Angular .NET Core',
+      'Full Stack Angular .NET Core',
+      'Full Stack .NET Core Angular',
+      'Full Stack Azure Angular',
+      'Full Stack Angular Azure',
+      'Angular .NET Core Microservices',
+      '.NET Core Angular Microservices',
+      'Azure Angular Microservices',
+      'Angular Azure Microservices',
+      'Enterprise Angular .NET Core',
+      'Enterprise .NET Core Angular',
+      'Enterprise Azure Angular',
+      'Enterprise Angular Azure',
+      'Mission Critical Angular .NET Core',
+      'Mission Critical .NET Core Angular',
+      'Mission Critical Azure Angular',
+      'High Performance Angular .NET Core',
+      'High Performance .NET Core Angular',
+      'High Performance Azure Angular',
+      'Scalable Angular .NET Core',
+      'Scalable .NET Core Angular',
+      'Scalable Azure Angular',
+      'Real-Time Angular .NET Core',
+      'Real-Time .NET Core Angular',
+      'Real-Time Azure Angular'
+    ],
     alumniOf: {
       '@type': 'EducationalOrganization',
+      '@id': 'https://www.uet.edu.pk',
       name: 'University of Engineering and Technology, Lahore',
+      alternateName: ['UET Lahore', 'UET', 'University of Engineering and Technology'],
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Lahore',
+        addressRegion: 'Punjab',
         addressCountry: 'PK'
-      }
+      },
+      description: 'University of Engineering and Technology, Lahore - Premier engineering institution in Pakistan'
     },
     hasCredential: [
       {
@@ -246,7 +425,7 @@ export function generateProfessionalServiceSchema() {
     '@type': 'ProfessionalService',
     '@id': `${SITE_URL}#service`,
     name: `${fullName} - Software Engineering Services`,
-    description: `Professional software engineering and technical consulting services. Specializing in Azure Cloud architecture, .NET development, microservices, and enterprise solutions.`,
+    description: `Professional software engineering and technical consulting services. Specializing in reliable, enterprise-grade, mission-critical solutions with zero-downtime, high-availability, scalable architectures. Expert in Azure Cloud architecture, .NET development, microservices, SSL/TLS security, real-time processing, high-performance systems, distributed systems, and large-scale enterprise projects.`,
     address: {
       '@type': 'PostalAddress',
       addressLocality: location.split(',')[0] || location,
@@ -305,7 +484,12 @@ export function generateProfessionalServiceSchema() {
       'DevOps Consulting',
       'Enterprise Solutions',
       'Microservices Architecture',
-      'CI/CD Implementation'
+      'CI/CD Implementation',
+      'IT Services',
+      'IT Consulting Services',
+      'IT Engineering Services',
+      'IT Solutions',
+      'IT Services Consulting'
     ],
     offers: {
       '@type': 'Offer',
@@ -425,6 +609,13 @@ export function generateArticleSchema(articleData) {
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': `${SITE_URL}${articleData.url}`
+    },
+    // AI Search Optimization: Add keywords for better understanding
+    keywords: 'reliable, enterprise project, huge project, mission critical, zero downtime, high availability, scalable architecture, SSL/TLS, enterprise security, real-time processing, high-performance, distributed systems, production-ready, robust, resilient, cloud-native, large-scale enterprise project',
+    about: {
+      '@type': 'Thing',
+      name: 'Enterprise Software Development',
+      description: 'Reliable, enterprise-grade, mission-critical software solutions with zero-downtime, high-availability, scalable architectures'
     }
   }
 }
@@ -601,70 +792,113 @@ export function generateReviewSchema(testimonials) {
  */
 
 /**
- * Generate Service schema
+ * Generate Service schema (service-focused, detailed for SEO / AI)
  */
 export function generateServiceSchema(serviceData) {
   const fullName = APP_CONFIG.fullName
   const location = APP_CONFIG.location
+  const title = serviceData.title || ''
+  const desc = serviceData.description || ''
+  
+  // Service-focused SEO: type, category, engagement, outcomes, geography
+  const serviceTypes = [
+    serviceData.serviceType || title,
+    'IT Services',
+    'Software Engineering Services',
+    'Enterprise Solutions',
+    'Remote Consulting',
+    'Freelance Development',
+    'Contract Development',
+    'Technical Consulting',
+    'Architecture Consulting'
+  ].filter(Boolean)
+  
+  const categoryStr = [
+    'IT Services',
+    'Software Engineering Services',
+    'Enterprise Solutions',
+    'Custom Software Development',
+    'Cloud Architecture',
+    'Full Stack Development',
+    'Microservices Architecture',
+    'Technical Leadership',
+    'Agile Project Management',
+    'Database Design & Optimization',
+    'Mobile Development'
+  ].join(', ')
+  
+  const keywordList = [
+    'reliable services',
+    'enterprise-grade services',
+    'mission-critical services',
+    'zero-downtime services',
+    'high-availability services',
+    'scalable architecture',
+    'SSL/TLS security',
+    'real-time processing',
+    'high-performance services',
+    'distributed systems',
+    'production-ready',
+    'robust architecture',
+    'resilient systems',
+    'large-scale projects',
+    'freelance services',
+    'contract services',
+    'remote consulting',
+    'USA services',
+    'UK services',
+    'Europe services',
+    'global services',
+    'Angular .NET Core',
+    'Azure Cloud',
+    'microservices',
+    'full stack',
+    'custom solutions',
+    'legacy modernization',
+    'cloud migration',
+    'startup to enterprise',
+    'Fortune 500 experience'
+  ].join(', ')
   
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
     '@id': `${SITE_URL}${serviceData.url}`,
-    name: serviceData.title,
-    description: serviceData.description,
+    name: title,
+    description: desc,
+    serviceType: serviceTypes.length === 1 ? serviceTypes[0] : serviceTypes,
+    category: categoryStr,
+    keywords: keywordList,
     provider: {
       '@type': 'Person',
       name: fullName,
       jobTitle: 'Senior Software Engineer & Technical Lead',
       address: {
         '@type': 'PostalAddress',
-        addressLocality: location.split(',')[0] || location,
-        addressRegion: location.includes('Selangor') ? 'Selangor' : '',
+        addressLocality: (location && location.split(',')[0]) || location || '',
+        addressRegion: (location && location.includes('Selangor')) ? 'Selangor' : '',
         addressCountry: 'MY'
       }
     },
     areaServed: [
-      {
-        '@type': 'Country',
-        name: 'United States'
-      },
-      {
-        '@type': 'Country',
-        name: 'United Kingdom'
-      },
-      {
-        '@type': 'Country',
-        name: 'Germany'
-      },
-      {
-        '@type': 'Country',
-        name: 'Netherlands'
-      },
-      {
-        '@type': 'Country',
-        name: 'Switzerland'
-      },
-      {
-        '@type': 'Country',
-        name: 'Global'
-      }
+      { '@type': 'Country', name: 'United States' },
+      { '@type': 'Country', name: 'United Kingdom' },
+      { '@type': 'Country', name: 'Germany' },
+      { '@type': 'Country', name: 'Netherlands' },
+      { '@type': 'Country', name: 'Switzerland' },
+      { '@type': 'Country', name: 'Global' }
     ],
     availableChannel: {
       '@type': 'ServiceChannel',
       serviceType: 'Remote',
       availableLanguage: ['English']
     },
-    serviceType: serviceData.serviceType || serviceData.title,
     offers: {
       '@type': 'Offer',
       availabilityStarts: '2022-01-01',
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
-      priceSpecification: {
-        '@type': 'UnitPriceSpecification',
-        priceCurrency: 'USD'
-      }
+      priceSpecification: { '@type': 'UnitPriceSpecification', priceCurrency: 'USD' }
     }
   }
 }

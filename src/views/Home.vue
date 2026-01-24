@@ -79,6 +79,23 @@ export default {
       }
     }
 
+    // Set dynamic SEO meta tags (router sets basic SEO, but we enhance it here)
+    runWhenIdle(async () => {
+      try {
+        const { setPageSEO, getHomePageSEO } = await import('../utils/seo.js')
+        const seo = getHomePageSEO()
+        const BASE_URL = import.meta.env.BASE_URL || '/portfolio/'
+        const SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
+        setPageSEO({
+          ...seo,
+          url: SITE_URL
+        })
+      } catch (error) {
+        // Silently fail - SEO is optional
+        console.warn('[Home] Failed to set SEO:', error.message)
+      }
+    })
+
     // Generate structured data for SEO with reviews (defer to idle)
     runWhenIdle(async () => {
       try {
