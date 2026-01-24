@@ -7,9 +7,9 @@ Unified endpoint for both analytics data fetching and event tracking.
 - Google Cloud Project: `robust-builder-484406-b3`
 - Service Account: `ga4-analytics-reader-portfolio@robust-builder-484406-b3.iam.gserviceaccount.com`
 - Analytics Data API: Already enabled
-- GA4 Property ID: `519885223`
-- GA4 Measurement ID: `G-1HMMJLP7GK`
-- GA4 API Secret: `p4SbgXEyTKOikyV8ZZACig`
+- **GitHub Pages GA4**: Property `519885223`, Measurement `G-1HMMJLP7GK`, API Secret (in code)
+- **Firebase GA4**: Property `521230752`, Measurement `G-02TG7S6Z2V`, API Secret `waqasahmad-portfolio-secret` (in code)
+- Origin-based: requests from Firebase Hosting use Firebase property; GitHub Pages use GitHub property.
 
 ## Deployment Steps
 
@@ -71,9 +71,7 @@ Sends tracking events to GA4:
 
 - Uses Application Default Credentials (your service account)
 - No need to upload JSON key file
-- CORS enabled for:
-  - `https://devwithwaqas.github.io` (GitHub Pages)
-  - `https://waqasahmad-portfolio.web.app` (Firebase Hosting)
-- Automatic scaling
-- 5-minute caching for analytics data to reduce API calls
-- Unified endpoint - one URL for both analytics and tracking
+- CORS enabled for GitHub Pages and Firebase Hosting (see `ALLOWED_ORIGINS` in code).
+- Automatic scaling.
+- Caching for analytics (1h in-memory for unified API; Firestore for read function).
+- **Dual GA4**: Analytics and tracking use the correct property (GitHub vs Firebase) based on request `Origin`.

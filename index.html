@@ -243,7 +243,11 @@
     // Get Measurement ID (will be replaced during build)
     // Fallback to hardcoded ID if placeholder wasn't replaced
     const GA4_MEASUREMENT_ID_RAW = 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER';
-    const GA4_MEASUREMENT_ID_FALLBACK = 'G-1HMMJLP7GK'; // Hardcoded fallback
+    // Fallback: Use Firebase ID if on Firebase domain, otherwise GitHub Pages ID
+    const isFirebase = window.location.hostname.includes('waqasahmad-portfolio') || 
+                      window.location.hostname.includes('firebaseapp') ||
+                      window.location.hostname.includes('web.app');
+    const GA4_MEASUREMENT_ID_FALLBACK = isFirebase ? 'G-02TG7S6Z2V' : 'G-1HMMJLP7GK';
     
     // Use fallback if placeholder wasn't replaced
     let GA4_MEASUREMENT_ID = GA4_MEASUREMENT_ID_RAW;

@@ -26,11 +26,42 @@ function getCorsHeaders(origin) {
   };
 }
 
-// Configuration - Analytics
-const PROPERTY_ID = '519885223';
-const BASE_TOTAL_VIEWS = 6234;
-const SEED_VIEWS_PER_ITEM = 2435;
-const CACHE_DURATION = 3600; // 1 hour (increased from 5min to reduce API calls)
+// GA4 configs per property (GitHub Pages vs Firebase)
+const GA4_ANALYTICS = {
+  github: {
+    propertyId: '519885223',
+    baseTotalViews: 6234,
+    seedViewsPerItem: 2435,
+  },
+  firebase: {
+    propertyId: '521230752',
+    baseTotalViews: 0,
+    seedViewsPerItem: 0,
+  },
+};
+const GA4_TRACKING = {
+  github: { measurementId: 'G-1HMMJLP7GK', apiSecret: 'p4SbgXEyTKOikyV8ZZACig' },
+  firebase: { measurementId: 'G-02TG7S6Z2V', apiSecret: 'CI49dz3qSHylJ1pHmOzLOg' },
+};
+const FIREBASE_ORIGINS = [
+  'https://waqasahmad-portfolio.web.app',
+  'https://waqasahmad-portfolio.firebaseapp.com',
+  'https://portfolio-staging-test.web.app',
+  'https://portfolio-staging-test.firebaseapp.com',
+  'https://portfolio-test-4108729.web.app',
+  'https://portfolio-test-4108729.firebaseapp.com',
+];
+function isFirebaseOrigin(origin) {
+  return FIREBASE_ORIGINS.includes(origin);
+}
+function getAnalyticsConfig(origin) {
+  return isFirebaseOrigin(origin) ? GA4_ANALYTICS.firebase : GA4_ANALYTICS.github;
+}
+function getTrackingConfig(origin) {
+  return isFirebaseOrigin(origin) ? GA4_TRACKING.firebase : GA4_TRACKING.github;
+}
+
+const CACHE_DURATION = 3600; // 1 hour
 
 // Whitelist of valid project/service pages with display names and title patterns
 const VALID_PAGES = {
@@ -55,12 +86,8 @@ const VALID_PAGES = {
   '/services/mobile-development': { name: 'Mobile Development', titlePattern: /mobile development/i }
 };
 
-// Configuration - Tracking
-const MEASUREMENT_ID = 'G-1HMMJLP7GK';
-const API_SECRET = 'p4SbgXEyTKOikyV8ZZACig';
-
-// In-memory cache (resets on cold start)
-let cache = null;
+// In-memory cache per property (resets on cold start)
+let cache = { github: null, firebase: null };
 
 /**
  * Initialize Analytics Data API client
@@ -71,13 +98,13 @@ function getAnalyticsClient() {
 }
 
 /**
- * Fetch analytics data from GA4
+ * Fetch analytics data from GA4 for a given config
  */
-async function fetchAnalyticsData() {
+async function fetchAnalyticsData(config) {
+  const { propertyId, baseTotalViews, seedViewsPerItem } = config;
   const analyticsDataClient = getAnalyticsClient();
-  const property = `properties/${PROPERTY_ID}`;
+  const property = `properties/${propertyId}`;
 
-  // Request 1: Get total views
   const [totalViewsResponse] = await analyticsDataClient.runReport({
     property,
     dateRanges: [
@@ -97,7 +124,7 @@ async function fetchAnalyticsData() {
   if (totalViewsResponse.rows && totalViewsResponse.rows.length > 0) {
     totalViews = parseInt(totalViewsResponse.rows[0].metricValues[0].value || '0', 10);
   }
-  totalViews += BASE_TOTAL_VIEWS;
+  totalViews += baseTotalViews;
 
   // Request 2: Get top pages - get ALL pages first, we'll filter in code
   const [topPagesResponse] = await analyticsDataClient.runReport({
@@ -156,7 +183,7 @@ async function fetchAnalyticsData() {
       const path = row.dimensionValues[0]?.value || '';
       const title = row.dimensionValues[1]?.value || '';
       let views = parseInt(row.metricValues[0]?.value || '0', 10);
-      views += SEED_VIEWS_PER_ITEM;
+      views += seedViewsPerItem;
 
       console.log(`\n--- Processing row: path="${path}", title="${title}", views=${views} ---`);
 
@@ -256,7 +283,8 @@ function generateClientId() {
 /**
  * Send event to GA4 Measurement Protocol (for tracking)
  */
-async function sendTrackingEvent(clientId, eventName, eventParams, pageLocation, pageTitle) {
+async function sendTrackingEvent(clientId, eventName, eventParams, pageLocation, pageTitle, trackingConfig) {
+  const { measurementId, apiSecret } = trackingConfig;
   const payload = {
     client_id: clientId,
     events: [{
@@ -270,7 +298,7 @@ async function sendTrackingEvent(clientId, eventName, eventParams, pageLocation,
     }],
   };
 
-  const url = `https://www.google-analytics.com/mp/collect?measurement_id=${MEASUREMENT_ID}&api_secret=${API_SECRET}`;
+  const url = `https://www.google-analytics.com/mp/collect?measurement_id=${measurementId}&api_secret=${apiSecret}`;
 
   try {
     const response = await fetch(url, {
@@ -325,8 +353,9 @@ exports.portfolioAnalyticsAPI = async (req, res) => {
       const clientId = data.client_id || generateClientId();
       const pageLocation = data.page_location || '';
       const pageTitle = data.page_title || '';
+      const trackingConfig = getTrackingConfig(origin);
 
-      const result = await sendTrackingEvent(clientId, eventName, eventParams, pageLocation, pageTitle);
+      const result = await sendTrackingEvent(clientId, eventName, eventParams, pageLocation, pageTitle, trackingConfig);
 
       if (result.success) {
         res.set(CORS_HEADERS);
@@ -368,39 +397,28 @@ exports.portfolioAnalyticsAPI = async (req, res) => {
   }
 
   try {
-    // Check cache (allow bypass with ?nocache=true)
+    const key = isFirebaseOrigin(origin) ? 'firebase' : 'github';
+    const analyticsConfig = getAnalyticsConfig(origin);
     const now = Math.floor(Date.now() / 1000);
     const bypassCache = req.query.nocache === 'true';
-    
-    if (!bypassCache && cache && (now - cache.timestamp) < CACHE_DURATION) {
-      console.log('Returning cached data');
+    const cached = cache[key];
+
+    if (!bypassCache && cached && (now - cached.timestamp) < CACHE_DURATION) {
+      console.log(`Returning cached data (${key})`);
       res.set(CORS_HEADERS);
       res.set('Content-Type', 'application/json');
-      res.status(200).json({
-        ...cache.data,
-        cached: true,
-      });
+      res.status(200).json({ ...cached.data, cached: true });
       return;
     }
-    
+
     if (bypassCache) {
       console.log('Cache bypass requested, fetching fresh data');
     }
 
-    // Fetch analytics data
-    const { totalViews, topItems } = await fetchAnalyticsData();
+    const { totalViews, topItems } = await fetchAnalyticsData(analyticsConfig);
+    const result = { totalViews, topItems, cached: false };
 
-    const result = {
-      totalViews,
-      topItems,
-      cached: false,
-    };
-
-    // Update cache
-    cache = {
-      timestamp: now,
-      data: result,
-    };
+    cache[key] = { timestamp: now, data: result };
 
     res.set(CORS_HEADERS);
     res.set('Content-Type', 'application/json');

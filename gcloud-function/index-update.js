@@ -1,7 +1,7 @@
 /**
  * Portfolio GA4 Analytics UPDATE Function
  * Called by Cloud Scheduler hourly to fetch and cache analytics data
- * Stores results in Firestore for the read function to consume
+ * Fetches from BOTH GA4 properties (GitHub Pages + Firebase) and stores in Firestore
  */
 
 const { BetaAnalyticsDataClient } = require('@google-analytics/data');
@@ -12,10 +12,19 @@ const firestore = new Firestore();
 const COLLECTION_NAME = 'analytics_cache';
 const DOCUMENT_ID = 'portfolio_stats';
 
-// Configuration
-const PROPERTY_ID = '519885223';
-const BASE_TOTAL_VIEWS = 6234;
-const SEED_VIEWS_PER_ITEM = 2435;
+// GA4 configs per property
+const GA4_CONFIG = {
+  github: {
+    propertyId: '519885223',
+    baseTotalViews: 6234,
+    seedViewsPerItem: 2435,
+  },
+  firebase: {
+    propertyId: '521230752',
+    baseTotalViews: 0,
+    seedViewsPerItem: 0,
+  },
+};
 
 // Whitelist of valid pages
 const VALID_PAGES = {
@@ -39,96 +48,116 @@ const VALID_PAGES = {
 };
 
 /**
- * Fetch analytics data from GA4 and store in Firestore
+ * Fetch analytics for one GA4 property and return { totalViews, topItems }
  */
-async function updateAnalyticsCache() {
-  console.log('[UPDATE] Starting analytics cache update...');
-  
+async function fetchForProperty(key) {
+  const { propertyId, baseTotalViews, seedViewsPerItem } = GA4_CONFIG[key];
   const analyticsDataClient = new BetaAnalyticsDataClient();
-  const property = `properties/${PROPERTY_ID}`;
+  const property = `properties/${propertyId}`;
 
-  try {
-    // Request 1: Get total views
-    console.log('[UPDATE] Fetching total views from GA4...');
-    const [totalViewsResponse] = await analyticsDataClient.runReport({
-      property,
-      dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
-      metrics: [{ name: 'screenPageViews' }],
-    });
+  const [totalViewsResponse] = await analyticsDataClient.runReport({
+    property,
+    dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+    metrics: [{ name: 'screenPageViews' }],
+  });
 
-    let totalViews = 0;
-    if (totalViewsResponse.rows && totalViewsResponse.rows.length > 0) {
-      totalViews = parseInt(totalViewsResponse.rows[0].metricValues[0].value || '0', 10);
-    }
-    totalViews += BASE_TOTAL_VIEWS;
-    console.log(`[UPDATE] Total views: ${totalViews}`);
+  let totalViews = 0;
+  if (totalViewsResponse.rows && totalViewsResponse.rows.length > 0) {
+    totalViews = parseInt(totalViewsResponse.rows[0].metricValues[0].value || '0', 10);
+  }
+  totalViews += baseTotalViews;
 
-    // Request 2: Get top pages
-    console.log('[UPDATE] Fetching top pages from GA4...');
-    const [topPagesResponse] = await analyticsDataClient.runReport({
-      property,
-      dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
-      dimensions: [{ name: 'pagePath' }, { name: 'pageTitle' }],
-      metrics: [{ name: 'screenPageViews' }],
-      orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
-      limit: 20,
-    });
+  const [topPagesResponse] = await analyticsDataClient.runReport({
+    property,
+    dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'pagePath' }, { name: 'pageTitle' }],
+    metrics: [{ name: 'screenPageViews' }],
+    orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
+    limit: 20,
+  });
 
-    const topItems = [];
-    if (topPagesResponse.rows && topPagesResponse.rows.length > 0) {
-      for (const row of topPagesResponse.rows) {
-        if (topItems.length >= 3) break;
-        
-        const path = row.dimensionValues[0]?.value || '';
-        const title = row.dimensionValues[1]?.value || '';
-        let views = parseInt(row.metricValues[0]?.value || '0', 10) + SEED_VIEWS_PER_ITEM;
+  const topItems = [];
+  if (topPagesResponse.rows && topPagesResponse.rows.length > 0) {
+    for (const row of topPagesResponse.rows) {
+      if (topItems.length >= 3) break;
 
-        // Skip home page
-        if (title && title.toLowerCase().includes('waqas ahmad - remote senior software engineer') && 
-            !title.toLowerCase().includes('hire remote')) {
-          continue;
-        }
+      const path = row.dimensionValues[0]?.value || '';
+      const title = row.dimensionValues[1]?.value || '';
+      let views = parseInt(row.metricValues[0]?.value || '0', 10) + seedViewsPerItem;
 
-        // Match by title pattern
-        let pageInfo = null;
-        let matchedPath = null;
-        for (const [pagePath, info] of Object.entries(VALID_PAGES)) {
-          if (info.titlePattern && info.titlePattern.test(title)) {
-            pageInfo = info;
-            matchedPath = pagePath;
-            break;
-          }
-        }
+      if (title && title.toLowerCase().includes('waqas ahmad - remote senior software engineer') &&
+          !title.toLowerCase().includes('hire remote')) {
+        continue;
+      }
 
-        if (pageInfo) {
-          const urlPath = matchedPath.startsWith('/portfolio/') ? matchedPath.replace(/^\/portfolio/, '') : matchedPath;
-          const isProject = urlPath.startsWith('/projects/');
-          const displayName = isProject ? `Project: ${pageInfo.name}` : `Service: ${pageInfo.name}`;
-          
-          topItems.push({
-            name: displayName,
-            views,
-            url: urlPath,
-            type: isProject ? 'project' : 'service',
-          });
+      let pageInfo = null;
+      let matchedPath = null;
+      for (const [pagePath, info] of Object.entries(VALID_PAGES)) {
+        if (info.titlePattern && info.titlePattern.test(title)) {
+          pageInfo = info;
+          matchedPath = pagePath;
+          break;
         }
       }
+
+      if (pageInfo) {
+        const urlPath = matchedPath.startsWith('/portfolio/') ? matchedPath.replace(/^\/portfolio/, '') : matchedPath;
+        const isProject = urlPath.startsWith('/projects/');
+        const displayName = isProject ? `Project: ${pageInfo.name}` : `Service: ${pageInfo.name}`;
+        topItems.push({
+          name: displayName,
+          views,
+          url: urlPath,
+          type: isProject ? 'project' : 'service',
+        });
+      }
     }
+  }
 
-    console.log(`[UPDATE] Processed ${topItems.length} top items`);
+  return { totalViews, topItems };
+}
 
-    // Store in Firestore
+/**
+ * Fetch from both GA4 properties and store in Firestore
+ */
+async function updateAnalyticsCache() {
+  console.log('[UPDATE] Starting analytics cache update (both properties)...');
+
+  const now = new Date().toISOString();
+  const ts = Date.now();
+
+  try {
+    const [githubResult, firebaseResult] = await Promise.all([
+      fetchForProperty('github'),
+      fetchForProperty('firebase'),
+    ]);
+
     const data = {
-      totalViews,
-      topItems,
-      lastUpdated: new Date().toISOString(),
-      timestamp: Date.now()
+      github: {
+        totalViews: githubResult.totalViews,
+        topItems: githubResult.topItems,
+        lastUpdated: now,
+        timestamp: ts,
+      },
+      firebase: {
+        totalViews: firebaseResult.totalViews,
+        topItems: firebaseResult.topItems,
+        lastUpdated: now,
+        timestamp: ts,
+      },
     };
 
     await firestore.collection(COLLECTION_NAME).doc(DOCUMENT_ID).set(data);
-    console.log('[UPDATE] ✅ Analytics data cached in Firestore successfully');
+    console.log('[UPDATE] ✅ Cached both GitHub and Firebase analytics');
 
-    return { success: true, data };
+    return {
+      success: true,
+      data: {
+        github: { totalViews: data.github.totalViews, topItemsCount: data.github.topItems.length },
+        firebase: { totalViews: data.firebase.totalViews, topItemsCount: data.firebase.topItems.length },
+        lastUpdated: now,
+      },
+    };
   } catch (error) {
     console.error('[UPDATE] ❌ Error updating analytics cache:', error);
     throw error;
@@ -143,16 +172,15 @@ exports.updatePortfolioAnalytics = async (req, res) => {
     const result = await updateAnalyticsCache();
     res.status(200).json({
       success: true,
-      message: 'Analytics cache updated successfully',
+      message: 'Analytics cache updated (GitHub + Firebase)',
       lastUpdated: result.data.lastUpdated,
-      totalViews: result.data.totalViews,
-      topItemsCount: result.data.topItems.length
+      ...result.data,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       error: 'Failed to update analytics cache',
-      message: error.message || String(error)
+      message: error.message || String(error),
     });
   }
 };

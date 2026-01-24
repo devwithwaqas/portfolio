@@ -1,28 +1,61 @@
-# 🚀 Firebase Deployment Commands
+# 🚀 Build & Deployment Commands
 
-## Quick Copy-Paste Commands
+## 📦 Build Commands
 
-### Step 1: Build for Firebase
-```bash
-npm run build:firebase
+### GitHub Pages Build (Default)
+```powershell
+npm run build
 ```
-
-### Step 2: Deploy to Firebase Hosting
-```bash
-firebase deploy --only hosting
-```
-
-### Or Deploy Everything (if you have functions/firestore rules)
-```bash
-firebase deploy
-```
+**Output:** `dist/` folder with base path `/portfolio/`  
+**URL:** `https://devwithwaqas.github.io/portfolio/`  
+**Auto-deploys:** Via GitHub Actions on push to `main` branch
 
 ---
 
-## Full Deployment Sequence (Copy All)
+### Firebase Hosting Build
+```powershell
+npm run build:firebase
+```
+**Output:** `dist/` folder with base path `/`  
+**URL:** `https://waqasahmad-portfolio.web.app`  
+**Manual deploy required:** See deployment commands below
 
-```bash
-npm run build:firebase && firebase deploy --only hosting
+---
+
+## 🚀 Deployment Commands
+
+### Firebase Hosting - Full Deploy (Build + Deploy) ⭐ RECOMMENDED
+```powershell
+npm run deploy:firebase
+```
+**What it does:**
+1. Builds for Firebase (`npm run build:firebase`)
+2. Deploys to Firebase Hosting (`firebase deploy --only hosting --project waqasahmad-portfolio`)
+
+**Result:** Site live at `https://waqasahmad-portfolio.web.app`
+
+---
+
+### Firebase Hosting - Deploy Only (if already built)
+```powershell
+npm run deploy:firebase:hosting
+```
+**Use when:** You've already run `npm run build:firebase` and just want to deploy
+
+---
+
+### Firebase Hosting - Manual Step-by-Step
+```powershell
+# Step 1: Build
+npm run build:firebase
+
+# Step 2: Deploy
+firebase deploy --only hosting --project waqasahmad-portfolio
+```
+
+**Or use the npm script (same as above):**
+```powershell
+npm run deploy:firebase
 ```
 
 ---
@@ -30,27 +63,32 @@ npm run build:firebase && firebase deploy --only hosting
 ## Step-by-Step with Status Checks
 
 ### 1. Clean previous build (optional)
-```bash
-rm -rf dist
+```powershell
+Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue
 ```
 
 ### 2. Build for Firebase
-```bash
+```powershell
 npm run build:firebase
 ```
 
 ### 3. Check build output
-```bash
-# Windows PowerShell
-Get-ChildItem dist/assets/js | Select-Object Name, @{Name="Size(KB)";Expression={[math]::Round($_.Length/1KB,2)}}
+```powershell
+# Count files in dist
+Get-ChildItem -Path dist -Recurse -File | Measure-Object | Select-Object -ExpandProperty Count
 
 # Or just verify dist folder exists
-dir dist
+Test-Path dist
 ```
 
 ### 4. Deploy to Firebase
-```bash
-firebase deploy --only hosting
+```powershell
+firebase deploy --only hosting --project waqasahmad-portfolio
+```
+
+**Or use the npm script:**
+```powershell
+npm run deploy:firebase:hosting
 ```
 
 ---
@@ -92,15 +130,15 @@ Hosting URL: https://waqasahmad-portfolio.web.app
 ## Troubleshooting
 
 ### If build fails:
-```bash
+```powershell
 # Clear node_modules and reinstall (if needed)
-rm -rf node_modules package-lock.json
+Remove-Item -Recurse -Force node_modules, package-lock.json -ErrorAction SilentlyContinue
 npm install
 npm run build:firebase
 ```
 
 ### If deployment fails:
-```bash
+```powershell
 # Check Firebase login
 firebase login
 
@@ -108,5 +146,32 @@ firebase login
 firebase projects:list
 
 # Use correct project
-firebase use your-project-id
+firebase use waqasahmad-portfolio
+
+# Verify hosting sites
+firebase hosting:sites:list --project waqasahmad-portfolio
 ```
+
+---
+
+## 📋 Quick Reference Table
+
+| Task | Command |
+|------|---------|
+| **Build for GitHub Pages** | `npm run build` |
+| **Build for Firebase** | `npm run build:firebase` |
+| **Deploy to Firebase (full)** | `npm run deploy:firebase` ⭐ |
+| **Deploy to Firebase (hosting only)** | `npm run deploy:firebase:hosting` |
+| **Check Firebase project** | `firebase use waqasahmad-portfolio` |
+| **List Firebase projects** | `firebase projects:list` |
+
+---
+
+## 🌐 Live URLs
+
+| Deployment | URL |
+|------------|-----|
+| **GitHub Pages** | https://devwithwaqas.github.io/portfolio/ |
+| **Firebase Hosting** | https://waqasahmad-portfolio.web.app |
+| **Sitemap (GitHub)** | https://devwithwaqas.github.io/portfolio/sitemap.xml |
+| **Sitemap (Firebase)** | https://waqasahmad-portfolio.web.app/sitemap.xml |

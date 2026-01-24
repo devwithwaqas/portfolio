@@ -1,12 +1,12 @@
 /**
  * Portfolio GA4 Analytics READ Function
  * ONLY reads from Firestore cache, NEVER calls GA4 API
- * No rate limits - can handle unlimited requests
+ * Returns analytics for GitHub or Firebase based on request origin.
+ * POST (tracking) sends to correct GA4 property (Measurement ID + API Secret) by origin.
  */
 
 const { Firestore } = require('@google-cloud/firestore');
 
-// CORS Headers - Allow both GitHub Pages and Firebase Hosting
 const ALLOWED_ORIGINS = [
   'https://devwithwaqas.github.io',
   'https://waqasahmad-portfolio.web.app',
@@ -14,7 +14,7 @@ const ALLOWED_ORIGINS = [
   'https://portfolio-staging-test.web.app',
   'https://portfolio-staging-test.firebaseapp.com',
   'https://portfolio-test-4108729.web.app',
-  'https://portfolio-test-4108729.firebaseapp.com'
+  'https://portfolio-test-4108729.firebaseapp.com',
 ];
 
 function getCorsHeaders(origin) {
@@ -27,28 +27,47 @@ function getCorsHeaders(origin) {
   };
 }
 
-// Configuration - Tracking
-const MEASUREMENT_ID = 'G-1HMMJLP7GK';
-const API_SECRET = 'p4SbgXEyTKOikyV8ZZACig';
+// GA4 tracking config by origin (Measurement ID + API Secret)
+const TRACKING_CONFIG = {
+  firebase: {
+    measurementId: 'G-02TG7S6Z2V',
+    apiSecret: 'CI49dz3qSHylJ1pHmOzLOg',
+  },
+  github: {
+    measurementId: 'G-1HMMJLP7GK',
+    apiSecret: 'p4SbgXEyTKOikyV8ZZACig',
+  },
+};
 
-// Initialize Firestore
+const FIREBASE_ORIGINS = [
+  'https://waqasahmad-portfolio.web.app',
+  'https://waqasahmad-portfolio.firebaseapp.com',
+  'https://portfolio-staging-test.web.app',
+  'https://portfolio-staging-test.firebaseapp.com',
+  'https://portfolio-test-4108729.web.app',
+  'https://portfolio-test-4108729.firebaseapp.com',
+];
+
+function isFirebaseOrigin(origin) {
+  return FIREBASE_ORIGINS.includes(origin);
+}
+
+function getTrackingConfig(origin) {
+  return isFirebaseOrigin(origin) ? TRACKING_CONFIG.firebase : TRACKING_CONFIG.github;
+}
+
 const firestore = new Firestore();
 const COLLECTION_NAME = 'analytics_cache';
 const DOCUMENT_ID = 'portfolio_stats';
 
-/**
- * Generate a client ID for tracking
- */
 function generateClientId() {
   const timestamp = Date.now();
   const random = Math.floor(Math.random() * 10000000000) + 1000000000;
   return `${timestamp}.${random}`;
 }
 
-/**
- * Send event to GA4 Measurement Protocol (for tracking)
- */
-async function sendTrackingEvent(clientId, eventName, eventParams, pageLocation, pageTitle) {
+async function sendTrackingEvent(clientId, eventName, eventParams, pageLocation, pageTitle, config) {
+  const { measurementId, apiSecret } = config;
   const payload = {
     client_id: clientId,
     events: [{
@@ -62,17 +81,14 @@ async function sendTrackingEvent(clientId, eventName, eventParams, pageLocation,
     }],
   };
 
-  const url = `https://www.google-analytics.com/mp/collect?measurement_id=${MEASUREMENT_ID}&api_secret=${API_SECRET}`;
+  const url = `https://www.google-analytics.com/mp/collect?measurement_id=${measurementId}&api_secret=${apiSecret}`;
 
   try {
     const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
-
     return {
       success: response.ok,
       httpCode: response.status,
@@ -86,25 +102,19 @@ async function sendTrackingEvent(clientId, eventName, eventParams, pageLocation,
   }
 }
 
-/**
- * Cloud Function entry point - reads cached analytics data (GET) or handles tracking (POST)
- */
 exports.readPortfolioAnalytics = async (req, res) => {
   const origin = req.headers.origin || '';
   const CORS_HEADERS = getCorsHeaders(origin);
-  
-  // Handle CORS preflight
+
   if (req.method === 'OPTIONS') {
     res.set(CORS_HEADERS);
     res.status(204).send('');
     return;
   }
 
-  // Handle POST requests (tracking)
   if (req.method === 'POST') {
     try {
       const data = req.body;
-
       if (!data || typeof data !== 'object') {
         res.set(CORS_HEADERS);
         res.set('Content-Type', 'application/json');
@@ -117,8 +127,9 @@ exports.readPortfolioAnalytics = async (req, res) => {
       const clientId = data.client_id || generateClientId();
       const pageLocation = data.page_location || '';
       const pageTitle = data.page_title || '';
+      const config = getTrackingConfig(origin);
 
-      const result = await sendTrackingEvent(clientId, eventName, eventParams, pageLocation, pageTitle);
+      const result = await sendTrackingEvent(clientId, eventName, eventParams, pageLocation, pageTitle, config);
 
       if (result.success) {
         res.set(CORS_HEADERS);
@@ -152,7 +163,6 @@ exports.readPortfolioAnalytics = async (req, res) => {
     return;
   }
 
-  // Handle GET requests (analytics data)
   if (req.method !== 'GET') {
     res.set(CORS_HEADERS);
     res.status(405).json({ error: 'Method not allowed. Use GET or POST.' });
@@ -160,12 +170,9 @@ exports.readPortfolioAnalytics = async (req, res) => {
   }
 
   try {
-    // Read from Firestore
     const doc = await firestore.collection(COLLECTION_NAME).doc(DOCUMENT_ID).get();
-    
+
     if (!doc.exists) {
-      // No cached data yet - return default
-      console.log('[READ] No cached data found, returning defaults');
       res.set(CORS_HEADERS);
       res.set('Content-Type', 'application/json');
       res.status(200).json({
@@ -173,21 +180,49 @@ exports.readPortfolioAnalytics = async (req, res) => {
         topItems: [],
         cached: true,
         lastUpdated: null,
-        message: 'Waiting for first update from scheduler'
+        message: 'Waiting for first update from scheduler',
       });
       return;
     }
 
-    const data = doc.data();
-    console.log(`[READ] Returning cached data (age: ${Math.round((Date.now() - data.timestamp) / 1000 / 60)} minutes)`);
-    
+    const raw = doc.data();
+    const key = isFirebaseOrigin(origin) ? 'firebase' : 'github';
+
+    // New format: { github: {...}, firebase: {...} }
+    let block = raw[key];
+    if (block) {
+      res.set(CORS_HEADERS);
+      res.set('Content-Type', 'application/json');
+      res.status(200).json({
+        totalViews: block.totalViews || 0,
+        topItems: block.topItems || [],
+        cached: true,
+        lastUpdated: block.lastUpdated || null,
+      });
+      return;
+    }
+
+    // Legacy flat format (single property)
+    if (raw.totalViews !== undefined && raw.topItems) {
+      res.set(CORS_HEADERS);
+      res.set('Content-Type', 'application/json');
+      res.status(200).json({
+        totalViews: raw.totalViews,
+        topItems: raw.topItems,
+        cached: true,
+        lastUpdated: raw.lastUpdated || null,
+      });
+      return;
+    }
+
     res.set(CORS_HEADERS);
     res.set('Content-Type', 'application/json');
     res.status(200).json({
-      totalViews: data.totalViews || 0,
-      topItems: data.topItems || [],
+      totalViews: 0,
+      topItems: [],
       cached: true,
-      lastUpdated: data.lastUpdated
+      lastUpdated: null,
+      message: 'No data for this property yet',
     });
   } catch (error) {
     console.error('[READ] Error reading from Firestore:', error);
@@ -195,7 +230,7 @@ exports.readPortfolioAnalytics = async (req, res) => {
     res.set('Content-Type', 'application/json');
     res.status(500).json({
       error: 'Failed to read analytics cache',
-      message: error.message || String(error)
+      message: error.message || String(error),
     });
   }
 };

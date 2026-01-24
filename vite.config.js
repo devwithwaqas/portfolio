@@ -25,6 +25,12 @@ export default defineConfig(({ mode }) => {
     process.env.VITE_FIREBASE_SITE_URL = 'https://waqasahmad-portfolio.web.app'
   }
   
+  // Set GA4 Measurement ID for Firebase builds (different from GitHub Pages)
+  if (mode === 'firebase' && !process.env.VITE_GA4_MEASUREMENT_ID) {
+    // Use Firebase GA4 property if provided, otherwise fallback to GitHub Pages ID
+    process.env.VITE_GA4_MEASUREMENT_ID = process.env.VITE_GA4_MEASUREMENT_ID_FIREBASE || 'G-02TG7S6Z2V'
+  }
+  
   // Pass Firebase site URL to sitemap generation script
   if (mode === 'firebase') {
     process.env.FIREBASE_SITE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
@@ -41,7 +47,10 @@ export default defineConfig(({ mode }) => {
       transformIndexHtml(html, context) {
         // Use the base path from config (dynamic based on mode)
         const base = mode === 'firebase' ? '/' : '/portfolio/'
-        const ga4Id = process.env.VITE_GA4_MEASUREMENT_ID || ''
+        // Use Firebase GA4 ID for Firebase builds, GitHub Pages ID for others
+        const ga4Id = mode === 'firebase' 
+          ? (process.env.VITE_GA4_MEASUREMENT_ID_FIREBASE || process.env.VITE_GA4_MEASUREMENT_ID || 'G-02TG7S6Z2V')
+          : (process.env.VITE_GA4_MEASUREMENT_ID || 'G-1HMMJLP7GK')
         // Replace absolute asset paths with base-prefixed paths
         let transformed = html.replace(/href="\/assets\//g, `href="${base}assets/`)
                              .replace(/src="\/assets\//g, `src="${base}assets/`)
