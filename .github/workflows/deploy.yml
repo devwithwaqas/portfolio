@@ -1,9 +1,15 @@
-name: Deploy to GitHub Pages
+name: Deploy Redirect to GitHub Pages
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch: # Allow manual trigger from any branch
+    inputs:
+      branch:
+        description: 'Branch to deploy from'
+        required: false
+        default: 'main'
+        type: string
 
 permissions:
   contents: read
@@ -24,40 +30,48 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          ref: ${{ github.event.inputs.branch || github.ref }}
       
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Build with environment variables
-        run: npm run build
-        env:
-          # Personal Information
-          VITE_FULL_NAME: ${{ secrets.VITE_FULL_NAME }}
-          VITE_LOCATION: ${{ secrets.VITE_LOCATION }}
-          VITE_CONTACT_EMAIL: ${{ secrets.VITE_CONTACT_EMAIL }}
-          VITE_PHONE: ${{ secrets.VITE_PHONE }}
+      - name: Create redirect HTML
+        run: |
+          mkdir -p dist/portfolio
+          # Create redirect HTML for /portfolio/ path
+          cat > dist/portfolio/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="robots" content="noindex, nofollow">
+            <meta http-equiv="refresh" content="0; url=https://waqasahmad-portfolio.web.app/">
+            <link rel="canonical" href="https://waqasahmad-portfolio.web.app/">
+            <title>Redirecting to Waqas Ahmad Portfolio...</title>
+            <script>
+              // Redirect to Firebase, preserving path and query params
+              const path = window.location.pathname.replace('/portfolio', '') || '/';
+              const search = window.location.search;
+              const hash = window.location.hash;
+              window.location.replace('https://waqasahmad-portfolio.web.app' + path + search + hash);
+            </script>
+          </head>
+          <body>
+            <p>This site has moved to <a href="https://waqasahmad-portfolio.web.app/">https://waqasahmad-portfolio.web.app/</a></p>
+            <p>Redirecting...</p>
+          </body>
+          </html>
+          EOF
+          # Also create root redirect for custom domain scenarios
+          mkdir -p dist
+          cp dist/portfolio/index.html dist/index.html
           
-          # Social Media & Links
-          VITE_LINKEDIN_URL: ${{ secrets.VITE_LINKEDIN_URL }}
-          VITE_GITHUB_URL: ${{ secrets.VITE_GITHUB_URL }}
-          VITE_WEBSITE_URL: ${{ secrets.VITE_WEBSITE_URL }}
-          VITE_WHATSAPP_URL: ${{ secrets.VITE_WHATSAPP_URL }}
-          VITE_GOOGLE_MAPS_URL: ${{ secrets.VITE_GOOGLE_MAPS_URL }}
+          # Create robots.txt to prevent indexing of GitHub Pages (it's just a redirect)
+          cat > dist/robots.txt << 'EOF'
+          User-agent: *
+          Disallow: /
+          EOF
           
-          # SMTP Configuration (Google Cloud Functions)
-          VITE_SMTP_ENDPOINT: ${{ secrets.VITE_SMTP_ENDPOINT }}
-          VITE_SMTP_API_KEY: ${{ secrets.VITE_SMTP_API_KEY }}
-          
-          # Google Analytics 4
-          VITE_GA4_MEASUREMENT_ID: ${{ secrets.VITE_GA4_MEASUREMENT_ID }}
-          VITE_GA4_FORCE_SERVER_SIDE: ${{ secrets.VITE_GA4_FORCE_SERVER_SIDE }}
-          VITE_PORTFOLIO_GA4_API_ENDPOINT: ${{ secrets.VITE_PORTFOLIO_GA4_API_ENDPOINT }}
+          # Create robots.txt in portfolio folder too
+          cp dist/robots.txt dist/portfolio/robots.txt
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
