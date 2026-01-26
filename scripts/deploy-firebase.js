@@ -335,17 +335,45 @@ const environment = args.includes('--dev') || args.includes('-d') ? 'dev' : 'pro
 
 // Check for manual build number
 // Note: --version is reserved by npm, so we use --build or -b or -v instead
+// Also handle case where npm strips --build and only passes the number
 let manualBuildNumber = null
+
+// First, try to find --build, -b, or -v flag
 const buildIndex = args.findIndex((arg, index) => {
   if (arg === '--build' || arg === '-b' || arg === '-v') {
     return args[index + 1] && !args[index + 1].startsWith('-')
   }
   return false
 })
+
 if (buildIndex !== -1 && args[buildIndex + 1]) {
   manualBuildNumber = args[buildIndex + 1]
   // Remove the flag and value from args to avoid confusion
   args.splice(buildIndex, 2)
+} else {
+  // If --build was stripped by npm, look for standalone number arguments
+  // Check if there's a number argument that's not a flag
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i]
+    // Skip known flags
+    if (arg.startsWith('--') || arg.startsWith('-')) {
+      continue
+    }
+    // If it's a number or alphanumeric string (build number), use it
+    // But only if it's not already used as a flag value
+    if (i === 0 || (args[i - 1] !== '--build' && args[i - 1] !== '-b' && args[i - 1] !== '-v')) {
+      // Check if this looks like a build number (not a command)
+      if (/^[a-zA-Z0-9._-]+$/.test(arg) && arg.length > 0) {
+        // Check if previous arg was a flag we care about
+        const prevArg = i > 0 ? args[i - 1] : null
+        if (!prevArg || (prevArg !== '--dev' && prevArg !== '-d' && prevArg !== '--help' && prevArg !== '-h')) {
+          manualBuildNumber = arg
+          args.splice(i, 1)
+          break
+        }
+      }
+    }
+  }
 }
 
 // Show usage if help requested
@@ -369,6 +397,10 @@ Examples:
   npm run deploy:firebase:dev -- -b custom-build-123
   npm run deploy:firebase:dev -- -v test-456
   npm run deploy:firebase:prod -- --build v2.0.0
+  
+Note: If --build is stripped by npm, you can also use:
+  npm run deploy:firebase:dev -- 12346
+  (the script will detect standalone build numbers)
 `)
   process.exit(0)
 }
