@@ -40,6 +40,38 @@ function getCurrentBuildNumber() {
   return null
 }
 
+function getDistBuildNumber() {
+  try {
+    const distSwPath = path.resolve(__dirname, '../dist/sw.js')
+    if (fs.existsSync(distSwPath)) {
+      const swContent = fs.readFileSync(distSwPath, 'utf-8')
+      const match = swContent.match(/const SERVICE_WORKER_VERSION = ['"](.*?)['"]/)
+      if (match) {
+        return match[1]
+      }
+    }
+  } catch (error) {
+    // Ignore
+  }
+  return null
+}
+
+function updateDistBuildNumber(buildNumber) {
+  try {
+    const distSwPath = path.resolve(__dirname, '../dist/sw.js')
+    if (fs.existsSync(distSwPath)) {
+      let swContent = fs.readFileSync(distSwPath, 'utf-8')
+      swContent = swContent.replace(/const SERVICE_WORKER_VERSION = ['"](.*?)['"]/, `const SERVICE_WORKER_VERSION = '${buildNumber}'`)
+      fs.writeFileSync(distSwPath, swContent, 'utf-8')
+      return true
+    }
+  } catch (error) {
+    console.error('Error updating dist/sw.js build number:', error.message)
+    return false
+  }
+  return false
+}
+
 function getGitCommitHash() {
   try {
     return execSync('git rev-parse --short HEAD', { encoding: 'utf-8' }).trim()
@@ -216,33 +248,54 @@ function deployFirebase(environment = 'prod', manualBuildNumber = null) {
         execSync(step, { stdio: 'inherit', cwd: path.resolve(__dirname, '..') })
       }
       
-      // After build, verify the manual build number is still in public/sw.js
-      // (generate-sw.js reads from it, so it should be preserved)
-      const verifyBuild = getCurrentBuildNumber()
-      if (verifyBuild !== manualBuildNumber) {
-        log(`\nWarning: Build number may have been overwritten!`, 'yellow')
+      // After build, verify the manual build number is in dist/sw.js (the deployed file)
+      const distBuildNumber = getDistBuildNumber()
+      if (distBuildNumber !== manualBuildNumber) {
+        log(`\nWarning: Build number in dist/sw.js doesn't match manual build number!`, 'yellow')
         log(`   Expected: ${manualBuildNumber}`, 'yellow')
-        log(`   Found: ${verifyBuild}`, 'yellow')
-        log(`   Re-applying manual build number...`, 'yellow')
-        updateBuildNumber(manualBuildNumber)
+        log(`   Found in dist/sw.js: ${distBuildNumber}`, 'yellow')
+        log(`   Updating dist/sw.js with manual build number...`, 'yellow')
+        const updated = updateDistBuildNumber(manualBuildNumber)
+        if (updated) {
+          log(`   Successfully updated dist/sw.js`, 'green')
+        } else {
+          log(`   Error: Failed to update dist/sw.js`, 'red')
+        }
       }
     } else {
       execSync(buildCommand, { stdio: 'inherit' })
     }
     
-    // Get actual new build number after build
-    const actualNewBuild = getCurrentBuildNumber()
+    // Get actual new build number after build from dist/sw.js (the deployed file)
+    const actualNewBuild = getDistBuildNumber() || getCurrentBuildNumber()
     if (!actualNewBuild) {
       log(`\nWarning: Could not read build number after build!`, 'yellow')
     }
     
-    // Verify manual build number was preserved
-    if (manualBuildNumber && actualNewBuild !== manualBuildNumber) {
-      log(`\nError: Manual build number was not preserved!`, 'red')
-      log(`   Expected: ${manualBuildNumber}`, 'red')
-      log(`   Actual: ${actualNewBuild}`, 'red')
-      log(`   The build number may have been overwritten during build.`, 'red')
-      process.exit(1)
+    // Verify manual build number was preserved in dist/sw.js
+    if (manualBuildNumber) {
+      const distBuild = getDistBuildNumber()
+      if (distBuild !== manualBuildNumber) {
+        log(`\nError: Manual build number was not preserved in dist/sw.js!`, 'red')
+        log(`   Expected: ${manualBuildNumber}`, 'red')
+        log(`   Found in dist/sw.js: ${distBuild}`, 'red')
+        log(`   Attempting to fix...`, 'yellow')
+        const fixed = updateDistBuildNumber(manualBuildNumber)
+        if (fixed) {
+          log(`   Fixed! Updated dist/sw.js with manual build number`, 'green')
+          // Re-read to confirm
+          const verifyFix = getDistBuildNumber()
+          if (verifyFix === manualBuildNumber) {
+            log(`   Verified: dist/sw.js now has correct build number`, 'green')
+          } else {
+            log(`   Error: Still incorrect after fix attempt!`, 'red')
+            process.exit(1)
+          }
+        } else {
+          log(`   Error: Failed to fix dist/sw.js`, 'red')
+          process.exit(1)
+        }
+      }
     }
     
     showStepHeader('Build Completed')
