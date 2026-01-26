@@ -352,33 +352,34 @@ if (buildIndex !== -1 && args[buildIndex + 1]) {
   args.splice(buildIndex, 2)
 } else {
   // If --build was stripped by npm, look for standalone arguments that look like build numbers
-  // Filter out known flags and their values
-  const knownFlags = ['--dev', '-d', '--help', '-h']
-  const filteredArgs = []
+  // Known flags that don't take values
+  const flagsWithoutValues = ['--dev', '-d', '--help', '-h']
+  
+  // Find standalone arguments (not flags and not flag values)
   for (let i = 0; i < args.length; i++) {
     const arg = args[i]
-    if (knownFlags.includes(arg)) {
-      // Skip the flag and its value if it has one
-      if (i + 1 < args.length && !args[i + 1].startsWith('-')) {
-        i++ // Skip the value too
+    
+    // Skip if it's a flag
+    if (arg.startsWith('--') || arg.startsWith('-')) {
+      // Check if it's a flag that takes a value
+      if (!flagsWithoutValues.includes(arg)) {
+        // This might be a flag with a value, skip the next arg too
+        if (i + 1 < args.length && !args[i + 1].startsWith('-')) {
+          i++ // Skip the value
+        }
       }
       continue
     }
-    if (!arg.startsWith('--') && !arg.startsWith('-')) {
-      filteredArgs.push(arg)
-    }
-  }
-  
-  // If there's a standalone argument that looks like a build number, use it
-  if (filteredArgs.length > 0) {
-    const candidate = filteredArgs[0]
+    
+    // This is a standalone argument - check if it looks like a build number
     // Build numbers can be: numbers, alphanumeric, with dots/dashes/underscores
-    if (/^[a-zA-Z0-9._-]+$/.test(candidate) && candidate.length > 0) {
-      manualBuildNumber = candidate
-      // Remove it from args
-      const removeIndex = args.indexOf(candidate)
-      if (removeIndex !== -1) {
-        args.splice(removeIndex, 1)
+    if (/^[a-zA-Z0-9._-]+$/.test(arg) && arg.length > 0) {
+      // Make sure previous arg wasn't a flag that takes this as a value
+      const prevArg = i > 0 ? args[i - 1] : null
+      if (!prevArg || flagsWithoutValues.includes(prevArg) || prevArg.startsWith('-')) {
+        manualBuildNumber = arg
+        args.splice(i, 1)
+        break
       }
     }
   }
