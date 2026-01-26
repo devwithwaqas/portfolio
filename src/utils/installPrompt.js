@@ -231,10 +231,17 @@ export function isInstallPromptAvailable() {
 export async function showInstallPrompt() {
   if (!deferredPrompt) {
     console.warn('[Install Prompt] No install prompt available')
+    console.warn('[Install Prompt] This means beforeinstallprompt event has not fired yet')
+    console.warn('[Install Prompt] Possible reasons:')
+    console.warn('  - Chrome hasn\'t determined the app is installable')
+    console.warn('  - App was already installed or dismissed')
+    console.warn('  - Incognito mode restrictions')
+    console.warn('  - Need more user engagement (30+ seconds + interactions)')
     return false
   }
   
   try {
+    console.log('[Install Prompt] Showing install prompt...')
     // Show the install prompt
     deferredPrompt.prompt()
     
@@ -251,5 +258,24 @@ export async function showInstallPrompt() {
     console.error('[Install Prompt] Error showing prompt:', error)
     deferredPrompt = null
     return false
+  }
+}
+
+// Expose to window for console testing (dev/prod)
+if (typeof window !== 'undefined') {
+  window.showInstallPrompt = showInstallPrompt
+  window.isInstallPromptAvailable = isInstallPromptAvailable
+  window.isAppInstalled = isAppInstalled
+  
+  // Helper function to check install prompt status
+  window.checkInstallPromptStatus = function() {
+    console.log('=== Install Prompt Status ===')
+    console.log('Available:', isInstallPromptAvailable())
+    console.log('Already Installed:', isAppInstalled())
+    console.log('Deferred Prompt:', deferredPrompt ? 'YES' : 'NO')
+    if (deferredPrompt) {
+      console.log('Platforms:', deferredPrompt.platforms)
+    }
+    console.log('===========================')
   }
 }
