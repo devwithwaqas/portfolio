@@ -8,28 +8,76 @@ let deferredPrompt = null
 /**
  * Check installability criteria and log diagnostics
  */
-function checkInstallability() {
+async function checkInstallability() {
   const checks = {
     isHTTPS: window.location.protocol === 'https:' || window.location.hostname === 'localhost',
     hasServiceWorker: 'serviceWorker' in navigator,
     hasManifest: document.querySelector('link[rel="manifest"]') !== null,
     isStandalone: window.matchMedia('(display-mode: standalone)').matches,
-    isIOSStandalone: window.navigator.standalone === true
+    isIOSStandalone: window.navigator.standalone === true,
+    isIncognito: false
   }
   
-  // Check if service worker is registered
+  // Detect incognito mode (not 100% reliable, but helpful for debugging)
+  try {
+    const isIncognito = await new Promise((resolve) => {
+      const db = indexedDB.open('test')
+      db.onerror = () => resolve(true) // IndexedDB blocked in incognito
+      db.onsuccess = () => {
+        indexedDB.deleteDatabase('test')
+        resolve(false)
+      }
+    })
+    checks.isIncognito = isIncognito
+    if (isIncognito) {
+      console.warn('[Install Prompt] ⚠️ Incognito mode detected - Chrome may be more restrictive with install prompts')
+    }
+  } catch (e) {
+    // Ignore detection errors
+  }
+  
+  // Check if service worker is registered and ACTIVE
   let swRegistered = false
+  let swActive = false
   if (checks.hasServiceWorker) {
-    navigator.serviceWorker.getRegistration().then(reg => {
+    try {
+      const reg = await navigator.serviceWorker.getRegistration()
       swRegistered = reg !== null
       console.log('[Install Prompt] Service Worker registered:', swRegistered)
       if (reg) {
         console.log('[Install Prompt] Service Worker scope:', reg.scope)
-        console.log('[Install Prompt] Service Worker state:', reg.active?.state || 'no active worker')
+        console.log('[Install Prompt] Service Worker installing:', reg.installing?.state || 'none')
+        console.log('[Install Prompt] Service Worker waiting:', reg.waiting?.state || 'none')
+        console.log('[Install Prompt] Service Worker active:', reg.active?.state || 'none')
+        
+        swActive = reg.active !== null
+        if (!swActive && reg.installing) {
+          console.log('[Install Prompt] ⚠️ Service Worker is installing, waiting for activation...')
+          // Wait for service worker to activate
+          return new Promise((resolve) => {
+            const checkActive = setInterval(() => {
+              reg.update().then(() => {
+                if (reg.active) {
+                  clearInterval(checkActive)
+                  console.log('[Install Prompt] ✅ Service Worker is now active')
+                  swActive = true
+                  resolve(checks)
+                }
+              })
+            }, 500)
+            
+            // Timeout after 10 seconds
+            setTimeout(() => {
+              clearInterval(checkActive)
+              console.warn('[Install Prompt] ⚠️ Service Worker activation timeout')
+              resolve(checks)
+            }, 10000)
+          })
+        }
       }
-    }).catch(err => {
+    } catch (err) {
       console.warn('[Install Prompt] Error checking service worker:', err)
-    })
+    }
   }
   
   // Check manifest
@@ -37,29 +85,42 @@ function checkInstallability() {
   if (manifestLink) {
     const manifestUrl = manifestLink.getAttribute('href')
     console.log('[Install Prompt] Manifest link found:', manifestUrl)
-    fetch(manifestUrl)
-      .then(res => res.json())
-      .then(manifest => {
-        console.log('[Install Prompt] Manifest valid:', {
-          name: manifest.name,
-          short_name: manifest.short_name,
-          display: manifest.display,
-          icons: manifest.icons?.length || 0,
-          start_url: manifest.start_url
-        })
+    try {
+      const res = await fetch(manifestUrl)
+      const manifest = await res.json()
+      console.log('[Install Prompt] Manifest valid:', {
+        name: manifest.name,
+        short_name: manifest.short_name,
+        display: manifest.display,
+        icons: manifest.icons?.length || 0,
+        start_url: manifest.start_url
       })
-      .catch(err => {
-        console.warn('[Install Prompt] Error loading manifest:', err)
-      })
+      
+      // Check icon sizes (Chrome requires at least 192x192 and 512x512)
+      const iconSizes = manifest.icons?.map(icon => icon.sizes) || []
+      const hasRequiredIcons = iconSizes.some(size => 
+        size && (size.includes('192') || size.includes('512'))
+      )
+      if (!hasRequiredIcons) {
+        console.warn('[Install Prompt] ⚠️ Manifest may be missing required icon sizes (192x192 or 512x512)')
+      }
+    } catch (err) {
+      console.warn('[Install Prompt] Error loading manifest:', err)
+    }
   }
   
   console.log('[Install Prompt] Installability checks:', {
     ...checks,
-    swRegistered: 'checking...'
+    swRegistered,
+    swActive
   })
   
   if (checks.isStandalone || checks.isIOSStandalone) {
     console.log('[Install Prompt] App appears to be already installed (standalone mode)')
+  }
+  
+  if (!swActive) {
+    console.warn('[Install Prompt] ⚠️ Service Worker not active - this may prevent install prompt')
   }
   
   return checks
@@ -78,10 +139,11 @@ export function initInstallPrompt() {
   
   console.log('[Install Prompt] Initializing install prompt handler...')
   
-  // Run installability checks after a short delay to ensure everything is loaded
-  setTimeout(() => {
-    checkInstallability()
-  }, 1000)
+  // Run installability checks after service worker has time to activate
+  // Wait longer to ensure service worker is fully active
+  setTimeout(async () => {
+    await checkInstallability()
+  }, 2000)
   
   window.addEventListener('beforeinstallprompt', (e) => {
     // Store the event so it can be triggered later
@@ -116,17 +178,23 @@ export function initInstallPrompt() {
     window.dispatchEvent(new CustomEvent('app-installed'))
   })
   
-  // Log if event doesn't fire after 5 seconds
+  // Log if event doesn't fire after 10 seconds (longer for service worker activation)
   setTimeout(() => {
     if (!deferredPrompt) {
-      console.warn('[Install Prompt] ⚠️ beforeinstallprompt event did NOT fire after 5 seconds')
+      console.warn('[Install Prompt] ⚠️ beforeinstallprompt event did NOT fire after 10 seconds')
       console.warn('[Install Prompt] Possible reasons:')
-      console.warn('  - App already installed or previously dismissed')
-      console.warn('  - Installability criteria not fully met')
-      console.warn('  - Chrome heuristics preventing prompt (need more user engagement)')
+      console.warn('  - App already installed or previously dismissed (Chrome remembers)')
+      console.warn('  - Incognito mode: Chrome is more restrictive in private browsing')
+      console.warn('  - Service worker not fully activated yet')
+      console.warn('  - Chrome heuristics: Need 30+ seconds of engagement + interactions')
       console.warn('  - Check installability diagnostics above')
+      console.warn('[Install Prompt] Try:')
+      console.warn('  - Wait 30+ seconds and interact with the page (scroll, click)')
+      console.warn('  - Check address bar for install icon (desktop Chrome)')
+      console.warn('  - Try browser menu: 3-dot menu > Install app')
+      console.warn('  - Test in regular (non-incognito) window')
     }
-  }, 5000)
+  }, 10000)
 }
 
 /**
