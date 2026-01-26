@@ -18,7 +18,8 @@ async function checkInstallability() {
     isIncognito: false
   }
   
-  // Detect incognito mode (not 100% reliable, but helpful for debugging)
+  // Detect incognito mode (not 100% reliable - IndexedDB method can give false positives)
+  // Only log if we're confident it's incognito
   try {
     const isIncognito = await new Promise((resolve) => {
       const db = indexedDB.open('test')
@@ -27,13 +28,17 @@ async function checkInstallability() {
         indexedDB.deleteDatabase('test')
         resolve(false)
       }
+      // Timeout after 100ms - if IndexedDB is slow, it's probably not incognito
+      setTimeout(() => resolve(false), 100)
     })
+    // Only mark as incognito if we're confident (IndexedDB method can be unreliable)
+    // Don't show warning unless we're very sure
     checks.isIncognito = isIncognito
-    if (isIncognito) {
-      console.warn('[Install Prompt] ⚠️ Incognito mode detected - Chrome may be more restrictive with install prompts')
-    }
+    // Note: This detection is not 100% reliable, so we don't show warnings
+    // as it can give false positives
   } catch (e) {
-    // Ignore detection errors
+    // Ignore detection errors - assume not incognito
+    checks.isIncognito = false
   }
   
   // Check if service worker is registered and ACTIVE
@@ -146,26 +151,22 @@ export function initInstallPrompt() {
   }, 2000)
   
   window.addEventListener('beforeinstallprompt', (e) => {
-    // Store the event so it can be triggered later
+    // Store the event so it can be triggered later (for manual triggering)
     deferredPrompt = e
     
     console.log('[Install Prompt] ✅ beforeinstallprompt event captured!')
     console.log('[Install Prompt] Platforms:', e.platforms)
     
-    // preventDefault() prevents Chrome's automatic mini-infobar/banner
-    // However, Chrome can still show install prompts via:
-    // - Address bar install icon (desktop)
-    // - Browser menu (3-dot menu > Install app)
-    // - Other browser mechanisms
-    // So the prompt CAN still appear even with preventDefault()
-    e.preventDefault()
+    // DON'T call preventDefault() - this allows Chrome's automatic banner to show
+    // If you want to show a custom install button instead, uncomment the line below:
+    // e.preventDefault()
     
     // Dispatch custom event so components can listen and show install button
     window.dispatchEvent(new CustomEvent('installprompt-available', {
       detail: { prompt: e }
     }))
     
-    console.log('[Install Prompt] Event stored. Install prompt may appear via address bar icon or menu.')
+    console.log('[Install Prompt] Event stored. Chrome will show automatic install banner.')
     console.log('[Install Prompt] To manually trigger: call showInstallPrompt() from console')
   })
   
