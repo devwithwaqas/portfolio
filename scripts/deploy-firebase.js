@@ -63,10 +63,39 @@ function getGitBranch() {
   }
 }
 
-function deployFirebase(environment = 'prod') {
+function updateBuildNumber(buildNumber) {
+  try {
+    // Update service worker version
+    const swPath = path.resolve(__dirname, '../public/sw.js')
+    if (fs.existsSync(swPath)) {
+      let swContent = fs.readFileSync(swPath, 'utf-8')
+      swContent = swContent.replace(/const SERVICE_WORKER_VERSION = ['"](.*?)['"]/, `const SERVICE_WORKER_VERSION = '${buildNumber}'`)
+      fs.writeFileSync(swPath, swContent, 'utf-8')
+    }
+    
+    // Update main.js expected version
+    const mainJsPath = path.resolve(__dirname, '../src/main.js')
+    if (fs.existsSync(mainJsPath)) {
+      let mainContent = fs.readFileSync(mainJsPath, 'utf-8')
+      mainContent = mainContent.replace(/const EXPECTED_SW_VERSION = ['"](.*?)['"]/, `const EXPECTED_SW_VERSION = '${buildNumber}'`)
+      fs.writeFileSync(mainJsPath, mainContent, 'utf-8')
+    }
+    
+    return true
+  } catch (error) {
+    console.error('Error updating build number:', error.message)
+    return false
+  }
+}
+
+function showStepHeader(title) {
   log('\n' + '='.repeat(60), 'cyan')
-  log('Firebase Deployment Script', 'bright')
+  log(title, 'bright')
   log('='.repeat(60), 'cyan')
+}
+
+function deployFirebase(environment = 'prod', manualBuildNumber = null) {
+  showStepHeader('Firebase Deployment Script')
   
   // Get previous build number
   const previousBuild = getCurrentBuildNumber()
@@ -74,7 +103,7 @@ function deployFirebase(environment = 'prod') {
   const commitMessage = getGitCommitMessage()
   const branch = getGitBranch()
   
-  log(`\nDeployment Information:`, 'bright')
+  showStepHeader('Deployment Information')
   log(`   Environment: ${environment === 'dev' ? 'Development' : 'Production'}`, 'blue')
   if (branch) {
     log(`   Branch: ${branch}`, 'blue')
@@ -85,17 +114,26 @@ function deployFirebase(environment = 'prod') {
   if (commitMessage) {
     log(`   Commit Message: ${commitMessage.split('\n')[0]}`, 'blue')
   }
+  if (manualBuildNumber) {
+    log(`   Manual Build Number: ${manualBuildNumber}`, 'yellow')
+  }
   
-  log(`\nBuild Numbers:`, 'bright')
+  showStepHeader('Build Numbers')
   if (previousBuild) {
     log(`   Previous Build: ${previousBuild}`, 'yellow')
   } else {
     log(`   Previous Build: (none - first deployment)`, 'yellow')
   }
   
-  // Get expected new build number (will be generated during build)
-  const expectedNewBuild = getVersion()
-  log(`   Expected New Build: ${expectedNewBuild}`, 'green')
+  // Get expected new build number
+  let expectedNewBuild
+  if (manualBuildNumber) {
+    expectedNewBuild = manualBuildNumber
+    log(`   New Build (Manual): ${expectedNewBuild}`, 'green')
+  } else {
+    expectedNewBuild = getVersion()
+    log(`   Expected New Build (Auto): ${expectedNewBuild}`, 'green')
+  }
   
   if (previousBuild && previousBuild === expectedNewBuild) {
     log(`\nWarning: Build number may not change!`, 'yellow')
@@ -103,18 +141,68 @@ function deployFirebase(environment = 'prod') {
     log(`   Service worker cache may not update for users.`, 'yellow')
   }
   
-  log(`\nStarting build process...`, 'bright')
-  log(`   This will generate build number during build`, 'cyan')
-  
   // Determine which build command to run
   const buildCommand = environment === 'dev' 
     ? 'npm run build:firebase:dev'
     : 'npm run build:firebase'
   
   try {
-    // Run build
-    log(`\nRunning: ${buildCommand}`, 'cyan')
-    execSync(buildCommand, { stdio: 'inherit' })
+    // If manual build number provided, update it before build
+    if (manualBuildNumber) {
+      showStepHeader('Setting Manual Build Number')
+      log(`   Updating build number to: ${manualBuildNumber}`, 'cyan')
+      const updated = updateBuildNumber(manualBuildNumber)
+      if (updated) {
+        log(`   Build number updated successfully`, 'green')
+      } else {
+        log(`   Error: Failed to update build number`, 'red')
+        process.exit(1)
+      }
+    }
+    
+    showStepHeader('Starting Build Process')
+    log(`   Command: ${buildCommand}`, 'cyan')
+    log(`   Build number will be: ${expectedNewBuild}`, 'cyan')
+    if (manualBuildNumber) {
+      log(`   Note: Using manual build number`, 'yellow')
+    }
+    
+    // Run build (but skip version generation if manual build number provided)
+    if (manualBuildNumber) {
+      // Build without running generate-sw-version.js since we already set it manually
+      const buildSteps = environment === 'dev'
+        ? [
+            'node scripts/cleanup-dist.js',
+            'vite build --mode firebase-dev',
+            'node scripts/copy-404.js',
+            'node scripts/create-nojekyll.js',
+            'node scripts/create-headers.js',
+            'node scripts/copy-llms-txt.js',
+            'node scripts/generate-sitemap.js',
+            'node scripts/write-robots-firebase.js',
+            'node scripts/validate-sitemap.js',
+            'node scripts/generate-sw.js'
+          ]
+        : [
+            'node scripts/cleanup-dist.js',
+            'vite build --mode firebase',
+            'node scripts/copy-404.js',
+            'node scripts/create-nojekyll.js',
+            'node scripts/create-headers.js',
+            'node scripts/copy-llms-txt.js',
+            'node scripts/generate-sitemap.js',
+            'node scripts/write-robots-firebase.js',
+            'node scripts/validate-sitemap.js',
+            'node scripts/generate-sw.js'
+          ]
+      
+      // Run each step
+      for (const step of buildSteps) {
+        execSync(step, { stdio: 'inherit', cwd: path.resolve(__dirname, '..') })
+      }
+    } else {
+      execSync(buildCommand, { stdio: 'inherit' })
+    }
     
     // Get actual new build number after build
     const actualNewBuild = getCurrentBuildNumber()
@@ -122,25 +210,26 @@ function deployFirebase(environment = 'prod') {
       log(`\nWarning: Could not read build number after build!`, 'yellow')
     }
     
-    log(`\nBuild completed successfully!`, 'green')
+    showStepHeader('Build Completed')
     log(`   Build Number: ${actualNewBuild || expectedNewBuild}`, 'green')
+    log(`   Status: Success`, 'green')
     
     // Deploy to Firebase
-    log(`\nDeploying to Firebase...`, 'bright')
+    showStepHeader('Deploying to Firebase')
     log(`   Project: waqasahmad-portfolio`, 'cyan')
     log(`   Target: hosting only`, 'cyan')
+    log(`   Environment: ${environment === 'dev' ? 'Development' : 'Production'}`, 'cyan')
     
     execSync('firebase deploy --only hosting --project waqasahmad-portfolio', { stdio: 'inherit' })
     
-    log(`\n${'='.repeat(60)}`, 'cyan')
-    log(`Deployment completed successfully!`, 'green')
+    showStepHeader('Deployment Completed Successfully')
     log(`\nBuild Summary:`, 'bright')
     if (previousBuild) {
       log(`   Previous: ${previousBuild}`, 'yellow')
     }
     log(`   Current:  ${actualNewBuild || expectedNewBuild}`, 'green')
     log(`\nSite URL: https://waqasahmad-portfolio.web.app/`, 'cyan')
-    log(`${'='.repeat(60)}\n`, 'cyan')
+    log(`\n`, 'reset')
     
   } catch (error) {
     log(`\nDeployment failed!`, 'red')
@@ -149,8 +238,38 @@ function deployFirebase(environment = 'prod') {
   }
 }
 
-// Get environment from command line args
+// Parse command line arguments
 const args = process.argv.slice(2)
 const environment = args.includes('--dev') || args.includes('-d') ? 'dev' : 'prod'
 
-deployFirebase(environment)
+// Check for manual build number
+let manualBuildNumber = null
+const buildIndex = args.findIndex(arg => arg === '--build' || arg === '--version' || arg === '-b' || arg === '-v')
+if (buildIndex !== -1 && args[buildIndex + 1]) {
+  manualBuildNumber = args[buildIndex + 1]
+}
+
+// Show usage if help requested
+if (args.includes('--help') || args.includes('-h')) {
+  console.log(`
+Firebase Deployment Script
+
+Usage:
+  node scripts/deploy-firebase.js [options]
+
+Options:
+  --dev, -d              Deploy to development environment
+  --build, -b <number>    Manually specify build number
+  --version, -v <number>  Alias for --build
+  --help, -h              Show this help message
+
+Examples:
+  npm run deploy:firebase:dev
+  npm run deploy:firebase:prod
+  npm run deploy:firebase:dev -- --build v1.2.3
+  npm run deploy:firebase:prod -- --build custom-build-123
+`)
+  process.exit(0)
+}
+
+deployFirebase(environment, manualBuildNumber)
