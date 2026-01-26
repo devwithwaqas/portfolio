@@ -8,7 +8,7 @@ const fs = require('fs')
 const path = require('path')
 const { getVersion } = require('./generate-sw-version.js')
 
-// Colors for terminal output
+// Colors for terminal output (no emojis)
 const colors = {
   reset: '\x1b[0m',
   bright: '\x1b[1m',
@@ -65,7 +65,7 @@ function getGitBranch() {
 
 function deployFirebase(environment = 'prod') {
   log('\n' + '='.repeat(60), 'cyan')
-  log('🚀 Firebase Deployment Script', 'bright')
+  log('Firebase Deployment Script', 'bright')
   log('='.repeat(60), 'cyan')
   
   // Get previous build number
@@ -74,7 +74,7 @@ function deployFirebase(environment = 'prod') {
   const commitMessage = getGitCommitMessage()
   const branch = getGitBranch()
   
-  log(`\n📋 Deployment Information:`, 'bright')
+  log(`\nDeployment Information:`, 'bright')
   log(`   Environment: ${environment === 'dev' ? 'Development' : 'Production'}`, 'blue')
   if (branch) {
     log(`   Branch: ${branch}`, 'blue')
@@ -86,7 +86,7 @@ function deployFirebase(environment = 'prod') {
     log(`   Commit Message: ${commitMessage.split('\n')[0]}`, 'blue')
   }
   
-  log(`\n📦 Build Numbers:`, 'bright')
+  log(`\nBuild Numbers:`, 'bright')
   if (previousBuild) {
     log(`   Previous Build: ${previousBuild}`, 'yellow')
   } else {
@@ -98,12 +98,12 @@ function deployFirebase(environment = 'prod') {
   log(`   Expected New Build: ${expectedNewBuild}`, 'green')
   
   if (previousBuild && previousBuild === expectedNewBuild) {
-    log(`\n⚠️  Warning: Build number may not change!`, 'yellow')
+    log(`\nWarning: Build number may not change!`, 'yellow')
     log(`   This might mean no new commits since last deployment.`, 'yellow')
     log(`   Service worker cache may not update for users.`, 'yellow')
   }
   
-  log(`\n🔨 Starting build process...`, 'bright')
+  log(`\nStarting build process...`, 'bright')
   log(`   This will generate build number during build`, 'cyan')
   
   // Determine which build command to run
@@ -113,37 +113,37 @@ function deployFirebase(environment = 'prod') {
   
   try {
     // Run build
-    log(`\n📝 Running: ${buildCommand}`, 'cyan')
+    log(`\nRunning: ${buildCommand}`, 'cyan')
     execSync(buildCommand, { stdio: 'inherit' })
     
     // Get actual new build number after build
     const actualNewBuild = getCurrentBuildNumber()
     if (!actualNewBuild) {
-      log(`\n⚠️  Warning: Could not read build number after build!`, 'yellow')
+      log(`\nWarning: Could not read build number after build!`, 'yellow')
     }
     
-    log(`\n✅ Build completed successfully!`, 'green')
+    log(`\nBuild completed successfully!`, 'green')
     log(`   Build Number: ${actualNewBuild || expectedNewBuild}`, 'green')
     
     // Deploy to Firebase
-    log(`\n🚀 Deploying to Firebase...`, 'bright')
+    log(`\nDeploying to Firebase...`, 'bright')
     log(`   Project: waqasahmad-portfolio`, 'cyan')
     log(`   Target: hosting only`, 'cyan')
     
     execSync('firebase deploy --only hosting --project waqasahmad-portfolio', { stdio: 'inherit' })
     
     log(`\n${'='.repeat(60)}`, 'cyan')
-    log(`✅ Deployment completed successfully!`, 'green')
-    log(`\n📊 Build Summary:`, 'bright')
+    log(`Deployment completed successfully!`, 'green')
+    log(`\nBuild Summary:`, 'bright')
     if (previousBuild) {
       log(`   Previous: ${previousBuild}`, 'yellow')
     }
     log(`   Current:  ${actualNewBuild || expectedNewBuild}`, 'green')
-    log(`\n🌐 Site URL: https://waqasahmad-portfolio.web.app/`, 'cyan')
+    log(`\nSite URL: https://waqasahmad-portfolio.web.app/`, 'cyan')
     log(`${'='.repeat(60)}\n`, 'cyan')
     
   } catch (error) {
-    log(`\n❌ Deployment failed!`, 'red')
+    log(`\nDeployment failed!`, 'red')
     log(`   Error: ${error.message}`, 'red')
     process.exit(1)
   }
