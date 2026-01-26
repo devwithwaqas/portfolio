@@ -351,26 +351,34 @@ if (buildIndex !== -1 && args[buildIndex + 1]) {
   // Remove the flag and value from args to avoid confusion
   args.splice(buildIndex, 2)
 } else {
-  // If --build was stripped by npm, look for standalone number arguments
-  // Check if there's a number argument that's not a flag
+  // If --build was stripped by npm, look for standalone arguments that look like build numbers
+  // Filter out known flags and their values
+  const knownFlags = ['--dev', '-d', '--help', '-h']
+  const filteredArgs = []
   for (let i = 0; i < args.length; i++) {
     const arg = args[i]
-    // Skip known flags
-    if (arg.startsWith('--') || arg.startsWith('-')) {
+    if (knownFlags.includes(arg)) {
+      // Skip the flag and its value if it has one
+      if (i + 1 < args.length && !args[i + 1].startsWith('-')) {
+        i++ // Skip the value too
+      }
       continue
     }
-    // If it's a number or alphanumeric string (build number), use it
-    // But only if it's not already used as a flag value
-    if (i === 0 || (args[i - 1] !== '--build' && args[i - 1] !== '-b' && args[i - 1] !== '-v')) {
-      // Check if this looks like a build number (not a command)
-      if (/^[a-zA-Z0-9._-]+$/.test(arg) && arg.length > 0) {
-        // Check if previous arg was a flag we care about
-        const prevArg = i > 0 ? args[i - 1] : null
-        if (!prevArg || (prevArg !== '--dev' && prevArg !== '-d' && prevArg !== '--help' && prevArg !== '-h')) {
-          manualBuildNumber = arg
-          args.splice(i, 1)
-          break
-        }
+    if (!arg.startsWith('--') && !arg.startsWith('-')) {
+      filteredArgs.push(arg)
+    }
+  }
+  
+  // If there's a standalone argument that looks like a build number, use it
+  if (filteredArgs.length > 0) {
+    const candidate = filteredArgs[0]
+    // Build numbers can be: numbers, alphanumeric, with dots/dashes/underscores
+    if (/^[a-zA-Z0-9._-]+$/.test(candidate) && candidate.length > 0) {
+      manualBuildNumber = candidate
+      // Remove it from args
+      const removeIndex = args.indexOf(candidate)
+      if (removeIndex !== -1) {
+        args.splice(removeIndex, 1)
       }
     }
   }
