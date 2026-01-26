@@ -258,10 +258,18 @@ const args = process.argv.slice(2)
 const environment = args.includes('--dev') || args.includes('-d') ? 'dev' : 'prod'
 
 // Check for manual build number
+// Note: --version is reserved by npm, so we use --build or -b or -v instead
 let manualBuildNumber = null
-const buildIndex = args.findIndex(arg => arg === '--build' || arg === '--version' || arg === '-b' || arg === '-v')
+const buildIndex = args.findIndex((arg, index) => {
+  if (arg === '--build' || arg === '-b' || arg === '-v') {
+    return args[index + 1] && !args[index + 1].startsWith('-')
+  }
+  return false
+})
 if (buildIndex !== -1 && args[buildIndex + 1]) {
   manualBuildNumber = args[buildIndex + 1]
+  // Remove the flag and value from args to avoid confusion
+  args.splice(buildIndex, 2)
 }
 
 // Show usage if help requested
@@ -274,15 +282,17 @@ Usage:
 
 Options:
   --dev, -d              Deploy to development environment
-  --build, -b <number>    Manually specify build number
-  --version, -v <number>  Alias for --build
-  --help, -h              Show this help message
+  --build, -b <number>   Manually specify build number
+  -v <number>            Alias for --build (note: --version is reserved by npm)
+  --help, -h             Show this help message
 
 Examples:
   npm run deploy:firebase:dev
   npm run deploy:firebase:prod
   npm run deploy:firebase:dev -- --build v1.2.3
-  npm run deploy:firebase:prod -- --build custom-build-123
+  npm run deploy:firebase:dev -- -b custom-build-123
+  npm run deploy:firebase:dev -- -v test-456
+  npm run deploy:firebase:prod -- --build v2.0.0
 `)
   process.exit(0)
 }
