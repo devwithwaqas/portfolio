@@ -215,6 +215,17 @@ function deployFirebase(environment = 'prod', manualBuildNumber = null) {
       for (const step of buildSteps) {
         execSync(step, { stdio: 'inherit', cwd: path.resolve(__dirname, '..') })
       }
+      
+      // After build, verify the manual build number is still in public/sw.js
+      // (generate-sw.js reads from it, so it should be preserved)
+      const verifyBuild = getCurrentBuildNumber()
+      if (verifyBuild !== manualBuildNumber) {
+        log(`\nWarning: Build number may have been overwritten!`, 'yellow')
+        log(`   Expected: ${manualBuildNumber}`, 'yellow')
+        log(`   Found: ${verifyBuild}`, 'yellow')
+        log(`   Re-applying manual build number...`, 'yellow')
+        updateBuildNumber(manualBuildNumber)
+      }
     } else {
       execSync(buildCommand, { stdio: 'inherit' })
     }
@@ -225,9 +236,21 @@ function deployFirebase(environment = 'prod', manualBuildNumber = null) {
       log(`\nWarning: Could not read build number after build!`, 'yellow')
     }
     
+    // Verify manual build number was preserved
+    if (manualBuildNumber && actualNewBuild !== manualBuildNumber) {
+      log(`\nError: Manual build number was not preserved!`, 'red')
+      log(`   Expected: ${manualBuildNumber}`, 'red')
+      log(`   Actual: ${actualNewBuild}`, 'red')
+      log(`   The build number may have been overwritten during build.`, 'red')
+      process.exit(1)
+    }
+    
     showStepHeader('Build Completed')
     log(`   Build Number: ${actualNewBuild || expectedNewBuild}`, 'green')
     log(`   Status: Success`, 'green')
+    if (manualBuildNumber && actualNewBuild === manualBuildNumber) {
+      log(`   Verified: Manual build number preserved correctly`, 'green')
+    }
     
     // Deploy to Firebase
     showStepHeader('Deploying to Firebase')
