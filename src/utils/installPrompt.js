@@ -16,19 +16,26 @@ export function initInstallPrompt() {
   }
   
   window.addEventListener('beforeinstallprompt', (e) => {
-    // Store the event so it can be triggered later if needed
+    // Store the event so it can be triggered later
     deferredPrompt = e
     
     console.log('[Install Prompt] beforeinstallprompt event captured')
+    console.log('[Install Prompt] Platforms:', e.platforms)
     
-    // DON'T prevent default - let Chrome show the automatic install banner
-    // If you want a custom install button, you can call showInstallPrompt() programmatically
-    // For now, we let Chrome handle it automatically
+    // preventDefault() prevents Chrome's automatic mini-infobar/banner
+    // However, Chrome can still show install prompts via:
+    // - Address bar install icon (desktop)
+    // - Browser menu (3-dot menu > Install app)
+    // - Other browser mechanisms
+    // So the prompt CAN still appear even with preventDefault()
+    e.preventDefault()
     
-    // Dispatch custom event so components can listen if they want to show custom button
+    // Dispatch custom event so components can listen and show install button
     window.dispatchEvent(new CustomEvent('installprompt-available', {
       detail: { prompt: e }
     }))
+    
+    console.log('[Install Prompt] Event stored. Install prompt may appear via address bar icon or menu.')
   })
   
   // Listen for app installed event
