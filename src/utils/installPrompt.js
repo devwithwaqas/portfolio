@@ -193,6 +193,9 @@ export function initInstallPrompt() {
       console.warn('  - Check address bar for install icon (desktop Chrome)')
       console.warn('  - Try browser menu: 3-dot menu > Install app')
       console.warn('  - Test in regular (non-incognito) window')
+      console.warn('[Install Prompt] To reset and see prompt again:')
+      console.warn('  - Run: showInstallPromptResetInstructions() in console')
+      console.warn('  - Or: Uninstall app + Clear site data')
     }
   }, 10000)
 }
@@ -277,5 +280,44 @@ if (typeof window !== 'undefined') {
       console.log('Platforms:', deferredPrompt.platforms)
     }
     console.log('===========================')
+  }
+  
+  // Helper function to show instructions for resetting install prompt
+  window.showInstallPromptResetInstructions = function() {
+    console.log('=== How to Reset Install Prompt ===')
+    console.log('')
+    console.log('Chrome remembers if you installed or dismissed the app.')
+    console.log('To see the prompt again, you need to:')
+    console.log('')
+    console.log('1. UNINSTALL THE APP (if installed):')
+    console.log('   Desktop Chrome:')
+    console.log('     - Go to chrome://apps/')
+    console.log('     - Right-click the app > Uninstall')
+    console.log('   OR')
+    console.log('     - Settings > Apps > Installed apps > Find your app > Uninstall')
+    console.log('')
+    console.log('   Mobile Chrome (Android):')
+    console.log('     - Long-press app icon > Uninstall')
+    console.log('     - OR Settings > Apps > Find app > Uninstall')
+    console.log('')
+    console.log('2. CLEAR CHROME\'S INSTALL PROMPT MEMORY:')
+    console.log('   Desktop Chrome:')
+    console.log('     - Open DevTools (F12)')
+    console.log('     - Application tab > Storage')
+    console.log('     - Click "Clear site data"')
+    console.log('     - OR: chrome://settings/content/all')
+    console.log('     - Find your site > Delete')
+    console.log('')
+    console.log('   Mobile Chrome:')
+    console.log('     - Settings > Site settings > All sites')
+    console.log('     - Find your site > Clear & reset')
+    console.log('')
+    console.log('3. ALTERNATIVE: Use a new Chrome profile or incognito window')
+    console.log('   (Note: Incognito may still be restrictive)')
+    console.log('')
+    console.log('4. After reset, wait 30+ seconds and interact with the page')
+    console.log('   (scroll, click) to trigger the prompt again')
+    console.log('')
+    console.log('=== End Instructions ===')
   }
 }
