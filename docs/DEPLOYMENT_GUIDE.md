@@ -159,6 +159,108 @@ For hosts that don't support SPA routing natively, create redirect rules:
 
 **GitHub Pages:** The workflow handles this automatically.
 
+## 🔥 Firebase Deployment
+
+### Prerequisites
+
+- Firebase CLI installed: `npm install -g firebase-tools`
+- Firebase project created and initialized
+- Logged in to Firebase: `firebase login`
+
+### Deployment Commands
+
+#### Development Deployment
+
+**Auto build number (from git commit):**
+```bash
+npm run deploy:firebase:dev
+```
+
+**Manual build number:**
+```bash
+npm run deploy:firebase:dev -- --build v1.2.3
+npm run deploy:firebase:dev -- --version custom-build-123
+npm run deploy:firebase:dev -- -b release-2024-01
+```
+
+#### Production Deployment
+
+**Auto build number (from git commit):**
+```bash
+npm run deploy:firebase:prod
+```
+
+**Manual build number:**
+```bash
+npm run deploy:firebase:prod -- --build v2.0.0
+npm run deploy:firebase:prod -- --version production-2024
+npm run deploy:firebase:prod -- -b prod-v1.0.0
+```
+
+### Build Number Options
+
+The deployment script automatically generates build numbers from git commit hashes. You can also manually specify build numbers:
+
+**Available flags:**
+- `--build <number>` or `-b <number>` - Specify manual build number
+- `--version <number>` or `-v <number>` - Alias for --build
+- `--dev` or `-d` - Deploy to development environment
+- `--help` or `-h` - Show help message
+
+**Examples:**
+```bash
+# Development with manual build
+npm run deploy:firebase:dev -- --build v1.0.0-dev
+
+# Production with manual build
+npm run deploy:firebase:prod -- --build v1.0.0
+
+# Using short flags
+npm run deploy:firebase:dev -- -b test-123
+npm run deploy:firebase:prod -- -v release-2024
+```
+
+### Deployment Output
+
+The script shows formatted output with build number tracking:
+
+```
+============================================================
+Firebase Deployment Script
+============================================================
+
+============================================================
+Deployment Information
+============================================================
+   Environment: Development/Production
+   Branch: firebase-lcp-optimization
+   Git Commit: abc1234
+   Commit Message: Your commit message
+
+============================================================
+Build Numbers
+============================================================
+   Previous Build: xyz7890
+   Expected New Build: abc1234
+
+[... build and deployment steps ...]
+
+============================================================
+Deployment Completed Successfully
+============================================================
+
+Build Summary:
+   Previous: xyz7890
+   Current:  abc1234
+```
+
+### Build Number Behavior
+
+- **Auto mode (default):** Build number is generated from git commit hash
+- **Manual mode:** Build number is set to your specified value
+- **Service Worker:** Build number is used for cache versioning
+- **Updates:** Users will get new version when build number changes
+
 ## 📝 Post-Deployment
 
 1. **Test all pages:** Navigate through all routes
@@ -166,6 +268,7 @@ For hosts that don't support SPA routing natively, create redirect rules:
 3. **Check mobile responsiveness:** Test on different devices
 4. **Check performance:** Use Lighthouse or PageSpeed Insights
 5. **Set up custom domain:** If you have one
+6. **Verify build number:** Check service worker version in browser DevTools
 
 ## 🔒 Security Notes
 

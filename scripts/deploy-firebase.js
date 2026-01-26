@@ -16,7 +16,8 @@ const colors = {
   yellow: '\x1b[33m',
   blue: '\x1b[34m',
   cyan: '\x1b[36m',
-  red: '\x1b[31m'
+  red: '\x1b[31m',
+  magenta: '\x1b[35m'
 }
 
 function log(message, color = 'reset') {
@@ -88,10 +89,24 @@ function updateBuildNumber(buildNumber) {
   }
 }
 
+// Color scheme for different step types
+const stepColors = {
+  'Firebase Deployment Script': 'cyan',
+  'Deployment Information': 'blue',
+  'Build Numbers': 'yellow',
+  'Setting Manual Build Number': 'magenta',
+  'Starting Build Process': 'cyan',
+  'Build Completed': 'green',
+  'Deploying to Firebase': 'blue',
+  'Deployment Completed Successfully': 'green',
+  'Deployment failed!': 'red'
+}
+
 function showStepHeader(title) {
-  log('\n' + '='.repeat(60), 'cyan')
+  const color = stepColors[title] || 'cyan'
+  log('\n' + '='.repeat(60), color)
   log(title, 'bright')
-  log('='.repeat(60), 'cyan')
+  log('='.repeat(60), color)
 }
 
 function deployFirebase(environment = 'prod', manualBuildNumber = null) {
