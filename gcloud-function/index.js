@@ -5,15 +5,10 @@
 
 const { BetaAnalyticsDataClient } = require('@google-analytics/data');
 
-// CORS Headers - Allow both GitHub Pages and Firebase Hosting
+// CORS Headers - Allow Firebase Hosting only
 const ALLOWED_ORIGINS = [
-  'https://devwithwaqas.github.io',
   'https://waqasahmad-portfolio.web.app',
-  'https://waqasahmad-portfolio.firebaseapp.com',
-  'https://portfolio-staging-test.web.app',
-  'https://portfolio-staging-test.firebaseapp.com',
-  'https://portfolio-test-4108729.web.app',
-  'https://portfolio-test-4108729.firebaseapp.com'
+  'https://waqasahmad-portfolio.firebaseapp.com'
 ];
 
 function getCorsHeaders(origin) {
@@ -46,10 +41,6 @@ const GA4_TRACKING = {
 const FIREBASE_ORIGINS = [
   'https://waqasahmad-portfolio.web.app',
   'https://waqasahmad-portfolio.firebaseapp.com',
-  'https://portfolio-staging-test.web.app',
-  'https://portfolio-staging-test.firebaseapp.com',
-  'https://portfolio-test-4108729.web.app',
-  'https://portfolio-test-4108729.firebaseapp.com',
 ];
 function isFirebaseOrigin(origin) {
   return FIREBASE_ORIGINS.includes(origin);

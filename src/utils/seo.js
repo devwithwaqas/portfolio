@@ -7,6 +7,9 @@ import { APP_CONFIG, SITE_URL } from '../config/constants.js'
 
 const BASE_URL = import.meta.env.BASE_URL || '/portfolio/'
 
+// CRITICAL: Firebase URL is always canonical (never GitHub Pages)
+const FIREBASE_CANONICAL_URL = 'https://waqasahmad-portfolio.web.app'
+
 /**
  * Update document title
  */
@@ -77,6 +80,9 @@ export function setOpenGraph({ title, description, image, url, type = 'website' 
   setMetaTag('og:image', defaultImage, 'property')
   setMetaTag('og:image:secure_url', defaultImage, 'property')
   setMetaTag('og:image:type', 'image/jpeg', 'property')
+  // CRITICAL: Add image dimensions for Google search results display
+  setMetaTag('og:image:width', '1200', 'property')
+  setMetaTag('og:image:height', '1200', 'property')
   setMetaTag('og:image:alt', title, 'property')
   setMetaTag('og:url', url || window.location.href, 'property')
   setMetaTag('og:type', type, 'property')
@@ -100,15 +106,31 @@ export function setTwitterCard({ title, description, image, url, card = 'summary
 
 /**
  * Set canonical URL
+ * CRITICAL: Always use Firebase URL as canonical, never GitHub Pages
  */
 export function setCanonical(url) {
+  // Always use Firebase URL as canonical (never GitHub Pages)
+  let canonicalUrl = url || SITE_URL || window.location.href
+  
+  // CRITICAL: Replace any GitHub Pages URL with Firebase URL
+  if (canonicalUrl.includes('devwithwaqas.github.io')) {
+    const urlObj = new URL(canonicalUrl)
+    canonicalUrl = FIREBASE_CANONICAL_URL + urlObj.pathname + urlObj.search + urlObj.hash
+  }
+  
+  // Ensure canonical always points to Firebase
+  if (!canonicalUrl.startsWith(FIREBASE_CANONICAL_URL)) {
+    const currentPath = window.location.pathname + window.location.search + window.location.hash
+    canonicalUrl = FIREBASE_CANONICAL_URL + currentPath
+  }
+  
   let link = document.querySelector('link[rel="canonical"]')
   if (!link) {
     link = document.createElement('link')
     link.setAttribute('rel', 'canonical')
     document.head.appendChild(link)
   }
-  link.setAttribute('href', url || window.location.href)
+  link.setAttribute('href', canonicalUrl)
 }
 
 /**

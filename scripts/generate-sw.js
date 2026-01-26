@@ -169,8 +169,8 @@ if (!fs.existsSync(distPath)) {
 
 try {
   fs.writeFileSync(swPath, swContent, 'utf-8')
-  console.log(`✓ Generated sw.js with base path: ${basePath}`)
+  console.log(`[OK] Generated sw.js with base path: ${basePath}`)
 } catch (err) {
-  console.error('Failed to generate sw.js:', err)
+  console.error('[ERROR] Failed to generate sw.js:', err)
   process.exit(1)
 }

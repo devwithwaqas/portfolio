@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waqas Ahmad - Senior Software Engineer & Technical Lead | Malaysia</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 0.65in;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            orphans: 2;
+            widows: 2;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            page-break-after: avoid;
+            page-break-inside: avoid;
+        }
+        .header h1 {
+            font-size: 24pt;
+            font-weight: bold;
+            margin: 0;
+            color: #2c3e50;
+            letter-spacing: 1px;
+            page-break-after: avoid;
+        }
+        .header h2 {
+            font-size: 14pt;
+            font-weight: normal;
+            margin: 4px 0;
+            color: #34495e;
+            page-break-after: avoid;
+        }
+        .contact-info {
+            font-size: 9pt;
+            margin-top: 6px;
+            color: #555;
+            line-height: 1.4;
+            page-break-inside: avoid;
+        }
+        .contact-info a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        .contact-info span {
+            margin: 0 8px;
+        }
+        .section {
+            margin-bottom: 12px;
+            orphans: 2;
+            widows: 2;
+        }
+        .section.summary-section {
+            margin-bottom: 10px;
+        }
+        .section-title {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 3px;
+            margin-bottom: 8px;
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            page-break-after: avoid;
+            page-break-inside: avoid;
+        }
+        .experience-item, .education-item, .achievement-item {
+            margin-bottom: 12px;
+            orphans: 2;
+            widows: 2;
+            page-break-inside: auto;
+        }
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+            flex-wrap: wrap;
+            page-break-after: avoid;
+            page-break-inside: avoid;
+        }
+        .job-title {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .company {
+            font-size: 11pt;
+            font-weight: bold;
+            color: #34495e;
+            font-style: italic;
+        }
+        .date {
+            font-size: 10pt;
+            color: #555;
+            font-style: italic;
+            white-space: nowrap;
+        }
+        .location {
+            font-size: 10pt;
+            color: #555;
+            margin-bottom: 6px;
+            page-break-after: avoid;
+        }
+        .job-description {
+            margin-top: 6px;
+            page-break-inside: auto;
+        }
+        .job-description ul {
+            margin: 4px 0;
+            padding-left: 20px;
+        }
+        .job-description li {
+            margin-bottom: 5px;
+            line-height: 1.4;
+            orphans: 1;
+            widows: 1;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .skill-category {
+            margin-bottom: 10px;
+        }
+        .skill-category-title {
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 4px;
+            font-size: 10.5pt;
+        }
+        .skill-list {
+            font-size: 10pt;
+            color: #555;
+            line-height: 1.3;
+        }
+        .summary {
+            text-align: justify;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .keywords {
+            font-size: 8.5pt;
+            color: #666;
+            font-style: italic;
+            margin-top: 4px;
+            line-height: 1.2;
+            page-break-inside: auto;
+        }
+        .one-liner {
+            font-size: 10pt;
+            line-height: 1.4;
+            margin-bottom: 6px;
+            color: #444;
+        }
+        .portfolio-section {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #ddd;
+            font-size: 9pt;
+            color: #555;
+        }
+        .portfolio-section a {
+            color: #3498db;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        @media print {
+            body {
+                font-size: 10.5pt;
+            }
+            .section {
+                orphans: 2;
+                widows: 2;
+            }
+            .experience-item {
+                orphans: 2;
+                widows: 2;
+            }
+            .job-description li {
+                orphans: 1;
+                widows: 1;
+            }
+            .section-title {
+                page-break-after: avoid;
+            }
+            .job-header {
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>WAQAS AHMAD</h1>
+        <h2>Senior Software Engineer & Technical Lead | Software Engineering Consultant</h2>
+        <div class="contact-info">
+            <span>📧 <a href="mailto:devwithwaqas@gmail.com">devwithwaqas@gmail.com</a></span> | 
+            <span>📞 <a href="tel:+60146806067">+60 14-680 6067</a></span> | 
+            <span>📍 Selangor, Malaysia</span><br>
+            <span>💼 <a href="https://www.linkedin.com/in/waqas1430/" target="_blank">linkedin.com/in/waqas1430</a></span> | 
+            <span>🔗 <a href="https://github.com/devwithwaqas" target="_blank">github.com/devwithwaqas</a></span> | 
+            <span>🌐 <a href="https://waqasahmad-portfolio.web.app" target="_blank">waqasahmad-portfolio.web.app</a></span>
+        </div>
+    </div>
+
+    <div class="section summary-section">
+        <div class="section-title">Professional Summary</div>
+        <div class="summary">
+            <strong>Senior Software Engineer & Technical Lead</strong> with <strong>17+ years</strong> of experience architecting enterprise-scale solutions for Fortune 500 companies and leading Malaysian technology firms. Specializes in <strong>.NET Core, ASP.NET, C#</strong>, <strong>Microservices Architecture</strong>, <strong>RESTful API Development</strong>, <strong>Azure Cloud</strong>, and CI/CD automation. Proven track record delivering mission-critical systems processing <strong>2.5M+ data points daily</strong>, achieving <strong>65% performance improvements</strong>, and leading teams managing <strong>billions in operational costs</strong>. Extensive experience with Malaysian companies including <strong>AirAsia Tech, Datacom Systems, Syntronic Malaysia, and Iconic Control</strong>. Mentored <strong>50+ developers</strong> across global teams. <strong>Available for onsite and remote positions in Malaysia</strong> with flexible work arrangements. Expertise in Agile/Scrum methodologies, technical leadership, and full-stack development.
+        </div>
+        <div class="keywords">
+            <strong>Keywords:</strong> Senior Software Engineer, Technical Lead, .NET Core, C#, ASP.NET, Microservices, Azure Cloud, SQL Server, Angular, Vue.js, RESTful API, DevOps, CI/CD, Agile, Scrum, Entity Framework, Technical Leadership, Malaysia, Kuala Lumpur, Selangor, Onsite, Remote, Full Stack Developer, Software Architecture, Enterprise Solutions, Software Engineering, Backend Development, Frontend Development, API Development, Cloud Architecture, System Integration
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Professional Experience</div>
+
+        <div class="experience-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Lead Software Engineer & Technical Consultant</span>
+                    <span class="company"> | Independent Consultant</span>
+                </div>
+                <span class="date">January 2022 - Present</span>
+            </div>
+            <div class="location">Remote/Global (Malaysia-based)</div>
+            <div class="job-description">
+                <ul>
+                    <li>Delivered enterprise solutions to Fortune 500 clients across 5+ countries, specializing in Azure cloud architecture and .NET Core microservices for Malaysian and international markets</li>
+                    <li>Architected Azure cloud solutions reducing infrastructure costs by <strong>40%</strong> while achieving <strong>65% performance improvements</strong> for mission-critical systems</li>
+                    <li>Built complete applications from database design to user interface, ensuring seamless integration and optimal user experience for Malaysian and Southeast Asian markets</li>
+                    <li>Delivered projects <strong>25% faster</strong> than industry standards with <strong>99.9% uptime</strong> for mission-critical petroleum operations managing billions in maintenance costs</li>
+                    <li>Pioneered remote-first development practices across 5+ time zones, managing distributed teams for Fortune 500 clients with <strong>99.9% delivery success rate</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Technical Lead</span>
+                    <span class="company"> | AirAsia Tech</span>
+                </div>
+                <span class="date">June 2021 - August 2022 (1 yr 3 mos)</span>
+            </div>
+            <div class="location">Kuala Lumpur, Malaysia</div>
+            <div class="job-description">
+                <ul>
+                    <li>Led development of AirAsia ID90 Portal, a mission-critical employee benefits platform enabling 90% discounted flights within 60-minute departure window, processing <strong>3,000+ bookings daily</strong> with <strong>99.9% uptime</strong></li>
+                    <li>Architected .NET Core microservices with Angular frontend, Azure App Services, and Azure SQL Database, serving <strong>millions of employees</strong> across Southeast Asia</li>
+                    <li>Implemented real-time flight monitoring, automated discount application, and comprehensive refund management system with <strong>95% automation rate</strong>, reducing manual processing significantly</li>
+                    <li>Standardized CI/CD pipelines with Azure DevOps, reducing delivery time by <strong>40-50%</strong> while ensuring code quality and zero-downtime deployments</li>
+                    <li>Optimized Entity Framework + LINQ queries, improving database performance by <strong>35%</strong> and reducing query execution time for real-time flight operations</li>
+                    <li>Led cross-functional team of <strong>8+ engineers</strong> developing enterprise-grade applications, conducting code reviews and knowledge transfer sessions</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Technical Lead</span>
+                    <span class="company"> | Datacom Systems Sdn Bhd</span>
+                </div>
+                <span class="date">February 2020 - January 2021 (1 yr)</span>
+            </div>
+            <div class="location">Kuala Lumpur, Malaysia</div>
+            <div class="job-description">
+                <ul>
+                    <li>Developed microservices architecture with API Gateway integrating <strong>7+ third-party systems</strong> (SharePoint, SAP, Cherwell, Success Factor, Datalake) under unified Azure AD authentication</li>
+                    <li>Designed Azure Service Fabric cloud infrastructure with SQL Server, implemented CI/CD pipelines with ARM templates for multi-tenant deployments across DEV/QA/UAT/PROD environments</li>
+                    <li>Optimized n-tier application architecture with Entity Framework best practices, improving query performance and system responsiveness by <strong>30%</strong></li>
+                    <li>Integrated enterprise systems (SAP, Cherwell HR, Application Insights) with custom APIs, enabling seamless data flow across business operations</li>
+                    <li>Implemented Agile/Scrum practices with sprint planning, backlog management, and daily standups, ensuring on-time delivery of all project milestones</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Technical Lead</span>
+                    <span class="company"> | Syntronic Malaysia Sdn Bhd</span>
+                </div>
+                <span class="date">July 2019 - January 2020 (7 mos)</span>
+            </div>
+            <div class="location">Kuala Lumpur, Malaysia</div>
+            <div class="job-description">
+                <ul>
+                    <li>Developed ASP.NET Core REST APIs with Swagger documentation and SignalR for real-time bidirectional communication in IoT monitoring systems</li>
+                    <li>Successfully revamped major module (backend, frontend, database) in under <strong>2 months</strong>, delivering Angular SPA with responsive design and enhanced UX</li>
+                    <li>Implemented CI/CD automation with Azure DevOps, Docker containerization, and automated unit testing, reducing manual testing time by <strong>60%</strong></li>
+                    <li>Utilized Cosmos DB, Azure Functions, and Azure Storage for scalable solutions</li>
+                    <li>Active participation in Agile ceremonies and comprehensive code reviews</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="one-liner">
+                <strong>Technical Lead | Iconic Control Sdn Bhd, Petaling Jaya, Malaysia</strong> (May 2018 - Jul 2019): Architected 7+ smart city solutions from scratch (Transportation, Law Enforcement, Taxation, Land Planning, Project Monitoring) achieving 50-60% revenue growth. Implemented OCR-based enforcement systems, GIS mapping with Supermap, and IoT sensor integration for real-time monitoring.
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="one-liner">
+                <strong>Technical Lead / Senior Software Engineer | Squad Cell, Lahore, Pakistan</strong> (Nov 2012 - Mar 2018, Promoted 2015): Architected cloud-hosted e-commerce platform with .NET MVC and Angular. Developed data analytics framework and notification microservices. Standardized Agile/Scrum practices and DevOps automation.
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="one-liner">
+                <strong>Game Developer | GenITeam Solutions, Malaysia</strong> (Jun 2011 - Oct 2012): Developed company's first in-house 2D physics engine. Created Marine Defender (ranked #21 Arcade & Action) generating $2M revenue in first 2 months.
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="one-liner">
+                <strong>Software Engineer | DSOL (Kiics), Malaysia</strong> (Jan 2008 - Jun 2011): Developed university admission management system reducing operational costs by 30%. Built multi-threaded mass email client. Awarded Best Programmer at KICS Annual Ceremony.
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Technical Skills</div>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <div class="skill-category-title">Programming Languages</div>
+                <div class="skill-list">#CSharp #DotNetCore #ASPNETCore #JavaScript #TypeScript #SQL #LINQ #HTML5 #CSS3</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">Frontend Frameworks</div>
+                <div class="skill-list">#Angular #VueJS #React #Bootstrap #jQuery #PrimeNG #ChartJS #Leaflet</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">Backend & APIs</div>
+                <div class="skill-list">#RESTfulAPIs #GraphQL #SignalR #Swagger #OpenAPI #EntityFramework #Dapper #AutoMapper</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">Cloud & Azure</div>
+                <div class="skill-list">#AzureAppServices #AzureFunctions #AzureServiceFabric #AzureCosmosDB #AzureKeyVault #AzureStorage #AzureAD</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">Databases</div>
+                <div class="skill-list">#SQLServer #Redis #CosmosDB #EntityFrameworkCore #LINQ2SQL #DatabaseOptimization</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">DevOps & CI/CD</div>
+                <div class="skill-list">#AzureDevOps #Docker #CICD #ARMTemplates #GitHubActions #Nexus #AutomatedTesting</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">Architecture & Design</div>
+                <div class="skill-list">#Microservices #APIGateway #SOLIDPrinciples #MVVM #MVC #DesignPatterns #SystemIntegration</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">Methodologies</div>
+                <div class="skill-list">#Agile #Scrum #TDD #CodeReview #TechnicalLeadership #TeamMentoring #ProjectManagement</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Education</div>
+        <div class="experience-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Bachelor of Computer System Engineering (Honors)</span>
+                    <span class="company"> | University of Engineering and Technology</span>
+                </div>
+                <span class="date">2006 - 2013</span>
+            </div>
+            <div class="location">Lahore, Pakistan</div>
+            <div class="job-description">
+                Completed a comprehensive 4-year honors program in Computer System Engineering, specializing in software development and system architecture. Laid the foundation for expertise in enterprise-level applications, database design, and scalable system solutions.
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Awards & Achievements</div>
+        <div class="achievement-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">National Speed Programming Champion</span>
+                </div>
+                <span class="date">2010</span>
+            </div>
+            <div class="company">ACM All Pakistan Speed Programming Competition</div>
+            <div class="job-description">
+                Secured first position in the most prestigious programming competition in Pakistan, competing against <strong>500+ top-tier developers</strong> from leading universities nationwide. Demonstrated exceptional problem-solving skills and algorithmic thinking.
+            </div>
+        </div>
+        <div class="achievement-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">HR IT Expert Award</span>
+                </div>
+                <span class="date">2013</span>
+            </div>
+            <div class="company">Guinness World Records Pakistan - Punjab Youth Festival</div>
+            <div class="job-description">
+                Recognized as the premier IT expert for orchestrating the technical infrastructure of Pakistan's largest youth festival, managing <strong>150,000+ participants</strong>. Pioneered innovative solutions that enabled seamless event coordination and earned recognition in Guinness World Records.
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="portfolio-section">
+            <strong>📄 View Full Interactive Resume:</strong> <a href="https://waqasahmad-portfolio.web.app/#resume" target="_blank">https://waqasahmad-portfolio.web.app/#resume</a> - Explore detailed project portfolios, architecture diagrams, performance metrics, and comprehensive technical expertise.
+        </div>
+    </div>
+
+</body>
+</html>

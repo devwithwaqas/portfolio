@@ -261,7 +261,7 @@ export default function splitMobileCSS() {
       fs.writeFileSync(mobilePath, mobileCSS, 'utf-8')
       fs.writeFileSync(desktopPath, desktopCSS, 'utf-8')
       
-      console.log(`[split-css] ✅ Generated split CSS files:`)
+      console.log(`[split-css] [OK] Generated split CSS files:`)
       console.log(`  - shared.css: ${(sharedCSS.length / 1024).toFixed(2)} KB`)
       console.log(`  - mobile.css: ${(mobileCSS.length / 1024).toFixed(2)} KB`)
       console.log(`  - desktop.css: ${(desktopCSS.length / 1024).toFixed(2)} KB`)
@@ -303,7 +303,7 @@ export default function splitMobileCSS() {
         }
         
         // Log detected base path
-        console.log(`[split-css] ✅ Detected base path: "${basePath}"`)
+        console.log(`[split-css] [OK] Detected base path: "${basePath}"`)
         
         // Remove ALL existing split CSS links if they exist (to avoid duplicates)
         // This includes incorrect ones with wrong base path
@@ -384,7 +384,7 @@ export default function splitMobileCSS() {
         }
         
         fs.writeFileSync(htmlPath, html, 'utf-8')
-        console.log(`[split-css] ✅ Updated index.html with split CSS links`)
+        console.log(`[split-css] [OK] Updated index.html with split CSS links`)
       }
     }
   }

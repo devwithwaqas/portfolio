@@ -1,7 +1,7 @@
 <template>
-  <!-- Mobile Hamburger Menu - Teleported to body to avoid #app containing block -->
+  <!-- Mobile Hamburger Menu - only rendered on mobile (v-if), teleported to body -->
   <Teleport to="body">
-    <i class="mobile-nav-toggle bi bi-list icon-lg" @click="toggleMobileMenu"></i>
+    <i v-if="showMobileToggle" class="mobile-nav-toggle bi bi-list icon-lg" @click="toggleMobileMenu"></i>
   </Teleport>
   
   <header id="header" class="header" :class="{ 'header-show': mobileMenuOpen }">
@@ -117,43 +117,23 @@ export default {
       navSections: COMPONENT_DEFAULTS.navigation.sections,
       mobileMenuOpen: false,
       activeSection: 'hero',
+      showMobileToggle: typeof window !== 'undefined' && window.innerWidth < 1200,
       touchStartX: 0,
       touchStartY: 0,
       touchMoveX: 0,
       touchEndX: 0,
       touchEndY: 0,
       minSwipeDistance: 50,
-      intersectionObserver: null, // Store observer for cleanup
-      scrollTimeout: null, // Store scroll timeout for debouncing
-      scrollIdleCallback: null, // Store idle callback for scroll handler
-      isUserScrolling: false, // Flag to temporarily disable intersection observer during user-initiated scrolls
-      userScrollTimeout: null // Timeout to re-enable intersection observer after scroll
+      intersectionObserver: null,
+      scrollTimeout: null,
+      scrollIdleCallback: null,
+      isUserScrolling: false,
+      userScrollTimeout: null,
+      orientationChangeHandler: null
     }
   },
   mounted() {
-    // CRITICAL: Ensure button is in body and force fixed positioning
-    // Teleport should handle this, but verify and force if needed
-    this.$nextTick(() => {
-      // Use requestIdleCallback for non-critical DOM check
-      if (window.requestIdleCallback) {
-        requestIdleCallback(() => {
-          const button = document.querySelector('.mobile-nav-toggle')
-          if (button && button.parentElement !== document.body) {
-            document.body.appendChild(button)
-          }
-        }, { timeout: 500 })
-      } else {
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            const button = document.querySelector('.mobile-nav-toggle')
-            if (button && button.parentElement !== document.body) {
-              document.body.appendChild(button)
-            }
-          }, 0)
-        })
-      }
-    })
-    
+    this.checkMobileViewport()
     this.setActiveSectionFromRoute()
     // Only set up scroll observers on home page
     if (this.$route.path === '/') {
@@ -196,7 +176,9 @@ export default {
     document.removeEventListener('touchend', this.handleTouchEnd)
     document.removeEventListener('touchmove', this.handleTouchMove)
     window.removeEventListener('resize', this.debouncedResizeHandler)
-    window.removeEventListener('orientationchange', this.adjustButtonHeights)
+    if (this.orientationChangeHandler) {
+      window.removeEventListener('orientationchange', this.orientationChangeHandler)
+    }
   },
   watch: {
     activeSection(newSection, oldSection) {
@@ -208,6 +190,25 @@ export default {
     '$route'(to, from) {
       // Update active section when route changes
       this.setActiveSectionFromRoute()
+      
+      // Re-setup intersection observer when navigating to/from home page
+      if (to.path === '/' || from.path === '/') {
+        this.$nextTick(() => {
+          if (to.path === '/') {
+            // Re-initialize observer when returning to home
+            requestAnimationFrame(() => {
+              this.setupIntersectionObserver()
+              this.checkInitialScrollPosition()
+            })
+          } else {
+            // Clean up observer when leaving home
+            if (this.intersectionObserver) {
+              this.intersectionObserver.disconnect()
+              this.intersectionObserver = null
+            }
+          }
+        })
+      }
     }
   },
   methods: {
@@ -253,11 +254,11 @@ export default {
           this.$nextTick(() => {
             const element = document.getElementById(sectionId)
             if (element) {
-              const headerOffset = 100
-              // Batch all layout reads in one RAF to avoid forced reflows
+              // Position section at top of viewport (just below header)
               requestAnimationFrame(() => {
                 const rect = element.getBoundingClientRect()
                 const scrollY = window.pageYOffset || window.scrollY || 0
+                const headerOffset = 120
                 const offsetPosition = rect.top + scrollY - headerOffset
                 
                 // Scroll in next frame
@@ -281,12 +282,13 @@ export default {
         // Components load immediately, so we can scroll right away
         const element = document.getElementById(sectionId)
         if (element) {
-          const headerOffset = 100
-          // Batch all layout reads in one RAF to avoid forced reflows
+          // Position section at top of viewport (just below header)
+          // OPTIMIZATION: Use offsetTop instead of getBoundingClientRect to avoid forced reflow
           requestAnimationFrame(() => {
-            const rect = element.getBoundingClientRect()
-            const scrollY = window.pageYOffset || window.scrollY || 0
-            const offsetPosition = rect.top + scrollY - headerOffset
+            // BATCH: Read layout properties together
+            const elementOffsetTop = element.offsetTop
+            const headerOffset = 120
+            const offsetPosition = elementOffsetTop - headerOffset
             
             // Scroll in next frame
             requestAnimationFrame(() => {
@@ -316,58 +318,147 @@ export default {
         // Only update active section on home page
         if (this.$route.path !== '/') return
         
-        // Ignore intersection observer updates if user is manually scrolling
-        if (this.isUserScrolling) return
+        // Ignore intersection observer updates ONLY if user clicked nav button (not during natural scroll)
+        // The isUserScrolling flag is set when clicking nav, but should allow natural scroll detection
+        if (this.isUserScrolling) {
+          // Only block if we're in the middle of a programmatic scroll from nav click
+          // Allow natural scroll and hash-based scrolls to update active section
+          return
+        }
         
         // Use requestAnimationFrame to batch updates and avoid conflicts
         requestAnimationFrame(() => {
-          // Collect all intersecting sections with their ratios
-          const intersectingSections = []
+          const viewportHeight = window.innerHeight
+          const viewportCenter = viewportHeight / 2
+          const scrollY = window.scrollY || window.pageYOffset || 0
           
+          // Process all entries to build a complete picture
+          const sectionData = new Map()
+          
+          // First, process IntersectionObserver entries
           entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const sectionId = entry.target.id
-              if (sections.includes(sectionId)) {
-                intersectingSections.push({
-                  id: sectionId,
-                  ratio: entry.intersectionRatio,
-                  boundingTop: entry.boundingClientRect.top
-                })
-              }
+            const sectionId = entry.target.id
+            if (sections.includes(sectionId)) {
+              const rect = entry.boundingClientRect
+              const visibleTop = Math.max(rect.top, 0)
+              const visibleBottom = Math.min(rect.bottom, viewportHeight)
+              const visibleHeight = Math.max(0, visibleBottom - visibleTop)
+              const visibilityRatio = rect.height > 0 ? visibleHeight / rect.height : 0
+              const sectionCenterY = rect.top + (rect.height / 2)
+              const distanceFromCenter = Math.abs(sectionCenterY - viewportCenter)
+              
+              sectionData.set(sectionId, {
+                id: sectionId,
+                isIntersecting: entry.isIntersecting,
+                intersectionRatio: entry.intersectionRatio,
+                visibilityRatio: visibilityRatio,
+                distanceFromCenter: distanceFromCenter,
+                boundingTop: rect.top,
+                boundingBottom: rect.bottom,
+                centerY: sectionCenterY
+              })
             }
           })
           
-          // If no sections are intersecting, check scroll position
-          if (intersectingSections.length === 0) {
-            // If at top, set hero as active
-            if (window.scrollY < 100) {
+          // OPTIMIZATION: Batch all getBoundingClientRect calls to minimize forced reflows
+          // Also check sections that might be in view but not in current entries
+          // This handles cases where observer hasn't fired yet
+          // CRITICAL: Batch all layout reads together to avoid multiple forced reflows
+          const sectionsToCheck = sections.filter(sectionId => !sectionData.has(sectionId))
+          if (sectionsToCheck.length > 0) {
+            // BATCH: Read all getBoundingClientRect in one operation
+            const sectionRects = new Map()
+            sectionsToCheck.forEach(sectionId => {
+              const section = document.getElementById(sectionId)
+              if (section) {
+                // Single getBoundingClientRect call per section (batched in RAF)
+                sectionRects.set(sectionId, section.getBoundingClientRect())
+              }
+            })
+            
+            // Process all rects together (no additional layout reads)
+            sectionRects.forEach((rect, sectionId) => {
+              const visibleTop = Math.max(rect.top, 0)
+              const visibleBottom = Math.min(rect.bottom, viewportHeight)
+              const visibleHeight = Math.max(0, visibleBottom - visibleTop)
+              const visibilityRatio = rect.height > 0 ? visibleHeight / rect.height : 0
+              
+              // Only add if section has meaningful visibility
+              if (visibleHeight > 50 || (rect.top < viewportHeight && rect.bottom > 0)) {
+                const sectionCenterY = rect.top + (rect.height / 2)
+                const distanceFromCenter = Math.abs(sectionCenterY - viewportCenter)
+                
+                sectionData.set(sectionId, {
+                  id: sectionId,
+                  isIntersecting: rect.top < viewportHeight && rect.bottom > 0,
+                  intersectionRatio: visibilityRatio,
+                  visibilityRatio: visibilityRatio,
+                  distanceFromCenter: distanceFromCenter,
+                  boundingTop: rect.top,
+                  boundingBottom: rect.bottom,
+                  centerY: sectionCenterY
+                })
+              }
+            })
+          }
+          
+          // Convert to array and filter to only sections with meaningful visibility
+          const candidateSections = Array.from(sectionData.values()).filter(section => 
+            section.visibilityRatio > 0.1 || 
+            (section.boundingTop < viewportHeight && section.boundingBottom > 0)
+          )
+          
+          // If no candidates, check if we're at top
+          if (candidateSections.length === 0) {
+            if (scrollY < 100) {
               this.activeSection = 'hero'
             }
             return
           }
           
-          // Sort by intersection ratio (highest first), then by position (topmost first)
-          intersectingSections.sort((a, b) => {
-            // First prioritize by ratio
-            if (Math.abs(a.ratio - b.ratio) > 0.1) {
-              return b.ratio - a.ratio
+          // Score each section: prioritize sections at the TOP of viewport
+          // This ensures when resume is scrolled to, it's selected (not skills above it)
+          candidateSections.forEach(section => {
+            let score = section.visibilityRatio * 100
+            
+            // CRITICAL: Prioritize sections that are at the TOP of viewport
+            // Sections with top edge near the top of viewport (after header) get highest priority
+            const topEdgeDistance = Math.abs(section.boundingTop - 120) // 120 = header offset
+            if (topEdgeDistance < 200) {
+              // Section is near the top - boost score significantly
+              score += (1 - topEdgeDistance / 200) * 200
             }
-            // If ratios are similar, prioritize the one closer to top
-            return a.boundingTop - b.boundingTop
+            
+            // Boost score if section top is above viewport center (in upper half)
+            if (section.boundingTop < viewportCenter) {
+              score += 50
+            }
+            
+            // Boost score if section is intersecting according to observer
+            if (section.isIntersecting) {
+              score += 30
+            }
+            
+            // Penalize sections that are mostly above viewport (negative boundingTop)
+            if (section.boundingTop < -100) {
+              score -= 100
+            }
+            
+            section.score = score
           })
           
-          // Set the most visible section as active (only one at a time)
-          if (intersectingSections.length > 0) {
-            const newActiveSection = intersectingSections[0].id
-            // Only update if it's different to avoid unnecessary re-renders
-            if (this.activeSection !== newActiveSection) {
-              this.activeSection = newActiveSection
-            }
+          // Sort by score (highest first)
+          candidateSections.sort((a, b) => b.score - a.score)
+          
+          // Set the highest scoring section as active
+          const newActiveSection = candidateSections[0].id
+          if (this.activeSection !== newActiveSection) {
+            this.activeSection = newActiveSection
           }
         })
       }, {
         threshold: [0, 0.1, 0.25, 0.5, 0.75, 1.0], // Multiple thresholds for better detection
-        rootMargin: '-20% 0px -20% 0px' // More strict margin to avoid multiple active sections
+        rootMargin: '-20% 0px -20% 0px' // Standard margin - scoring logic will prioritize top sections
       })
 
       sections.forEach(sectionId => {
@@ -405,22 +496,18 @@ export default {
       })
     },
     handleScroll() {
-      // Only handle scroll on home page
       if (this.$route.path !== '/') return
       
-      // Heavy debounce - IntersectionObserver handles most of the work
-      // This is just a fallback, so we can be less aggressive
-      if (this.scrollTimeout) {
-        clearTimeout(this.scrollTimeout)
-      }
+      // Don't interfere if user clicked nav button (programmatic scroll)
+      if (this.isUserScrolling) return
       
-      // Only run fallback scroll handler infrequently (IntersectionObserver is primary)
-      // Use requestIdleCallback if available for better performance
       if (this.scrollTimeout) {
         clearTimeout(this.scrollTimeout)
-        if (this.scrollIdleCallback) {
-          cancelIdleCallback(this.scrollIdleCallback)
-        }
+        this.scrollTimeout = null
+      }
+      if (this.scrollIdleCallback && window.cancelIdleCallback) {
+        cancelIdleCallback(this.scrollIdleCallback)
+        this.scrollIdleCallback = null
       }
       
       const performScrollCheck = () => {
@@ -449,32 +536,22 @@ export default {
       document.addEventListener('touchstart', this.handleTapOutside, { passive: true })
     },
     handleClickOutside(event) {
+      if (!this.showMobileToggle || !this.mobileMenuOpen) return
       const header = document.getElementById('header')
       const toggleButton = document.querySelector('.mobile-nav-toggle')
-      
-      if (
-        this.mobileMenuOpen &&
-        header && 
-        !header.contains(event.target) &&
-        toggleButton &&
-        !toggleButton.contains(event.target)
-      ) {
-        this.closeMobileMenu()
-      }
+      if (!header) return
+      if (toggleButton && toggleButton.contains(event.target)) return
+      if (header.contains(event.target)) return
+      this.closeMobileMenu()
     },
     handleTapOutside(event) {
+      if (!this.showMobileToggle || !this.mobileMenuOpen) return
       const header = document.getElementById('header')
       const toggleButton = document.querySelector('.mobile-nav-toggle')
-      
-      if (
-        this.mobileMenuOpen &&
-        header && 
-        !header.contains(event.target) &&
-        toggleButton &&
-        !toggleButton.contains(event.target)
-      ) {
-        this.closeMobileMenu()
-      }
+      if (!header) return
+      if (toggleButton && toggleButton.contains(event.target)) return
+      if (header.contains(event.target)) return
+      this.closeMobileMenu()
     },
     setupSwipeGestures() {
       document.addEventListener('touchstart', this.handleTouchStart, { passive: true })
@@ -529,13 +606,26 @@ export default {
         }
       }
     },
+    checkMobileViewport() {
+      const w = typeof window !== 'undefined' ? window.innerWidth : 1200
+      const mobile = w < 1200
+      if (this.showMobileToggle !== mobile) {
+        this.showMobileToggle = mobile
+        if (!mobile) this.mobileMenuOpen = false
+      }
+    },
     setupViewportResizeListener() {
       this.debouncedResizeHandler = this.debounce(() => {
+        this.checkMobileViewport()
         this.adjustButtonHeights()
       }, 200)
+      this.orientationChangeHandler = () => {
+        this.checkMobileViewport()
+        this.adjustButtonHeights()
+      }
       
       window.addEventListener('resize', this.debouncedResizeHandler)
-      window.addEventListener('orientationchange', this.adjustButtonHeights)
+      window.addEventListener('orientationchange', this.orientationChangeHandler)
     },
     adjustButtonHeights() {
       // No need to force update - Vue's reactivity will handle this automatically
@@ -649,19 +739,7 @@ i.mobile-nav-toggle,
   pointer-events: none !important;
 }
 
-/* Hide on desktop */
-@media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
-  .mobile-nav-toggle {
-    display: none !important;
-  }
-}
-
-/* Show on all non-desktop */
-@media (max-width: 1199px), (pointer: coarse) {
-  .mobile-nav-toggle {
-    display: flex !important;
-  }
-}
+/* Hamburger is only in DOM on mobile (v-if), so no hide/show media queries needed */
 </style>
 
 <style scoped>

@@ -8,13 +8,8 @@
 const { Firestore } = require('@google-cloud/firestore');
 
 const ALLOWED_ORIGINS = [
-  'https://devwithwaqas.github.io',
   'https://waqasahmad-portfolio.web.app',
   'https://waqasahmad-portfolio.firebaseapp.com',
-  'https://portfolio-staging-test.web.app',
-  'https://portfolio-staging-test.firebaseapp.com',
-  'https://portfolio-test-4108729.web.app',
-  'https://portfolio-test-4108729.firebaseapp.com',
 ];
 
 function getCorsHeaders(origin) {
@@ -42,10 +37,6 @@ const TRACKING_CONFIG = {
 const FIREBASE_ORIGINS = [
   'https://waqasahmad-portfolio.web.app',
   'https://waqasahmad-portfolio.firebaseapp.com',
-  'https://portfolio-staging-test.web.app',
-  'https://portfolio-staging-test.firebaseapp.com',
-  'https://portfolio-test-4108729.web.app',
-  'https://portfolio-test-4108729.firebaseapp.com',
 ];
 
 function isFirebaseOrigin(origin) {
@@ -189,13 +180,39 @@ exports.readPortfolioAnalytics = async (req, res) => {
     const key = isFirebaseOrigin(origin) ? 'firebase' : 'github';
 
     // New format: { github: {...}, firebase: {...} }
-    let block = raw[key];
+    const block = raw[key];
     if (block) {
+      let totalViews = block.totalViews || 0;
+      let topItems = block.topItems || [];
+
+      // Firebase: combined total = Firebase + GitHub; use Firebase's own topItems (with seed applied in UPDATE).
+      if (isFirebaseOrigin(origin)) {
+        if (raw.github && raw.github.totalViews != null) {
+          const ghTotal = raw.github.totalViews;
+          const fbTotal = block.totalViews || 0;
+          totalViews = fbTotal + ghTotal;
+          // Use Firebase's own topItems (they already have seedViewsPerItem applied in UPDATE)
+          // If Firebase has no items yet, fallback to GitHub's
+          if (topItems.length === 0 && raw.github.topItems?.length > 0) {
+            topItems = raw.github.topItems;
+          }
+        }
+      }
+
+      // Dedupe by url so same page never appears twice (e.g. /projects/X vs /portfolio/projects/X).
+      const seen = new Set();
+      topItems = topItems.filter((item) => {
+        const u = (item && item.url) || '';
+        if (seen.has(u)) return false;
+        seen.add(u);
+        return true;
+      });
+
       res.set(CORS_HEADERS);
       res.set('Content-Type', 'application/json');
       res.status(200).json({
-        totalViews: block.totalViews || 0,
-        topItems: block.topItems || [],
+        totalViews,
+        topItems,
         cached: true,
         lastUpdated: block.lastUpdated || null,
       });

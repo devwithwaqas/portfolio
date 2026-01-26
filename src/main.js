@@ -5,6 +5,7 @@ import { assetPath } from './utils/assetPath.js'
 import { trackPageView } from './utils/analytics.js'
 import { handleError } from './utils/errorHandler.js'
 import { initNotifications } from './utils/notifications.js'
+import { initInstallPrompt } from './utils/installPrompt.js'
 
 // Import CSS (font-sizes first so nav sizes apply; main second)
 import './assets/css/font-sizes.css'
@@ -44,6 +45,12 @@ window.addEventListener('error', (event) => {
 app.use(router)
 app.mount('#app')
 
+// Initialize PWA install prompt handler
+// Only in production - install prompt disabled in dev mode
+if (import.meta.env.PROD) {
+  initInstallPrompt()
+}
+
 // Initialize notifications (request permission after user engagement)
 // Only in production - notifications disabled in dev mode
 if (import.meta.env.PROD) {
@@ -78,7 +85,7 @@ router.isReady().then(() => {
 // Expected service worker version - AUTO-GENERATED ON BUILD (from git commit hash)
 // Version is automatically updated by scripts/generate-sw-version.js during build
 // MUST MATCH the version in public/sw.js
-const EXPECTED_SW_VERSION = '2b7d9d2'
+const EXPECTED_SW_VERSION = 'ad12cae'
 
 if ('serviceWorker' in navigator) {
   // CRITICAL: In dev mode, unregister ALL service workers to prevent reload loops

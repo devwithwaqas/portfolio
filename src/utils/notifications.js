@@ -1,6 +1,22 @@
 /**
  * Browser Notifications Utility
  * Handles notification permissions and showing notifications
+ * 
+ * HOW TO SEND NOTIFICATIONS IN THE FUTURE:
+ * 
+ * 1. Programmatic (from your code):
+ *    import { showSimpleNotification } from '@/utils/notifications'
+ *    showSimpleNotification('Title', 'Message body', '/optional-url')
+ * 
+ * 2. Push Notifications (from server):
+ *    - Set up a push service (Firebase Cloud Messaging, Web Push, etc.)
+ *    - Subscribe users to push notifications
+ *    - Send push messages from your server
+ *    - Service worker will automatically show notifications via 'push' event
+ * 
+ * 3. Scheduled Notifications:
+ *    - Use service worker background sync
+ *    - Or trigger from your backend at specific times
  */
 
 /**
@@ -107,6 +123,7 @@ export async function showSimpleNotification(title, body, url = '/') {
 /**
  * Initialize notifications (request permission if needed)
  * Only requests permission after user engagement (e.g., after 30 seconds on page)
+ * Shows a friendly message before requesting permission
  * @param {number} delay - Delay in milliseconds before requesting (default: 30000 = 30 seconds)
  */
 export function initNotifications(delay = 30000) {
@@ -123,8 +140,35 @@ export function initNotifications(delay = 30000) {
   setTimeout(async () => {
     // Only request if user is still on page and permission is still default
     if (Notification.permission === 'default' && document.visibilityState === 'visible') {
-      console.log('[Notifications] Requesting permission after user engagement...')
-      await requestNotificationPermission()
+      // Show a friendly message before requesting
+      const userWantsNotifications = confirm(
+        '🔔 Stay Updated!\n\n' +
+        'Would you like to receive notifications about:\n' +
+        '• Latest updates and new features\n' +
+        '• Important announcements\n' +
+        '• Latest trends and insights\n\n' +
+        'You can change this anytime in your browser settings.'
+      )
+      
+      if (userWantsNotifications) {
+        console.log('[Notifications] User wants notifications, requesting permission...')
+        const permission = await requestNotificationPermission()
+        if (permission === 'granted') {
+          console.log('[Notifications] ✅ Permission granted! Notifications enabled.')
+          // Optionally show a welcome notification
+          setTimeout(() => {
+            showSimpleNotification(
+              'Notifications Enabled! 🔔',
+              'You\'ll now receive updates about latest features, trends, and important announcements.',
+              '/'
+            ).catch(() => {
+              // Ignore if notification fails
+            })
+          }, 1000)
+        }
+      } else {
+        console.log('[Notifications] User declined notification permission')
+      }
     }
   }, delay)
 }

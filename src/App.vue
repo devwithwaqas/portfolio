@@ -6,16 +6,7 @@
     <!-- Main Content - Offset by navigation width -->
     <div class="main-content">
       <main>
-        <Suspense>
-          <template #default>
-            <router-view />
-          </template>
-          <template #fallback>
-            <div class="page-loading" style="min-height: 50vh; display: flex; align-items: center; justify-content: center;">
-              <div class="loading-spinner"></div>
-            </div>
-          </template>
-        </Suspense>
+        <router-view />
       </main>
       
       <!-- Footer Component -->

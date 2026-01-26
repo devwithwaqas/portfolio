@@ -16,7 +16,7 @@ function createHeaders() {
   // Ensure dist directory exists
   if (!fs.existsSync(DIST_DIR)) {
     fs.mkdirSync(DIST_DIR, { recursive: true })
-    console.log('✓ Created dist directory')
+    console.log('[OK] Created dist directory')
   }
   
   // Cache headers configuration
@@ -63,8 +63,8 @@ function createHeaders() {
   
   const headersPath = path.join(DIST_DIR, '_headers')
   fs.writeFileSync(headersPath, headersContent, 'utf8')
-  console.log('✓ Created _headers file at:', headersPath)
-  console.log('  Note: GitHub Pages ignores this file, but it works with Netlify/Vercel')
+  console.log('[OK] Created _headers file at:', headersPath)
+  console.log('    Note: GitHub Pages ignores this file, but it works with Netlify/Vercel')
 }
 
 // Run if called directly

@@ -139,6 +139,115 @@ export default {
       return
     }
 
+    // Helper function to scroll to a section with proper timing
+    const scrollToSection = (sectionId, retryCount = 0) => {
+      const maxRetries = 12
+      const element = document.getElementById(sectionId)
+      
+      if (!element) {
+        // Element not found - retry if we haven't exceeded max retries
+        if (retryCount < maxRetries) {
+          setTimeout(() => scrollToSection(sectionId, retryCount + 1), 150 * (retryCount + 1))
+        }
+        return
+      }
+      
+      // OPTIMIZATION: Batch all layout reads in a single RAF to avoid forced reflows
+      // Wait for layout to be stable - use multiple RAFs to ensure content is rendered
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // BATCH ALL LAYOUT READS TOGETHER (single forced reflow)
+          // offsetTop doesn't force reflow, but getBoundingClientRect does
+          // Use offsetTop as primary (no reflow), only use getBoundingClientRect if needed
+          const elementOffsetTop = element.offsetTop
+          
+          // If offsetTop is 0 and we're not at the hero section, element might not be positioned yet
+          if (elementOffsetTop === 0 && sectionId !== 'hero' && retryCount < maxRetries) {
+            setTimeout(() => scrollToSection(sectionId, retryCount + 1), 150 * (retryCount + 1))
+            return
+          }
+          
+          // Calculate scroll position with header offset
+          // Position section at the top of viewport (just below header), not centered
+          const headerOffset = 120 // Header + padding offset
+          
+          // Calculate target scroll position using offsetTop (no forced reflow)
+          const targetScrollPosition = elementOffsetTop - headerOffset
+          
+          // Ensure we're scrolling to a valid position
+          if (targetScrollPosition >= 0) {
+            // Scroll in next frame to ensure layout is stable
+            requestAnimationFrame(() => {
+              window.scrollTo({ top: targetScrollPosition, behavior: 'smooth' })
+              
+              // After smooth scroll completes, verify and fine-tune position
+              // Smooth scroll takes ~500ms, so check after that
+              // OPTIMIZATION: Batch layout reads in verification too
+              setTimeout(() => {
+                requestAnimationFrame(() => {
+                  // BATCH: Read both layout properties together
+                  const finalRect = element.getBoundingClientRect()
+                  const finalScrollY = window.pageYOffset || window.scrollY || 0
+                  
+                  // Check if section top is at the correct position (just below header)
+                  const sectionTopInViewport = finalRect.top
+                  const idealTopPosition = headerOffset
+                  
+                  // If section is not at ideal position, adjust to place it at top of viewport
+                  if (Math.abs(sectionTopInViewport - idealTopPosition) > 20) {
+                    const adjustment = sectionTopInViewport - idealTopPosition
+                    window.scrollTo({ 
+                      top: finalScrollY + adjustment, 
+                      behavior: 'smooth' 
+                    })
+                  }
+                })
+              }, 600)
+            })
+          } else if (retryCount < maxRetries) {
+            // Invalid position - retry
+            setTimeout(() => scrollToSection(sectionId, retryCount + 1), 150 * (retryCount + 1))
+          }
+        })
+      })
+    }
+
+    // Handle hash fragments from URL (e.g., #resume)
+    const handleHashFragment = () => {
+      const hash = window.location.hash
+      if (hash) {
+        // Remove the # symbol
+        const sectionId = hash.substring(1)
+        const validSections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
+        
+        if (validSections.includes(sectionId)) {
+          // Wait for Vue to render all components
+          this.$nextTick(() => {
+            // Wait for next tick to ensure all child components are mounted
+            this.$nextTick(() => {
+              // Wait longer for layout to stabilize - especially important for sections near bottom
+              // Use multiple delays to ensure all content (including images) is positioned
+              setTimeout(() => {
+                // Wait for browser layout
+                requestAnimationFrame(() => {
+                  requestAnimationFrame(() => {
+                    // Additional delay for sections that might have lazy-loaded content
+                    // Resume section is near bottom, so it needs more time
+                    const additionalDelay = sectionId === 'resume' || sectionId === 'portfolio' || sectionId === 'services' || sectionId === 'contact' ? 200 : 100
+                    
+                    setTimeout(() => {
+                      // Final check and scroll - this ensures all sections are properly positioned
+                      scrollToSection(sectionId)
+                    }, additionalDelay)
+                  })
+                })
+              }, 200) // Increased initial delay from 100 to 200
+            })
+          })
+        }
+      }
+    }
+
     // Only restore scroll position when coming from another page (navigation, not refresh)
     // Handle return section scrolling (from project/service pages)
     const returnSection = (() => {
@@ -150,46 +259,18 @@ export default {
     })()
 
     if (returnSection) {
-      // Components load immediately (no lazy loading), so scroll immediately after render
+      // Components load immediately (no lazy loading), so scroll after render
       this.$nextTick(() => {
-        const element = document.getElementById(returnSection)
-        if (element) {
-          // Batch all layout reads in one operation to avoid forced reflows
-          requestAnimationFrame(() => {
-            const rect = element.getBoundingClientRect()
-            const scrollY = window.pageYOffset || window.scrollY || 0
-            const headerOffset = 100
-            const offsetPosition = rect.top + scrollY - headerOffset
-            
-            // Scroll in next frame
-            requestAnimationFrame(() => {
-              window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
-              try {
-                sessionStorage.removeItem('home:returnSection')
-              } catch (error) {
-                // Ignore storage errors
-              }
-            })
-          })
-        } else {
-          // Element not found - try once more after a brief delay
-          setTimeout(() => {
-            const element = document.getElementById(returnSection)
-            if (element) {
-              const rect = element.getBoundingClientRect()
-              const scrollY = window.pageYOffset || window.scrollY || 0
-              const headerOffset = 100
-              const offsetPosition = rect.top + scrollY - headerOffset
-              window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
-              try {
-                sessionStorage.removeItem('home:returnSection')
-              } catch (error) {
-                // Ignore storage errors
-              }
-            }
-          }, 100)
+        scrollToSection(returnSection)
+        try {
+          sessionStorage.removeItem('home:returnSection')
+        } catch (error) {
+          // Ignore storage errors
         }
       })
+    } else {
+      // No return section - check for hash fragment
+      handleHashFragment()
     }
   }
 }

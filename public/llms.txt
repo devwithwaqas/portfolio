@@ -3,25 +3,22 @@
 # Learn more: https://llmstxt.org/
 
 # Portfolio Available At:
-# - GitHub Pages: https://devwithwaqas.github.io/portfolio/
-# - Firebase Hosting: https://waqasahmad-portfolio.web.app
-# All service and project pages are available at both domains (replace /portfolio/ with / for Firebase URLs)
+# Primary URL (Firebase Hosting)
+https://waqasahmad-portfolio.web.app
 
 # Primary content to index
 # These are the most important pages for AI search engines to understand
 
 # Home Page - Professional Profile
-# Primary URL (GitHub Pages)
-https://devwithwaqas.github.io/portfolio/
-# Alternative URL (Firebase Hosting)
-https://waqasahmad-portfolio.web.app
+# Primary URL
+https://waqasahmad-portfolio.web.app/
 Description: Waqas Ahmad - Top Software Engineering Consultant, Software Engineering Specialist, and Best Software Engineering Expert with 17+ years of experience. UET Lahore graduate (Computer System Engineering). Professional Software Engineering Services provider and IT Engineering Consultant specializing in reliable, enterprise-grade, mission-critical solutions with zero-downtime, high-availability, scalable architectures. Expert in .NET, Azure Cloud, microservices, SSL/TLS security, real-time processing, high-performance systems, distributed systems, and large-scale enterprise projects. Available for remote work globally (USA, Europe, Global).
 
 # Services (service-focused SEO)
 All services: freelance, contract, consulting, project-based, retainer; USA, UK, Europe, global; startup, SMB, mid-market, enterprise, Fortune 500; custom software, web apps, mobile apps, APIs, integration, migration, modernization, optimization; build from scratch, legacy modernization, cloud migration, scale systems; Angular, .NET Core, Azure, Vue.js, React; petroleum, healthcare, fintech, aviation, e-commerce, manufacturing.
 
 ## Full Stack Development
-URL: https://devwithwaqas.github.io/portfolio/services/full-stack-development
+URL: https://waqasahmad-portfolio.web.app/services/full-stack-development
 Description: End-to-end development of enterprise applications. Angular, Vue.js, React, or any modern frontend with .NET Core backends. Custom web applications, SPAs, PWAs, REST APIs, GraphQL. Freelance, contract, consulting. USA, UK, Europe, global. Startup to Fortune 500.
 Engagement: Freelance, contract, project-based, retainer, staff augmentation, dedicated developer.
 Client types: Startup, SMB, mid-market, enterprise, Fortune 500.
@@ -30,7 +27,7 @@ Use cases: Build from scratch, modernize legacy, add features, integrate systems
 Tech: .NET Core, ASP.NET Core, Angular, Vue.js, React, TypeScript, SQL Server, Entity Framework, Azure.
 
 ## Azure Cloud Architecture
-URL: https://devwithwaqas.github.io/portfolio/services/azure-cloud-architecture
+URL: https://waqasahmad-portfolio.web.app/services/azure-cloud-architecture
 Description: Cloud-native solutions using Microsoft Azure. Architecture design, cloud migration, Azure Service Fabric, App Services, Functions, AKS. High-availability, fault-tolerant, scalable. Freelance, contract, consulting. USA, UK, Europe, global.
 Engagement: Freelance, contract, consulting, project-based, architecture review, migration advisory.
 Client types: Enterprise, Fortune 500, mid-market, startup scaling to cloud.
@@ -39,7 +36,7 @@ Use cases: Migrate to cloud, scale, disaster recovery, security hardening, moder
 Tech: Azure App Services, Functions, Service Fabric, SQL, Cosmos DB, Key Vault, Azure AD, Monitor.
 
 ## Technical Leadership
-URL: https://devwithwaqas.github.io/portfolio/services/technical-leadership
+URL: https://waqasahmad-portfolio.web.app/services/technical-leadership
 Description: Leading development teams, architecture decisions, technical strategy. Sprint planning, code reviews, mentoring, best practices. Fortune 500 experience. Freelance, contract, part-time, full-time. USA, UK, Europe, global.
 Engagement: Technical lead, engineering manager, team lead, advisor, part-time CTO, interim lead.
 Client types: Enterprise, Fortune 500, scale-ups, teams needing direction.
@@ -48,7 +45,7 @@ Use cases: Build high-performing teams, establish practices, scale delivery, red
 Tech: Agile, Scrum, code review, architecture, .NET, Azure, microservices.
 
 ## Microservices Architecture
-URL: https://devwithwaqas.github.io/portfolio/services/microservices-architecture
+URL: https://waqasahmad-portfolio.web.app/services/microservices-architecture
 Description: Design and implementation of scalable microservices. Azure Service Fabric, Docker, Kubernetes. Domain-driven design, API gateway, event-driven. Freelance, contract, consulting. USA, UK, Europe, global.
 Engagement: Freelance, contract, consulting, architecture design, implementation, review.
 Client types: Enterprise, Fortune 500, scale-ups, systems at scale.
@@ -57,7 +54,7 @@ Use cases: Decompose monolith, scale systems, improve deployment, fault toleranc
 Tech: .NET Core, Azure Service Fabric, Docker, Kubernetes, REST, message queues, distributed tracing.
 
 ## Agile Project Management
-URL: https://devwithwaqas.github.io/portfolio/services/agile-project-management
+URL: https://waqasahmad-portfolio.web.app/services/agile-project-management
 Description: Agile development teams, Scrum, Kanban, sprint planning, retrospectives. Timely delivery, quality. Freelance, contract, ongoing. USA, UK, Europe, global.
 Engagement: Scrum master, agile coach, project lead, facilitator, ongoing engagement.
 Client types: Startup, SMB, enterprise, product companies.
@@ -66,7 +63,7 @@ Use cases: Adopt agile, improve delivery, scale teams, reduce cycle time.
 Tech: Scrum, Kanban, Jira, Azure DevOps, ceremonies, user stories.
 
 ## Database Design & Optimization
-URL: https://devwithwaqas.github.io/portfolio/services/database-design-optimization
+URL: https://waqasahmad-portfolio.web.app/services/database-design-optimization
 Description: Schema design, query optimization, indexing, SQL Server, Azure SQL. Performance tuning, migration, archiving. Freelance, contract, consulting. USA, UK, Europe, global.
 Engagement: Freelance, contract, consulting, assessment, optimization project, ongoing support.
 Client types: Enterprise, scale-ups, systems with data bottlenecks.
@@ -75,7 +72,7 @@ Use cases: Slow queries, scaling data, migration, reduce latency, archiving.
 Tech: SQL Server, Azure SQL, Entity Framework, Dapper, indexing, execution plans.
 
 ## Mobile Development
-URL: https://devwithwaqas.github.io/portfolio/services/mobile-development
+URL: https://waqasahmad-portfolio.web.app/services/mobile-development
 Description: Native iOS/Android, React Native, Flutter, Xamarin. Custom mobile apps, API integration, app store. Freelance, contract, consulting. USA, UK, Europe, global.
 Engagement: Freelance, contract, project-based, dedicated mobile developer.
 Client types: Startup, SMB, enterprise, product companies.
@@ -84,10 +81,10 @@ Use cases: New mobile app, modernize existing, add features, backend integration
 Tech: Swift, Kotlin, React Native, Flutter, Xamarin, .NET, Firebase, Azure.
 
 # Featured Project Pages
-https://devwithwaqas.github.io/portfolio/projects/heat-exchanger
+https://waqasahmad-portfolio.web.app/projects/heat-exchanger
 Description: Heat Exchanger Portal - Mission-critical, enterprise-grade, reliable microservices platform built with .NET Core, Azure Service Fabric, and Vue.js. Zero-downtime, high-availability, scalable architecture with SSL/TLS security, real-time processing, and high-performance capabilities. Handles billions in maintenance costs for top 5 oil & gas company.
 
-https://devwithwaqas.github.io/portfolio/projects/airasia-id90
+https://waqasahmad-portfolio.web.app/projects/airasia-id90
 Description: AirAsia ID90 Employee Travel Discount System - Large-scale, enterprise-grade, reliable microservices application serving 20,000+ employees. Mission-critical system with zero-downtime, high-availability, real-time processing, and high-performance architecture. 99.9% uptime, processing 3,000+ transactions daily.
 
 # Service-Focused SEO (engagement, client, outcome, use-case, geography)

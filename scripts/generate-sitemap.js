@@ -20,23 +20,50 @@ const ROUTER_FILE = path.resolve(__dirname, '../src/router/index.js')
 
 // Determine SITE_URL based on build mode
 let BASE_URL = 'https://devwithwaqas.github.io/portfolio'
+
+// Priority 1: Explicit environment variable
 if (process.env.FIREBASE_SITE_URL) {
-  // Explicit Firebase URL from environment
-  BASE_URL = process.env.FIREBASE_SITE_URL.replace(/\/$/, '') // Remove trailing slash
-} else if (process.env.MODE === 'firebase' || process.env.NODE_ENV === 'firebase') {
-  // Firebase build mode detected
-  BASE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
-  BASE_URL = BASE_URL.replace(/\/$/, '') // Remove trailing slash
-} else {
-  // Check dist/index.html for base path hint (if dist exists)
+  BASE_URL = process.env.FIREBASE_SITE_URL.replace(/\/$/, '')
+  console.log(`[Sitemap] Using FIREBASE_SITE_URL: ${BASE_URL}`)
+} 
+// Priority 2: Check dist/index.html for base path (most reliable after build)
+else {
   const indexPath = path.join(DIST_DIR, 'index.html')
   if (fs.existsSync(indexPath)) {
     const htmlContent = fs.readFileSync(indexPath, 'utf8')
-    // If base is "/" (not "/portfolio/"), likely Firebase build
-    if (htmlContent.includes('base="/"') || htmlContent.includes('base="/"')) {
+    // Firebase builds: base="/" or no base tag (defaults to "/")
+    // GitHub Pages builds: base="/portfolio/"
+    const hasPortfolioBase = htmlContent.includes('base="/portfolio/"') || htmlContent.includes('base="/portfolio"')
+    const hasRootBase = htmlContent.includes('base="/"') || htmlContent.includes('base="/"') || !htmlContent.includes('<base')
+    
+    if (hasRootBase && !hasPortfolioBase) {
+      // Firebase build detected
       BASE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
-      BASE_URL = BASE_URL.replace(/\/$/, '') // Remove trailing slash
+      BASE_URL = BASE_URL.replace(/\/$/, '')
+      console.log(`[Sitemap] Firebase build detected from index.html, using: ${BASE_URL}`)
+    } else if (hasPortfolioBase) {
+      // Legacy GitHub Pages build (redirect only)
+      BASE_URL = 'https://waqasahmad-portfolio.web.app'
+      console.log(`[Sitemap] Legacy build detected, using Firebase URL: ${BASE_URL}`)
+    } else {
+      // Fallback: check environment
+      if (process.env.MODE === 'firebase' || process.env.NODE_ENV === 'firebase') {
+        BASE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
+        BASE_URL = BASE_URL.replace(/\/$/, '')
+        console.log(`[Sitemap] Firebase mode from env, using: ${BASE_URL}`)
+      } else {
+        console.log(`[Sitemap] Defaulting to GitHub Pages: ${BASE_URL}`)
+      }
     }
+  } else {
+    // dist/index.html doesn't exist yet - check environment
+    if (process.env.MODE === 'firebase' || process.env.NODE_ENV === 'firebase') {
+      BASE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
+      BASE_URL = BASE_URL.replace(/\/$/, '')
+      console.log(`[Sitemap] Firebase mode from env (no dist yet), using: ${BASE_URL}`)
+      } else {
+        console.log(`[Sitemap] Defaulting to Firebase (no dist/index.html): ${BASE_URL}`)
+      }
   }
 }
 
@@ -165,7 +192,7 @@ function generateSitemap() {
   // Ensure dist directory exists
   if (!fs.existsSync(DIST_DIR)) {
     fs.mkdirSync(DIST_DIR, { recursive: true })
-    console.log('✓ Created dist directory')
+    console.log('[OK] Created dist directory')
   }
   
   // Ensure directories exist
@@ -179,16 +206,16 @@ function generateSitemap() {
   // Write to dist directory (for deployment)
   const distSitemapPath = path.join(DIST_DIR, 'sitemap.xml')
   fs.writeFileSync(distSitemapPath, sitemap, 'utf8')
-  console.log('✓ Generated sitemap.xml at:', distSitemapPath)
+  console.log('[OK] Generated sitemap.xml at:', distSitemapPath)
   
   // Also write to public directory (as backup and for Vite to copy)
   const publicSitemapPath = path.join(PUBLIC_DIR, 'sitemap.xml')
   fs.writeFileSync(publicSitemapPath, sitemap, 'utf8')
-  console.log('✓ Copied sitemap.xml to public/ folder')
+  console.log('[OK] Copied sitemap.xml to public/ folder')
   
-  console.log(`✓ Sitemap URL: ${BASE_URL}/sitemap.xml`)
-  console.log(`✓ Total URLs: ${routes.length} (auto-discovered from router)`)
-  console.log(`✓ Last modified: ${today}`)
+  console.log(`[OK] Sitemap URL: ${BASE_URL}/sitemap.xml`)
+  console.log(`[OK] Total URLs: ${routes.length} (auto-discovered from router)`)
+  console.log(`[OK] Last modified: ${today}`)
 }
 
 // Run if called directly

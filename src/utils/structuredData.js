@@ -159,7 +159,15 @@ export function generatePersonSchema() {
     // AI Search Optimization: Add more detailed description for AI engines
     about: `Waqas Ahmad is a Senior Software Engineer and Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of professional experience. He specializes in reliable, enterprise-grade, mission-critical solutions with zero-downtime, high-availability, scalable architectures. Expert in .NET development, Azure Cloud architecture, microservices design, SSL/TLS security, real-time processing, high-performance systems, distributed systems, and large-scale enterprise projects. With experience working with Fortune 500 companies worldwide, he delivers production-ready, robust, resilient, and optimized solutions. Available for projects in USA, Europe, and globally with flexible timezone support (EST, PST, GMT, CET).`,
     url: website,
-    image: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`,
+    // CRITICAL: Use ImageObject for better Google search result display
+    image: {
+      '@type': 'ImageObject',
+      url: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`,
+      width: 1200,
+      height: 1200,
+      caption: `${fullName} - Senior Software Engineer & Technical Lead`,
+      description: `Profile picture of ${fullName}, ${APP_CONFIG.stats.yearsExperience}+ years experienced Senior Software Engineer, Technical Lead, and Software Engineering Consultant specializing in .NET, Azure Cloud, and enterprise architecture.`
+    },
     email: email,
     telephone: phone,
     address: {
@@ -653,6 +661,38 @@ export function generateSoftwareApplicationSchema(projectData) {
 }
 
 /**
+ * Generate WebSite schema
+ * CRITICAL: Helps Google understand your website structure
+ * Note: Sitemap discovery is primarily via HTML link tag and robots.txt
+ * This schema helps with overall website understanding
+ */
+export function generateWebSiteSchema() {
+  const fullName = APP_CONFIG.fullName
+  
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}#website`,
+    name: `${fullName} - Portfolio`,
+    url: SITE_URL,
+    description: `${fullName} - Software Engineering Consultant & Software Engineering Specialist with ${APP_CONFIG.stats.yearsExperience}+ years of experience. Available for remote work globally.`,
+    publisher: {
+      '@type': 'Person',
+      name: fullName
+    },
+    // SearchAction helps with site search (if you have search functionality)
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}?q={search_term_string}`
+      },
+      'query-input': 'required name=search_term_string'
+    }
+  }
+}
+
+/**
  * Generate all structured data for home page
  * @param {Array} testimonials - Optional array of testimonial objects with name, title, text
  */
@@ -672,8 +712,11 @@ export function generateHomePageStructuredData(testimonials = []) {
   // Add JobPosting schema for "available for hire" messaging - helps AI search and recruiters
   const jobPosting = generateJobPostingSchema()
   
+  // CRITICAL: Add WebSite schema with sitemap reference for automatic discovery
+  const website = generateWebSiteSchema()
+  
   // Inject all schemas
-  injectStructuredData([person, service, organization, jobPosting])
+  injectStructuredData([person, service, organization, jobPosting, website])
 }
 
 /**

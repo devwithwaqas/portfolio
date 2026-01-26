@@ -14,42 +14,42 @@ const DIST_NOJEKYLL = path.resolve(__dirname, '../dist/.nojekyll')
 let sitemapPath = DIST_SITEMAP
 if (!fs.existsSync(sitemapPath)) {
   sitemapPath = PUBLIC_SITEMAP
-  console.warn('⚠️  Sitemap not found in dist/, checking public/ folder...')
+  console.warn('[WARN] Sitemap not found in dist/, checking public/ folder...')
 }
 
 if (!fs.existsSync(sitemapPath)) {
-  console.error('❌ Sitemap not found at:', PUBLIC_SITEMAP)
-  console.error('❌ Sitemap not found at:', DIST_SITEMAP)
+  console.error('[ERROR] Sitemap not found at:', PUBLIC_SITEMAP)
+  console.error('[ERROR] Sitemap not found at:', DIST_SITEMAP)
   process.exit(1)
 }
 
 // Check for .nojekyll file (critical for GitHub Pages)
 if (!fs.existsSync(DIST_NOJEKYLL)) {
-  console.warn('⚠️  WARNING: .nojekyll file not found in dist/ folder!')
-  console.warn('   This may cause GitHub Pages to not serve sitemap.xml correctly.')
-  console.warn('   Run: node scripts/create-nojekyll.js')
+  console.warn('[WARN] .nojekyll file not found in dist/ folder!')
+  console.warn('       This may cause GitHub Pages to not serve sitemap.xml correctly.')
+  console.warn('       Run: node scripts/create-nojekyll.js')
 } else {
-  console.log('✅ .nojekyll file found in dist/ folder')
+  console.log('[OK] .nojekyll file found in dist/ folder')
 }
 
 const sitemapContent = fs.readFileSync(sitemapPath, 'utf8')
 
 // Basic validation
-console.log('🔍 Validating sitemap.xml...\n')
+console.log('[VALIDATE] Validating sitemap.xml...\n')
 
 // Check 1: Valid XML structure (basic checks)
 if (!sitemapContent.includes('<?xml')) {
-  console.error('❌ Missing XML declaration')
+  console.error('[ERROR] Missing XML declaration')
   process.exit(1)
 }
 
 if (!sitemapContent.includes('<urlset')) {
-  console.error('❌ Missing <urlset> root element')
+  console.error('[ERROR] Missing <urlset> root element')
   process.exit(1)
 }
 
 if (!sitemapContent.includes('</urlset>')) {
-  console.error('❌ Missing closing </urlset> tag')
+  console.error('[ERROR] Missing closing </urlset> tag')
   process.exit(1)
 }
 
@@ -58,12 +58,12 @@ const urlMatches = sitemapContent.match(/<url>/g)
 const urlCount = urlMatches ? urlMatches.length : 0
 
 if (urlCount === 0) {
-  console.error('❌ No <url> elements found')
+  console.error('[ERROR] No <url> elements found')
   process.exit(1)
 }
 
-console.log('✅ Valid XML structure')
-console.log(`✅ Found ${urlCount} URLs\n`)
+console.log('[OK] Valid XML structure')
+console.log(`[OK] Found ${urlCount} URLs\n`)
 
 // Check 2: Validate URLs
 const urlRegex = /<loc>(.*?)<\/loc>/g
@@ -74,33 +74,32 @@ while ((match = urlRegex.exec(sitemapContent)) !== null) {
   urls.push(match[1])
 }
 
-console.log('🔗 Validating URLs...\n')
+console.log('[VALIDATE] Validating URLs...\n')
 
 let validCount = 0
 let invalidCount = 0
 
-// Support both GitHub Pages and Firebase URLs
-const GITHUB_PAGES_URL = 'https://devwithwaqas.github.io/portfolio'
+// Validate Firebase URLs only (GitHub Pages now redirects to Firebase)
 const FIREBASE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
-const isValidBaseUrl = (url) => url.startsWith(GITHUB_PAGES_URL) || url.startsWith(FIREBASE_URL)
+const isValidBaseUrl = (url) => url.startsWith(FIREBASE_URL)
 
 urls.forEach((url, index) => {
   const isValid = isValidBaseUrl(url)
-  const isHome = url === `${GITHUB_PAGES_URL}/` || url === GITHUB_PAGES_URL || 
+  const isHome = url === `${FIREBASE_URL}/` || url === FIREBASE_URL || 
                  url === `${FIREBASE_URL}/` || url === FIREBASE_URL
   
   if (isValid) {
     validCount++
-    console.log(`✅ [${index + 1}] ${url}`)
+    console.log(`[OK] [${index + 1}] ${url}`)
   } else {
     invalidCount++
-    console.error(`❌ [${index + 1}] Invalid URL: ${url}`)
+    console.error(`[ERROR] [${index + 1}] Invalid URL: ${url}`)
   }
 })
 
-console.log(`\n📊 Summary:`)
-console.log(`   ✅ Valid URLs: ${validCount}`)
-console.log(`   ❌ Invalid URLs: ${invalidCount}`)
+console.log(`\n[SUMMARY]`)
+console.log(`    [OK] Valid URLs: ${validCount}`)
+console.log(`    [ERROR] Invalid URLs: ${invalidCount}`)
 
 // Check 3: Check for required elements
 const requiredElements = ['<loc>', '<lastmod>', '<changefreq>', '<priority>']
@@ -113,10 +112,10 @@ requiredElements.forEach(element => {
 })
 
 if (missingElements.length > 0) {
-  console.error(`\n❌ Missing required elements: ${missingElements.join(', ')}`)
+  console.error(`\n[ERROR] Missing required elements: ${missingElements.join(', ')}`)
   process.exit(1)
 } else {
-  console.log(`\n✅ All required elements present`)
+  console.log(`\n[OK] All required elements present`)
 }
 
 // Check 4: Validate priorities (should be 0.0 to 1.0)
@@ -125,7 +124,7 @@ const priorities = []
 while ((match = priorityRegex.exec(sitemapContent)) !== null) {
   const priority = parseFloat(match[1])
   if (priority < 0 || priority > 1) {
-    console.error(`❌ Invalid priority: ${priority} (must be 0.0 to 1.0)`)
+    console.error(`[ERROR] Invalid priority: ${priority} (must be 0.0 to 1.0)`)
     invalidCount++
   } else {
     priorities.push(priority)
@@ -139,7 +138,7 @@ const changefreqs = []
 while ((match = changefreqRegex.exec(sitemapContent)) !== null) {
   const freq = match[1].toLowerCase()
   if (!validFreqs.includes(freq)) {
-    console.error(`❌ Invalid changefreq: ${freq}`)
+    console.error(`[ERROR] Invalid changefreq: ${freq}`)
     invalidCount++
   } else {
     changefreqs.push(freq)
@@ -152,20 +151,20 @@ const lastmodRegex = /<lastmod>(.*?)<\/lastmod>/g
 while ((match = lastmodRegex.exec(sitemapContent)) !== null) {
   const date = match[1]
   if (!dateRegex.test(date)) {
-    console.error(`❌ Invalid lastmod format: ${date} (should be YYYY-MM-DD)`)
+    console.error(`[ERROR] Invalid lastmod format: ${date} (should be YYYY-MM-DD)`)
     invalidCount++
   }
 }
 
 // Final result
 if (invalidCount === 0) {
-  console.log(`\n✅ Sitemap validation PASSED!`)
-  console.log(`\n📝 Next steps:`)
-  console.log(`   1. Submit to Google Search Console: sitemap.xml`)
-  console.log(`   2. Wait 24-48 hours for Google to process`)
-  console.log(`   3. Check status in Search Console`)
+  console.log(`\n[OK] Sitemap validation PASSED!`)
+  console.log(`\n[NEXT_STEPS]`)
+  console.log(`    1. Submit to Google Search Console: sitemap.xml`)
+  console.log(`    2. Wait 24-48 hours for Google to process`)
+  console.log(`    3. Check status in Search Console`)
   process.exit(0)
 } else {
-  console.error(`\n❌ Sitemap validation FAILED with ${invalidCount} error(s)`)
+  console.error(`\n[ERROR] Sitemap validation FAILED with ${invalidCount} error(s)`)
   process.exit(1)
 }

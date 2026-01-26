@@ -4,51 +4,82 @@ import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
 import splitMobileCSS from './scripts/split-css-plugin.js'
+import removeConsole from 'vite-plugin-remove-console'
 
 // ES module equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 export default defineConfig(({ mode }) => {
+  // Firebase modes: 'firebase' (prod) or 'firebase-dev' (dev)
+  const isFirebase = mode === 'firebase' || mode === 'firebase-dev'
+  const isFirebaseProd = mode === 'firebase'
+  const isDev = mode === 'development'
+  
   // Set analytics endpoint for Firebase builds if not provided via env
-  if (mode === 'firebase' && !process.env.VITE_PORTFOLIO_GA4_API_ENDPOINT) {
+  if (isFirebase && !process.env.VITE_PORTFOLIO_GA4_API_ENDPOINT) {
     process.env.VITE_PORTFOLIO_GA4_API_ENDPOINT = 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net/portfolio-ga4-read'
   }
   
   // Set SMTP endpoint for Firebase builds if not provided via env
-  if (mode === 'firebase' && !process.env.VITE_SMTP_ENDPOINT) {
+  if (isFirebase && !process.env.VITE_SMTP_ENDPOINT) {
     process.env.VITE_SMTP_ENDPOINT = 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net/sendEmail'
   }
   
   // Set Firebase site URL for Firebase builds if not provided via env
-  if (mode === 'firebase' && !process.env.VITE_FIREBASE_SITE_URL) {
+  if (isFirebase && !process.env.VITE_FIREBASE_SITE_URL) {
     process.env.VITE_FIREBASE_SITE_URL = 'https://waqasahmad-portfolio.web.app'
   }
   
-  // Set GA4 Measurement ID for Firebase builds (different from GitHub Pages)
-  if (mode === 'firebase' && !process.env.VITE_GA4_MEASUREMENT_ID) {
-    // Use Firebase GA4 property if provided, otherwise fallback to GitHub Pages ID
+  // Set GA4 Measurement ID for Firebase builds
+  if (isFirebase && !process.env.VITE_GA4_MEASUREMENT_ID) {
     process.env.VITE_GA4_MEASUREMENT_ID = process.env.VITE_GA4_MEASUREMENT_ID_FIREBASE || 'G-02TG7S6Z2V'
   }
-  
+  // Firebase PROD: server-side tracking only — skip gtag script to avoid 404 (fixes accessibility console errors)
+  if (isFirebaseProd && !process.env.VITE_GA4_FORCE_SERVER_SIDE) {
+    process.env.VITE_GA4_FORCE_SERVER_SIDE = 'true'
+  }
+
+  // Firebase PROD: report client errors to Cloud Function so you can read them via gcloud logging
+  if (isFirebaseProd && !process.env.VITE_ERROR_REPORT_URL) {
+    process.env.VITE_ERROR_REPORT_URL = 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net/portfolio-error-report'
+  }
+
   // Pass Firebase site URL to sitemap generation script
-  if (mode === 'firebase') {
+  if (isFirebase) {
     process.env.FIREBASE_SITE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
   }
   
+  // Production mode: strip console and hide errors
+  // firebase = prod, firebase-dev = dev (keeps console, shows full errors)
+  const isProd = mode === 'production' || isFirebaseProd
+
   return {
-  base: mode === 'firebase' ? '/' : '/portfolio/', // Use root for Firebase, /portfolio/ for GitHub Pages
+  base: isDev ? '/' : (isFirebase ? '/' : '/portfolio/'), // Use root for dev and Firebase, /portfolio/ for GitHub Pages builds
   publicDir: 'public',
   plugins: [
     vue(),
+    ...(isProd ? [removeConsole({ includes: ['log', 'info', 'warn', 'debug'] })] : []),
     // Plugin to transform HTML asset paths
     {
       name: 'transform-html-assets',
       transformIndexHtml(html, context) {
-        // Use the base path from config (dynamic based on mode)
-        const base = mode === 'firebase' ? '/' : '/portfolio/'
-        // Use Firebase GA4 ID for Firebase builds, GitHub Pages ID for others
-        const ga4Id = mode === 'firebase' 
+        // In dev mode, Vite serves public files at root regardless of base, so don't transform
+        // Only transform during build
+        const isDev = mode === 'development'
+        if (isDev) {
+          // In dev mode, only replace GA4 placeholder if needed
+          const ga4Id = process.env.VITE_GA4_MEASUREMENT_ID || 'G-1HMMJLP7GK'
+          if (ga4Id) {
+            return html.replace(/VITE_GA4_MEASUREMENT_ID_PLACEHOLDER/g, ga4Id)
+          }
+          return html
+        }
+        
+        // Use the base path from config (dynamic based on mode) - BUILD ONLY
+        const base = isFirebase ? '/' : '/portfolio/'
+        // Use Firebase GA4 ID for Firebase builds
+        const ga4Id = isFirebase 
           ? (process.env.VITE_GA4_MEASUREMENT_ID_FIREBASE || process.env.VITE_GA4_MEASUREMENT_ID || 'G-02TG7S6Z2V')
           : (process.env.VITE_GA4_MEASUREMENT_ID || 'G-1HMMJLP7GK')
         // Replace absolute asset paths with base-prefixed paths
@@ -65,6 +96,7 @@ export default defineConfig(({ mode }) => {
         if (ga4Id) {
           transformed = transformed.replace(/VITE_GA4_MEASUREMENT_ID_PLACEHOLDER/g, ga4Id)
         }
+        // Note: index.html already has Firebase URLs, no transformation needed
         return transformed
       }
     },
@@ -253,7 +285,7 @@ export default defineConfig(({ mode }) => {
     },
     // Disable HMR in production builds to prevent connection attempts when server is off
     // HMR is only needed in development - this prevents "vite connecting" messages in production
-    define: mode === 'production' || mode === 'firebase' ? {
+    define: isProd ? {
       'import.meta.hot': 'undefined' // Disable HMR client in production builds
     } : {}
   }

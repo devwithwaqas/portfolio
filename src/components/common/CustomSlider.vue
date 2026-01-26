@@ -360,7 +360,7 @@ export default {
   padding: 16px !important;
   border: none;
   border-radius: 50%;
-  background: rgba(60, 20, 120, 0.3);
+  background: transparent !important; /* Outer circle invisible - only inner dot visible */
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex !important;
@@ -371,29 +371,31 @@ export default {
 }
 
 .slider-dot::before {
-  /* Visual dot indicator */
+  /* Visual dot indicator - only this is visible */
   content: '';
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: inherit;
+  background: rgba(60, 20, 120, 0.4);
   display: block;
+  transition: all 0.3s ease;
 }
 
 .slider-dot:hover {
-  background: rgba(60, 20, 120, 0.6);
+  background: transparent !important; /* Keep outer circle transparent on hover */
 }
 
 .slider-dot:hover::before {
+  background: rgba(60, 20, 120, 0.7);
   transform: scale(1.2);
 }
 
 .slider-dot.active {
-  background: rgba(60, 20, 120, 0.2);
+  background: transparent !important; /* Keep outer circle transparent when active */
 }
 
 .slider-dot.active::before {
-  background: linear-gradient(135deg, rgba(60, 20, 120, 0.8) 0%, rgba(50, 15, 100, 0.85) 50%, rgba(40, 10, 80, 0.9) 100%);
+  background: linear-gradient(135deg, rgba(60, 20, 120, 0.9) 0%, rgba(50, 15, 100, 0.95) 50%, rgba(40, 10, 80, 1) 100%);
   transform: scale(1.3);
   box-shadow: 0 4px 15px rgba(60, 20, 120, 0.4);
 }
@@ -415,6 +417,7 @@ export default {
     min-width: 44px !important;
     min-height: 44px !important;
     padding: 16px !important;
+    background: transparent !important; /* Outer circle invisible */
   }
   
   .slider-dot::before {
@@ -448,6 +451,7 @@ export default {
     min-width: 44px !important;
     min-height: 44px !important;
     padding: 16px !important;
+    background: transparent !important; /* Outer circle invisible */
   }
   
   .slider-dot::before {
@@ -480,6 +484,7 @@ export default {
     min-width: 44px !important;
     min-height: 44px !important;
     padding: 16px !important;
+    background: transparent !important; /* Outer circle invisible */
   }
   
   .slider-dot::before {

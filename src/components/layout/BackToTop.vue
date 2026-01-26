@@ -9,12 +9,9 @@
       type="button"
       :style="{ 
         position: 'fixed', 
-        bottom: '20px', 
-        right: '20px', 
         zIndex: 9998, 
         contain: 'none',
-        willChange: 'auto',
-        transform: isVisible ? 'translateY(0)' : 'translateY(20px)'
+        willChange: 'auto'
       }"
     >
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -47,9 +44,8 @@ export default {
           document.body.appendChild(button)
         }
         // Force fixed positioning via JavaScript (nuclear option)
+        // CRITICAL: Don't set bottom/right here - let CSS media queries handle positioning
         button.style.setProperty('position', 'fixed', 'important')
-        button.style.setProperty('bottom', '20px', 'important')
-        button.style.setProperty('right', '20px', 'important')
         button.style.setProperty('z-index', '9998', 'important')
         button.style.setProperty('contain', 'none', 'important')
         button.style.setProperty('will-change', 'auto', 'important')
@@ -119,6 +115,7 @@ export default {
 <style>
 /* CRITICAL: Non-scoped styles for fixed buttons to ensure they work */
 /* These buttons are teleported to body, so scoped styles might not apply correctly */
+/* OVERRIDE: Public CSS styles that might conflict */
 .scroll-top,
 button.scroll-top {
   position: fixed !important;
@@ -127,22 +124,36 @@ button.scroll-top {
   z-index: 9998 !important;
   contain: none !important;
   will-change: auto !important;
+  /* CRITICAL: Override public CSS that might cause conflicts */
+  background: rgba(18, 18, 18, 0.95) !important;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50% !important;
+  /* Prevent duplicate visual artifacts from conflicting transforms */
+  overflow: hidden !important;
+  isolation: isolate !important;
 }
 
 /* Ensure hover effects work on all pages including home - Keep dark background with purple overlay */
 .scroll-top:hover,
 button.scroll-top:hover {
   /* Keep dark background and add purple overlay - match project pages behavior */
-  background: linear-gradient(135deg, 
-    rgba(18, 18, 18, 0.95) 0%, 
-    rgba(18, 18, 18, 0.95) 50%,
-    rgba(139, 92, 246, 0.2) 100%
-  ) !important;
-  transform: scale(1.05) !important;
+  background: rgba(18, 18, 18, 0.95) !important;
+  transform: scale(1.05) translateY(0) !important;
   position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
+  /* CRITICAL: Don't override bottom/right - let media queries handle positioning */
   z-index: 9998 !important;
+  /* Prevent duplicate visual artifacts */
+  overflow: hidden !important;
+}
+
+/* Desktop hover - respect desktop positioning */
+@media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
+  .scroll-top:hover,
+  button.scroll-top:hover {
+    right: 30px !important;
+    bottom: 30px !important;
+  }
 }
 </style>
 
@@ -155,6 +166,8 @@ button.scroll-top:hover {
   bottom: 20px !important;
   right: 20px !important;
   z-index: 9998 !important;
+  /* CRITICAL: overflow hidden to prevent visual artifacts */
+  overflow: hidden !important;
   /* Ensure it's positioned relative to viewport, not parent */
   /* Remove any transform/perspective/filter from parent that could create containing block */
   width: 50px !important;
@@ -183,7 +196,6 @@ button.scroll-top:hover {
   outline: none !important;
   text-decoration: none !important;
   line-height: 1 !important;
-  overflow: visible !important;
 }
 
 /* Purple overlay on hover - keep dark background visible */
@@ -199,13 +211,18 @@ button.scroll-top:hover {
   opacity: 0 !important;
   transition: opacity 0.3s ease !important;
   pointer-events: none !important;
-  z-index: -1 !important;
+  z-index: 1 !important;
+  /* CRITICAL: Ensure it doesn't create visual duplicate */
+  transform: none !important;
+  will-change: opacity !important;
 }
 
 .scroll-top.active {
   visibility: visible !important;
   opacity: 1 !important;
   transform: translateY(0) !important;
+  /* CRITICAL: Ensure active state doesn't conflict with hover */
+  overflow: hidden !important;
 }
 
 .scroll-top:hover,
@@ -219,12 +236,24 @@ button.scroll-top.active:hover {
   box-shadow: 
     0 4px 16px rgba(139, 92, 246, 0.3),
     0 0 20px rgba(139, 92, 246, 0.2) !important;
-  /* Match hamburger button hover effect - only scale, no translateY */
-  transform: scale(1.05) !important;
+  /* CRITICAL: Only scale transform, preserve translateY from active state */
+  transform: scale(1.05) translateY(0) !important;
   position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
+  /* CRITICAL: Don't override bottom/right - let media queries handle positioning */
   z-index: 9998 !important;
+  /* Prevent any duplicate visual artifacts */
+  overflow: hidden !important;
+}
+
+/* Desktop hover - respect desktop positioning */
+@media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
+  .scroll-top:hover,
+  button.scroll-top:hover,
+  .scroll-top.active:hover,
+  button.scroll-top.active:hover {
+    right: 30px !important;
+    bottom: 30px !important;
+  }
 }
 
 /* Show purple overlay on hover */
@@ -233,13 +262,27 @@ button.scroll-top:hover::before,
 .scroll-top.active:hover::before,
 button.scroll-top.active:hover::before {
   opacity: 1 !important;
+  /* CRITICAL: Ensure ::before doesn't create duplicate - no transforms */
+  transform: none !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
 }
 
 .scroll-top:active {
   transform: translateY(-2px) scale(0.95) !important;
   position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
+  /* CRITICAL: Don't override bottom/right - let media queries handle positioning */
+}
+
+/* Desktop active state - respect desktop positioning */
+@media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
+  .scroll-top:active {
+    right: 30px !important;
+    bottom: 30px !important;
+  }
 }
 
 .scroll-top svg {
@@ -274,6 +317,12 @@ button.scroll-top.active:hover::before {
     bottom: 30px !important;
     display: flex !important;
     position: fixed !important;
+  }
+  
+  /* Ensure active state also respects desktop positioning */
+  .scroll-top.active {
+    right: 30px !important;
+    bottom: 30px !important;
   }
 }
 

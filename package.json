@@ -5,9 +5,15 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-sw-version.js && vite build && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/copy-sitemap.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
-    "build:firebase": "node scripts/generate-sw-version.js && vite build --mode firebase && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/copy-sitemap.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
+    "prebuild": "node scripts/cleanup-dist.js",
+    "build": "node scripts/generate-sw-version.js && vite build && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
+    "prebuild:firebase": "node scripts/cleanup-dist.js",
+    "prebuild:firebase:dev": "node scripts/cleanup-dist.js",
+    "build:firebase": "node scripts/generate-sw-version.js && vite build --mode firebase && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/write-robots-firebase.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
+    "build:firebase:dev": "node scripts/generate-sw-version.js && vite build --mode firebase-dev && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/write-robots-firebase.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
     "deploy:firebase": "npm run build:firebase && firebase deploy --only hosting --project waqasahmad-portfolio",
+    "deploy:firebase:dev": "npm run build:firebase:dev && firebase deploy --only hosting --project waqasahmad-portfolio",
+    "deploy:firebase:prod": "npm run build:firebase && firebase deploy --only hosting --project waqasahmad-portfolio",
     "deploy:firebase:hosting": "firebase deploy --only hosting --project waqasahmad-portfolio",
     "preview": "vite preview",
     "serve": "vite preview",
@@ -22,15 +28,7 @@
     "generate-icon-sizes": "node scripts/generate-icon-sizes.js",
     "generate-mobile-hero": "node scripts/generate-mobile-hero-image.js",
     "check-performance": "node scripts/check-performance.js",
-    "check-performance:url": "node scripts/check-performance.js",
-    "analyze-css": "node scripts/analyze-css-usage.js",
-    "test-css": "node scripts/test-css-cleanup.js",
-    "cleanup-css": "node scripts/cleanup-css.js",
-    "cleanup-css:apply": "node scripts/cleanup-css.js --apply",
-    "analyze-js": "node scripts/analyze-js-usage.js",
-    "test-js": "node scripts/test-js-cleanup.js",
-    "cleanup-js": "node scripts/cleanup-js.js",
-    "cleanup-js:apply": "node scripts/cleanup-js.js --apply"
+    "check-performance:url": "node scripts/check-performance.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -46,7 +44,8 @@
     "@vitejs/plugin-vue": "^5.0.0",
     "sass": "^1.93.2",
     "sharp": "^0.34.5",
-    "vite": "^5.4.0"
+    "vite": "^5.4.0",
+    "vite-plugin-remove-console": "^2.2.0"
   },
   "keywords": [
     "portfolio",

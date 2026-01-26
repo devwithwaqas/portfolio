@@ -310,7 +310,7 @@ export default {
       },
       {
         project: "Insurance Clients",
-        link: "/projects/insurance-clients",
+        link: "/projects/chubb-insurance-applications",
         description: "Led technical team for insurance platform, established CI/CD practices, conducted code reviews, and drove adoption of modern development practices.",
         image: assetPath("/assets/img/in1.jpg"),
         metrics: {

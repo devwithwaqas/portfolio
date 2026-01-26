@@ -95,7 +95,7 @@ export default {
     ServiceCTA,
     RelatedProjects,
     TechnologyStack,
-    Breadcrumbs
+    ServicePageTemplate
   },
   setup() {
     // Hero Benefits

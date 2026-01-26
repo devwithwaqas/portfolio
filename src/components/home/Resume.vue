@@ -8,6 +8,44 @@
         icon-name="resume"
         body-padding="0"
       >
+              <!-- Resume Download Links - At the top for immediate visibility -->
+              <div class="resume-downloads" style="margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 15px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);">
+                <h3 class="txt-h3-xl" style="margin-bottom: 20px; text-align: center; color: #2c3e50;">
+                  <IconComponent icon-name="resume" fallback-emoji="📄" size="xl" style="margin-right: 10px;" />
+                  Download Resume
+                </h3>
+                <div v-if="!geoDetectionComplete" class="text-center" style="padding: 20px; color: #666;">
+                  <IconComponent icon-name="loading" fallback-emoji="⏳" size="lg" />
+                  <p class="txt-p-md" style="margin-top: 10px;">Detecting your location...</p>
+                </div>
+                <div v-else class="row g-3 justify-content-center">
+                  <div class="col-12 col-md-6">
+                    <a 
+                      :href="resumePaths.fullResume" 
+                      :download="resumePaths.fullResumeName"
+                      class="resume-download-btn"
+                      @click="trackResumeDownload('full')"
+                      target="_blank"
+                    >
+                      <IconComponent icon-name="resume" fallback-emoji="📄" size="lg" />
+                      <span>Full Resume (PDF)</span>
+                    </a>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <a 
+                      :href="resumePaths.onePageResume" 
+                      :download="resumePaths.onePageResumeName"
+                      class="resume-download-btn"
+                      @click="trackResumeDownload('one-page')"
+                      target="_blank"
+                    >
+                      <IconComponent icon-name="resume" fallback-emoji="📋" size="lg" />
+                      <span>One-Page Resume (PDF)</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
               <div class="row">
 
                 <div class="col-lg-6">
@@ -528,6 +566,7 @@
                 </div>
 
               </div>
+
       </ReusableCard>
 
     </div>
@@ -538,6 +577,9 @@
 import { APP_CONFIG } from '../../config/constants.js'
 import ReusableCard from '../common/ReusableCard.vue'
 import IconComponent from '../common/IconComponent.vue'
+import { isUserFromMalaysia, getResumePaths } from '../../utils/geolocation.js'
+import { trackEvent } from '../../utils/analytics.js'
+import { assetPath } from '../../utils/assetPath.js'
 
 export default {
   name: 'Resume',
@@ -549,7 +591,74 @@ export default {
     return {
       // VUE PROPER: Import constants instead of deleted personalData.js
       // totalExperience and techLeadExperience are now calculated dynamically in constants.js
-      ...APP_CONFIG
+      ...APP_CONFIG,
+      isMalaysia: false,
+      resumePaths: {
+        fullResume: assetPath('downloads/Waqas_Ahmad_Resume_glf.pdf'),
+        onePageResume: assetPath('downloads/Waqas_Ahmad_Resume_gl1.pdf'),
+        fullResumeName: 'Waqas_Ahmad_Resume_glf.pdf',
+        onePageResumeName: 'Waqas_Ahmad_Resume_gl1.pdf'
+      },
+      geoDetectionComplete: false
+    }
+  },
+  async mounted() {
+    // DEBUG MODE: Check URL parameter to force location (for testing)
+    const urlParams = new URLSearchParams(window.location.search)
+    const forceLocation = urlParams.get('location')
+    
+    if (forceLocation) {
+      // Force location for testing (e.g., ?location=MY or ?location=US)
+      const isMalaysiaUser = forceLocation.toUpperCase() === 'MY'
+      console.log(`[Resume] DEBUG MODE: Forcing location to ${isMalaysiaUser ? 'Malaysia' : 'Global'} (from URL parameter)`)
+      this.isMalaysia = isMalaysiaUser
+      const paths = getResumePaths(isMalaysiaUser)
+      this.resumePaths = {
+        fullResume: assetPath(paths.fullResume),
+        onePageResume: assetPath(paths.onePageResume),
+        fullResumeName: paths.fullResumeName,
+        onePageResumeName: paths.onePageResumeName
+      }
+      this.geoDetectionComplete = true
+      return
+    }
+    
+    // Normal geolocation detection
+    // Detect user location asynchronously (don't block page load)
+    try {
+      const isMalaysiaUser = await isUserFromMalaysia()
+      this.isMalaysia = isMalaysiaUser
+      const paths = getResumePaths(isMalaysiaUser)
+      // Use assetPath to ensure correct base URL handling
+      this.resumePaths = {
+        fullResume: assetPath(paths.fullResume),
+        onePageResume: assetPath(paths.onePageResume),
+        fullResumeName: paths.fullResumeName,
+        onePageResumeName: paths.onePageResumeName
+      }
+      this.geoDetectionComplete = true
+    } catch (error) {
+      // Default to global if detection fails
+      console.warn('[Resume] Geolocation detection failed, defaulting to global:', error.message)
+      this.isMalaysia = false
+      const paths = getResumePaths(false)
+      this.resumePaths = {
+        fullResume: assetPath(paths.fullResume),
+        onePageResume: assetPath(paths.onePageResume),
+        fullResumeName: paths.fullResumeName,
+        onePageResumeName: paths.onePageResumeName
+      }
+      this.geoDetectionComplete = true
+    }
+  },
+  methods: {
+    trackResumeDownload(type) {
+      trackEvent('resume_download', {
+        event_category: 'engagement',
+        event_label: type,
+        resume_type: type,
+        location: this.isMalaysia ? 'malaysia' : 'global'
+      })
     }
   }
 }
@@ -695,5 +804,110 @@ export default {
   will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+}
+
+/* Resume Download Buttons */
+.resume-downloads {
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+/* CRITICAL: Remove icon wrapper backgrounds/borders in download section */
+/* This prevents lazy loading issues with icon boxes */
+.resume-downloads .icon-wrapper-xs,
+.resume-downloads .icon-wrapper-sm,
+.resume-downloads .icon-wrapper-md,
+.resume-downloads .icon-wrapper-lg,
+.resume-downloads .icon-wrapper-xl,
+.resume-downloads .icon-wrapper-2xl {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.resume-downloads .icon-wrapper-xs:hover,
+.resume-downloads .icon-wrapper-sm:hover,
+.resume-downloads .icon-wrapper-md:hover,
+.resume-downloads .icon-wrapper-lg:hover,
+.resume-downloads .icon-wrapper-xl:hover,
+.resume-downloads .icon-wrapper-2xl:hover {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.resume-download-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+  border: 2px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  text-decoration: none;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+  min-height: 140px;
+  position: relative;
+  overflow: hidden;
+}
+
+.resume-download-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.resume-download-btn > * {
+  position: relative;
+  z-index: 1;
+}
+
+.resume-download-btn span {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 10px;
+  color: #2c3e50;
+  transition: color 0.3s ease;
+}
+
+.resume-download-btn small {
+  font-size: 12px;
+  color: #667eea;
+  margin-top: 5px;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.resume-download-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+  border-color: rgba(139, 92, 246, 0.6);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%);
+}
+
+.resume-download-btn:hover::before {
+  opacity: 1;
+}
+
+.resume-download-btn:hover span {
+  color: #667eea;
+}
+
+.resume-download-btn:active {
+  transform: translateY(-1px);
 }
 </style>

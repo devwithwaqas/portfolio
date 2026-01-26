@@ -95,7 +95,7 @@ export default {
     ServiceCTA,
     RelatedProjects,
     TechnologyStack,
-    Breadcrumbs
+    ServicePageTemplate
   },
   setup() {
     // Hero Benefits
@@ -300,7 +300,7 @@ export default {
       },
       {
         project: "Insurance Clients",
-        link: "/projects/insurance-clients",
+        link: "/projects/chubb-insurance-applications",
         description: "Managed agile development for enterprise insurance platform, coordinated multiple teams, facilitated Scrum of Scrums, and ensured 90% faster deployment through agile practices.",
         image: assetPath("/assets/img/in1.jpg"),
         metrics: {

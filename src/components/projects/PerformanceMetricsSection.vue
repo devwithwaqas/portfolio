@@ -55,6 +55,7 @@
 
 <script>
 import { resolveIcon, getDeviconSvgUrl as getDeviconSvgUrlUtil } from '../../utils/iconResolver.js'
+import { handleError } from '../../utils/errorHandler.js'
 
 // Lazy load Chart.js only when needed
 let Chart = null
@@ -190,14 +191,74 @@ export default {
       return getDeviconSvgUrlUtil(iconName)
     },
     
+    /**
+     * Normalize chart options to ensure plugins are properly structured.
+     * Prevents "Cannot read properties of undefined" errors in Chart.js.
+     * The error "Cannot read properties of undefined (reading 'disabled')" occurs
+     * when Chart.js tries to access plugin properties that aren't initialized.
+     */
+    normalizeChartOptions(options) {
+      if (!options || typeof options !== 'object') {
+        return {}
+      }
+      
+      // Deep clone to avoid mutating original
+      const normalized = JSON.parse(JSON.stringify(options))
+      
+      // Ensure plugins object exists and is properly structured
+      if (!normalized.plugins) {
+        normalized.plugins = {}
+      }
+      
+      // Ensure all plugin configurations are complete objects (not null/undefined)
+      Object.keys(normalized.plugins).forEach(pluginKey => {
+        if (!normalized.plugins[pluginKey] || typeof normalized.plugins[pluginKey] !== 'object') {
+          // If plugin config is invalid, remove it to prevent errors
+          delete normalized.plugins[pluginKey]
+        } else {
+          // Ensure plugin config is a proper object
+          normalized.plugins[pluginKey] = { ...normalized.plugins[pluginKey] }
+        }
+      })
+      
+      // Ensure legend plugin has required structure if it exists
+      if (normalized.plugins.legend) {
+        normalized.plugins.legend = {
+          display: normalized.plugins.legend.display !== false,
+          ...normalized.plugins.legend
+        }
+        // Ensure labels object exists and is properly structured
+        if (normalized.plugins.legend.labels) {
+          normalized.plugins.legend.labels = {
+            ...normalized.plugins.legend.labels
+          }
+        }
+      }
+      
+      // Ensure tooltip plugin has required structure if it exists
+      if (normalized.plugins.tooltip) {
+        normalized.plugins.tooltip = {
+          enabled: normalized.plugins.tooltip.enabled !== false,
+          ...normalized.plugins.tooltip
+        }
+      }
+      
+      return normalized
+    },
+    
     destroyCharts() {
       // Destroy all chart instances to prevent memory leaks
       this.chartInstances.forEach(chart => {
         if (chart) {
           try {
+            // Mark chart as unmounted before destroying
+            if (chart._componentMounted) {
+              chart._componentMounted.value = false
+            }
             chart.destroy()
           } catch (error) {
             // Silently fail - chart destruction is optional
+            // Errors here are expected when navigating away quickly
           }
         }
       })
@@ -244,10 +305,28 @@ export default {
         }
         
         try {
+          // Double-check component is still mounted before accessing canvas
+          if (!this.isMounted) {
+            return
+          }
+          
           const ctx = canvas.getContext('2d')
           if (!ctx) {
             return
           }
+          
+          // Check if context is still valid (not destroyed)
+          try {
+            ctx.save()
+            ctx.restore()
+          } catch (e) {
+            // Canvas context is invalid, likely due to navigation
+            console.log(`[Chart] Canvas context invalid for "${chartConfig.id}" - likely due to navigation. Skipping chart creation.`)
+            return
+          }
+          
+          // Normalize options to ensure plugins are properly structured
+          const normalizedOptions = this.normalizeChartOptions(chartConfig.options || {})
           
           const chartInstance = new Chart(ctx, {
             type: chartConfig.type,
@@ -256,9 +335,82 @@ export default {
               responsive: true,
               maintainAspectRatio: false,
               animation: false, // Disable animations to prevent issues during navigation
-              ...chartConfig.options
+              ...normalizedOptions,
+              // Add error handling for plugins
+              onHover: (event, activeElements) => {
+                try {
+                  // Default hover behavior
+                } catch (e) {
+                  // Ignore hover errors
+                }
+              }
             }
           })
+          
+          // Store component mounted state reference on chart instance
+          const componentMountedRef = { value: this.isMounted }
+          chartInstance._componentMounted = componentMountedRef
+          
+          // Wrap chart methods to catch plugin errors
+          const originalUpdate = chartInstance.update.bind(chartInstance)
+          chartInstance.update = function(mode, transition) {
+            try {
+              // Check if component is still mounted before updating
+              if (!componentMountedRef.value) {
+                return this
+              }
+              return originalUpdate(mode, transition)
+            } catch (error) {
+              // Check if error is due to navigation/unmounting
+              const isNavigationError = error.message?.includes('null') || 
+                                       error.message?.includes('undefined') ||
+                                       error.message?.includes('save') ||
+                                       error.message?.includes('disabled') ||
+                                       !componentMountedRef.value
+              
+              if (isNavigationError) {
+                // Friendly message for navigation-related errors (only log once per chart)
+                if (!this._navigationErrorLogged) {
+                  console.log(`[Chart] Charts failed to render for "${chartConfig.id}" due to navigation. This is expected when navigating away quickly.`)
+                  this._navigationErrorLogged = true
+                }
+              } else if (import.meta.env.DEV || import.meta.env.MODE === 'firebase-dev') {
+                console.log(`[Chart] Error updating chart "${chartConfig.id}":`, error)
+              }
+              // Return chart instance to prevent further errors
+              return this
+            }
+          }
+          
+          const originalDraw = chartInstance.draw.bind(chartInstance)
+          chartInstance.draw = function() {
+            try {
+              // Check if component is still mounted before drawing
+              if (!componentMountedRef.value) {
+                return this
+              }
+              return originalDraw()
+            } catch (error) {
+              // Check if error is due to navigation/unmounting
+              const isNavigationError = error.message?.includes('null') || 
+                                       error.message?.includes('undefined') ||
+                                       error.message?.includes('save') ||
+                                       error.message?.includes('disabled') ||
+                                       !componentMountedRef.value
+              
+              if (isNavigationError) {
+                // Friendly message for navigation-related errors (only log once per chart)
+                if (!this._navigationErrorLogged) {
+                  console.log(`[Chart] Charts failed to render for "${chartConfig.id}" due to navigation. This is expected when navigating away quickly.`)
+                  this._navigationErrorLogged = true
+                }
+              } else if (import.meta.env.DEV || import.meta.env.MODE === 'firebase-dev') {
+                console.log(`[Chart] Error drawing chart "${chartConfig.id}":`, error)
+              }
+              // Return chart instance to prevent further errors
+              return this
+            }
+          }
           
           if (this.isMounted) {
             this.chartInstances.push(chartInstance)
@@ -271,9 +423,23 @@ export default {
             }
           }
         } catch (error) {
-          // Silently fail - chart initialization errors are handled gracefully
-          if (import.meta.env.DEV) {
-            console.warn(`[PerformanceMetricsSection] Error initializing chart "${chartConfig.id}":`, error)
+          // Check if error is due to navigation/unmounting
+          const isNavigationError = error.message?.includes('null') || 
+                                   error.message?.includes('undefined') ||
+                                   error.message?.includes('save') ||
+                                   error.message?.includes('disabled') ||
+                                   !this.isMounted
+          
+          if (isNavigationError) {
+            // Friendly message for navigation-related errors
+            console.log(`[Chart] Charts failed to initialize for "${chartConfig.id}" due to navigation. This is expected when navigating away quickly.`)
+          } else {
+            // Log other chart initialization errors for debugging
+            if (import.meta.env.DEV || import.meta.env.MODE === 'firebase-dev') {
+              console.log(`[PerformanceMetricsSection] Error initializing chart "${chartConfig.id}":`, error)
+            }
+            // Report to error handler for backend logging in prod
+            handleError(error, `chart.init.${chartConfig.id}`)
           }
         }
       })

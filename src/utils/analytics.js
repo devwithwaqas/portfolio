@@ -138,7 +138,13 @@ function trackPageViewInternal(path, title) {
  * Track page view
  */
 export function trackPageView(path, title) {
-  // Check if gtag exists (from index.html) - this is the primary check
+  if (FORCE_SERVER_SIDE) {
+    ga4Log('[GA4] FORCE SERVER-SIDE: page view via API only')
+    if (PORTFOLIO_GA4_API_ENDPOINT) {
+      trackServerSide('page_view', { page_path: path, page_title: title })
+    }
+    return
+  }
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') {
     // Queue the tracking call if GA4 isn't ready yet
     trackingQueue.push({ type: 'pageview', path, title })

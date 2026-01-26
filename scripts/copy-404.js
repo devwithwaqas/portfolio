@@ -10,7 +10,7 @@ if (fs.existsSync(indexHtml)) {
   try {
     // Copy index.html to 404.html so Vue Router can handle all routes
     fs.copyFileSync(indexHtml, dest404)
-    console.log('✓ Copied index.html to 404.html for GitHub Pages SPA routing')
+    console.log('[OK] Copied index.html to 404.html for GitHub Pages SPA routing')
   } catch (err) {
     console.error('Failed to copy index.html to 404.html:', err)
     process.exit(1)

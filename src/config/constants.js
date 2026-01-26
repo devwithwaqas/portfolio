@@ -19,13 +19,11 @@ const calculateTechLeadExperience = () => {
 const totalExperience = calculateTotalExperience()
 const techLeadExperience = calculateTechLeadExperience()
 
-// Site URL Configuration - Supports both GitHub Pages and Firebase Hosting
-// Determines SITE_URL based on build mode (firebase vs production/development)
-const BASE_URL = import.meta.env.BASE_URL || '/portfolio/'
-const isFirebaseBuild = import.meta.env.MODE === 'firebase'
+// Site URL Configuration - Firebase Hosting (Primary)
+// GitHub Pages redirects to Firebase - all builds use Firebase URL
+const BASE_URL = import.meta.env.BASE_URL || '/'
 const FIREBASE_SITE_URL = import.meta.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app/'
-const GITHUB_PAGES_SITE_URL = 'https://devwithwaqas.github.io/portfolio/'
-export const SITE_URL = isFirebaseBuild ? FIREBASE_SITE_URL : GITHUB_PAGES_SITE_URL
+export const SITE_URL = FIREBASE_SITE_URL
 
 // Basic constants for the portfolio application
 // All personal information comes from environment variables (.env file)

@@ -18,8 +18,8 @@
  */
 
 const PORTFOLIO_GA4_API_ENDPOINT = import.meta.env.VITE_PORTFOLIO_GA4_API_ENDPOINT || ''
-const CACHE_KEY = 'analytics_data_cache'
-const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes in milliseconds (backend updates every minute, so 5min cache is sufficient)
+const CACHE_KEY = 'analytics_data_cache_v2' // v2: updated for combined Firebase+GitHub totals
+const CACHE_DURATION = 2 * 60 * 1000 // 2 minutes in milliseconds (backend updates every minute, shorter cache for fresh data)
 
 /**
  * Fetch analytics data from backend with caching to prevent rate limiting
@@ -133,16 +133,14 @@ function getMockAnalyticsData() {
 }
 
 /**
- * Format number with K/M suffixes for large numbers
+ * Format number as full integer (no K/M suffixes)
  * @param {number} num 
  * @returns {string}
  */
 export function formatViews(num) {
-  if (num >= 1000000) {
-    return (num / 1000000).toFixed(1) + 'M'
+  if (typeof num !== 'number' || isNaN(num)) {
+    return '0'
   }
-  if (num >= 1000) {
-    return (num / 1000).toFixed(1) + 'K'
-  }
-  return num.toString()
+  // Return full number with thousand separators for readability
+  return Math.round(num).toLocaleString('en-US')
 }

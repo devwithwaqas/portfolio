@@ -14,16 +14,16 @@ if (fs.existsSync(srcSitemap)) {
   // Ensure dist directory exists
   if (!fs.existsSync(distDir)) {
     fs.mkdirSync(distDir, { recursive: true })
-    console.log('✓ Created dist directory')
+    console.log('[OK] Created dist directory')
   }
   
   try {
     fs.copyFileSync(srcSitemap, destSitemap)
-    console.log('✓ Copied sitemap.xml from public/ to dist/')
+    console.log('[OK] Copied sitemap.xml from public/ to dist/')
   } catch (err) {
-    console.error('Failed to copy sitemap.xml:', err)
+    console.error('[ERROR] Failed to copy sitemap.xml:', err)
     process.exit(1)
   }
 } else {
-  console.warn('⚠️  sitemap.xml not found in public/ - using generated one only')
+  console.warn('[WARN] sitemap.xml not found in public/ - using generated one only')
 }

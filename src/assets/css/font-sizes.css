@@ -59,7 +59,16 @@
 
 /* Hero Section - OLD RULES REMOVED - Now using centralized txt- classes */
 
-/* Navigation Buttons - OLD RULES REMOVED - Now using centralized txt- classes */
+/* Navigation - Desktop base (1200px+). Tablet/mobile override in media queries. */
+/* CRITICAL: .test-icon has width/height only in tablet/mobile media; desktop had NONE,
+   so SVGs defaulted to 300x150 → huge icons in localhost. Base rules fix dev = prod. */
+.test-icon {
+  width: 20px !important;
+  height: 20px !important;
+}
+.navmenu a,
+.nav-link { font-size: 1rem !important; }
+.navmenu span { font-size: 1rem !important; }
 
 /* Skill Cards - OLD RULES REMOVED - Now handled by SkillCard component */
 

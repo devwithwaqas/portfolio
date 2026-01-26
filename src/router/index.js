@@ -4,6 +4,7 @@ import { setPageSEO, getHomePageSEO, getProjectPageSEO, getServicePageSEO } from
 import { generateProjectPageStructuredData, generateServicePageStructuredData } from '../utils/structuredData.js'
 import { trackPageView, trackServicePageView, trackProjectPageView } from '../utils/analytics.js'
 import { SITE_URL } from '../config/constants.js'
+import { handleError } from '../utils/errorHandler.js'
 
 // Service Data Map - Actual service titles and descriptions for SEO
 const SERVICE_DATA_MAP = {
@@ -91,12 +92,31 @@ const PROJECT_DATA_MAP = {
   }
 }
 
+const CHUNK_RELOAD_KEY = 'portfolio_chunk_reload'
+
+function isChunkLoadError(err) {
+  const msg = (err && err.message) ? String(err.message) : ''
+  return /Failed to fetch dynamically imported module|Loading chunk \d+ failed|Importing a module script failed/i.test(msg)
+}
+
 // Helper function for safe dynamic imports with error handling
-// This prevents "failed to load dynamic modules" errors during memory profiling
+// On chunk 404 (stale cache after deploy): reload once to pick up fresh index + chunks.
 const loadComponent = (componentImport) => {
   return componentImport().catch((error) => {
-    console.error('Failed to load dynamic module:', error)
-    // Return a fallback error component instead of crashing
+    handleError(error, 'router.chunk')
+
+    if (
+      import.meta.env.PROD &&
+      typeof sessionStorage !== 'undefined' &&
+      isChunkLoadError(error)
+    ) {
+      if (!sessionStorage.getItem(CHUNK_RELOAD_KEY)) {
+        sessionStorage.setItem(CHUNK_RELOAD_KEY, '1')
+        window.location.reload()
+        return new Promise(() => {})
+      }
+    }
+
     return {
       default: {
         name: 'ErrorComponent',
@@ -363,9 +383,12 @@ const router = createRouter({
       }
     }
 
-    // Handle hash links
-    if (to.hash) {
-      return { el: to.hash, behavior: 'smooth' }
+    // Handle hash links - but let Home.vue handle the actual scrolling
+    // This ensures content is fully rendered before scrolling
+    if (to.hash && to.path === '/') {
+      // Don't scroll here - Home.vue will handle it after content renders
+      // This prevents scrolling before content is ready
+      return { top: 0, behavior: 'auto' }
     }
 
     // Default: scroll to top

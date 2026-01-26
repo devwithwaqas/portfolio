@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waqas Ahmad - Senior Software Engineer & Technical Lead | Remote</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 0.65in;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            orphans: 2;
+            widows: 2;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            page-break-after: avoid;
+            page-break-inside: avoid;
+        }
+        .header h1 {
+            font-size: 24pt;
+            font-weight: bold;
+            margin: 0;
+            color: #2c3e50;
+            letter-spacing: 1px;
+            page-break-after: avoid;
+        }
+        .header h2 {
+            font-size: 14pt;
+            font-weight: normal;
+            margin: 4px 0;
+            color: #34495e;
+            page-break-after: avoid;
+        }
+        .contact-info {
+            font-size: 9pt;
+            margin-top: 6px;
+            color: #555;
+            line-height: 1.4;
+            page-break-inside: avoid;
+        }
+        .contact-info a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        .contact-info span {
+            margin: 0 8px;
+        }
+        .remote-badge {
+            background: #e8f5e9;
+            padding: 6px 12px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 8px;
+            font-weight: bold;
+            color: #2e7d32;
+            font-size: 9pt;
+            page-break-inside: avoid;
+        }
+        .section {
+            margin-bottom: 12px;
+            orphans: 2;
+            widows: 2;
+        }
+        .section.summary-section {
+            margin-bottom: 10px;
+        }
+        .section-title {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 3px;
+            margin-bottom: 8px;
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            page-break-after: avoid;
+            page-break-inside: avoid;
+        }
+        .experience-item, .education-item, .achievement-item {
+            margin-bottom: 12px;
+            orphans: 2;
+            widows: 2;
+            page-break-inside: auto;
+        }
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+            flex-wrap: wrap;
+            page-break-after: avoid;
+            page-break-inside: avoid;
+        }
+        .job-title {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .company {
+            font-size: 11pt;
+            font-weight: bold;
+            color: #34495e;
+            font-style: italic;
+        }
+        .date {
+            font-size: 10pt;
+            color: #555;
+            font-style: italic;
+            white-space: nowrap;
+        }
+        .location {
+            font-size: 10pt;
+            color: #555;
+            margin-bottom: 6px;
+            page-break-after: avoid;
+        }
+        .job-description {
+            margin-top: 6px;
+            page-break-inside: auto;
+        }
+        .job-description ul {
+            margin: 4px 0;
+            padding-left: 20px;
+        }
+        .job-description li {
+            margin-bottom: 5px;
+            line-height: 1.4;
+            orphans: 1;
+            widows: 1;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .skill-category {
+            margin-bottom: 10px;
+        }
+        .skill-category-title {
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 4px;
+            font-size: 10.5pt;
+        }
+        .skill-list {
+            font-size: 10pt;
+            color: #555;
+            line-height: 1.3;
+        }
+        .summary {
+            text-align: justify;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .keywords {
+            font-size: 8.5pt;
+            color: #666;
+            font-style: italic;
+            margin-top: 4px;
+            line-height: 1.2;
+            page-break-inside: auto;
+        }
+        .one-liner {
+            font-size: 10pt;
+            line-height: 1.4;
+            margin-bottom: 6px;
+            color: #444;
+        }
+        .portfolio-section {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #ddd;
+            font-size: 9pt;
+            color: #555;
+        }
+        .portfolio-section a {
+            color: #3498db;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        @media print {
+            body {
+                font-size: 10.5pt;
+            }
+            .section {
+                orphans: 2;
+                widows: 2;
+            }
+            .experience-item {
+                orphans: 2;
+                widows: 2;
+            }
+            .job-description li {
+                orphans: 1;
+                widows: 1;
+            }
+            .section-title {
+                page-break-after: avoid;
+            }
+            .job-header {
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>WAQAS AHMAD</h1>
+        <h2>Senior Software Engineer & Technical Lead | Remote-First Specialist</h2>
+        <div class="contact-info">
+            <span>📧 <a href="mailto:devwithwaqas@gmail.com">devwithwaqas@gmail.com</a></span> | 
+            <span>📞 <a href="tel:+60146806067">+60 14-680 6067</a></span> | 
+            <span>📍 Selangor, Malaysia (Remote Available Globally)</span><br>
+            <span>💼 <a href="https://www.linkedin.com/in/waqas1430/" target="_blank">linkedin.com/in/waqas1430</a></span> | 
+            <span>🔗 <a href="https://github.com/devwithwaqas" target="_blank">github.com/devwithwaqas</a></span> | 
+            <span>🌐 <a href="https://waqasahmad-portfolio.web.app" target="_blank">waqasahmad-portfolio.web.app</a></span>
+        </div>
+        <div class="remote-badge">🌍 100% Remote | Flexible Timezones: EST, PST, GMT, CET, SGT | Available for Global Remote Positions</div>
+    </div>
+
+    <div class="section summary-section">
+        <div class="section-title">Professional Summary</div>
+        <div class="summary">
+            <strong>Senior Software Engineer & Technical Lead</strong> with <strong>17+ years</strong> of experience architecting enterprise-scale solutions for <strong>Fortune 500 companies</strong> across <strong>USA, Europe, and Asia-Pacific</strong>. <strong>Remote-first specialist</strong> with proven expertise in distributed team leadership, cross-timezone collaboration, and remote development practices. Specializes in <strong>.NET Core, ASP.NET, C#</strong>, <strong>Microservices Architecture</strong>, <strong>RESTful API Development</strong>, <strong>Azure Cloud</strong>, and CI/CD automation. Proven track record delivering mission-critical systems processing <strong>2.5M+ data points daily</strong>, achieving <strong>65% performance improvements</strong>, and leading <strong>distributed remote teams</strong> managing <strong>billions in operational costs</strong>. <strong>Pioneered remote-first development practices across 5+ time zones</strong> (EST, PST, GMT, CET, SGT) with <strong>99.9% delivery success rate</strong>. Mentored <strong>50+ developers</strong> across global remote teams. <strong>100% available for remote positions worldwide</strong> with flexible timezone support. Expertise in Agile/Scrum methodologies, remote technical leadership, asynchronous communication, and virtual team collaboration.
+        </div>
+        <div class="keywords">
+            <strong>Keywords:</strong> Remote Software Engineer, Remote Technical Lead, .NET Core, C#, ASP.NET, Microservices, Azure Cloud, SQL Server, Angular, Vue.js, RESTful API, DevOps, CI/CD, Agile, Scrum, Remote Work, Distributed Teams, Remote Leadership, Global Remote, Work From Home, Remote Collaboration, Virtual Teams, Cross-timezone, Remote Development, Full Stack Developer, Software Architecture, Enterprise Solutions, Fortune 500, Software Engineering, Backend Development, Frontend Development, API Development, Cloud Architecture
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Professional Experience</div>
+
+        <div class="experience-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Lead Software Engineer & Technical Consultant</span>
+                    <span class="company"> | Independent Consultant</span>
+                </div>
+                <span class="date">January 2022 - Present</span>
+            </div>
+            <div class="location">100% Remote (Global: USA, Europe, Asia-Pacific)</div>
+            <div class="job-description">
+                <ul>
+                    <li>Delivered enterprise solutions to <strong>Fortune 500 clients</strong> across <strong>5+ countries</strong> (USA, Europe, Asia-Pacific) via <strong>100% remote collaboration</strong>, specializing in Azure cloud architecture and .NET Core microservices</li>
+                    <li>Architected Azure cloud solutions reducing infrastructure costs by <strong>40%</strong> while achieving <strong>65% performance improvements</strong> for mission-critical systems, all delivered remotely</li>
+                    <li>Built complete applications from database design to user interface remotely, ensuring seamless integration and optimal user experience for international clients</li>
+                    <li>Delivered projects <strong>25% faster</strong> than industry standards with <strong>99.9% uptime</strong> for mission-critical petroleum operations managing billions in maintenance costs, working entirely remotely</li>
+                    <li><strong>Pioneered remote-first development practices</strong> across <strong>5+ time zones</strong> (EST, PST, GMT, CET, SGT), managing distributed remote teams for Fortune 500 clients with <strong>99.9% delivery success rate</strong></li>
+                    <li>Established asynchronous communication protocols, virtual standups, and remote code review processes enabling seamless collaboration across continents</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Technical Lead</span>
+                    <span class="company"> | AirAsia Tech</span>
+                </div>
+                <span class="date">June 2021 - August 2022 (1 yr 3 mos)</span>
+            </div>
+            <div class="location">Kuala Lumpur, Malaysia (Hybrid Remote/Onsite)</div>
+            <div class="job-description">
+                <ul>
+                    <li>Led development of AirAsia ID90 Portal, a mission-critical employee benefits platform enabling 90% discounted flights within 60-minute departure window, processing <strong>3,000+ bookings daily</strong> with <strong>99.9% uptime</strong>, working with distributed remote team members</li>
+                    <li>Architected .NET Core microservices with Angular frontend, Azure App Services, and Azure SQL Database, serving <strong>millions of employees</strong> across Southeast Asia, coordinating remotely with stakeholders</li>
+                    <li>Implemented real-time flight monitoring, automated discount application, and comprehensive refund management system with <strong>95% automation rate</strong>, all coordinated through remote collaboration</li>
+                    <li>Standardized CI/CD pipelines with Azure DevOps for remote teams, reducing delivery time by <strong>40-50%</strong> while ensuring code quality and zero-downtime deployments</li>
+                    <li>Optimized Entity Framework + LINQ queries, improving database performance by <strong>35%</strong> and reducing query execution time for real-time flight operations</li>
+                    <li>Led cross-functional <strong>remote and hybrid team</strong> of <strong>8+ engineers</strong> from multiple countries, developing enterprise-grade applications, conducting virtual code reviews and remote knowledge transfer sessions</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Technical Lead</span>
+                    <span class="company"> | Datacom Systems Sdn Bhd</span>
+                </div>
+                <span class="date">February 2020 - January 2021 (1 yr)</span>
+            </div>
+            <div class="location">Kuala Lumpur, Malaysia (Hybrid Remote)</div>
+            <div class="job-description">
+                <ul>
+                    <li>Developed microservices architecture with API Gateway integrating <strong>7+ third-party systems</strong> (SharePoint, SAP, Cherwell, Success Factor, Datalake) under unified Azure AD authentication, working with remote team members</li>
+                    <li>Designed Azure Service Fabric cloud infrastructure with SQL Server, implemented CI/CD pipelines with ARM templates for multi-tenant deployments, coordinating remotely with stakeholders</li>
+                    <li>Optimized n-tier application architecture with Entity Framework best practices, improving query performance and system responsiveness by <strong>30%</strong></li>
+                    <li>Integrated enterprise systems (SAP, Cherwell HR, Application Insights) with custom APIs, enabling seamless data flow across business operations via remote collaboration</li>
+                    <li>Implemented Agile/Scrum practices with virtual sprint planning, remote backlog management, and daily virtual standups, ensuring on-time delivery of all project milestones</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Technical Lead</span>
+                    <span class="company"> | Syntronic Malaysia Sdn Bhd</span>
+                </div>
+                <span class="date">July 2019 - January 2020 (7 mos)</span>
+            </div>
+            <div class="location">Kuala Lumpur, Malaysia (Hybrid Remote)</div>
+            <div class="job-description">
+                <ul>
+                    <li>Developed ASP.NET Core REST APIs with Swagger documentation and SignalR for real-time bidirectional communication in IoT monitoring systems, collaborating with remote team members</li>
+                    <li>Successfully revamped major module (backend, frontend, database) in under <strong>2 months</strong> remotely, delivering Angular SPA with responsive design and enhanced UX</li>
+                    <li>Implemented CI/CD automation with Azure DevOps, Docker containerization, and automated unit testing, reducing manual testing time by <strong>60%</strong>, all coordinated remotely</li>
+                    <li>Utilized Cosmos DB, Azure Functions, and Azure Storage for scalable solutions, with architecture decisions made through remote collaboration</li>
+                    <li>Active participation in virtual Agile ceremonies and comprehensive remote code reviews</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="one-liner">
+                <strong>Technical Lead | Iconic Control Sdn Bhd, Petaling Jaya, Malaysia</strong> (May 2018 - Jul 2019): Architected 7+ smart city solutions from scratch (Transportation, Law Enforcement, Taxation, Land Planning, Project Monitoring) achieving 50-60% revenue growth. Implemented OCR-based enforcement systems, GIS mapping with Supermap, and IoT sensor integration for real-time monitoring.
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="one-liner">
+                <strong>Technical Lead / Senior Software Engineer | Squad Cell, Lahore, Pakistan</strong> (Nov 2012 - Mar 2018, Promoted 2015): Architected cloud-hosted e-commerce platform with .NET MVC and Angular. Developed data analytics framework and notification microservices. Standardized Agile/Scrum practices and DevOps automation.
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Remote Work Expertise</div>
+        <div class="job-description">
+            <ul>
+                <li><strong>5+ years</strong> of remote work experience with Fortune 500 companies across USA, Europe, and Asia-Pacific</li>
+                <li>Expert in <strong>distributed team leadership</strong>, managing teams across 5+ time zones (EST, PST, GMT, CET, SGT)</li>
+                <li>Proven track record of <strong>99.9% delivery success rate</strong> in remote work environments</li>
+                <li>Skilled in <strong>asynchronous communication</strong>, virtual standups, remote code reviews, and virtual collaboration tools</li>
+                <li>Experience with <strong>remote-first development practices</strong>, CI/CD automation, and cloud-based development workflows</li>
+                <li>Flexible availability across multiple timezones for global remote positions</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Technical Skills</div>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <div class="skill-category-title">Programming Languages</div>
+                <div class="skill-list">#CSharp #DotNetCore #ASPNETCore #JavaScript #TypeScript #SQL #LINQ #HTML5 #CSS3</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">Frontend Frameworks</div>
+                <div class="skill-list">#Angular #VueJS #React #Bootstrap #jQuery #PrimeNG #ChartJS #Leaflet</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">Backend & APIs</div>
+                <div class="skill-list">#RESTfulAPIs #GraphQL #SignalR #Swagger #OpenAPI #EntityFramework #Dapper #AutoMapper</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">Cloud & Azure</div>
+                <div class="skill-list">#AzureAppServices #AzureFunctions #AzureServiceFabric #AzureCosmosDB #AzureKeyVault #AzureStorage #AzureAD</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">Databases</div>
+                <div class="skill-list">#SQLServer #Redis #CosmosDB #EntityFrameworkCore #LINQ2SQL #DatabaseOptimization</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">DevOps & CI/CD</div>
+                <div class="skill-list">#AzureDevOps #Docker #CICD #ARMTemplates #GitHubActions #Nexus #AutomatedTesting</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">Remote Collaboration</div>
+                <div class="skill-list">#VirtualTeams #AsynchronousCommunication #RemoteCodeReviews #DistributedDevelopment #CloudBasedWorkflows</div>
+            </div>
+            <div class="skill-category">
+                <div class="skill-category-title">Methodologies</div>
+                <div class="skill-list">#Agile #Scrum #TDD #CodeReview #TechnicalLeadership #RemoteTeamMentoring #VirtualProjectManagement</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Education</div>
+        <div class="experience-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Bachelor of Computer System Engineering (Honors)</span>
+                    <span class="company"> | University of Engineering and Technology</span>
+                </div>
+                <span class="date">2006 - 2013</span>
+            </div>
+            <div class="location">Lahore, Pakistan</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Awards & Achievements</div>
+        <div class="achievement-item">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">National Speed Programming Champion</span>
+                </div>
+                <span class="date">2010</span>
+            </div>
+            <div class="company">ACM All Pakistan Speed Programming Competition</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="portfolio-section">
+            <strong>📄 View Full Interactive Resume:</strong> <a href="https://waqasahmad-portfolio.web.app/#resume" target="_blank">https://waqasahmad-portfolio.web.app/#resume</a> - Explore detailed project portfolios, architecture diagrams, performance metrics, and comprehensive technical expertise.
+        </div>
+    </div>
+
+</body>
+</html>

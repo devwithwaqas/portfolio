@@ -1,33 +1,24 @@
 /**
  * Logger Utility
- * Only logs in development mode, silent in production
+ * - Dev: log/warn/error as usual.
+ * - Prod: log/warn/info/debug silent; error goes through global handler (generic message only).
  */
 
-const isDevelopment = import.meta.env.DEV
+import { handleError } from './errorHandler.js'
+
+const isDev = import.meta.env.DEV
 
 export const logger = {
-  log: (...args) => {
-    if (isDevelopment) {
-      console.log(...args)
-    }
-  },
-  warn: (...args) => {
-    if (isDevelopment) {
-      console.warn(...args)
-    }
-  },
+  log: (...args) => { if (isDev) console.log(...args) },
+  warn: (...args) => { if (isDev) console.warn(...args) },
+  info: (...args) => { if (isDev) console.info(...args) },
+  debug: (...args) => { if (isDev) console.debug(...args) },
   error: (...args) => {
-    // Always log errors, even in production
-    console.error(...args)
-  },
-  info: (...args) => {
-    if (isDevelopment) {
-      console.info(...args)
-    }
-  },
-  debug: (...args) => {
-    if (isDevelopment) {
-      console.debug(...args)
+    if (isDev) {
+      console.error(...args)
+    } else {
+      const err = args[0] instanceof Error ? args[0] : new Error(String(args[0]))
+      handleError(err, 'logger')
     }
   }
 }
