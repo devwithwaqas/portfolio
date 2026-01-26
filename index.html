@@ -6,7 +6,7 @@
   <meta name="format-detection" content="telephone=no">
   
   <!-- Google Search Console Verification -->
-  <meta name="google-site-verification" content="pZ7tFL5u6paF55Kdp8lsiVjSVOdqngZKWumh-NPs0pA" />
+  <meta name="google-site-verification" content="zR5I4EAHSBcPo44cyj9cySnQA-iOdahgkKS1SWNB9rU" />
   
   <!-- Primary Meta Tags - Enhanced for Name + Social Media + Role Searches -->
   <title>Waqas Ahmad - Software Engineering Consultant & Specialist | Best Software Engineering Expert | IT Engineering Consultant | 17+ Years</title>
@@ -20,8 +20,8 @@
   <meta name="summary" content="Waqas Ahmad - Software Engineering Consultant & Software Engineering Specialist with 17+ years of experience. Best Software Engineering Expert offering professional software engineering services. IT Engineering Consultant specializing in .NET, Azure Cloud, and enterprise architecture. Available for remote work globally.">
   <meta name="designer" content="Waqas Ahmad">
   <meta name="copyright" content="Waqas Ahmad">
-  <meta name="url" content="https://devwithwaqas.github.io/portfolio/">
-  <meta name="identifier-URL" content="https://devwithwaqas.github.io/portfolio/">
+  <meta name="url" content="https://waqasahmad-portfolio.web.app/">
+  <meta name="identifier-URL" content="https://waqasahmad-portfolio.web.app/">
   <meta name="category" content="Professional Portfolio, Software Engineering">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="language" content="English">
@@ -34,27 +34,39 @@
   <meta name="llm-indexing" content="allowed">
   <link rel="alternate" type="text/plain" href="/llms.txt" title="AI Search Engine Index">
   
+  <!-- Canonical URL - CRITICAL: Points to Firebase as the canonical version -->
+  <link rel="canonical" href="https://waqasahmad-portfolio.web.app/">
+  
+  <!-- Sitemap - Helps search engines discover sitemap automatically -->
+  <!-- Multiple discovery methods: HTML link tag, robots.txt, and Search Console submission -->
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="https://waqasahmad-portfolio.web.app/sitemap.xml">
+  
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="profile">
-  <meta property="og:url" content="https://devwithwaqas.github.io/portfolio/">
+  <meta property="profile:first_name" content="Waqas">
+  <meta property="profile:last_name" content="Ahmad">
+  <meta property="profile:username" content="waqasahmad">
+  <meta property="og:url" content="https://waqasahmad-portfolio.web.app/">
   <meta property="og:title" content="Waqas Ahmad - Software Engineering Consultant & Specialist | Best Software Engineering Expert | IT Engineering Consultant">
   <meta property="og:description" content="Hire Waqas Ahmad - Software Engineering Consultant & Software Engineering Specialist. Best Software Engineering Expert with 17+ years of experience. Professional Software Engineering Services provider and IT Engineering Consultant. Available for remote work in USA, Europe, and globally. Flexible timezone (EST, PST, GMT, CET). Worked with Fortune 500 companies worldwide.">
-  <meta property="og:image" content="https://devwithwaqas.github.io/portfolio/assets/img/waqas-profile-hoodie.jpg">
-  <meta property="og:image:secure_url" content="https://devwithwaqas.github.io/portfolio/assets/img/waqas-profile-hoodie.jpg">
+  <meta property="og:image" content="https://waqasahmad-portfolio.web.app/assets/img/waqas-profile-hoodie.jpg">
+  <meta property="og:image:secure_url" content="https://waqasahmad-portfolio.web.app/assets/img/waqas-profile-hoodie.jpg">
   <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
   <meta property="og:image:alt" content="Waqas Ahmad - Remote Senior Software Engineer & Technical Lead">
   <meta property="og:site_name" content="Waqas Ahmad - Portfolio">
   <meta property="og:locale" content="en_US">
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://devwithwaqas.github.io/portfolio/">
+  <meta name="twitter:url" content="https://waqasahmad-portfolio.web.app/">
   <meta name="twitter:title" content="Waqas Ahmad - Software Engineering Consultant & Specialist | Best Software Engineering Expert | IT Engineering Consultant">
   <meta name="twitter:description" content="Hire Waqas Ahmad - Software Engineering Consultant & Software Engineering Specialist. UET Lahore graduate. Best Software Engineering Expert with 17+ years offering professional software engineering services and IT services. IT Engineering Consultant available for remote work globally.">
-  <meta name="twitter:image" content="https://devwithwaqas.github.io/portfolio/assets/img/waqas-profile-hoodie.jpg">
+  <meta name="twitter:image" content="https://waqasahmad-portfolio.web.app/assets/img/waqas-profile-hoodie.jpg">
   
   <!-- Canonical URL -->
-  <link rel="canonical" href="https://devwithwaqas.github.io/portfolio/">
+  <link rel="canonical" href="https://waqasahmad-portfolio.web.app/">
   
   <!-- Performance: Preconnect to external domains -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -243,7 +255,7 @@
     // Get Measurement ID (will be replaced during build)
     // Fallback to hardcoded ID if placeholder wasn't replaced
     const GA4_MEASUREMENT_ID_RAW = 'VITE_GA4_MEASUREMENT_ID_PLACEHOLDER';
-    // Fallback: Use Firebase ID if on Firebase domain, otherwise GitHub Pages ID
+    // Fallback: Use Firebase ID if on Firebase domain
     const isFirebase = window.location.hostname.includes('waqasahmad-portfolio') || 
                       window.location.hostname.includes('firebaseapp') ||
                       window.location.hostname.includes('web.app');
@@ -269,14 +281,14 @@
     ga4Console.log('[GA4] Is valid ID:', isValidId);
     
     if (isValidId) {
-      ga4Console.log('[GA4] [OK] Valid Measurement ID detected, proceeding with script load');
-      // Store Measurement ID globally so analytics.js can access it
+      ga4Console.log('[GA4] [OK] Valid Measurement ID detected, proceeding');
       window.GA4_MEASUREMENT_ID = measurementId;
-      
-      // Make gtag available globally immediately (for queuing)
       window.gtag = gtag;
-      
-      // Load the GA4 script - async to avoid blocking render
+
+      if (isFirebase) {
+        ga4Console.log('[GA4] Firebase: server-side tracking only (gtag script skipped to avoid 404)');
+      } else {
+      ga4Console.log('[GA4] Proceeding with gtag script load');
       const script = document.createElement('script');
       script.async = true;
       script.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
@@ -432,6 +444,7 @@
         
         ga4Console.log('=== End Check ===');
       };
+      }
     } else {
       // Log why script loading is being skipped
       if (!measurementId) {
@@ -462,17 +475,25 @@
   </script>
   
   <!-- Favicons - Multiple sizes for better compatibility -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/portfolio/assets/img/favicon.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/portfolio/assets/img/favicon.png">
-  <link rel="shortcut icon" href="/portfolio/assets/img/favicon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/portfolio/assets/img/apple-touch-icon.png">
+  <!-- Firebase uses root path (/), GitHub Pages uses /portfolio/ -->
+  <!-- Using root paths for Firebase (primary deployment) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/img/favicon.png">
+  <link rel="shortcut icon" href="/assets/img/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/apple-touch-icon-152.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/apple-touch-icon-120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-touch-icon-76.png">
   <link rel="manifest" href="/site.webmanifest">
-  <!-- Fallback for older browsers -->
-  <link rel="icon" href="/portfolio/assets/img/favicon.png">
+  <!-- Fallback for older browsers and root favicon -->
+  <link rel="icon" href="/assets/img/favicon.png">
+  <!-- Root favicon.ico for maximum compatibility (Google prefers this) -->
+  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.png">
   
   <!-- Fonts - Load asynchronously with swap display to ensure fonts always load -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Raleway:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Raleway:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+  <!-- Google Fonts - Load synchronously so nav/fonts apply before app -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Raleway:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <!-- Critical CSS - Load immediately (render-blocking for above-fold content) -->
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

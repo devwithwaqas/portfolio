@@ -4,17 +4,25 @@
   "description": "Waqas Ahmad - Top Software Engineering Consultant & Specialist",
   "icons": [
     {
-      "src": "assets/img/favicon.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "/assets/img/favicon.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "assets/img/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png"
+      "src": "/assets/img/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
-  "start_url": "/portfolio/",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#667eea",
   "background_color": "#ffffff"

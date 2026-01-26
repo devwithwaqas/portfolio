@@ -1,7 +1,7 @@
 // Service Worker Version - AUTO-GENERATED ON BUILD (from git commit hash)
 // This ensures old service workers are automatically unregistered
 // Version is automatically updated by scripts/generate-sw-version.js during build
-const SERVICE_WORKER_VERSION = '079376f'
+const SERVICE_WORKER_VERSION = '2b7d9d2'
 const CACHE_VERSION = `portfolio-static-${SERVICE_WORKER_VERSION}`
 const CORE_ASSETS = [
   '/portfolio/',
@@ -64,6 +64,95 @@ self.addEventListener('message', (event) => {
       version: SERVICE_WORKER_VERSION
     })
   }
+  
+  // Handle notification permission requests
+  if (event.data && event.data.type === 'REQUEST_NOTIFICATION_PERMISSION') {
+    // Forward to client - service worker can't request permission directly
+    event.source?.postMessage({
+      type: 'NOTIFICATION_PERMISSION_REQUESTED'
+    })
+  }
+  
+  // Handle show notification requests from client
+  if (event.data && event.data.type === 'SHOW_NOTIFICATION') {
+    const { title, options } = event.data
+    self.registration.showNotification(title, options).catch(err => {
+      console.error('[SW] Error showing notification:', err)
+    })
+  }
+})
+
+// Handle push events (for push notifications from server)
+self.addEventListener('push', (event) => {
+  console.log('[SW] Push event received:', event)
+  
+  let notificationData = {
+    title: 'Waqas Ahmad - Portfolio',
+    body: 'You have a new update!',
+    icon: '/assets/img/favicon-192.png',
+    badge: '/assets/img/favicon.png',
+    tag: 'portfolio-update',
+    requireInteraction: false,
+    data: {
+      url: '/'
+    }
+  }
+  
+  // Parse push data if available
+  if (event.data) {
+    try {
+      const data = event.data.json()
+      notificationData = {
+        ...notificationData,
+        ...data
+      }
+    } catch (e) {
+      // If not JSON, use as text
+      notificationData.body = event.data.text() || notificationData.body
+    }
+  }
+  
+  event.waitUntil(
+    self.registration.showNotification(notificationData.title, {
+      body: notificationData.body,
+      icon: notificationData.icon || '/assets/img/favicon-192.png',
+      badge: notificationData.badge || '/assets/img/favicon.png',
+      tag: notificationData.tag || 'portfolio-notification',
+      requireInteraction: notificationData.requireInteraction || false,
+      data: notificationData.data || { url: '/' },
+      vibrate: [200, 100, 200],
+      timestamp: Date.now()
+    })
+  )
+})
+
+// Handle notification clicks
+self.addEventListener('notificationclick', (event) => {
+  console.log('[SW] Notification clicked:', event)
+  
+  event.notification.close()
+  
+  const urlToOpen = event.notification.data?.url || '/'
+  
+  event.waitUntil(
+    clients.matchAll({
+      type: 'window',
+      includeUncontrolled: true
+    }).then((clientList) => {
+      // Check if there's already a window open
+      for (let i = 0; i < clientList.length; i++) {
+        const client = clientList[i]
+        if (client.url === urlToOpen && 'focus' in client) {
+          return client.focus()
+        }
+      }
+      
+      // If no window is open, open a new one
+      if (clients.openWindow) {
+        return clients.openWindow(urlToOpen)
+      }
+    })
+  )
 })
 
 self.addEventListener('fetch', (event) => {
@@ -73,43 +162,44 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url)
   if (url.origin !== self.location.origin) return
 
+  const isDocument = request.mode === 'navigate' || request.destination === 'document'
+
   event.respondWith(
     (async () => {
       try {
         const cache = await caches.open(CACHE_VERSION)
-        const cached = await cache.match(request)
-        
-        if (cached) {
-          return cached
+
+        if (isDocument) {
+          try {
+            const response = await fetch(request)
+            if (response && response.ok && response.status === 200) {
+              const clone = response.clone()
+              cache.put(request, clone).catch(function () {})
+            }
+            return response
+          } catch (fetchErr) {
+            const fallback = await cache.match(request)
+            if (fallback) return fallback
+            return new Response('Network error', { status: 408, statusText: 'Request Timeout' })
+          }
         }
+
+        const cached = await cache.match(request)
+        if (cached) return cached
 
         try {
           const response = await fetch(request)
-          
-          // Only cache successful responses
           if (response && response.ok && response.status === 200) {
-            // Clone response before caching (response can only be consumed once)
-            const responseClone = response.clone()
-            // Cache in background - don't block response
-            cache.put(request, responseClone).catch((err) => {
-              // Silently fail cache operations to avoid breaking the page
-              console.warn('[SW] Cache put failed:', err)
-            })
+            const clone = response.clone()
+            cache.put(request, clone).catch(function () {})
           }
-          
           return response
         } catch (fetchErr) {
-          // If fetch fails, return cached version if available
-          console.warn('[SW] Fetch failed:', fetchErr)
-          const cachedFallback = await cache.match(request)
-          if (cachedFallback) {
-            return cachedFallback
-          }
+          const fallback = await cache.match(request)
+          if (fallback) return fallback
           return new Response('Network error', { status: 408, statusText: 'Request Timeout' })
         }
       } catch (cacheErr) {
-        // If cache operations fail, try to fetch directly
-        console.warn('[SW] Cache operation failed:', cacheErr)
         try {
           return await fetch(request)
         } catch (fetchErr) {
