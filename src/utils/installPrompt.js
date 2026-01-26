@@ -16,15 +16,16 @@ export function initInstallPrompt() {
   }
   
   window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent the default mini-infobar from appearing
-    e.preventDefault()
-    
-    // Store the event so it can be triggered later
+    // Store the event so it can be triggered later if needed
     deferredPrompt = e
     
     console.log('[Install Prompt] beforeinstallprompt event captured')
     
-    // Dispatch custom event so components can listen and show install button
+    // DON'T prevent default - let Chrome show the automatic install banner
+    // If you want a custom install button, you can call showInstallPrompt() programmatically
+    // For now, we let Chrome handle it automatically
+    
+    // Dispatch custom event so components can listen if they want to show custom button
     window.dispatchEvent(new CustomEvent('installprompt-available', {
       detail: { prompt: e }
     }))
