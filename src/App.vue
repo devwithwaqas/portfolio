@@ -15,6 +15,9 @@
     
     <!-- Back to Top Button - Outside main-content to avoid containing block issues -->
     <BackToTop />
+    
+    <!-- Install Banner - Shows when PWA install is available -->
+    <InstallBanner />
   </div>
 </template>
 
@@ -22,13 +25,15 @@
 import Navigation from './components/layout/Navigation.vue'
 import Footer from './components/layout/Footer.vue'
 import BackToTop from './components/layout/BackToTop.vue'
+import InstallBanner from './components/common/InstallBanner.vue'
 
 export default {
   name: 'App',
   components: {
     Navigation,
     Footer,
-    BackToTop
+    BackToTop,
+    InstallBanner
   }
 }
 </script>

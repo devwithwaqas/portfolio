@@ -157,16 +157,17 @@ export function initInstallPrompt() {
     console.log('[Install Prompt] ✅ beforeinstallprompt event captured!')
     console.log('[Install Prompt] Platforms:', e.platforms)
     
-    // DON'T call preventDefault() - this allows Chrome's automatic banner to show
-    // If you want to show a custom install button instead, uncomment the line below:
-    // e.preventDefault()
+    // Prevent Chrome's automatic banner so we can show our custom banner instead
+    // Chrome's automatic banner is unreliable and may not show even without preventDefault()
+    // Our custom banner is more reliable and gives better UX
+    e.preventDefault()
     
-    // Dispatch custom event so components can listen and show install button
+    // Dispatch custom event so components (like InstallBanner) can listen and show install button
     window.dispatchEvent(new CustomEvent('installprompt-available', {
       detail: { prompt: e }
     }))
     
-    console.log('[Install Prompt] Event stored. Chrome will show automatic install banner.')
+    console.log('[Install Prompt] Event stored. Custom install banner will be shown.')
     console.log('[Install Prompt] To manually trigger: call showInstallPrompt() from console')
   })
   
