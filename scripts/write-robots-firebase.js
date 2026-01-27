@@ -26,18 +26,22 @@ if (!isFirebase()) {
 
 const robots = `# robots.txt for Waqas Ahmad Portfolio (Firebase)
 # ${baseUrl}
+#
+# This file: crawl rules for web crawlers (User-agent, Allow, Disallow, Sitemap).
+# For AI-oriented content (titles, descriptions, keywords): see /llms.txt .
+# AI agents use llms.txt for accurate citing and summarization; it provides both
+# descriptions and keywords. robots.txt does not contain descriptions or keywords.
 
 User-agent: *
 Allow: /
 Allow: /projects/
 Allow: /services/
+Allow: /llms.txt
 
 Disallow: /admin/
 Disallow: /api/
 
 Sitemap: ${baseUrl}/sitemap.xml
-
-Allow: /llms.txt
 `
 
 const out = path.join(DIST, 'robots.txt')

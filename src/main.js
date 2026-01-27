@@ -67,25 +67,19 @@ router.isReady().then(() => {
   setTimeout(() => {
     try {
       trackPageView(window.location.pathname + window.location.search, document.title)
-    } catch (error) {
-      // Silently fail - analytics are optional
-      if (import.meta.env.DEV) {
-        console.warn('[Analytics] Failed to track page view:', error.message)
-      }
+    } catch (_err) {
+      /* analytics optional */
     }
   }, delay)
-}).catch((error) => {
-  // Silently fail if router isn't ready - analytics are optional
-  if (import.meta.env.DEV) {
-    console.warn('[Router] Router not ready:', error.message)
-  }
+}).catch(() => {
+  /* router optional */
 })
 
 // Service Worker Management with Automatic Version Checking
 // Expected service worker version - AUTO-GENERATED ON BUILD (from git commit hash)
 // Version is automatically updated by scripts/generate-sw-version.js during build
 // MUST MATCH the version in public/sw.js
-const EXPECTED_SW_VERSION = 'ad12cae'
+const EXPECTED_SW_VERSION = '12359'
 
 if ('serviceWorker' in navigator) {
   // CRITICAL: In dev mode, unregister ALL service workers to prevent reload loops
@@ -95,11 +89,8 @@ if ('serviceWorker' in navigator) {
         const registrations = await navigator.serviceWorker.getRegistrations()
         for (const registration of registrations) {
           await registration.unregister()
-          console.log('[SW] Unregistered service worker in dev mode:', registration.scope)
         }
-      } catch (err) {
-        console.warn('[SW] Error unregistering service workers in dev mode:', err)
-      }
+      } catch (_err) {}
     })
   }
   
@@ -149,19 +140,12 @@ if ('serviceWorker' in navigator) {
               }
             }
             
-            // Unregister only when version mismatch or no active SW (e.g. new build deployed)
             const unregistered = await registration.unregister()
-            if (unregistered) {
-              console.log('[SW] Unregistered old service worker:', registration.scope)
-            }
+            if (unregistered) { /* old SW removed */ }
           } catch (err) {
-            // If we can't check version, unregister to be safe
             try {
               await registration.unregister()
-              console.log('[SW] Unregistered service worker (version check failed):', registration.scope)
-            } catch (unregErr) {
-              // Ignore unregister errors
-            }
+            } catch (_unregErr) {}
           }
         }
         
@@ -189,20 +173,10 @@ if ('serviceWorker' in navigator) {
                   const reloadAttempted = sessionStorage.getItem(SW_RELOAD_KEY)
                   
                   if (!reloadAttempted && canReload) {
-                    // Mark that we're about to reload
                     sessionStorage.setItem(SW_RELOAD_KEY, '1')
                     sessionStorage.setItem('sw_last_reload_time', now.toString())
-                    console.log('[SW] New service worker activated, reloading once...')
-                    
-                    // Clear the flag after a delay (in case reload doesn't happen)
-                    setTimeout(() => {
-                      sessionStorage.removeItem(SW_RELOAD_KEY)
-                    }, 1000)
-                    
-                    // Reload only once
+                    setTimeout(() => sessionStorage.removeItem(SW_RELOAD_KEY), 1000)
                     window.location.reload()
-                  } else {
-                    console.log('[SW] New service worker activated, but skipping reload (already reloaded or in cooldown)')
                   }
                 }
               })
@@ -214,17 +188,12 @@ if ('serviceWorker' in navigator) {
           // The updatefound event above handles reloads safely
           navigator.serviceWorker.addEventListener('message', (event) => {
             if (event.data && event.data.type === 'SW_UPDATED') {
-              console.log('[SW] Service worker updated to version:', event.data.version)
-              // DO NOT reload here - let the updatefound event handle it safely
-              // This prevents infinite reload loops
+              /* reload handled by updatefound */
             }
           })
         }
-      } catch (error) {
-        // Silent fail; caching is optional
-        if (import.meta.env.DEV) {
-          console.warn('[SW] Registration failed:', error)
-        }
+      } catch (_err) {
+        /* caching optional */
       }
     })
   } else {
@@ -234,22 +203,13 @@ if ('serviceWorker' in navigator) {
       try {
         const registrations = await navigator.serviceWorker.getRegistrations()
         for (const registration of registrations) {
-          const unregistered = await registration.unregister()
-          if (unregistered) {
-            console.log('[Dev] Unregistered service worker:', registration.scope)
-          }
+          await registration.unregister()
         }
-        // Also clear all caches to prevent stale cached content
         if ('caches' in window) {
           const cacheNames = await caches.keys()
           await Promise.all(cacheNames.map(name => caches.delete(name)))
-          if (cacheNames.length > 0) {
-            console.log('[Dev] Cleared all caches:', cacheNames)
-          }
         }
-      } catch (error) {
-        // Silent fail
-      }
+      } catch (_err) {}
     })()
   }
 }

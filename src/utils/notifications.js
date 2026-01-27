@@ -24,27 +24,12 @@
  * @returns {Promise<string>} 'granted', 'denied', or 'default'
  */
 export async function requestNotificationPermission() {
-  if (!('Notification' in window)) {
-    console.warn('[Notifications] Browser does not support notifications')
-    return 'unsupported'
-  }
-  
-  // Check current permission
-  if (Notification.permission === 'granted') {
-    return 'granted'
-  }
-  
-  if (Notification.permission === 'denied') {
-    console.warn('[Notifications] Permission was previously denied')
-    return 'denied'
-  }
-  
-  // Request permission
+  if (!('Notification' in window)) return 'unsupported'
+  if (Notification.permission === 'granted') return 'granted'
+  if (Notification.permission === 'denied') return 'denied'
   try {
-    const permission = await Notification.requestPermission()
-    return permission
-  } catch (error) {
-    console.error('[Notifications] Error requesting permission:', error)
+    return await Notification.requestPermission()
+  } catch (_err) {
     return 'default'
   }
 }
@@ -72,11 +57,7 @@ export function canShowNotifications() {
  * @returns {Promise<void>}
  */
 export async function showNotification(title, options = {}) {
-  if (!canShowNotifications()) {
-    console.warn('[Notifications] Cannot show notification - permission not granted or not supported')
-    return false
-  }
-  
+  if (!canShowNotifications()) return false
   try {
     const registration = await navigator.serviceWorker.ready
     
@@ -100,8 +81,7 @@ export async function showNotification(title, options = {}) {
     })
     
     return true
-  } catch (error) {
-    console.error('[Notifications] Error showing notification:', error)
+  } catch (_err) {
     return false
   }
 }
@@ -142,32 +122,25 @@ export function initNotifications(delay = 30000) {
     if (Notification.permission === 'default' && document.visibilityState === 'visible') {
       // Show a friendly message before requesting
       const userWantsNotifications = confirm(
-        '🔔 Stay Updated!\n\n' +
+        'Stay Updated!\n\n' +
         'Would you like to receive notifications about:\n' +
-        '• Latest updates and new features\n' +
-        '• Important announcements\n' +
-        '• Latest trends and insights\n\n' +
+        'Latest updates and new features\n' +
+        'Important announcements\n' +
+        'Latest trends and insights\n\n' +
         'You can change this anytime in your browser settings.'
       )
       
       if (userWantsNotifications) {
-        console.log('[Notifications] User wants notifications, requesting permission...')
         const permission = await requestNotificationPermission()
         if (permission === 'granted') {
-          console.log('[Notifications] ✅ Permission granted! Notifications enabled.')
-          // Optionally show a welcome notification
           setTimeout(() => {
             showSimpleNotification(
-              'Notifications Enabled! 🔔',
+              'Notifications Enabled!',
               'You\'ll now receive updates about latest features, trends, and important announcements.',
               '/'
-            ).catch(() => {
-              // Ignore if notification fails
-            })
+            ).catch(() => {})
           }, 1000)
         }
-      } else {
-        console.log('[Notifications] User declined notification permission')
       }
     }
   }, delay)

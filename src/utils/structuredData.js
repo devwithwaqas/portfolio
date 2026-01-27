@@ -127,11 +127,17 @@ export function generatePersonSchema() {
     'API Documentation'
   ]
   
+  const alternateName = [
+    'Waqas Ahmed',
+    'Waqas Ahmand'
+  ]
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
     '@id': `${SITE_URL}#person`,
     name: fullName,
+    alternateName,
     jobTitle: [
       'Senior Software Engineer',
       'Technical Lead',

@@ -70,6 +70,60 @@ function dedupeKeywords(...keywordArrays) {
 }
 
 /**
+ * Skill-based "expert" / "developer" / "dev" keywords for home, service, and project pages.
+ * Covers .NET, Angular, Vue, React, CSS, Bootstrap, Azure, SQL, etc. for discoverability.
+ * Used in getHomePageSEO, getProjectPageSEO, getServicePageSEO.
+ */
+function getSkillExpertDeveloperKeywords() {
+  return [
+    '.net expert', '.net developer', '.net dev',
+    '.net core expert', '.net core developer', '.net core dev',
+    'c# expert', 'c# developer', 'c# dev',
+    'asp.net expert', 'asp.net developer', 'asp.net dev',
+    'asp.net core expert', 'asp.net core developer', 'asp.net core dev',
+    'angular expert', 'angular developer', 'angular dev',
+    'vue expert', 'vue developer', 'vue dev', 'vue.js expert', 'vue.js developer', 'vue.js dev',
+    'react expert', 'react developer', 'react dev',
+    'typescript expert', 'typescript developer', 'typescript dev',
+    'javascript expert', 'javascript developer', 'javascript dev',
+    'css expert', 'css developer', 'css dev',
+    'bootstrap expert', 'bootstrap developer', 'bootstrap dev',
+    'html expert', 'html developer', 'html5 expert', 'html5 developer',
+    'azure expert', 'azure developer', 'azure dev',
+    'azure cloud expert', 'azure cloud developer',
+    'sql expert', 'sql developer', 'sql dev',
+    'sql server expert', 'sql server developer', 'sql server dev',
+    'entity framework expert', 'entity framework developer', 'entity framework dev',
+    'cosmos db expert', 'cosmos db developer',
+    'microservices expert', 'microservices developer', 'microservices dev',
+    'api expert', 'api developer', 'api dev',
+    'rest api expert', 'rest api developer', 'restful api expert', 'restful api developer',
+    'graphql expert', 'graphql developer',
+    'devops expert', 'devops developer', 'devops dev',
+    'ci/cd expert', 'ci/cd developer',
+    'docker expert', 'docker developer',
+    'kubernetes expert', 'kubernetes developer',
+    'signalr expert', 'signalr developer',
+    'full stack expert', 'full stack developer', 'full stack dev',
+    'frontend expert', 'frontend developer', 'frontend dev',
+    'backend expert', 'backend developer', 'backend dev',
+    'angular material expert', 'angular material developer',
+    'angular rxjs expert', 'angular rxjs developer',
+    'angular ngrx expert', 'angular ngrx developer',
+    'react native expert', 'react native developer', 'react native dev',
+    'flutter expert', 'flutter developer', 'flutter dev',
+    'xamarin expert', 'xamarin developer',
+    'ios developer', 'android developer',
+    'azure service fabric expert', 'azure functions expert', 'azure devops expert',
+    'database expert', 'database developer', 'database dev',
+    'scrum expert', 'agile expert', 'kanban expert',
+    'technical lead expert', 'tech lead expert', 'engineering manager',
+    'spa expert', 'spa developer', 'pwa expert', 'pwa developer',
+    'responsive design expert', 'responsive web design expert'
+  ]
+}
+
+/**
  * Set Open Graph tags
  */
 export function setOpenGraph({ title, description, image, url, type = 'website' }) {
@@ -626,7 +680,54 @@ export function getHomePageSEO() {
     'Waqas Ahmad IT',
     'Waqas Ahmad IT services',
     'Waqas Computer System Engineering',
-    'Waqas UET Computer System Engineering'
+    'Waqas UET Computer System Engineering',
+    'Waqas only',
+    'Waqas Ahmad only',
+    'Waqas Ahmad portfolio',
+    'Waqas Ahmad Malaysia',
+    'Waqas Ahmad Selangor',
+    'Waqas Ahmad developer'
+  ]
+
+  // COMMON MISSPELLINGS (e.g. "Waqas Ahmed" with e) – used in schema alternateName too
+  const misspellingKeywords = [
+    'Waqas Ahmed',
+    'Waqas Ahmand'
+  ]
+
+  // PROFESSIONAL-STAT LONG-TAIL (e.g. "software engineer with 17 years experience", "experienced IT professional")
+  const professionalStatLongTail = [
+    `software engineer with ${experience} years experience`,
+    `software engineer with ${experience}+ years experience`,
+    `${experience} years experienced software engineer`,
+    `${experience}+ years experienced software engineer`,
+    'experienced IT professional',
+    'experienced software engineer',
+    'experienced developer',
+    'experienced software developer',
+    `IT professional with ${experience} years experience`,
+    `developer with ${experience} years experience`,
+    `senior software engineer with ${experience} years experience`,
+    `technical lead with ${experience} years experience`,
+    `software engineer ${experience} years experience`,
+    `IT consultant ${experience} years experience`,
+    'experienced .NET developer',
+    'experienced Azure architect',
+    'veteran software engineer',
+    'seasoned software engineer'
+  ]
+
+  const locationRoleLongTail = [
+    'software engineer Malaysia',
+    'technical lead Malaysia',
+    'senior software engineer Malaysia',
+    'UET Lahore software engineer',
+    'UET Lahore developer',
+    'software engineer Selangor',
+    'remote developer Malaysia',
+    'Waqas Ahmad consultant',
+    'Waqas Ahmad freelance',
+    'Waqas Ahmad remote'
   ]
   
   // IT SERVICES KEYWORDS (for "IT services", "IT consulting" searches)
@@ -1268,30 +1369,36 @@ export function getHomePageSEO() {
     'developer coaching'
   ]
   
+  const homeKeywords = dedupeKeywords(
+    expertLevelKeywords,
+    nameBasedKeywords,
+    misspellingKeywords,
+    professionalStatLongTail,
+    locationRoleLongTail,
+    itServicesKeywords,
+    technicalQualityKeywords,
+    industryKeywords,
+    experienceLevelKeywords,
+    achievementKeywords,
+    methodologyKeywords,
+    techStackKeywords,
+    solutionKeywords,
+    leadershipKeywords,
+    baseKeywords,
+    technologyKeywords,
+    getSkillExpertDeveloperKeywords(),
+    platformKeywords,
+    remoteKeywords,
+    usaKeywords,
+    europeKeywords,
+    globalKeywords,
+    location ? [location] : []
+  )
+
   return {
     title: `${fullName} - Software Engineering Consultant & Specialist | Best Software Engineering Expert | IT Engineering Consultant | ${experience}+ Years`,
     description: `Hire ${fullName} - Software Engineering Consultant & Software Engineering Specialist with ${experience}+ years of experience. Best Software Engineering Expert offering professional software engineering services. IT Engineering Consultant specializing in .NET, Azure Cloud, microservices, and enterprise architecture. Available for remote work in USA, Europe, and globally. Flexible timezone (EST, PST, GMT, CET). Worked with Fortune 500 companies worldwide. Contact for remote consulting, freelance, and contract projects.`,
-    keywords: [
-      ...expertLevelKeywords,
-      ...nameBasedKeywords,
-      ...itServicesKeywords,
-      ...technicalQualityKeywords,
-      ...industryKeywords,
-      ...experienceLevelKeywords,
-      ...achievementKeywords,
-      ...methodologyKeywords,
-      ...techStackKeywords,
-      ...solutionKeywords,
-      ...leadershipKeywords,
-      ...baseKeywords,
-      ...technologyKeywords,
-      ...platformKeywords,
-      ...remoteKeywords,
-      ...usaKeywords,
-      ...europeKeywords,
-      ...globalKeywords,
-      location // Keep local for local searches
-    ],
+    keywords: homeKeywords,
     type: 'profile',
     image: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
   }
@@ -1314,8 +1421,13 @@ export function getProjectPageSEO(projectData) {
   const hasMicroservices = techNames.some(t => /microservices|docker|kubernetes/i.test(t))
   const hasAPI = techNames.some(t => /api|rest|graphql/i.test(t))
   const hasAzure = techNames.some(t => /azure/i.test(t))
+  const hasAngular = techNames.some(t => /angular/i.test(t))
+  const hasVue = techNames.some(t => /vue/i.test(t))
+  const hasReact = techNames.some(t => /react/i.test(t))
+  const hasSQL = techNames.some(t => /sql|database|entity framework/i.test(t))
+  const hasMobile = techNames.some(t => /mobile|ios|android|flutter|xamarin|react native/i.test(t))
   
-  // Build technology-specific keywords
+  // Build technology-specific keywords (including expert/developer variants)
   const technologyKeywords = []
   if (hasDotNet) {
     technologyKeywords.push(
@@ -1324,7 +1436,10 @@ export function getProjectPageSEO(projectData) {
       'asp.net project',
       'c# project',
       '.net consultant project',
-      '.net expert project'
+      '.net expert project',
+      '.net expert',
+      '.net developer project',
+      '.net developer'
     )
   }
   if (hasMicroservices) {
@@ -1332,7 +1447,9 @@ export function getProjectPageSEO(projectData) {
       'microservices project',
       'microservices architecture project',
       'microservices consultant project',
-      'distributed systems project'
+      'distributed systems project',
+      'microservices expert project',
+      'microservices developer project'
     )
   }
   if (hasAPI) {
@@ -1340,7 +1457,9 @@ export function getProjectPageSEO(projectData) {
       'api development project',
       'restful api project',
       'api consultant project',
-      'api expert project'
+      'api expert project',
+      'api expert',
+      'api developer project'
     )
   }
   if (hasAzure) {
@@ -1348,7 +1467,65 @@ export function getProjectPageSEO(projectData) {
       'azure project',
       'azure cloud project',
       'azure consultant project',
-      'azure expert project'
+      'azure expert project',
+      'azure expert',
+      'azure developer project'
+    )
+  }
+  if (hasAngular) {
+    technologyKeywords.push(
+      'angular project',
+      'angular expert project',
+      'angular developer project',
+      'angular dev project',
+      'angular expert',
+      'angular developer',
+      'angular dev'
+    )
+  }
+  if (hasVue) {
+    technologyKeywords.push(
+      'vue project',
+      'vue.js project',
+      'vue expert project',
+      'vue developer project',
+      'vue.js expert',
+      'vue.js developer',
+      'vue dev'
+    )
+  }
+  if (hasReact) {
+    technologyKeywords.push(
+      'react project',
+      'react expert project',
+      'react developer project',
+      'react expert',
+      'react developer',
+      'react dev'
+    )
+  }
+  if (hasSQL) {
+    technologyKeywords.push(
+      'sql project',
+      'sql server project',
+      'database project',
+      'sql expert project',
+      'sql developer project',
+      'database expert',
+      'database developer'
+    )
+  }
+  if (hasMobile) {
+    technologyKeywords.push(
+      'mobile project',
+      'mobile expert project',
+      'mobile developer project',
+      'react native expert',
+      'react native developer',
+      'flutter expert',
+      'flutter developer',
+      'ios developer',
+      'android developer'
     )
   }
   
@@ -1379,7 +1556,17 @@ export function getProjectPageSEO(projectData) {
     ? `Azure cloud-native solution`
     : 'Enterprise software solution'
   
-  // NAME-BASED KEYWORDS for project pages
+  const misspellingKeywords = ['Waqas Ahmed', 'Waqas Ahmand']
+  const professionalStatLongTail = [
+    `software engineer with ${experience} years experience`,
+    `experienced software engineer`,
+    'experienced IT professional',
+    'experienced developer',
+    `${experience}+ years experienced software engineer`,
+    `senior software engineer with ${experience} years experience`,
+    `technical lead with ${experience} years experience`
+  ]
+
   const nameBasedKeywords = [
     `${fullName} project`,
     `Waqas project`,
@@ -1388,7 +1575,15 @@ export function getProjectPageSEO(projectData) {
     `${projectData.title} Waqas`,
     `${projectData.title} Waqas UET`,
     'Waqas portfolio project',
-    'Waqas UET portfolio'
+    'Waqas UET portfolio',
+    'Waqas only',
+    'Waqas Ahmad only',
+    'Waqas Ahmad portfolio',
+    'Waqas Ahmad Malaysia',
+    'Waqas Ahmad Selangor',
+    'Waqas Ahmad developer',
+    `${fullName} portfolio`,
+    `Waqas ${projectData.title}`
   ]
   
   // IT SERVICES KEYWORDS (if project involves IT services)
@@ -1609,40 +1804,38 @@ export function getProjectPageSEO(projectData) {
     'advanced project'
   ]
   
-  // Combine all keywords (deduplicate)
-  const allProjectKeywords = [
-    projectData.title,
-    enhancedTitle,
-    ...techNames,
-    ...technologyKeywords,
-    ...nameBasedKeywords,
-    ...itServicesKeywords,
-    ...technicalKeywords,
-    ...projectIndustryKeywords,
-    ...projectAchievementKeywords,
-    'Portfolio Project',
-    'Enterprise Project',
-    'Software Project',
-    'Large Scale Project',
-    'Huge Project',
-    'Case Study',
-    'Project Case Study',
-    'Portfolio Case Study',
-    fullName,
-    'Software Engineer',
-    'Technical Lead',
-    'Remote Software Engineer',
-    'Remote Consultant',
-    location,
-    'USA',
-    'Europe',
-    'Global'
-  ]
-  
-  // Deduplicate keywords (case-insensitive)
-  const projectKeywords = [...new Set(allProjectKeywords.map(k => k.toLowerCase()))].map(k => {
-    return allProjectKeywords.find(orig => orig.toLowerCase() === k) || k
-  })
+  const projectKeywords = dedupeKeywords(
+    [projectData.title, enhancedTitle],
+    techNames,
+    technologyKeywords,
+    getSkillExpertDeveloperKeywords(),
+    nameBasedKeywords,
+    misspellingKeywords,
+    professionalStatLongTail,
+    itServicesKeywords,
+    technicalKeywords,
+    projectIndustryKeywords,
+    projectAchievementKeywords,
+    [
+      'Portfolio Project',
+      'Enterprise Project',
+      'Software Project',
+      'Large Scale Project',
+      'Huge Project',
+      'Case Study',
+      'Project Case Study',
+      'Portfolio Case Study',
+      fullName,
+      'Software Engineer',
+      'Technical Lead',
+      'Remote Software Engineer',
+      'Remote Consultant',
+      'USA',
+      'Europe',
+      'Global'
+    ],
+    location ? [location] : []
+  )
   
   return {
     title: `${enhancedTitle} - ${fullName} | ${experience}+ Years Experience`,
@@ -1703,22 +1896,43 @@ export function getServicePageSEO(serviceData) {
   // TECHNOLOGY-SPECIFIC KEYWORDS for this service
   const serviceTechnologyKeywords = []
   
-  // Add technology keywords based on service type
   if (serviceName.includes('full stack') || serviceName.includes('fullstack')) {
     serviceTechnologyKeywords.push(
       '.net full stack developer',
       'full stack .net consultant',
       'full stack .net expert',
+      'full stack .net developer',
       'vue.js full stack developer',
+      'vue.js expert',
+      'vue.js dev',
       'angular full stack developer',
-      'react full stack developer'
+      'angular expert',
+      'angular developer',
+      'angular dev',
+      'react full stack developer',
+      'react expert',
+      'react developer',
+      'react dev',
+      'css expert',
+      'css developer',
+      'bootstrap expert',
+      'bootstrap developer',
+      'typescript expert',
+      'typescript developer',
+      '.net expert',
+      '.net developer',
+      '.net dev'
     )
   }
   if (serviceName.includes('azure') || serviceName.includes('cloud')) {
     serviceTechnologyKeywords.push(
       'azure cloud consultant',
       'azure cloud expert',
+      'azure cloud developer',
       'azure architect consultant',
+      'azure expert',
+      'azure developer',
+      'azure dev',
       'hire azure consultant',
       'azure migration consultant'
     )
@@ -1727,18 +1941,62 @@ export function getServicePageSEO(serviceData) {
     serviceTechnologyKeywords.push(
       'microservices consultant',
       'microservices expert',
+      'microservices developer',
       'microservices architect',
+      'microservices dev',
       'hire microservices architect',
       'microservices .net core',
-      'azure microservices expert'
+      'azure microservices expert',
+      '.net expert',
+      '.net developer'
     )
   }
   if (serviceName.includes('technical leadership') || serviceName.includes('leadership')) {
     serviceTechnologyKeywords.push(
       'technical lead consultant',
+      'technical lead expert',
       'engineering manager consultant',
       'team lead consultant',
-      'technical leadership expert'
+      'technical leadership expert',
+      'tech lead expert',
+      'engineering manager'
+    )
+  }
+  if (serviceName.includes('agile') || serviceName.includes('scrum')) {
+    serviceTechnologyKeywords.push(
+      'agile expert',
+      'scrum expert',
+      'kanban expert',
+      'agile consultant',
+      'scrum master consultant'
+    )
+  }
+  if (serviceName.includes('database') || serviceName.includes('optimization')) {
+    serviceTechnologyKeywords.push(
+      'database expert',
+      'database developer',
+      'database consultant',
+      'sql expert',
+      'sql developer',
+      'sql server expert',
+      'sql server developer',
+      'entity framework expert',
+      'entity framework developer'
+    )
+  }
+  if (serviceName.includes('mobile')) {
+    serviceTechnologyKeywords.push(
+      'mobile expert',
+      'mobile developer',
+      'mobile dev',
+      'react native expert',
+      'react native developer',
+      'flutter expert',
+      'flutter developer',
+      'xamarin expert',
+      'xamarin developer',
+      'ios developer',
+      'android developer'
     )
   }
   
@@ -1758,7 +2016,17 @@ export function getServicePageSEO(serviceData) {
     `${serviceName} IT consultant`
   ]
   
-  // NAME-BASED KEYWORDS (for service pages)
+  const misspellingKeywords = ['Waqas Ahmed', 'Waqas Ahmand']
+  const professionalStatLongTail = [
+    `software engineer with ${experience} years experience`,
+    'experienced software engineer',
+    'experienced IT professional',
+    'experienced developer',
+    `${experience}+ years experienced software engineer`,
+    `senior software engineer with ${experience} years experience`,
+    `technical lead with ${experience} years experience`
+  ]
+
   const nameBasedKeywords = [
     `${fullName} ${serviceName}`,
     `Waqas ${serviceName}`,
@@ -1766,7 +2034,13 @@ export function getServicePageSEO(serviceData) {
     `Waqas IT ${serviceName}`,
     `${fullName} IT services`,
     'Waqas IT services',
-    'Waqas UET IT services'
+    'Waqas UET IT services',
+    'Waqas only',
+    'Waqas Ahmad only',
+    'Waqas Ahmad portfolio',
+    'Waqas Ahmad Malaysia',
+    'Waqas Ahmad Selangor',
+    'Waqas Ahmad developer'
   ]
   
   // TECHNICAL & QUALITY KEYWORDS (for service pages)
@@ -2546,6 +2820,9 @@ export function getServicePageSEO(serviceData) {
     baseKeywords,
     itServicesKeywords,
     nameBasedKeywords,
+    misspellingKeywords,
+    professionalStatLongTail,
+    getSkillExpertDeveloperKeywords(),
     technicalKeywords,
     serviceMethodologyKeywords,
     serviceDeliveryKeywords,

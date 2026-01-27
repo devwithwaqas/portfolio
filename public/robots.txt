@@ -1,22 +1,18 @@
 # robots.txt for Waqas Ahmad Portfolio
 # https://waqasahmad-portfolio.web.app
+#
+# This file: crawl rules for web crawlers (User-agent, Allow, Disallow, Sitemap).
+# For AI-oriented content (titles, descriptions, keywords): see /llms.txt .
+# AI agents use llms.txt for accurate citing and summarization; it provides both
+# descriptions and keywords. robots.txt does not contain descriptions or keywords.
 
 User-agent: *
 Allow: /
 Allow: /projects/
 Allow: /services/
+Allow: /llms.txt
 
-# Disallow admin/internal paths (if any)
 Disallow: /admin/
 Disallow: /api/
 
-# Sitemap location
 Sitemap: https://waqasahmad-portfolio.web.app/sitemap.xml
-
-# AI Search Engine Optimization
-# llms.txt helps AI search engines (Google SGE, Perplexity, Bing Chat) understand content
-# Learn more: https://llmstxt.org/
-Allow: /llms.txt
-
-# Crawl-delay (optional, be nice to servers)
-Crawl-delay: 1
