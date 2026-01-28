@@ -127,6 +127,7 @@ const stepColors = {
   'Deployment Information': 'blue',
   'Build Numbers': 'yellow',
   'Setting Manual Build Number': 'magenta',
+  'Install Dependencies': 'cyan',
   'Starting Build Process': 'cyan',
   'Build Completed': 'green',
   'Deploying to Firebase': 'blue',
@@ -207,6 +208,27 @@ function deployFirebase(environment = 'prod', manualBuildNumber = null) {
       }
     }
     
+    if (!skipInstall) {
+      showStepHeader('Install Dependencies')
+      const lockPath = path.resolve(__dirname, '../package-lock.json')
+      const useCi = fs.existsSync(lockPath)
+      const installCmd = useCi ? 'npm ci' : 'npm install'
+      log(`   Running: ${installCmd} (same for dev and prod; full deps)`, 'cyan')
+      try {
+        execSync(installCmd, {
+          stdio: 'inherit',
+          cwd: path.resolve(__dirname, '..'),
+          env: { ...process.env, NODE_ENV: 'development' }
+        })
+      } catch (e) {
+        log(`   Install failed. Run "${installCmd}" manually and retry, or use --skip-install if deps are already installed.`, 'red')
+        process.exit(1)
+      }
+    } else {
+      showStepHeader('Install Dependencies')
+      log(`   Skipped (--skip-install). Using existing node_modules.`, 'yellow')
+    }
+
     showStepHeader('Starting Build Process')
     log(`   Command: ${buildCommand}`, 'cyan')
     log(`   Build number will be: ${expectedNewBuild}`, 'cyan')
@@ -332,6 +354,7 @@ function deployFirebase(environment = 'prod', manualBuildNumber = null) {
 // Parse command line arguments
 const args = process.argv.slice(2)
 const environment = args.includes('--dev') || args.includes('-d') ? 'dev' : 'prod'
+const skipInstall = args.includes('--skip-install')
 
 // Check for manual build number
 // Note: --version is reserved by npm, so we use --build or -b or -v instead
@@ -353,7 +376,7 @@ if (buildIndex !== -1 && args[buildIndex + 1]) {
 } else {
   // If --build was stripped by npm, look for standalone arguments that look like build numbers
   // Known flags that don't take values
-  const flagsWithoutValues = ['--dev', '-d', '--help', '-h']
+  const flagsWithoutValues = ['--dev', '-d', '--help', '-h', '--skip-install']
   
   // Find standalone arguments (not flags and not flag values)
   for (let i = 0; i < args.length; i++) {
@@ -397,6 +420,7 @@ Options:
   --dev, -d              Deploy to development environment
   --build, -b <number>   Manually specify build number
   -v <number>            Alias for --build (note: --version is reserved by npm)
+  --skip-install         Skip npm ci/install (use existing node_modules)
   --help, -h             Show this help message
 
 Examples:
@@ -405,6 +429,7 @@ Examples:
   npm run deploy:firebase:dev -- --build v1.2.3
   npm run deploy:firebase:dev -- -b custom-build-123
   npm run deploy:firebase:dev -- -v test-456
+  npm run deploy:firebase:dev -- --skip-install
   npm run deploy:firebase:prod -- --build v2.0.0
   
 Note: If --build is stripped by npm, you can also use:

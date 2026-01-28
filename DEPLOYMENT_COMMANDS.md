@@ -78,6 +78,7 @@ npm run deploy:firebase:hosting
 - The `vite.config.js` automatically sets Cloud Function URLs when building for Firebase
 - Build numbers are auto-generated if not provided
 - The deployment script shows previous and new build numbers
+- **Dev vs prod package count:** The deploy script runs `npm ci` (or `npm install`) with full deps before every build. Dev and prod use the same install, so you get the same package count (~211) for both. Previously, prod could show fewer (~208) if `NODE_ENV=production` or `--omit=dev` skipped devDependencies. Use `--skip-install` to skip the install step (e.g. if `npm ci` fails with esbuild in use, or you already ran install).
 
 ---
 
