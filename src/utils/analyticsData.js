@@ -17,7 +17,11 @@
  * }
  */
 
-const PORTFOLIO_GA4_API_ENDPOINT = import.meta.env.VITE_PORTFOLIO_GA4_API_ENDPOINT || ''
+import { wrapWithCorsProxy } from './corsProxy.js'
+
+const PORTFOLIO_GA4_API_ENDPOINT_RAW = import.meta.env.VITE_PORTFOLIO_GA4_API_ENDPOINT || ''
+// Wrap with CORS proxy for local development only
+const PORTFOLIO_GA4_API_ENDPOINT = wrapWithCorsProxy(PORTFOLIO_GA4_API_ENDPOINT_RAW)
 const CACHE_KEY = 'analytics_data_cache_v2' // v2: updated for combined Firebase+GitHub totals
 const CACHE_DURATION = 2 * 60 * 1000 // 2 minutes in milliseconds (backend updates every minute, shorter cache for fresh data)
 

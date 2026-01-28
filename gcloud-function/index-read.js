@@ -1,55 +1,51 @@
 /**
  * Portfolio GA4 Analytics READ Function
- * ONLY reads from Firestore cache, NEVER calls GA4 API
+ * ONLY reads from Firestore cache, NEVER calls GA4 API.
  * Returns analytics for GitHub or Firebase based on request origin.
  * POST (tracking) sends to correct GA4 property (Measurement ID + API Secret) by origin.
+ * Security: strict origin, rate limiting, GA4 secrets via env.
  */
 
 const { Firestore } = require('@google-cloud/firestore');
+const {
+  ALLOWED_ORIGINS,
+  isAllowedOrigin,
+  getCorsHeaders,
+  createRateLimiter,
+} = require('./security');
 
-const ALLOWED_ORIGINS = [
-  'https://waqasahmad-portfolio.web.app',
-  'https://waqasahmad-portfolio.firebaseapp.com',
-];
+const limiterGet = createRateLimiter({ windowMs: 60_000, max: 60 }); // Page loads/navigation
+const limiterPost = createRateLimiter({ windowMs: 60_000, max: 100 }); // Multiple events per page
 
-function getCorsHeaders(origin) {
-  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
-  return {
-    'Access-Control-Allow-Origin': allowedOrigin,
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Accept, Origin, X-Requested-With',
-    'Access-Control-Max-Age': '86400',
-  };
-}
-
-// GA4 tracking config by origin (Measurement ID + API Secret)
 const TRACKING_CONFIG = {
   firebase: {
-    measurementId: 'G-02TG7S6Z2V',
-    apiSecret: 'CI49dz3qSHylJ1pHmOzLOg',
+    measurementId: process.env.GA4_MEASUREMENT_ID_FIREBASE || 'G-02TG7S6Z2V',
+    apiSecret: process.env.GA4_API_SECRET_FIREBASE || 'CI49dz3qSHylJ1pHmOzLOg',
   },
   github: {
-    measurementId: 'G-1HMMJLP7GK',
-    apiSecret: 'p4SbgXEyTKOikyV8ZZACig',
+    measurementId: process.env.GA4_MEASUREMENT_ID_GITHUB || 'G-1HMMJLP7GK',
+    apiSecret: process.env.GA4_API_SECRET_GITHUB || 'p4SbgXEyTKOikyV8ZZACig',
   },
 };
 
-const FIREBASE_ORIGINS = [
-  'https://waqasahmad-portfolio.web.app',
-  'https://waqasahmad-portfolio.firebaseapp.com',
-];
-
 function isFirebaseOrigin(origin) {
-  return FIREBASE_ORIGINS.includes(origin);
+  return ALLOWED_ORIGINS.includes(origin);
 }
 
 function getTrackingConfig(origin) {
   return isFirebaseOrigin(origin) ? TRACKING_CONFIG.firebase : TRACKING_CONFIG.github;
 }
 
-const firestore = new Firestore();
 const COLLECTION_NAME = 'analytics_cache';
 const DOCUMENT_ID = 'portfolio_stats';
+
+let firestoreInstance = null;
+function getFirestore() {
+  if (!firestoreInstance) {
+    firestoreInstance = new Firestore();
+  }
+  return firestoreInstance;
+}
 
 function generateClientId() {
   const timestamp = Date.now();
@@ -93,6 +89,13 @@ async function sendTrackingEvent(clientId, eventName, eventParams, pageLocation,
   }
 }
 
+function corsJson(res, origin, status, body) {
+  const h = getCorsHeaders(origin);
+  res.set(h);
+  res.set('Content-Type', 'application/json');
+  res.status(status).json(body);
+}
+
 exports.readPortfolioAnalytics = async (req, res) => {
   const origin = req.headers.origin || '';
   const CORS_HEADERS = getCorsHeaders(origin);
@@ -103,38 +106,49 @@ exports.readPortfolioAnalytics = async (req, res) => {
     return;
   }
 
+  if (req.method !== 'GET' && req.method !== 'POST') {
+    corsJson(res, origin, 405, { error: 'Method not allowed. Use GET or POST.' });
+    return;
+  }
+
+  if (!isAllowedOrigin(origin)) {
+    corsJson(res, origin, 403, { error: 'Origin not allowed' });
+    return;
+  }
+
+  const limiter = req.method === 'GET' ? limiterGet : limiterPost;
+  const { allowed, retryAfter } = limiter.check(req);
+  if (!allowed) {
+    res.set(CORS_HEADERS);
+    res.set('Content-Type', 'application/json');
+    if (retryAfter != null) res.set('Retry-After', String(retryAfter));
+    res.status(429).json({ error: 'Too many requests' });
+    return;
+  }
+
   if (req.method === 'POST') {
     try {
       const data = req.body;
       if (!data || typeof data !== 'object') {
-        res.set(CORS_HEADERS);
-        res.set('Content-Type', 'application/json');
-        res.status(400).json({ error: 'Invalid JSON data' });
+        corsJson(res, origin, 400, { error: 'Invalid JSON data' });
         return;
       }
-
       const eventName = data.event_name || 'page_view';
       const eventParams = data.event_params || {};
       const clientId = data.client_id || generateClientId();
       const pageLocation = data.page_location || '';
       const pageTitle = data.page_title || '';
       const config = getTrackingConfig(origin);
-
       const result = await sendTrackingEvent(clientId, eventName, eventParams, pageLocation, pageTitle, config);
-
       if (result.success) {
-        res.set(CORS_HEADERS);
-        res.set('Content-Type', 'application/json');
-        res.status(200).json({
+        corsJson(res, origin, 200, {
           success: true,
           event: eventName,
           client_id: clientId,
           http_code: result.httpCode,
         });
       } else {
-        res.set(CORS_HEADERS);
-        res.set('Content-Type', 'application/json');
-        res.status(500).json({
+        corsJson(res, origin, 500, {
           success: false,
           error: 'Failed to send to GA4',
           http_code: result.httpCode,
@@ -143,9 +157,7 @@ exports.readPortfolioAnalytics = async (req, res) => {
       }
     } catch (error) {
       console.error('[READ] Error processing tracking request:', error);
-      res.set(CORS_HEADERS);
-      res.set('Content-Type', 'application/json');
-      res.status(500).json({
+      corsJson(res, origin, 500, {
         success: false,
         error: 'Internal server error',
         message: error.message || String(error),
@@ -154,14 +166,8 @@ exports.readPortfolioAnalytics = async (req, res) => {
     return;
   }
 
-  if (req.method !== 'GET') {
-    res.set(CORS_HEADERS);
-    res.status(405).json({ error: 'Method not allowed. Use GET or POST.' });
-    return;
-  }
-
   try {
-    const doc = await firestore.collection(COLLECTION_NAME).doc(DOCUMENT_ID).get();
+    const doc = await getFirestore().collection(COLLECTION_NAME).doc(DOCUMENT_ID).get();
 
     if (!doc.exists) {
       res.set(CORS_HEADERS);

@@ -213,39 +213,165 @@ export default {
     }
 
     // Handle hash fragments from URL (e.g., #resume)
-    const handleHashFragment = () => {
-      const hash = window.location.hash
+    // Smart reload detection: prevents double-scroll by waiting for page stability
+    const handleHashFragment = async () => {
+      let hash = window.location.hash
+      let sectionId = null
+      
+      // If hash exists in URL, use it and store it
       if (hash) {
-        // Remove the # symbol
-        const sectionId = hash.substring(1)
+        sectionId = hash.substring(1)
+        // Always store in sessionStorage as backup (survives reloads)
+        try {
+          sessionStorage.setItem('home:hashSection', sectionId)
+          // Mark that we have a pending scroll (prevents double-scroll)
+          sessionStorage.setItem('home:scrollPending', 'true')
+        } catch (e) {
+          // Ignore storage errors
+        }
+      } else {
+        // No hash in URL - check sessionStorage (might have been lost during reload)
+        try {
+          const storedSection = sessionStorage.getItem('home:hashSection')
+          const scrollPending = sessionStorage.getItem('home:scrollPending')
+          if (storedSection && scrollPending === 'true') {
+            sectionId = storedSection
+            // Restore hash in URL (for better UX and browser history)
+            window.history.replaceState(null, '', `#${storedSection}`)
+          }
+        } catch (e) {
+          // Ignore storage errors
+        }
+      }
+      
+      if (sectionId) {
         const validSections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
         
         if (validSections.includes(sectionId)) {
+          // Check if reload is likely (service worker update, etc.)
+          const isReloadLikely = await checkIfReloadLikely()
+          
+          if (isReloadLikely) {
+            // Reload is likely - skip scroll now, will scroll after reload
+            // Hash is already stored in sessionStorage, so it will be handled after reload
+            return
+          }
+          
+          // No reload expected - wait for page stability, then scroll once
+          await waitForPageStability()
+          
+          // Check again if scroll is still pending (might have been cleared by reload)
+          try {
+            const scrollPending = sessionStorage.getItem('home:scrollPending')
+            if (scrollPending !== 'true') {
+              // Scroll was already handled or cancelled
+              return
+            }
+          } catch (e) {
+            // Ignore storage errors
+          }
+          
           // Wait for Vue to render all components
           this.$nextTick(() => {
             // Wait for next tick to ensure all child components are mounted
             this.$nextTick(() => {
               // Wait longer for layout to stabilize - especially important for sections near bottom
-              // Use multiple delays to ensure all content (including images) is positioned
               setTimeout(() => {
                 // Wait for browser layout
                 requestAnimationFrame(() => {
                   requestAnimationFrame(() => {
                     // Additional delay for sections that might have lazy-loaded content
-                    // Resume section is near bottom, so it needs more time
                     const additionalDelay = sectionId === 'resume' || sectionId === 'portfolio' || sectionId === 'services' || sectionId === 'contact' ? 200 : 100
                     
                     setTimeout(() => {
                       // Final check and scroll - this ensures all sections are properly positioned
                       scrollToSection(sectionId)
+                      // Clear flags after successful scroll
+                      try {
+                        sessionStorage.removeItem('home:hashSection')
+                        sessionStorage.removeItem('home:scrollPending')
+                      } catch (e) {
+                        // Ignore storage errors
+                      }
                     }, additionalDelay)
                   })
                 })
-              }, 200) // Increased initial delay from 100 to 200
+              }, 200)
             })
           })
         }
       }
+    }
+    
+    // Check if a page reload is likely (service worker update, router chunk error, etc.)
+    const checkIfReloadLikely = async () => {
+      try {
+        // Check for router chunk reload (matches router/index.js CHUNK_RELOAD_KEY)
+        const chunkReloadKey = 'portfolio_chunk_reload'
+        const hasChunkReload = sessionStorage.getItem(chunkReloadKey)
+        if (hasChunkReload) {
+          return true
+        }
+      } catch (e) {
+        // Ignore storage errors
+      }
+      
+      if (import.meta.env.DEV) {
+        // In dev, service workers are unregistered, so no SW reload expected
+        return false
+      }
+      
+      try {
+        
+        if ('serviceWorker' in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations()
+          for (const registration of registrations) {
+            // Check if there's a waiting service worker (update pending)
+            if (registration.waiting) {
+              return true
+            }
+            // Check if there's an installing service worker
+            if (registration.installing) {
+              return true
+            }
+            // Listen for updatefound event (new SW version detected)
+            registration.addEventListener('updatefound', () => {
+              // Mark that reload is coming
+              try {
+                sessionStorage.setItem('home:reloadExpected', 'true')
+              } catch (e) {}
+            })
+          }
+          
+          // Check if we just detected a reload is expected
+          const reloadExpected = sessionStorage.getItem('home:reloadExpected')
+          if (reloadExpected === 'true') {
+            sessionStorage.removeItem('home:reloadExpected')
+            return true
+          }
+        }
+      } catch (e) {
+        // Ignore errors - assume no reload
+      }
+      
+      return false
+    }
+    
+    // Wait for page to be stable (no reloads for a period)
+    const waitForPageStability = () => {
+      return new Promise((resolve) => {
+        // Wait 2 seconds to ensure no reload happens
+        // If reload happens, this promise won't resolve (page will reload)
+        const stabilityTimeout = setTimeout(() => {
+          resolve()
+        }, 2000)
+        
+        // If page is about to unload, clear timeout (reload is happening)
+        const beforeUnloadHandler = () => {
+          clearTimeout(stabilityTimeout)
+        }
+        window.addEventListener('beforeunload', beforeUnloadHandler, { once: true })
+      })
     }
 
     // Only restore scroll position when coming from another page (navigation, not refresh)

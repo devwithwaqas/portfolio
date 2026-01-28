@@ -9,8 +9,12 @@
  * Both show full errors in console. Prod (firebase) hides them and reports to backend.
  */
 
+import { wrapWithCorsProxy } from './corsProxy.js'
+
 const isDev = import.meta.env.DEV || import.meta.env.MODE === 'firebase-dev'
-const REPORT_URL = import.meta.env.VITE_ERROR_REPORT_URL || ''
+const REPORT_URL_RAW = import.meta.env.VITE_ERROR_REPORT_URL || ''
+// Wrap with CORS proxy for local development only
+const REPORT_URL = wrapWithCorsProxy(REPORT_URL_RAW)
 
 function reportToBackend(err, context) {
   if (!REPORT_URL || typeof fetch !== 'function') return

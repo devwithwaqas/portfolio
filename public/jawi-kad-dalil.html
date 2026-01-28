@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="ms" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kad Dalil - Panduan Huruf Jawi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Sans:wght@400;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: A4 landscape;
+            margin: 0.2cm;
+        }
+        
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            padding: 10px;
+            min-height: 100vh;
+        }
+        
+        /* A4 Landscape view for screenshot */
+        @media screen {
+            body {
+                max-width: 1123px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            .container {
+                background: #ffffff;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            }
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 15px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3px;
+            border-bottom: 1px solid #667eea;
+            padding-bottom: 2px;
+        }
+        
+        .header h1 {
+            font-family: 'Amiri', serif;
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 0px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            font-weight: 700;
+        }
+        
+        .header h2 {
+            font-size: 0.7em;
+            color: #764ba2;
+            font-weight: 700;
+            letter-spacing: 0.1px;
+        }
+        
+        .category-section {
+            margin-bottom: 0px;
+            page-break-inside: avoid;
+        }
+        
+        .category-title {
+            font-size: 1em;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 3px;
+            margin-top: 2px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            text-align: center;
+            display: block;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border: 2px solid;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            line-height: 1.3;
+        }
+        
+        .category-title.vokal {
+            border-color: #dc2626;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        
+        .category-title.konsonan {
+            border-color: #d97706;
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+        }
+        
+        .category-title.hukum-k {
+            border-color: #ea580c;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        }
+        
+        .category-title.diagraf {
+            border-color: #2563eb;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+        
+        .category-title.vokal-awal {
+            border-color: #059669;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+            gap: 2px;
+            margin-bottom: 2px;
+        }
+        
+        .letter-card {
+            background: #f8f9fa;
+            border-radius: 5px;
+            padding: 5px 3px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1.5px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+            min-height: 85px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .letter-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .letter-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .letter-card:hover::before {
+            opacity: 1;
+        }
+        
+        .letter-card.vokal {
+            background: #fee2e2;
+            border-color: #ef4444;
+        }
+        
+        .letter-card.konsonan {
+            background: #fef3c7;
+            border-color: #fbbf24;
+        }
+        
+        .letter-card.hukum-k {
+            background: #fff7ed;
+            border-color: #f97316;
+        }
+        
+        .letter-card.diagraf {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+        
+        .letter-card.vokal-awal {
+            background: #d1fae5;
+            border-color: #10b981;
+        }
+        
+        .jawi-letter {
+            font-family: 'Amiri', serif;
+            font-size: 2.3em;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 8px;
+            display: block;
+            line-height: 1;
+            min-height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .letter-name {
+            font-size: 0.85em;
+            font-weight: 800;
+            color: #000000;
+            margin-bottom: 5px;
+            letter-spacing: 0.3px;
+        }
+        
+        .letter-pronunciation {
+            display: none;
+        }
+        
+        .letter-english {
+            font-size: 1.15em;
+            color: #000000;
+            font-weight: 900;
+            margin-top: 4px;
+            margin-bottom: 2px;
+            letter-spacing: 1.5px;
+            background: #ffffff;
+            padding: 4px 7px;
+            border-radius: 4px;
+            display: inline-block;
+            border: 2.5px solid #000000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            font-family: 'Noto Sans', sans-serif;
+        }
+        
+        .letter-description {
+            display: none;
+        }
+        
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+        
+        .legend-item {
+            padding: 8px 6px;
+            border-radius: 6px;
+            text-align: center;
+            border: 2px solid;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+        
+        .legend-item h4 {
+            font-size: 1em;
+            font-weight: 900;
+            color: #000000;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        .legend-item p {
+            font-size: 0.75em;
+            color: #333333;
+            margin: 0;
+            line-height: 1.4;
+            font-weight: 700;
+        }
+        
+        .legend-vokal {
+            background: #fee2e2;
+            border-color: #ef4444;
+        }
+        
+        .legend-konsonan {
+            background: #fef3c7;
+            border-color: #fbbf24;
+        }
+        
+        .legend-hukum-k {
+            background: #fff7ed;
+            border-color: #f97316;
+        }
+        
+        .legend-diagraf {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+        
+        .legend-vokal-awal {
+            background: #d1fae5;
+            border-color: #10b981;
+        }
+        
+        .legend-color-box {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-left: 4px;
+            vertical-align: middle;
+            border: 2px solid #000000;
+        }
+        
+        .legend-color-box.vokal {
+            background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+        }
+        
+        .legend-color-box.konsonan {
+            background: linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%);
+        }
+        
+        .legend-color-box.hukum-k {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+        }
+        
+        .legend-color-box.diagraf {
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+        }
+        
+        .legend-color-box.vokal-awal {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 3px;
+            padding-top: 2px;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+            font-size: 0.5em;
+            font-weight: 500;
+        }
+        
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 0.3cm;
+            }
+            
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            
+            body {
+                background: #ffffff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            
+            .container {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                padding: 5px !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                background: #ffffff !important;
+                height: auto !important;
+            }
+            
+            .header {
+                margin-bottom: 2px !important;
+                padding-bottom: 2px !important;
+                page-break-after: avoid !important;
+            }
+            
+            .header h1 {
+                font-size: 1.5em !important;
+                margin-bottom: 0px !important;
+            }
+            
+            .header h2 {
+                font-size: 0.75em !important;
+            }
+            
+            .category-section {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                margin-bottom: 3px !important;
+            }
+            
+            .category-title {
+                font-size: 0.9em !important;
+                margin-bottom: 3px !important;
+                padding: 6px 8px !important;
+                page-break-after: avoid !important;
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
+                white-space: normal !important;
+                line-height: 1.3 !important;
+                letter-spacing: 0.6px !important;
+            }
+            
+            .chart-grid {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                gap: 2px !important;
+                margin-bottom: 3px !important;
+            }
+            
+            .letter-card {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                padding: 4px 2px !important;
+                border: 1px solid #ffffff !important;
+                box-shadow: none !important;
+            }
+            
+            .letter-card:hover {
+                transform: none !important;
+            }
+            
+            .jawi-letter {
+                font-size: 2.1em !important;
+                min-height: 28px !important;
+                margin-bottom: 6px !important;
+                color: #000000 !important;
+            }
+            
+            .letter-name {
+                font-size: 0.8em !important;
+                margin-bottom: 4px !important;
+                color: #000000 !important;
+            }
+            
+            .letter-pronunciation {
+                display: none !important;
+            }
+            
+            .letter-english {
+                font-size: 1em !important;
+                margin-top: 3px !important;
+                margin-bottom: 1px !important;
+                padding: 3px 5px !important;
+                color: #000000 !important;
+                background: #ffffff !important;
+                border: 2.5px solid #000000 !important;
+            }
+            
+            .letter-description {
+                display: none !important;
+            }
+            
+            .letter-card {
+                background: #f8f9fa !important;
+                border: 1.5px solid #e0e0e0 !important;
+                min-height: 80px !important;
+                padding: 4px 2px !important;
+            }
+            
+            .legend-item {
+                min-height: 50px !important;
+                padding: 3px !important;
+            }
+            
+            .letter-card.vokal {
+                background: #fee2e2 !important;
+                border-color: #ef4444 !important;
+            }
+            
+            .letter-card.konsonan {
+                background: #fef3c7 !important;
+                border-color: #fbbf24 !important;
+            }
+            
+            .letter-card.hukum-k {
+                background: #fff7ed !important;
+                border-color: #f97316 !important;
+            }
+            
+            .letter-card.diagraf {
+                background: #dbeafe !important;
+                border-color: #3b82f6 !important;
+            }
+            
+            .letter-card.vokal-awal {
+                background: #d1fae5 !important;
+                border-color: #10b981 !important;
+            }
+            
+            .category-title.vokal {
+                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+                border-color: #dc2626 !important;
+                color: #ffffff !important;
+            }
+            
+            .category-title.konsonan {
+                background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
+                border-color: #d97706 !important;
+                color: #ffffff !important;
+            }
+            
+            .category-title.hukum-k {
+                background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
+                border-color: #ea580c !important;
+                color: #ffffff !important;
+            }
+            
+            .category-title.diagraf {
+                background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+                border-color: #2563eb !important;
+                color: #ffffff !important;
+            }
+            
+            .category-title.vokal-awal {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+                border-color: #059669 !important;
+                color: #ffffff !important;
+            }
+            
+            .legend-grid {
+                display: grid !important;
+                grid-template-columns: repeat(5, 1fr) !important;
+                gap: 3px !important;
+                margin-bottom: 3px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            
+            .legend-item {
+                padding: 6px 4px !important;
+            }
+            
+            .legend-item h4 {
+                font-size: 0.85em !important;
+                margin-bottom: 4px !important;
+            }
+            
+            .legend-item p {
+                font-size: 0.7em !important;
+            }
+            
+            .category-title {
+                page-break-after: avoid !important;
+            }
+            
+            .legend-content {
+                gap: 2px !important;
+            }
+            
+            .legend-item {
+                padding: 2px !important;
+            }
+            
+            .legend-item h4 {
+                font-size: 0.6em !important;
+                margin-bottom: 0px !important;
+                padding-bottom: 1px !important;
+            }
+            
+            .legend-item li {
+                font-size: 0.5em !important;
+                padding: 0px !important;
+                padding-right: 6px !important;
+                line-height: 1.1 !important;
+            }
+            
+            .legend-color-box {
+                width: 6px !important;
+                height: 6px !important;
+                margin-left: 2px !important;
+            }
+            
+            .footer {
+                margin-top: 1px !important;
+                padding-top: 1px !important;
+                font-size: 0.5em !important;
+                page-break-inside: avoid !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 3em;
+            }
+            
+            .header h2 {
+                font-size: 1.6em;
+            }
+            
+            .chart-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            .jawi-letter {
+                font-size: 4em;
+            }
+            
+            .letter-name {
+                font-size: 1.4em;
+            }
+            
+            .container {
+                padding: 25px;
+            }
+            
+            .category-title {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>كاد دليل</h1>
+            <h2>Kad Dalil - Panduan Huruf Jawi</h2>
+        </div>
+        
+        <!-- All Cards in One Continuous Grid -->
+        <div class="chart-grid">
+            <h3 class="category-title vokal">Vokal</h3>
+                <div class="letter-card vokal">
+                    <span class="jawi-letter">ا</span>
+                    <div class="letter-name">Alif</div>
+                    <div class="letter-english">A</div>
+                </div>
+                
+                <div class="letter-card vokal">
+                    <span class="jawi-letter">ا</span>
+                    <div class="letter-name">E-Pepet</div>
+                    <div class="letter-english">E</div>
+                </div>
+                
+                <div class="letter-card vokal">
+                    <span class="jawi-letter">ي</span>
+                    <div class="letter-name">E-Taling</div>
+                    <div class="letter-english">E</div>
+                </div>
+                
+                <div class="letter-card vokal">
+                    <span class="jawi-letter">ي</span>
+                    <div class="letter-name">Ya</div>
+                    <div class="letter-english">I</div>
+                </div>
+                
+                <div class="letter-card vokal">
+                    <span class="jawi-letter">و</span>
+                    <div class="letter-name">Wau</div>
+                    <div class="letter-english">O</div>
+                </div>
+                
+                <div class="letter-card vokal">
+                    <span class="jawi-letter">و</span>
+                    <div class="letter-name">Wau</div>
+                    <div class="letter-english">U</div>
+                </div>
+            
+            <h3 class="category-title konsonan">Konsonan</h3>
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ب</span>
+                    <div class="letter-name">Ba</div>
+                    <div class="letter-english">B</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ت</span>
+                    <div class="letter-name">Ta</div>
+                    <div class="letter-english">T</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ث</span>
+                    <div class="letter-name">Tha</div>
+                    <div class="letter-english">TH</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ج</span>
+                    <div class="letter-name">Jim</div>
+                    <div class="letter-english">J</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ح</span>
+                    <div class="letter-name">Ha</div>
+                    <div class="letter-english">H</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">د</span>
+                    <div class="letter-name">Dal</div>
+                    <div class="letter-english">D</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ذ</span>
+                    <div class="letter-name">Dhal</div>
+                    <div class="letter-english">DH</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ر</span>
+                    <div class="letter-name">Ra</div>
+                    <div class="letter-english">R</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ز</span>
+                    <div class="letter-name">Zai</div>
+                    <div class="letter-english">Z</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">س</span>
+                    <div class="letter-name">Sin</div>
+                    <div class="letter-english">S</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ص</span>
+                    <div class="letter-name">Sad</div>
+                    <div class="letter-english">S</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ض</span>
+                    <div class="letter-name">Dad</div>
+                    <div class="letter-english">D</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ط</span>
+                    <div class="letter-name">Ta</div>
+                    <div class="letter-english">T</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ظ</span>
+                    <div class="letter-name">Za</div>
+                    <div class="letter-english">Z</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ع</span>
+                    <div class="letter-name">Ain</div>
+                    <div class="letter-english">A</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">غ</span>
+                    <div class="letter-name">Ghayn</div>
+                    <div class="letter-english">GH</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ف</span>
+                    <div class="letter-name">Fa</div>
+                    <div class="letter-english">F</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ق</span>
+                    <div class="letter-name">Qaf</div>
+                    <div class="letter-english">Q</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ل</span>
+                    <div class="letter-name">Lam</div>
+                    <div class="letter-english">L</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">م</span>
+                    <div class="letter-name">Mim</div>
+                    <div class="letter-english">M</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ن</span>
+                    <div class="letter-name">Nun</div>
+                    <div class="letter-english">N</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ه</span>
+                    <div class="letter-name">Ha</div>
+                    <div class="letter-english">H</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ڠ</span>
+                    <div class="letter-name">Nga</div>
+                    <div class="letter-english">NG</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">چ</span>
+                    <div class="letter-name">Cha</div>
+                    <div class="letter-english">CH</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ڤ</span>
+                    <div class="letter-name">Pa</div>
+                    <div class="letter-english">P</div>
+                </div>
+                
+                <div class="letter-card konsonan">
+                    <span class="jawi-letter">ݢ</span>
+                    <div class="letter-name">Ga</div>
+                    <div class="letter-english">G</div>
+                </div>
+            
+            <h3 class="category-title hukum-k">Hukum K</h3>
+                <div class="letter-card hukum-k">
+                    <span class="jawi-letter">ك</span>
+                    <div class="letter-name">Kaf Awal</div>
+                    <div class="letter-english">K</div>
+                </div>
+                
+                <div class="letter-card hukum-k">
+                    <span class="jawi-letter">ق</span>
+                    <div class="letter-name">Qaf Akhir</div>
+                    <div class="letter-english">K</div>
+                </div>
+                
+                <div class="letter-card hukum-k">
+                    <span class="jawi-letter">ك</span>
+                    <div class="letter-name">Kaf Tengah</div>
+                    <div class="letter-english">K</div>
+                </div>
+            
+            <h3 class="category-title diagraf">Diagraf</h3>
+                <div class="letter-card diagraf">
+                    <span class="jawi-letter">خ</span>
+                    <div class="letter-name">Kha</div>
+                    <div class="letter-english">KH</div>
+                </div>
+                
+                <div class="letter-card diagraf">
+                    <span class="jawi-letter">ش</span>
+                    <div class="letter-name">Shin</div>
+                    <div class="letter-english">SH</div>
+                </div>
+                
+                <div class="letter-card diagraf">
+                    <span class="jawi-letter">ڠ</span>
+                    <div class="letter-name">Nga</div>
+                    <div class="letter-english">NG</div>
+                </div>
+                
+                <div class="letter-card diagraf">
+                    <span class="jawi-letter">چ</span>
+                    <div class="letter-name">Cha</div>
+                    <div class="letter-english">CH</div>
+                </div>
+                
+                <div class="letter-card diagraf">
+                    <span class="jawi-letter">غ</span>
+                    <div class="letter-name">Ghayn</div>
+                    <div class="letter-english">GH</div>
+                </div>
+            
+            <h3 class="category-title vokal-awal">Vokal Awal</h3>
+                <div class="letter-card vokal-awal">
+                    <span class="jawi-letter">ا</span>
+                    <div class="letter-name">Alif Awal</div>
+                    <div class="letter-english">A</div>
+                </div>
+                
+                <div class="letter-card vokal-awal">
+                    <span class="jawi-letter">او</span>
+                    <div class="letter-name">Alif-Wau</div>
+                    <div class="letter-english">AU</div>
+                </div>
+                
+                <div class="letter-card vokal-awal">
+                    <span class="jawi-letter">او</span>
+                    <div class="letter-name">Alif-Wau</div>
+                    <div class="letter-english">AW</div>
+                </div>
+                
+                <div class="letter-card vokal-awal">
+                    <span class="jawi-letter">اي</span>
+                    <div class="letter-name">Alif-Ya</div>
+                    <div class="letter-english">E</div>
+                </div>
+                
+                <div class="letter-card vokal-awal">
+                    <span class="jawi-letter">ا</span>
+                    <div class="letter-name">E-Pepet Awal</div>
+                    <div class="letter-english">E</div>
+                </div>
+                
+                <div class="letter-card vokal-awal">
+                    <span class="jawi-letter">ي</span>
+                    <div class="letter-name">Ya Awal</div>
+                    <div class="letter-english">I</div>
+                </div>
+        </div>
+        
+        <h3 class="category-title" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); border-color: #1e3c72; margin-top: 6px; margin-bottom: 4px;">Legenda</h3>
+        <div class="legend-grid">
+            <div class="legend-item legend-vokal">
+                <h4>Vokal <span class="legend-color-box vokal"></span></h4>
+                <p>Huruf-huruf vokal dalam sistem Jawi termasuk E-Pepet dan E-Taling</p>
+            </div>
+            
+            <div class="legend-item legend-konsonan">
+                <h4>Konsonan <span class="legend-color-box konsonan"></span></h4>
+                <p>Huruf-huruf konsonan asas dan tambahan termasuk huruf Melayu tambahan</p>
+            </div>
+            
+            <div class="legend-item legend-hukum-k">
+                <h4>Hukum K <span class="legend-color-box hukum-k"></span></h4>
+                <p>Kaf (ك) di awal suku kata, Qaf (ق) di akhir suku kata, dan di tengah kata</p>
+            </div>
+            
+            <div class="legend-item legend-diagraf">
+                <h4>Diagraf <span class="legend-color-box diagraf"></span></h4>
+                <p>Gabungan huruf satu bunyi seperti خ (KH), ش (SH), ڠ (NG), چ (CH)</p>
+            </div>
+            
+            <div class="legend-item legend-vokal-awal">
+                <h4>Vokal Awal <span class="legend-color-box vokal-awal"></span></h4>
+                <p>Vokal di awal suku kata termasuk E-Pepet dan E-Taling awal</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Kad Dalil - Panduan Huruf Jawi | Dicipta untuk pembelajaran dan rujukan</strong></p>
+            <p style="margin-top: 8px; font-size: 0.95em;">Tersedia dalam format A4 dan A3 | Untuk mencetak sebagai PDF, gunakan fungsi Print (Ctrl+P) dan pilih "Save as PDF"</p>
+        </div>
+    </div>
+</body>
+</html>

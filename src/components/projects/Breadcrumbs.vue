@@ -11,9 +11,9 @@
           </li>
           <li v-if="parentLink" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
             <meta itemprop="position" content="2" />
-            <router-link :to="parentLink" itemprop="item">
+            <a href="#" @click.prevent="navigateToSection" itemprop="item">
               <span itemprop="name">{{ parentLabel }}</span>
-            </router-link>
+            </a>
           </li>
           <li class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
             <meta itemprop="position" :content="parentLink ? '3' : '2'" />
@@ -55,6 +55,77 @@ export default {
     safeCurrentUrl() {
       // Return the current URL safely, ensuring it's always a string
       return this.currentUrl || SITE_URL
+    },
+    sectionId() {
+      // Extract section ID from parentLink (e.g., '/#portfolio' -> 'portfolio')
+      if (this.parentLink && this.parentLink.includes('#')) {
+        return this.parentLink.split('#')[1]
+      }
+      return null
+    }
+  },
+  methods: {
+    navigateToSection(event) {
+      event.preventDefault()
+      
+      if (!this.sectionId) return
+      
+      // Always scroll without changing URL - no hash fragments
+      if (this.$route.path !== '/') {
+        // If not on home page, navigate to home first, then scroll
+        this.$router.push('/').then(() => {
+          this.$nextTick(() => {
+            this.scrollToSectionElement(this.sectionId)
+          })
+        })
+      } else {
+        // Already on home page - scroll directly
+        this.scrollToSectionElement(this.sectionId)
+      }
+    },
+    
+    scrollToSectionElement(sectionId) {
+      const element = document.getElementById(sectionId)
+      if (!element) {
+        // Element not found - retry a few times
+        let retryCount = 0
+        const maxRetries = 10
+        const retryInterval = setInterval(() => {
+          retryCount++
+          const retryElement = document.getElementById(sectionId)
+          if (retryElement || retryCount >= maxRetries) {
+            clearInterval(retryInterval)
+            if (retryElement) {
+              this.performScroll(retryElement)
+            }
+          }
+        }, 100)
+        return
+      }
+      
+      this.performScroll(element)
+    },
+    
+    performScroll(element) {
+      // Use requestAnimationFrame to ensure layout is stable
+      // OPTIMIZATION: Use offsetTop instead of getBoundingClientRect to avoid forced reflow
+      // This matches the Navigation component's approach for consistency
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // offsetTop doesn't cause forced reflow (unlike getBoundingClientRect)
+          const elementOffsetTop = element.offsetTop
+          const headerOffset = 120
+          const offsetPosition = elementOffsetTop - headerOffset
+          
+          // Ensure we're scrolling to a valid position
+          if (offsetPosition >= 0) {
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            })
+          }
+        })
+      })
     }
   },
   mounted() {

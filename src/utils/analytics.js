@@ -11,9 +11,13 @@ import { DEBUG_CONFIG } from '../config/constants.js'
 const GA4_MEASUREMENT_ID = (typeof window !== 'undefined' && window.GA4_MEASUREMENT_ID) || 
                            import.meta.env.VITE_GA4_MEASUREMENT_ID || ''
 
+import { wrapWithCorsProxy } from './corsProxy.js'
+
 // Unified endpoint for both analytics and tracking (bypasses ad blockers)
 // Set this to your Google Cloud Function URL in GitHub Secrets
-const PORTFOLIO_GA4_API_ENDPOINT = import.meta.env.VITE_PORTFOLIO_GA4_API_ENDPOINT || ''
+const PORTFOLIO_GA4_API_ENDPOINT_RAW = import.meta.env.VITE_PORTFOLIO_GA4_API_ENDPOINT || ''
+// Wrap with CORS proxy for local development only
+const PORTFOLIO_GA4_API_ENDPOINT = wrapWithCorsProxy(PORTFOLIO_GA4_API_ENDPOINT_RAW)
 
 // TESTING FLAG: Force server-side tracking only (bypasses client-side)
 // Set VITE_GA4_FORCE_SERVER_SIDE=true in GitHub Secrets to test server-side endpoint
@@ -138,10 +142,18 @@ function trackPageViewInternal(path, title) {
  * Track page view
  */
 export function trackPageView(path, title) {
+  // In DEV mode, skip analytics to prevent errors from causing reload loops
+  if (import.meta.env.DEV) {
+    ga4Log('[GA4] DEV mode: Skipping page view tracking')
+    return
+  }
+  
   if (FORCE_SERVER_SIDE) {
     ga4Log('[GA4] FORCE SERVER-SIDE: page view via API only')
     if (PORTFOLIO_GA4_API_ENDPOINT) {
-      trackServerSide('page_view', { page_path: path, page_title: title })
+      trackServerSide('page_view', { page_path: path, page_title: title }).catch(() => {
+        // Silently fail in DEV to prevent reload loops
+      })
     }
     return
   }
@@ -361,6 +373,12 @@ export function trackEvent(eventName, eventParams = {}) {
  * Uses GA4 Measurement Protocol API
  */
 async function trackServerSide(eventName, eventParams = {}) {
+  // In DEV mode, skip server-side tracking to prevent token/API errors from causing reload loops
+  if (import.meta.env.DEV) {
+    ga4Log('[GA4] DEV mode: Skipping server-side tracking:', eventName)
+    return false
+  }
+  
   ga4Log('[GA4] trackServerSide called for:', eventName, '| Endpoint:', PORTFOLIO_GA4_API_ENDPOINT)
   
   const measurementId = (typeof window !== 'undefined' && window.GA4_MEASUREMENT_ID) || GA4_MEASUREMENT_ID
@@ -374,7 +392,7 @@ async function trackServerSide(eventName, eventParams = {}) {
     ga4Warn('[GA4] Server-side tracking: API endpoint not configured')
     return false
   }
-  
+
   try {
     // Generate a client ID (persistent identifier)
     let clientId = localStorage.getItem('ga4_client_id')
@@ -427,7 +445,13 @@ async function trackServerSide(eventName, eventParams = {}) {
       return false
     }
   } catch (error) {
-    ga4Warn('[GA4] Server-side tracking error:', error)
+    // Silently handle errors - don't let analytics errors cause app issues
+    // In DEV, log for debugging but don't throw
+    if (import.meta.env.DEV) {
+      ga4Warn('[GA4] Server-side tracking error (DEV mode, non-fatal):', error?.message || error)
+    } else {
+      ga4Warn('[GA4] Server-side tracking error:', error?.message || error)
+    }
     return false
   }
 }

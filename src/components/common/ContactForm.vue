@@ -20,6 +20,7 @@
                   type="text" 
                   id="name" 
                   name="name" 
+                  autocomplete="name"
                   class="form-control"
                   :class="{ 'is-invalid': validationErrors.name }"
                   placeholder="Your full name"
@@ -38,6 +39,7 @@
                   type="email" 
                   id="email" 
                   name="email" 
+                  autocomplete="email"
                   class="form-control"
                   :class="{ 'is-invalid': validationErrors.email }"
                   placeholder="your.email@example.com"
@@ -56,6 +58,7 @@
                   type="text" 
                   id="subject" 
                   name="subject" 
+                  autocomplete="off"
                   class="form-control"
                   :class="{ 'is-invalid': validationErrors.subject }"
                   placeholder="What's this about?"
@@ -73,6 +76,7 @@
                   v-model="formData.message" 
                   id="message" 
                   name="message" 
+                  autocomplete="off"
                   class="form-control"
                   :class="{ 'is-invalid': validationErrors.message }"
                   placeholder="Tell me about your project, requirements, timeline, or anything else you'd like to discuss..."
@@ -202,10 +206,12 @@ export default {
         const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
         const timezoneToSend = this.userTimezone || currentTimezone
         
-        console.log('📧 Sending email via Google Cloud Functions (SMTP):', {
-          timezone: timezoneToSend,
-          timestamp: new Date().toISOString()
-        })
+        if (import.meta.env?.DEV) {
+          console.log('📧 Sending email via Google Cloud Functions (SMTP):', {
+            timezone: timezoneToSend,
+            timestamp: new Date().toISOString()
+          })
+        }
         
         const formDataWithMetadata = {
           ...this.formData,
@@ -229,11 +235,15 @@ export default {
           message: ''
         }
         
-        console.log('✓ Email sent successfully via Google Cloud Functions (SMTP)')
+        if (import.meta.env?.DEV) {
+          console.log('✓ Email sent successfully via Google Cloud Functions (SMTP)')
+        }
       } catch (error) {
-        console.error('❌ Contact Form SMTP Error:', error)
-        console.error('❌ Error message:', error.message)
-        console.error('❌ SMTP Config:', this.smtpConfig)
+        if (import.meta.env?.DEV) {
+          console.error('❌ Contact Form SMTP Error:', error)
+          console.error('❌ Error message:', error.message)
+          console.error('❌ SMTP Config:', { endpoint: this.smtpConfig?.endpoint, hasApiKey: !!this.smtpConfig?.apiKey })
+        }
         
         // Show more specific error message
         const errorMsg = error.message || 'Unknown error occurred'

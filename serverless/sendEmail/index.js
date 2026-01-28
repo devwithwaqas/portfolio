@@ -1,101 +1,135 @@
 /**
  * Google Cloud Function: Send Email via Gmail SMTP
- * 
- * This function receives contact form submissions and sends them via Gmail SMTP
- * for the portfolio contact form.
- * 
- * Environment Variables Required:
- * - GMAIL_USER: Your Gmail address
- * - GMAIL_APP_PASSWORD: Gmail App Password (16-character)
- * - TO_EMAIL: Recipient email address (where emails should be sent)
- * 
- * Optional:
- * - API_KEY: Optional API key for function authentication (check via X-API-Key header)
+ *
+ * Receives contact form submissions and sends via Gmail SMTP.
+ * Security: strict origin, rate limit (5/min per IP), field length limits, optional API key.
+ *
+ * Env required: GMAIL_USER, GMAIL_APP_PASSWORD, TO_EMAIL
+ * Env optional: API_KEY (X-API-Key header)
  */
 
 const nodemailer = require('nodemailer');
 const functions = require('@google-cloud/functions-framework');
 
-functions.http('sendEmail', async (req, res) => {
-  // CORS handling - Allow requests from Firebase Hosting and local development
-  const allowedOrigins = [
-    'https://waqasahmad-portfolio.web.app',
-    'https://waqasahmad-portfolio.firebaseapp.com',
-    'http://localhost:3001',
-    'http://localhost:5173',
-    'http://localhost:4173',
-    'http://127.0.0.1:3001',
-    'http://127.0.0.1:5173'
-  ];
-  
-  // Get origin from request (case-insensitive)
-  const origin = req.get('origin') || req.get('Origin') || '';
-  
-  // Set CORS headers - ALWAYS set them
-  // If origin is in allowed list, use it; otherwise allow all (for now)
-  if (origin && allowedOrigins.includes(origin)) {
-    res.set('Access-Control-Allow-Origin', origin);
-  } else {
-    // Allow all origins for now (you can restrict this later)
-    // This ensures CORS works from any origin
-    res.set('Access-Control-Allow-Origin', '*');
+const ALLOWED_ORIGINS = [
+  'https://waqasahmad-portfolio.web.app',
+  'https://waqasahmad-portfolio.firebaseapp.com',
+  'http://localhost:3001',
+  'http://localhost:5173',
+  'http://localhost:4173',
+  'http://127.0.0.1:3001',
+  'http://127.0.0.1:5173',
+];
+
+const LIMITS = { name: 100, subject: 200, message: 5000, timezone: 64, language: 32 };
+
+const rateLimitStore = new Map();
+const RATE_WINDOW_MS = 60_000;
+const RATE_MAX = 10; // Form submissions, allow testing
+
+function getClientIp(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (typeof forwarded === 'string') {
+    const first = forwarded.split(',')[0].trim();
+    if (first) return first;
   }
-  
+  return req.connection?.remoteAddress || req.socket?.remoteAddress || 'unknown';
+}
+
+function rateLimitCheck(req) {
+  const now = Date.now();
+  for (const [ip, v] of rateLimitStore.entries()) {
+    if (v.resetAt <= now) rateLimitStore.delete(ip);
+  }
+  const ip = getClientIp(req);
+  let e = rateLimitStore.get(ip);
+  if (!e) {
+    e = { count: 0, resetAt: now + RATE_WINDOW_MS };
+    rateLimitStore.set(ip, e);
+  }
+  if (now >= e.resetAt) {
+    e.count = 0;
+    e.resetAt = now + RATE_WINDOW_MS;
+  }
+  e.count += 1;
+  const allowed = e.count <= RATE_MAX;
+  const retryAfter = allowed ? undefined : Math.ceil((e.resetAt - now) / 1000);
+  return { allowed, retryAfter };
+}
+
+function setCors(res, origin) {
+  const o = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  res.set('Access-Control-Allow-Origin', o);
   res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.set('Access-Control-Allow-Headers', 'Content-Type, X-API-Key, Authorization');
   res.set('Access-Control-Max-Age', '3600');
+}
 
-  // Handle preflight OPTIONS request
+function json(res, status, body) {
+  res.set('Content-Type', 'application/json');
+  res.status(status).json(body);
+}
+
+function escapeHtml(s) {
+  if (s == null || s === '') return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+functions.http('sendEmail', async (req, res) => {
+  const origin = req.get('origin') || req.get('Origin') || '';
+  setCors(res, origin);
+
   if (req.method === 'OPTIONS') {
     return res.status(204).send('');
   }
 
-  // Only allow POST requests
   if (req.method !== 'POST') {
-    return res.status(405).json({ 
-      success: false,
-      error: 'Method not allowed. Only POST requests are accepted.' 
-    });
+    return json(res, 405, { success: false, error: 'Method not allowed. Only POST requests are accepted.' });
   }
 
-  // Optional: API Key authentication
+  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    return json(res, 403, { success: false, error: 'Origin not allowed' });
+  }
+
+  const { allowed, retryAfter } = rateLimitCheck(req);
+  if (!allowed) {
+    if (retryAfter != null) res.set('Retry-After', String(retryAfter));
+    return json(res, 429, { success: false, error: 'Too many requests' });
+  }
+
   if (process.env.API_KEY) {
     const apiKey = req.get('X-API-Key');
     if (apiKey !== process.env.API_KEY) {
-      return res.status(401).json({ 
-        success: false,
-        error: 'Unauthorized. Invalid API key.' 
-      });
+      return json(res, 401, { success: false, error: 'Unauthorized. Invalid API key.' });
     }
   }
 
-  // Extract and validate request body
-  const { name, email, subject, message, timezone, timestamp, userAgent, language } = req.body;
-  
-  // DEBUG: Log what we received from client
-  console.log('📥 REQUEST BODY RECEIVED:');
-  console.log('  - timestamp:', timestamp, '(type:', typeof timestamp, ', exists:', !!timestamp, ')');
-  console.log('  - timezone:', timezone, '(type:', typeof timezone, ', exists:', !!timezone, ')');
-  console.log('  - userAgent:', userAgent);
-  console.log('  - language:', language);
-  console.log('  - Full body keys:', Object.keys(req.body));
-  console.log('  - Full body:', JSON.stringify(req.body, null, 2));
+  const body = req.body || {};
+  let name = (body.name && String(body.name).trim()) || '';
+  let email = (body.email && String(body.email).trim()) || '';
+  let subject = (body.subject && String(body.subject).trim()) || '';
+  let message = (body.message && String(body.message).trim()) || '';
+  const timezone = (body.timezone && String(body.timezone).trim().slice(0, LIMITS.timezone)) || '';
+  const timestamp = body.timestamp;
+  const userAgent = (body.userAgent && String(body.userAgent).trim().slice(0, 500)) || '';
+  const language = (body.language && String(body.language).trim().slice(0, LIMITS.language)) || '';
 
-  // Validation - Check all required fields
   if (!name || !email || !subject || !message) {
-    return res.status(400).json({ 
-      success: false,
-      error: 'Missing required fields. Please provide: name, email, subject, message' 
-    });
+    return json(res, 400, { success: false, error: 'Missing required fields. Please provide: name, email, subject, message' });
   }
 
-  // Validate email format
+  if (name.length > LIMITS.name) name = name.slice(0, LIMITS.name);
+  if (subject.length > LIMITS.subject) subject = subject.slice(0, LIMITS.subject);
+  if (message.length > LIMITS.message) message = message.slice(0, LIMITS.message);
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    return res.status(400).json({ 
-      success: false,
-      error: 'Invalid email format' 
-    });
+    return json(res, 400, { success: false, error: 'Invalid email format' });
   }
 
   // Check environment variables
@@ -104,36 +138,20 @@ functions.http('sendEmail', async (req, res) => {
   const toEmail = process.env.TO_EMAIL;
 
   if (!gmailUser || !gmailAppPassword || !toEmail) {
-    console.error('Missing required environment variables:', {
-      GMAIL_USER: !!gmailUser,
-      GMAIL_APP_PASSWORD: !!gmailAppPassword,
-      TO_EMAIL: !!toEmail
-    });
-    return res.status(500).json({ 
-      success: false,
-      error: 'Server configuration error. Please contact the administrator.' 
-    });
+    console.error('Missing required env: GMAIL_USER, GMAIL_APP_PASSWORD, TO_EMAIL');
+    return json(res, 500, { success: false, error: 'Server configuration error. Please contact the administrator.' });
   }
 
-  // Create Gmail SMTP transporter
   let transporter;
   try {
     transporter = nodemailer.createTransport({
       service: 'gmail',
-      auth: {
-        user: gmailUser,
-        pass: gmailAppPassword
-      }
+      auth: { user: gmailUser, pass: gmailAppPassword },
     });
-
-    // Verify connection
     await transporter.verify();
   } catch (error) {
     console.error('SMTP Connection Error:', error);
-    return res.status(500).json({ 
-      success: false,
-      error: 'Failed to connect to email service' 
-    });
+    return json(res, 500, { success: false, error: 'Failed to connect to email service' });
   }
 
   // Email template - Ultra Advanced HTML format with premium design
@@ -154,38 +172,21 @@ functions.http('sendEmail', async (req, res) => {
   
   if (timestamp && timezone) {
     try {
-      console.log('🔄 Processing client timestamp...');
-      console.log('  Input timestamp (from client):', timestamp);
-      console.log('  Input timezone (from client):', timezone);
-      
-      // Parse the ISO timestamp sent from client (it's when they clicked send)
       const clientDate = new Date(timestamp);
-      console.log('  Parsed Date object:', clientDate.toISOString());
-      
-      // Format in USER'S timezone with 12-hour format
       const dateStr = clientDate.toLocaleString('en-US', {
-        timeZone: timezone, // Convert UTC to user's timezone
+        timeZone: timezone,
         weekday: 'long',
         year: 'numeric',
         month: 'long',
         day: 'numeric',
-        hour: 'numeric',      // Use 'numeric' for 12-hour format (not '2-digit')
+        hour: 'numeric',
         minute: '2-digit',
         second: '2-digit',
-        hour12: true         // 12-hour format
+        hour12: true,
       });
-      
-      console.log('  Formatted in timezone:', dateStr);
-      
-      // Get GMT offset
-      const tzFormatter = new Intl.DateTimeFormat('en-US', {
-        timeZone: timezone,
-        timeZoneName: 'longOffset'
-      });
-      
+      const tzFormatter = new Intl.DateTimeFormat('en-US', { timeZone: timezone, timeZoneName: 'longOffset' });
       const tzParts = tzFormatter.formatToParts(clientDate);
-      const tzNamePart = tzParts.find(p => p.type === 'timeZoneName');
-      
+      const tzNamePart = tzParts.find((p) => p.type === 'timeZoneName');
       if (tzNamePart && tzNamePart.value) {
         const tzStr = tzNamePart.value.replace('GMT', '').trim();
         if (tzStr.match(/^[+-]\d{2}:\d{2}$/)) {
@@ -196,27 +197,21 @@ functions.http('sendEmail', async (req, res) => {
           gmtOffset = `GMT${tzStr}`;
         }
       }
-      
       locationName = timezone.split('/').pop().replace(/_/g, ' ');
-      
-      // Final string: "Friday, January 16, 2026 at 2:17:00 PM GMT+4"
       userTimestamp = `${dateStr} ${gmtOffset || ''}`.trim();
-      
-      console.log('✅ FINAL TIMESTAMP STRING:', userTimestamp);
-      console.log('  GMT Offset:', gmtOffset);
-      console.log('  Location:', locationName);
-    } catch (e) {
-      console.error('❌ Error:', e.message);
-      console.error(e.stack);
-    }
-  } else {
-    console.warn('⚠️ Missing timestamp or timezone from client');
+    } catch (_) {}
   }
-  
-  // Ensure it's always a string
   userTimestamp = String(userTimestamp || serverTimestamp);
-  
-  // HTML Email Template - Premium Design
+
+  const _name = escapeHtml(name);
+  const _email = escapeHtml(email);
+  const _subject = escapeHtml(subject);
+  const _message = escapeHtml(message);
+  const _tz = escapeHtml(timezone);
+  const _lang = escapeHtml(language);
+  const _loc = escapeHtml(locationName || '');
+  const _gmt = escapeHtml(gmtOffset || '');
+
   const emailHTML = `
 <!DOCTYPE html>
 <html lang="en">
@@ -269,7 +264,7 @@ functions.http('sendEmail', async (req, res) => {
                   <tr>
                     <td align="center">
                       <a href="${googleTimeLink}" target="_blank" style="display: inline-block; background: rgba(255, 255, 255, 0.2); color: #ffffff; text-decoration: none; padding: 10px 24px; border-radius: 25px; font-size: 13px; font-weight: 600; border: 2px solid rgba(255, 255, 255, 0.3); transition: all 0.3s;">
-                        🕐 View Current Time in ${locationName}
+                        🕐 View Current Time in ${_loc}
                       </a>
                     </td>
                   </tr>
@@ -318,7 +313,7 @@ functions.http('sendEmail', async (req, res) => {
                               </td>
                               <td style="vertical-align: middle;">
                                 <p style="margin: 0; color: #1a202c; font-size: 16px; font-weight: 600; line-height: 1.5;">
-                                  ${name}
+                                  ${_name}
                                 </p>
                               </td>
                             </tr>
@@ -337,8 +332,8 @@ functions.http('sendEmail', async (req, res) => {
                                 </div>
                               </td>
                               <td style="vertical-align: middle;">
-                                <a href="mailto:${email}" style="color: #667eea; text-decoration: none; font-size: 16px; font-weight: 600; border-bottom: 2px solid rgba(102, 126, 234, 0.3); padding-bottom: 2px; transition: all 0.2s;">
-                                  ${email}
+                                <a href="mailto:${_email}" style="color: #667eea; text-decoration: none; font-size: 16px; font-weight: 600; border-bottom: 2px solid rgba(102, 126, 234, 0.3); padding-bottom: 2px; transition: all 0.2s;">
+                                  ${_email}
                                 </a>
                               </td>
                             </tr>
@@ -358,7 +353,7 @@ functions.http('sendEmail', async (req, res) => {
                               </td>
                               <td style="vertical-align: middle;">
                                 <p style="margin: 0; color: #1a202c; font-size: 16px; font-weight: 600; line-height: 1.5;">
-                                  ${subject}
+                                  ${_subject}
                                 </p>
                               </td>
                             </tr>
@@ -382,11 +377,11 @@ functions.http('sendEmail', async (req, res) => {
                                 </p>
                                 ${locationName && gmtOffset ? `
                                 <p style="margin: 4px 0 0 0; color: #718096; font-size: 13px; font-weight: 500;">
-                                  📍 ${locationName} (${gmtOffset})
+                                  📍 ${_loc} (${_gmt})
                                 </p>
                                 ` : timezone ? `
                                 <p style="margin: 4px 0 0 0; color: #718096; font-size: 12px; font-weight: 400;">
-                                  Timezone: ${timezone}
+                                  Timezone: ${_tz}
                                 </p>
                                 ` : ''}
                               </td>
@@ -408,7 +403,7 @@ functions.http('sendEmail', async (req, res) => {
                               </td>
                               <td style="vertical-align: middle;">
                                 <p style="margin: 0; color: #1a202c; font-size: 16px; font-weight: 600; line-height: 1.5;">
-                                  ${timezone}
+                                  ${_tz}
                                 </p>
                               </td>
                             </tr>
@@ -430,7 +425,7 @@ functions.http('sendEmail', async (req, res) => {
                               </td>
                               <td style="vertical-align: middle;">
                                 <p style="margin: 0; color: #1a202c; font-size: 16px; font-weight: 600; line-height: 1.5;">
-                                  ${language}
+                                  ${_lang}
                                 </p>
                               </td>
                             </tr>
@@ -465,7 +460,7 @@ functions.http('sendEmail', async (req, res) => {
                       <tr>
                         <td>
                           <div style="color: #2d3748; font-size: 16px; font-weight: 400; line-height: 1.9; letter-spacing: 0.2px; white-space: pre-wrap; word-wrap: break-word;">
-${message}
+${_message}
                           </div>
                         </td>
                       </tr>
@@ -479,13 +474,13 @@ ${message}
                 <tr>
                   <td align="center" style="padding: 20px 0;">
                     <!--[if mso]>
-                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="mailto:${email}?subject=Re: ${encodeURIComponent(subject)}" style="height:52px;v-text-anchor:middle;width:220px;" arcsize="12%" stroke="f" fillcolor="#667eea">
+                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="mailto:${_email}?subject=Re: ${encodeURIComponent(subject)}" style="height:52px;v-text-anchor:middle;width:220px;" arcsize="12%" stroke="f" fillcolor="#667eea">
                       <w:anchorlock/>
-                      <center style="color:#ffffff;font-family:sans-serif;font-size:16px;font-weight:bold;">✉️ Reply to ${name}</center>
+                      <center style="color:#ffffff;font-family:sans-serif;font-size:16px;font-weight:bold;">✉️ Reply to ${_name}</center>
                     </v:roundrect>
                     <![endif]-->
-                    <a href="mailto:${email}?subject=Re: ${encodeURIComponent(subject)}" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); color: #ffffff; text-decoration: none; padding: 16px 42px; border-radius: 12px; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4), 0 4px 8px rgba(0, 0, 0, 0.1); border: none;">
-                      ✉️ Reply to ${name}
+                    <a href="mailto:${_email}?subject=Re: ${encodeURIComponent(subject)}" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); color: #ffffff; text-decoration: none; padding: 16px 42px; border-radius: 12px; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4), 0 4px 8px rgba(0, 0, 0, 0.1); border: none;">
+                      ✉️ Reply to ${_name}
                     </a>
                   </td>
                 </tr>
@@ -566,28 +561,15 @@ Server Timestamp: ${new Date().toISOString()}
     html: emailHTML // HTML version with advanced styling
   };
 
-  // Send email
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully:', {
-      messageId: info.messageId,
-      to: toEmail,
-      from: email
-    });
-
-    return res.status(200).json({ 
-      success: true,
-      message: 'Email sent successfully',
-      messageId: info.messageId
-    });
+    return json(res, 200, { success: true, message: 'Email sent successfully', messageId: info.messageId });
   } catch (error) {
     console.error('SMTP Send Error:', error);
-    
-    // Return user-friendly error message
-    return res.status(500).json({ 
+    return json(res, 500, {
       success: false,
       error: 'Failed to send email',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      ...(process.env.NODE_ENV === 'development' && { details: error.message }),
     });
   }
 });

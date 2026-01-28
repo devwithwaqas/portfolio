@@ -7,10 +7,16 @@
 const { BetaAnalyticsDataClient } = require('@google-analytics/data');
 const { Firestore } = require('@google-cloud/firestore');
 
-// Initialize Firestore
-const firestore = new Firestore();
 const COLLECTION_NAME = 'analytics_cache';
 const DOCUMENT_ID = 'portfolio_stats';
+
+let firestoreInstance = null;
+function getFirestore() {
+  if (!firestoreInstance) {
+    firestoreInstance = new Firestore();
+  }
+  return firestoreInstance;
+}
 
 // Per-rank seeds for top 3 items: 1st -> 1346, 2nd -> 2217, 3rd -> 3845
 const SEED_PER_RANK = [1346, 2217, 3845];
@@ -201,7 +207,7 @@ async function updateAnalyticsCache() {
       },
     };
 
-    await firestore.collection(COLLECTION_NAME).doc(DOCUMENT_ID).set(data);
+    await getFirestore().collection(COLLECTION_NAME).doc(DOCUMENT_ID).set(data);
     console.log('[UPDATE] ✅ Cached both GitHub and Firebase analytics');
 
     return {
@@ -219,9 +225,24 @@ async function updateAnalyticsCache() {
 }
 
 /**
- * Cloud Function entry point - called by Cloud Scheduler
+ * Cloud Function entry point - called by Cloud Scheduler.
+ * Security: if SCHEDULER_SECRET env is set, requires X-Scheduler-Secret header to match.
+ * Configure Cloud Scheduler job to send that header; set Secret Manager or env var.
  */
 exports.updatePortfolioAnalytics = async (req, res) => {
+  const secret = process.env.SCHEDULER_SECRET;
+  if (secret) {
+    const header = req.get('X-Scheduler-Secret') || req.get('x-scheduler-secret') || '';
+    if (header !== secret) {
+      res.status(401).json({
+        success: false,
+        error: 'Unauthorized',
+        message: 'Invalid or missing X-Scheduler-Secret',
+      });
+      return;
+    }
+  }
+
   try {
     const result = await updateAnalyticsCache();
     res.status(200).json({

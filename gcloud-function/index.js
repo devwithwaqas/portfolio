@@ -1,25 +1,19 @@
 /**
  * Portfolio GA4 Analytics API - Google Cloud Function (2nd Gen)
  * Unified endpoint for both analytics data fetching (GET) and event tracking (POST)
+ * Security: strict origin, rate limiting, GA4 secrets via env.
  */
 
 const { BetaAnalyticsDataClient } = require('@google-analytics/data');
+const {
+  ALLOWED_ORIGINS,
+  isAllowedOrigin,
+  getCorsHeaders,
+  createRateLimiter,
+} = require('./security');
 
-// CORS Headers - Allow Firebase Hosting only
-const ALLOWED_ORIGINS = [
-  'https://waqasahmad-portfolio.web.app',
-  'https://waqasahmad-portfolio.firebaseapp.com'
-];
-
-function getCorsHeaders(origin) {
-  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
-  return {
-    'Access-Control-Allow-Origin': allowedOrigin,
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Accept, Origin, X-Requested-With, Authorization',
-    'Access-Control-Max-Age': '86400',
-  };
-}
+const limiterGet = createRateLimiter({ windowMs: 60_000, max: 60 }); // Page loads/navigation
+const limiterPost = createRateLimiter({ windowMs: 60_000, max: 100 }); // Multiple events per page
 
 // GA4 configs per property (GitHub Pages vs Firebase)
 const GA4_ANALYTICS = {
@@ -35,13 +29,16 @@ const GA4_ANALYTICS = {
   },
 };
 const GA4_TRACKING = {
-  github: { measurementId: 'G-1HMMJLP7GK', apiSecret: 'p4SbgXEyTKOikyV8ZZACig' },
-  firebase: { measurementId: 'G-02TG7S6Z2V', apiSecret: 'CI49dz3qSHylJ1pHmOzLOg' },
+  github: {
+    measurementId: process.env.GA4_MEASUREMENT_ID_GITHUB || 'G-1HMMJLP7GK',
+    apiSecret: process.env.GA4_API_SECRET_GITHUB || 'p4SbgXEyTKOikyV8ZZACig',
+  },
+  firebase: {
+    measurementId: process.env.GA4_MEASUREMENT_ID_FIREBASE || 'G-02TG7S6Z2V',
+    apiSecret: process.env.GA4_API_SECRET_FIREBASE || 'CI49dz3qSHylJ1pHmOzLOg',
+  },
 };
-const FIREBASE_ORIGINS = [
-  'https://waqasahmad-portfolio.web.app',
-  'https://waqasahmad-portfolio.firebaseapp.com',
-];
+const FIREBASE_ORIGINS = [...ALLOWED_ORIGINS];
 function isFirebaseOrigin(origin) {
   return FIREBASE_ORIGINS.includes(origin);
 }
@@ -313,54 +310,70 @@ async function sendTrackingEvent(clientId, eventName, eventParams, pageLocation,
   }
 }
 
+function corsJson(res, origin, status, body) {
+  const h = getCorsHeaders(origin);
+  res.set(h);
+  res.set('Content-Type', 'application/json');
+  res.status(status).json(body);
+}
+
 /**
  * Main Cloud Function handler - handles both analytics (GET) and tracking (POST)
+ * Security: strict origin, rate limiting.
  */
 exports.portfolioAnalyticsAPI = async (req, res) => {
   const origin = req.headers.origin || '';
   const CORS_HEADERS = getCorsHeaders(origin);
-  
-  // Handle CORS preflight
+
   if (req.method === 'OPTIONS') {
     res.set(CORS_HEADERS);
     res.status(204).send('');
     return;
   }
 
-  // Handle POST requests (tracking)
+  if (req.method !== 'GET' && req.method !== 'POST') {
+    corsJson(res, origin, 405, { error: 'Method not allowed. Use GET or POST.' });
+    return;
+  }
+
+  if (!isAllowedOrigin(origin)) {
+    corsJson(res, origin, 403, { error: 'Origin not allowed' });
+    return;
+  }
+
+  const limiter = req.method === 'GET' ? limiterGet : limiterPost;
+  const { allowed, retryAfter } = limiter.check(req);
+  if (!allowed) {
+    res.set(CORS_HEADERS);
+    res.set('Content-Type', 'application/json');
+    if (retryAfter != null) res.set('Retry-After', String(retryAfter));
+    res.status(429).json({ error: 'Too many requests' });
+    return;
+  }
+
   if (req.method === 'POST') {
     try {
       const data = req.body;
-
       if (!data || typeof data !== 'object') {
-        res.set(CORS_HEADERS);
-        res.set('Content-Type', 'application/json');
-        res.status(400).json({ error: 'Invalid JSON data' });
+        corsJson(res, origin, 400, { error: 'Invalid JSON data' });
         return;
       }
-
       const eventName = data.event_name || 'page_view';
       const eventParams = data.event_params || {};
       const clientId = data.client_id || generateClientId();
       const pageLocation = data.page_location || '';
       const pageTitle = data.page_title || '';
       const trackingConfig = getTrackingConfig(origin);
-
       const result = await sendTrackingEvent(clientId, eventName, eventParams, pageLocation, pageTitle, trackingConfig);
-
       if (result.success) {
-        res.set(CORS_HEADERS);
-        res.set('Content-Type', 'application/json');
-        res.status(200).json({
+        corsJson(res, origin, 200, {
           success: true,
           event: eventName,
           client_id: clientId,
           http_code: result.httpCode,
         });
       } else {
-        res.set(CORS_HEADERS);
-        res.set('Content-Type', 'application/json');
-        res.status(500).json({
+        corsJson(res, origin, 500, {
           success: false,
           error: 'Failed to send to GA4',
           http_code: result.httpCode,
@@ -369,21 +382,12 @@ exports.portfolioAnalyticsAPI = async (req, res) => {
       }
     } catch (error) {
       console.error('Error processing tracking request:', error);
-      res.set(CORS_HEADERS);
-      res.set('Content-Type', 'application/json');
-      res.status(500).json({
+      corsJson(res, origin, 500, {
         success: false,
         error: 'Internal server error',
         message: error.message || String(error),
       });
     }
-    return;
-  }
-
-  // Handle GET requests (analytics data)
-  if (req.method !== 'GET') {
-    res.set(CORS_HEADERS);
-    res.status(405).json({ error: 'Method not allowed. Use GET or POST.' });
     return;
   }
 
@@ -395,30 +399,21 @@ exports.portfolioAnalyticsAPI = async (req, res) => {
     const cached = cache[key];
 
     if (!bypassCache && cached && (now - cached.timestamp) < CACHE_DURATION) {
-      console.log(`Returning cached data (${key})`);
       res.set(CORS_HEADERS);
       res.set('Content-Type', 'application/json');
       res.status(200).json({ ...cached.data, cached: true });
       return;
     }
 
-    if (bypassCache) {
-      console.log('Cache bypass requested, fetching fresh data');
-    }
-
     const { totalViews, topItems } = await fetchAnalyticsData(analyticsConfig);
     const result = { totalViews, topItems, cached: false };
-
     cache[key] = { timestamp: now, data: result };
-
     res.set(CORS_HEADERS);
     res.set('Content-Type', 'application/json');
     res.status(200).json(result);
   } catch (error) {
     console.error('Error fetching analytics:', error);
-    res.set(CORS_HEADERS);
-    res.set('Content-Type', 'application/json');
-    res.status(500).json({
+    corsJson(res, origin, 500, {
       error: 'Failed to fetch analytics data',
       message: error.message || String(error),
     });

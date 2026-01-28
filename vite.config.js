@@ -5,6 +5,7 @@ import fs from 'fs'
 import { fileURLToPath } from 'url'
 import splitMobileCSS from './scripts/split-css-plugin.js'
 import removeConsole from 'vite-plugin-remove-console'
+import viteDevErrorLogger from './scripts/vite-dev-error-logger.js'
 
 // ES module equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url)
@@ -18,7 +19,7 @@ export default defineConfig(({ mode }) => {
   
   // Set analytics endpoint for Firebase builds if not provided via env
   if (isFirebase && !process.env.VITE_PORTFOLIO_GA4_API_ENDPOINT) {
-    process.env.VITE_PORTFOLIO_GA4_API_ENDPOINT = 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net/portfolio-ga4-read'
+    process.env.VITE_PORTFOLIO_GA4_API_ENDPOINT = 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net/readPortfolioAnalytics'
   }
   
   // Set SMTP endpoint for Firebase builds if not provided via env
@@ -42,7 +43,7 @@ export default defineConfig(({ mode }) => {
 
   // Firebase PROD: report client errors to Cloud Function so you can read them via gcloud logging
   if (isFirebaseProd && !process.env.VITE_ERROR_REPORT_URL) {
-    process.env.VITE_ERROR_REPORT_URL = 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net/portfolio-error-report'
+    process.env.VITE_ERROR_REPORT_URL = 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net/reportPortfolioError'
   }
 
   // Pass Firebase site URL to sitemap generation script
@@ -59,6 +60,7 @@ export default defineConfig(({ mode }) => {
   publicDir: 'public',
   plugins: [
     vue(),
+    ...(isDev ? [viteDevErrorLogger()] : []),
     ...(isProd ? [removeConsole({ includes: ['log', 'info', 'warn', 'debug'] })] : []),
     // Plugin to transform HTML asset paths
     {
@@ -150,17 +152,35 @@ export default defineConfig(({ mode }) => {
     host: '0.0.0.0',
     port: 3001,
     open: true,
-    hmr: mode === 'development' ? {
-      protocol: 'ws',
-      host: 'localhost',
-      port: 3001,
-      // Disable HMR client auto-reconnect attempts when server is off
-      // This prevents "vite connecting" messages when dev server is not running
-      client: {
-        reconnect: 3, // Limit reconnection attempts
-        overlay: true
+    // Proxy Cloud Functions to bypass CORS in local development
+    proxy: isDev ? {
+      '/api/cloud-functions': {
+        target: 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/cloud-functions/, ''),
+        secure: true,
+        configure: (proxy, _options) => {
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            // Remove the original Origin header (from localhost)
+            proxyReq.removeHeader('origin')
+            proxyReq.removeHeader('Origin')
+            // Set Origin header to match allowed origins (bypasses CORS check)
+            // This makes the request appear to come from Firebase, not localhost
+            proxyReq.setHeader('Origin', 'https://waqasahmad-portfolio.web.app')
+            // Also set Referer to match
+            proxyReq.setHeader('Referer', 'https://waqasahmad-portfolio.web.app/')
+            // Remove any other localhost-related headers
+            proxyReq.removeHeader('referer')
+            proxyReq.setHeader('Referer', 'https://waqasahmad-portfolio.web.app/')
+          })
+          proxy.on('error', (err, _req, _res) => {
+            console.log('Proxy error:', err)
+          })
+        }
       }
-    } : false // Completely disable HMR in production/firebase mode
+    } : {},
+    // Disable HMR in dev to prevent reload loops; errors logged to dev-error-log.txt
+    hmr: false
   },
   build: {
     outDir: 'dist',

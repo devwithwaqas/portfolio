@@ -4,6 +4,8 @@
  * This is the primary and only email method for the contact form
  */
 
+import { wrapWithCorsProxy } from './corsProxy.js'
+
 /**
  * Send email via Google Cloud Functions SMTP endpoint
  * @param {Object} formData - Form data containing name, email, subject, message, timezone, timestamp, etc.
@@ -16,6 +18,9 @@ export async function sendEmailViaSMTP(formData, config) {
   if (!endpoint) {
     throw new Error('SMTP endpoint is not configured')
   }
+
+  // Wrap with CORS proxy for local development only
+  const proxiedEndpoint = wrapWithCorsProxy(endpoint)
 
   if (!formData.name || !formData.email || !formData.subject || !formData.message) {
     throw new Error('Missing required form fields')
@@ -33,8 +38,12 @@ export async function sendEmailViaSMTP(formData, config) {
   if (formData.userAgent) payload.userAgent = formData.userAgent
   if (formData.language) payload.language = formData.language
   
-  console.log('Sending email via Google Cloud Functions (SMTP):')
-  console.log('  - Endpoint:', endpoint)
+  const isDev = typeof import.meta !== 'undefined' && import.meta.env?.DEV
+
+  if (isDev) {
+    console.log('Sending email via Google Cloud Functions (SMTP):')
+    console.log('  - Endpoint:', endpoint)
+  }
 
   const headers = {
     'Content-Type': 'application/json'
@@ -45,36 +54,41 @@ export async function sendEmailViaSMTP(formData, config) {
   }
 
   try {
-    console.log('📤 Fetching endpoint:', endpoint)
-    console.log('📤 Payload:', JSON.stringify(payload, null, 2))
+    if (isDev) {
+      // Log payload with message redacted (privacy); avoid logging huge pastes
+      const safePayload = { ...payload, message: payload.message ? `[${payload.message.length} chars]` : '' }
+      console.log('📤 Fetching endpoint:', proxiedEndpoint)
+      console.log('📤 Payload:', JSON.stringify(safePayload, null, 2))
+    }
     
-    const response = await fetch(endpoint, {
+    const response = await fetch(proxiedEndpoint, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(payload)
     })
 
-    console.log('📥 Response status:', response.status, response.statusText)
-    console.log('📥 Response headers:', Object.fromEntries(response.headers.entries()))
+    if (isDev) {
+      console.log('📥 Response status:', response.status, response.statusText)
+      console.log('📥 Response headers:', Object.fromEntries(response.headers.entries()))
+    }
 
     // Check if response is JSON
     const contentType = response.headers.get('content-type')
     let data
-    
+
     if (contentType && contentType.includes('application/json')) {
       data = await response.json()
     } else {
-      // If not JSON, read as text
       const text = await response.text()
-      console.log('📥 Response text (non-JSON):', text)
+      if (isDev) console.log('📥 Response text (non-JSON):', text)
       data = { message: text || 'Email sent successfully' }
     }
 
-    console.log('📥 Response data:', data)
+    if (isDev) console.log('📥 Response data:', data)
 
     if (!response.ok) {
       const errorMsg = data.error || data.message || `HTTP error! status: ${response.status}`
-      console.error('❌ HTTP Error:', errorMsg)
+      if (isDev) console.error('❌ HTTP Error:', errorMsg)
       throw new Error(errorMsg)
     }
 
@@ -83,12 +97,10 @@ export async function sendEmailViaSMTP(formData, config) {
       message: data.message || 'Email sent successfully'
     }
   } catch (error) {
-    console.error('❌ SMTP Email Service Error:', error)
-    console.error('❌ Error details:', {
-      message: error.message,
-      stack: error.stack,
-      name: error.name
-    })
+    if (isDev) {
+      console.error('❌ SMTP Email Service Error:', error)
+      console.error('❌ Error details:', { message: error.message, stack: error.stack, name: error.name })
+    }
     throw new Error(error.message || 'Failed to send email via SMTP')
   }
 }

@@ -30,6 +30,8 @@
                 <div class="col-md-6">
                   <input 
                     type="text" 
+                    name="name"
+                    autocomplete="name"
                     class="form-control" 
                     placeholder="Your Name" 
                     v-model="formData.name"
@@ -39,6 +41,8 @@
                 <div class="col-md-6">
                   <input 
                     type="email" 
+                    name="email"
+                    autocomplete="email"
                     class="form-control" 
                     placeholder="Your Email" 
                     v-model="formData.email"
@@ -48,6 +52,8 @@
                 <div class="col-12">
                   <input 
                     type="text" 
+                    name="subject"
+                    autocomplete="off"
                     class="form-control" 
                     placeholder="Subject" 
                     v-model="formData.subject"
@@ -56,6 +62,8 @@
                 </div>
                 <div class="col-12">
                   <textarea 
+                    name="message"
+                    autocomplete="off"
                     class="form-control" 
                     rows="5" 
                     placeholder="Your Message"

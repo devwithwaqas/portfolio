@@ -6,6 +6,76 @@ import { trackPageView } from './utils/analytics.js'
 import { handleError } from './utils/errorHandler.js'
 import { initNotifications } from './utils/notifications.js'
 import { initInstallPrompt } from './utils/installPrompt.js'
+import { logError, shouldPreventReload, recordReloadAttempt, getErrorLog } from './utils/errorTracker.js'
+
+// Log each app boot + pagehide to dev server (survives reloads)
+// Also detect reload loops and stop them
+if (typeof window !== 'undefined' && import.meta.env?.DEV) {
+  const BOOT_COUNT_KEY = 'portfolio_boot_count'
+  const BOOT_TIMEOUT = 5000 // 5 seconds
+  const MAX_BOOTS = 5
+  
+  try {
+    const bootData = JSON.parse(sessionStorage.getItem(BOOT_COUNT_KEY) || '{}')
+    const now = Date.now()
+    const lastBoot = bootData.lastBoot || 0
+    const bootCount = bootData.count || 0
+    
+    // If we've booted too many times recently, STOP EVERYTHING
+    if (bootCount >= MAX_BOOTS && (now - lastBoot) < BOOT_TIMEOUT) {
+      console.error('🚨 RELOAD LOOP DETECTED! Stopping app to prevent infinite reloads.')
+      console.error(`Boot count: ${bootCount} in ${((now - lastBoot) / 1000).toFixed(1)}s`)
+      console.error('Check dev-error-log.txt for error details')
+      
+      // Show error overlay
+      document.body.innerHTML = `
+        <div style="padding: 40px; text-align: center; font-family: system-ui; max-width: 800px; margin: 100px auto;">
+          <h1 style="color: #ef4444;">⚠️ Reload Loop Detected</h1>
+          <p>The page has reloaded ${bootCount} times in ${((now - lastBoot) / 1000).toFixed(1)} seconds.</p>
+          <p style="margin-top: 20px;">Check <code>dev-error-log.txt</code> in the project root for error details.</p>
+          <p style="margin-top: 10px; color: #666;">Open DevTools → Console to see error logs.</p>
+          <button onclick="sessionStorage.clear(); location.reload();" style="margin-top: 30px; padding: 10px 20px; font-size: 16px; cursor: pointer;">
+            Clear Storage & Reload
+          </button>
+        </div>
+      `
+      // Prevent any further execution
+      throw new Error('Reload loop detected - app stopped')
+    }
+    
+    // Update boot count
+    sessionStorage.setItem(BOOT_COUNT_KEY, JSON.stringify({
+      count: bootCount + 1,
+      lastBoot: now
+    }))
+    
+    // Clear boot count after timeout
+    setTimeout(() => {
+      try {
+        sessionStorage.removeItem(BOOT_COUNT_KEY)
+      } catch {}
+    }, BOOT_TIMEOUT)
+  } catch (e) {
+    // If we're in a reload loop, the error above will stop execution
+    console.error('[Boot Loop Detector]', e)
+  }
+  
+  const devLog = (context, message) => {
+    try {
+      const payload = JSON.stringify({
+        context,
+        message,
+        stack: '',
+        url: window.location.href,
+        timestamp: new Date().toISOString()
+      })
+      navigator.sendBeacon(`${window.location.origin}/__dev-log-error`, new Blob([payload], { type: 'application/json' }))
+    } catch (_) {}
+  }
+  devLog('boot', 'App boot')
+  window.addEventListener('pagehide', () => devLog('pagehide', 'Page unloading (reload or close)'))
+  window.addEventListener('beforeunload', () => devLog('beforeunload', 'Page about to unload'))
+}
 
 // Import CSS (font-sizes first so nav sizes apply; main second)
 import './assets/css/font-sizes.css'
@@ -27,20 +97,99 @@ app.config.globalProperties.$assetPath = assetPath
 
 // Global error handler: prod = generic console message only, never real error on frontend
 app.config.errorHandler = (err, instance, info) => {
+  // Always log errors persistently
+  logError(err, `Vue.${info || 'unknown'}`)
+  
+  // In DEV mode, prevent errors from causing reload loops
+  if (import.meta.env.DEV) {
+    console.warn(`[Vue Error Handler] ${info || ''}:`, err)
+    // Don't let errors propagate in DEV to prevent reload loops
+    return
+  }
   handleError(err, `Vue ${info || ''}`)
 }
 
 // Unhandled promise rejections: generic message in prod, prevent default logging
 window.addEventListener('unhandledrejection', (event) => {
+  // Always log errors persistently
+  logError(event.reason, 'unhandledrejection')
+  
+  // In DEV mode, log but prevent default to avoid reload loops
+  if (import.meta.env.DEV) {
+    console.warn('[Unhandled Rejection]:', event.reason)
+    event.preventDefault()
+    return
+  }
   handleError(event.reason, 'unhandledrejection')
   event.preventDefault()
 })
 
 // Uncaught errors: generic message in prod, prevent browser default logging
 window.addEventListener('error', (event) => {
+  // Always log errors persistently
+  logError(event.error || event.message, 'uncaught')
+  
+  // In DEV mode, log but prevent default to avoid reload loops
+  if (import.meta.env.DEV) {
+    console.warn('[Uncaught Error]:', event.error || event.message)
+    event.preventDefault()
+    return
+  }
   handleError(event.error || event.message, 'error')
   event.preventDefault()
 })
+
+// Prevent reloads by intercepting at the source
+// Since window.location.reload is read-only, we'll prevent reloads in other ways
+// The circuit breaker will be checked in router and service worker code
+
+// Expose error tracker to window for debugging
+if (typeof window !== 'undefined') {
+  window.__portfolioErrorTracker = {
+    getLog: getErrorLog,
+    clearLog: () => {
+      try {
+        localStorage.removeItem('portfolio_error_log')
+        localStorage.removeItem('portfolio_reload_count')
+        console.log('[Error Tracker] Log cleared')
+      } catch {}
+    },
+    shouldPreventReload,
+    recordReloadAttempt
+  }
+  
+  // Show error log on page load if there are recent errors
+  if (import.meta.env.DEV) {
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const errors = getErrorLog()
+        if (errors.length > 0) {
+          const now = Date.now()
+          const RECENT_THRESHOLD = 2 * 60 * 1000 // 2 minutes
+          
+          // Filter to only recent errors
+          const recentErrors = errors.filter(err => {
+            const errorTime = new Date(err.timestamp).getTime()
+            return (now - errorTime) < RECENT_THRESHOLD
+          })
+          
+          if (recentErrors.length > 0) {
+            console.group('%c[Error Tracker] Recent Errors Detected', 'color: #ef4444; font-weight: bold; font-size: 14px;')
+            console.log(`Found ${recentErrors.length} recent error(s) (${errors.length} total in localStorage)`)
+            console.log('Run: window.__portfolioErrorTracker.getLog() to see all errors')
+            console.log('Run: window.__portfolioErrorTracker.clearLog() to clear all errors')
+            console.table(recentErrors.slice(-10)) // Show last 10 recent errors
+            console.groupEnd()
+          } else if (errors.length > 0) {
+            // Only old errors - just mention it briefly
+            console.log(`[Error Tracker] ${errors.length} old error(s) in localStorage (will auto-clear after 30s of stable page)`)
+            console.log('Run: window.__portfolioErrorTracker.clearLog() to clear now')
+          }
+        }
+      }, 1000)
+    })
+  }
+}
 
 app.use(router)
 app.mount('#app')
@@ -79,19 +228,26 @@ router.isReady().then(() => {
 // Expected service worker version - AUTO-GENERATED ON BUILD (from git commit hash)
 // Version is automatically updated by scripts/generate-sw-version.js during build
 // MUST MATCH the version in public/sw.js
-const EXPECTED_SW_VERSION = '12359'
+const EXPECTED_SW_VERSION = '12345'
 
 if ('serviceWorker' in navigator) {
-  // CRITICAL: In dev mode, unregister ALL service workers to prevent reload loops
+  // CRITICAL: In dev mode, unregister ALL service workers immediately (not on load)
+  // to prevent reload loops from any SW controlling the page
   if (import.meta.env.DEV) {
-    window.addEventListener('load', async () => {
+    ;(async () => {
       try {
         const registrations = await navigator.serviceWorker.getRegistrations()
-        for (const registration of registrations) {
-          await registration.unregister()
+        for (const r of registrations) {
+          await r.unregister()
         }
-      } catch (_err) {}
-    })
+        if ('caches' in window) {
+          const names = await caches.keys()
+          await Promise.all(names.map((n) => caches.delete(n)))
+        }
+      } catch (e) {
+        logError(e, 'serviceWorker.unregister')
+      }
+    })()
   }
   
   if (import.meta.env.PROD) {
@@ -173,6 +329,14 @@ if ('serviceWorker' in navigator) {
                   const reloadAttempted = sessionStorage.getItem(SW_RELOAD_KEY)
                   
                   if (!reloadAttempted && canReload) {
+                    // Check circuit breaker before reloading
+                    if (shouldPreventReload()) {
+                      console.error('[Service Worker] Reload blocked by circuit breaker')
+                      logError(new Error('Service worker reload blocked by circuit breaker'), 'serviceWorker.reload')
+                      return
+                    }
+                    
+                    recordReloadAttempt()
                     sessionStorage.setItem(SW_RELOAD_KEY, '1')
                     sessionStorage.setItem('sw_last_reload_time', now.toString())
                     setTimeout(() => sessionStorage.removeItem(SW_RELOAD_KEY), 1000)

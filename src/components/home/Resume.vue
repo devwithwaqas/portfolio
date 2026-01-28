@@ -639,7 +639,10 @@ export default {
       this.geoDetectionComplete = true
     } catch (error) {
       // Default to global if detection fails
-      console.warn('[Resume] Geolocation detection failed, defaulting to global:', error.message)
+      // In DEV: don't log to avoid console spam
+      if (!import.meta.env?.DEV) {
+        console.warn('[Resume] Geolocation detection failed, defaulting to global:', error.message)
+      }
       this.isMalaysia = false
       const paths = getResumePaths(false)
       this.resumePaths = {

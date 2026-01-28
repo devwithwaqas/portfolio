@@ -122,12 +122,12 @@ export function initNotifications(delay = 30000) {
     if (Notification.permission === 'default' && document.visibilityState === 'visible') {
       // Show a friendly message before requesting
       const userWantsNotifications = confirm(
-        'Stay Updated!\n\n' +
+        '🔔 Stay Updated!\n\n' +
         'Would you like to receive notifications about:\n' +
-        'Latest updates and new features\n' +
-        'Important announcements\n' +
-        'Latest trends and insights\n\n' +
-        'You can change this anytime in your browser settings.'
+        '✨ Latest updates and new features\n' +
+        '📢 Important announcements\n' +
+        '💡 Latest trends and insights\n\n' +
+        '⚙️ You can change this anytime in your browser settings.'
       )
       
       if (userWantsNotifications) {
@@ -135,8 +135,8 @@ export function initNotifications(delay = 30000) {
         if (permission === 'granted') {
           setTimeout(() => {
             showSimpleNotification(
-              'Notifications Enabled!',
-              'You\'ll now receive updates about latest features, trends, and important announcements.',
+              '🎉 Notifications Enabled!',
+              '✨ You\'ll now receive updates about latest features, trends, and important announcements.',
               '/'
             ).catch(() => {})
           }, 1000)

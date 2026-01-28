@@ -5,6 +5,7 @@ import { generateProjectPageStructuredData, generateServicePageStructuredData } 
 import { trackPageView, trackServicePageView, trackProjectPageView } from '../utils/analytics.js'
 import { SITE_URL } from '../config/constants.js'
 import { handleError } from '../utils/errorHandler.js'
+import { logError, shouldPreventReload, recordReloadAttempt } from '../utils/errorTracker.js'
 
 // Service Data Map - Actual service titles and descriptions for SEO
 const SERVICE_DATA_MAP = {
@@ -103,20 +104,89 @@ function isChunkLoadError(err) {
 // On chunk 404 (stale cache after deploy): reload once to pick up fresh index + chunks.
 const loadComponent = (componentImport) => {
   return componentImport().catch((error) => {
-    handleError(error, 'router.chunk')
+    // In DEV: chunk load errors are common during HMR/server restarts - don't log them
+    // In PROD: log chunk load errors as they indicate stale cache issues
+    if (!import.meta.env.DEV) {
+      logError(error, 'router.chunk')
+      handleError(error, 'router.chunk')
+    } else {
+      // In DEV: just log to console, don't persist
+      console.warn('[Router] Chunk load error (DEV - expected during HMR):', error.message)
+    }
 
+    // CRITICAL: Never reload in DEV mode - causes infinite loops with HMR
+    // Only reload in PROD and only for actual chunk load errors
     if (
       import.meta.env.PROD &&
+      !import.meta.env.DEV &&
       typeof sessionStorage !== 'undefined' &&
       isChunkLoadError(error)
     ) {
-      if (!sessionStorage.getItem(CHUNK_RELOAD_KEY)) {
-        sessionStorage.setItem(CHUNK_RELOAD_KEY, '1')
-        window.location.reload()
-        return new Promise(() => {})
+      // Check circuit breaker - prevent infinite reloads
+      if (shouldPreventReload()) {
+        console.error('[Router] RELOAD BLOCKED by circuit breaker - too many reloads detected!')
+        console.error('[Router] Check localStorage "portfolio_error_log" for error details')
+        
+        // Return error component instead of reloading
+        return {
+          default: {
+            name: 'ErrorComponent',
+            template: `
+              <div class="error-container" style="padding: 40px; text-align: center;">
+                <h2>Failed to Load Page</h2>
+                <p>Sorry, this page could not be loaded. Too many reload attempts detected.</p>
+                <p style="color: #ef4444; font-size: 0.9em; margin-top: 10px;">
+                  Check browser console for error details. Open DevTools → Application → Local Storage → portfolio_error_log
+                </p>
+                <button @click="$router.push('/')" class="btn btn-primary" style="margin-top: 20px;">Go Home</button>
+                <button @click="clearErrors" class="btn btn-secondary" style="margin-top: 10px; margin-left: 10px;">Clear Error Log</button>
+              </div>
+            `,
+            methods: {
+              clearErrors() {
+                try {
+                  localStorage.removeItem('portfolio_error_log')
+                  localStorage.removeItem('portfolio_reload_count')
+                  window.location.reload()
+                } catch {}
+              }
+            }
+          }
+        }
+      }
+      
+      const reloadKey = CHUNK_RELOAD_KEY
+      const hasReloaded = sessionStorage.getItem(reloadKey)
+      
+      // Only reload once, and add a cooldown to prevent infinite loops
+      if (!hasReloaded) {
+        const reloadCooldown = sessionStorage.getItem(`${reloadKey}_cooldown`)
+        const now = Date.now()
+        
+        // Check if we've reloaded recently (within 5 seconds)
+        if (!reloadCooldown || (now - parseInt(reloadCooldown)) > 5000) {
+          if (shouldPreventReload()) {
+            console.error('[Router] Reload blocked by circuit breaker')
+            logError(new Error('Router reload blocked by circuit breaker'), 'router.reload')
+          } else {
+            recordReloadAttempt()
+            sessionStorage.setItem(reloadKey, '1')
+            sessionStorage.setItem(`${reloadKey}_cooldown`, now.toString())
+            setTimeout(() => {
+              try {
+                sessionStorage.removeItem(reloadKey)
+                sessionStorage.removeItem(`${reloadKey}_cooldown`)
+              } catch (_) {}
+            }, 10000)
+            console.warn('[Router] Reloading due to chunk load error...')
+            window.location.reload()
+            return new Promise(() => {})
+          }
+        }
       }
     }
 
+    // Return error component instead of reloading
     return {
       default: {
         name: 'ErrorComponent',

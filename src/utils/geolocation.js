@@ -45,6 +45,11 @@ function setCachedGeo(country) {
  * @returns {Promise<boolean>} True if user is from Malaysia, false otherwise
  */
 export async function isUserFromMalaysia() {
+  // In DEV mode: skip API calls to prevent CORS/rate limit errors causing reload loops
+  if (import.meta.env?.DEV) {
+    return false
+  }
+
   // Check cache first
   const cached = getCachedGeo()
   if (cached !== null) {
@@ -57,7 +62,9 @@ export async function isUserFromMalaysia() {
     const response = await Promise.race([
       fetch('https://ipapi.co/json/', { 
         method: 'GET',
-        headers: { 'Accept': 'application/json' }
+        headers: { 'Accept': 'application/json' },
+        mode: 'cors',
+        credentials: 'omit'
       }).catch(() => null),
       // Fallback with timeout
       new Promise((resolve) => setTimeout(() => resolve(null), 3000))
@@ -76,7 +83,9 @@ export async function isUserFromMalaysia() {
     // Fallback to ip-api.com (use HTTPS)
     const fallbackResponse = await fetch('https://ip-api.com/json/?fields=countryCode', {
       method: 'GET',
-      headers: { 'Accept': 'application/json' }
+      headers: { 'Accept': 'application/json' },
+      mode: 'cors',
+      credentials: 'omit'
     }).catch(() => null)
 
     if (fallbackResponse && fallbackResponse.ok) {
@@ -90,7 +99,9 @@ export async function isUserFromMalaysia() {
     }
   } catch (error) {
     // Silently fail - default to global
-    console.warn('[Geolocation] Failed to detect location:', error.message)
+    if (!import.meta.env?.DEV) {
+      console.warn('[Geolocation] Failed to detect location:', error.message)
+    }
   }
 
   // Default to global (not Malaysia) if detection fails
