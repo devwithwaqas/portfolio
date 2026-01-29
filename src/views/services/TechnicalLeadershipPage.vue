@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import ServiceHeroSection from '@/components/services/ServiceHeroSection.vue'
 import ServiceOverview from '@/components/services/ServiceOverview.vue'
 import ServiceCapabilities from '@/components/services/ServiceCapabilities.vue'
@@ -82,6 +82,7 @@ import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
+import { generateServicePageStructuredData } from '@/utils/structuredData.js'
 
 export default {
   name: 'TechnicalLeadershipPage',
@@ -383,6 +384,26 @@ export default {
         answer: "Technical leadership is typically an ongoing engagement, usually 3-6 months minimum to establish practices and see meaningful improvement. I can work full-time as a technical lead, part-time for specific guidance, or on a project basis for specific initiatives. Engagement models include full-time technical lead, part-time leadership, project-based leadership, mentoring and coaching, or architecture consulting. The model depends on your team size, needs, and goals."
       }
     ])
+
+    // Generate structured data with full service data (images, processSteps) for SEO
+    onMounted(() => {
+      const serviceData = {
+        title: 'Technical Leadership',
+        description: overviewContent.value.what,
+        url: '/services/technical-leadership',
+        serviceType: 'Technical Leadership',
+        heroImage: assetPath('/assets/img/services/leadership-hero.jpg'),
+        processImage: assetPath('/assets/img/services/leadership-process.jpg'),
+        ctaImage: assetPath('/assets/img/services/leadership-cta.jpg'),
+        bannerImages: overviewBannerImages.value,
+        processSteps: processSteps.value.map(step => ({
+          title: step.title,
+          description: step.description,
+          text: step.description
+        }))
+      }
+      generateServicePageStructuredData(serviceData, faqItems.value)
+    })
 
     return {
       heroBenefits,

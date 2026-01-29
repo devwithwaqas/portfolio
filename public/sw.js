@@ -1,7 +1,7 @@
 // Service Worker Version - AUTO-GENERATED ON BUILD (from git commit hash)
 // This ensures old service workers are automatically unregistered
 // Version is automatically updated by scripts/generate-sw-version.js during build
-const SERVICE_WORKER_VERSION = '12345'
+const SERVICE_WORKER_VERSION = '123451'
 const CACHE_VERSION = `portfolio-static-${SERVICE_WORKER_VERSION}`
 const CORE_ASSETS = [
   '/portfolio/',

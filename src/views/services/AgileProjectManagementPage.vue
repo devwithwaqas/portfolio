@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import ServiceHeroSection from '@/components/services/ServiceHeroSection.vue'
 import ServiceOverview from '@/components/services/ServiceOverview.vue'
 import ServiceCapabilities from '@/components/services/ServiceCapabilities.vue'
@@ -82,6 +82,7 @@ import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
+import { generateServicePageStructuredData } from '@/utils/structuredData.js'
 
 export default {
   name: 'AgileProjectManagementPage',
@@ -383,6 +384,26 @@ export default {
         answer: "Agile project management is typically an ongoing engagement, usually 3+ months minimum to establish practices and see meaningful improvement. I can work full-time as a Scrum Master, part-time for specific guidance, or on a project basis for specific initiatives. Engagement models include full-time Scrum Master, part-time agile coach, project-based management, agile training and coaching, or hybrid models. The model depends on your team size, needs, and goals."
       }
     ])
+
+    // Generate structured data with full service data (images, processSteps) for SEO
+    onMounted(() => {
+      const serviceData = {
+        title: 'Agile Project Management',
+        description: overviewContent.value.what,
+        url: '/services/agile-project-management',
+        serviceType: 'Agile Project Management',
+        heroImage: assetPath('/assets/img/services/agile-hero.jpg'),
+        processImage: assetPath('/assets/img/services/agile-process.jpg'),
+        ctaImage: assetPath('/assets/img/services/agile-cta.jpg'),
+        bannerImages: overviewBannerImages.value,
+        processSteps: processSteps.value.map(step => ({
+          title: step.title,
+          description: step.description,
+          text: step.description
+        }))
+      }
+      generateServicePageStructuredData(serviceData, faqItems.value)
+    })
 
     return {
       heroBenefits,

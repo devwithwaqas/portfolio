@@ -34,6 +34,82 @@
   <meta name="llm-indexing" content="allowed">
   <link rel="alternate" type="text/plain" href="/llms.txt" title="AI Search Engine Index">
   
+  <!-- CRITICAL SEO: Static Structured Data - Visible to Google without JavaScript -->
+  <!-- This ensures Google sees structured data even if JS doesn't execute -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://waqasahmad-portfolio.web.app/#person",
+        "name": "Waqas Ahmad",
+        "givenName": "Waqas",
+        "familyName": "Ahmad",
+        "jobTitle": "Senior Software Engineer & Technical Lead",
+        "description": "Software Engineering Consultant & Specialist with 17+ years of experience. Best Software Engineering Expert offering professional software engineering services and IT services. IT Engineering Consultant specializing in .NET, Azure Cloud, microservices, and enterprise architecture.",
+        "url": "https://waqasahmad-portfolio.web.app/",
+        "image": "https://waqasahmad-portfolio.web.app/assets/img/waqas-profile-hoodie.jpg",
+        "email": "devwithwaqas@gmail.com",
+        "sameAs": [
+          "https://www.linkedin.com/in/AhmadWaqas786/",
+          "https://github.com/AhmadWaqas786"
+        ],
+        "knowsAbout": [".NET Core", "Azure Cloud", "Microservices", "Angular", "Vue.js", "SQL Server", "Enterprise Architecture", "Technical Leadership"],
+        "hasOccupation": {
+          "@type": "Occupation",
+          "name": "Senior Software Engineer",
+          "occupationalCategory": "15-1252.00"
+        },
+        "workLocation": {
+          "@type": "Place",
+          "name": "Remote",
+          "description": "Available for remote work in USA, Europe, and globally"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "University of Engineering and Technology Lahore",
+          "sameAs": "https://www.uet.edu.pk/"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://waqasahmad-portfolio.web.app/#website",
+        "url": "https://waqasahmad-portfolio.web.app/",
+        "name": "Waqas Ahmad - Software Engineering Consultant Portfolio",
+        "description": "Professional portfolio of Waqas Ahmad, Software Engineering Consultant with 17+ years of experience",
+        "publisher": {"@id": "https://waqasahmad-portfolio.web.app/#person"},
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://waqasahmad-portfolio.web.app/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://waqasahmad-portfolio.web.app/#service",
+        "name": "Waqas Ahmad - Software Engineering Services",
+        "description": "Professional software engineering services including Full Stack Development, Azure Cloud Architecture, Technical Leadership, Microservices Architecture, and Database Design",
+        "provider": {"@id": "https://waqasahmad-portfolio.web.app/#person"},
+        "serviceType": ["Software Engineering", "IT Consulting", "Technical Leadership", "Cloud Architecture"],
+        "areaServed": ["United States", "United Kingdom", "Germany", "Netherlands", "Global"],
+        "availableChannel": {
+          "@type": "ServiceChannel",
+          "serviceType": "Remote Work",
+          "availableLanguage": "English"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://waqasahmad-portfolio.web.app/#breadcrumb",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://waqasahmad-portfolio.web.app/"}
+        ]
+      }
+    ]
+  }
+  </script>
+  
   <!-- Canonical URL - CRITICAL: Points to Firebase as the canonical version -->
   <link rel="canonical" href="https://waqasahmad-portfolio.web.app/">
   
@@ -64,9 +140,6 @@
   <meta name="twitter:title" content="Waqas Ahmad - Software Engineering Consultant & Specialist | Best Software Engineering Expert | IT Engineering Consultant">
   <meta name="twitter:description" content="Hire Waqas Ahmad - Software Engineering Consultant & Software Engineering Specialist. UET Lahore graduate. Best Software Engineering Expert with 17+ years offering professional software engineering services and IT services. IT Engineering Consultant available for remote work globally.">
   <meta name="twitter:image" content="https://waqasahmad-portfolio.web.app/assets/img/waqas-profile-hoodie.jpg">
-  
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://waqasahmad-portfolio.web.app/">
   
   <!-- Performance: Preconnect to external domains -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -474,22 +547,21 @@
     }
   </script>
   
-  <!-- Favicons - Multiple sizes for better compatibility -->
-  <!-- Firebase uses root path (/), GitHub Pages uses /portfolio/ -->
-  <!-- Using root paths for Firebase (primary deployment) -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon.png">
-  <link rel="icon" type="image/png" sizes="48x48" href="/assets/img/favicon.png">
-  <link rel="shortcut icon" href="/assets/img/favicon.png">
+  <!-- Favicons - Google Search requires favicon.ico at root, minimum 48x48 pixels -->
+  <!-- CRITICAL: favicon.ico MUST be at root level for Google to display in search results -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <!-- Modern browsers prefer PNG with explicit sizes -->
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <!-- Apple Touch Icons for iOS -->
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
   <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/apple-touch-icon-152.png">
   <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/apple-touch-icon-120.png">
   <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-touch-icon-76.png">
+  <!-- Web App Manifest -->
   <link rel="manifest" href="/site.webmanifest">
-  <!-- Fallback for older browsers and root favicon -->
-  <link rel="icon" href="/assets/img/favicon.png">
-  <!-- Root favicon.ico for maximum compatibility (Google prefers this) -->
-  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.png">
   
   <!-- Fonts - Load asynchronously with swap display to ensure fonts always load -->
   <!-- Google Fonts - Load synchronously so nav/fonts apply before app -->
@@ -522,9 +594,39 @@
   <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"></noscript>
   
   <!-- Swiper/Glide/GLightbox/AOS CSS removed - not used in Vue components -->
+  <!-- Microsoft Clarity: init via @microsoft/clarity in main.js (prod only) -->
 </head>
 <body>
   <div id="app"></div>
+  
+  <!-- SEO: Hidden content for search engines that don't execute JavaScript -->
+  <!-- This content is visually hidden but readable by crawlers -->
+  <noscript>
+    <div style="position:absolute;left:-9999px;">
+      <h1>Waqas Ahmad - Software Engineering Consultant & Technical Lead</h1>
+      <h2>Senior Software Engineer with 17+ Years Experience</h2>
+      <p>Waqas Ahmad is a Software Engineering Consultant and Software Engineering Specialist with over 17 years of experience in enterprise software development. UET Lahore graduate specializing in .NET Core, Azure Cloud, microservices architecture, and enterprise solutions.</p>
+      
+      <h2>Professional Services</h2>
+      <ul>
+        <li><strong>Full Stack Development</strong> - Vue.js, Angular, React, .NET Core backends</li>
+        <li><strong>Azure Cloud Architecture</strong> - Cloud migration, Azure services, DevOps</li>
+        <li><strong>Technical Leadership</strong> - Team management, code reviews, mentorship</li>
+        <li><strong>Microservices Architecture</strong> - Azure Service Fabric, Docker, Kubernetes</li>
+        <li><strong>Database Design</strong> - SQL Server, optimization, Entity Framework</li>
+        <li><strong>Mobile Development</strong> - iOS, Android, cross-platform</li>
+      </ul>
+      
+      <h2>Key Skills</h2>
+      <p>.NET Core, C#, Azure Cloud, SQL Server, Angular, Vue.js, Microservices, Docker, Kubernetes, Azure Service Fabric, Entity Framework, REST APIs, CI/CD, DevOps</p>
+      
+      <h2>Availability</h2>
+      <p>Available for remote work in USA, Europe, and globally. Flexible timezone (EST, PST, GMT, CET). Worked with Fortune 500 companies worldwide.</p>
+      
+      <h2>Contact</h2>
+      <p>Email: devwithwaqas@gmail.com | LinkedIn: linkedin.com/in/AhmadWaqas786 | GitHub: github.com/AhmadWaqas786</p>
+    </div>
+  </noscript>
   
   <!-- CRITICAL: Inline hero image for instant LCP on mobile -->
   <!-- Positioned absolutely within hero section when Vue mounts -->

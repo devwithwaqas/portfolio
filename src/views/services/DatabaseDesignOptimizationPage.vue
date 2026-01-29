@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import ServiceHeroSection from '@/components/services/ServiceHeroSection.vue'
 import ServiceOverview from '@/components/services/ServiceOverview.vue'
 import ServiceCapabilities from '@/components/services/ServiceCapabilities.vue'
@@ -82,6 +82,7 @@ import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
+import { generateServicePageStructuredData } from '@/utils/structuredData.js'
 
 export default {
   name: 'DatabaseDesignOptimizationPage',
@@ -394,6 +395,26 @@ export default {
         answer: "A typical database optimization project takes 2-6 weeks, depending on complexity, database size, and scope of optimization. Simple query optimization might take 1-2 weeks, while comprehensive database redesign and optimization can take 4-6 weeks. The timeline includes assessment, design, implementation, testing, and documentation phases."
       }
     ])
+
+    // Generate structured data with full service data (images, processSteps) for SEO
+    onMounted(() => {
+      const serviceData = {
+        title: 'Database Design & Optimization',
+        description: overviewContent.value.what,
+        url: '/services/database-design-optimization',
+        serviceType: 'Database Design & Optimization',
+        heroImage: assetPath('/assets/img/services/database-hero.jpg'),
+        processImage: assetPath('/assets/img/services/database-process.jpg'),
+        ctaImage: assetPath('/assets/img/services/database-cta.jpg'),
+        bannerImages: overviewBannerImages.value,
+        processSteps: processSteps.value.map(step => ({
+          title: step.title,
+          description: step.description,
+          text: step.description
+        }))
+      }
+      generateServicePageStructuredData(serviceData, faqItems.value)
+    })
 
     return {
       heroBenefits,

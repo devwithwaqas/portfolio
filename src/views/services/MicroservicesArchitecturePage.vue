@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import ServiceHeroSection from '@/components/services/ServiceHeroSection.vue'
 import ServiceOverview from '@/components/services/ServiceOverview.vue'
 import ServiceCapabilities from '@/components/services/ServiceCapabilities.vue'
@@ -82,6 +82,7 @@ import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
+import { generateServicePageStructuredData } from '@/utils/structuredData.js'
 
 export default {
   name: 'MicroservicesArchitecturePage',
@@ -395,6 +396,26 @@ export default {
         answer: "A typical microservices implementation takes 6-12 weeks, depending on complexity, number of services, and whether it's a new build or migration. Simple microservices applications might take 4-6 weeks, while complex enterprise migrations can take 12-16 weeks. The timeline includes assessment, architecture design, infrastructure setup, service development, integration, testing, and deployment."
       }
     ])
+
+    // Generate structured data with full service data (images, processSteps) for SEO
+    onMounted(() => {
+      const serviceData = {
+        title: 'Microservices Architecture',
+        description: overviewContent.value.what,
+        url: '/services/microservices-architecture',
+        serviceType: 'Microservices Architecture',
+        heroImage: assetPath('/assets/img/services/microservices-hero.jpg'),
+        processImage: assetPath('/assets/img/services/microservices-process.jpg'),
+        ctaImage: assetPath('/assets/img/services/microservices-cta.jpg'),
+        bannerImages: overviewBannerImages.value,
+        processSteps: processSteps.value.map(step => ({
+          title: step.title,
+          description: step.description,
+          text: step.description
+        }))
+      }
+      generateServicePageStructuredData(serviceData, faqItems.value)
+    })
 
     return {
       heroBenefits,

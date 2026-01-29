@@ -82,6 +82,8 @@ import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
+import { generateServicePageStructuredData } from '@/utils/structuredData.js'
+import { onMounted } from 'vue'
 
 export default {
   name: 'FullStackDevelopmentPage',
@@ -416,6 +418,28 @@ export default {
         technologies: ['.NET Core', 'Angular', 'Azure', 'SQL Server']
       }
     ])
+
+    // Generate structured data with full service data (images, processSteps) for SEO
+    onMounted(() => {
+      const serviceData = {
+        title: 'Full Stack Development',
+        description: overviewContent.value.what,
+        url: '/services/full-stack-development',
+        serviceType: 'Full Stack Development',
+        heroImage: assetPath('/assets/img/services/full-stack-hero.jpg'),
+        processImage: assetPath('/assets/img/services/full-stack-process.jpg'),
+        ctaImage: assetPath('/assets/img/services/full-stack-cta.jpg'),
+        bannerImages: overviewBannerImages.value,
+        processSteps: processSteps.value.map(step => ({
+          title: step.title,
+          description: step.description,
+          text: step.description
+        }))
+      }
+      
+      // Generate structured data with full data (images, processSteps, FAQs)
+      generateServicePageStructuredData(serviceData, faqItems.value)
+    })
 
     return {
       heroBenefits,

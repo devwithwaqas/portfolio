@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import ServiceHeroSection from '@/components/services/ServiceHeroSection.vue'
 import ServiceOverview from '@/components/services/ServiceOverview.vue'
 import ServiceCapabilities from '@/components/services/ServiceCapabilities.vue'
@@ -82,6 +82,7 @@ import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
 import { assetPath } from '@/utils/assetPath.js'
+import { generateServicePageStructuredData } from '@/utils/structuredData.js'
 
 export default {
   name: 'AzureCloudArchitecturePage',
@@ -407,6 +408,26 @@ export default {
         answer: "Yes, I have extensive experience with hybrid cloud architectures that combine on-premises infrastructure with Azure cloud services. This includes Azure Arc for managing on-premises resources, Azure ExpressRoute for private connectivity, and designing solutions that seamlessly integrate on-premises and cloud components based on your business requirements."
       }
     ])
+
+    // Generate structured data with full service data (images, processSteps) for SEO
+    onMounted(() => {
+      const serviceData = {
+        title: 'Azure Cloud Architecture',
+        description: overviewContent.value.what,
+        url: '/services/azure-cloud-architecture',
+        serviceType: 'Azure Cloud Architecture',
+        heroImage: assetPath('/assets/img/services/azure-hero.jpg'),
+        processImage: assetPath('/assets/img/services/azure-process.jpg'),
+        ctaImage: assetPath('/assets/img/services/azure-cta.jpg'),
+        bannerImages: overviewBannerImages.value,
+        processSteps: processSteps.value.map(step => ({
+          title: step.title,
+          description: step.description,
+          text: step.description
+        }))
+      }
+      generateServicePageStructuredData(serviceData, faqItems.value)
+    })
 
     return {
       heroBenefits,

@@ -59,6 +59,9 @@ temp/
 # Performance reports
 performance-report.html
 
+# Crawl / analyze cache (googlebot HTML)
+scripts/.cache/
+
 # Temporary analysis and debugging files
 *-analysis-report.json
 *-cleanup-summary.md

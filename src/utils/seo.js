@@ -1395,6 +1395,7 @@ export function getHomePageSEO() {
     location ? [location] : []
   )
 
+  // Intentionally long title/description for keyword coverage - Bing/Google truncate in display but still index full content
   return {
     title: `${fullName} - Software Engineering Consultant & Specialist | Best Software Engineering Expert | IT Engineering Consultant | ${experience}+ Years`,
     description: `Hire ${fullName} - Software Engineering Consultant & Software Engineering Specialist with ${experience}+ years of experience. Best Software Engineering Expert offering professional software engineering services. IT Engineering Consultant specializing in .NET, Azure Cloud, microservices, and enterprise architecture. Available for remote work in USA, Europe, and globally. Flexible timezone (EST, PST, GMT, CET). Worked with Fortune 500 companies worldwide. Contact for remote consulting, freelance, and contract projects.`,

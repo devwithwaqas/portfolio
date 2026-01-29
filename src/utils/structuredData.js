@@ -1095,6 +1095,125 @@ export function generateProjectPageStructuredData(projectData) {
 }
 
 /**
+ * Generate ImageObject schema for service images (for image search)
+ */
+export function generateServiceImageObjectSchema(serviceData) {
+  const title = serviceData.title || ''
+  const serviceUrl = `${SITE_URL}${serviceData.url}`
+  
+  // Get service images (hero, process, CTA, banners)
+  const images = []
+  
+  // Hero image
+  if (serviceData.heroImage) {
+    images.push({
+      '@type': 'ImageObject',
+      '@id': `${serviceUrl}#hero-image`,
+      url: serviceData.heroImage.startsWith('http') ? serviceData.heroImage : `${SITE_URL}${serviceData.heroImage.replace(/^\//, '')}`,
+      caption: `${title} Services - Remote Consultant - Available USA, Europe, Global - 17+ Years Experience`,
+      description: `Professional ${title.toLowerCase()} services by Waqas Ahmad, Senior Software Engineer with 17+ years of experience. Available for remote work globally.`,
+      contentUrl: serviceData.heroImage.startsWith('http') ? serviceData.heroImage : `${SITE_URL}${serviceData.heroImage.replace(/^\//, '')}`,
+      license: `${SITE_URL}`,
+      creator: {
+        '@type': 'Person',
+        name: APP_CONFIG.fullName
+      }
+    })
+  }
+  
+  // Process image
+  if (serviceData.processImage) {
+    images.push({
+      '@type': 'ImageObject',
+      '@id': `${serviceUrl}#process-image`,
+      url: serviceData.processImage.startsWith('http') ? serviceData.processImage : `${SITE_URL}${serviceData.processImage.replace(/^\//, '')}`,
+      caption: `${title} Service Process Flow - Remote Consultant`,
+      description: `Process and workflow for ${title.toLowerCase()} services.`,
+      contentUrl: serviceData.processImage.startsWith('http') ? serviceData.processImage : `${SITE_URL}${serviceData.processImage.replace(/^\//, '')}`,
+      license: `${SITE_URL}`,
+      creator: {
+        '@type': 'Person',
+        name: APP_CONFIG.fullName
+      }
+    })
+  }
+  
+  // CTA image
+  if (serviceData.ctaImage) {
+    images.push({
+      '@type': 'ImageObject',
+      '@id': `${serviceUrl}#cta-image`,
+      url: serviceData.ctaImage.startsWith('http') ? serviceData.ctaImage : `${SITE_URL}${serviceData.ctaImage.replace(/^\//, '')}`,
+      caption: `Get Started with ${title} Services - Remote Consultant`,
+      description: `Contact for ${title.toLowerCase()} services. Available for remote work in USA, Europe, and globally.`,
+      contentUrl: serviceData.ctaImage.startsWith('http') ? serviceData.ctaImage : `${SITE_URL}${serviceData.ctaImage.replace(/^\//, '')}`,
+      license: `${SITE_URL}`,
+      creator: {
+        '@type': 'Person',
+        name: APP_CONFIG.fullName
+      }
+    })
+  }
+  
+  // Banner images
+  if (serviceData.bannerImages && Array.isArray(serviceData.bannerImages)) {
+    serviceData.bannerImages.forEach((bannerImg, index) => {
+      if (bannerImg) {
+        images.push({
+          '@type': 'ImageObject',
+          '@id': `${serviceUrl}#banner-image-${index + 1}`,
+          url: bannerImg.startsWith('http') ? bannerImg : `${SITE_URL}${bannerImg.replace(/^\//, '')}`,
+          caption: `${title} Services - Banner ${index + 1} - Remote Consultant`,
+          description: `${title} services showcase and capabilities.`,
+          contentUrl: bannerImg.startsWith('http') ? bannerImg : `${SITE_URL}${bannerImg.replace(/^\//, '')}`,
+          license: `${SITE_URL}`,
+          creator: {
+            '@type': 'Person',
+            name: APP_CONFIG.fullName
+          }
+        })
+      }
+    })
+  }
+  
+  return images
+}
+
+/**
+ * Generate HowTo schema for service process (for featured snippets)
+ */
+export function generateServiceHowToSchema(serviceData, processSteps = []) {
+  const title = serviceData.title || ''
+  const fullName = APP_CONFIG.fullName
+  
+  if (!processSteps || processSteps.length === 0) {
+    return null
+  }
+  
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    '@id': `${SITE_URL}${serviceData.url}#howto`,
+    name: `How to Hire ${fullName} for ${title} Services`,
+    description: `Learn how to engage ${fullName} for professional ${title.toLowerCase()} services. Step-by-step process for hiring a remote Senior Software Engineer with 17+ years of experience.`,
+    image: serviceData.heroImage ? (serviceData.heroImage.startsWith('http') ? serviceData.heroImage : `${SITE_URL}${serviceData.heroImage.replace(/^\//, '')}`) : `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`,
+    totalTime: processSteps.length > 0 ? `PT${processSteps.length * 2}W` : 'PT8W', // 2 weeks per step
+    estimatedCost: {
+      '@type': 'MonetaryAmount',
+      currency: 'USD',
+      value: 'Contact for quote'
+    },
+    step: processSteps.map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.title || step.name || `Step ${index + 1}`,
+      text: step.description || step.text || '',
+      url: `${SITE_URL}${serviceData.url}#step-${index + 1}`
+    }))
+  }
+}
+
+/**
  * Generate structured data for service page
  */
 export function generateServicePageStructuredData(serviceData, faqItems = []) {
@@ -1106,6 +1225,20 @@ export function generateServicePageStructuredData(serviceData, faqItems = []) {
   ])
   
   const schemas = [service, breadcrumbs]
+  
+  // Add ImageObject schemas for service images (for image search)
+  const serviceImages = generateServiceImageObjectSchema(serviceData)
+  if (serviceImages && serviceImages.length > 0) {
+    schemas.push(...serviceImages)
+  }
+  
+  // Add HowTo schema for service process (for featured snippets)
+  if (serviceData.processSteps && serviceData.processSteps.length > 0) {
+    const howTo = generateServiceHowToSchema(serviceData, serviceData.processSteps)
+    if (howTo) {
+      schemas.push(howTo)
+    }
+  }
   
   // Add FAQ schema if FAQs exist
   if (faqItems && faqItems.length > 0) {
@@ -1131,7 +1264,10 @@ export default {
   generateServiceSchema,
   generateOfferSchema,
   generateJobPostingSchema,
+  generateJobPostingSchema,
   generateHomePageStructuredData,
   generateProjectPageStructuredData,
-  generateServicePageStructuredData
+  generateServicePageStructuredData,
+  generateServiceImageObjectSchema,
+  generateServiceHowToSchema
 }

@@ -36,7 +36,27 @@ User-agent: *
 Allow: /
 Allow: /projects/
 Allow: /services/
+Allow: /assets/
+Allow: /favicon.ico
+Allow: /favicon-48x48.png
+Allow: /favicon-32x32.png
+Allow: /favicon-16x16.png
+Allow: /site.webmanifest
+Allow: /sitemap.xml
 Allow: /llms.txt
+Allow: /cbe5cb9f88984691af7d581e94e409f6.txt
+
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: Bingbot
+Allow: /
+Allow: /projects/
+Allow: /services/
+Allow: /assets/
+Allow: /sitemap.xml
+Allow: /llms.txt
+Allow: /cbe5cb9f88984691af7d581e94e409f6.txt
 
 Disallow: /admin/
 Disallow: /api/

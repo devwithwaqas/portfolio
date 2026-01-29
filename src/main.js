@@ -6,6 +6,7 @@ import { trackPageView } from './utils/analytics.js'
 import { handleError } from './utils/errorHandler.js'
 import { initNotifications } from './utils/notifications.js'
 import { initInstallPrompt } from './utils/installPrompt.js'
+import { initClarity } from './utils/clarity.js'
 import { logError, shouldPreventReload, recordReloadAttempt, getErrorLog } from './utils/errorTracker.js'
 
 // Log each app boot + pagehide to dev server (survives reloads)
@@ -200,6 +201,11 @@ if (import.meta.env.PROD) {
   initInstallPrompt()
 }
 
+// Microsoft Clarity – heatmaps, session recordings (Bing Webmaster integration)
+if (import.meta.env.PROD) {
+  initClarity()
+}
+
 // Initialize notifications (request permission after user engagement)
 // Only in production - notifications disabled in dev mode
 if (import.meta.env.PROD) {
@@ -228,7 +234,7 @@ router.isReady().then(() => {
 // Expected service worker version - AUTO-GENERATED ON BUILD (from git commit hash)
 // Version is automatically updated by scripts/generate-sw-version.js during build
 // MUST MATCH the version in public/sw.js
-const EXPECTED_SW_VERSION = '12345'
+const EXPECTED_SW_VERSION = '123451'
 
 if ('serviceWorker' in navigator) {
   // CRITICAL: In dev mode, unregister ALL service workers immediately (not on load)

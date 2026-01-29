@@ -9,8 +9,9 @@
     "build": "node scripts/generate-sw-version.js && vite build && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
     "prebuild:firebase": "node scripts/cleanup-dist.js",
     "prebuild:firebase:dev": "node scripts/cleanup-dist.js",
-    "build:firebase": "node scripts/generate-sw-version.js && vite build --mode firebase && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/write-robots-firebase.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
+    "build:firebase": "node scripts/generate-sw-version.js && node scripts/generate-favicon-ico.js && vite build --mode firebase && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/write-robots-firebase.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
     "build:firebase:dev": "node scripts/generate-sw-version.js && vite build --mode firebase-dev && node scripts/copy-404.js && node scripts/create-nojekyll.js && node scripts/create-headers.js && node scripts/copy-llms-txt.js && node scripts/generate-sitemap.js && node scripts/write-robots-firebase.js && node scripts/validate-sitemap.js && node scripts/generate-sw.js",
+    "prerender": "node scripts/prerender-routes.js",
     "deploy:firebase": "node scripts/deploy-firebase.js",
     "deploy:firebase:dev": "node scripts/deploy-firebase.js --dev",
     "deploy:firebase:prod": "node scripts/deploy-firebase.js",
@@ -28,10 +29,17 @@
     "generate-icon-sizes": "node scripts/generate-icon-sizes.js",
     "generate-mobile-hero": "node scripts/generate-mobile-hero-image.js",
     "check-performance": "node scripts/check-performance.js",
-    "check-performance:url": "node scripts/check-performance.js"
+    "check-performance:url": "node scripts/check-performance.js",
+    "crawl-as-googlebot": "node scripts/crawl-as-googlebot.js",
+    "analyze": "node scripts/analyze-seo.js",
+    "analyze:crawl": "node scripts/crawl-as-googlebot.js --save-html=scripts/.cache/googlebot-crawl.html && node scripts/analyze-seo.js --html=scripts/.cache/googlebot-crawl.html",
+    "submit-bing": "node scripts/submit-bing-indexnow.js",
+    "verify-urls": "node scripts/verify-urls-indexing.js",
+    "run-checks": "powershell -ExecutionPolicy Bypass -File scripts/run-checks.ps1"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@microsoft/clarity": "^1.0.2",
     "@panzoom/panzoom": "^4.6.0",
     "chart.js": "^4.5.0",
     "swiper": "^12.0.2",
@@ -41,12 +49,15 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
+    "@unhead/vue": "^2.1.2",
     "@vitejs/plugin-vue": "^5.0.0",
+    "png-to-ico": "^3.0.1",
     "puppeteer": "^24.36.0",
     "sass": "^1.93.2",
     "sharp": "^0.34.5",
     "vite": "^5.4.0",
-    "vite-plugin-remove-console": "^2.2.0"
+    "vite-plugin-remove-console": "^2.2.0",
+    "vite-ssg": "^28.2.2"
   },
   "keywords": [
     "portfolio",
