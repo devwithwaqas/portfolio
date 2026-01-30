@@ -29,6 +29,7 @@
 <script>
 import { generateBreadcrumbSchema, injectStructuredData } from '../../utils/structuredData.js'
 import { SITE_URL } from '../../config/constants.js'
+import { navigateToSection } from '../../utils/scrollToSection.js'
 
 export default {
   name: 'Breadcrumbs',
@@ -57,9 +58,13 @@ export default {
       return this.currentUrl || SITE_URL
     },
     sectionId() {
-      // Extract section ID from parentLink (e.g., '/#portfolio' -> 'portfolio')
-      if (this.parentLink && this.parentLink.includes('#')) {
-        return this.parentLink.split('#')[1]
+      // Extract section ID from parentLink (e.g., '/#portfolio' -> 'portfolio', '#portfolio' -> 'portfolio')
+      if (this.parentLink) {
+        // Handle both '/#section' and '#section' formats
+        const hashIndex = this.parentLink.indexOf('#')
+        if (hashIndex !== -1) {
+          return this.parentLink.substring(hashIndex + 1)
+        }
       }
       return null
     }
@@ -67,65 +72,9 @@ export default {
   methods: {
     navigateToSection(event) {
       event.preventDefault()
-      
       if (!this.sectionId) return
-      
-      // Always scroll without changing URL - no hash fragments
-      if (this.$route.path !== '/') {
-        // If not on home page, navigate to home first, then scroll
-        this.$router.push('/').then(() => {
-          this.$nextTick(() => {
-            this.scrollToSectionElement(this.sectionId)
-          })
-        })
-      } else {
-        // Already on home page - scroll directly
-        this.scrollToSectionElement(this.sectionId)
-      }
-    },
-    
-    scrollToSectionElement(sectionId) {
-      const element = document.getElementById(sectionId)
-      if (!element) {
-        // Element not found - retry a few times
-        let retryCount = 0
-        const maxRetries = 10
-        const retryInterval = setInterval(() => {
-          retryCount++
-          const retryElement = document.getElementById(sectionId)
-          if (retryElement || retryCount >= maxRetries) {
-            clearInterval(retryInterval)
-            if (retryElement) {
-              this.performScroll(retryElement)
-            }
-          }
-        }, 100)
-        return
-      }
-      
-      this.performScroll(element)
-    },
-    
-    performScroll(element) {
-      // Use requestAnimationFrame to ensure layout is stable
-      // OPTIMIZATION: Use offsetTop instead of getBoundingClientRect to avoid forced reflow
-      // This matches the Navigation component's approach for consistency
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          // offsetTop doesn't cause forced reflow (unlike getBoundingClientRect)
-          const elementOffsetTop = element.offsetTop
-          const headerOffset = 120
-          const offsetPosition = elementOffsetTop - headerOffset
-          
-          // Ensure we're scrolling to a valid position
-          if (offsetPosition >= 0) {
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: 'smooth'
-            })
-          }
-        })
-      })
+      // Use centralized navigation utility for uniform behavior
+      navigateToSection(this.$router, this.sectionId)
     }
   },
   mounted() {

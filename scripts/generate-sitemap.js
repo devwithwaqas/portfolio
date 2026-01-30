@@ -13,13 +13,13 @@ const fs = require('fs')
 const path = require('path')
 
 // Detect build mode from environment or check dist/index.html for base path
-// Firebase builds use base="/", GitHub Pages uses base="/portfolio/"
+// Primary site: Firebase (waqasahmad-portfolio). GitHub Pages was legacy and redirects to Firebase.
 const DIST_DIR = path.resolve(__dirname, '../dist')
 const PUBLIC_DIR = path.resolve(__dirname, '../public')
 const ROUTER_FILE = path.resolve(__dirname, '../src/router/index.js')
 
-// Determine SITE_URL based on build mode
-let BASE_URL = 'https://devwithwaqas.github.io/portfolio'
+// Default to Firebase – single source of truth. No GitHub Pages default.
+let BASE_URL = 'https://waqasahmad-portfolio.web.app'
 
 // Priority 1: Explicit environment variable
 if (process.env.FIREBASE_SITE_URL) {
@@ -52,18 +52,14 @@ else {
         BASE_URL = BASE_URL.replace(/\/$/, '')
         console.log(`[Sitemap] Firebase mode from env, using: ${BASE_URL}`)
       } else {
-        console.log(`[Sitemap] Defaulting to GitHub Pages: ${BASE_URL}`)
+        BASE_URL = (process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app').replace(/\/$/, '')
+        console.log(`[Sitemap] Defaulting to Firebase: ${BASE_URL}`)
       }
     }
   } else {
-    // dist/index.html doesn't exist yet - check environment
-    if (process.env.MODE === 'firebase' || process.env.NODE_ENV === 'firebase') {
-      BASE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
-      BASE_URL = BASE_URL.replace(/\/$/, '')
-      console.log(`[Sitemap] Firebase mode from env (no dist yet), using: ${BASE_URL}`)
-      } else {
-        console.log(`[Sitemap] Defaulting to Firebase (no dist/index.html): ${BASE_URL}`)
-      }
+    // dist/index.html doesn't exist yet - use Firebase
+    BASE_URL = (process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app').replace(/\/$/, '')
+    console.log(`[Sitemap] No dist yet, using Firebase: ${BASE_URL}`)
   }
 }
 

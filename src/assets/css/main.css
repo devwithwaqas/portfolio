@@ -223,6 +223,11 @@ h6 {
   /* Reserve ~8 viewport heights for typical home page content */
 }
 
+/* Short pages (e.g. Privacy): no forced min-height so footer sits under content */
+.main-content main:has(.privacy-page) {
+  min-height: 0;
+}
+
 /* CRITICAL MOBILE CLS FIX: Prevent 1.000 CLS on mobile */
 @media (pointer: coarse) or (max-width: 768px) {
   .main-content {
@@ -247,6 +252,10 @@ h6 {
     box-sizing: border-box;
   }
   
+  .main-content main:has(.privacy-page) {
+    min-height: 0;
+  }
+
   .main-content main {
     /* Reserve space for content */
     min-height: calc(100vh * 8);

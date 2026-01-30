@@ -1,11 +1,11 @@
 // Service Worker Version - AUTO-GENERATED ON BUILD (from git commit hash)
 // This ensures old service workers are automatically unregistered
 // Version is automatically updated by scripts/generate-sw-version.js during build
-const SERVICE_WORKER_VERSION = '123451'
+const SERVICE_WORKER_VERSION = '123456'
 const CACHE_VERSION = `portfolio-static-${SERVICE_WORKER_VERSION}`
 const CORE_ASSETS = [
-  '/portfolio/',
-  '/portfolio/index.html'
+  '/',
+  '/index.html'
 ]
 
 // Store version in service worker scope for client-side checks
@@ -87,7 +87,7 @@ self.addEventListener('push', (event) => {
   console.log('[SW] Push event received:', event)
   
   let notificationData = {
-    title: 'Waqas Ahmad - Portfolio',
+    title: 'Waqas Ahmad',
     body: 'You have a new update!',
     icon: '/assets/img/favicon-192.png',
     badge: '/assets/img/favicon.png',

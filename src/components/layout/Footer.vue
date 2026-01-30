@@ -191,6 +191,10 @@
         <p class="copyright-text">
           © 2024 <strong class="footer-copyright-name">{{ fullName }}</strong>. All rights reserved.
         </p>
+        <p class="footer-disclosure txt-p-sm">
+          We use Google Analytics and Microsoft Clarity for analytics.
+          <router-link to="/privacy" class="footer-privacy-link">Privacy</router-link>
+        </p>
       </div>
     </div>
   </footer>
@@ -198,6 +202,7 @@
 
 <script>
 import { APP_CONFIG } from '../../config/constants.js'
+import { navigateToSection } from '../../utils/scrollToSection.js'
 
 export default {
   name: 'Footer',
@@ -216,49 +221,8 @@ export default {
       if (event) {
         event.preventDefault()
       }
-      
-      // Navigate to home if not already there
-      if (this.$route.path !== '/') {
-        this.$router.push('/').then(() => {
-          this.$nextTick(() => {
-            const element = document.getElementById(sectionId)
-            if (element) {
-              const headerOffset = 100
-              // OPTIMIZATION: Read layout inside RAF to avoid forced reflow
-              requestAnimationFrame(() => {
-                // Batch layout reads in one synchronous operation
-                const elementPosition = element.getBoundingClientRect().top
-                const scrollY = window.pageYOffset || window.scrollY || 0
-                const offsetPosition = elementPosition + scrollY - headerOffset
-                
-                // Scroll in next frame
-                requestAnimationFrame(() => {
-                  window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                  })
-                })
-              })
-            }
-          })
-        })
-      } else {
-        // Already on home page, just scroll
-        const element = document.getElementById(sectionId)
-        if (element) {
-          const headerOffset = 100
-          // Read layout BEFORE RAF
-          const elementPosition = element.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-          
-          requestAnimationFrame(() => {
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: 'smooth'
-            })
-          })
-        }
-      }
+      // Use centralized navigation utility for uniform behavior
+      navigateToSection(this.$router, sectionId)
     },
     scrollToContact() {
       this.scrollToSection('contact')
@@ -701,6 +665,23 @@ export default {
 .footer-copyright-name {
   color: #ffffff;
   text-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+}
+
+.footer-disclosure {
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0.5rem 0 0;
+  line-height: 1.5;
+}
+
+.footer-privacy-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer-privacy-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 .footer-bootstrap-link {

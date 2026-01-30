@@ -315,6 +315,11 @@ const routes = [
     path: '/resume',
     redirect: '/'
   },
+  {
+    path: '/privacy',
+    name: 'Privacy',
+    component: () => loadComponent(() => import('../views/Privacy.vue'))
+  },
   // Catch-all route for 404 errors - must be last
   {
     path: '/:pathMatch(.*)*',
@@ -444,24 +449,18 @@ const router = createRouter({
       return { top: 0, behavior: 'instant' }
     }
 
-    // For home page with return section, let Home.vue handle scrolling
+    // For home page with hash or return section, don't scroll to top
+    // Let Home.vue handle scrolling after content renders
+    // For home page: ALWAYS scroll to top first (unified behavior like breadcrumbs)
+    // Then Home.vue will scroll to the target section after content renders
     if (to.path === '/') {
-      const returnSection = getReturnSection()
-      if (returnSection) {
-        // Don't scroll here - Home.vue will handle it after content renders
-        return { top: 0, behavior: 'auto' }
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'instant' })
       }
+      return { top: 0, behavior: 'instant' }
     }
 
-    // Handle hash links - but let Home.vue handle the actual scrolling
-    // This ensures content is fully rendered before scrolling
-    if (to.hash && to.path === '/') {
-      // Don't scroll here - Home.vue will handle it after content renders
-      // This prevents scrolling before content is ready
-      return { top: 0, behavior: 'auto' }
-    }
-
-    // Default: scroll to top
+    // Default: scroll to top for all other routes
     return { top: 0, behavior: 'smooth' }
   }
 })
@@ -548,6 +547,13 @@ router.beforeEach((to, from, next) => {
     })
     // Generate structured data (FAQ will be added by component)
     generateServicePageStructuredData(serviceData, [])
+  } else if (to.name === 'Privacy') {
+    setPageSEO({
+      title: 'Privacy & Analytics | Waqas Ahmad',
+      description: 'Privacy and analytics disclosure: Google Analytics (GA4), Microsoft Clarity. What we collect, your choices, and how to contact us.',
+      keywords: ['privacy', 'analytics', 'Google Analytics', 'Microsoft Clarity'],
+      url: `${SITE_URL}${to.path}`
+    })
   } else if (to.name === 'NotFound') {
     // 404 page SEO
     setPageSEO({

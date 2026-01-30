@@ -53,6 +53,7 @@ import Testimonials from '../components/home/Testimonials.vue'
 import HomeFAQ from '../components/home/HomeFAQ.vue'
 import Contact from '../components/home/Contact.vue'
 import BackToTop from '../components/layout/BackToTop.vue'
+import { scrollToSection as scrollToSectionUtil } from '../utils/scrollToSection.js'
 
 export default {
   name: 'Home',
@@ -69,6 +70,99 @@ export default {
     HomeFAQ,
     Contact,
     BackToTop
+  },
+  data() {
+    return {
+      isScrollingToSection: false, // Flag to prevent double-scroll
+      lastScrolledSection: null, // Track last section to prevent duplicate scrolls
+      scrollTimeout: null // Timeout reference for cleanup
+    }
+  },
+  watch: {
+    // Watch for hash changes when navigating from other pages
+    '$route.hash'(newHash, oldHash) {
+      // Only process if hash actually changed and we're on home page
+      if (newHash && newHash !== oldHash && this.$route.path === '/') {
+        const sectionId = newHash.substring(1) // Remove '#'
+        this.handleHashNavigation(sectionId, 'hash-watcher')
+      } else if (!newHash && oldHash && this.$route.path === '/') {
+        // Hash was removed - clear flags
+        this.clearScrollFlags()
+      }
+    },
+    // Also watch for route path changes (when navigating from other pages to home)
+    '$route.path'(newPath, oldPath) {
+      // If we just navigated TO home from another page, check for hash
+      if (newPath === '/' && oldPath !== '/' && this.$route.hash) {
+        const sectionId = this.$route.hash.substring(1)
+        this.handleHashNavigation(sectionId, 'path-watcher')
+      }
+    }
+  },
+  methods: {
+    handleHashNavigation(sectionId, source) {
+      // Prevent double-scroll: if already scrolling to this section, ignore
+      if (this.isScrollingToSection && this.lastScrolledSection === sectionId) {
+        return
+      }
+      
+      const validSections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
+      if (!validSections.includes(sectionId)) {
+        return
+      }
+      
+      // Set flags to prevent duplicate scrolls
+      this.isScrollingToSection = true
+      this.lastScrolledSection = sectionId
+      
+      // Clear any existing timeout
+      if (this.scrollTimeout) {
+        clearTimeout(this.scrollTimeout)
+      }
+      
+      // Mark as pending in sessionStorage (for mounted() fallback)
+      try {
+        sessionStorage.setItem('home:hashSection', sectionId)
+        sessionStorage.setItem('home:scrollPending', 'true')
+      } catch (e) {
+        // Ignore storage errors
+      }
+      
+      // Unified behavior: show home at top briefly, then scroll to section
+      // path-watcher = from another page (user sees top then scroll); hash-watcher = same page
+      const delay = source === 'path-watcher' ? 250 : 100
+      
+      this.$nextTick(() => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            if (delay > 0) {
+              this.scrollTimeout = setTimeout(() => {
+                this.performScroll(sectionId)
+              }, delay)
+            } else {
+              this.performScroll(sectionId)
+            }
+          })
+        })
+      })
+    },
+    performScroll(sectionId) {
+      scrollToSectionUtil(sectionId)
+      
+      // Reset flags after scroll completes (smooth scroll takes ~500ms)
+      setTimeout(() => {
+        this.isScrollingToSection = false
+        this.clearScrollFlags()
+      }, 600)
+    },
+    clearScrollFlags() {
+      try {
+        sessionStorage.removeItem('home:scrollPending')
+        // Don't remove home:hashSection here - mounted() might need it
+      } catch (e) {
+        // Ignore storage errors
+      }
+    }
   },
   mounted() {
     const runWhenIdle = (callback) => {
@@ -139,78 +233,8 @@ export default {
       return
     }
 
-    // Helper function to scroll to a section with proper timing
-    const scrollToSection = (sectionId, retryCount = 0) => {
-      const maxRetries = 12
-      const element = document.getElementById(sectionId)
-      
-      if (!element) {
-        // Element not found - retry if we haven't exceeded max retries
-        if (retryCount < maxRetries) {
-          setTimeout(() => scrollToSection(sectionId, retryCount + 1), 150 * (retryCount + 1))
-        }
-        return
-      }
-      
-      // OPTIMIZATION: Batch all layout reads in a single RAF to avoid forced reflows
-      // Wait for layout to be stable - use multiple RAFs to ensure content is rendered
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          // BATCH ALL LAYOUT READS TOGETHER (single forced reflow)
-          // offsetTop doesn't force reflow, but getBoundingClientRect does
-          // Use offsetTop as primary (no reflow), only use getBoundingClientRect if needed
-          const elementOffsetTop = element.offsetTop
-          
-          // If offsetTop is 0 and we're not at the hero section, element might not be positioned yet
-          if (elementOffsetTop === 0 && sectionId !== 'hero' && retryCount < maxRetries) {
-            setTimeout(() => scrollToSection(sectionId, retryCount + 1), 150 * (retryCount + 1))
-            return
-          }
-          
-          // Calculate scroll position with header offset
-          // Position section at the top of viewport (just below header), not centered
-          const headerOffset = 120 // Header + padding offset
-          
-          // Calculate target scroll position using offsetTop (no forced reflow)
-          const targetScrollPosition = elementOffsetTop - headerOffset
-          
-          // Ensure we're scrolling to a valid position
-          if (targetScrollPosition >= 0) {
-            // Scroll in next frame to ensure layout is stable
-            requestAnimationFrame(() => {
-              window.scrollTo({ top: targetScrollPosition, behavior: 'smooth' })
-              
-              // After smooth scroll completes, verify and fine-tune position
-              // Smooth scroll takes ~500ms, so check after that
-              // OPTIMIZATION: Batch layout reads in verification too
-              setTimeout(() => {
-                requestAnimationFrame(() => {
-                  // BATCH: Read both layout properties together
-                  const finalRect = element.getBoundingClientRect()
-                  const finalScrollY = window.pageYOffset || window.scrollY || 0
-                  
-                  // Check if section top is at the correct position (just below header)
-                  const sectionTopInViewport = finalRect.top
-                  const idealTopPosition = headerOffset
-                  
-                  // If section is not at ideal position, adjust to place it at top of viewport
-                  if (Math.abs(sectionTopInViewport - idealTopPosition) > 20) {
-                    const adjustment = sectionTopInViewport - idealTopPosition
-                    window.scrollTo({ 
-                      top: finalScrollY + adjustment, 
-                      behavior: 'smooth' 
-                    })
-                  }
-                })
-              }, 600)
-            })
-          } else if (retryCount < maxRetries) {
-            // Invalid position - retry
-            setTimeout(() => scrollToSection(sectionId, retryCount + 1), 150 * (retryCount + 1))
-          }
-        })
-      })
-    }
+    // Use centralized scroll utility for uniform behavior
+    const scrollToSection = scrollToSectionUtil
 
     // Handle hash fragments from URL (e.g., #resume)
     // Smart reload detection: prevents double-scroll by waiting for page stability
@@ -253,12 +277,11 @@ export default {
           
           if (isReloadLikely) {
             // Reload is likely - skip scroll now, will scroll after reload
-            // Hash is already stored in sessionStorage, so it will be handled after reload
             return
           }
           
-          // No reload expected - wait for page stability, then scroll once
-          await waitForPageStability()
+          // No reload: short delay for layout (cross-page hash nav), not 2s
+          await new Promise(r => setTimeout(r, 350))
           
           // Check again if scroll is still pending (might have been cleared by reload)
           try {
@@ -384,6 +407,32 @@ export default {
       }
     })()
 
+    // Check for hash in URL first (takes priority over returnSection for explicit navigation)
+    // Only process if watchers haven't already handled it
+    const hash = window.location.hash || this.$route.hash
+    const hashSectionId = hash ? hash.substring(1) : null
+    
+    if (hashSectionId) {
+      const validSections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
+      if (validSections.includes(hashSectionId)) {
+        // Check if this was already handled by watchers (prevent double-scroll)
+        const scrollPending = (() => {
+          try {
+            return sessionStorage.getItem('home:scrollPending') === 'true'
+          } catch (e) {
+            return false
+          }
+        })()
+        
+        // Only scroll if not already handled by watchers
+        if (!scrollPending && !this.isScrollingToSection) {
+          this.handleHashNavigation(hashSectionId, 'mounted')
+        }
+        return // Don't process returnSection if we have a hash
+      }
+    }
+    
+    // If no hash, check for return section (from router's beforeEach)
     if (returnSection) {
       // Components load immediately (no lazy loading), so scroll after render
       this.$nextTick(() => {
@@ -395,7 +444,7 @@ export default {
         }
       })
     } else {
-      // No return section - check for hash fragment
+      // No return section and no hash - check for hash fragment in sessionStorage (fallback)
       handleHashFragment()
     }
   }

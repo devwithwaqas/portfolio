@@ -161,9 +161,9 @@ export function generatePersonSchema() {
       'Top Software Engineering Consultant',
       'Best Software Engineering Expert'
     ],
-    description: `Senior Software Engineer & Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of experience in .NET, Azure Cloud, and enterprise architecture. Specializing in full-stack development, microservices, and cloud solutions. Available for remote work globally.`,
+    description: `Waqas Ahmad - Senior Software Engineer, Technical Lead, and Software Engineering Consultant with ${APP_CONFIG.stats.yearsExperience}+ years of experience in .NET, Azure Cloud, and enterprise architecture. IT Engineering Consultant and Technical Consultant specializing in full-stack development, microservices, and cloud solutions. Available for remote consulting, freelance, and contract projects globally.`,
     // AI Search Optimization: Add more detailed description for AI engines
-    about: `Waqas Ahmad is a Senior Software Engineer and Technical Lead with ${APP_CONFIG.stats.yearsExperience}+ years of professional experience. He specializes in reliable, enterprise-grade, mission-critical solutions with zero-downtime, high-availability, scalable architectures. Expert in .NET development, Azure Cloud architecture, microservices design, SSL/TLS security, real-time processing, high-performance systems, distributed systems, and large-scale enterprise projects. With experience working with Fortune 500 companies worldwide, he delivers production-ready, robust, resilient, and optimized solutions. Available for projects in USA, Europe, and globally with flexible timezone support (EST, PST, GMT, CET).`,
+    about: `Waqas Ahmad is a Senior Software Engineer, Technical Lead, and Software Engineering Consultant with ${APP_CONFIG.stats.yearsExperience}+ years of professional experience. As an IT Engineering Consultant and Technical Consultant, he specializes in reliable, enterprise-grade, mission-critical solutions with zero-downtime, high-availability, scalable architectures. Expert in .NET development, Azure Cloud architecture, microservices design, SSL/TLS security, real-time processing, high-performance systems, distributed systems, and large-scale enterprise projects. With experience working with Fortune 500 companies worldwide, he delivers production-ready, robust, resilient, and optimized solutions. Available for remote consulting, freelance, and contract projects in USA, Europe, and globally with flexible timezone support (EST, PST, GMT, CET).`,
     url: website,
     // CRITICAL: Use ImageObject for better Google search result display
     image: {
@@ -191,6 +191,16 @@ export function generatePersonSchema() {
       'IT Consulting',
       'IT Engineering',
       'IT Solutions',
+      'Software Engineering Consulting',
+      'Technical Consulting',
+      'Remote Consulting',
+      'IT Engineering Consulting',
+      'Software Consulting',
+      'Enterprise Consulting',
+      'Cloud Consulting',
+      'Microservices Consulting',
+      'Azure Consulting',
+      '.NET Consulting',
       'University of Engineering and Technology Lahore',
       'UET Lahore',
       'Computer System Engineering',
@@ -240,6 +250,23 @@ export function generatePersonSchema() {
       'Algorithm Design',
       'National Programming Champion',
       'ACM Programming Competition',
+      // Company names worked with
+      'AirAsia',
+      'British American Tobacco',
+      'BAT',
+      'Chubb Insurance',
+      'Chubb',
+      'Microsoft',
+      'AirAsia ID90',
+      'BAT Inhouse App',
+      'Chubb Insurance Applications',
+      // Social media platforms
+      'LinkedIn',
+      'GitHub',
+      'waqas1430',
+      'linkedin.com/in/waqas1430',
+      'devwithwaqas',
+      'github.com/devwithwaqas',
       // Industry-Specific Expertise
       'Petroleum Software Development',
       'Oil and Gas Software Development',
