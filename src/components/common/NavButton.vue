@@ -193,6 +193,9 @@ export default {
     handleFocus() {
       this.isFocused = true
     },
+    handleBlur() {
+      this.isFocused = false
+    },
   },
 }
 </script>
@@ -309,5 +312,50 @@ export default {
 
 .test-nav-link:focus {
   outline: none;
+}
+
+/* Sidenav (mobile): clearer inactive vs focused vs active */
+@media (max-width: 1199px), (pointer: coarse) {
+  /* Inactive: muted, no slide, no accent */
+  .test-nav-link {
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .test-nav-link .test-icon {
+    stroke: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Focused (tapped / button down): distinct from inactive */
+  .test-nav-link.is-focused {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .test-nav-link.is-focused .test-icon {
+    stroke: rgba(255, 255, 255, 0.85);
+  }
+
+  /* Active: keep strong emphasis */
+  .test-nav-link.is-active {
+    color: rgba(255, 255, 255, 1);
+  }
+
+  .test-nav-link.is-active .test-icon {
+    stroke: rgb(var(--btn-r), var(--btn-g), var(--btn-b));
+  }
+
+  /* Physical press :active - clearly "button down" */
+  .test-nav-link:active {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .test-nav-link.is-active:active {
+    background: linear-gradient(
+      90deg,
+      rgba(var(--btn-r), var(--btn-g), var(--btn-b), 0.4) 0%,
+      rgba(var(--btn-r), var(--btn-g), var(--btn-b), 0.25) 50%,
+      rgba(var(--btn-lighter-r), var(--btn-lighter-g), var(--btn-lighter-b), 0.18) 100%
+    );
+  }
 }
 </style>

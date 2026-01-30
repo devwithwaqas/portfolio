@@ -105,6 +105,7 @@
 <script>
 import { APP_CONFIG, COMPONENT_DEFAULTS } from '../../config/constants.js'
 import NavButton from '../common/NavButton.vue'
+import { scrollToSection as scrollToSectionUtil, navigateToSection } from '../../utils/scrollToSection.js'
 
 export default {
   name: 'Navigation',
@@ -216,6 +217,12 @@ export default {
       this.mobileMenuOpen = !this.mobileMenuOpen
     },
     closeMobileMenu() {
+      const header = document.getElementById('header')
+      if (header && header.contains(document.activeElement)) {
+        try {
+          document.activeElement.blur()
+        } catch (_) { /* ignore */ }
+      }
       this.mobileMenuOpen = false
     },
     setActiveSectionFromRoute() {
@@ -246,64 +253,24 @@ export default {
       // Immediately set the clicked section as active
       this.activeSection = sectionId
       
-      // Always scroll without changing URL - no hash fragments
+      // Use centralized navigation utility for uniform scroll behavior
       if (this.$route.path !== '/') {
-        // If not on home page, navigate to home first, then scroll
-        // Components load immediately, so scroll after navigation completes
-        this.$router.push('/').then(() => {
-          this.$nextTick(() => {
-            const element = document.getElementById(sectionId)
-            if (element) {
-              // Position section at top of viewport (just below header)
-              requestAnimationFrame(() => {
-                const rect = element.getBoundingClientRect()
-                const scrollY = window.pageYOffset || window.scrollY || 0
-                const headerOffset = 120
-                const offsetPosition = rect.top + scrollY - headerOffset
-                
-                // Scroll in next frame
-                requestAnimationFrame(() => {
-                  window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                  })
-                  // Re-enable intersection observer after scroll completes (smooth scroll takes ~500ms)
-                  this.userScrollTimeout = setTimeout(() => {
-                    this.isUserScrolling = false
-                    this.userScrollTimeout = null
-                  }, 800)
-                })
-              })
-            }
-          })
+        // Navigate to home, then scroll after navigation completes
+        navigateToSection(this.$router, sectionId).then(() => {
+          // Re-enable intersection observer after scroll completes
+          this.userScrollTimeout = setTimeout(() => {
+            this.isUserScrolling = false
+            this.userScrollTimeout = null
+          }, 800)
         })
       } else {
-        // On home page, just scroll without hash
-        // Components load immediately, so we can scroll right away
-        const element = document.getElementById(sectionId)
-        if (element) {
-          // Position section at top of viewport (just below header)
-          // OPTIMIZATION: Use offsetTop instead of getBoundingClientRect to avoid forced reflow
-          requestAnimationFrame(() => {
-            // BATCH: Read layout properties together
-            const elementOffsetTop = element.offsetTop
-            const headerOffset = 120
-            const offsetPosition = elementOffsetTop - headerOffset
-            
-            // Scroll in next frame
-            requestAnimationFrame(() => {
-              window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-              })
-              // Re-enable intersection observer after scroll completes (smooth scroll takes ~500ms)
-              this.userScrollTimeout = setTimeout(() => {
-                this.isUserScrolling = false
-                this.userScrollTimeout = null
-              }, 800)
-            })
-          })
-        }
+        // On home page, use centralized scroll utility
+        scrollToSectionUtil(sectionId)
+        // Re-enable intersection observer after scroll completes
+        this.userScrollTimeout = setTimeout(() => {
+          this.isUserScrolling = false
+          this.userScrollTimeout = null
+        }, 800)
       }
     },
     setupIntersectionObserver() {
