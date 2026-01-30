@@ -12,7 +12,7 @@
    - Verified via: `gcloud services enable customsearch.googleapis.com`
 
 2. **API Key Created** ✅
-   - Key: `AIzaSyAmIX_YGbwJGtvazRucyq1ZDrnbvAWlTPQ`
+   - Key: (stored in .env.local only; **never commit** — see docs/GOOGLE_API_KEY_SECURITY.md)
    - Name: "Portfolio Keyword Test"
    - Restrictions: Cleared (unrestricted)
    - Created via: `gcloud services api-keys create`
@@ -23,9 +23,9 @@
    - Created via: https://programmablesearchengine.google.com/controlpanel/create
 
 4. **Environment Variables** ✅
-   - Saved to: `.env.local`
+   - Saved to: `.env.local` (do not commit)
    - CSE ID: `142cf7cf7eb2f44ef`
-   - API Key: `AIzaSyAmIX_YGbwJGtvazRucyq1ZDrnbvAWlTPQ`
+   - API Key: (in .env.local only; never in repo)
 
 ---
 
@@ -69,9 +69,9 @@
 Once billing is enabled or CSE is configured:
 
 ```powershell
-# Set environment variables
+# Set environment variables (never paste real keys into docs or scripts)
 $env:GOOGLE_CSE_ID = "142cf7cf7eb2f44ef"
-$env:GOOGLE_API_KEY = "AIzaSyAmIX_YGbwJGtvazRucyq1ZDrnbvAWlTPQ"
+$env:GOOGLE_API_KEY = "your-key-from-console"
 
 # Run test
 npm run test:rankings
@@ -96,10 +96,10 @@ After fixing the issue, the script should:
 
 ## 💡 Quick Commands
 
-**Set environment variables:**
+**Set environment variables:** (use your key from GCP Console; never commit)
 ```powershell
 $env:GOOGLE_CSE_ID = "142cf7cf7eb2f44ef"
-$env:GOOGLE_API_KEY = "AIzaSyAmIX_YGbwJGtvazRucyq1ZDrnbvAWlTPQ"
+$env:GOOGLE_API_KEY = "your-key"
 ```
 
 **Run test:**

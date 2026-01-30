@@ -1,53 +1,24 @@
 # Finalize Setup - Save credentials and test
-
-$cseId = "142cf7cf7eb2f44ef"
-$apiKey = "AIzaSyAmIX_YGbwJGtvazRucyq1ZDrnbvAWlTPQ"
+# SECURITY: Do not hardcode API keys. We use SerpAPI for ranking tests (recommended).
+# If you still use Google CSE, set GOOGLE_API_KEY and GOOGLE_CSE_ID in .env.local only (never commit).
 
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "Finalizing Google CSE API Setup" -ForegroundColor Cyan
-Write-Host "========================================" -ForegroundColor Cyan
-Write-Host ""
-
-# Set environment variables
-$env:GOOGLE_CSE_ID = $cseId
-$env:GOOGLE_API_KEY = $apiKey
-
-Write-Host "[OK] Environment variables set for current session" -ForegroundColor Green
-Write-Host "   CSE ID: $cseId" -ForegroundColor Gray
-Write-Host "   API Key: $($apiKey.Substring(0, 10))..." -ForegroundColor Gray
-
-# Save to .env.local
-Write-Host ""
-Write-Host "Saving to .env.local..." -ForegroundColor Cyan
-
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$projectRoot = Split-Path -Parent $scriptDir
-$envFile = Join-Path $projectRoot ".env.local"
-
-$envContent = @"
-# Google Custom Search API (for keyword ranking tests)
-GOOGLE_CSE_ID=$cseId
-GOOGLE_API_KEY=$apiKey
-"@
-
-Set-Content -Path $envFile -Value $envContent -Force
-Write-Host "   [OK] Saved to .env.local" -ForegroundColor Green
-
-# Run test
-Write-Host ""
-Write-Host "Running Keyword Ranking Test..." -ForegroundColor Cyan
+Write-Host "Ranking test setup" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
-npm run test:rankings
+Write-Host "We use SerpAPI for Google ranking tests (no Google API key in repo)." -ForegroundColor Green
+Write-Host ""
+Write-Host "To run ranking tests:" -ForegroundColor Cyan
+Write-Host "  1. Get a key: https://serpapi.com/manage-api-key" -ForegroundColor White
+Write-Host "  2. Run: npm run setup:serpapi" -ForegroundColor White
+Write-Host "  3. Run: npm run test:google-serpapi" -ForegroundColor White
+Write-Host ""
+Write-Host "Or with env: `$env:SERPAPI_KEY='your-key'; npm run test:google-serpapi" -ForegroundColor Gray
+Write-Host ""
 
-Write-Host ""
-Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "[OK] Setup Complete!" -ForegroundColor Green
-Write-Host ""
-Write-Host "To run tests in future sessions:" -ForegroundColor Cyan
-Write-Host "   `$env:GOOGLE_CSE_ID = '$cseId'" -ForegroundColor White
-Write-Host "   `$env:GOOGLE_API_KEY = '$apiKey'" -ForegroundColor White
-Write-Host "   npm run test:rankings" -ForegroundColor White
-Write-Host ""
-Write-Host "Or run: npm run setup:cse-finalize" -ForegroundColor Gray
+npm run test:google-serpapi 2>$null
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "SerpAPI key not set. Run: npm run setup:serpapi" -ForegroundColor Yellow
+    exit 1
+}

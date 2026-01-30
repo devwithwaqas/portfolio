@@ -1,14 +1,22 @@
 # Complete Automated Setup for Google Custom Search API
-# This script sets up everything and runs the test
+# SECURITY: Never hardcode API keys. We recommend SerpAPI: npm run setup:serpapi then npm run test:google-serpapi
 
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "Complete Google CSE API Setup" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Step 1: API Key (already created)
-$apiKey = "AIzaSyAmIX_YGbwJGtvazRucyq1ZDrnbvAWlTPQ"
-Write-Host "[OK] API Key: $($apiKey.Substring(0, 10))..." -ForegroundColor Green
+# Step 1: API Key from env or prompt (never stored in script)
+$apiKey = $env:GOOGLE_API_KEY
+if ([string]::IsNullOrWhiteSpace($apiKey)) {
+    Write-Host "GOOGLE_API_KEY not set. Paste your key (only in this session; we will not save it in repo):" -ForegroundColor Yellow
+    $apiKey = Read-Host "   API Key"
+}
+if ([string]::IsNullOrWhiteSpace($apiKey)) {
+    Write-Host "[ERROR] API key required. Or use SerpAPI: npm run setup:serpapi" -ForegroundColor Red
+    exit 1
+}
+Write-Host "[OK] API Key: $($apiKey.Substring(0, [Math]::Min(10, $apiKey.Length)))..." -ForegroundColor Green
 
 # Step 2: Open browser for CSE creation
 Write-Host ""
@@ -44,7 +52,7 @@ $env:GOOGLE_API_KEY = $apiKey
 
 Write-Host "   [OK] Environment variables set for current session" -ForegroundColor Green
 Write-Host "   GOOGLE_CSE_ID = $cseId" -ForegroundColor Gray
-Write-Host "   GOOGLE_API_KEY = $($apiKey.Substring(0, 10))..." -ForegroundColor Gray
+Write-Host "   GOOGLE_API_KEY = $($apiKey.Substring(0, [Math]::Min(10, $apiKey.Length)))..." -ForegroundColor Gray
 
 # Step 4: Save to .env.local
 Write-Host ""
@@ -76,7 +84,7 @@ Write-Host "[OK] Setup Complete!" -ForegroundColor Green
 Write-Host ""
 Write-Host "To run tests in future sessions:" -ForegroundColor Cyan
 Write-Host "   `$env:GOOGLE_CSE_ID = '$cseId'" -ForegroundColor White
-Write-Host "   `$env:GOOGLE_API_KEY = '$apiKey'" -ForegroundColor White
+Write-Host "   `$env:GOOGLE_API_KEY = '(set in .env.local only; never commit)'" -ForegroundColor White
 Write-Host "   npm run test:rankings" -ForegroundColor White
 Write-Host ""
-Write-Host "Or the .env.local file will be loaded automatically if you use a loader script." -ForegroundColor Gray
+Write-Host "Or use SerpAPI (recommended): npm run setup:serpapi then npm run test:google-serpapi" -ForegroundColor Gray

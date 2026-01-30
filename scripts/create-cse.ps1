@@ -1,13 +1,15 @@
 # Create Custom Search Engine via API
-# Note: This may not work as CSE creation typically requires web interface
+# SECURITY: Never hardcode API keys. Use env var only.
+# We recommend SerpAPI for ranking tests: npm run test:google-serpapi
 
-$apiKey = "AIzaSyAmIX_YGbwJGtvazRucyq1ZDrnbvAWlTPQ"
+$apiKey = $env:GOOGLE_API_KEY
+if ([string]::IsNullOrWhiteSpace($apiKey)) {
+    Write-Host "[ERROR] GOOGLE_API_KEY not set. Do not paste keys into scripts." -ForegroundColor Red
+    Write-Host "For ranking tests we use SerpAPI. Run: npm run setup:serpapi then npm run test:google-serpapi" -ForegroundColor Yellow
+    exit 1
+}
 
-Write-Host "Attempting to create Custom Search Engine..." -ForegroundColor Cyan
-
-# Try to create CSE via REST API (if available)
-# Note: Google Custom Search Engine creation is typically done via web interface
-# But we can try to use the Custom Search API
+Write-Host "Attempting to create Custom Search Engine (using GOOGLE_API_KEY from env)..." -ForegroundColor Cyan
 
 $body = @{
     name = "Portfolio Keyword Test"

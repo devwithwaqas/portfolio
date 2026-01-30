@@ -5,7 +5,7 @@
 
 import puppeteer from 'puppeteer'
 
-const API_KEY = 'AIzaSyAmIX_YGbwJGtvazRucyq1ZDrnbvAWlTPQ'
+const API_KEY = process.env.GOOGLE_API_KEY || ''
 const CSE_CREATE_URL = 'https://programmablesearchengine.google.com/controlpanel/create'
 
 console.log('🤖 Fully Automated CSE Creation')
@@ -13,6 +13,11 @@ console.log('=' .repeat(50))
 console.log('')
 
 async function createCSE() {
+  if (!API_KEY) {
+    console.error('GOOGLE_API_KEY not set. Do not hardcode API keys in scripts.')
+    console.error('Set env: GOOGLE_API_KEY=your-key (or use SerpAPI: npm run test:google-serpapi)')
+    process.exit(1)
+  }
   console.log('📝 Launching browser...')
   const browser = await puppeteer.launch({ 
     headless: false, // Show browser
@@ -243,7 +248,7 @@ createCSE()
       process.env.GOOGLE_API_KEY = API_KEY
       
       console.log(`   GOOGLE_CSE_ID = ${cseId}`)
-      console.log(`   GOOGLE_API_KEY = ${API_KEY.substring(0, 10)}...`)
+      console.log(`   GOOGLE_API_KEY = ${API_KEY ? API_KEY.substring(0, 10) + '...' : '(not set)'}`)
       console.log('')
       console.log('Running keyword ranking test...')
       console.log('=' .repeat(50))

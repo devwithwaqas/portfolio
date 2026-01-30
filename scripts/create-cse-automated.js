@@ -10,13 +10,18 @@ import { dirname, join } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const API_KEY = 'AIzaSyAmIX_YGbwJGtvazRucyq1ZDrnbvAWlTPQ'
+const API_KEY = process.env.GOOGLE_API_KEY || ''
 const CSE_URL = 'https://programmablesearchengine.google.com/controlpanel/create'
 
 console.log('🤖 Starting automated CSE creation...')
 console.log('   This will open a browser and automate the process\n')
 
 async function createCSE() {
+  if (!API_KEY) {
+    console.error('GOOGLE_API_KEY not set. Do not hardcode API keys in scripts.')
+    console.error('Set env: GOOGLE_API_KEY=your-key (or use SerpAPI: npm run test:google-serpapi)')
+    process.exit(1)
+  }
   const browser = await puppeteer.launch({ 
     headless: false, // Show browser so user can see what's happening
     defaultViewport: { width: 1280, height: 720 }
@@ -134,7 +139,7 @@ createCSE()
   .then(cseId => {
     if (cseId) {
       console.log(`\n✅ Setup Complete!`)
-      console.log(`   API Key: ${API_KEY}`)
+      console.log(`   API Key: ${API_KEY ? API_KEY.substring(0, 10) + '...' : '(not set)'}`)
       console.log(`   CSE ID: ${cseId}`)
       console.log(`\n💾 Setting environment variables...`)
       
