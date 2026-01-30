@@ -46,9 +46,10 @@
         :case-studies="caseStudies"
       />
 
-      <!-- FAQ -->
+      <!-- FAQ (first 6 visible; "Show more" reveals rest) -->
       <ServiceFAQ
         :faq-items="faqItems"
+        :initial-visible-count="6"
       />
 
       <!-- Related Projects -->
@@ -56,6 +57,8 @@
         :projects="relatedProjects"
         introduction="Explore related microservices projects I've worked on:"
       />
+
+      <RelatedServices current-path="/services/microservices-architecture" />
 
       <!-- CTA -->
       <ServiceCTA
@@ -78,6 +81,7 @@ import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
+import RelatedServices from '@/components/services/RelatedServices.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
@@ -95,6 +99,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    RelatedServices,
     TechnologyStack,
     ServicePageTemplate
   },
@@ -394,6 +399,27 @@ export default {
       {
         question: "How long does a microservices project take?",
         answer: "A typical microservices implementation takes 6-12 weeks, depending on complexity, number of services, and whether it's a new build or migration. Simple microservices applications might take 4-6 weeks, while complex enterprise migrations can take 12-16 weeks. The timeline includes assessment, architecture design, infrastructure setup, service development, integration, testing, and deployment."
+      },
+      // Client-style: process, differentiation, objection
+      {
+        question: "What do I need to provide before we start a microservices project or migration?",
+        answer: "An overview of your current system (or the monolith you want to decompose), main pain points (scaling, deployment, team structure), and any constraints (tech stack, cloud provider). I can then propose an architecture and migration strategy. You don't need to have microservices experience—I handle the design and can lead or support the implementation."
+      },
+      {
+        question: "When should we choose microservices over a monolith?",
+        answer: "Microservices make sense when you need independent scaling of parts of the system, multiple teams deploying independently, or different tech stacks per area. They add operational and design complexity, so I recommend them when the benefits clearly outweigh that—often for larger or growing systems. For smaller products, a well-structured monolith is often better; I can help you decide."
+      },
+      {
+        question: "Why choose you for microservices architecture over a larger firm?",
+        answer: "You get a senior architect and engineer who has designed and delivered microservices on Azure (Service Fabric, AKS) and .NET for enterprise clients. I focus on practical boundaries, clear APIs, and operability—not over-engineering. I work remotely with USA and Europe and can run assessments and implementations in 6–12 weeks depending on scope."
+      },
+      {
+        question: "Can you help our existing team adopt microservices?",
+        answer: "Yes. I can work as an architect and technical lead alongside your team: define service boundaries, set standards and patterns, and pair on the first few services so your developers take over. I also do training and documentation so the approach is sustainable after I step back."
+      },
+      {
+        question: "What deliverables do I get after a microservices engagement?",
+        answer: "You get an architecture document, service boundaries and APIs, infrastructure and deployment approach, and working code (or migration steps). I provide runbooks and guidance so your team can operate and extend the system. Ongoing support or follow-up phases can be agreed if needed."
       }
     ])
 

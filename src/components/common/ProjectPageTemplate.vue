@@ -39,6 +39,24 @@
         <!-- Additional Full-Width Content (Optional) -->
         <slot name="additional-content"></slot>
         
+        <!-- Related services (SEO: internal links from project to service pages) -->
+        <div v-if="relatedServices.length > 0" class="project-related-services mt-4">
+          <ReusableCard title="Related services" icon-name="services" class="mb-4">
+            <p class="related-services-intro txt-p-lg mb-3">Services used in this type of work:</p>
+            <div class="related-services-links">
+              <router-link
+                v-for="(item, index) in relatedServices"
+                :key="index"
+                :to="item.path"
+                class="related-service-link"
+              >
+                <span class="related-service-title">{{ item.title }}</span>
+                <i class="bi bi-arrow-right"></i>
+              </router-link>
+            </div>
+          </ReusableCard>
+        </div>
+        
       </div>
     </article>
 
@@ -47,11 +65,19 @@
 
 <script>
 import Breadcrumbs from '../projects/Breadcrumbs.vue'
+import ReusableCard from './ReusableCard.vue'
+import { getRelatedServicesForProject } from '../../config/relatedServices.js'
 
 export default {
   name: 'ProjectPageTemplate',
   components: {
-    Breadcrumbs
+    Breadcrumbs,
+    ReusableCard
+  },
+  computed: {
+    relatedServices() {
+      return getRelatedServicesForProject(this.$route?.path || '')
+    }
   },
   props: {
     projectTitle: {
@@ -150,5 +176,36 @@ export default {
   .portfolio-details {
     padding: 10px 0;
   }
+}
+
+/* Related services (SEO internal links) */
+.project-related-services :deep(.related-services-links) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.project-related-services :deep(.related-service-link) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 245, 255, 0.98) 100%);
+  border: 2px solid rgba(139, 92, 246, 0.2);
+  border-radius: 10px;
+  color: #374151;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.project-related-services :deep(.related-service-link:hover) {
+  border-color: rgba(139, 92, 246, 0.5);
+  color: #7c3aed;
+  background: rgba(139, 92, 246, 0.06);
+}
+
+.project-related-services :deep(.related-services-intro) {
+  color: #4b5563;
 }
 </style>

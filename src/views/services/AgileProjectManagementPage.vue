@@ -46,9 +46,10 @@
         :case-studies="caseStudies"
       />
 
-      <!-- FAQ -->
+      <!-- FAQ (first 6 visible; "Show more" reveals rest) -->
       <ServiceFAQ
         :faq-items="faqItems"
+        :initial-visible-count="6"
       />
 
       <!-- Related Projects -->
@@ -56,6 +57,8 @@
         :projects="relatedProjects"
         introduction="Explore major enterprise projects managed with agile methodologies:"
       />
+
+      <RelatedServices current-path="/services/agile-project-management" />
 
       <!-- CTA -->
       <ServiceCTA
@@ -78,6 +81,7 @@ import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
+import RelatedServices from '@/components/services/RelatedServices.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
@@ -95,6 +99,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    RelatedServices,
     TechnologyStack,
     ServicePageTemplate
   },
@@ -382,6 +387,27 @@ export default {
       {
         question: "What is the typical engagement model?",
         answer: "Agile project management is typically an ongoing engagement, usually 3+ months minimum to establish practices and see meaningful improvement. I can work full-time as a Scrum Master, part-time for specific guidance, or on a project basis for specific initiatives. Engagement models include full-time Scrum Master, part-time agile coach, project-based management, agile training and coaching, or hybrid models. The model depends on your team size, needs, and goals."
+      },
+      // Client-style: process, differentiation, objection
+      {
+        question: "What do I need to provide before we start an agile or Scrum engagement?",
+        answer: "An idea of your team size, current process (if any), and what you want to improve—e.g. predictability, delivery speed, or transitioning from waterfall. I can then suggest a model (full-time Scrum Master, part-time coach, or training) and what we'd do in the first few sprints. No need to be agile already; I help you get there."
+      },
+      {
+        question: "Do you facilitate ceremonies for remote teams?",
+        answer: "Yes. I run sprint planning, standups, retrospectives, and reviews for distributed teams using your tools (Teams, Zoom, Jira, Azure DevOps, etc.). I'm used to working across USA and Europe timezones and can make ceremonies inclusive and time-boxed so everyone can participate."
+      },
+      {
+        question: "Why choose you for agile project management over a certified-only coach?",
+        answer: "I combine agile facilitation with hands-on technical leadership—I've led and delivered software with Scrum and Kanban, so I understand both process and engineering. That helps with realistic sprint planning, technical debt trade-offs, and coaching developers as well as product owners. I work remotely with USA and Europe teams."
+      },
+      {
+        question: "What if our team is new to agile?",
+        answer: "I often work with teams new to agile. We start with the basics—backlog, sprints, ceremonies—and add practices as the team grows. I provide light training, run the first few retros and plannings, and gradually hand over so the team owns the process. No big-bang change; we evolve step by step."
+      },
+      {
+        question: "What deliverables should I expect from an agile engagement?",
+        answer: "You get a team running regular ceremonies, a visible backlog and progress, and clearer predictability. I leave documentation (e.g. definition of done, workflow) and coach the team so they can sustain it. For training engagements, you get materials and follow-up Q&A as agreed."
       }
     ])
 

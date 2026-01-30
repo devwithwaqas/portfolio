@@ -46,9 +46,10 @@
         :case-studies="caseStudies"
       />
 
-      <!-- FAQ -->
+      <!-- FAQ (first 6 visible; "Show more" reveals rest) -->
       <ServiceFAQ
         :faq-items="faqItems"
+        :initial-visible-count="6"
       />
 
       <!-- Related Projects -->
@@ -56,6 +57,8 @@
         :projects="relatedProjects"
         introduction="Explore related mobile development projects I've worked on:"
       />
+
+      <RelatedServices current-path="/services/mobile-development" />
 
       <!-- CTA -->
       <ServiceCTA
@@ -78,6 +81,7 @@ import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
+import RelatedServices from '@/components/services/RelatedServices.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
@@ -95,6 +99,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    RelatedServices,
     TechnologyStack,
     ServicePageTemplate
   },
@@ -400,6 +405,27 @@ export default {
       {
         question: "Do you work with app monetization features?",
         answer: "Yes, I have experience implementing various app monetization features including in-app purchases (iOS and Android), subscription models, advertisement integration (AdMob), freemium models, and payment gateway integration. I can help you choose and implement the best monetization strategy for your mobile app."
+      },
+      // Client-style: process, differentiation, objection
+      {
+        question: "What do I need to provide before we start a mobile app project?",
+        answer: "A clear idea of the app’s purpose, target users, and must-have features (we can refine in discovery). Any existing brand assets, APIs, or backend you want to use. If you have designs or wireframes, great—if not, I can help shape an MVP. You don’t need to know native vs cross-platform; I’ll recommend based on your goals and timeline."
+      },
+      {
+        question: "Why choose you for mobile development over an agency?",
+        answer: "You work directly with a senior developer who ships iOS, Android, and cross-platform apps and integrates them with .NET and cloud backends. I’ve built apps for enterprises and startups and can keep scope and cost under control. I’m available remotely for USA and Europe and typically deliver in 8–16 weeks depending on scope."
+      },
+      {
+        question: "What if we need to integrate with our existing .NET or Azure backend?",
+        answer: "I specialize in that. I build mobile apps that talk to .NET Core APIs, Azure Mobile Apps, or your existing REST/GraphQL services. I handle auth, offline sync if needed, and secure API design so the app and backend work together. Many of my projects are mobile front-end plus .NET backend."
+      },
+      {
+        question: "Do you work with clients in USA and Europe?",
+        answer: "Yes. I develop mobile apps remotely for clients in the USA, UK, and Europe. I overlap with EST, PST, GMT, and CET for calls and collaboration. Design and requirements can be async; builds and reviews we can align to your schedule."
+      },
+      {
+        question: "What deliverables do I get at the end of a mobile app project?",
+        answer: "You get the app (iOS and/or Android as agreed), source code, and documentation for building and deploying. I can handle App Store and Play Store submission and provide a short handover so your team or another developer can maintain and update the app. Ongoing support or iterations can be agreed separately."
       }
     ])
 

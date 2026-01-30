@@ -46,9 +46,10 @@
         :case-studies="caseStudies"
       />
 
-      <!-- FAQ -->
+      <!-- FAQ (first 6 visible; "Show more" reveals rest) -->
       <ServiceFAQ
         :faq-items="faqItems"
+        :initial-visible-count="6"
       />
 
       <!-- Related Projects -->
@@ -56,6 +57,8 @@
         :projects="relatedProjects"
         introduction="Explore related Azure cloud projects I've worked on:"
       />
+
+      <RelatedServices current-path="/services/azure-cloud-architecture" />
 
       <!-- CTA -->
       <ServiceCTA
@@ -78,6 +81,7 @@ import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
+import RelatedServices from '@/components/services/RelatedServices.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
@@ -95,6 +99,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    RelatedServices,
     TechnologyStack,
     ServicePageTemplate
   },
@@ -406,6 +411,27 @@ export default {
       {
         question: "Can you work with hybrid cloud scenarios?",
         answer: "Yes, I have extensive experience with hybrid cloud architectures that combine on-premises infrastructure with Azure cloud services. This includes Azure Arc for managing on-premises resources, Azure ExpressRoute for private connectivity, and designing solutions that seamlessly integrate on-premises and cloud components based on your business requirements."
+      },
+      // Client-style: process, differentiation, objection
+      {
+        question: "What do I need to provide before we start an Azure migration or architecture project?",
+        answer: "An overview of your current infrastructure (or a list of apps you want to move), any compliance or security requirements, and preferred timelines. I can then run a short assessment and propose a migration or architecture plan. You don't need to have Azure experience—I handle the design and implementation."
+      },
+      {
+        question: "Why choose you for Azure cloud over a larger consultancy?",
+        answer: "You work directly with a senior engineer who has designed and migrated systems on Azure for Fortune 500 companies. I focus on cost-effective, secure designs and avoid over-engineering. I'm available remotely for USA and Europe and can slot into your timeline—many migrations and architecture engagements are delivered in 4–8 weeks."
+      },
+      {
+        question: "How do we handle cost overruns or unexpected Azure spend?",
+        answer: "I build cost visibility into the design from day one: right-sizing, reserved capacity where it makes sense, and monitoring. Before we start, we agree on a target spend range and I'll flag anything that might push beyond it. Ongoing optimization is part of the engagement so you're not left with surprises after go-live."
+      },
+      {
+        question: "Do you work with clients in USA and Europe?",
+        answer: "Yes. I work remotely with clients in the USA, UK, Germany, Netherlands, Switzerland, and elsewhere. I'm used to overlapping with EST, PST, GMT, and CET and can join calls and collaborate in your timezone. Location isn't a constraint."
+      },
+      {
+        question: "What deliverables do I get after an Azure migration or architecture project?",
+        answer: "You get a documented architecture, deployed and configured Azure resources, migration runbooks if applicable, and guidance on operations and monitoring. I can also hand over to your team with a short knowledge-transfer session or stay on for ongoing optimization."
       }
     ])
 

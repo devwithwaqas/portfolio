@@ -2,26 +2,39 @@
   <ReusableCard title="Frequently Asked Questions" icon-name="faq" class="mb-4">
     <div class="service-faq-content">
       <div v-if="faqItems && faqItems.length > 0" class="faq-accordion">
-        <div 
-          v-for="(item, index) in faqItems" 
-          :key="index"
-          class="faq-item"
-        >
-          <div 
-            class="faq-question"
-            :class="{ active: activeIndex === index }"
-            @click="toggleFaq(index)"
+        <template v-for="(item, index) in faqItems" :key="index">
+          <div
+            v-show="initialVisibleCount == null || showAllFaqs || index < initialVisibleCount"
+            class="faq-item"
           >
-            <span class="question-text">{{ item.question }}</span>
-            <span class="question-icon">
-              <i :class="activeIndex === index ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
-            </span>
-          </div>
-          <transition name="faq-answer">
-            <div v-if="activeIndex === index" class="faq-answer">
-              <p class="answer-text">{{ item.answer }}</p>
+            <div 
+              class="faq-question"
+              :class="{ active: activeIndex === index }"
+              @click="toggleFaq(index)"
+            >
+              <span class="question-text">{{ item.question }}</span>
+              <span class="question-icon">
+                <i :class="activeIndex === index ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
+              </span>
             </div>
-          </transition>
+            <transition name="faq-answer">
+              <div v-if="activeIndex === index" class="faq-answer">
+                <p class="answer-text">{{ item.answer }}</p>
+              </div>
+            </transition>
+          </div>
+        </template>
+        <div
+          v-if="hasMoreFaqs && !showAllFaqs"
+          class="faq-show-more-wrap"
+        >
+          <button
+            type="button"
+            class="faq-show-more-btn"
+            @click="showAllFaqs = true"
+          >
+            Show more FAQs ({{ remainingCount }} more)
+          </button>
         </div>
       </div>
     </div>
@@ -41,11 +54,27 @@ export default {
     faqItems: {
       type: Array,
       default: () => []
+    },
+    /** If set, only this many FAQs show initially; "Show more FAQs" reveals the rest. Omit to show all. */
+    initialVisibleCount: {
+      type: Number,
+      default: undefined
     }
   },
   data() {
     return {
-      activeIndex: null
+      activeIndex: null,
+      showAllFaqs: false
+    }
+  },
+  computed: {
+    hasMoreFaqs() {
+      const n = this.initialVisibleCount
+      return n != null && n > 0 && this.faqItems && this.faqItems.length > n
+    },
+    remainingCount() {
+      if (!this.hasMoreFaqs) return 0
+      return this.faqItems.length - this.initialVisibleCount
     }
   },
   mounted() {
@@ -160,5 +189,27 @@ export default {
 .faq-answer-leave-from {
   max-height: 500px;
   opacity: 1;
+}
+
+.faq-show-more-wrap {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.faq-show-more-btn {
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #7c3aed;
+  background: rgba(139, 92, 246, 0.1);
+  border: 2px solid rgba(139, 92, 246, 0.3);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.faq-show-more-btn:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.5);
 }
 </style>

@@ -6,6 +6,9 @@
         icon-name="contact"
         body-padding="0"
       >
+              <p v-if="showContact" class="contact-response-promise txt-p-md mb-3">
+                I typically respond within 24 hours. Use the form below, or email/WhatsApp directly.
+              </p>
               <div class="row gy-3 gx-2" v-if="showContact">
                 <!-- Location Card -->
                 <ContactCard 
@@ -92,7 +95,8 @@ export default {
 </script>
 
 <style scoped>
-/* All contact card styling now handled by ContactCard.vue component */
-/* All contact form styling now handled by ContactForm.vue component */
-/* This file only contains Contact section-specific overrides if needed */
+.contact-response-promise {
+  color: #4b5563;
+  font-weight: 500;
+}
 </style>

@@ -91,6 +91,12 @@
               <i class="bi bi-briefcase"></i>
               View Portfolio
             </button>
+            <p class="cta-direct-links txt-p-md mt-3 mb-0">
+              Or contact directly:
+              <a :href="contactLinks.email" class="cta-direct-link">Email</a>
+              <span class="cta-direct-sep">|</span>
+              <a :href="contactLinks.whatsapp" target="_blank" rel="noopener" class="cta-direct-link">WhatsApp</a>
+            </p>
           </div>
         </div>
       </div>
@@ -101,12 +107,25 @@
 <script>
 import ReusableCard from '../common/ReusableCard.vue'
 import ResponsiveImage from '../common/ResponsiveImage.vue'
+import { navigateToSection } from '../../utils/scrollToSection.js'
+import { APP_CONFIG } from '../../config/constants.js'
 
 export default {
   name: 'ServiceCTA',
   components: {
     ReusableCard,
     ResponsiveImage
+  },
+  data() {
+    return {
+      contactLinks: APP_CONFIG.contactLinks,
+      formData: {
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      }
+    }
   },
   props: {
     ctaText: {
@@ -120,16 +139,6 @@ export default {
     ctaImage: {
       type: String,
       default: ''
-    }
-  },
-  data() {
-    return {
-      formData: {
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      }
     }
   },
   methods: {
@@ -149,102 +158,12 @@ export default {
       }
     },
     scrollToContact() {
-      // Navigate to home page and scroll to contact section
-      if (this.$route.path !== '/') {
-        this.$router.push('/').then(() => {
-          this.$nextTick(() => {
-            // Batch all layout reads in a single RAF to avoid forced reflow
-            requestAnimationFrame(() => {
-              const element = document.getElementById('contact')
-              if (!element) return
-              
-              const headerOffset = 100
-              // Read all layout properties in a single batch
-              const rect = element.getBoundingClientRect()
-              const scrollY = window.scrollY || window.pageYOffset
-              const offsetPosition = rect.top + scrollY - headerOffset
-              
-              // Perform scroll in next frame to avoid forced reflow
-              requestAnimationFrame(() => {
-                window.scrollTo({
-                  top: offsetPosition,
-                  behavior: 'smooth'
-                })
-              })
-            })
-          })
-        })
-      } else {
-        // Already on home page, just scroll
-        // Batch all layout reads in a single RAF to avoid forced reflow
-        requestAnimationFrame(() => {
-          const element = document.getElementById('contact')
-          if (!element) return
-          
-          const headerOffset = 100
-          // Read all layout properties in a single batch
-          const rect = element.getBoundingClientRect()
-          const scrollY = window.scrollY || window.pageYOffset
-          const offsetPosition = rect.top + scrollY - headerOffset
-          
-          // Perform scroll in next frame to avoid forced reflow
-          requestAnimationFrame(() => {
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: 'smooth'
-            })
-          })
-        })
-      }
+      // Use centralized navigation utility for uniform behavior
+      navigateToSection(this.$router, 'contact')
     },
     scrollToPortfolio() {
-      // Navigate to home page and scroll to portfolio section
-      if (this.$route.path !== '/') {
-        this.$router.push('/').then(() => {
-          this.$nextTick(() => {
-            // Batch all layout reads in a single RAF to avoid forced reflow
-            requestAnimationFrame(() => {
-              const element = document.getElementById('portfolio')
-              if (!element) return
-              
-              const headerOffset = 100
-              // Read all layout properties in a single batch
-              const rect = element.getBoundingClientRect()
-              const scrollY = window.scrollY || window.pageYOffset
-              const offsetPosition = rect.top + scrollY - headerOffset
-              
-              // Perform scroll in next frame to avoid forced reflow
-              requestAnimationFrame(() => {
-                window.scrollTo({
-                  top: offsetPosition,
-                  behavior: 'smooth'
-                })
-              })
-            })
-          })
-        })
-      } else {
-        // Already on home page, just scroll
-        // Batch all layout reads in a single RAF to avoid forced reflow
-        requestAnimationFrame(() => {
-          const element = document.getElementById('portfolio')
-          if (!element) return
-          
-          const headerOffset = 100
-          // Read all layout properties in a single batch
-          const rect = element.getBoundingClientRect()
-          const scrollY = window.scrollY || window.pageYOffset
-          const offsetPosition = rect.top + scrollY - headerOffset
-          
-          // Perform scroll in next frame to avoid forced reflow
-          requestAnimationFrame(() => {
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: 'smooth'
-            })
-          })
-        })
-      }
+      // Use centralized navigation utility for uniform behavior
+      navigateToSection(this.$router, 'portfolio')
     }
   }
 }
@@ -342,9 +261,34 @@ export default {
 .cta-buttons {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 15px;
   margin-top: 30px;
   flex-wrap: wrap;
+}
+
+.cta-direct-links {
+  width: 100%;
+  text-align: center;
+}
+
+.cta-direct-links {
+  color: #6b7280;
+}
+
+.cta-direct-link {
+  color: #7c3aed;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cta-direct-link:hover {
+  text-decoration: underline;
+}
+
+.cta-direct-sep {
+  margin: 0 8px;
+  color: #9ca3af;
 }
 
 @media (max-width: 768px) {

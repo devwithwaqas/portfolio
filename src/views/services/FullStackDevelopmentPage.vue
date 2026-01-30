@@ -46,9 +46,10 @@
         :case-studies="caseStudies"
       />
 
-      <!-- FAQ -->
+      <!-- FAQ (first 6 visible; "Show more" reveals rest) -->
       <ServiceFAQ
         :faq-items="faqItems"
+        :initial-visible-count="6"
       />
 
       <!-- Related Projects -->
@@ -56,6 +57,9 @@
         :projects="relatedProjects"
         introduction="Explore related full stack projects I've worked on:"
       />
+
+      <!-- Related services (internal links for reach) -->
+      <RelatedServices current-path="/services/full-stack-development" />
 
       <!-- CTA -->
       <ServiceCTA
@@ -76,6 +80,7 @@ import ServiceCapabilities from '@/components/services/ServiceCapabilities.vue'
 import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
+import RelatedServices from '@/components/services/RelatedServices.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
@@ -96,6 +101,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    RelatedServices,
     TechnologyStack,
     ServicePageTemplate
   },
@@ -391,6 +397,23 @@ export default {
       {
         question: "How can I contact you for a project?",
         answer: "You can contact me through the contact form on this website, via email, or LinkedIn. I typically respond within 24 hours. I'm happy to discuss your project requirements, provide estimates, and answer any questions about my full stack development services, availability, or engagement models."
+      },
+      // Client-style: process, differentiation, objection
+      {
+        question: "What do I need to provide before we start a full stack project?",
+        answer: "Typically: a clear idea of the problem you're solving (or a brief), any existing systems or APIs to integrate with, design references or brand guidelines if you have them, and access to staging/hosting if already chosen. I can help refine scope and tech choices in a short discovery call. You don't need to have everything figured out—we can shape it together."
+      },
+      {
+        question: "Why choose you for full stack development over a larger agency?",
+        answer: "You get a senior engineer and technical lead directly—no handoffs to juniors. I've delivered 32+ enterprise solutions for Fortune 500 companies and work with .NET, Vue, React, and Angular daily. Projects stay on track with clear communication, and I'm available for remote work in USA and Europe with flexible timezones. For many projects, one experienced full stack developer is faster and more cost-effective than a big team."
+      },
+      {
+        question: "What if our timeline is tight or we need to change scope mid-project?",
+        answer: "I'm used to working in time-boxed sprints and can suggest a minimal first release so you get value sooner. If scope changes, we can reprioritize together—I'll outline impact on timeline and suggest what can move to a later phase. Transparency on trade-offs is part of how I work."
+      },
+      {
+        question: "What deliverables should I expect at the end of a full stack project?",
+        answer: "You get a deployed, working application plus source code, documentation (setup, deployment, and key decisions), and a short handover so your team or another developer can maintain it. I can also offer ongoing support or maintenance on a retainer if you prefer."
       }
     ])
 

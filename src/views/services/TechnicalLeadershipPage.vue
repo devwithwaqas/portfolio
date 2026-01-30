@@ -46,9 +46,10 @@
         :case-studies="caseStudies"
       />
 
-      <!-- FAQ -->
+      <!-- FAQ (first 6 visible; "Show more" reveals rest) -->
       <ServiceFAQ
         :faq-items="faqItems"
+        :initial-visible-count="6"
       />
 
       <!-- Related Projects -->
@@ -56,6 +57,8 @@
         :projects="relatedProjects"
         introduction="Explore major enterprise projects where I provided technical leadership:"
       />
+
+      <RelatedServices current-path="/services/technical-leadership" />
 
       <!-- CTA -->
       <ServiceCTA
@@ -78,6 +81,7 @@ import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
+import RelatedServices from '@/components/services/RelatedServices.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
@@ -95,6 +99,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    RelatedServices,
     TechnologyStack,
     ServicePageTemplate
   },
@@ -382,6 +387,27 @@ export default {
       {
         question: "What is the typical engagement model for technical leadership?",
         answer: "Technical leadership is typically an ongoing engagement, usually 3-6 months minimum to establish practices and see meaningful improvement. I can work full-time as a technical lead, part-time for specific guidance, or on a project basis for specific initiatives. Engagement models include full-time technical lead, part-time leadership, project-based leadership, mentoring and coaching, or architecture consulting. The model depends on your team size, needs, and goals."
+      },
+      // Client-style: process, differentiation, objection
+      {
+        question: "What do I need to provide before we start a technical leadership engagement?",
+        answer: "A clear picture of your team (size, experience, tech stack), your main goals (e.g. quality, delivery speed, onboarding), and any pain points (code reviews, architecture decisions, hiring). I can then propose how I'd work with the team—full-time lead, part-time coach, or project-based—and what we'd tackle first."
+      },
+      {
+        question: "Do you work as a full-time technical lead or part-time?",
+        answer: "Both. I can join as a full-time technical lead for 3–6 months or longer, or work part-time (e.g. a few days a week) for mentoring, code reviews, and architecture. For smaller teams, part-time often works well; for larger or critical deliveries, full-time gives more impact. We can align on what fits your budget and goals."
+      },
+      {
+        question: "Why choose you for technical leadership over hiring in-house?",
+        answer: "You get a senior technical lead and architect who has led teams and delivered enterprise systems for Fortune 500 companies—without a long hiring process or commitment. I slot in remotely (USA and Europe), establish practices and standards, and can hand over to your permanent lead when you're ready. Many teams use me to level up while they recruit."
+      },
+      {
+        question: "How deep do you go with code reviews?",
+        answer: "As deep as you need. I can do full pass reviews (design, patterns, performance, security) or lighter reviews focused on critical paths and standards. I'll align with your workflow (GitHub, Azure DevOps, etc.) and give constructive feedback that helps developers grow, not just fix the immediate PR."
+      },
+      {
+        question: "What deliverables should I expect from a technical leadership engagement?",
+        answer: "You get improved practices (code review, architecture decisions, documentation), a team that can sustain them, and clear artifacts: standards, runbooks, or architecture docs as agreed. I don't leave after a handover without ensuring your team can continue—knowledge transfer is part of the engagement."
       }
     ])
 

@@ -14,7 +14,11 @@
                 <i class="bi bi-house-door me-2"></i>
                 Go to Homepage
               </router-link>
-              <button @click="$router.go(-1)" class="btn btn-outline-primary btn-lg ms-3">
+              <router-link to="/#contact" class="btn btn-primary btn-lg">
+                <i class="bi bi-envelope me-2"></i>
+                Get in touch
+              </router-link>
+              <button @click="$router.go(-1)" class="btn btn-outline-primary btn-lg">
                 <i class="bi bi-arrow-left me-2"></i>
                 Go Back
               </button>

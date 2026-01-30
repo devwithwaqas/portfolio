@@ -46,9 +46,10 @@
         :case-studies="caseStudies"
       />
 
-      <!-- FAQ -->
+      <!-- FAQ (first 6 visible; "Show more" reveals rest) -->
       <ServiceFAQ
         :faq-items="faqItems"
+        :initial-visible-count="6"
       />
 
       <!-- Related Projects -->
@@ -56,6 +57,8 @@
         :projects="relatedProjects"
         introduction="Explore related database optimization projects I've worked on:"
       />
+
+      <RelatedServices current-path="/services/database-design-optimization" />
 
       <!-- CTA -->
       <ServiceCTA
@@ -78,6 +81,7 @@ import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
+import RelatedServices from '@/components/services/RelatedServices.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
@@ -95,6 +99,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    RelatedServices,
     TechnologyStack,
     ServicePageTemplate
   },
@@ -393,6 +398,27 @@ export default {
       {
         question: "How long does a database optimization project take?",
         answer: "A typical database optimization project takes 2-6 weeks, depending on complexity, database size, and scope of optimization. Simple query optimization might take 1-2 weeks, while comprehensive database redesign and optimization can take 4-6 weeks. The timeline includes assessment, design, implementation, testing, and documentation phases."
+      },
+      // Client-style: process, differentiation, objection
+      {
+        question: "What do I need to provide for a database assessment or optimization?",
+        answer: "Access to a non-production copy of the database (or execution plans and sample slow queries), and an idea of which workloads or reports matter most. I can work with SQL Server, Azure SQL, and Entity Framework–based apps. If you have monitoring or logs from production, those help too—but we can start from a replica and query samples."
+      },
+      {
+        question: "Can you optimize our database without downtime?",
+        answer: "Where possible, yes. Many optimizations (indexes, query changes, EF tuning) can be applied with minimal or no downtime. For larger schema or data changes, I'll propose a plan with a short maintenance window and rollback steps. We'll agree on the approach before any change."
+      },
+      {
+        question: "Why choose you for database design and optimization?",
+        answer: "I've optimized databases and Entity Framework workloads for enterprise systems processing millions of rows and high concurrency. I focus on measurable gains—faster queries, lower resource use—and leave you with clear documentation and practices your team can maintain. I work remotely with clients in USA and Europe."
+      },
+      {
+        question: "Do you only work with SQL Server or other databases too?",
+        answer: "I primarily work with SQL Server and Azure SQL, and have experience with PostgreSQL. For other platforms I can still advise on design and query patterns; implementation may depend on your in-house expertise. Most of my deep optimization work is SQL Server and EF Core."
+      },
+      {
+        question: "What deliverables do I get after a database optimization project?",
+        answer: "You get an assessment report (if we started with one), implemented changes (indexes, query fixes, schema updates), and documentation: what was changed, why, and how to monitor. I can also run a short handover so your team can own ongoing tuning."
       }
     ])
 
