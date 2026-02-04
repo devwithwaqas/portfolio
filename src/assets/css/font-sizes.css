@@ -70,6 +70,14 @@
 .nav-link { font-size: 1rem !important; }
 .navmenu span { font-size: 1rem !important; }
 
+/* Desktop side nav only: smaller font and icons so nav fits comfortably */
+@media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
+  .header .navmenu a,
+  .header .navmenu .txt-nav-btn-md { font-size: 0.875rem !important; }
+  .header .navmenu span { font-size: 0.875rem !important; }
+  .header .navmenu .test-icon { width: 16px !important; height: 16px !important; }
+}
+
 /* Skill Cards - OLD RULES REMOVED - Now handled by SkillCard component */
 
 /* Stat Cards */

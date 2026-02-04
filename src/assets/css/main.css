@@ -275,11 +275,11 @@ h6 {
   }
 }
 
-/* Desktop Layout: Fixed nav + offset content */
+/* Desktop Layout: Fixed nav + offset content (nav width matches .header width: 14%) */
 @media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
   .main-content {
-    margin-left: 16.66%;
-    width: 83.34%;
+    margin-left: 14%;
+    width: 86%;
   }
 }
 

@@ -734,14 +734,14 @@ i.mobile-nav-toggle,
    HEADER & NAV LAYOUT
    =================================== */
 
-/* Desktop Navigation - Only for mouse/trackpad devices */
+/* Desktop Navigation - Only for mouse/trackpad devices; compact so it fits comfortably */
 @media (hover: hover) and (pointer: fine) {
   .header {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
-    width: 16.66%;
+    width: 14%;
     padding: 0;
     background: linear-gradient(180deg, rgba(30, 15, 50, 1) 0%, rgba(20, 10, 35, 1) 100%);
     overflow-y: hidden;
@@ -749,11 +749,13 @@ i.mobile-nav-toggle,
     z-index: 996;
     border-right: 1px solid rgba(139, 92, 246, 0.2);
     /* CRITICAL CLS FIX: Prevent desktop header layout shifts */
-    /* Removed paint from contain to avoid breaking position: fixed on siblings */
     contain: layout style;
-    /* Reserve space for font loading - prevent text shifts */
     min-height: 100vh;
     font-family: var(--nav-font), system-ui, -apple-system, sans-serif;
+  }
+
+  .navmenu {
+    padding: 10px 0 0 0;
   }
 }
 
@@ -786,7 +788,7 @@ i.mobile-nav-toggle,
   }
 }
 
-/* Navigation Menu */
+/* Navigation Menu - base; desktop compact overrides in (hover: hover) block above */
 .navmenu {
   padding: 15px 0 0 0;
   margin: 0;
@@ -794,7 +796,6 @@ i.mobile-nav-toggle,
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* CRITICAL CLS FIX: Reserve space for nav menu to prevent shifts */
   min-height: 100vh;
   contain: layout style;
 }

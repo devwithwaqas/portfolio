@@ -167,6 +167,30 @@ For hosts that don't support SPA routing natively, create redirect rules:
 - Firebase project created and initialized
 - Logged in to Firebase: `firebase login`
 
+### Pre-deploy: Check pages and SEO crawl (optional but recommended)
+
+Before deploying, you can verify that all pages load and that crawlers will see them:
+
+1. **Local page check** (all router + blog routes; no server start if preview already running):
+   ```bash
+   npm run build:firebase && npm run check-pages
+   # Or if preview is already running:
+   npm run check-pages:no-server
+   ```
+
+2. **Crawl as Googlebot** (live site or after deploy): Fetches every app route and blog article (same list as sitemap/IndexNow), plus critical files (robots.txt, sitemap.xml, llms.txt, favicons). New blog articles are included automatically.
+   ```bash
+   npm run crawl-as-googlebot
+   # Or against a specific base URL:
+   node scripts/crawl-as-googlebot.js https://waqasahmad-portfolio.web.app
+   ```
+
+3. **SEO analysis** (single page or full crawl):
+   ```bash
+   npm run analyze
+   npm run analyze:crawl   # crawl then analyze (saves HTML to scripts/.cache)
+   ```
+
 ### Deployment Commands
 
 #### Development Deployment
@@ -176,11 +200,11 @@ For hosts that don't support SPA routing natively, create redirect rules:
 npm run deploy:firebase:dev
 ```
 
-**Manual build number:**
+**Manual build number (activates new service worker, old one is replaced):**
 ```bash
 npm run deploy:firebase:dev -- --build v1.2.3
-npm run deploy:firebase:dev -- --version custom-build-123
 npm run deploy:firebase:dev -- -b release-2024-01
+npm run deploy:firebase:dev -- 12345
 ```
 
 #### Production Deployment
@@ -190,35 +214,43 @@ npm run deploy:firebase:dev -- -b release-2024-01
 npm run deploy:firebase:prod
 ```
 
-**Manual build number:**
+**Manual build number (recommended for prod: bumps SW version so clients get fresh cache):**
 ```bash
 npm run deploy:firebase:prod -- --build v2.0.0
-npm run deploy:firebase:prod -- --version production-2024
-npm run deploy:firebase:prod -- -b prod-v1.0.0
+npm run deploy:firebase:prod -- -b 12345
+npm run deploy:firebase:prod -- 12345
 ```
+
+Note: `--version` is reserved by npm; use `--build`, `-b`, or a standalone number (e.g. `npm run deploy:firebase:prod -- 12345`).
 
 ### Build Number Options
 
-The deployment script automatically generates build numbers from git commit hashes. You can also manually specify build numbers:
+The deployment script updates the service worker version in `public/sw.js` and `src/main.js`, then builds and deploys. A new build number ensures clients unregister the old service worker and use the new one.
 
 **Available flags:**
 - `--build <number>` or `-b <number>` - Specify manual build number
-- `--version <number>` or `-v <number>` - Alias for --build
+- `-v <number>` - Alias for --build (avoid `--version`; npm strips it)
 - `--dev` or `-d` - Deploy to development environment
+- `--skip-install` - Skip `npm ci`/install (use existing node_modules)
 - `--help` or `-h` - Show help message
 
 **Examples:**
 ```bash
-# Development with manual build
-npm run deploy:firebase:dev -- --build v1.0.0-dev
+# Production with numeric version (standalone argument)
+npm run deploy:firebase:prod -- 12345
 
-# Production with manual build
+# Production with named build
 npm run deploy:firebase:prod -- --build v1.0.0
 
-# Using short flags
-npm run deploy:firebase:dev -- -b test-123
-npm run deploy:firebase:prod -- -v release-2024
+# Short flag
+npm run deploy:firebase:prod -- -b 12345
 ```
+
+### Quick Firebase deploy flow
+
+1. **Pre-deploy (optional):** `npm run build:firebase && npm run check-pages` then optionally `npm run crawl-as-googlebot` (after a previous deploy or staging URL).
+2. **Deploy with version:** `npm run deploy:firebase:prod -- 12345` (or omit for auto git-hash version).
+3. **Post-deploy:** `npm run submit-bing` to notify Bing/IndexNow of new or updated URLs. Sitemap is already deployed; no separate sitemap resubmit needed unless you add the site to a new search console.
 
 ### Deployment Output
 
@@ -269,6 +301,16 @@ Build Summary:
 4. **Check performance:** Use Lighthouse or PageSpeed Insights
 5. **Set up custom domain:** If you have one
 6. **Verify build number:** Check service worker version in browser DevTools
+
+### Post-deploy: IndexNow and sitemap
+
+- **Submit URLs to Bing (IndexNow):** Run after deploy so new or changed pages are re-crawled. The script uses the same URL list as the sitemap (router + blog articles); new blog posts are included automatically.
+  ```bash
+  npm run submit-bing
+  ```
+  Key file must be at `https://<site>/<key>.txt` (see `public/<key>.txt`). Verify in [Bing Webmaster Tools](https://www.bing.com/webmasters).
+
+- **Sitemap:** Built into the deploy (`generate-sitemap.js` runs during `build:firebase`). It is written to `dist/sitemap.xml` and deployed with the site. You do not need to "resubmit" the sitemap URL unless you add the site to a new search console; Bing/Google will pick it up from `robots.txt`. For reindexing, use IndexNow (above) or Google Indexing API if configured.
 
 ## 🔒 Security Notes
 

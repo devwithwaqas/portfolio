@@ -22,6 +22,9 @@ const GOOGLEBOT_UA =
 
 const DEFAULT_BASE = 'https://waqasahmad-portfolio.web.app'
 
+const ROUTER_FILE = path.resolve(__dirname, '../src/router/index.js')
+const BLOG_ARTICLES_DIR = path.resolve(__dirname, '../src/config/blog/articles')
+
 const CRITICAL_PATHS = [
   '/',
   '/llms.txt',
@@ -33,6 +36,45 @@ const CRITICAL_PATHS = [
   '/favicon-16x16.png',
   '/site.webmanifest',
 ]
+
+/**
+ * Get all app paths (router + blog slugs) so crawl includes every page including new blog articles.
+ * Same source as check-pages-load.js, submit-bing-indexnow.js, and generate-sitemap.js.
+ */
+function getRoutesFromRouter() {
+  if (!fs.existsSync(ROUTER_FILE)) return []
+  const content = fs.readFileSync(ROUTER_FILE, 'utf8')
+  const routePattern = /\{\s*path:\s*['"`]([^'"`]+)['"`]\s*,\s*name:\s*['"`]([^'"`]+)['"`]/g
+  const redirectPattern = /\{\s*path:\s*['"`]([^'"`]+)['"`]\s*,\s*redirect:/g
+  const redirects = new Set()
+  let m
+  while ((m = redirectPattern.exec(content)) !== null) redirects.add(m[1])
+  const paths = []
+  while ((m = routePattern.exec(content)) !== null) {
+    const p = m[1]
+    const name = m[2]
+    if (p.includes('pathMatch') || p.includes(':') || redirects.has(p) || name === 'NotFound') continue
+    if (p === '/blog/:slug') continue // add blog slugs separately
+    paths.push(p.startsWith('/') ? p : `/${p}`)
+  }
+  return paths
+}
+
+function getBlogSlugs() {
+  if (!fs.existsSync(BLOG_ARTICLES_DIR)) return []
+  return fs
+    .readdirSync(BLOG_ARTICLES_DIR)
+    .filter((f) => f.endsWith('.js'))
+    .map((f) => f.replace(/\.js$/, ''))
+    .sort()
+}
+
+function getAppPaths() {
+  const fromRouter = getRoutesFromRouter()
+  const blogSlugs = getBlogSlugs()
+  const blogPaths = blogSlugs.map((s) => `/blog/${s}`)
+  return [...fromRouter, ...blogPaths]
+}
 
 function resolveUrl(href, baseOrigin) {
   if (!href || href.startsWith('#')) return null
@@ -114,6 +156,10 @@ async function runCrawl(baseUrl = DEFAULT_BASE, opts = {}) {
   for (const p of CRITICAL_PATHS) {
     toFetch.add(p === '/' ? base : `${base}${p}`)
   }
+  // Include every app route and blog article (same as sitemap/IndexNow/check-pages)
+  for (const p of getAppPaths()) {
+    toFetch.add(`${base}${p.startsWith('/') ? p : '/' + p}`)
+  }
 
   const pageRes = await fetch(base, {
     method: 'GET',
@@ -180,10 +226,12 @@ async function main() {
   const base = baseUrl.replace(/\/$/, '')
   const baseOrigin = new URL(base).origin
 
+  const appPaths = getAppPaths()
   console.log('Crawl-as-Googlebot')
   console.log('=================')
   console.log(`Base: ${base}`)
   console.log(`UA:   ${GOOGLEBOT_UA}`)
+  console.log(`App pages (router + blog): ${appPaths.length}`)
   if (saveHtml) console.log(`Save HTML: ${saveHtml}`)
   console.log('')
 

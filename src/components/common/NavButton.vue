@@ -348,6 +348,27 @@ export default {
   outline: none;
 }
 
+/* Desktop/tablet side nav only: compact so it fits comfortably in the sidebar */
+@media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
+  .test-nav-wrapper {
+    padding: 0 6px 0 0;
+    margin-bottom: 4px;
+    padding-bottom: 8px;
+  }
+
+  .test-nav-link {
+    gap: 6px;
+    padding: 6px 10px;
+    min-height: 34px;
+    width: 88%;
+  }
+
+  .test-nav-link.is-focused,
+  .test-nav-link.is-active {
+    margin-left: calc(12% - 3px);
+  }
+}
+
 /* Sidenav (mobile): clearer inactive vs focused vs active */
 @media (max-width: 1199px), (pointer: coarse) {
   /* Inactive: muted, no slide, no accent */
