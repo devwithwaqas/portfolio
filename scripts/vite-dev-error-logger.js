@@ -2,6 +2,7 @@
  * Vite plugin: log browser errors to a file during dev
  * POST /__dev-log-error with JSON body { context, message, stack, url }
  * Writes to dev-error-log.txt in project root (append).
+ * File is cleared when the dev server starts so each session starts fresh.
  */
 
 import fs from 'fs'
@@ -26,6 +27,14 @@ export default function viteDevErrorLogger() {
     name: 'vite-dev-error-logger',
     apply: 'serve',
     configureServer(server) {
+      // Clear the log file when dev server starts so each session starts fresh (no 5000-line buildup)
+      try {
+        const readyLine = `[${new Date().toISOString()}] --- dev-error-logger ready ---\n`
+        fs.writeFileSync(LOG_PATH, readyLine, 'utf-8')
+      } catch (e) {
+        console.error('[vite-dev-error-logger] Failed to clear log:', e)
+      }
+
       server.middlewares.use('/__dev-log-error', (req, res, next) => {
         if (req.method !== 'POST') {
           res.statusCode = 405
@@ -65,8 +74,7 @@ export default function viteDevErrorLogger() {
           res.end()
         })
       })
-      ensureLog('--- dev-error-logger ready ---')
-      console.log(`[vite-dev-error-logger] Errors → ${LOG_PATH}`)
+      console.log(`[vite-dev-error-logger] Errors → ${LOG_PATH} (file cleared on dev server start)`)
       console.log('[vite-dev-error-logger] Run: Get-Content dev-error-log.txt -Wait  (PowerShell) or  tail -f dev-error-log.txt  (bash)')
     }
   }

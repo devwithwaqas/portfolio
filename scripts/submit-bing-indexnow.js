@@ -21,6 +21,18 @@ const KEY_LOCATION = `${BASE_URL}/${KEY_FILE}`
 const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/IndexNow'
 
 const ROUTER_FILE = path.resolve(__dirname, '../src/router/index.js')
+const BLOG_ARTICLES_DIR = path.resolve(__dirname, '../src/config/blog/articles')
+
+/**
+ * Extract blog article slugs from blog/articles/*.js (one file per article; filename = slug)
+ */
+function getBlogArticleSlugs() {
+  if (!fs.existsSync(BLOG_ARTICLES_DIR)) return []
+  return fs.readdirSync(BLOG_ARTICLES_DIR)
+    .filter((f) => f.endsWith('.js'))
+    .map((f) => f.replace(/\.js$/, ''))
+    .sort()
+}
 
 function extractPathsFromRouter() {
   const content = fs.readFileSync(ROUTER_FILE, 'utf8')
@@ -33,7 +45,7 @@ function extractPathsFromRouter() {
   while ((m = routePattern.exec(content)) !== null) {
     const p = m[1]
     const name = m[2]
-    if (p.includes('pathMatch') || redirects.has(p) || name === 'NotFound') continue
+    if (p.includes('pathMatch') || p.includes(':') || redirects.has(p) || name === 'NotFound') continue
     paths.push(p.startsWith('/') ? p : `/${p}`)
   }
   return paths
@@ -41,7 +53,11 @@ function extractPathsFromRouter() {
 
 function getUrlList() {
   const paths = extractPathsFromRouter()
-  return paths.map((p) => `${BASE_URL}${p}`)
+  const blogSlugs = getBlogArticleSlugs()
+  blogSlugs.forEach((slug) => {
+    paths.push(`/blog/${slug}`)
+  })
+  return paths.map((p) => `${BASE_URL}${p.startsWith('/') ? p : '/' + p}`)
 }
 
 async function submit() {

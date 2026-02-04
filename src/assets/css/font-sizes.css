@@ -107,6 +107,38 @@
 .about h5 { font-size: var(--pf-text-xl) !important; } /* Desktop: 1.25rem */
 .about p, .about ul li { font-size: var(--pf-text-base) !important; } /* Desktop: 1rem */
 
+/* Blog: article pages – match About/service typography scale; comfortable left/right padding */
+.article-details .article-body,
+.article-details .markdown-content.article-body,
+.markdown-content.article-body {
+  font-size: 1rem !important;
+  line-height: 1.75 !important;
+  color: var(--default-color) !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+.article-details .markdown-content h1,
+.article-details .article-body h1 { font-size: var(--pf-text-3xl) !important; font-weight: 700 !important; color: var(--heading-color) !important; margin-top: 0 !important; margin-bottom: 0.75rem !important; }
+.article-details .markdown-content h2,
+.article-details .article-body h2 { font-size: var(--pf-text-2xl) !important; font-weight: 700 !important; color: #4f46e5 !important; margin-top: 2rem !important; margin-bottom: 0.75rem !important; line-height: 1.3 !important; padding-left: 1.5rem !important; padding-right: 1.5rem !important; padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
+.article-details .markdown-content h2:first-child,
+.article-details .article-body h2:first-child { margin-top: 0 !important; }
+.article-details .markdown-content h3,
+.article-details .article-body h3 { font-size: var(--pf-text-xl) !important; font-weight: 600 !important; color: #5b21b6 !important; margin-top: 1.5rem !important; margin-bottom: 0.5rem !important; line-height: 1.35 !important; padding-left: 1.5rem !important; padding-right: 1.5rem !important; padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
+.article-details .markdown-content h4,
+.article-details .article-body h4 { font-size: var(--pf-text-lg) !important; font-weight: 600 !important; color: #6d28d9 !important; margin-top: 1.25rem !important; margin-bottom: 0.5rem !important; padding-left: 1.5rem !important; padding-right: 1.5rem !important; padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
+.article-details .markdown-content p,
+.article-details .article-body p { font-size: 1rem !important; margin-bottom: 1.1rem !important; line-height: 1.75 !important; }
+.article-details .markdown-content ul,
+.article-details .markdown-content ol,
+.article-details .article-body ul,
+.article-details .article-body ol { font-size: 1rem !important; margin-bottom: 1.1rem !important; padding-left: 1.5rem !important; line-height: 1.7 !important; }
+.article-details .article-title,
+.article-hero-block .article-title { font-size: var(--pf-text-3xl) !important; font-weight: 700 !important; color: var(--heading-color) !important; line-height: 1.25 !important; }
+.article-details .article-lead,
+.article-hero-block .article-lead { font-size: var(--pf-text-lg) !important; color: #4b5563 !important; line-height: 1.6 !important; }
+.blog-index-page .blog-intro.article-lead { font-size: 1.0625rem !important; line-height: 1.6 !important; }
+
 /* Skills Section */
 .skills .category-header h3 { font-size: var(--pf-text-xl) !important; } /* Desktop: 1.25rem */
 .skills .category-header h4 { font-size: var(--pf-text-lg) !important; } /* Desktop: 1.125rem */
@@ -271,6 +303,23 @@
   .about h4 { font-size: var(--pf-text-xl) !important; } /* Tablet: 1.125rem */
   .about h5 { font-size: var(--pf-text-xl) !important; } /* Tablet: 1.125rem */
   .about p, .about ul li { font-size: var(--pf-text-base) !important; } /* Tablet: 0.9rem */
+
+  /* Blog article pages – readable on tablet */
+  .article-details .article-body,
+  .article-details .markdown-content.article-body,
+  .markdown-content.article-body { font-size: 1rem !important; }
+  .article-details .markdown-content h2,
+  .article-details .article-body h2 { font-size: 1.35rem !important; }
+  .article-details .markdown-content h3,
+  .article-details .article-body h3 { font-size: 1.2rem !important; }
+  .article-details .markdown-content h4,
+  .article-details .article-body h4 { font-size: 1.125rem !important; }
+  .article-details .markdown-content p,
+  .article-details .article-body p { font-size: 1rem !important; }
+  .article-details .article-title,
+  .article-hero-block .article-title { font-size: 1.75rem !important; }
+  .article-details .article-lead,
+  .article-hero-block .article-lead { font-size: 1.125rem !important; }
   
   /* Skills Section */
   .skills .category-header h3 { font-size: var(--pf-text-xl) !important; } /* Tablet: 1.125rem */
@@ -437,6 +486,26 @@
   .about h4 { font-size: var(--pf-text-lg) !important; } /* Mobile: 0.95rem */
   .about h5 { font-size: var(--pf-text-lg) !important; } /* Mobile: 0.95rem */
   .about p, .about ul li { font-size: var(--pf-text-base) !important; } /* Mobile: 0.85rem */
+
+  /* Blog article pages – readable on mobile (slightly larger than generic mobile scale) */
+  .article-details .article-body,
+  .article-details .markdown-content.article-body,
+  .markdown-content.article-body { font-size: 0.9375rem !important; line-height: 1.75 !important; }
+  .article-details .markdown-content h1,
+  .article-details .article-body h1 { font-size: 1.5rem !important; }
+  .article-details .markdown-content h2,
+  .article-details .article-body h2 { font-size: 1.25rem !important; margin-top: 1.5rem !important; }
+  .article-details .markdown-content h3,
+  .article-details .article-body h3 { font-size: 1.125rem !important; margin-top: 1.25rem !important; }
+  .article-details .markdown-content h4,
+  .article-details .article-body h4 { font-size: 1.0625rem !important; }
+  .article-details .markdown-content p,
+  .article-details .article-body p { font-size: 0.9375rem !important; }
+  .article-details .article-title,
+  .article-hero-block .article-title { font-size: 1.5rem !important; }
+  .article-details .article-lead,
+  .article-hero-block .article-lead { font-size: 1rem !important; }
+  .blog-index-page .blog-intro.article-lead { font-size: 0.9375rem !important; }
   
   /* Skills Section */
   .skills .category-header h3 { font-size: var(--pf-text-lg) !important; } /* Mobile: 0.95rem */
@@ -564,6 +633,7 @@
 
 /* Desktop Utilities */
 @media (min-width: 1200px) {
+  .article-hero-block .article-title { font-size: var(--pf-text-4xl) !important; }
   .pf-text-desktop-xs { font-size: var(--pf-text-xs) !important; }
   .pf-text-desktop-sm { font-size: var(--pf-text-sm) !important; }
   .pf-text-desktop-base { font-size: var(--pf-text-base) !important; }

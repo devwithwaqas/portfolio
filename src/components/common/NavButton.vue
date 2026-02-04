@@ -1,12 +1,37 @@
 <template>
   <div class="test-nav-wrapper">
-    <a 
-      href="#" 
+    <!-- Router link (e.g. Blog) – same look and behavior as section links -->
+    <router-link
+      v-if="routerPath"
+      :to="routerPath"
+      class="test-nav-link"
+      :class="buttonClasses"
+      :style="customStyles"
+      :aria-label="`Navigate to ${label}`"
+      @click.native="handleRouterClick"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+      @focus="handleFocus"
+      @blur="handleBlur"
+    >
+      <svg class="test-icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path v-for="(path, index) in svgPaths" :key="'path-' + index" :d="path.d"></path>
+        <polyline v-for="(polyline, index) in svgPolylines" :key="'polyline-' + index" :points="polyline.points"></polyline>
+        <circle v-for="(circle, index) in svgCircles" :key="'circle-' + index" :cx="circle.cx" :cy="circle.cy" :r="circle.r"></circle>
+        <rect v-for="(rect, index) in svgRects" :key="'rect-' + index" :x="rect.x" :y="rect.y" :width="rect.width" :height="rect.height" :rx="rect.rx" :ry="rect.ry"></rect>
+        <line v-for="(line, index) in svgLines" :key="'line-' + index" :x1="line.x1" :y1="line.y1" :x2="line.x2" :y2="line.y2"></line>
+      </svg>
+      <span class="txt-nav-btn-md">{{ label }}</span>
+    </router-link>
+    <!-- Section anchor (scroll on same page or navigate to home + hash) -->
+    <a
+      v-else
+      href="#"
       class="test-nav-link"
       :class="buttonClasses"
       :style="customStyles"
       :aria-label="`Navigate to ${label} section`"
-      @click="handleClick"
+      @click.prevent="handleClick"
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
       @focus="handleFocus"
@@ -31,6 +56,11 @@ export default {
     href: {
       type: String,
       default: '#hero'
+    },
+    /** When set, render router-link to this path instead of anchor (e.g. /blog). Same styles and active/hover. */
+    routerPath: {
+      type: String,
+      default: ''
     },
     label: {
       type: String,
@@ -180,6 +210,10 @@ export default {
         this.wasClicked = true
       }
       this.$emit('navigate', event)
+    },
+    handleRouterClick() {
+      // For router-link: emit so parent can e.g. close mobile menu
+      this.$emit('navigate')
     },
     handleMouseEnter() {
       // Only show hover if button is not active

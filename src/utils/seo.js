@@ -4,6 +4,7 @@
  */
 
 import { APP_CONFIG, SITE_URL } from '../config/constants.js'
+import { BLOG_TOPIC_TO_KEY, getSemanticTermsForBlogTopic } from '../config/semanticKeywords.js'
 
 const BASE_URL = import.meta.env.BASE_URL || '/portfolio/'
 
@@ -2738,6 +2739,8 @@ export function getProjectPageSEO(projectData) {
     'advanced project'
   ]
   
+  // Merge project-specific keywords with full profile keywords (500–700 terms: personal details, job, skills, geographic, industry, etc.) for same reach as home
+  const profileKeywords = getHomePageSEO().keywords
   const projectKeywords = dedupeKeywords(
     [projectData.title, enhancedTitle],
     techNames,
@@ -2768,6 +2771,7 @@ export function getProjectPageSEO(projectData) {
       'Europe',
       'Global'
     ],
+    profileKeywords,
     location ? [location] : []
   )
   
@@ -3808,6 +3812,46 @@ export function getServicePageSEO(serviceData) {
   }
 }
 
+/**
+ * Get SEO data for blog index page
+ */
+export function getBlogIndexSEO() {
+  const fullName = APP_CONFIG.fullName
+  return {
+    title: `Blog | ${fullName} - Azure, .NET, Microservices, Enterprise Architecture`,
+    description: `Technical blog: Azure, .NET, microservices, enterprise architecture. Articles by ${fullName}, Senior Software Engineer with 17+ years experience.`,
+    keywords: ['blog', 'technical blog', 'Azure', '.NET', 'microservices', 'enterprise architecture', fullName, 'Senior Software Engineer'],
+    type: 'website',
+    image: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
+  }
+}
+
+/**
+ * Get SEO data for a blog article page.
+ * Maximizes coverage like Home/Services: full topic terms (primary + variants + entities) + per-article keywords (25–80); deduped, no cap.
+ */
+export function getBlogArticleSEO(article) {
+  const fullName = APP_CONFIG.fullName
+  const topicKey = BLOG_TOPIC_TO_KEY[article.topic]
+  const semanticTerms = topicKey ? getSemanticTermsForBlogTopic(topicKey) : []
+  const articleKeywords = article.keywords ? (Array.isArray(article.keywords) ? article.keywords : [article.keywords]) : []
+  const keywords = dedupeKeywords(
+    [article.title],
+    [article.topic].filter(Boolean),
+    ['blog', fullName],
+    article.relatedServices || [],
+    semanticTerms,
+    articleKeywords
+  )
+  return {
+    title: `${article.title} | ${fullName}`,
+    description: article.excerpt || article.title,
+    keywords,
+    type: 'article',
+    image: article.image || `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
+  }
+}
+
 export default {
   setTitle,
   setMetaTag,
@@ -3819,5 +3863,7 @@ export default {
   setPageSEO,
   getHomePageSEO,
   getProjectPageSEO,
-  getServicePageSEO
+  getServicePageSEO,
+  getBlogIndexSEO,
+  getBlogArticleSEO
 }

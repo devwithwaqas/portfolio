@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // Lazy load all views for better code splitting
-import { setPageSEO, getHomePageSEO, getProjectPageSEO, getServicePageSEO } from '../utils/seo.js'
-import { generateProjectPageStructuredData, generateServicePageStructuredData } from '../utils/structuredData.js'
+import { setPageSEO, getHomePageSEO, getProjectPageSEO, getServicePageSEO, getBlogIndexSEO, getBlogArticleSEO } from '../utils/seo.js'
+import { generateProjectPageStructuredData, generateServicePageStructuredData, generateBlogArticleStructuredData, generateBlogIndexStructuredData, generateBreadcrumbSchema, injectStructuredData } from '../utils/structuredData.js'
+import { getArticleBySlug } from '../config/blogArticles.js'
 import { trackPageView, trackServicePageView, trackProjectPageView } from '../utils/analytics.js'
 import { SITE_URL } from '../config/constants.js'
+import { getSemanticVariantsForTopic, SERVICE_TO_TOPIC } from '../config/semanticKeywords.js'
 import { handleError } from '../utils/errorHandler.js'
 import { logError, shouldPreventReload, recordReloadAttempt } from '../utils/errorTracker.js'
 
@@ -91,6 +93,29 @@ const PROJECT_DATA_MAP = {
     description: 'Enterprise insurance applications for Chubb with comprehensive features, security, and scalability.',
     technologies: ['.NET Core', 'Enterprise', 'Security', 'Scalability']
   }
+}
+
+// Per-project testimonials (real LinkedIn/client reviews) and impact metrics for Review/AggregateRating schema.
+// Add real testimonials here when available; keep empty array if none yet.
+const PROJECT_TESTIMONIALS_MAP = {
+  HeatExchanger: [],
+  AirAsiaID90: [],
+  BATInhouseApp: [],
+  PJSmartCity: [],
+  GamifiedEmployeeManagement: [],
+  ValetParking: [],
+  MobileGames: [],
+  UKPropertyManagement: [],
+  G5POS: [],
+  ChubbInsuranceApplications: []
+}
+
+// Optional impact metrics per project (e.g. "Scalability increased by 40%") for AggregateRating when no testimonials.
+const PROJECT_METRICS_MAP = {
+  HeatExchanger: 'Mission-critical petroleum operations platform with enterprise-grade reliability.',
+  AirAsiaID90: 'Revolutionary last-minute employee flight discount system with high-concurrency handling.',
+  BATInhouseApp: 'Microservices platform integrating 8+ enterprise systems with 99.9% data quality.',
+  UKPropertyManagement: '60% reduction in manual processes, 99.9% uptime for 9,000+ properties.'
 }
 
 const CHUNK_RELOAD_KEY = 'portfolio_chunk_reload'
@@ -320,6 +345,16 @@ const routes = [
     name: 'Privacy',
     component: () => loadComponent(() => import('../views/Privacy.vue'))
   },
+  {
+    path: '/blog',
+    name: 'Blog',
+    component: () => loadComponent(() => import('../views/blog/BlogIndex.vue'))
+  },
+  {
+    path: '/blog/:slug',
+    name: 'BlogArticle',
+    component: () => loadComponent(() => import('../views/blog/BlogArticlePage.vue'))
+  },
   // Catch-all route for 404 errors - must be last
   {
     path: '/:pathMatch(.*)*',
@@ -512,12 +547,17 @@ router.beforeEach((to, from, next) => {
       url: `${SITE_URL}${to.path}`,
       type: 'article'
     })
-    generateProjectPageStructuredData({
-      title: projectData.title,
-      description: projectData.description,
-      url: to.path,
-      image: seo.image
-    })
+    const testimonials = PROJECT_TESTIMONIALS_MAP[to.name] || []
+    const metrics = PROJECT_METRICS_MAP[to.name] || projectData.metrics
+    generateProjectPageStructuredData(
+      {
+        title: projectData.title,
+        description: projectData.description,
+        url: to.path,
+        image: seo.image
+      },
+      { testimonials, metrics: testimonials.length > 0 ? undefined : metrics }
+    )
   } else if (to.path.startsWith('/services/')) {
     // Service page - use actual service data from SERVICE_DATA_MAP
     const serviceInfo = SERVICE_DATA_MAP[to.name] || {
@@ -525,20 +565,23 @@ router.beforeEach((to, from, next) => {
       description: `Hire expert ${to.name.replace(/([A-Z])/g, ' $1').trim()} services. ${to.name.replace(/([A-Z])/g, ' $1').trim()} consultant with 17+ years of experience in enterprise solutions, Azure Cloud, and .NET development. Available for consulting, freelance, and contract projects globally.`
     }
     
+    const baseKeywords = [
+      `hire ${serviceInfo.title.toLowerCase()}`,
+      `${serviceInfo.title.toLowerCase()} consultant`,
+      `${serviceInfo.title.toLowerCase()} expert`,
+      `freelance ${serviceInfo.title.toLowerCase()} developer`,
+      `contract ${serviceInfo.title.toLowerCase()} services`,
+      `IT services ${serviceInfo.title.toLowerCase()}`,
+      `${serviceInfo.title.toLowerCase()} IT services`
+    ]
+    const topicKey = SERVICE_TO_TOPIC[to.name]
+    const semanticVariants = topicKey ? getSemanticVariantsForTopic(topicKey) : []
     const serviceData = {
       title: serviceInfo.title,
       description: serviceInfo.description,
       url: to.path,
       serviceType: serviceInfo.title,
-      keywords: [
-        `hire ${serviceInfo.title.toLowerCase()}`,
-        `${serviceInfo.title.toLowerCase()} consultant`,
-        `${serviceInfo.title.toLowerCase()} expert`,
-        `freelance ${serviceInfo.title.toLowerCase()} developer`,
-        `contract ${serviceInfo.title.toLowerCase()} services`,
-        `IT services ${serviceInfo.title.toLowerCase()}`,
-        `${serviceInfo.title.toLowerCase()} IT services`
-      ]
+      keywords: [...baseKeywords, ...semanticVariants]
     }
     const seo = getServicePageSEO(serviceData)
     setPageSEO({
@@ -547,6 +590,30 @@ router.beforeEach((to, from, next) => {
     })
     // Generate structured data (FAQ will be added by component)
     generateServicePageStructuredData(serviceData, [])
+  } else if (to.path === '/blog') {
+    const seo = getBlogIndexSEO()
+    setPageSEO({ ...seo, url: `${SITE_URL}blog` })
+    generateBlogIndexStructuredData()
+  } else if (to.path.startsWith('/blog/') && to.params.slug) {
+    const article = getArticleBySlug(to.params.slug)
+    if (article) {
+      const seo = getBlogArticleSEO(article)
+      setPageSEO({ ...seo, url: `${SITE_URL}blog/${article.slug}` })
+      generateBlogArticleStructuredData(article, { keywords: seo.keywords })
+    } else {
+      setPageSEO({
+        title: 'Article Not Found | Waqas Ahmad Blog',
+        description: 'The requested article was not found. Return to the blog to explore more articles.',
+        keywords: ['blog', 'Waqas Ahmad'],
+        url: `${SITE_URL}${to.path}`
+      })
+      const notFoundBreadcrumbs = generateBreadcrumbSchema([
+        { name: 'Home', url: SITE_URL },
+        { name: 'Blog', url: `${SITE_URL}blog` },
+        { name: 'Article Not Found', url: `${SITE_URL}${to.path}` }
+      ])
+      injectStructuredData([notFoundBreadcrumbs])
+    }
   } else if (to.name === 'Privacy') {
     setPageSEO({
       title: 'Privacy & Analytics | Waqas Ahmad',
@@ -554,6 +621,12 @@ router.beforeEach((to, from, next) => {
       keywords: ['privacy', 'analytics', 'Google Analytics', 'Microsoft Clarity'],
       url: `${SITE_URL}${to.path}`
     })
+    // Breadcrumb schema for Privacy (SEO: breadcrumbs on ALL pages)
+    const privacyBreadcrumbs = generateBreadcrumbSchema([
+      { name: 'Home', url: SITE_URL },
+      { name: 'Privacy', url: `${SITE_URL}${to.path}` }
+    ])
+    injectStructuredData([privacyBreadcrumbs])
   } else if (to.name === 'NotFound') {
     // 404 page SEO
     setPageSEO({
@@ -562,6 +635,12 @@ router.beforeEach((to, from, next) => {
       keywords: ['404', 'Page Not Found'],
       url: `${SITE_URL}${to.path}`
     })
+    // Breadcrumb schema for 404 (SEO: breadcrumbs on ALL pages)
+    const notFoundBreadcrumbs = generateBreadcrumbSchema([
+      { name: 'Home', url: SITE_URL },
+      { name: 'Page Not Found', url: `${SITE_URL}${to.path}` }
+    ])
+    injectStructuredData([notFoundBreadcrumbs])
   } else {
     // Default SEO for other pages
     setPageSEO({

@@ -4,6 +4,8 @@
  */
 
 import { APP_CONFIG, SITE_URL } from '../config/constants.js'
+import { getSemanticVariantsForPerson } from '../config/semanticKeywords.js'
+import { BLOG_ARTICLES } from '../config/blogArticles.js'
 
 const BASE_URL = import.meta.env.BASE_URL || '/portfolio/'
 
@@ -383,7 +385,9 @@ export function generatePersonSchema() {
       'Scalable Azure Angular',
       'Real-Time Angular .NET Core',
       'Real-Time .NET Core Angular',
-      'Real-Time Azure Angular'
+      'Real-Time Azure Angular',
+      // Semantic variants (TF-IDF / topical authority)
+      ...getSemanticVariantsForPerson()
     ],
     alumniOf: {
       '@type': 'EducationalOrganization',
@@ -613,6 +617,25 @@ export function generateBreadcrumbSchema(items) {
 }
 
 /**
+ * Generate Speakable schema for voice assistants and AI agents
+ * @param {string[]} cssSelectors - Array of CSS selectors for key sections (e.g. ['#hero h1', '#hero .lead'])
+ * @returns {object} WebPage schema with SpeakableSpecification
+ */
+export function generateSpeakableSchema(cssSelectors) {
+  if (!cssSelectors || !Array.isArray(cssSelectors) || cssSelectors.length === 0) {
+    return null
+  }
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: cssSelectors
+    }
+  }
+}
+
+/**
  * Generate Article schema (for project pages)
  */
 export function generateArticleSchema(articleData) {
@@ -749,7 +772,17 @@ export function generateHomePageStructuredData(testimonials = []) {
   const website = generateWebSiteSchema()
   
   // Inject all schemas
-  injectStructuredData([person, service, organization, jobPosting, website])
+  const speakable = generateSpeakableSchema([
+    '#hero',
+    '#hero h1',
+    '#hero .lead',
+    '#about',
+    '#about .summary',
+    '.key-benefits'
+  ])
+  const schemas = [person, service, organization, jobPosting, website]
+  if (speakable) schemas.push(speakable)
+  injectStructuredData(schemas)
 }
 
 /**
@@ -1108,9 +1141,11 @@ export function generateJobPostingSchema() {
 
 /**
  * Generate structured data for project page
+ * @param {object} projectData - title, description, url, image
+ * @param {{ testimonials?: Array<{ name: string, title?: string, text: string }>, metrics?: string } } [options] - optional testimonials (real LinkedIn/client) and impact metrics for Review/AggregateRating
  */
-export function generateProjectPageStructuredData(projectData) {
-  const article = generateArticleSchema(projectData)
+export function generateProjectPageStructuredData(projectData, options = {}) {
+  let article = generateArticleSchema(projectData)
   const software = generateSoftwareApplicationSchema(projectData)
   const breadcrumbs = generateBreadcrumbSchema([
     { name: 'Home', url: SITE_URL },
@@ -1118,7 +1153,33 @@ export function generateProjectPageStructuredData(projectData) {
     { name: projectData.title, url: `${SITE_URL}${projectData.url}` }
   ])
   
-  injectStructuredData([article, software, breadcrumbs])
+  const testimonials = options.testimonials && Array.isArray(options.testimonials) ? options.testimonials : []
+  const metrics = options.metrics
+  if (testimonials.length > 0) {
+    const { reviews, aggregateRating } = generateReviewSchema(testimonials)
+    article = { ...article, review: reviews, aggregateRating }
+  } else if (metrics) {
+    article = {
+      ...article,
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '5',
+        bestRating: '5',
+        worstRating: '1',
+        ratingCount: '1'
+      }
+    }
+  }
+  
+  const speakable = generateSpeakableSchema([
+    '#portfolio-details',
+    '#portfolio-details h1',
+    '.portfolio-details .section-title',
+    '.page-title .current'
+  ])
+  const schemas = [article, software, breadcrumbs]
+  if (speakable) schemas.push(speakable)
+  injectStructuredData(schemas)
 }
 
 /**
@@ -1275,6 +1336,124 @@ export function generateServicePageStructuredData(serviceData, faqItems = []) {
   // Add Offer schema for availability
   schemas.push(generateOfferSchema())
   
+  // Speakable for voice/AI agents (service page key sections)
+  const speakable = generateSpeakableSchema([
+    '#service-hero',
+    '#service-hero h1',
+    '.service-lead',
+    '.key-benefits',
+    '.cta-section'
+  ])
+  if (speakable) schemas.push(speakable)
+  
+  injectStructuredData(schemas)
+}
+
+/**
+ * Generate BlogPosting schema for a blog article page.
+ * @param {object} article - Article config (slug, title, excerpt, date, topic, keywords, faqs, ...)
+ * @param {{ keywords?: string[] }} [options] - Optional: keywords array (same as meta) for rich BlogPosting.keywords
+ */
+export function generateBlogArticleStructuredData(article, options = {}) {
+  const fullName = APP_CONFIG.fullName
+  const articleUrl = `${SITE_URL}blog/${article.slug}`
+  const imageUrl = article.image || `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
+  const keywordsRaw = options.keywords && Array.isArray(options.keywords) && options.keywords.length > 0
+    ? options.keywords
+    : (article.keywords ? (Array.isArray(article.keywords) ? article.keywords : [article.keywords]) : [article.topic].filter(Boolean))
+  const keywordsValue = keywordsRaw.length > 0 ? (keywordsRaw.length === 1 ? keywordsRaw[0] : keywordsRaw.join(', ')) : ''
+  const blogPosting = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': articleUrl,
+    headline: article.title,
+    description: article.excerpt,
+    author: {
+      '@type': 'Person',
+      name: fullName,
+      '@id': `${SITE_URL}#person`
+    },
+    datePublished: article.date || new Date().toISOString().split('T')[0],
+    dateModified: article.dateModified || article.date || new Date().toISOString().split('T')[0],
+    mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+    image: imageUrl,
+    keywords: keywordsValue,
+    url: articleUrl,
+    publisher: {
+      '@type': 'Person',
+      name: fullName,
+      url: SITE_URL
+    }
+  }
+  const breadcrumbs = generateBreadcrumbSchema([
+    { name: 'Home', url: SITE_URL },
+    { name: 'Blog', url: `${SITE_URL}blog` },
+    { name: article.title, url: articleUrl }
+  ])
+  const speakable = generateSpeakableSchema([
+    '#article-hero',
+    '#article-hero h1',
+    '.article-lead',
+    '.article-body'
+  ])
+  const schemas = [blogPosting, breadcrumbs]
+  if (speakable) schemas.push(speakable)
+  /* FAQPage schema for AI/search engines when article has structured FAQs */
+  if (article.faqs && Array.isArray(article.faqs) && article.faqs.length > 0) {
+    const faqSchema = generateFAQPageSchema(article.faqs)
+    schemas.push(faqSchema)
+  }
+  injectStructuredData(schemas)
+}
+
+/**
+ * Generate CollectionPage schema for blog index (with ItemList and Speakable).
+ */
+export function generateBlogIndexStructuredData() {
+  const fullName = APP_CONFIG.fullName
+  const blogUrl = `${SITE_URL}blog`
+  const collectionPage = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': blogUrl,
+    name: 'Blog | Waqas Ahmad',
+    description: 'Technical blog: Azure, .NET, microservices, enterprise architecture. Articles by Waqas Ahmad, Senior Software Engineer.',
+    url: blogUrl,
+    publisher: {
+      '@type': 'Person',
+      name: fullName,
+      url: SITE_URL
+    }
+  }
+  const breadcrumbs = generateBreadcrumbSchema([
+    { name: 'Home', url: SITE_URL },
+    { name: 'Blog', url: blogUrl }
+  ])
+  const schemas = [collectionPage, breadcrumbs]
+
+  // ItemList of articles for rich snippets / AI
+  const articles = [...BLOG_ARTICLES].sort((a, b) => new Date(b.date) - new Date(a.date))
+  if (articles.length > 0) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      '@id': `${blogUrl}#itemlist`,
+      name: 'Blog articles',
+      description: 'Technical articles by Waqas Ahmad',
+      numberOfItems: articles.length,
+      itemListElement: articles.map((a, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `${SITE_URL}blog/${a.slug}`,
+        name: a.title
+      }))
+    })
+  }
+
+  // Speakable: intro paragraph for voice/AI
+  const speakable = generateSpeakableSchema(['.blog-intro', '.article-lead'])
+  if (speakable) schemas.push(speakable)
+
   injectStructuredData(schemas)
 }
 
@@ -1284,6 +1463,7 @@ export default {
   generateProfessionalServiceSchema,
   generateOrganizationSchema,
   generateBreadcrumbSchema,
+  generateSpeakableSchema,
   generateArticleSchema,
   generateSoftwareApplicationSchema,
   generateFAQPageSchema,
@@ -1291,10 +1471,11 @@ export default {
   generateServiceSchema,
   generateOfferSchema,
   generateJobPostingSchema,
-  generateJobPostingSchema,
   generateHomePageStructuredData,
   generateProjectPageStructuredData,
   generateServicePageStructuredData,
   generateServiceImageObjectSchema,
-  generateServiceHowToSchema
+  generateServiceHowToSchema,
+  generateBlogArticleStructuredData,
+  generateBlogIndexStructuredData
 }

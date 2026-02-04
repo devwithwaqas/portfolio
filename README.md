@@ -171,7 +171,7 @@ portfolio/
 
 3. **Add Your Projects:**
    - Follow [PROJECT_PAGE_CREATION_GUIDE.md](./docs/PROJECT_PAGE_CREATION_GUIDE.md)
-   - Copy existing project page as template
+   - Copy `src/views/projects/ProjectPageStarter.vue` to a new file, or copy an existing project page
 
 4. **Add Your Services:**
    - Follow [SERVICE_PAGE_CREATION_GUIDE.md](./docs/SERVICE_PAGE_CREATION_GUIDE.md)

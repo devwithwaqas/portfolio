@@ -59,6 +59,7 @@
       />
 
       <RelatedServices current-path="/services/database-design-optimization" />
+      <TopicClusterLinks current-path="/services/database-design-optimization" />
 
       <!-- CTA -->
       <ServiceCTA
@@ -100,6 +101,7 @@ export default {
     ServiceCTA,
     RelatedProjects,
     RelatedServices,
+    TopicClusterLinks,
     TechnologyStack,
     ServicePageTemplate
   },

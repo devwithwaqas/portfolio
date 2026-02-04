@@ -19,8 +19,8 @@ cp src/config/templateNarration.js src/config/yourProjectNarration.js
 # Option A: Copy full HeatExchangerPage (has all sections)
 cp src/views/projects/HeatExchangerPage.vue src/views/projects/YourProjectPage.vue
 
-# Option B: Use minimal template (only essential components)
-cp MINIMAL_PROJECT_PAGE_TEMPLATE.vue src/views/projects/YourProjectPage.vue
+# Option B: Use ProjectPageStarter.vue (boilerplate in this folder)
+cp src/views/projects/ProjectPageStarter.vue src/views/projects/YourProjectPage.vue
 ```
 
 **Edit the project page:**

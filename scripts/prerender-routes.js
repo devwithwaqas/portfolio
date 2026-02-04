@@ -12,8 +12,21 @@ import { spawn } from 'child_process';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DIST_DIR = path.join(__dirname, '../dist');
+const BLOG_ARTICLES_DIR = path.join(__dirname, '../src/config/blog/articles');
 
-// All routes to pre-render
+/** Get blog article slugs from blog/articles/*.js (one file per article; filename = slug) */
+function getBlogArticleSlugs() {
+  if (!fs.existsSync(BLOG_ARTICLES_DIR)) return [];
+  return fs.readdirSync(BLOG_ARTICLES_DIR)
+    .filter((f) => f.endsWith('.js'))
+    .map((f) => f.replace(/\.js$/, ''))
+    .sort();
+}
+
+// All routes to pre-render (blog slugs added so Google gets static HTML for SEO)
+const blogSlugs = getBlogArticleSlugs();
+const blogRoutes = ['/blog', ...blogSlugs.map((slug) => `/blog/${slug}`)];
+
 const ROUTES = [
   '/',
   '/services/full-stack-development',
@@ -32,7 +45,8 @@ const ROUTES = [
   '/projects/mobile-games',
   '/projects/uk-property-management',
   '/projects/g5-pos',
-  '/projects/chubb-insurance'
+  '/projects/chubb-insurance',
+  ...blogRoutes
 ];
 
 const PORT = 4173;

@@ -12,6 +12,8 @@
 const fs = require('fs')
 const path = require('path')
 
+const BLOG_ARTICLES_DIR = path.resolve(__dirname, '../src/config/blog/articles')
+
 // Detect build mode from environment or check dist/index.html for base path
 // Primary site: Firebase (waqasahmad-portfolio). GitHub Pages was legacy and redirects to Firebase.
 const DIST_DIR = path.resolve(__dirname, '../dist')
@@ -110,6 +112,10 @@ function extractRoutesFromRouter() {
     if (route.name === 'NotFound' || route.path.includes('pathMatch')) {
       return
     }
+    // Skip dynamic /blog/:slug - we add blog article URLs separately
+    if (route.path === '/blog/:slug') {
+      return
+    }
     
     // Determine priority and changefreq based on path
     let priority = 0.5
@@ -117,6 +123,9 @@ function extractRoutesFromRouter() {
     
     if (route.path === '/') {
       priority = 1.0
+      changefreq = 'weekly'
+    } else if (route.path === '/blog') {
+      priority = 0.9
       changefreq = 'weekly'
     } else if (route.path.startsWith('/projects/')) {
       priority = 0.8
@@ -143,9 +152,26 @@ function extractRoutesFromRouter() {
   return routes
 }
 
+/**
+ * Extract blog article slugs from blog/articles/*.js (one file per article; filename = slug)
+ */
+function getBlogArticleSlugs() {
+  if (!fs.existsSync(BLOG_ARTICLES_DIR)) return []
+  return fs.readdirSync(BLOG_ARTICLES_DIR)
+    .filter((f) => f.endsWith('.js'))
+    .map((f) => f.replace(/\.js$/, ''))
+    .sort()
+}
+
 function generateSitemap() {
   // Automatically extract routes from router
   const routes = extractRoutesFromRouter()
+  
+  // Add /blog/:slug for each article (router has /blog as static route already)
+  const blogSlugs = getBlogArticleSlugs()
+  blogSlugs.forEach(slug => {
+    routes.push({ path: `/blog/${slug}`, priority: 0.8, changefreq: 'monthly' })
+  })
   
   // Use current date for lastmod - ensures sitemap is always "fresh"
   const today = new Date().toISOString().split('T')[0]

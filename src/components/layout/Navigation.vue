@@ -88,6 +88,21 @@
         @navigate="scrollToSection('services', $event)"
       />
 
+      <!-- Blog Button (router link – same NavButton styles, distinct rose color) -->
+      <NavButton
+        router-path="/blog"
+        label="Blog"
+        button-color="244, 63, 94"
+        :svg-paths="[{ d: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z' }]"
+        :svg-polylines="[{ points: '14 2 14 8 20 8' }, { points: '10 9 9 9 8 9' }]"
+        :svg-lines="[
+          { x1: '16', y1: '13', x2: '8', y2: '13' },
+          { x1: '16', y1: '17', x2: '8', y2: '17' }
+        ]"
+        :is-active="isBlogActive"
+        @navigate="closeMobileMenu"
+      />
+
       <!-- Contact Button -->
       <NavButton 
         href="#contact" 
@@ -111,6 +126,12 @@ export default {
   name: 'Navigation',
   components: {
     NavButton
+  },
+  computed: {
+    isBlogActive() {
+      return this.$route.path === '/blog' || this.$route.path.startsWith('/blog/') ||
+        (this.$route.path === '/' && this.activeSection === 'blog')
+    }
   },
   data() {
     return {
@@ -226,14 +247,13 @@ export default {
       this.mobileMenuOpen = false
     },
     setActiveSectionFromRoute() {
-      // Check if we're on a project page
       if (this.$route.path.startsWith('/projects/')) {
         this.activeSection = 'portfolio'
       } else if (this.$route.path.startsWith('/services/')) {
-        // If we're on a service page, highlight Services
         this.activeSection = 'services'
+      } else if (this.$route.path === '/blog' || this.$route.path.startsWith('/blog/')) {
+        this.activeSection = 'blog'
       } else if (this.$route.path === '/') {
-        // If we're on the home page, let scroll spy handle it
         this.activeSection = 'hero'
       }
     },
@@ -274,7 +294,7 @@ export default {
       }
     },
     setupIntersectionObserver() {
-      const sections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
+      const sections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'blog', 'contact']
       
       // Store observer reference for cleanup
       if (this.intersectionObserver) {

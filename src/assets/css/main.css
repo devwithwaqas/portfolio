@@ -223,8 +223,10 @@ h6 {
   /* Reserve ~8 viewport heights for typical home page content */
 }
 
-/* Short pages (e.g. Privacy): no forced min-height so footer sits under content */
-.main-content main:has(.privacy-page) {
+/* Short pages (e.g. Privacy, Blog): no forced min-height so footer sits under content */
+.main-content main:has(.privacy-page),
+.main-content main:has(.blog-index-page),
+.main-content main:has(.article-page) {
   min-height: 0;
 }
 
@@ -252,7 +254,9 @@ h6 {
     box-sizing: border-box;
   }
   
-  .main-content main:has(.privacy-page) {
+  .main-content main:has(.privacy-page),
+  .main-content main:has(.blog-index-page),
+  .main-content main:has(.article-page) {
     min-height: 0;
   }
 

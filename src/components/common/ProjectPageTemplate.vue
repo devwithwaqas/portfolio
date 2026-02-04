@@ -56,6 +56,8 @@
             </div>
           </ReusableCard>
         </div>
+        <!-- Part of cluster (SEO: topical cluster links) -->
+        <TopicClusterLinks :current-path="$route?.path || ''" page-type="project" class="mt-4" />
         
       </div>
     </article>
@@ -66,13 +68,15 @@
 <script>
 import Breadcrumbs from '../projects/Breadcrumbs.vue'
 import ReusableCard from './ReusableCard.vue'
+import TopicClusterLinks from '../services/TopicClusterLinks.vue'
 import { getRelatedServicesForProject } from '../../config/relatedServices.js'
 
 export default {
   name: 'ProjectPageTemplate',
   components: {
     Breadcrumbs,
-    ReusableCard
+    ReusableCard,
+    TopicClusterLinks
   },
   computed: {
     relatedServices() {

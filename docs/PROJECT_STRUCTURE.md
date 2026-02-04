@@ -53,6 +53,7 @@ portfolio/
 │   ├── views/                    # Page views (routes)
 │   │   ├── Home.vue              # Main home page
 │   │   ├── projects/             # Project detail pages
+│   │   │   ├── ProjectPageStarter.vue  # Copy-from template for new pages (not a route)
 │   │   │   ├── HeatExchangerPage.vue
 │   │   │   ├── AirAsiaID90Page.vue
 │   │   │   ├── BATInhouseAppPage.vue
@@ -146,8 +147,8 @@ portfolio/
 #### `src/views/` - Page Views (Routes)
 - **`Home.vue`**: Main home page (includes all home sections)
 - **`projects/`**: Individual project detail pages
-  - Each project has its own page (e.g., `HeatExchangerPage.vue`)
-  - Uses `ProjectPageTemplate` as wrapper
+  - **ProjectPageStarter.vue**: Boilerplate to copy when creating a new project page (see PROJECT_PAGE_CREATION_GUIDE.md)
+  - Each project has its own page (e.g., `HeatExchangerPage.vue`), all using `ProjectPageTemplate` from `src/components/common/ProjectPageTemplate.vue`
   - Contains project-specific data and components
 - **`services/`**: Individual service detail pages
   - Each service has its own page (e.g., `FullStackDevelopmentPage.vue`)
@@ -198,11 +199,12 @@ portfolio/
 ## 🔄 File Flow
 
 ### Creating a New Project Page
-1. Create page in `src/views/projects/YourProjectPage.vue`
+1. Copy `src/views/projects/ProjectPageStarter.vue` to `src/views/projects/YourProjectPage.vue` (or copy from an existing project page)
 2. Add route in `src/router/index.js`
-3. Use components from `src/components/projects/`
+3. Use components from `src/components/projects/`; wrapper is `ProjectPageTemplate` from `src/components/common/ProjectPageTemplate.vue`
 4. Add diagram SVG to `public/assets/diagrams/`
 5. (Optional) Add narration config to `src/config/`
+6. See **PROJECT_PAGE_CREATION_GUIDE.md** for full steps
 
 ### Creating a New Service Page
 1. Create page in `src/views/services/YourServicePage.vue`

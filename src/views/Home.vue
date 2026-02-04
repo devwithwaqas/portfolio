@@ -24,6 +24,9 @@
     <!-- Services Section -->
     <Services />
     
+    <!-- Latest from the blog -->
+    <LatestFromBlog />
+    
     <!-- FAQ Section -->
     <HomeFAQ />
     
@@ -49,6 +52,7 @@ import Skills from '../components/home/Skills.vue'
 import Resume from '../components/home/Resume.vue'
 import Portfolio from '../components/home/Portfolio.vue'
 import Services from '../components/home/Services.vue'
+import LatestFromBlog from '../components/home/LatestFromBlog.vue'
 import Testimonials from '../components/home/Testimonials.vue'
 import HomeFAQ from '../components/home/HomeFAQ.vue'
 import Contact from '../components/home/Contact.vue'
@@ -66,6 +70,7 @@ export default {
     Resume,
     Portfolio,
     Services,
+    LatestFromBlog,
     Testimonials,
     HomeFAQ,
     Contact,
@@ -106,7 +111,7 @@ export default {
         return
       }
       
-      const validSections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
+      const validSections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'blog', 'contact']
       if (!validSections.includes(sectionId)) {
         return
       }
@@ -269,7 +274,7 @@ export default {
       }
       
       if (sectionId) {
-        const validSections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
+        const validSections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'blog', 'contact']
         
         if (validSections.includes(sectionId)) {
           // Check if reload is likely (service worker update, etc.)
@@ -413,7 +418,7 @@ export default {
     const hashSectionId = hash ? hash.substring(1) : null
     
     if (hashSectionId) {
-      const validSections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'contact']
+      const validSections = ['hero', 'about', 'technology-expertise', 'skills', 'resume', 'portfolio', 'services', 'blog', 'contact']
       if (validSections.includes(hashSectionId)) {
         // Check if this was already handled by watchers (prevent double-scroll)
         const scrollPending = (() => {

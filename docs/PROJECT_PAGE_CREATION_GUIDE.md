@@ -62,8 +62,8 @@ Before creating a new project page, ensure you have:
 # Option A: Copy from HeatExchangerPage (most complete example)
 cp src/views/projects/HeatExchangerPage.vue src/views/projects/YourProjectPage.vue
 
-# Option B: Use PROJECT_PAGE_TEMPLATE.vue (boilerplate starter)
-cp docs/PROJECT_PAGE_TEMPLATE.vue src/views/projects/YourProjectPage.vue
+# Option B: Use ProjectPageStarter.vue (boilerplate starter)
+cp src/views/projects/ProjectPageStarter.vue src/views/projects/YourProjectPage.vue
 ```
 
 ### Step 2: Add Router Entry
@@ -834,12 +834,9 @@ console.log(iconData)
 
 ## 📖 Additional Resources
 
-- **PROJECT_SETUP_GUIDE.md** - Detailed component reference
-- **PROJECT_PAGE_IMPLEMENTATION_GUIDE.md** - Advanced implementation details
-- **QUICK_START_NEW_PROJECT_PAGE.md** - Fast-track guide
-- **DIAGRAM_SETUP_GUIDE.md** - Diagram creation details
-- **Project_Narration_Guide.md** - Narration system guide
-- **PROJECT_PAGE_TEMPLATE.vue** - Starter template file (in `docs/` folder)
+- **DIAGRAM_SETUP_GUIDE.md** - Diagram creation and DiagramViewer setup
+- **PROJECT_STRUCTURE.md** - Project folder structure and file flow
+- **ProjectPageStarter.vue** - Starter template: copy from `src/views/projects/ProjectPageStarter.vue` when creating a new project page
 
 ---
 

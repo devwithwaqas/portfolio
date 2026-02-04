@@ -10,7 +10,9 @@ const RETRY_DELAY = 150
 const POSITION_TOLERANCE = 5
 
 /**
- * Scrolls to a section by ID with proper timing and position calculation
+ * Scrolls to a section by ID with proper timing and position calculation.
+ * sectionId can be any element ID on the current page (e.g. hero, about, blog, contact).
+ * For /#blog on Home, Home.vue must include 'blog' in validSections and the page must have an element id="blog".
  * @param {string} sectionId - The ID of the section to scroll to
  * @param {number} retryCount - Internal retry counter (don't pass this)
  * @returns {void}

@@ -5,6 +5,7 @@
 # For AI-oriented content (titles, descriptions, keywords): see /llms.txt .
 # AI agents use llms.txt for accurate citing and summarization; it provides both
 # descriptions and keywords. robots.txt does not contain descriptions or keywords.
+# Allow: /blog and /blog/* (covered by Allow: / below).
 
 User-agent: *
 Allow: /

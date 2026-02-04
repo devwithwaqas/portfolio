@@ -69,7 +69,11 @@ scripts/.cache/
 *-order-analysis.md
 *-check.txt
 command-outputs/
+script-output/
 dev-error-log.txt
 *.backup
 *.pre-restore-backup
 project-page-temp/
+
+# Validation output
+.validation-output/

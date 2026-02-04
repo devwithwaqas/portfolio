@@ -12,54 +12,81 @@
         class="service-section-first"
       />
 
-      <!-- Service Overview -->
-      <ServiceOverview
-        title="Full Stack Development"
-        :content="overviewContent"
-        :banner-images="overviewBannerImages"
+      <!-- Topics index (anchor links to sections below) -->
+      <ServicePageTopics
+        title="In this page"
+        :items="topicIndexItems"
+        class="mb-4"
       />
+
+      <!-- Service Overview -->
+      <div id="overview" class="service-section-anchor mb-4">
+        <ServiceOverview
+          title="Full Stack Development"
+          :content="overviewContent"
+          :banner-images="overviewBannerImages"
+        />
+      </div>
+
+      <!-- Full stack in practice: code explanation and working examples -->
+      <div id="full-stack-in-practice" class="service-section-anchor mb-4">
+        <FullStackInPracticeSection :code-examples="fullStackCodeExamples" />
+      </div>
 
       <!-- Capabilities -->
-      <ServiceCapabilities
-        :capabilities="capabilities"
-        :methodologies="methodologies"
-        :deliverables="deliverables"
-      />
+      <div id="capabilities" class="service-section-anchor mb-4">
+        <ServiceCapabilities
+          :capabilities="capabilities"
+          :methodologies="methodologies"
+          :deliverables="deliverables"
+        />
+      </div>
 
       <!-- Process -->
-      <ServiceProcess
-        :steps="processSteps"
-        timeline="8-12 weeks (typical project)"
-        :engagement-models="engagementModels"
-        :process-image="$assetPath('/assets/img/services/full-stack-process.jpg')"
-      />
+      <div id="process" class="service-section-anchor mb-4">
+        <ServiceProcess
+          :steps="processSteps"
+          timeline="8-12 weeks (typical project)"
+          :engagement-models="engagementModels"
+          :process-image="$assetPath('/assets/img/services/full-stack-process.jpg')"
+        />
+      </div>
 
       <!-- Technologies -->
-      <TechnologyStack
-        title="Technology Stack"
-        :technologies="technologies"
-      />
+      <div id="technology-stack" class="service-section-anchor mb-4">
+        <TechnologyStack
+          title="Technology Stack"
+          :technologies="technologies"
+        />
+      </div>
 
       <!-- Case Studies -->
-      <ServiceCaseStudies
-        introduction="Here are some examples of full stack applications I've developed:"
-        :case-studies="caseStudies"
-      />
+      <div id="case-studies" class="service-section-anchor mb-4">
+        <ServiceCaseStudies
+          introduction="Here are some examples of full stack applications I've developed:"
+          :case-studies="caseStudies"
+        />
+      </div>
 
       <!-- FAQ (first 6 visible; "Show more" reveals rest) -->
-      <ServiceFAQ
-        :faq-items="faqItems"
-        :initial-visible-count="6"
-      />
+      <div id="faq" class="service-section-anchor mb-4">
+        <ServiceFAQ
+          :faq-items="faqItems"
+          :initial-visible-count="6"
+        />
+      </div>
 
       <!-- Related Projects -->
-      <RelatedProjects
-        :projects="relatedProjects"
-        introduction="Explore related full stack projects I've worked on:"
-      />
+      <div id="related-projects" class="service-section-anchor mb-4">
+        <RelatedProjects
+          :projects="relatedProjects"
+          introduction="Explore related full stack projects I've worked on:"
+        />
+      </div>
 
       <!-- Related services (internal links for reach) -->
       <RelatedServices current-path="/services/full-stack-development" />
+      <TopicClusterLinks current-path="/services/full-stack-development" />
 
       <!-- CTA -->
       <ServiceCTA
@@ -81,6 +108,7 @@ import ServiceProcess from '@/components/services/ServiceProcess.vue'
 import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import RelatedServices from '@/components/services/RelatedServices.vue'
+import TopicClusterLinks from '@/components/services/TopicClusterLinks.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
@@ -102,6 +130,7 @@ export default {
     ServiceCTA,
     RelatedProjects,
     RelatedServices,
+    TopicClusterLinks,
     TechnologyStack,
     ServicePageTemplate
   },

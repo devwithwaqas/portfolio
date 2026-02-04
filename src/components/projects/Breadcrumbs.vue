@@ -1,23 +1,37 @@
 <template>
-  <div class="page-title" data-aos="fade">
+  <div class="page-title" :class="{ 'page-title--blog': variant === 'blog' }" data-aos="fade">
     <div class="container">
-      <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <nav class="breadcrumbs" :class="{ 'breadcrumbs--blog': variant === 'blog' }" aria-label="Breadcrumb">
         <ol itemscope itemtype="https://schema.org/BreadcrumbList">
           <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
             <meta itemprop="position" content="1" />
-            <router-link to="/" itemprop="item">
+            <router-link to="/" itemprop="item" :class="{ 'breadcrumb-pill': variant === 'blog' }">
               <span itemprop="name">Home</span>
             </router-link>
           </li>
-          <li v-if="parentLink" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <li v-if="showParent" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
             <meta itemprop="position" content="2" />
-            <a href="#" @click.prevent="navigateToSection" itemprop="item">
-              <span itemprop="name">{{ parentLabel }}</span>
-            </a>
+            <template v-if="variant === 'blog'">
+              <span class="breadcrumb-chevron" aria-hidden="true">›</span>
+              <router-link v-if="isParentRoute" :to="parentLink" itemprop="item" class="breadcrumb-pill">
+                <span itemprop="name">{{ parentLabel }}</span>
+              </router-link>
+              <a v-else href="#" @click.prevent="navigateToSection" itemprop="item" class="breadcrumb-pill">
+                <span itemprop="name">{{ parentLabel }}</span>
+              </a>
+            </template>
+            <template v-else>
+              <router-link v-if="isParentRoute" :to="parentLink" itemprop="item">
+                <span itemprop="name">{{ parentLabel }}</span>
+              </router-link>
+              <a v-else href="#" @click.prevent="navigateToSection" itemprop="item">
+                <span itemprop="name">{{ parentLabel }}</span>
+              </a>
+            </template>
           </li>
-          <li class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <meta itemprop="position" :content="parentLink ? '3' : '2'" />
-            <span itemprop="name">{{ currentPage }}</span>
+          <li class="current" :class="{ 'current--blog': variant === 'blog' }" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <meta itemprop="position" :content="showParent ? '3' : '2'" />
+            <span itemprop="name" :title="currentPage" :class="{ 'current-title--blog': variant === 'blog' }">{{ currentPage }}</span>
             <meta itemprop="item" :content="safeCurrentUrl" />
           </li>
         </ol>
@@ -45,6 +59,11 @@ export default {
     parentLabel: {
       type: String,
       default: 'Portfolio'
+    },
+    /** 'blog' = two-line layout: "Home / Blog" on first line, long article title on second with ellipsis */
+    variant: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -53,14 +72,24 @@ export default {
     }
   },
   computed: {
+    // Hide parent when it's just "Home" so we don't get "Home | Home | Blog" – only "Home | Blog"
+    showParent() {
+      if (!this.parentLink) return false
+      if (this.parentLabel === 'Home' || this.parentLink === '/') return false
+      return true
+    },
     safeCurrentUrl() {
       // Return the current URL safely, ensuring it's always a string
       return this.currentUrl || SITE_URL
     },
+    // Parent is a route path (e.g. /blog) → use router-link. Parent has hash (e.g. /#portfolio) → use scroll-to-section
+    isParentRoute() {
+      if (!this.parentLink) return false
+      return this.parentLink.indexOf('#') === -1
+    },
     sectionId() {
       // Extract section ID from parentLink (e.g., '/#portfolio' -> 'portfolio', '#portfolio' -> 'portfolio')
       if (this.parentLink) {
-        // Handle both '/#section' and '#section' formats
         const hashIndex = this.parentLink.indexOf('#')
         if (hashIndex !== -1) {
           return this.parentLink.substring(hashIndex + 1)
@@ -96,7 +125,7 @@ export default {
     // Generate and inject BreadcrumbList structured data for SEO
     const breadcrumbItems = [
       { name: 'Home', url: SITE_URL },
-      { name: this.parentLabel, url: `${SITE_URL}${this.parentLink.replace(/^\/#/, '')}` },
+      ...(this.showParent ? [{ name: this.parentLabel, url: `${SITE_URL}${this.parentLink.replace(/^\/#/, '')}` }] : []),
       { name: this.currentPage, url: this.currentUrl }
     ]
     
@@ -154,13 +183,123 @@ export default {
 
 .breadcrumbs a:hover {
   color: rgba(139, 92, 246, 1);
-  text-decoration: underline;
 }
 
 .breadcrumbs .current {
   color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
   line-height: 1;
+}
+
+/* ---- Blog variant: pill path + article title block ---- */
+.page-title--blog {
+  padding: 16px 0 18px;
+  min-height: auto;
+}
+
+.page-title--blog .breadcrumbs--blog ol {
+  flex-wrap: wrap;
+  width: 100%;
+  row-gap: 0;
+  column-gap: 0;
+  align-items: center;
+}
+
+/* Hide default slash; we use chevron between pills */
+.page-title--blog .breadcrumbs--blog li + li::before {
+  display: none;
+}
+
+.page-title--blog .breadcrumbs--blog li {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Pills: Home and Blog as clickable chips */
+.breadcrumb-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: rgba(139, 92, 246, 0.18);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  line-height: 1.2;
+}
+
+.breadcrumb-pill:hover {
+  background: rgba(139, 92, 246, 0.28);
+  border-color: rgba(139, 92, 246, 0.6);
+  color: #fff;
+  text-decoration: none;
+}
+
+.breadcrumb-chevron {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 1rem;
+  padding: 0 6px;
+  line-height: 1;
+  user-select: none;
+}
+
+/* Current article: full-width row with left accent bar and ellipsis */
+.page-title--blog .breadcrumbs--blog li.current--blog {
+  flex: 1 1 100%;
+  min-width: 0;
+  width: 100%;
+  order: 3;
+  padding-left: 0;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+.page-title--blog .breadcrumbs--blog li.current--blog::before {
+  display: none;
+}
+
+.breadcrumbs--blog .current-title--blog {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.92);
+  padding-left: 12px;
+  border-left: 3px solid rgba(139, 92, 246, 0.7);
+  font-weight: 500;
+}
+
+@media (max-width: 767px) {
+  .page-title--blog {
+    padding: 12px 0 14px;
+  }
+
+  .breadcrumb-pill {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+
+  .breadcrumb-chevron {
+    padding: 0 4px;
+    font-size: 0.9rem;
+  }
+
+  .page-title--blog .breadcrumbs--blog li.current--blog {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+
+  .breadcrumbs--blog .current-title--blog {
+    font-size: 0.85rem;
+    padding-left: 10px;
+    border-left-width: 2px;
+  }
 }
 
 /* Desktop */

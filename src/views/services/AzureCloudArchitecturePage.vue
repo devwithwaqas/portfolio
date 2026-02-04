@@ -59,6 +59,7 @@
       />
 
       <RelatedServices current-path="/services/azure-cloud-architecture" />
+      <TopicClusterLinks current-path="/services/azure-cloud-architecture" />
 
       <!-- CTA -->
       <ServiceCTA
@@ -82,6 +83,7 @@ import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
 import RelatedServices from '@/components/services/RelatedServices.vue'
+import TopicClusterLinks from '@/components/services/TopicClusterLinks.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
@@ -100,6 +102,7 @@ export default {
     ServiceCTA,
     RelatedProjects,
     RelatedServices,
+    TopicClusterLinks,
     TechnologyStack,
     ServicePageTemplate
   },

@@ -38,9 +38,9 @@ const PROJECT_TO_SERVICES = {
   'airasia-id90': ['full-stack-development', 'azure-cloud-architecture', 'technical-leadership'],
   'bat-inhouse-app': ['microservices-architecture', 'azure-cloud-architecture', 'technical-leadership'],
   'mobile-games': ['mobile-development', 'full-stack-development'],
-  'smart-city': ['full-stack-development', 'azure-cloud-architecture', 'technical-leadership'],
+  'pj-smart-city': ['full-stack-development', 'azure-cloud-architecture', 'technical-leadership'],
   'gamified-employee-management': ['full-stack-development', 'agile-project-management'],
-  'insurance-clients': ['full-stack-development', 'azure-cloud-architecture', 'database-design-optimization'],
+  'chubb-insurance-applications': ['full-stack-development', 'azure-cloud-architecture', 'database-design-optimization'],
   'valet-parking': ['full-stack-development', 'mobile-development']
 }
 

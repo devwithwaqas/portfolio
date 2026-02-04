@@ -95,6 +95,14 @@
                 </a>
               </li>
               <li>
+                <router-link to="/blog" class="footer-nav-link txt-footer-link-md" aria-label="Go to blog">
+                  <div class="footer-icon-wrapper blog-icon">
+                    <i class="bi bi-journal-text navicon icon-sm"></i>
+                  </div>
+                  <span>Blog</span>
+                </router-link>
+              </li>
+              <li>
                 <a @click.prevent="scrollToSection('contact', $event)" href="#" class="footer-nav-link txt-footer-link-md">
                   <div class="footer-icon-wrapper contact-icon">
                     <i class="fas fa-paper-plane navicon icon-sm"></i>
@@ -415,6 +423,10 @@ export default {
 }
 
 .footer-nav-links li:nth-child(8) .footer-nav-link:hover {
+  background: rgba(236, 72, 153, 0.45);
+}
+
+.footer-nav-links li:nth-child(9) .footer-nav-link:hover {
   background: rgba(139, 92, 246, 0.45);
 }
 
@@ -535,6 +547,17 @@ export default {
 .footer-nav-link:hover .footer-icon-wrapper.contact-icon {
   transform: scale(1.08) rotate(-2deg);
   box-shadow: 0 4px 16px rgba(139, 92, 246, 0.35);
+}
+
+/* Blog Icon - Rose gradient (matches side nav Blog: 236, 72, 153) */
+.footer-icon-wrapper.blog-icon {
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+  box-shadow: 0 3px 12px rgba(236, 72, 153, 0.25);
+}
+
+.footer-nav-link:hover .footer-icon-wrapper.blog-icon {
+  transform: scale(1.08) rotate(2deg);
+  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.35);
 }
 
 .footer-nav-link .navicon {
