@@ -1,0 +1,12 @@
+{
+  "name": "portfolio-ga4-read",
+  "version": "1.0.0",
+  "description": "Read function - returns cached analytics from Firestore (no GA4 API calls)",
+  "main": "index-read.js",
+  "dependencies": {
+    "@google-cloud/firestore": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

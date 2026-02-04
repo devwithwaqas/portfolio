@@ -1,0 +1,332 @@
+{
+  "components": {
+    "sap_planet": {
+      "x": 25791.4,
+      "y": 6257.8,
+      "width": 529.6,
+      "height": 273.5,
+      "centerX": 26056.3,
+      "centerY": 6394.5
+    },
+    "cherwell_hr": {
+      "x": 21053.9,
+      "y": 6257.8,
+      "width": 529.6,
+      "height": 273.5,
+      "centerX": 21318.8,
+      "centerY": 6394.5
+    },
+    "cherwell_it": {
+      "x": 26947.2,
+      "y": 6257.8,
+      "width": 643.0,
+      "height": 273.5,
+      "centerX": 27268.7,
+      "centerY": 6394.5
+    },
+    "power_apps": {
+      "x": 22207.1,
+      "y": 6257.8,
+      "width": 529.6,
+      "height": 273.5,
+      "centerX": 22471.9,
+      "centerY": 6394.5
+    },
+    "sharepoint": {
+      "x": 23362.2,
+      "y": 6257.8,
+      "width": 650.5,
+      "height": 273.5,
+      "centerX": 23687.5,
+      "centerY": 6394.5
+    },
+    "teams": {
+      "x": 24638.3,
+      "y": 6257.8,
+      "width": 529.6,
+      "height": 273.5,
+      "centerX": 24903.1,
+      "centerY": 6394.5
+    },
+    "azure_ad": {
+      "x": 18747.7,
+      "y": 6257.8,
+      "width": 529.6,
+      "height": 273.5,
+      "centerX": 19012.5,
+      "centerY": 6394.5
+    },
+    "data_lake": {
+      "x": 19900.8,
+      "y": 6257.8,
+      "width": 529.6,
+      "height": 273.5,
+      "centerX": 20165.6,
+      "centerY": 6394.5
+    },
+    "angular_portal": {
+      "x": 1369.5,
+      "y": 1259.7,
+      "width": 511.0,
+      "height": 368.1,
+      "centerX": 1625.0,
+      "centerY": 1443.7
+    },
+    "mobile_pwa": {
+      "x": 67.6,
+      "y": 1285.1,
+      "width": 677.3,
+      "height": 317.1,
+      "centerX": 406.3,
+      "centerY": 1443.7
+    },
+    "admin_dashboard": {
+      "x": 2505.4,
+      "y": 1285.1,
+      "width": 664.3,
+      "height": 317.1,
+      "centerX": 2837.5,
+      "centerY": 1443.7
+    },
+    "analytics_dashboard": {
+      "x": 3794.1,
+      "y": 1285.1,
+      "width": 643.0,
+      "height": 317.1,
+      "centerX": 4115.6,
+      "centerY": 1443.7
+    },
+    "api_management": {
+      "x": 1921.8,
+      "y": 2252.7,
+      "width": 618.8,
+      "height": 368.1,
+      "centerX": 2231.3,
+      "centerY": 2436.8
+    },
+    "app_gateway": {
+      "x": 1901.3,
+      "y": 3245.8,
+      "width": 660.0,
+      "height": 317.1,
+      "centerX": 2231.3,
+      "centerY": 3404.4
+    },
+    "security_gateway": {
+      "x": 1898.9,
+      "y": 4187.9,
+      "width": 558.5,
+      "height": 368.1,
+      "centerX": 2178.1,
+      "centerY": 4372.0
+    },
+    "auth_service": {
+      "x": 5684.4,
+      "y": 5181.0,
+      "width": 481.2,
+      "height": 375.3,
+      "centerX": 5925.0,
+      "centerY": 5368.7
+    },
+    "hr_service": {
+      "x": 5029.6,
+      "y": 6181.3,
+      "width": 528.3,
+      "height": 426.3,
+      "centerX": 5293.7,
+      "centerY": 6394.5
+    },
+    "it_service": {
+      "x": 4395.7,
+      "y": 7232.6,
+      "width": 552.4,
+      "height": 375.3,
+      "centerX": 4671.9,
+      "centerY": 7420.3
+    },
+    "analytics_service": {
+      "x": 5594.7,
+      "y": 4213.4,
+      "width": 585.6,
+      "height": 317.1,
+      "centerX": 5887.5,
+      "centerY": 4372.0
+    },
+    "integration_service": {
+      "x": 6803.8,
+      "y": 4213.4,
+      "width": 605.0,
+      "height": 317.1,
+      "centerX": 7106.3,
+      "centerY": 4372.0
+    },
+    "notification_service": {
+      "x": 6790.9,
+      "y": 5210.1,
+      "width": 618.3,
+      "height": 317.1,
+      "centerX": 7100.0,
+      "centerY": 5368.7
+    },
+    "saga_orchestrator": {
+      "x": 4395.8,
+      "y": 5210.1,
+      "width": 664.7,
+      "height": 317.1,
+      "centerX": 4728.1,
+      "centerY": 5368.7
+    },
+    "audit_service": {
+      "x": 3089.8,
+      "y": 10168.2,
+      "width": 601.6,
+      "height": 317.1,
+      "centerX": 3390.6,
+      "centerY": 10326.7
+    },
+    "monitoring_service": {
+      "x": 752.0,
+      "y": 10168.2,
+      "width": 596.0,
+      "height": 317.1,
+      "centerX": 1050.0,
+      "centerY": 10326.7
+    },
+    "backup_service": {
+      "x": 1971.8,
+      "y": 10168.2,
+      "width": 493.9,
+      "height": 317.1,
+      "centerX": 2218.8,
+      "centerY": 10326.7
+    },
+    "reporting_service": {
+      "x": 766.3,
+      "y": 11124.4,
+      "width": 567.4,
+      "height": 317.1,
+      "centerX": 1050.0,
+      "centerY": 11282.9
+    },
+    "service_bus": {
+      "x": 15620.9,
+      "y": 7261.7,
+      "width": 570.6,
+      "height": 317.1,
+      "centerX": 15906.2,
+      "centerY": 7420.3
+    },
+    "event_grid": {
+      "x": 15627.8,
+      "y": 8233.0,
+      "width": 538.1,
+      "height": 317.1,
+      "centerX": 15896.9,
+      "centerY": 8391.5
+    },
+    "azure_functions": {
+      "x": 15584.9,
+      "y": 9200.6,
+      "width": 605.1,
+      "height": 317.1,
+      "centerX": 15887.5,
+      "centerY": 9359.1
+    },
+    "stream_analytics": {
+      "x": 15602.2,
+      "y": 10168.2,
+      "width": 583.0,
+      "height": 317.1,
+      "centerX": 15893.7,
+      "centerY": 10326.7
+    },
+    "app_insights": {
+      "x": 10600.0,
+      "y": 8233.0,
+      "width": 625.0,
+      "height": 317.1,
+      "centerX": 10912.5,
+      "centerY": 8391.5
+    },
+    "azure_monitor": {
+      "x": 10681.7,
+      "y": 9175.1,
+      "width": 461.6,
+      "height": 368.1,
+      "centerX": 10912.5,
+      "centerY": 9359.1
+    },
+    "power_bi": {
+      "x": 10063.4,
+      "y": 10168.2,
+      "width": 585.6,
+      "height": 317.1,
+      "centerX": 10356.2,
+      "centerY": 10326.7
+    },
+    "ml_platform": {
+      "x": 11274.7,
+      "y": 10168.2,
+      "width": 488.1,
+      "height": 317.1,
+      "centerX": 11518.7,
+      "centerY": 10326.7
+    },
+    "employee": {
+      "x": 721.2,
+      "y": 160.3,
+      "width": 557.5,
+      "height": 474.4,
+      "centerX": 1000.0,
+      "centerY": 397.5
+    },
+    "admin": {
+      "x": 2497.7,
+      "y": 185.7,
+      "width": 679.6,
+      "height": 423.5,
+      "centerX": 2837.5,
+      "centerY": 397.5
+    },
+    "analyst": {
+      "x": 3845.2,
+      "y": 185.7,
+      "width": 541.0,
+      "height": 423.5,
+      "centerX": 4115.6,
+      "centerY": 397.5
+    },
+    "sql_database": {
+      "x": 15585.2,
+      "y": 11110.3,
+      "width": 635.7,
+      "height": 345.3,
+      "centerX": 15903.1,
+      "centerY": 11282.9
+    },
+    "cosmos_db": {
+      "x": 16847.0,
+      "y": 11110.3,
+      "width": 555.9,
+      "height": 345.3,
+      "centerX": 17125.0,
+      "centerY": 11282.9
+    },
+    "redis_cache": {
+      "x": 19238.2,
+      "y": 11110.3,
+      "width": 667.3,
+      "height": 345.3,
+      "centerX": 19571.9,
+      "centerY": 11282.9
+    },
+    "data_lake_storage": {
+      "x": 18029.2,
+      "y": 11110.3,
+      "width": 585.3,
+      "height": 345.3,
+      "centerX": 18321.9,
+      "centerY": 11282.9
+    }
+  }
+}

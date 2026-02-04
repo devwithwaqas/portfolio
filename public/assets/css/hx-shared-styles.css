@@ -1,0 +1,244 @@
+/**
+ * HX Shared Styles - Heat Exchanger Portal Projects
+ * 
+ * Reusable CSS for consistent styling across all portal pages
+ * 
+ * Features:
+ * - Unified icon styling (hx-li, hx-icon, hx-manual-icon)
+ * - SVG bubble styling for narration
+ * - Typography fixes and alignment
+ * - Responsive design considerations
+ */
+
+/* ===== ICON SYSTEM ===== */
+
+/* Unified icon container for list items */
+.hx-li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 0;
+  position: relative;
+}
+
+/* Icon wrapper - flex container for proper alignment */
+.hx-li > .hx-icon, 
+.hx-li > .hx-manual-icon { 
+  flex: 0 0 22px; 
+  width: 22px; 
+  height: 22px; 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+/* Devicon styling (if used) */
+.hx-li .hx-icon i[class*="devicon-"],
+.hx-li .hx-icon i.bi {
+  font-size: 20px;
+  color: #0563bb;
+  line-height: 1;
+}
+
+/* Iconify icon styling */
+.hx-li .hx-icon iconify-icon,
+.hx-li .hx-icon img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Manual icon wrapper (local folder icons) */
+.hx-li .hx-manual-icon {
+  flex-shrink: 0;
+}
+
+.hx-li .hx-manual-icon img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+/* Lock icon behavior - prevents automatic icon injection */
+.hx-li.hx-lock-icon .hx-icon:not(.hx-manual-icon),
+.hx-li[data-hx-lock="1"] .hx-icon:not(.hx-manual-icon) {
+  display: none !important;
+}
+
+/* ===== SVG BUBBLE SYSTEM ===== */
+
+/* SVG bubble container */
+#hx-bubble {
+  display: none;
+  pointer-events: none;
+}
+
+#hx-bubble-bg {
+  fill: rgba(5, 99, 187, 0.95);
+  stroke: #0563bb;
+  stroke-width: 2;
+  filter: drop-shadow(0 4px 12px rgba(5, 99, 187, 0.3));
+}
+
+/* SVG bubble text styling */
+#hx-bubble-title {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  fill: #ffffff;
+  text-anchor: start;
+}
+
+#hx-bubble-desc {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  fill: #f8f9fa;
+  text-anchor: start;
+}
+
+/* SVG bubble icon container */
+#hx-bubble-ico-wrap {
+  transform-origin: center;
+}
+
+#hx-bubble-ico-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+/* SVG bubble tip/arrow */
+#hx-bubble-tip {
+  fill: rgba(5, 99, 187, 0.95);
+  stroke: #0563bb;
+  stroke-width: 2;
+}
+
+/* ===== TYPOGRAPHY FIXES ===== */
+
+/* Consistent text styling for list items */
+.hx-li span {
+  color: #272829;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+}
+
+.hx-li strong {
+  color: #0563bb;
+  font-weight: 600;
+}
+
+/* Section headers */
+h5 {
+  color: #45505b;
+  font-weight: 600;
+  margin-bottom: 15px;
+  font-family: 'Raleway', sans-serif;
+}
+
+h6 {
+  color: #45505b;
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-family: 'Raleway', sans-serif;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .hx-li {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .hx-li > .hx-icon, 
+  .hx-li > .hx-manual-icon { 
+    flex: 0 0 20px; 
+    width: 20px; 
+    height: 20px; 
+  }
+  
+  .hx-li .hx-manual-icon img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  #hx-bubble-title {
+    font-size: 16px;
+  }
+  
+  #hx-bubble-desc {
+    font-size: 13px;
+  }
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+/* Text alignment utilities */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+/* Spacing utilities */
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: 8px; }
+.mb-2 { margin-bottom: 16px; }
+.mb-3 { margin-bottom: 24px; }
+
+/* Icon size utilities */
+.icon-sm { width: 16px; height: 16px; }
+.icon-md { width: 22px; height: 22px; }
+.icon-lg { width: 28px; height: 28px; }
+
+/* ===== ANIMATION UTILITIES ===== */
+
+/* Smooth transitions */
+.hx-li {
+  transition: all 0.2s ease;
+}
+
+.hx-li:hover {
+  transform: translateX(2px);
+}
+
+/* SVG bubble animations */
+#hx-bubble {
+  transition: opacity 0.3s ease;
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+/* Focus states */
+.hx-li:focus-within {
+  outline: 2px solid #0563bb;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Screen reader support */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===== PRINT STYLES ===== */
+
+@media print {
+  #hx-bubble {
+    display: none !important;
+  }
+  
+  .hx-li {
+    break-inside: avoid;
+  }
+}

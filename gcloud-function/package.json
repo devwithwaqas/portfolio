@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-gcf",
+  "version": "1.0.0",
+  "description": "Portfolio Cloud Functions (analytics, read, update, error-report)",
+  "main": "main.js",
+  "dependencies": {
+    "@google-analytics/data": "^4.0.0",
+    "@google-cloud/firestore": "^7.0.0",
+    "@google-cloud/functions-framework": "^3.3.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

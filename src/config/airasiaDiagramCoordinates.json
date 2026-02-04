@@ -1,0 +1,268 @@
+{
+  "components": {
+    "google_sso": {
+      "x": 3587.1,
+      "y": 2376.5,
+      "width": 211.9,
+      "height": 109.4,
+      "centerX": 3693.0,
+      "centerY": 2431.2
+    },
+    "airasia_flights": {
+      "x": 3125.9,
+      "y": 2376.5,
+      "width": 211.9,
+      "height": 109.4,
+      "centerX": 3231.8,
+      "centerY": 2431.2
+    },
+    "sms_gateway": {
+      "x": 4970.9,
+      "y": 2376.5,
+      "width": 211.9,
+      "height": 109.4,
+      "centerX": 5076.8,
+      "centerY": 2431.2
+    },
+    "email_service": {
+      "x": 4509.6,
+      "y": 2376.5,
+      "width": 211.9,
+      "height": 109.4,
+      "centerX": 4615.5,
+      "centerY": 2431.2
+    },
+    "teams_api": {
+      "x": 4048.4,
+      "y": 2376.5,
+      "width": 211.9,
+      "height": 109.4,
+      "centerX": 4154.3,
+      "centerY": 2431.2
+    },
+    "push_service": {
+      "x": 5432.1,
+      "y": 2376.5,
+      "width": 211.9,
+      "height": 109.4,
+      "centerX": 5538.0,
+      "centerY": 2431.2
+    },
+    "web_app": {
+      "x": 244.0,
+      "y": 483.5,
+      "width": 233.0,
+      "height": 126.9,
+      "centerX": 360.5,
+      "centerY": 546.9
+    },
+    "mobile_pwa": {
+      "x": 726.5,
+      "y": 483.5,
+      "width": 205.7,
+      "height": 126.9,
+      "centerX": 829.3,
+      "centerY": 546.9
+    },
+    "admin_dashboard": {
+      "x": 1182.7,
+      "y": 483.5,
+      "width": 225.7,
+      "height": 126.9,
+      "centerX": 1295.5,
+      "centerY": 546.9
+    },
+    "api_gateway": {
+      "x": 720.9,
+      "y": 860.4,
+      "width": 216.8,
+      "height": 126.9,
+      "centerX": 829.3,
+      "centerY": 923.8
+    },
+    "app_gateway": {
+      "x": 742.2,
+      "y": 1237.2,
+      "width": 174.1,
+      "height": 126.9,
+      "centerX": 829.3,
+      "centerY": 1300.6
+    },
+    "auth_service": {
+      "x": 176.0,
+      "y": 1614.1,
+      "width": 171.5,
+      "height": 126.9,
+      "centerX": 261.8,
+      "centerY": 1677.5
+    },
+    "booking_service": {
+      "x": 597.3,
+      "y": 1614.1,
+      "width": 206.5,
+      "height": 126.9,
+      "centerX": 700.5,
+      "centerY": 1677.5
+    },
+    "flight_service": {
+      "x": 149.0,
+      "y": 1990.9,
+      "width": 180.6,
+      "height": 126.9,
+      "centerX": 239.3,
+      "centerY": 2054.3
+    },
+    "employee_service": {
+      "x": 579.4,
+      "y": 1990.9,
+      "width": 224.7,
+      "height": 126.9,
+      "centerX": 691.8,
+      "centerY": 2054.3
+    },
+    "notification_service": {
+      "x": 4069.4,
+      "y": 1990.9,
+      "width": 247.3,
+      "height": 126.9,
+      "centerX": 4193.0,
+      "centerY": 2054.3
+    },
+    "analytics_service": {
+      "x": 5012.6,
+      "y": 1990.9,
+      "width": 218.4,
+      "height": 126.9,
+      "centerX": 5121.8,
+      "centerY": 2054.3
+    },
+    "refund_service": {
+      "x": 4566.5,
+      "y": 1990.9,
+      "width": 195.6,
+      "height": 126.9,
+      "centerX": 4664.3,
+      "centerY": 2054.3
+    },
+    "audit_service": {
+      "x": 5481.5,
+      "y": 1990.9,
+      "width": 175.6,
+      "height": 126.9,
+      "centerX": 5569.3,
+      "centerY": 2054.3
+    },
+    "service_bus": {
+      "x": 2086.2,
+      "y": 2367.8,
+      "width": 191.1,
+      "height": 126.9,
+      "centerX": 2181.8,
+      "centerY": 2431.2
+    },
+    "event_grid": {
+      "x": 2094.5,
+      "y": 2744.6,
+      "width": 159.6,
+      "height": 126.9,
+      "centerX": 2174.3,
+      "centerY": 2808.1
+    },
+    "azure_functions": {
+      "x": 2060.8,
+      "y": 3121.5,
+      "width": 207.0,
+      "height": 126.9,
+      "centerX": 2164.3,
+      "centerY": 3184.9
+    },
+    "stream_analytics": {
+      "x": 2060.1,
+      "y": 3498.3,
+      "width": 226.0,
+      "height": 126.9,
+      "centerX": 2173.0,
+      "centerY": 3561.8
+    },
+    "app_insights": {
+      "x": 2709.8,
+      "y": 2367.8,
+      "width": 166.5,
+      "height": 126.9,
+      "centerX": 2793.0,
+      "centerY": 2431.2
+    },
+    "azure_monitor": {
+      "x": 2700.7,
+      "y": 2744.6,
+      "width": 184.6,
+      "height": 126.9,
+      "centerX": 2793.0,
+      "centerY": 2808.1
+    },
+    "grafana": {
+      "x": 2517.2,
+      "y": 3121.5,
+      "width": 144.1,
+      "height": 126.9,
+      "centerX": 2589.3,
+      "centerY": 3184.9
+    },
+    "power_bi": {
+      "x": 2911.0,
+      "y": 3121.5,
+      "width": 144.1,
+      "height": 126.9,
+      "centerX": 2983.0,
+      "centerY": 3184.9
+    },
+    "employee": {
+      "x": 469.8,
+      "y": 64.1,
+      "width": 221.5,
+      "height": 169.4,
+      "centerX": 580.5,
+      "centerY": 148.8
+    },
+    "admin": {
+      "x": 1159.6,
+      "y": 64.1,
+      "width": 271.8,
+      "height": 169.4,
+      "centerX": 1295.5,
+      "centerY": 148.8
+    },
+    "sql_database": {
+      "x": 1629.3,
+      "y": 3875.2,
+      "width": 182.5,
+      "height": 138.1,
+      "centerX": 1720.5,
+      "centerY": 3944.3
+    },
+    "redis_cache": {
+      "x": 1217.1,
+      "y": 3875.2,
+      "width": 161.8,
+      "height": 138.1,
+      "centerX": 1298.0,
+      "centerY": 3944.3
+    },
+    "blob_storage": {
+      "x": 2462.5,
+      "y": 3875.2,
+      "width": 171.1,
+      "height": 138.1,
+      "centerX": 2548.0,
+      "centerY": 3944.3
+    },
+    "cosmos_db": {
+      "x": 2061.5,
+      "y": 3875.2,
+      "width": 150.6,
+      "height": 138.1,
+      "centerX": 2136.8,
+      "centerY": 3944.3
+    }
+  }
+}

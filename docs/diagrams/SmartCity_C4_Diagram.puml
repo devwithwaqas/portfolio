@@ -1,0 +1,620 @@
+@startuml SmartCity_C4_HX_Style
+
+' ========================================
+' C4-PlantUML Color Overrides (MUST BE FIRST!)
+' Set these BEFORE including C4 library
+' ========================================
+
+!$PERSON_BG_COLOR = "#08427B"
+!$PERSON_BORDER_COLOR = "#073B6F"
+!$PERSON_FONT_COLOR = "#FFFFFF"
+
+!$SYSTEM_BG_COLOR = "#1168BD"
+!$SYSTEM_BORDER_COLOR = "#0B5394"
+
+!$CONTAINER_BG_COLOR = "#2D314A"
+!$CONTAINER_BORDER_COLOR = "#9CA3AF"
+
+!$EXTERNAL_PERSON_BG_COLOR = "#686868"
+!$EXTERNAL_PERSON_BORDER_COLOR = "#4A4A4A"
+
+!$EXTERNAL_SYSTEM_BG_COLOR = "#999999"
+!$EXTERNAL_SYSTEM_BORDER_COLOR = "#707070"
+
+!$EXTERNAL_CONTAINER_BG_COLOR = "#B3B3B3"
+!$EXTERNAL_CONTAINER_BORDER_COLOR = "#8C8C8C"
+
+!$LINK_COLOR = "#FF4D4F"
+
+' Also set font colors (required by C4)
+!$SYSTEM_FONT_COLOR = "#FFFFFF"
+!$CONTAINER_FONT_COLOR = "#FFFFFF"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' ========================================
+' HeatExchanger Color Scheme Applied
+' Light canvas + dark shapes + red connectors
+' ========================================
+
+' -------------------------
+' Basic layout settings
+' -------------------------
+skinparam backgroundColor #F7F9FC
+skinparam nodesep 200
+skinparam ranksep 200
+skinparam linetype ortho
+skinparam roundcorner 12
+skinparam dpi 300
+skinparam shadowing true
+
+' -------------------------
+' Typography
+' -------------------------
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 14
+skinparam defaultFontColor #111827
+skinparam titleFontSize 20
+skinparam titleFontColor #111827
+
+' -------------------------
+' Container styling (DARK shapes like HX)
+' -------------------------
+skinparam RectangleBackgroundColor #2D314A
+skinparam RectangleBorderColor #9CA3AF
+skinparam RectangleBorderThickness 1
+skinparam RectangleFontColor #FFFFFF
+skinparam RectangleFontSize 14
+skinparam RectangleFontStyle Bold
+skinparam RectanglePadding 15
+skinparam RectangleMinWidth 200
+skinparam RectangleMinHeight 60
+
+' -------------------------
+' Busy container styling
+' -------------------------
+skinparam component {
+    BackgroundColor #2D314A
+    BorderColor #9CA3AF
+    BorderThickness 1
+    FontColor #FFFFFF
+    FontSize 14
+    FontStyle Bold
+    Padding 15
+    MinWidth 300
+    MinHeight 60
+}
+
+' -------------------------
+' Package styling (LIGHT backgrounds like HX)
+' -------------------------
+skinparam PackageBorderColor #94A3B8
+skinparam PackageBorderThickness 2
+skinparam PackageFontColor #111827
+skinparam PackageFontSize 14
+skinparam PackageFontStyle Bold
+skinparam PackagePadding 20
+skinparam PackageBackgroundColor #EEF2FF
+
+' -------------------------
+' Database styling (GOLD theme like HX)
+' -------------------------
+skinparam DatabaseBackgroundColor #3C2F1B
+skinparam DatabaseBorderColor #D1A954
+skinparam DatabaseBorderThickness 1
+skinparam DatabaseFontColor #FFFFFF
+skinparam DatabaseFontSize 14
+skinparam DatabaseFontStyle Bold
+
+' -------------------------
+' Notes styling (DARK bubbles like HX)
+' -------------------------
+skinparam NoteBackgroundColor #1F2937
+skinparam NoteBorderColor #4B5563
+skinparam NoteBorderThickness 1
+skinparam NoteFontColor #FFFFFF
+skinparam NoteFontSize 14
+skinparam NoteFontStyle Bold
+skinparam NotePadding 10
+
+' -------------------------
+' Arrow styling (THICK RED like HX)
+' -------------------------
+skinparam ArrowColor #FF4D4F
+skinparam ArrowThickness 4
+skinparam ArrowFontSize 12
+skinparam ArrowFontColor #FFFFFF
+
+title PJ Smart City - HeatExchanger Style C4 Architecture
+
+' Custom legend with actual colors used (aligned)
+legend right
+  |<back:#08427B>      </back>| **Person/Actor** (Dark Blue)
+  |<back:#EEF2FF>      </back>| **Packages/Layers** (Light Blue Background)
+  |<back:#1F2937>      </back>| **Link Labels** (Dark Gray Bubbles)
+  |<back:#FF4D4F>      </back>| **Connectors/Arrows** (Red)
+endlegend
+
+' -------------------------
+' Actors (top level)
+' -------------------------
+Person(municipal_staff, "Municipal Staff", "City council employees")
+Person(citizen, "Citizen", "City residents and visitors")
+Person(admin, "System Administrator", "Manages smart city platform")
+Person(analyst, "City Analyst", "Views city analytics")
+
+' -------------------------
+' External Systems (left side)
+' -------------------------
+package "External City Systems" as ExternalSystems {
+    System_Ext(supermap_gis, "SuperMap GIS", "GIS Platform")
+    System_Ext(google_maps, "Google Maps API", "Mapping Services")
+    System_Ext(google_streetview, "Google Street View", "Street Imagery")
+    System_Ext(cctv_network, "CCTV Network", "Video Surveillance")
+    System_Ext(iot_sensors, "IoT Sensor Network", "Environmental Sensors")
+    System_Ext(emergency_services, "Emergency Services", "Police, Fire, Medical")
+    System_Ext(government_portal, "Government Portal", "Citizen Services")
+}
+
+' -------------------------
+' UI Layer (top center)
+' -------------------------
+package "Smart City Frontend Portal" as UILayer {
+    Container(web_portal, "Municipal Web Portal", "JavaScript", "City management interface")
+    Container(mobile_app, "Mobile City App", "PWA", "Mobile city services")
+    Container(admin_dashboard, "Admin Dashboard", "JavaScript", "System administration")
+    Container(analytics_dashboard, "Analytics Dashboard", "Chart.js", "City intelligence")
+    Container(gis_interface, "GIS Interface", "Leaflet", "Spatial data visualization")
+}
+
+' -------------------------
+' API Gateway Layer (center)
+' -------------------------
+package "Azure API Gateway" as GatewayLayer {
+    Container(api_management, "API Management", "APIM", "API gateway with rate limiting")
+    Container(app_gateway, "Application Gateway", "App GW", "Load balancer & routing")
+    Container(security_gateway, "Security Gateway", "Security", "OAuth 2.0 & JWT validation")
+}
+
+' -------------------------
+' Core Microservices (center-right)
+' -------------------------
+package ".NET Core Municipal Services" as CoreServices {
+    Container(auth_service, "Authentication Service", ".NET Core", "OAuth 2.0 & JWT")
+    Container(enforcement_service, "Enforcement Service", ".NET Core", "Municipal enforcement")
+    Container(project_service, "Project Management Service", ".NET Core", "City projects")
+    Container(land_service, "Land Management Service", ".NET Core", "Property & zoning")
+    Container(notification_service, "Notification Service", ".NET Core", "Multi-channel alerts")
+    Container(integration_service, "Integration Service", ".NET Core", "External system integration")
+    Container(analytics_service, "Analytics Service", ".NET Core", "City intelligence")
+}
+
+' -------------------------
+' GIS & Spatial Services (right)
+' -------------------------
+package "SuperMap GIS Platform Integration" as GISLayer {
+    Container(supermap_engine, "SuperMap Engine", "SuperMap", "3D GIS & Big Data")
+    Container(spatial_processor, "Spatial Processor", ".NET Core", "Geospatial analysis")
+    Container(map_service, "Map Service", ".NET Core", "Map rendering & tiles")
+    Container(geocoding_service, "Geocoding Service", ".NET Core", "Address processing")
+}
+
+' -------------------------
+' Event Processing (bottom-left)
+' -------------------------
+package "Event Processing" as EventLayer {
+    Container(service_bus, "Azure Service Bus", "Service Bus", "Message queuing")
+    Container(event_grid, "Azure Event Grid", "Event Grid", "Event routing")
+    Container(azure_functions, "Azure Functions", "Functions", "Serverless processing")
+    Container(stream_analytics, "Stream Analytics", "Stream", "Real-time processing")
+}
+
+' -------------------------
+' Data Layer (bottom-center)
+' -------------------------
+package "Spatial Data Infrastructure" as DataLayer {
+    ContainerDb(sql_database, "SQL Server Municipal DB", "SQL Server", "Municipal records")
+    ContainerDb(postgis_db, "PostGIS Spatial DB", "PostGIS", "Geospatial data")
+    ContainerDb(redis_cache, "Redis Cache", "Redis", "High-performance cache")
+    ContainerDb(data_lake, "Azure Data Lake", "Data Lake", "Analytics data")
+}
+
+' -------------------------
+' Monitoring & IoT (bottom-right)
+' -------------------------
+package "Smart City Monitoring Network" as MonitoringLayer {
+    Container(cctv_processor, "CCTV Processor", ".NET Core", "Video analysis")
+    Container(iot_processor, "IoT Processor", ".NET Core", "Sensor data processing")
+    Container(grafana, "Grafana", "Grafana", "Monitoring dashboards")
+    Container(prometheus, "Prometheus", "Prometheus", "Metrics collection")
+    Container(app_insights, "Application Insights", "App Insights", "Application telemetry")
+}
+
+' -------------------------
+' User interactions (simple, direct)
+' -------------------------
+municipal_staff --> web_portal
+note on link
+  Access city systems
+end note
+
+citizen --> mobile_app
+note on link
+  City services
+end note
+
+admin --> admin_dashboard
+note on link
+  System management
+end note
+
+analyst --> analytics_dashboard
+note on link
+  City intelligence
+end note
+
+municipal_staff --> gis_interface
+note on link
+  Spatial analysis
+end note
+
+' -------------------------
+' UI to Gateway
+' -------------------------
+web_portal --> api_management
+note on link
+  API calls
+end note
+
+mobile_app --> api_management
+note on link
+  API calls
+end note
+
+admin_dashboard --> api_management
+note on link
+  Admin API calls
+end note
+
+analytics_dashboard --> api_management
+note on link
+  Analytics API calls
+end note
+
+gis_interface --> api_management
+note on link
+  GIS API calls
+end note
+
+' -------------------------
+' Gateway to Services
+' -------------------------
+api_management --> app_gateway
+note on link
+  Route requests
+end note
+
+app_gateway --> security_gateway
+note on link
+  Security validation
+end note
+
+security_gateway --> auth_service
+note on link
+  Authentication
+end note
+
+app_gateway --> enforcement_service
+note on link
+  Enforcement operations
+end note
+
+app_gateway --> project_service
+note on link
+  Project management
+end note
+
+app_gateway --> land_service
+note on link
+  Land management
+end note
+
+app_gateway --> notification_service
+note on link
+  Notifications
+end note
+
+app_gateway --> integration_service
+note on link
+  System integration
+end note
+
+app_gateway --> analytics_service
+note on link
+  Analytics
+end note
+
+' -------------------------
+' Service interactions
+' -------------------------
+auth_service --> enforcement_service
+note on link
+  User validation
+end note
+
+enforcement_service --> project_service
+note on link
+  Cross-service data
+end note
+
+project_service --> land_service
+note on link
+  Project-land integration
+end note
+
+integration_service --> analytics_service
+note on link
+  Data integration
+end note
+
+analytics_service --> notification_service
+note on link
+  Analytics alerts
+end note
+
+' -------------------------
+' GIS Service interactions
+' -------------------------
+spatial_processor --> supermap_engine
+note on link
+  GIS processing
+end note
+
+map_service --> spatial_processor
+note on link
+  Map generation
+end note
+
+geocoding_service --> spatial_processor
+note on link
+  Address processing
+end note
+
+enforcement_service --> spatial_processor
+note on link
+  Location data
+end note
+
+land_service --> spatial_processor
+note on link
+  Property boundaries
+end note
+
+' -------------------------
+' External integrations
+' -------------------------
+integration_service --> supermap_gis
+note on link
+  SuperMap integration
+end note
+
+integration_service --> google_maps
+note on link
+  Google Maps integration
+end note
+
+integration_service --> google_streetview
+note on link
+  Street View integration
+end note
+
+integration_service --> cctv_network
+note on link
+  CCTV integration
+end note
+
+integration_service --> iot_sensors
+note on link
+  IoT integration
+end note
+
+integration_service --> emergency_services
+note on link
+  Emergency integration
+end note
+
+integration_service --> government_portal
+note on link
+  Government integration
+end note
+
+auth_service --> government_portal
+note on link
+  Citizen authentication
+end note
+
+' -------------------------
+' Event flows
+' -------------------------
+enforcement_service --> service_bus
+note on link
+  Enforcement events
+end note
+
+project_service --> service_bus
+note on link
+  Project events
+end note
+
+land_service --> service_bus
+note on link
+  Land events
+end note
+
+analytics_service --> service_bus
+note on link
+  Analytics events
+end note
+
+notification_service --> service_bus
+note on link
+  Notification events
+end note
+
+cctv_processor --> service_bus
+note on link
+  CCTV events
+end note
+
+iot_processor --> service_bus
+note on link
+  IoT events
+end note
+
+service_bus --> event_grid
+note on link
+  Event routing
+end note
+
+event_grid --> azure_functions
+note on link
+  Trigger functions
+end note
+
+azure_functions --> stream_analytics
+note on link
+  Process streams
+end note
+
+stream_analytics --> postgis_db
+note on link
+  Store spatial data
+end note
+
+' -------------------------
+' Data access
+' -------------------------
+auth_service --> sql_database
+note on link
+  User data
+end note
+
+enforcement_service --> sql_database
+note on link
+  Enforcement data
+end note
+
+project_service --> sql_database
+note on link
+  Project data
+end note
+
+land_service --> sql_database
+note on link
+  Land data
+end note
+
+notification_service --> sql_database
+note on link
+  Notification data
+end note
+
+spatial_processor --> postgis_db
+note on link
+  Spatial data
+end note
+
+map_service --> postgis_db
+note on link
+  Map data
+end note
+
+geocoding_service --> postgis_db
+note on link
+  Address data
+end note
+
+integration_service --> redis_cache
+note on link
+  Cache integration data
+end note
+
+analytics_service --> data_lake
+note on link
+  Analytics storage
+end note
+
+cctv_processor --> postgis_db
+note on link
+  CCTV location data
+end note
+
+iot_processor --> postgis_db
+note on link
+  Sensor location data
+end note
+
+' -------------------------
+' Monitoring
+' -------------------------
+auth_service --> app_insights
+note on link
+  Auth metrics
+end note
+
+enforcement_service --> app_insights
+note on link
+  Enforcement metrics
+end note
+
+project_service --> app_insights
+note on link
+  Project metrics
+end note
+
+land_service --> app_insights
+note on link
+  Land metrics
+end note
+
+analytics_service --> app_insights
+note on link
+  Analytics metrics
+end note
+
+integration_service --> app_insights
+note on link
+  Integration metrics
+end note
+
+notification_service --> app_insights
+note on link
+  Notification metrics
+end note
+
+spatial_processor --> app_insights
+note on link
+  GIS metrics
+end note
+
+cctv_processor --> prometheus
+note on link
+  CCTV metrics
+end note
+
+iot_processor --> prometheus
+note on link
+  IoT metrics
+end note
+
+app_insights --> grafana
+note on link
+  Aggregate metrics
+end note
+
+prometheus --> grafana
+note on link
+  System metrics
+end note
+
+@enduml

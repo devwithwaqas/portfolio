@@ -1,0 +1,25 @@
+{
+  "name": "portfolio-email-service",
+  "version": "1.0.0",
+  "description": "Google Cloud Function for sending contact form emails via Gmail SMTP",
+  "main": "index.js",
+  "engines": {
+    "node": "18"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.7",
+    "@google-cloud/functions-framework": "^3.3.0"
+  },
+  "scripts": {
+    "start": "functions-framework --target=sendEmail --port=8080"
+  },
+  "keywords": [
+    "email",
+    "smtp",
+    "gmail",
+    "contact-form",
+    "serverless"
+  ],
+  "author": "Waqas Ahmad",
+  "license": "MIT"
+}

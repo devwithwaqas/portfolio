@@ -1,0 +1,146 @@
+<template>
+  <section id="stats" class="stats section">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <!-- Stats Card -->
+      <ReusableCard 
+        title="Professional Statistics" 
+        icon-name="professional statistics"
+        body-padding="0"
+      >
+        <div class="row mb-5 g-4">
+            <div class="col-12">
+              <div class="text-center mb-4 txt-h3-xl stats-section-title">
+                <IconComponent icon-name="professional statistics" fallback-emoji="📊" size="lg" style="margin-right: 10px;" />
+                Professional Statistics
+              </div>
+            </div>
+                
+                <!-- Enterprise Clients -->
+                <StatCard 
+                  label="Enterprise Clients"
+                  :value="calculatedStats.enterpriseClients"
+                  iconPath="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6M12,8A4,4 0 0,0 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12A4,4 0 0,0 12,8Z"
+                  iconColor="#ffd700"
+                />
+                
+                <!-- Enterprise Solutions -->
+                <StatCard 
+                  label="Enterprise Solutions"
+                  :value="calculatedStats.enterpriseSolutions"
+                  iconPath="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"
+                  iconColor="#00ff88"
+                />
+                
+                <!-- Years Experience -->
+                <StatCard 
+                  label="Years Experience"
+                  :value="calculatedStats.yearsExperience"
+                  iconPath="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"
+                  iconColor="#ff1744"
+                />
+                
+                <!-- Years as Tech Lead -->
+                <StatCard 
+                  label="Years as Tech Lead"
+                  :value="calculatedStats.yearsAsTechLead"
+                  iconPath="M16,4C18.21,4 20,5.79 20,8C20,10.21 18.21,12 16,12C13.79,12 12,10.21 12,8C12,5.79 13.79,4 16,4M16,5.9A2.1,2.1 0 0,0 13.9,8A2.1,2.1 0 0,0 16,10.1A2.1,2.1 0 0,0 18.1,8A2.1,2.1 0 0,0 16,5.9M16,13C18.67,13 24,14.33 24,17V20H8V17C8,14.33 13.33,13 16,13M2,12V20H0V12H2M22,12V20H20V12H22M6,12V20H4V12H6M18,12V20H16V12H18M10,12V20H8V12H10M14,12V20H12V12H14Z"
+                  iconColor="#00e676"
+                />
+                
+        </div>
+      </ReusableCard>
+    </div>
+  </section>
+</template>
+
+<script>
+import { defineAsyncComponent } from 'vue'
+import ReusableCard from '../common/ReusableCard.vue'
+import IconComponent from '../common/IconComponent.vue'
+import { APP_CONFIG } from '../../config/constants.js'
+
+const StatCard = defineAsyncComponent(() => import('../common/StatCard.vue'))
+
+// Calculate stats - Use same calculation as APP_CONFIG for consistency
+const calculateStats = () => {
+  // Use APP_CONFIG calculated values to ensure consistency across all components
+  return {
+    enterpriseClients: APP_CONFIG.stats.enterpriseClients,
+    enterpriseSolutions: APP_CONFIG.stats.enterpriseSolutions,
+    yearsExperience: APP_CONFIG.stats.yearsExperience,
+    yearsAsTechLead: APP_CONFIG.stats.yearsAsTechLead
+  }
+}
+
+export default {
+  components: {
+    ReusableCard,
+    StatCard,
+    IconComponent
+  },
+  name: 'Stats',
+  data() {
+    return {
+      calculatedStats: calculateStats()
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* All stat card styling now handled by StatCard.vue component */
+/* This file only contains Stats section-specific overrides if needed */
+
+.stats-section-title {
+  color: #0563bb;
+  font-weight: 600;
+}
+
+/* Remove icon wrapper boxes (background, border, border-radius) in Stats section */
+.stats-section-title .icon-wrapper-xs,
+.stats-section-title .icon-wrapper-sm,
+.stats-section-title .icon-wrapper-md,
+.stats-section-title .icon-wrapper-lg,
+.stats-section-title .icon-wrapper-xl,
+.stats-section-title .icon-wrapper-2xl {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.stats-section-title .icon-wrapper-xs:hover,
+.stats-section-title .icon-wrapper-sm:hover,
+.stats-section-title .icon-wrapper-md:hover,
+.stats-section-title .icon-wrapper-lg:hover,
+.stats-section-title .icon-wrapper-xl:hover,
+.stats-section-title .icon-wrapper-2xl:hover {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Responsive adjustments for row/card-body */
+@media (pointer: coarse) and (max-width: 768px) {
+  .card-body {
+    padding: 0 5px !important;
+  }
+  
+  .row {
+    margin: 0 -5px !important;
+  }
+}
+
+@media (pointer: coarse) and (max-width: 576px) {
+  .card-body {
+    padding: 0 !important;
+  }
+  
+  .row {
+    margin: 0 !important;
+  }
+}
+</style>
