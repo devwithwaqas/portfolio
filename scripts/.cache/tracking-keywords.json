@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-01-29T16:48:43.233Z",
+  "description": "Top 10 most relevant keywords for SEO tracking. These keywords are tested regularly to track ranking improvements.",
+  "keywords": [
+    "Waqas Ahmad",
+    "Waqas Ahmad consultant",
+    "Waqas Ahmad software engineer",
+    "Waqas Ahmad technical lead",
+    "Waqas Ahmad AirAsia",
+    "Waqas Ahmad Microsoft",
+    "Waqas Ahmad BAT",
+    "AirAsia developer Waqas Ahmad",
+    "Waqas Ahmad .NET developer",
+    "Waqas Ahmad Azure architect"
+  ],
+  "categories": {
+    "nameBased": [
+      "Waqas Ahmad",
+      "Waqas Ahmad consultant",
+      "Waqas Ahmad software engineer",
+      "Waqas Ahmad technical lead",
+      "Waqas Ahmad .NET developer",
+      "Waqas Ahmad Azure architect"
+    ],
+    "companyBased": [
+      "Waqas Ahmad AirAsia",
+      "Waqas Ahmad Microsoft",
+      "Waqas Ahmad BAT",
+      "AirAsia developer Waqas Ahmad"
+    ],
+    "technologyBased": [
+      "Waqas Ahmad .NET developer",
+      "Waqas Ahmad Azure architect"
+    ],
+    "roleBased": [
+      "Waqas Ahmad consultant",
+      "Waqas Ahmad software engineer",
+      "Waqas Ahmad technical lead"
+    ]
+  }
+}

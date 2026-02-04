@@ -1,0 +1,31 @@
+﻿Bing / IndexNow URL Submission
+==============================
+Key:        cbe5cb9f88984691af7d581e94e409f6
+Key file:   https://waqasahmad-portfolio.web.app/cbe5cb9f88984691af7d581e94e409f6.txt
+Endpoint:   https://www.bing.com/indexnow
+URLs:       18
+
+Key file OK (reachable). Submitting...
+
+Submission OK. Check IndexNow (not URL Submission):
+  Bing Webmaster Tools > your site > left menu > IndexNow
+  URL Submission = manual form only. IndexNow = API submissions.
+
+  https://waqasahmad-portfolio.web.app/
+  https://waqasahmad-portfolio.web.app/projects/heat-exchanger
+  https://waqasahmad-portfolio.web.app/projects/airasia-id90
+  https://waqasahmad-portfolio.web.app/projects/bat-inhouse-app
+  https://waqasahmad-portfolio.web.app/projects/pj-smart-city
+  https://waqasahmad-portfolio.web.app/projects/gamified-employee-management
+  https://waqasahmad-portfolio.web.app/projects/valet-parking
+  https://waqasahmad-portfolio.web.app/projects/mobile-games
+  https://waqasahmad-portfolio.web.app/projects/uk-property-management
+  https://waqasahmad-portfolio.web.app/projects/g5-pos
+  https://waqasahmad-portfolio.web.app/projects/chubb-insurance-applications
+  https://waqasahmad-portfolio.web.app/services/full-stack-development
+  https://waqasahmad-portfolio.web.app/services/azure-cloud-architecture
+  https://waqasahmad-portfolio.web.app/services/technical-leadership
+  https://waqasahmad-portfolio.web.app/services/microservices-architecture
+  https://waqasahmad-portfolio.web.app/services/agile-project-management
+  https://waqasahmad-portfolio.web.app/services/database-design-optimization
+  https://waqasahmad-portfolio.web.app/services/mobile-development

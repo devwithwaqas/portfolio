@@ -1,0 +1,326 @@
+[2026-02-03T11:48:56.131Z] --- dev-error-logger ready ---
+[2026-02-03T11:49:01.818Z] ---
+[2026-02-03T11:49:01.818Z] context: beforeunload
+[2026-02-03T11:49:01.818Z] message: Page about to unload
+[2026-02-03T11:49:01.818Z] url: http://localhost:3001/blog/ai-ides-what-they-get-right-wrong
+[2026-02-03T11:49:01.818Z] timestamp: 2026-02-03T11:49:01.452Z
+[2026-02-03T11:49:02.043Z] ---
+[2026-02-03T11:49:02.043Z] context: pagehide
+[2026-02-03T11:49:02.043Z] message: Page unloading (reload or close)
+[2026-02-03T11:49:02.043Z] url: http://localhost:3001/blog/ai-ides-what-they-get-right-wrong
+[2026-02-03T11:49:02.043Z] timestamp: 2026-02-03T11:49:01.870Z
+[2026-02-03T11:49:03.365Z] ---
+[2026-02-03T11:49:03.365Z] context: boot
+[2026-02-03T11:49:03.365Z] message: App boot
+[2026-02-03T11:49:03.365Z] url: http://localhost:3001/blog/ai-ides-what-they-get-right-wrong
+[2026-02-03T11:49:03.365Z] timestamp: 2026-02-03T11:49:03.363Z
+[2026-02-03T11:49:06.594Z] ---
+[2026-02-03T11:49:06.594Z] context: boot
+[2026-02-03T11:49:06.594Z] message: App boot
+[2026-02-03T11:49:06.594Z] url: http://localhost:3001/
+[2026-02-03T11:49:06.594Z] timestamp: 2026-02-03T11:49:06.593Z
+[2026-02-03T11:49:44.272Z] ---
+[2026-02-03T11:49:44.272Z] context: beforeunload
+[2026-02-03T11:49:44.272Z] message: Page about to unload
+[2026-02-03T11:49:44.272Z] url: http://localhost:3001/blog/ai-changing-code-review-testing
+[2026-02-03T11:49:44.272Z] timestamp: 2026-02-03T11:49:44.254Z
+[2026-02-03T11:49:44.397Z] ---
+[2026-02-03T11:49:44.397Z] context: pagehide
+[2026-02-03T11:49:44.397Z] message: Page unloading (reload or close)
+[2026-02-03T11:49:44.397Z] url: http://localhost:3001/blog/ai-changing-code-review-testing
+[2026-02-03T11:49:44.397Z] timestamp: 2026-02-03T11:49:44.396Z
+[2026-02-03T11:49:45.317Z] ---
+[2026-02-03T11:49:45.317Z] context: boot
+[2026-02-03T11:49:45.317Z] message: App boot
+[2026-02-03T11:49:45.317Z] url: http://localhost:3001/blog/ai-changing-code-review-testing
+[2026-02-03T11:49:45.317Z] timestamp: 2026-02-03T11:49:45.316Z
+[2026-02-03T12:13:20.585Z] ---
+[2026-02-03T12:13:20.585Z] context: beforeunload
+[2026-02-03T12:13:20.585Z] message: Page about to unload
+[2026-02-03T12:13:20.585Z] url: http://localhost:3001/blog
+[2026-02-03T12:13:20.585Z] timestamp: 2026-02-03T12:13:20.569Z
+[2026-02-03T12:13:21.275Z] ---
+[2026-02-03T12:13:21.275Z] context: pagehide
+[2026-02-03T12:13:21.275Z] message: Page unloading (reload or close)
+[2026-02-03T12:13:21.275Z] url: http://localhost:3001/blog
+[2026-02-03T12:13:21.275Z] timestamp: 2026-02-03T12:13:20.765Z
+[2026-02-03T12:13:22.473Z] ---
+[2026-02-03T12:13:22.473Z] context: boot
+[2026-02-03T12:13:22.473Z] message: App boot
+[2026-02-03T12:13:22.473Z] url: http://localhost:3001/blog
+[2026-02-03T12:13:22.473Z] timestamp: 2026-02-03T12:13:22.470Z
+[2026-02-03T12:30:45.169Z] ---
+[2026-02-03T12:30:45.169Z] context: beforeunload
+[2026-02-03T12:30:45.169Z] message: Page about to unload
+[2026-02-03T12:30:45.169Z] url: http://localhost:3001/blog
+[2026-02-03T12:30:45.169Z] timestamp: 2026-02-03T12:30:44.811Z
+[2026-02-03T12:30:45.225Z] ---
+[2026-02-03T12:30:45.225Z] context: pagehide
+[2026-02-03T12:30:45.225Z] message: Page unloading (reload or close)
+[2026-02-03T12:30:45.225Z] url: http://localhost:3001/blog
+[2026-02-03T12:30:45.225Z] timestamp: 2026-02-03T12:30:45.223Z
+[2026-02-03T12:30:47.185Z] ---
+[2026-02-03T12:30:47.185Z] context: boot
+[2026-02-03T12:30:47.185Z] message: App boot
+[2026-02-03T12:30:47.185Z] url: http://localhost:3001/blog
+[2026-02-03T12:30:47.185Z] timestamp: 2026-02-03T12:30:47.182Z
+[2026-02-03T12:39:39.820Z] ---
+[2026-02-03T12:39:39.820Z] context: beforeunload
+[2026-02-03T12:39:39.820Z] message: Page about to unload
+[2026-02-03T12:39:39.820Z] url: http://localhost:3001/blog
+[2026-02-03T12:39:39.820Z] timestamp: 2026-02-03T12:39:39.433Z
+[2026-02-03T12:39:39.837Z] ---
+[2026-02-03T12:39:39.837Z] context: pagehide
+[2026-02-03T12:39:39.837Z] message: Page unloading (reload or close)
+[2026-02-03T12:39:39.837Z] url: http://localhost:3001/blog
+[2026-02-03T12:39:39.837Z] timestamp: 2026-02-03T12:39:39.833Z
+[2026-02-03T12:39:41.640Z] ---
+[2026-02-03T12:39:41.640Z] context: boot
+[2026-02-03T12:39:41.640Z] message: App boot
+[2026-02-03T12:39:41.640Z] url: http://localhost:3001/blog
+[2026-02-03T12:39:41.640Z] timestamp: 2026-02-03T12:39:41.638Z
+[2026-02-03T12:45:30.062Z] ---
+[2026-02-03T12:45:30.062Z] context: beforeunload
+[2026-02-03T12:45:30.062Z] message: Page about to unload
+[2026-02-03T12:45:30.062Z] url: http://localhost:3001/blog
+[2026-02-03T12:45:30.062Z] timestamp: 2026-02-03T12:45:29.735Z
+[2026-02-03T12:45:30.089Z] ---
+[2026-02-03T12:45:30.089Z] context: pagehide
+[2026-02-03T12:45:30.089Z] message: Page unloading (reload or close)
+[2026-02-03T12:45:30.089Z] url: http://localhost:3001/blog
+[2026-02-03T12:45:30.089Z] timestamp: 2026-02-03T12:45:30.087Z
+[2026-02-03T12:45:31.549Z] ---
+[2026-02-03T12:45:31.549Z] context: boot
+[2026-02-03T12:45:31.549Z] message: App boot
+[2026-02-03T12:45:31.549Z] url: http://localhost:3001/blog
+[2026-02-03T12:45:31.549Z] timestamp: 2026-02-03T12:45:31.547Z
+[2026-02-03T13:09:54.072Z] ---
+[2026-02-03T13:09:54.072Z] context: beforeunload
+[2026-02-03T13:09:54.072Z] message: Page about to unload
+[2026-02-03T13:09:54.072Z] url: http://localhost:3001/blog
+[2026-02-03T13:09:54.072Z] timestamp: 2026-02-03T13:09:53.698Z
+[2026-02-03T13:09:54.089Z] ---
+[2026-02-03T13:09:54.089Z] context: pagehide
+[2026-02-03T13:09:54.089Z] message: Page unloading (reload or close)
+[2026-02-03T13:09:54.089Z] url: http://localhost:3001/blog
+[2026-02-03T13:09:54.089Z] timestamp: 2026-02-03T13:09:54.085Z
+[2026-02-03T13:09:55.538Z] ---
+[2026-02-03T13:09:55.538Z] context: boot
+[2026-02-03T13:09:55.538Z] message: App boot
+[2026-02-03T13:09:55.538Z] url: http://localhost:3001/blog
+[2026-02-03T13:09:55.538Z] timestamp: 2026-02-03T13:09:55.536Z
+[2026-02-03T13:46:37.990Z] ---
+[2026-02-03T13:46:37.990Z] context: beforeunload
+[2026-02-03T13:46:37.990Z] message: Page about to unload
+[2026-02-03T13:46:37.990Z] url: http://localhost:3001/blog
+[2026-02-03T13:46:37.990Z] timestamp: 2026-02-03T13:46:37.978Z
+[2026-02-03T13:46:38.102Z] ---
+[2026-02-03T13:46:38.102Z] context: pagehide
+[2026-02-03T13:46:38.102Z] message: Page unloading (reload or close)
+[2026-02-03T13:46:38.102Z] url: http://localhost:3001/blog
+[2026-02-03T13:46:38.102Z] timestamp: 2026-02-03T13:46:38.100Z
+[2026-02-03T13:46:39.478Z] ---
+[2026-02-03T13:46:39.478Z] context: boot
+[2026-02-03T13:46:39.478Z] message: App boot
+[2026-02-03T13:46:39.478Z] url: http://localhost:3001/blog
+[2026-02-03T13:46:39.478Z] timestamp: 2026-02-03T13:46:39.476Z
+[2026-02-03T13:46:45.445Z] ---
+[2026-02-03T13:46:45.445Z] context: beforeunload
+[2026-02-03T13:46:45.445Z] message: Page about to unload
+[2026-02-03T13:46:45.445Z] url: http://localhost:3001/
+[2026-02-03T13:46:45.445Z] timestamp: 2026-02-03T13:46:45.435Z
+[2026-02-03T13:46:45.529Z] ---
+[2026-02-03T13:46:45.529Z] context: pagehide
+[2026-02-03T13:46:45.529Z] message: Page unloading (reload or close)
+[2026-02-03T13:46:45.529Z] url: http://localhost:3001/
+[2026-02-03T13:46:45.529Z] timestamp: 2026-02-03T13:46:45.524Z
+[2026-02-03T13:46:46.307Z] ---
+[2026-02-03T13:46:46.307Z] context: boot
+[2026-02-03T13:46:46.307Z] message: App boot
+[2026-02-03T13:46:46.307Z] url: http://localhost:3001/
+[2026-02-03T13:46:46.307Z] timestamp: 2026-02-03T13:46:46.305Z
+[2026-02-03T13:53:36.795Z] ---
+[2026-02-03T13:53:36.795Z] context: beforeunload
+[2026-02-03T13:53:36.795Z] message: Page about to unload
+[2026-02-03T13:53:36.795Z] url: http://localhost:3001/blog
+[2026-02-03T13:53:36.795Z] timestamp: 2026-02-03T13:53:36.453Z
+[2026-02-03T13:53:36.902Z] ---
+[2026-02-03T13:53:36.902Z] context: pagehide
+[2026-02-03T13:53:36.902Z] message: Page unloading (reload or close)
+[2026-02-03T13:53:36.902Z] url: http://localhost:3001/blog
+[2026-02-03T13:53:36.902Z] timestamp: 2026-02-03T13:53:36.863Z
+[2026-02-03T13:53:39.755Z] ---
+[2026-02-03T13:53:39.755Z] context: boot
+[2026-02-03T13:53:39.755Z] message: App boot
+[2026-02-03T13:53:39.755Z] url: http://localhost:3001/blog
+[2026-02-03T13:53:39.755Z] timestamp: 2026-02-03T13:53:39.753Z
+[2026-02-03T14:07:38.292Z] ---
+[2026-02-03T14:07:38.292Z] context: beforeunload
+[2026-02-03T14:07:38.292Z] message: Page about to unload
+[2026-02-03T14:07:38.292Z] url: http://localhost:3001/
+[2026-02-03T14:07:38.292Z] timestamp: 2026-02-03T14:07:37.964Z
+[2026-02-03T14:07:38.373Z] ---
+[2026-02-03T14:07:38.373Z] context: pagehide
+[2026-02-03T14:07:38.373Z] message: Page unloading (reload or close)
+[2026-02-03T14:07:38.373Z] url: http://localhost:3001/
+[2026-02-03T14:07:38.373Z] timestamp: 2026-02-03T14:07:38.365Z
+[2026-02-03T14:07:39.700Z] ---
+[2026-02-03T14:07:39.700Z] context: boot
+[2026-02-03T14:07:39.700Z] message: App boot
+[2026-02-03T14:07:39.700Z] url: http://localhost:3001/
+[2026-02-03T14:07:39.700Z] timestamp: 2026-02-03T14:07:39.697Z
+[2026-02-03T15:06:44.073Z] ---
+[2026-02-03T15:06:44.073Z] context: beforeunload
+[2026-02-03T15:06:44.073Z] message: Page about to unload
+[2026-02-03T15:06:44.073Z] url: http://localhost:3001/
+[2026-02-03T15:06:44.073Z] timestamp: 2026-02-03T15:06:44.051Z
+[2026-02-03T15:06:44.674Z] ---
+[2026-02-03T15:06:44.674Z] context: pagehide
+[2026-02-03T15:06:44.674Z] message: Page unloading (reload or close)
+[2026-02-03T15:06:44.674Z] url: http://localhost:3001/
+[2026-02-03T15:06:44.674Z] timestamp: 2026-02-03T15:06:44.525Z
+[2026-02-03T15:06:46.073Z] ---
+[2026-02-03T15:06:46.073Z] context: boot
+[2026-02-03T15:06:46.073Z] message: App boot
+[2026-02-03T15:06:46.073Z] url: http://localhost:3001/
+[2026-02-03T15:06:46.073Z] timestamp: 2026-02-03T15:06:46.069Z
+[2026-02-03T15:28:28.752Z] ---
+[2026-02-03T15:28:28.752Z] context: beforeunload
+[2026-02-03T15:28:28.752Z] message: Page about to unload
+[2026-02-03T15:28:28.752Z] url: http://localhost:3001/blog
+[2026-02-03T15:28:28.752Z] timestamp: 2026-02-03T15:28:28.393Z
+[2026-02-03T15:28:28.857Z] ---
+[2026-02-03T15:28:28.857Z] context: pagehide
+[2026-02-03T15:28:28.857Z] message: Page unloading (reload or close)
+[2026-02-03T15:28:28.857Z] url: http://localhost:3001/blog
+[2026-02-03T15:28:28.857Z] timestamp: 2026-02-03T15:28:28.855Z
+[2026-02-03T15:28:30.222Z] ---
+[2026-02-03T15:28:30.222Z] context: boot
+[2026-02-03T15:28:30.222Z] message: App boot
+[2026-02-03T15:28:30.222Z] url: http://localhost:3001/blog
+[2026-02-03T15:28:30.222Z] timestamp: 2026-02-03T15:28:30.220Z
+[2026-02-03T15:29:39.257Z] ---
+[2026-02-03T15:29:39.257Z] context: beforeunload
+[2026-02-03T15:29:39.257Z] message: Page about to unload
+[2026-02-03T15:29:39.257Z] url: http://localhost:3001/blog
+[2026-02-03T15:29:39.257Z] timestamp: 2026-02-03T15:29:39.236Z
+[2026-02-03T15:29:39.530Z] ---
+[2026-02-03T15:29:39.530Z] context: pagehide
+[2026-02-03T15:29:39.530Z] message: Page unloading (reload or close)
+[2026-02-03T15:29:39.530Z] url: http://localhost:3001/blog
+[2026-02-03T15:29:39.530Z] timestamp: 2026-02-03T15:29:39.527Z
+[2026-02-03T15:29:41.582Z] ---
+[2026-02-03T15:29:41.582Z] context: boot
+[2026-02-03T15:29:41.582Z] message: App boot
+[2026-02-03T15:29:41.582Z] url: http://localhost:3001/blog
+[2026-02-03T15:29:41.582Z] timestamp: 2026-02-03T15:29:41.580Z
+[2026-02-03T15:30:12.090Z] ---
+[2026-02-03T15:30:12.090Z] context: beforeunload
+[2026-02-03T15:30:12.090Z] message: Page about to unload
+[2026-02-03T15:30:12.090Z] url: http://localhost:3001/blog/observability-dotnet-azure
+[2026-02-03T15:30:12.090Z] timestamp: 2026-02-03T15:30:12.079Z
+[2026-02-03T15:30:12.499Z] ---
+[2026-02-03T15:30:12.499Z] context: pagehide
+[2026-02-03T15:30:12.499Z] message: Page unloading (reload or close)
+[2026-02-03T15:30:12.499Z] url: http://localhost:3001/blog/observability-dotnet-azure
+[2026-02-03T15:30:12.499Z] timestamp: 2026-02-03T15:30:12.475Z
+[2026-02-03T15:30:14.054Z] ---
+[2026-02-03T15:30:14.054Z] context: boot
+[2026-02-03T15:30:14.054Z] message: App boot
+[2026-02-03T15:30:14.054Z] url: http://localhost:3001/blog/observability-dotnet-azure
+[2026-02-03T15:30:14.054Z] timestamp: 2026-02-03T15:30:14.052Z
+[2026-02-03T15:30:28.206Z] ---
+[2026-02-03T15:30:28.206Z] context: beforeunload
+[2026-02-03T15:30:28.206Z] message: Page about to unload
+[2026-02-03T15:30:28.206Z] url: http://localhost:3001/blog/observability-dotnet-azure
+[2026-02-03T15:30:28.206Z] timestamp: 2026-02-03T15:30:27.868Z
+[2026-02-03T15:30:28.364Z] ---
+[2026-02-03T15:30:28.364Z] context: pagehide
+[2026-02-03T15:30:28.364Z] message: Page unloading (reload or close)
+[2026-02-03T15:30:28.364Z] url: http://localhost:3001/blog/observability-dotnet-azure
+[2026-02-03T15:30:28.364Z] timestamp: 2026-02-03T15:30:28.348Z
+[2026-02-03T15:30:29.681Z] ---
+[2026-02-03T15:30:29.681Z] context: boot
+[2026-02-03T15:30:29.681Z] message: App boot
+[2026-02-03T15:30:29.681Z] url: http://localhost:3001/blog/observability-dotnet-azure
+[2026-02-03T15:30:29.681Z] timestamp: 2026-02-03T15:30:29.679Z
+[2026-02-03T15:30:43.856Z] ---
+[2026-02-03T15:30:43.856Z] context: beforeunload
+[2026-02-03T15:30:43.856Z] message: Page about to unload
+[2026-02-03T15:30:43.856Z] url: http://localhost:3001/blog/observability-dotnet-azure
+[2026-02-03T15:30:43.856Z] timestamp: 2026-02-03T15:30:43.533Z
+[2026-02-03T15:30:43.874Z] ---
+[2026-02-03T15:30:43.874Z] context: pagehide
+[2026-02-03T15:30:43.874Z] message: Page unloading (reload or close)
+[2026-02-03T15:30:43.874Z] url: http://localhost:3001/blog/observability-dotnet-azure
+[2026-02-03T15:30:43.874Z] timestamp: 2026-02-03T15:30:43.873Z
+[2026-02-03T15:30:45.146Z] ---
+[2026-02-03T15:30:45.146Z] context: boot
+[2026-02-03T15:30:45.146Z] message: App boot
+[2026-02-03T15:30:45.146Z] url: http://localhost:3001/blog/observability-dotnet-azure
+[2026-02-03T15:30:45.146Z] timestamp: 2026-02-03T15:30:45.144Z
+[2026-02-04T00:43:14.374Z] ---
+[2026-02-04T00:43:14.374Z] context: beforeunload
+[2026-02-04T00:43:14.374Z] message: Page about to unload
+[2026-02-04T00:43:14.374Z] url: http://localhost:3001/blog
+[2026-02-04T00:43:14.374Z] timestamp: 2026-02-04T00:43:14.339Z
+[2026-02-04T00:43:14.623Z] ---
+[2026-02-04T00:43:14.623Z] context: pagehide
+[2026-02-04T00:43:14.623Z] message: Page unloading (reload or close)
+[2026-02-04T00:43:14.623Z] url: http://localhost:3001/blog
+[2026-02-04T00:43:14.623Z] timestamp: 2026-02-04T00:43:14.620Z
+[2026-02-04T00:43:16.855Z] ---
+[2026-02-04T00:43:16.855Z] context: boot
+[2026-02-04T00:43:16.855Z] message: App boot
+[2026-02-04T00:43:16.855Z] url: http://localhost:3001/blog
+[2026-02-04T00:43:16.855Z] timestamp: 2026-02-04T00:43:16.853Z
+[2026-02-04T00:43:27.068Z] ---
+[2026-02-04T00:43:27.068Z] context: boot
+[2026-02-04T00:43:27.068Z] message: App boot
+[2026-02-04T00:43:27.068Z] url: http://localhost:3001/blog/why-ai-productivity-gains-plateau
+[2026-02-04T00:43:27.068Z] timestamp: 2026-02-04T00:43:27.066Z
+[2026-02-04T01:35:42.389Z] ---
+[2026-02-04T01:35:42.389Z] context: beforeunload
+[2026-02-04T01:35:42.389Z] message: Page about to unload
+[2026-02-04T01:35:42.389Z] url: http://localhost:3001/blog/trade-offs-ai-code-generation
+[2026-02-04T01:35:42.389Z] timestamp: 2026-02-04T01:35:42.064Z
+[2026-02-04T01:35:42.466Z] ---
+[2026-02-04T01:35:42.466Z] context: pagehide
+[2026-02-04T01:35:42.466Z] message: Page unloading (reload or close)
+[2026-02-04T01:35:42.466Z] url: http://localhost:3001/blog/trade-offs-ai-code-generation
+[2026-02-04T01:35:42.466Z] timestamp: 2026-02-04T01:35:42.458Z
+[2026-02-04T01:35:44.320Z] ---
+[2026-02-04T01:35:44.320Z] context: boot
+[2026-02-04T01:35:44.320Z] message: App boot
+[2026-02-04T01:35:44.320Z] url: http://localhost:3001/blog/trade-offs-ai-code-generation
+[2026-02-04T01:35:44.320Z] timestamp: 2026-02-04T01:35:44.317Z
+[2026-02-04T02:05:13.405Z] ---
+[2026-02-04T02:05:13.405Z] context: beforeunload
+[2026-02-04T02:05:13.405Z] message: Page about to unload
+[2026-02-04T02:05:13.405Z] url: http://localhost:3001/blog/solid-principles-in-practice
+[2026-02-04T02:05:13.405Z] timestamp: 2026-02-04T02:05:13.076Z
+[2026-02-04T02:05:13.515Z] ---
+[2026-02-04T02:05:13.515Z] context: pagehide
+[2026-02-04T02:05:13.515Z] message: Page unloading (reload or close)
+[2026-02-04T02:05:13.515Z] url: http://localhost:3001/blog/solid-principles-in-practice
+[2026-02-04T02:05:13.515Z] timestamp: 2026-02-04T02:05:13.433Z
+[2026-02-04T02:05:14.638Z] ---
+[2026-02-04T02:05:14.638Z] context: boot
+[2026-02-04T02:05:14.638Z] message: App boot
+[2026-02-04T02:05:14.638Z] url: http://localhost:3001/blog/solid-principles-in-practice
+[2026-02-04T02:05:14.638Z] timestamp: 2026-02-04T02:05:14.636Z
+[2026-02-04T02:46:57.740Z] ---
+[2026-02-04T02:46:57.740Z] context: beforeunload
+[2026-02-04T02:46:57.740Z] message: Page about to unload
+[2026-02-04T02:46:57.740Z] url: http://localhost:3001/
+[2026-02-04T02:46:57.740Z] timestamp: 2026-02-04T02:46:57.719Z
+[2026-02-04T02:46:57.874Z] ---
+[2026-02-04T02:46:57.874Z] context: pagehide
+[2026-02-04T02:46:57.874Z] message: Page unloading (reload or close)
+[2026-02-04T02:46:57.874Z] url: http://localhost:3001/
+[2026-02-04T02:46:57.874Z] timestamp: 2026-02-04T02:46:57.869Z
+[2026-02-04T02:46:58.866Z] ---
+[2026-02-04T02:46:58.866Z] context: boot
+[2026-02-04T02:46:58.866Z] message: App boot
+[2026-02-04T02:46:58.866Z] url: http://localhost:3001/
+[2026-02-04T02:46:58.866Z] timestamp: 2026-02-04T02:46:58.864Z

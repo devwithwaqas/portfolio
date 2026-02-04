@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "Portfolio Contact Form - SMTP",
+    "description": "Test SMTP email with dynamically generated current timestamp",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Send Email - Current Time",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Generate current UTC timestamp dynamically",
+              "const now = new Date();",
+              "const timestamp = now.toISOString();",
+              "",
+              "// Detect timezone dynamically from system (same as client-side)",
+              "const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;",
+              "",
+              "// Log for debugging",
+              "console.log('🕐 Generated timestamp:', timestamp);",
+              "console.log('🌍 Detected timezone:', timezone);",
+              "console.log('📍 System offset (minutes):', now.getTimezoneOffset());",
+              "",
+              "// Also update the request body directly to ensure it works",
+              "const requestBody = {",
+              "  name: 'Test User',",
+              "  email: 'test@example.com',",
+              "  subject: 'Test - Current Time ' + new Date().toLocaleTimeString(),",
+              "  message: 'Testing with current timestamp - detected timezone: ' + timezone,",
+              "  timestamp: timestamp,",
+              "  timezone: timezone,",
+              "  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',",
+              "  language: 'en-US'",
+              "};",
+              "",
+              "pm.request.body.raw = JSON.stringify(requestBody, null, 2);"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Email sent successfully', function () {",
+              "    pm.response.to.have.status(200);",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData.success).to.eql(true);",
+              "});",
+              "",
+              "console.log('Response:', pm.response.json());"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"subject\": \"Test - Current Time\",\n  \"message\": \"Testing with current timestamp\",\n  \"timestamp\": \"{{currentTimestamp}}\",\n  \"timezone\": \"{{currentTimezone}}\",\n  \"userAgent\": \"Mozilla/5.0 Test\",\n  \"language\": \"en-US\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://us-central1-robust-builder-484406-b3.cloudfunctions.net/sendEmail",
+          "protocol": "https",
+          "host": [
+            "us-central1-robust-builder-484406-b3",
+            "cloudfunctions",
+            "net"
+          ],
+          "path": [
+            "sendEmail"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "currentTimestamp",
+      "value": "{{$timestamp}}",
+      "type": "string"
+    },
+    {
+      "key": "currentTimezone",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+﻿========================================
+GA4 Cloud Functions - Test Run
+2026-01-24 17:51:49
+Output: command-outputs\ga4-test-20260124-175149.txt
+========================================
+
+Working directory: C:\portfolio
+
+--- Step 1: Cleanup gcloud-function ---
+  node_modules not present, skip
+  Restored package.json from package-read.json
+
+--- Step 2: Test UPDATE function ---
+  StatusCode: 200
+  Content: {"success":true,"message":"Analytics cache updated (GitHub + Firebase)","lastUpdated":"2026-01-24T09:51:49.413Z","github":{"totalViews":10375,"topItemsCount":3},"firebase":{"totalViews":0,"topItemsCount":0}}
+
+--- Step 3: Test READ function ---
+  StatusCode: 200
+  Content: {"totalViews":10375,"topItems":[{"name":"Service: Full Stack Development","views":2630,"url":"/services/full-stack-development","type":"service"},{"name":"Project: Heat Exchanger","views":2563,"url":"/projects/heat-exchanger","type":"project"},{"name":"Project: Heat Exchanger","views":2485,"url":"/projects/heat-exchanger","type":"project"}],"cached":true,"lastUpdated":"2026-01-24T09:51:51.155Z"}
+
+--- Step 4: List Cloud Functions ---
+NAME                  STATE   TRIGGER       REGION       ENVIRONMENT ga4-analytics         ACTIVE  HTTP Trigger  us-central1  2nd gen ga4-track             FAILED  HTTP Trigger  us-central1  2nd gen portfolio-ga4-api     ACTIVE  HTTP Trigger  us-central1  2nd gen portfolio-ga4-read    ACTIVE  HTTP Trigger  us-central1  2nd gen portfolio-ga4-update  ACTIVE  HTTP Trigger  us-central1  2nd gen sendEmail             ACTIVE  HTTP Trigger  us-central1  2nd gen
+
+--- Step 5: gcloud config ---
+  Project: robust-builder-484406-b3
+
+========================================
+Done. Full output saved to: command-outputs\ga4-test-20260124-175149.txt
+========================================

@@ -1,0 +1,464 @@
+@startuml G5_POS_C4_HX_Style
+
+' ========================================
+' C4-PlantUML Color Overrides (MUST BE FIRST!)
+' Set these BEFORE including C4 library
+' ========================================
+
+!$PERSON_BG_COLOR = "#08427B"
+!$PERSON_BORDER_COLOR = "#073B6F"
+!$PERSON_FONT_COLOR = "#FFFFFF"
+
+!$SYSTEM_BG_COLOR = "#1168BD"
+!$SYSTEM_BORDER_COLOR = "#0B5394"
+
+!$CONTAINER_BG_COLOR = "#2D314A"
+!$CONTAINER_BORDER_COLOR = "#9CA3AF"
+
+!$EXTERNAL_PERSON_BG_COLOR = "#686868"
+!$EXTERNAL_PERSON_BORDER_COLOR = "#4A4A4A"
+
+!$EXTERNAL_SYSTEM_BG_COLOR = "#999999"
+!$EXTERNAL_SYSTEM_BORDER_COLOR = "#707070"
+
+!$EXTERNAL_CONTAINER_BG_COLOR = "#B3B3B3"
+!$EXTERNAL_CONTAINER_BORDER_COLOR = "#8C8C8C"
+
+!$LINK_COLOR = "#FF4D4F"
+
+' Also set font colors (required by C4)
+!$SYSTEM_FONT_COLOR = "#FFFFFF"
+!$CONTAINER_FONT_COLOR = "#FFFFFF"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' ========================================
+' HeatExchanger Color Scheme Applied
+' Light canvas + dark shapes + red connectors
+' ========================================
+
+' -------------------------
+' Basic layout settings
+' -------------------------
+skinparam backgroundColor #F7F9FC
+skinparam nodesep 200
+skinparam ranksep 200
+skinparam linetype ortho
+skinparam roundcorner 12
+skinparam dpi 300
+skinparam shadowing true
+
+' -------------------------
+' Typography
+' -------------------------
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 14
+skinparam defaultFontColor #111827
+skinparam titleFontSize 20
+skinparam titleFontColor #111827
+
+' -------------------------
+' Container styling (DARK shapes like HX)
+' -------------------------
+skinparam RectangleBackgroundColor #2D314A
+skinparam RectangleBorderColor #9CA3AF
+skinparam RectangleBorderThickness 1
+skinparam RectangleFontColor #FFFFFF
+skinparam RectangleFontSize 14
+skinparam RectangleFontStyle Bold
+skinparam RectanglePadding 15
+skinparam RectangleMinWidth 200
+skinparam RectangleMinHeight 60
+
+' -------------------------
+' Busy container styling
+' -------------------------
+skinparam component {
+    BackgroundColor #2D314A
+    BorderColor #9CA3AF
+    BorderThickness 1
+    FontColor #FFFFFF
+    FontSize 14
+    FontStyle Bold
+    Padding 15
+    MinWidth 300
+    MinHeight 60
+}
+
+' -------------------------
+' Package styling (LIGHT backgrounds like HX)
+' -------------------------
+skinparam PackageBorderColor #94A3B8
+skinparam PackageBorderThickness 2
+skinparam PackageFontColor #111827
+skinparam PackageFontSize 14
+skinparam PackageFontStyle Bold
+skinparam PackagePadding 20
+skinparam PackageBackgroundColor #EEF2FF
+
+' -------------------------
+' Database styling (GOLD theme like HX)
+' -------------------------
+skinparam DatabaseBackgroundColor #3C2F1B
+skinparam DatabaseBorderColor #D1A954
+skinparam DatabaseBorderThickness 1
+skinparam DatabaseFontColor #FFFFFF
+skinparam DatabaseFontSize 14
+skinparam DatabaseFontStyle Bold
+
+' -------------------------
+' Notes styling (DARK bubbles like HX)
+' -------------------------
+skinparam NoteBackgroundColor #1F2937
+skinparam NoteBorderColor #4B5563
+skinparam NoteBorderThickness 1
+skinparam NoteFontColor #FFFFFF
+skinparam NoteFontSize 14
+skinparam NoteFontStyle Bold
+skinparam NotePadding 10
+
+' -------------------------
+' Arrow styling (THICK RED like HX)
+' -------------------------
+skinparam ArrowColor #FF4D4F
+skinparam ArrowThickness 4
+skinparam ArrowFontSize 12
+skinparam ArrowFontColor #FFFFFF
+
+title G5 POS - HeatExchanger Style C4 Architecture
+
+' Custom legend with actual colors used (aligned)
+legend right
+  |<back:#08427B>      </back>| **Person/Actor** (Dark Blue)
+  |<back:#EEF2FF>      </back>| **Packages/Layers** (Light Blue Background)
+  |<back:#1F2937>      </back>| **Link Labels** (Dark Gray Bubbles)
+  |<back:#FF4D4F>      </back>| **Connectors/Arrows** (Red)
+endlegend
+
+' -------------------------
+' Actors (top level)
+' -------------------------
+Person(waiter, "Restaurant Staff", "Takes orders and processes payments")
+Person(chef, "Kitchen Staff", "Prepares orders")
+Person(manager, "Restaurant Manager", "Manages operations and analytics")
+Person(admin, "System Administrator", "Manages POS platform")
+
+' -------------------------
+' External Systems (left side)
+' -------------------------
+package "External Systems" as ExternalSystems {
+    System_Ext(payment_gateway, "Payment Gateway", "Payment processing")
+    System_Ext(receipt_printer, "Receipt Printer", "Print receipts")
+    System_Ext(kitchen_printer, "Kitchen Printer", "Print kitchen orders")
+    System_Ext(barcode_scanner, "Barcode Scanner", "Scan products")
+}
+
+' -------------------------
+' UI Layer (top center)
+' -------------------------
+package "G5 POS Frontend" as UILayer {
+    Container(pos_terminal, "POS Terminal", "Angular 12+", "Order entry and payment")
+    Container(kitchen_display, "Kitchen Display", "Angular 12+", "Order display for kitchen")
+    Container(mobile_app, "Mobile POS App", "PWA", "Mobile order taking")
+    Container(admin_dashboard, "Admin Dashboard", "Angular 12+", "System administration")
+    Container(analytics_dashboard, "Analytics Dashboard", "Chart.js", "Business intelligence")
+}
+
+' -------------------------
+' API Gateway Layer (center)
+' -------------------------
+package "API Gateway" as GatewayLayer {
+    Container(api_gateway, "API Gateway", "ASP.NET Core", "API routing and security")
+    Container(auth_service, "Authentication Service", "ASP.NET Core", "JWT authentication")
+}
+
+' -------------------------
+' Core Microservices (center-right)
+' -------------------------
+package "Backend Microservices" as CoreServices {
+    Container(order_service, "Order Service", "ASP.NET Core", "Order processing and management")
+    Container(payment_service, "Payment Service", "ASP.NET Core", "Payment processing")
+    Container(inventory_service, "Inventory Service", "ASP.NET Core", "Stock management")
+    Container(menu_service, "Menu Service", "ASP.NET Core", "Menu and pricing management")
+    Container(kitchen_service, "Kitchen Service", "ASP.NET Core", "Kitchen order management")
+    Container(customer_service, "Customer Service", "ASP.NET Core", "Customer data management")
+    Container(notification_service, "Notification Service", "ASP.NET Core", "Real-time notifications")
+    Container(reporting_service, "Reporting Service", "ASP.NET Core", "Sales and analytics")
+}
+
+' -------------------------
+' Real-Time Communication (right)
+' -------------------------
+package "Real-Time Services" as RealtimeLayer {
+    Container(signalr_hub, "SignalR Hub", "SignalR", "Real-time communication")
+    Container(websocket_service, "WebSocket Service", "ASP.NET Core", "WebSocket connections")
+}
+
+' -------------------------
+' Data Layer (bottom-center)
+' -------------------------
+package "Data Layer" as DataLayer {
+    ContainerDb(sql_database, "SQL Server Database", "SQL Server", "Transaction data")
+    ContainerDb(redis_cache, "Redis Cache", "Redis", "High-performance cache")
+}
+
+' -------------------------
+' User interactions
+' -------------------------
+waiter --> pos_terminal
+note on link
+  Take orders
+end note
+
+waiter --> mobile_app
+note on link
+  Mobile orders
+end note
+
+chef --> kitchen_display
+note on link
+  View orders
+end note
+
+manager --> admin_dashboard
+note on link
+  System management
+end note
+
+manager --> analytics_dashboard
+note on link
+  Business analytics
+end note
+
+admin --> admin_dashboard
+note on link
+  Platform administration
+end note
+
+' -------------------------
+' UI to Gateway
+' -------------------------
+pos_terminal --> api_gateway
+note on link
+  API calls
+end note
+
+kitchen_display --> api_gateway
+note on link
+  Order updates
+end note
+
+mobile_app --> api_gateway
+note on link
+  Mobile API calls
+end note
+
+admin_dashboard --> api_gateway
+note on link
+  Admin API calls
+end note
+
+analytics_dashboard --> api_gateway
+note on link
+  Analytics API calls
+end note
+
+' -------------------------
+' Gateway to Services
+' -------------------------
+api_gateway --> auth_service
+note on link
+  Authentication
+end note
+
+api_gateway --> order_service
+note on link
+  Order operations
+end note
+
+api_gateway --> payment_service
+note on link
+  Payment operations
+end note
+
+api_gateway --> inventory_service
+note on link
+  Inventory operations
+end note
+
+api_gateway --> menu_service
+note on link
+  Menu operations
+end note
+
+api_gateway --> kitchen_service
+note on link
+  Kitchen operations
+end note
+
+api_gateway --> customer_service
+note on link
+  Customer operations
+end note
+
+api_gateway --> reporting_service
+note on link
+  Reporting operations
+end note
+
+' -------------------------
+' Service interactions
+' -------------------------
+order_service --> payment_service
+note on link
+  Process payment
+end note
+
+order_service --> inventory_service
+note on link
+  Update inventory
+end note
+
+order_service --> kitchen_service
+note on link
+  Send to kitchen
+end note
+
+kitchen_service --> notification_service
+note on link
+  Order updates
+end note
+
+payment_service --> inventory_service
+note on link
+  Stock deduction
+end note
+
+menu_service --> inventory_service
+note on link
+  Recipe validation
+end note
+
+' -------------------------
+' Real-time communication
+' -------------------------
+order_service --> signalr_hub
+note on link
+  Order events
+end note
+
+kitchen_service --> signalr_hub
+note on link
+  Kitchen updates
+end note
+
+signalr_hub --> kitchen_display
+note on link
+  Real-time orders
+end note
+
+signalr_hub --> pos_terminal
+note on link
+  Order status
+end note
+
+notification_service --> signalr_hub
+note on link
+  Push notifications
+end note
+
+' -------------------------
+' External integrations
+' -------------------------
+payment_service --> payment_gateway
+note on link
+  Process payments
+end note
+
+pos_terminal --> receipt_printer
+note on link
+  Print receipts
+end note
+
+kitchen_service --> kitchen_printer
+note on link
+  Print orders
+end note
+
+inventory_service --> barcode_scanner
+note on link
+  Scan products
+end note
+
+' -------------------------
+' Data access
+' -------------------------
+order_service --> sql_database
+note on link
+  Order data
+end note
+
+payment_service --> sql_database
+note on link
+  Transaction data
+end note
+
+inventory_service --> sql_database
+note on link
+  Inventory data
+end note
+
+menu_service --> sql_database
+note on link
+  Menu data
+end note
+
+customer_service --> sql_database
+note on link
+  Customer data
+end note
+
+reporting_service --> sql_database
+note on link
+  Sales data
+end note
+
+order_service --> redis_cache
+note on link
+  Cache menu data
+end note
+
+menu_service --> redis_cache
+note on link
+  Cache pricing
+end note
+
+inventory_service --> redis_cache
+note on link
+  Cache stock levels
+end note
+
+' -------------------------
+' Monitoring
+' -------------------------
+order_service --> reporting_service
+note on link
+  Order metrics
+end note
+
+payment_service --> reporting_service
+note on link
+  Payment metrics
+end note
+
+inventory_service --> reporting_service
+note on link
+  Inventory metrics
+end note
+
+reporting_service --> analytics_dashboard
+note on link
+  Business reports
+end note
+
+@enduml

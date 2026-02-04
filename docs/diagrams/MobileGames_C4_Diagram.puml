@@ -1,0 +1,346 @@
+@startuml MobileGames_C4_HX_Style
+
+' ========================================
+' C4-PlantUML Color Overrides (MUST BE FIRST!)
+' Set these BEFORE including C4 library
+' ========================================
+
+!$PERSON_BG_COLOR = "#08427B"
+!$PERSON_BORDER_COLOR = "#073B6F"
+!$PERSON_FONT_COLOR = "#FFFFFF"
+
+!$SYSTEM_BG_COLOR = "#1168BD"
+!$SYSTEM_BORDER_COLOR = "#0B5394"
+
+!$CONTAINER_BG_COLOR = "#2D314A"
+!$CONTAINER_BORDER_COLOR = "#9CA3AF"
+
+!$EXTERNAL_PERSON_BG_COLOR = "#686868"
+!$EXTERNAL_PERSON_BORDER_COLOR = "#4A4A4A"
+
+!$EXTERNAL_SYSTEM_BG_COLOR = "#999999"
+!$EXTERNAL_SYSTEM_BORDER_COLOR = "#707070"
+
+!$EXTERNAL_CONTAINER_BG_COLOR = "#B3B3B3"
+!$EXTERNAL_CONTAINER_BORDER_COLOR = "#8C8C8C"
+
+!$LINK_COLOR = "#FF4D4F"
+
+' Also set font colors (required by C4)
+!$SYSTEM_FONT_COLOR = "#FFFFFF"
+!$CONTAINER_FONT_COLOR = "#FFFFFF"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' ========================================
+' HeatExchanger Color Scheme Applied
+' Light canvas + dark shapes + red connectors
+' ========================================
+
+' -------------------------
+' Basic layout settings
+' -------------------------
+skinparam backgroundColor #F7F9FC
+skinparam nodesep 200
+skinparam ranksep 200
+skinparam linetype ortho
+skinparam roundcorner 12
+skinparam dpi 300
+skinparam shadowing true
+
+' -------------------------
+' Typography
+' -------------------------
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 14
+skinparam defaultFontColor #111827
+skinparam titleFontSize 20
+skinparam titleFontColor #111827
+
+' -------------------------
+' Container styling (DARK shapes like HX)
+' -------------------------
+skinparam RectangleBackgroundColor #2D314A
+skinparam RectangleBorderColor #9CA3AF
+skinparam RectangleBorderThickness 1
+skinparam RectangleFontColor #FFFFFF
+skinparam RectangleFontSize 14
+skinparam RectangleFontStyle Bold
+skinparam RectanglePadding 15
+skinparam RectangleMinWidth 200
+skinparam RectangleMinHeight 60
+
+' -------------------------
+' Busy container styling (for generic Container elements)
+' -------------------------
+skinparam component {
+    BackgroundColor #2D314A
+    BorderColor #9CA3AF
+    BorderThickness 1
+    FontColor #FFFFFF
+    FontSize 14
+    FontStyle Bold
+    Padding 15
+    MinWidth 300
+    MinHeight 60
+}
+
+' -------------------------
+' Package styling (LIGHT backgrounds like HX)
+' -------------------------
+skinparam PackageBorderColor #94A3B8
+skinparam PackageBorderThickness 2
+skinparam PackageFontColor #111827
+skinparam PackageFontSize 14
+skinparam PackageFontStyle Bold
+skinparam PackagePadding 20
+skinparam PackageBackgroundColor #EEF2FF
+
+' -------------------------
+' Database styling (GOLD theme like HX)
+' -------------------------
+skinparam DatabaseBackgroundColor #3C2F1B
+skinparam DatabaseBorderColor #D1A954
+skinparam DatabaseBorderThickness 1
+skinparam DatabaseFontColor #FFFFFF
+skinparam DatabaseFontSize 14
+skinparam DatabaseFontStyle Bold
+
+' -------------------------
+' Notes styling (DARK bubbles like HX)
+' -------------------------
+skinparam NoteBackgroundColor #1F2937
+skinparam NoteBorderColor #4B5563
+skinparam NoteBorderThickness 1
+skinparam NoteFontColor #FFFFFF
+skinparam NoteFontSize 14
+skinparam NoteFontStyle Bold
+skinparam NotePadding 10
+
+' -------------------------
+' Arrow styling (THICK RED like HX)
+' -------------------------
+skinparam ArrowColor #FF4D4F
+skinparam ArrowThickness 4
+skinparam ArrowFontSize 12
+skinparam ArrowFontColor #FFFFFF
+
+title Mobile Games Collection - HeatExchanger Style C4 Architecture
+
+' Custom legend with actual colors used (aligned)
+legend right
+  |<back:#08427B>      </back>| **Person/Actor** (Dark Blue)
+  |<back:#EEF2FF>      </back>| **Packages/Layers** (Light Blue Background)
+  |<back:#1F2937>      </back>| **Link Labels** (Dark Gray Bubbles)
+  |<back:#FF4D4F>      </back>| **Connectors/Arrows** (Red)
+endlegend
+
+' -------------------------
+' Actors (top level)
+' -------------------------
+Person(player, "Mobile Game Player", "Plays mobile games on Android devices, interacts with game mechanics, makes in-app purchases, and participates in game features")
+
+Person(admin, "Game Admin/Developer", "Manages game content, monitors analytics, configures game settings, and oversees game operations")
+
+System_Ext(google_play, "Google Play Store", "Android app distribution platform for publishing and distributing mobile games")
+
+' -------------------------
+' Mobile Game Applications (top center)
+' -------------------------
+package "Android Game Applications" as GameApps {
+    Container(dead_run, "Dead Run: Brave", "Java, AndEngine, Android", "Endless runner game with survival mechanics featuring smooth 60fps gameplay, engaging controls, and challenging obstacles")
+
+    Container(brave_temple, "Brave Temple Gorilla", "Java, AndEngine, Android", "Puzzle-action temple adventure game with physics-based mechanics, engaging puzzles, and dynamic gameplay")
+
+    Container(mega_running, "Mega Running", "Java, AndEngine, Android", "High-speed obstacle course racing game with fast-paced action, responsive controls, and challenging levels")
+
+    Container(miss_jump, "Miss Jump", "Java, AndEngine, Android", "Precision jumping platformer with accurate controls, engaging mechanics, and challenging level design")
+
+    Container(marine_defender, "Marine Defender", "Java, AndEngine, Android", "Naval combat strategy game with tactical gameplay, engaging combat mechanics, and strategic decision-making")
+}
+
+' ========================================
+' Backend Services (center)
+' ========================================
+package "Backend Services & Game Services" as BackendServices {
+    Container(game_api, "Game Services API", "Java Servlets, JSP, REST", "Backend API for game data management, player state synchronization, and game service operations. Handles requests from mobile games and provides game data services")
+
+    Container(mafia_wars_api, "Mafia Wars Backend API", "Java Servlets, JSP, REST", "Backend services for globally successful Mafia Wars RPG game. Handles player data, game state, progression tracking, and multiplayer features for millions of players")
+
+    Container(analytics_api, "Analytics & Reporting API", "Java Servlets, REST", "Analytics API for tracking user behavior, game metrics, performance data, and generating comprehensive reports for game optimization")
+}
+
+' ========================================
+' Data Layer (bottom-center)
+' ========================================
+package "Data Layer" as DataLayer {
+    ContainerDb(game_db, "Game Database", "MySQL", "Relational database storing player data, game state, progression records, achievements, and game economy information. Features efficient data modeling and query optimization")
+
+    ContainerDb(mafia_wars_db, "Mafia Wars Database", "MySQL", "Enterprise database for Mafia Wars RPG game storing player profiles, game state, progression data, alliances, and virtual economy. Supports millions of players with optimized queries")
+}
+
+' -------------------------
+' External Systems (right side)
+' -------------------------
+package "External Systems" as ExternalSystems {
+    System_Ext(admob, "Google AdMob", "Mobile advertising platform for in-app advertisements and monetization")
+    
+    System_Ext(analytics_service, "Analytics Service", "Third-party analytics platform for game metrics and user behavior tracking")
+}
+
+' -------------------------
+' User interactions
+' -------------------------
+player --> dead_run
+note on link
+  Plays game
+end note
+
+player --> brave_temple
+note on link
+  Plays game
+end note
+
+player --> mega_running
+note on link
+  Plays game
+end note
+
+player --> miss_jump
+note on link
+  Plays game
+end note
+
+player --> marine_defender
+note on link
+  Plays game
+end note
+
+admin --> game_api
+note on link
+  Manages games
+end note
+
+' -------------------------
+' Game Apps to Backend Services
+' -------------------------
+dead_run --> game_api
+note on link
+  API calls
+end note
+
+brave_temple --> game_api
+note on link
+  API calls
+end note
+
+mega_running --> game_api
+note on link
+  API calls
+end note
+
+miss_jump --> game_api
+note on link
+  API calls
+end note
+
+marine_defender --> game_api
+note on link
+  API calls
+end note
+
+game_api --> mafia_wars_api
+note on link
+  Game services
+end note
+
+game_api --> analytics_api
+note on link
+  Sends metrics
+end note
+
+' -------------------------
+' Backend Services to Databases
+' -------------------------
+game_api --> game_db
+note on link
+  Reads/Writes
+end note
+
+mafia_wars_api --> mafia_wars_db
+note on link
+  Reads/Writes
+end note
+
+analytics_api --> game_db
+note on link
+  Reads data
+end note
+
+' -------------------------
+' Game Apps to External Systems
+' -------------------------
+dead_run --> admob
+note on link
+  Shows ads
+end note
+
+brave_temple --> admob
+note on link
+  Shows ads
+end note
+
+mega_running --> admob
+note on link
+  Shows ads
+end note
+
+miss_jump --> admob
+note on link
+  Shows ads
+end note
+
+marine_defender --> admob
+note on link
+  Shows ads
+end note
+
+game_api --> analytics_service
+note on link
+  Sends analytics
+end note
+
+' -------------------------
+' Game Apps to Google Play
+' -------------------------
+dead_run --> google_play
+note on link
+  Published on
+end note
+
+brave_temple --> google_play
+note on link
+  Published on
+end note
+
+mega_running --> google_play
+note on link
+  Published on
+end note
+
+miss_jump --> google_play
+note on link
+  Published on
+end note
+
+marine_defender --> google_play
+note on link
+  Published on
+end note
+
+' ========================================
+' Layout hints for better visualization
+' ========================================
+LAYOUT_TOP_DOWN()
+
+@enduml

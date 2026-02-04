@@ -1,0 +1,26 @@
+﻿Verify URLs for indexing (robots + sitemap + fetch)
+====================================================
+
+Sitemap: all 18 URLs present.
+
+ 1. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/
+ 2. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/projects/heat-exchanger
+ 3. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/projects/airasia-id90
+ 4. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/projects/bat-inhouse-app
+ 5. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/projects/pj-smart-city
+ 6. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/projects/gamified-employee-management
+ 7. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/projects/valet-parking
+ 8. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/projects/mobile-games
+ 9. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/projects/uk-property-management
+10. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/projects/g5-pos
+11. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/projects/chubb-insurance-applications
+12. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/services/full-stack-development
+13. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/services/azure-cloud-architecture
+14. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/services/technical-leadership
+15. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/services/microservices-architecture
+16. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/services/agile-project-management
+17. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/services/database-design-optimization
+18. OK   robots=Y  fetch=200   https://waqasahmad-portfolio.web.app/services/mobile-development
+
+Total: 18  OK: 18  FAIL: 0
+All 18 URLs allowed by robots and return 200.

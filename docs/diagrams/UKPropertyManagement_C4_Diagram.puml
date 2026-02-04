@@ -1,0 +1,454 @@
+@startuml UKPropertyManagement_C4_HX_Style
+
+' ========================================
+' C4-PlantUML Color Overrides (MUST BE FIRST!)
+' Set these BEFORE including C4 library
+' ========================================
+
+!$PERSON_BG_COLOR = "#08427B"
+!$PERSON_BORDER_COLOR = "#073B6F"
+!$PERSON_FONT_COLOR = "#FFFFFF"
+
+!$SYSTEM_BG_COLOR = "#1168BD"
+!$SYSTEM_BORDER_COLOR = "#0B5394"
+
+!$CONTAINER_BG_COLOR = "#2D314A"
+!$CONTAINER_BORDER_COLOR = "#9CA3AF"
+
+!$EXTERNAL_PERSON_BG_COLOR = "#686868"
+!$EXTERNAL_PERSON_BORDER_COLOR = "#4A4A4A"
+
+!$EXTERNAL_SYSTEM_BG_COLOR = "#999999"
+!$EXTERNAL_SYSTEM_BORDER_COLOR = "#707070"
+
+!$LINK_COLOR = "#FF4D4F"
+
+' Also set font colors (required by C4)
+!$SYSTEM_FONT_COLOR = "#FFFFFF"
+!$CONTAINER_FONT_COLOR = "#FFFFFF"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' ========================================
+' HeatExchanger Color Scheme Applied
+' Light canvas + dark shapes + red connectors
+' ========================================
+
+' -------------------------
+' Basic layout settings
+' -------------------------
+skinparam backgroundColor #F7F9FC
+skinparam nodesep 200
+skinparam ranksep 200
+skinparam linetype ortho
+skinparam roundcorner 12
+skinparam dpi 300
+skinparam shadowing true
+
+' -------------------------
+' Typography
+' -------------------------
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 14
+skinparam defaultFontColor #111827
+skinparam titleFontSize 20
+skinparam titleFontColor #111827
+
+' -------------------------
+' Container styling (DARK shapes like HX)
+' -------------------------
+skinparam RectangleBackgroundColor #2D314A
+skinparam RectangleBorderColor #9CA3AF
+skinparam RectangleBorderThickness 1
+skinparam RectangleFontColor #FFFFFF
+skinparam RectangleFontSize 14
+skinparam RectangleFontStyle Bold
+skinparam RectanglePadding 15
+skinparam RectangleMinWidth 200
+skinparam RectangleMinHeight 60
+
+' -------------------------
+' Busy container styling (for generic Container elements)
+' -------------------------
+skinparam component {
+    BackgroundColor #2D314A
+    BorderColor #9CA3AF
+    BorderThickness 1
+    FontColor #FFFFFF
+    FontSize 14
+    FontStyle Bold
+    Padding 15
+    MinWidth 300
+    MinHeight 60
+}
+
+' -------------------------
+' Package styling (LIGHT backgrounds like HX)
+' -------------------------
+skinparam PackageBorderColor #94A3B8
+skinparam PackageBorderThickness 2
+skinparam PackageFontColor #111827
+skinparam PackageFontSize 14
+skinparam PackageFontStyle Bold
+skinparam PackagePadding 20
+skinparam PackageBackgroundColor #EEF2FF
+
+' -------------------------
+' Database styling (GOLD theme like HX)
+' -------------------------
+skinparam DatabaseBackgroundColor #3C2F1B
+skinparam DatabaseBorderColor #D1A954
+skinparam DatabaseBorderThickness 1
+skinparam DatabaseFontColor #FFFFFF
+skinparam DatabaseFontSize 14
+skinparam DatabaseFontStyle Bold
+
+' -------------------------
+' Notes styling (DARK bubbles like HX)
+' -------------------------
+skinparam NoteBackgroundColor #1F2937
+skinparam NoteBorderColor #4B5563
+skinparam NoteBorderThickness 1
+skinparam NoteFontColor #FFFFFF
+skinparam NoteFontSize 14
+skinparam NoteFontStyle Bold
+skinparam NotePadding 10
+
+' -------------------------
+' Arrow styling (THICK RED like HX)
+' -------------------------
+skinparam ArrowColor #FF4D4F
+skinparam ArrowThickness 4
+skinparam ArrowFontSize 12
+skinparam ArrowFontColor #FFFFFF
+
+title UK Property Management Platform - HeatExchanger Style C4 Architecture
+
+' Custom legend with actual colors used (aligned)
+legend right
+  |<back:#08427B>      </back>| **Person/Actor** (Dark Blue)
+  |<back:#EEF2FF>      </back>| **Packages/Layers** (Light Blue Background)
+  |<back:#1F2937>      </back>| **Link Labels** (Dark Gray Bubbles)
+  |<back:#FF4D4F>      </back>| **Connectors/Arrows** (Red)
+endlegend
+
+' -------------------------
+' Actors (top level)
+' -------------------------
+Person(property_manager, "Property Manager", "Manages property portfolio, tenant relationships, maintenance operations, and financial operations")
+
+Person(tenant, "Tenant", "Uses tenant portal to manage account, submit maintenance requests, view documents, and communicate with property management")
+
+System_Ext(payment_gateway, "Payment Gateway", "External payment processing service for rent collection and financial transactions")
+
+' -------------------------
+' UI Layer (top center)
+' -------------------------
+package "Property Management Portal" as UILayer {
+    Container(web_portal, "Property Management Portal", "Angular 12+, TypeScript, Bootstrap 5, PWA", "Modern web portal providing property managers with unified access to portfolio management, tenant services, maintenance tracking, and financial operations. Features responsive design, real-time updates, and comprehensive analytics dashboards.")
+    
+    Container(tenant_portal, "Tenant Portal", "Angular 12+, TypeScript, Bootstrap 5", "Self-service tenant interface enabling tenants to manage accounts, submit maintenance requests, view documents, and communicate with property management. Features secure authentication, document management, and payment processing.")
+}
+
+' ========================================
+' Azure Serverless & Integration Services (center)
+' ========================================
+package "Azure Serverless Services" as ServerlessLayer {
+    Container(azure_functions, "Azure Functions", "C#, .NET Core, Serverless", "Serverless compute service handling property management workflows, automated notifications, maintenance scheduling, financial calculations, and event-driven processing. Features automatic scaling, pay-per-use pricing, and comprehensive Azure integration.")
+    
+    Container(logic_apps, "Azure Logic Apps", "Workflow Automation", "Workflow automation service providing business process orchestration, integration workflows, approval processes, scheduled tasks, and conditional logic. Features visual workflow design, comprehensive connector library, and seamless Azure service integration.")
+    
+    Container(service_bus, "Azure Service Bus", "Message Queuing", "Message queuing and event processing service providing reliable messaging, asynchronous processing, pub/sub patterns, and dead letter queues. Features guaranteed message delivery, message ordering, and comprehensive event-driven architecture support.")
+}
+
+' ========================================
+' Backend API Services
+' ========================================
+package "Backend API Services" as BackendServices {
+    Container(property_api, "Property Management API", "ASP.NET Core Web API, C#", "RESTful API service handling portfolio management, property tracking, tenant management, and property lifecycle operations. Features comprehensive property data management, tenant relationship management, and property analytics.")
+    
+    Container(maintenance_api, "Maintenance Management API", "ASP.NET Core Web API, C#", "Microservice handling maintenance request processing, scheduling, tracking, and resolution workflows. Features automated maintenance workflows, contractor management, and maintenance analytics.")
+    
+    Container(financial_api, "Financial Operations API", "ASP.NET Core Web API, C#", "Microservice handling rent collection, invoicing, payment processing, and financial reporting. Features automated financial workflows, payment processing, and comprehensive financial analytics.")
+    
+    Container(auth_api, "Authentication & Authorization API", "ASP.NET Core Web API, JWT, OAuth 2.0", "Microservice handling authentication, authorization, and multi-tenant security. Features JWT token management, role-based access control, and Azure Active Directory integration.")
+}
+
+' ========================================
+' Data Layer (bottom-center)
+' ========================================
+package "Data Layer" as DataLayer {
+    ContainerDb(property_db, "Property Database", "Azure SQL Database, Entity Framework Core", "Enterprise-grade relational database storing property information, tenant records, financial transactions, maintenance history, and compliance data. Features elastic scaling, geo-replication, and advanced monitoring capabilities.")
+    
+    ContainerDb(azure_storage, "Azure Blob Storage", "Azure Storage, Blob Storage", "Scalable blob storage service for document and media management providing scalable storage, secure access, and comprehensive file management. Features tiered storage, lifecycle management, and comprehensive security features.")
+    
+    ContainerDb(redis_cache, "Redis Cache", "Azure Cache for Redis", "High-performance in-memory data store for frequently accessed data, session management, real-time operations, and performance optimization. Features sub-millisecond data access and distributed caching.")
+}
+
+' -------------------------
+' External Azure Systems (left side)
+' -------------------------
+package "External Azure Systems" as ExternalSystems {
+    System_Ext(azure_app_service, "Azure App Service", "Cloud hosting platform for scalable web application deployment with auto-scaling, load balancing, and high availability")
+    System_Ext(azure_key_vault, "Azure Key Vault", "Centralized secret and certificate management service")
+    System_Ext(azure_monitoring, "Azure Application Insights", "Application performance monitoring and analytics platform")
+    System_Ext(azure_devops, "Azure DevOps", "CI/CD pipeline and code management platform")
+}
+
+' -------------------------
+' User interactions
+' -------------------------
+property_manager --> web_portal
+note on link
+  Manages portfolio
+end note
+
+tenant --> tenant_portal
+note on link
+  Uses tenant services
+end note
+
+' -------------------------
+' UI to Backend Services
+' -------------------------
+web_portal --> property_api
+note on link
+  API calls
+end note
+
+web_portal --> maintenance_api
+note on link
+  Maintenance requests
+end note
+
+web_portal --> financial_api
+note on link
+  Financial operations
+end note
+
+web_portal --> auth_api
+note on link
+  Authentication
+end note
+
+tenant_portal --> property_api
+note on link
+  Property information
+end note
+
+tenant_portal --> maintenance_api
+note on link
+  Maintenance requests
+end note
+
+tenant_portal --> financial_api
+note on link
+  Payment processing
+end note
+
+tenant_portal --> auth_api
+note on link
+  Authentication
+end note
+
+' -------------------------
+' Backend Services to Azure Serverless
+' -------------------------
+property_api --> azure_functions
+note on link
+  Triggers workflows
+end note
+
+maintenance_api --> azure_functions
+note on link
+  Triggers workflows
+end note
+
+financial_api --> azure_functions
+note on link
+  Triggers workflows
+end note
+
+property_api --> logic_apps
+note on link
+  Workflow automation
+end note
+
+maintenance_api --> logic_apps
+note on link
+  Workflow automation
+end note
+
+financial_api --> logic_apps
+note on link
+  Workflow automation
+end note
+
+azure_functions --> service_bus
+note on link
+  Publishes events
+end note
+
+logic_apps --> service_bus
+note on link
+  Publishes events
+end note
+
+service_bus --> azure_functions
+note on link
+  Consumes events
+end note
+
+service_bus --> logic_apps
+note on link
+  Triggers workflows
+end note
+
+' -------------------------
+' Backend Services to Databases
+' -------------------------
+property_api --> property_db
+note on link
+  Reads/Writes
+end note
+
+maintenance_api --> property_db
+note on link
+  Reads/Writes
+end note
+
+financial_api --> property_db
+note on link
+  Reads/Writes
+end note
+
+auth_api --> property_db
+note on link
+  Reads/Writes
+end note
+
+property_api --> azure_storage
+note on link
+  Document storage
+end note
+
+maintenance_api --> azure_storage
+note on link
+  Document storage
+end note
+
+property_api --> redis_cache
+note on link
+  Caching
+end note
+
+maintenance_api --> redis_cache
+note on link
+  Caching
+end note
+
+financial_api --> redis_cache
+note on link
+  Caching
+end note
+
+' -------------------------
+' Backend Services to External Azure Systems
+' -------------------------
+property_api --> azure_app_service
+note on link
+  Deployed on
+end note
+
+maintenance_api --> azure_app_service
+note on link
+  Deployed on
+end note
+
+financial_api --> azure_app_service
+note on link
+  Deployed on
+end note
+
+auth_api --> azure_app_service
+note on link
+  Deployed on
+end note
+
+web_portal --> azure_app_service
+note on link
+  Deployed on
+end note
+
+tenant_portal --> azure_app_service
+note on link
+  Deployed on
+end note
+
+property_api --> azure_key_vault
+note on link
+  Retrieves secrets
+end note
+
+maintenance_api --> azure_key_vault
+note on link
+  Retrieves secrets
+end note
+
+financial_api --> azure_key_vault
+note on link
+  Retrieves secrets
+end note
+
+auth_api --> azure_key_vault
+note on link
+  Retrieves secrets
+end note
+
+property_api --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+maintenance_api --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+financial_api --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+auth_api --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+azure_functions --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+logic_apps --> azure_monitoring
+note on link
+  Sends telemetry
+end note
+
+' External Payment Gateway Integration
+financial_api --> payment_gateway
+note on link
+  Payment processing
+end note
+
+payment_gateway --> financial_api
+note on link
+  Payment notifications
+end note
+
+' ========================================
+' Layout hints for better visualization
+' ========================================
+LAYOUT_TOP_DOWN()
+
+@enduml

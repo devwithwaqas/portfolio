@@ -1,0 +1,22 @@
+# robots.txt for Waqas Ahmad Portfolio
+# https://devwithwaqas.github.io/portfolio/
+
+User-agent: *
+Allow: /
+Allow: /projects/
+Allow: /services/
+
+# Disallow admin/internal paths (if any)
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://devwithwaqas.github.io/portfolio/sitemap.xml
+
+# AI Search Engine Optimization
+# llms.txt helps AI search engines (Google SGE, Perplexity, Bing Chat) understand content
+# Learn more: https://llmstxt.org/
+Allow: /llms.txt
+
+# Crawl-delay (optional, be nice to servers)
+Crawl-delay: 1

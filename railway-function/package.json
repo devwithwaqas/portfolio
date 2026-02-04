@@ -1,0 +1,15 @@
+{
+  "name": "ga4-analytics-function",
+  "version": "1.0.0",
+  "description": "GA4 Analytics Data Fetcher for Railway Functions",
+  "main": "index.ts",
+  "scripts": {
+    "start": "bun index.ts"
+  },
+  "dependencies": {
+    "jose": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

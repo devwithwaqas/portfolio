@@ -1,0 +1,512 @@
+@startuml AirAsia_ID90_C4_HX_Style
+
+' ========================================
+' C4-PlantUML Color Overrides (MUST BE FIRST!)
+' Set these BEFORE including C4 library
+' ========================================
+
+!$PERSON_BG_COLOR = "#08427B"
+!$PERSON_BORDER_COLOR = "#073B6F"
+
+!$SYSTEM_BG_COLOR = "#1168BD"
+!$SYSTEM_BORDER_COLOR = "#0B5394"
+
+!$CONTAINER_BG_COLOR = "#2D314A"
+!$CONTAINER_BORDER_COLOR = "#9CA3AF"
+
+!$EXTERNAL_PERSON_BG_COLOR = "#686868"
+!$EXTERNAL_PERSON_BORDER_COLOR = "#4A4A4A"
+
+!$EXTERNAL_SYSTEM_BG_COLOR = "#999999"
+!$EXTERNAL_SYSTEM_BORDER_COLOR = "#707070"
+
+!$EXTERNAL_CONTAINER_BG_COLOR = "#B3B3B3"
+!$EXTERNAL_CONTAINER_BORDER_COLOR = "#8C8C8C"
+
+!$LINK_COLOR = "#FF4D4F"
+
+' Also set font colors (required by C4)
+!$PERSON_FONT_COLOR = "#FFFFFF"
+!$SYSTEM_FONT_COLOR = "#FFFFFF"
+!$CONTAINER_FONT_COLOR = "#FFFFFF"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' ========================================
+' HeatExchanger Color Scheme Applied
+' Light canvas + dark shapes + red connectors
+' ========================================
+
+' -------------------------
+' Basic layout settings
+' -------------------------
+skinparam backgroundColor #F7F9FC
+skinparam nodesep 200
+skinparam ranksep 200
+skinparam linetype ortho
+skinparam roundcorner 12
+skinparam dpi 120
+skinparam shadowing true
+
+' -------------------------
+' Typography
+' -------------------------
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 14
+skinparam defaultFontColor #111827
+skinparam titleFontSize 20
+skinparam titleFontColor #111827
+
+' -------------------------
+' Container styling (DARK shapes like HX)
+' -------------------------
+skinparam RectangleBackgroundColor #2D314A
+skinparam RectangleBorderColor #9CA3AF
+skinparam RectangleBorderThickness 1
+skinparam RectangleFontColor #FFFFFF
+skinparam RectangleFontSize 14
+skinparam RectangleFontStyle Bold
+skinparam RectanglePadding 15
+skinparam RectangleMinWidth 200
+skinparam RectangleMinHeight 60
+
+' -------------------------
+' Busy container styling
+' -------------------------
+skinparam component {
+    BackgroundColor #2D314A
+    BorderColor #9CA3AF
+    BorderThickness 1
+    FontColor #FFFFFF
+    FontSize 14
+    FontStyle Bold
+    Padding 15
+    MinWidth 300
+    MinHeight 60
+}
+
+' -------------------------
+' Package styling (LIGHT backgrounds like HX)
+' -------------------------
+skinparam PackageBorderColor #94A3B8
+skinparam PackageBorderThickness 2
+skinparam PackageFontColor #111827
+skinparam PackageFontSize 14
+skinparam PackageFontStyle Bold
+skinparam PackagePadding 20
+skinparam PackageBackgroundColor #EEF2FF
+
+' -------------------------
+' Database styling (GOLD theme like HX)
+' -------------------------
+skinparam DatabaseBackgroundColor #3C2F1B
+skinparam DatabaseBorderColor #D1A954
+skinparam DatabaseBorderThickness 1
+skinparam DatabaseFontColor #FFFFFF
+skinparam DatabaseFontSize 14
+skinparam DatabaseFontStyle Bold
+
+' -------------------------
+' Notes styling (DARK bubbles like HX)
+' -------------------------
+skinparam NoteBackgroundColor #1F2937
+skinparam NoteBorderColor #4B5563
+skinparam NoteBorderThickness 1
+skinparam NoteFontColor #FFFFFF
+skinparam NoteFontSize 14
+skinparam NoteFontStyle Bold
+skinparam NotePadding 10
+
+' -------------------------
+' Arrow styling (THICK RED like HX)
+' -------------------------
+skinparam ArrowColor #FF4D4F
+skinparam ArrowThickness 4
+skinparam ArrowFontSize 12
+skinparam ArrowFontColor #FFFFFF
+
+title AirAsia ID90 - HeatExchanger Style C4 Architecture
+
+' Custom legend with actual colors used (aligned)
+legend right
+  |<back:#08427B>      </back>| **Person/Actor** (Dark Blue)
+  |<back:#EEF2FF>      </back>| **Packages/Layers** (Light Blue Background)
+  |<back:#1F2937>      </back>| **Link Labels** (Dark Gray Bubbles)
+  |<back:#FF4D4F>      </back>| **Connectors/Arrows** (Red)
+endlegend
+
+' -------------------------
+' Actors (top level)
+' -------------------------
+Person(employee, "AirAsia Employee", "Seeks staff fares")
+Person(admin, "System Administrator", "Manages system")
+
+' -------------------------
+' External Systems (left side)
+' -------------------------
+package "External Systems" as ExternalSystems {
+    System_Ext(google_sso, "Google SSO", "OAuth SSO")
+    System_Ext(airasia_flights, "AirAsia Flights", "Flight booking")
+    System_Ext(sms_gateway, "SMS Gateway", "SMS notifications")
+    System_Ext(email_service, "Email Service", "Email notifications")
+    System_Ext(teams_api, "Teams API", "Teams messaging")
+    System_Ext(push_service, "Push Service", "Mobile push")
+}
+
+' -------------------------
+' UI Layer (top center)
+' -------------------------
+package "User Interface" as UILayer {
+    Container(web_app, "Web App", "Angular", "Employee booking UI")
+    Container(mobile_pwa, "Mobile PWA", "Angular PWA", "Mobile experience")
+    Container(admin_dashboard, "Admin Dashboard", "Angular", "Administrative UI")
+}
+
+' -------------------------
+' Gateway Layer (center)
+' -------------------------
+package "API Gateway" as GatewayLayer {
+    Container(api_gateway, "API Management", "APIM", "Edge gateway")
+    Container(app_gateway, "App Gateway", "App GW", "Load balancer")
+}
+
+' -------------------------
+' Core Services (center-right)
+' -------------------------
+package "Core Services" as CoreServices {
+    Container(auth_service, "Auth Service", ".NET Core", "Authentication")
+    Container(booking_service, "Booking Service", ".NET Core", "Booking logic")
+    Container(flight_service, "Flight Service", ".NET Core", "Flight data")
+    Container(employee_service, "Employee Service", ".NET Core", "Employee data")
+}
+
+' -------------------------
+' Support Services (right)
+' -------------------------
+package "Support Services" as SupportServices {
+    Container(notification_service, "Notification Service", ".NET Core", "Notifications")
+    Container(analytics_service, "Analytics Service", ".NET Core", "Analytics")
+    Container(refund_service, "Refund Service", ".NET Core", "Refunds")
+    Container(audit_service, "Audit Service", ".NET Core", "Audit logs")
+}
+
+' -------------------------
+' Event Processing (bottom-left)
+' -------------------------
+package "Event Processing" as EventLayer {
+    Container(service_bus, "Service Bus", "Azure Service Bus", "Event queueing")
+    Container(event_grid, "Event Grid", "Event Grid", "Event routing")
+    Container(azure_functions, "Azure Functions", "Functions", "Serverless")
+    Container(stream_analytics, "Stream Analytics", "Stream", "Realtime processing")
+}
+
+' -------------------------
+' Data Layer (bottom-center)
+' -------------------------
+package "Data Layer" as DataLayer {
+    ContainerDb(sql_database, "SQL Database", "Azure SQL", "Relational data")
+    ContainerDb(redis_cache, "Redis Cache", "Redis", "Cache")
+    ContainerDb(blob_storage, "Blob Storage", "Blob", "Files")
+    ContainerDb(cosmos_db, "Cosmos DB", "Cosmos", "NoSQL")
+}
+
+' -------------------------
+' Monitoring (bottom-right)
+' -------------------------
+package "Monitoring" as MonitoringLayer {
+    Container(app_insights, "App Insights", "App Insights", "Telemetry")
+    Container(azure_monitor, "Azure Monitor", "Monitor", "Infrastructure")
+    Container(grafana, "Grafana", "Grafana", "Dashboards")
+    Container(power_bi, "Power BI", "Power BI", "Reports")
+}
+
+' -------------------------
+' User interactions (simple, direct)
+' -------------------------
+employee --> web_app
+note on link
+  Books flights
+end note
+
+employee --> mobile_pwa
+note on link
+  Mobile booking
+end note
+
+admin --> admin_dashboard
+note on link
+  Admin tasks
+end note
+
+' -------------------------
+' UI to Gateway
+' -------------------------
+web_app --> api_gateway
+note on link
+  API calls
+end note
+
+mobile_pwa --> api_gateway
+note on link
+  API calls
+end note
+
+admin_dashboard --> api_gateway
+note on link
+  API calls
+end note
+
+' -------------------------
+' Gateway to Services
+' -------------------------
+api_gateway --> app_gateway
+note on link
+  Route
+end note
+
+app_gateway --> auth_service
+note on link
+  Auth
+end note
+
+app_gateway --> booking_service
+note on link
+  Booking
+end note
+
+app_gateway --> flight_service
+note on link
+  Flight data
+end note
+
+app_gateway --> employee_service
+note on link
+  Employee
+end note
+
+app_gateway --> notification_service
+note on link
+  Notifications
+end note
+
+app_gateway --> analytics_service
+note on link
+  Analytics
+end note
+
+app_gateway --> refund_service
+note on link
+  Refunds
+end note
+
+app_gateway --> audit_service
+note on link
+  Audit
+end note
+
+' -------------------------
+' Service interactions
+' -------------------------
+auth_service --> employee_service
+note on link
+  Validate
+end note
+
+booking_service --> flight_service
+note on link
+  Flight data
+end note
+
+booking_service --> employee_service
+note on link
+  Employee check
+end note
+
+booking_service --> notification_service
+note on link
+  Notify
+end note
+
+booking_service --> refund_service
+note on link
+  Refund
+end note
+
+' -------------------------
+' External integrations
+' -------------------------
+flight_service --> airasia_flights
+note on link
+  Flight updates
+end note
+
+notification_service --> sms_gateway
+note on link
+  SMS
+end note
+
+notification_service --> email_service
+note on link
+  Email
+end note
+
+notification_service --> teams_api
+note on link
+  Teams
+end note
+
+notification_service --> push_service
+note on link
+  Push
+end note
+
+auth_service --> google_sso
+note on link
+  SSO
+end note
+
+' -------------------------
+' Event flows
+' -------------------------
+booking_service --> service_bus
+note on link
+  Events
+end note
+
+flight_service --> service_bus
+note on link
+  Events
+end note
+
+notification_service --> service_bus
+note on link
+  Events
+end note
+
+service_bus --> event_grid
+note on link
+  Route
+end note
+
+event_grid --> azure_functions
+note on link
+  Trigger
+end note
+
+azure_functions --> stream_analytics
+note on link
+  Process
+end note
+
+stream_analytics --> cosmos_db
+note on link
+  Store
+end note
+
+' -------------------------
+' Data access
+' -------------------------
+auth_service --> sql_database
+note on link
+  User data
+end note
+
+booking_service --> sql_database
+note on link
+  Bookings
+end note
+
+employee_service --> sql_database
+note on link
+  Employee data
+end note
+
+flight_service --> redis_cache
+note on link
+  Cache
+end note
+
+flight_service --> sql_database
+note on link
+  Flight data
+end note
+
+notification_service --> sql_database
+note on link
+  Notifications
+end note
+
+refund_service --> sql_database
+note on link
+  Refunds
+end note
+
+analytics_service --> cosmos_db
+note on link
+  Analytics
+end note
+
+audit_service --> blob_storage
+note on link
+  Audit files
+end note
+
+' -------------------------
+' Monitoring
+' -------------------------
+auth_service --> app_insights
+note on link
+  Metrics
+end note
+
+booking_service --> app_insights
+note on link
+  Metrics
+end note
+
+flight_service --> app_insights
+note on link
+  Metrics
+end note
+
+employee_service --> app_insights
+note on link
+  Metrics
+end note
+
+notification_service --> app_insights
+note on link
+  Metrics
+end note
+
+analytics_service --> app_insights
+note on link
+  Metrics
+end note
+
+refund_service --> app_insights
+note on link
+  Metrics
+end note
+
+audit_service --> app_insights
+note on link
+  Metrics
+end note
+
+app_insights --> azure_monitor
+note on link
+  Aggregate
+end note
+
+azure_monitor --> grafana
+note on link
+  Dashboards
+end note
+
+azure_monitor --> power_bi
+note on link
+  Reports
+end note
+
+@enduml

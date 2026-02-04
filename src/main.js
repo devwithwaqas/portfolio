@@ -1,0 +1,44 @@
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import { assetPath } from './utils/assetPath.js'
+import { trackPageView } from './utils/analytics.js'
+
+// Import CSS
+import './assets/css/font-sizes.css'
+import './assets/css/main.css'
+
+// PERF: Load fonts early and apply gradient when ready
+if ('fonts' in document) {
+  document.fonts.ready.then(() => {
+    document.documentElement.classList.add('fonts-loaded')
+  })
+}
+
+const app = createApp(App)
+
+// Add global asset path helper for use in templates
+app.config.globalProperties.$assetPath = assetPath
+
+app.use(router)
+app.mount('#app')
+
+// Track initial page view after app mounts (ensures GA4 is loaded)
+// MOBILE OPTIMIZATION: Defer analytics on mobile to prioritize content loading
+router.isReady().then(() => {
+  const isMobile = window.innerWidth <= 768
+  const delay = isMobile ? 3000 : 500 // 3s on mobile, 500ms on desktop
+  
+  setTimeout(() => {
+    trackPageView(window.location.pathname + window.location.search, document.title)
+  }, delay)
+})
+
+// Register service worker for better asset caching on repeat visits
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/portfolio/sw.js').catch(() => {
+      // Silent fail; caching is optional
+    })
+  })
+}

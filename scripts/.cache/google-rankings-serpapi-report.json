@@ -1,0 +1,99 @@
+{
+  "timestamp": "2026-01-29T16:48:16.375Z",
+  "targetSite": "waqasahmad-portfolio.web.app",
+  "totalKeywords": 140,
+  "testedKeywords": 10,
+  "maxPagesSearched": 10,
+  "results": [
+    {
+      "keyword": "Waqas Ahmad",
+      "found": true,
+      "position": 74,
+      "pageNumber": 8,
+      "url": "https://waqasahmad-portfolio.web.app/",
+      "totalResults": 7220000,
+      "searchedPages": 8
+    },
+    {
+      "keyword": "Waqas Ahmad consultant",
+      "found": true,
+      "position": 36,
+      "pageNumber": 4,
+      "url": "https://waqasahmad-portfolio.web.app/",
+      "totalResults": 687000,
+      "searchedPages": 4
+    },
+    {
+      "keyword": "Waqas Ahmad software engineer",
+      "found": true,
+      "position": 2,
+      "pageNumber": 1,
+      "url": "https://devwithwaqas.github.io/portfolio/",
+      "totalResults": 452000,
+      "searchedPages": 1
+    },
+    {
+      "keyword": "Waqas Ahmad technical lead",
+      "found": true,
+      "position": 2,
+      "pageNumber": 1,
+      "url": "https://devwithwaqas.github.io/portfolio/",
+      "totalResults": 1710000,
+      "searchedPages": 1
+    },
+    {
+      "keyword": "Waqas Ahmad AirAsia",
+      "found": false,
+      "position": null,
+      "pageNumber": null,
+      "url": null,
+      "totalResults": 2850,
+      "searchedPages": 10
+    },
+    {
+      "keyword": "Waqas Ahmad Microsoft",
+      "found": false,
+      "position": null,
+      "pageNumber": null,
+      "url": null,
+      "totalResults": 153000,
+      "searchedPages": 10
+    },
+    {
+      "keyword": "Waqas Ahmad BAT",
+      "found": false,
+      "position": null,
+      "pageNumber": null,
+      "url": null,
+      "totalResults": 707000,
+      "searchedPages": 10
+    },
+    {
+      "keyword": "AirAsia developer Waqas Ahmad",
+      "found": true,
+      "position": 5,
+      "pageNumber": 1,
+      "url": "https://devwithwaqas.github.io/portfolio/",
+      "totalResults": 9780,
+      "searchedPages": 1
+    },
+    {
+      "keyword": "Waqas Ahmad .NET developer",
+      "found": true,
+      "position": 18,
+      "pageNumber": 2,
+      "url": "https://waqasahmad-portfolio.web.app/",
+      "totalResults": 12900,
+      "searchedPages": 2
+    },
+    {
+      "keyword": "Waqas Ahmad Azure architect",
+      "found": true,
+      "position": 2,
+      "pageNumber": 1,
+      "url": "https://devwithwaqas.github.io/portfolio/",
+      "totalResults": 11800,
+      "searchedPages": 1
+    }
+  ]
+}

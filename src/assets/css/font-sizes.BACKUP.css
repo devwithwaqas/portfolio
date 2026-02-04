@@ -1,0 +1,331 @@
+/* ================================================================
+   CENTRALIZED FONT SIZE MANAGEMENT
+   All font sizes for responsive design across all components
+   ================================================================ */
+
+/* ================================================================
+   DESKTOP / DEFAULT SIZES (1200px+)
+   ================================================================ */
+
+/* Navigation Component */
+.navmenu a { font-size: 15px; }
+.nav-icon { font-size: 18px !important; }
+.navicon { font-size: 18px; }
+.theme-toggle i { font-size: 14px; }
+
+/* Hero Section - Name & Title */
+.hero-title { font-size: 28px !important; }
+.hero-title .title-name { font-size: 28px !important; }
+.hero p { font-size: 24px; }
+.hero .social-links a { font-size: 20px; }
+
+/* Skill Cards */
+.cyber-skill-name { font-size: 0.85rem !important; }
+.cyber-subtitle { font-size: 0.65rem !important; }
+.cyber-skill-percentage { font-size: 0.75rem !important; }
+
+/* Contact Cards */
+.contact-main-icon, .main-icon { font-size: 48px !important; }
+.label-text { font-size: 1.1rem !important; }
+.info-value { font-size: 0.8rem !important; }
+.info-subtitle { font-size: 0.72rem !important; }
+
+/* Contact Form */
+.button_lg { font-size: 1rem; }
+.button_text::before { font-size: 16px; }
+.invalid-feedback { font-size: 0.9rem; }
+.form-title { font-size: 2.4rem; }
+.form-subtitle { font-size: 1.2rem; }
+.submit-btn { font-size: 1.1rem; }
+
+/* Testimonials */
+.testimonial-text { font-size: 1.1rem; }
+.testimonial-quote-icon { font-size: 1.5rem; }
+.testimonial-name { font-size: 1.3rem; }
+.testimonial-title { font-size: 1rem; }
+.testimonial-star { font-size: 1.2rem; }
+
+/* Portfolio Cards (Epic Cards) */
+.portfolio-item h4 { font-size: 1.1rem; }
+.portfolio-item p { font-size: 0.9rem; }
+.portfolio-item .btn { font-size: 0.75rem; }
+.project-title { font-size: 0.98rem !important; } /* 30% smaller (1.4 * 0.7) */
+.project-subtitle { font-size: 0.77rem !important; } /* 30% smaller (1.1 * 0.7) */
+.built-with-text { font-size: 0.95rem !important; }
+.epic-buttons .button { font-size: 10.5px !important; } /* 25% smaller (14 * 0.75) */
+
+/* Footer */
+.footer { font-size: 14px; }
+.footer h3 { font-size: 36px; }
+.footer p { font-size: 15px; }
+.footer .social-links a { font-size: 16px; }
+.footer .credits { font-size: 13px; }
+.footer .get-in-touch-btn { font-size: 1rem; }
+.footer .footer-nav-link { font-size: 1rem; }
+.footer-section h5 { font-size: 1.2rem; }
+.footer-section a { font-size: 1.1rem; }
+.contact-info p, .contact-info a, .contact-info-item { font-size: 0.75rem !important; }
+
+/* Card Headers */
+.card-header.fancy-3d-header h3,
+.text-card .card-header.fancy-3d-header h3 { font-size: 1.5rem !important; }
+
+/* Services */
+.services .service-item h3 { font-size: 22px; }
+
+/* Resume */
+.resume .resume-item h4 { font-size: 18px; }
+.resume .resume-item h5 { font-size: 16px; }
+
+/* About */
+.about .content h2 { font-size: 24px; }
+
+/* Custom Slider */
+.slider-arrow { font-size: 18px; }
+
+/* Global Headings */
+h1 { font-size: 22px; }
+h2 { font-size: 20px; }
+h3 { font-size: 18px; }
+h4 { font-size: 16px; }
+h5 { font-size: 14px; }
+h6 { font-size: 13px; }
+
+/* ================================================================
+   TABLET SIZES (768px - 1199px, touch devices)
+   ================================================================ */
+
+@media (pointer: coarse) {
+  /* Navigation */
+  .navmenu a { font-size: 10.5px; }
+  .nav-icon { font-size: 14px !important; }
+  .navicon { font-size: 12.6px; }
+  .theme-toggle i { font-size: 9.8px; }
+
+  /* Hero Section */
+  .hero-title { font-size: 28px !important; }
+  .hero-title .title-name { font-size: 28px !important; }
+  .hero p { font-size: 18px; }
+  .hero .social-links a { font-size: 18px; }
+
+  /* Skill Cards */
+  .cyber-skill-name { font-size: 0.8rem !important; }
+  .cyber-subtitle { font-size: 0.6rem !important; }
+  .cyber-skill-percentage { font-size: 0.7rem !important; }
+
+  /* Contact Cards */
+  .contact-main-icon, .main-icon { font-size: 56px !important; }
+  .label-text { font-size: 1rem !important; }
+  .info-value { font-size: 0.88rem !important; }
+  .info-subtitle { font-size: 0.78rem !important; }
+
+  /* Contact Form */
+  .form-title { font-size: 1.26rem; }
+  .button_lg { font-size: 1rem !important; }
+  .button_text { font-size: 1rem !important; }
+  .button_text::before { font-size: 16px !important; }
+
+  /* Testimonials */
+  .testimonial-text { font-size: 0.77rem; }
+  .testimonial-quote-icon { font-size: 1.05rem; }
+  .testimonial-name { font-size: 0.91rem; }
+  .testimonial-title { font-size: 0.7rem; }
+  .testimonial-star { font-size: 0.84rem; }
+  .testimonials .testimonial-item h3 { font-size: 18px; }
+  .testimonials .testimonial-item h4 { font-size: 12px; }
+
+  /* Portfolio (Epic Cards) - Tablet */
+  .portfolio-item h4 { font-size: 0.77rem; }
+  .portfolio-item p { font-size: 0.63rem; }
+  .portfolio-item .btn { font-size: 0.525rem; }
+  .epic-buttons .button { font-size: 9px !important; } /* 25% smaller (12 * 0.75) */
+  .project-title { font-size: 0.77rem !important; } /* 30% smaller (1.1 * 0.7) */
+  .project-subtitle { font-size: 0.63rem !important; } /* 30% smaller (0.9 * 0.7) */
+  .built-with-text { font-size: 0.56rem !important; } /* 30% smaller (0.8 * 0.7) */
+
+  /* Footer */
+  .footer { font-size: 12px; }
+  .footer h3 { font-size: 25px; }
+  .footer p { font-size: 13px; }
+  .footer .social-links a { font-size: 14px; }
+  .footer .credits { font-size: 11px; }
+  .footer .get-in-touch-btn { font-size: 0.9rem; }
+  .footer .footer-nav-link { font-size: 0.9rem; }
+  .footer-section h5 { font-size: 0.84rem; }
+  .footer-section a { font-size: 0.77rem !important; }
+  .contact-info p, .contact-info a, .contact-info-item { font-size: 0.7rem !important; }
+
+  /* Card Headers */
+  .card-header.fancy-3d-header h3 { font-size: 1.3rem !important; }
+
+  /* Services */
+  .services .service-item h3 { font-size: 19px; }
+
+  /* Resume */
+  .resume .resume-item h4 { font-size: 16px; }
+  .resume .resume-item h5 { font-size: 14px; }
+
+  /* About */
+  .about .content h2 { font-size: 20px; }
+
+  /* Contact */
+  .contact .info-item h3 { font-size: 16px; }
+
+  /* Custom Slider */
+  .slider-arrow { font-size: 12.6px; }
+
+  /* Global Text - Tablet readable sizes */
+  p { font-size: 16px !important; line-height: 1.6 !important; }
+  .card-body p { font-size: 16px !important; line-height: 1.6 !important; }
+  .about .content p { font-size: 16px !important; line-height: 1.6 !important; }
+  .services .service-item p { font-size: 15px !important; line-height: 1.6 !important; }
+  .testimonials .testimonial-item p { font-size: 16px !important; line-height: 1.6 !important; }
+  .resume .resume-item p { font-size: 15px !important; line-height: 1.6 !important; }
+  .portfolio .portfolio-item .portfolio-info p { font-size: 15px !important; line-height: 1.5 !important; }
+  .contact .info-item p { font-size: 15px !important; line-height: 1.5 !important; }
+
+  /* Global Headings - Tablet */
+  h1 { font-size: 20px; }
+  h2 { font-size: 18px; }
+  h3 { font-size: 16px; }
+  h4 { font-size: 14px; }
+  h5 { font-size: 13px; }
+  h6 { font-size: 12px; }
+}
+
+/* ================================================================
+   MOBILE SIZES (480px and below, small touch devices)
+   ================================================================ */
+
+@media (pointer: coarse) and (max-width: 480px) {
+  /* Navigation */
+  .navmenu a { font-size: 9.1px; }
+  .nav-icon { font-size: 16px !important; }
+  .navicon { font-size: 11.2px; }
+  .theme-toggle i { font-size: 9.8px; }
+
+  /* Hero Section */
+  .hero-title { font-size: 26px !important; }
+  .hero-title .title-name { font-size: 26px !important; }
+  .hero p { font-size: 16px !important; }
+  .hero .social-links a { font-size: 20.8px; }
+
+  /* Skill Cards */
+  .cyber-skill-name { font-size: 0.9rem !important; }
+  .cyber-subtitle { font-size: 0.65rem !important; }
+  .cyber-skill-percentage { font-size: 0.75rem !important; }
+
+  /* Contact Cards */
+  .contact-main-icon, .main-icon { font-size: 45px !important; }
+  .label-text { font-size: 0.77rem !important; }
+  .info-value { font-size: 0.665rem !important; }
+  .info-subtitle { font-size: 0.595rem !important; }
+
+  /* Contact Form */
+  .form-title { font-size: 0.98rem; }
+  .button_lg { font-size: 1.1rem !important; }
+  .button_text { font-size: 1.1rem !important; }
+  .button_text::before { font-size: 18px !important; }
+
+  /* Testimonials */
+  .testimonial-text { font-size: 0.77rem; }
+  .testimonial-quote-icon { font-size: 1.05rem; }
+  .testimonial-name { font-size: 0.91rem; }
+  .testimonial-title { font-size: 0.7rem; }
+  .testimonial-star { font-size: 0.84rem; }
+  .testimonials .testimonial-item h3 { font-size: 20.8px; }
+  .testimonials .testimonial-item h4 { font-size: 14.3px; }
+
+  /* Portfolio (Epic Cards) */
+  .portfolio-item h4 { font-size: 0.77rem; }
+  .portfolio-item p { font-size: 0.63rem; }
+  .portfolio-item .btn { font-size: 0.525rem; }
+  .epic-buttons .button { font-size: 7.5px !important; } /* 25% smaller (10 * 0.75) */
+  .project-title { font-size: 0.63rem !important; } /* 30% smaller (0.9 * 0.7) */
+  .project-subtitle { font-size: 0.49rem !important; } /* 30% smaller (0.7 * 0.7) */
+  .built-with-text { font-size: 0.42rem !important; } /* 30% smaller (0.6 * 0.7) */
+
+  /* Footer */
+  .footer { font-size: 11px; }
+  .footer h3 { font-size: 22px; }
+  .footer p { font-size: 12px; }
+  .footer .social-links a { font-size: 13px; }
+  .footer .credits { font-size: 10px; }
+  .footer .get-in-touch-btn { font-size: 1.17rem; }
+  .footer .footer-nav-link { font-size: 1.17rem; }
+  .footer-section h5 { font-size: 0.84rem; }
+  .footer-section a { font-size: 0.77rem !important; }
+  .contact-info p, .contact-info a, .contact-info-item { font-size: 0.75rem !important; }
+
+  /* Card Headers */
+  .card-header.fancy-3d-header h3 { font-size: 1.43rem !important; }
+
+  /* Services */
+  .services .service-item h3 { font-size: 22.1px; }
+
+  /* Resume */
+  .resume .resume-item h4 { font-size: 19.5px; }
+  .resume .resume-item h5 { font-size: 16.9px; }
+
+  /* About */
+  .about .content h2 { font-size: 23.4px; }
+
+  /* Contact */
+  .contact .info-item h3 { font-size: 19.5px; }
+
+  /* Custom Slider */
+  .slider-arrow { font-size: 14px; }
+
+  /* Global Text - Mobile enhanced readability */
+  p { font-size: 19.5px !important; line-height: 1.6 !important; }
+  .card-body p { font-size: 19.5px !important; line-height: 1.6 !important; }
+  .about .content p { font-size: 19.5px !important; line-height: 1.6 !important; }
+  .services .service-item p { font-size: 16.9px !important; line-height: 1.6 !important; }
+  .testimonials .testimonial-item p { font-size: 19.5px !important; line-height: 1.6 !important; }
+  .resume .resume-item p { font-size: 16.9px !important; line-height: 1.6 !important; }
+  .portfolio .portfolio-item .portfolio-info p { font-size: 16.9px !important; line-height: 1.5 !important; }
+  .contact .info-item p { font-size: 16.9px !important; line-height: 1.5 !important; }
+
+  /* Global Headings - Mobile */
+  h1 { font-size: 23.4px; }
+  h2 { font-size: 20.8px; }
+  h3 { font-size: 19.5px; }
+  h4 { font-size: 16.9px; }
+  h5 { font-size: 15.6px; }
+  h6 { font-size: 14.3px; }
+
+  /* Portfolio Details */
+  .portfolio-details .portfolio-description .testimonial-item h3 { font-size: 18px; }
+  .portfolio-details .portfolio-description .testimonial-item h4 { font-size: 14px; }
+}
+
+/* ================================================================
+   GLOBAL FALLBACKS (ensures inheritance works correctly)
+   ================================================================ */
+
+@media (pointer: coarse) {
+  * { font-size: inherit !important; }
+  
+  p, .text-content, .content, .card-body, .about, .services, .testimonials, .resume, .portfolio, .contact, .footer-section {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+  
+  .services .service-item, .resume .resume-item, .portfolio .portfolio-item .portfolio-info, .contact .info-item {
+    font-size: 15px !important;
+  }
+}
+
+@media (pointer: coarse) and (max-width: 480px) {
+  * { font-size: inherit !important; }
+  
+  p, .text-content, .content, .card-body, .about, .services, .testimonials, .resume, .portfolio, .contact, .footer-section {
+    font-size: 19.5px !important;
+    line-height: 1.6 !important;
+  }
+  
+  .services .service-item, .resume .resume-item, .portfolio .portfolio-item .portfolio-info, .contact .info-item {
+    font-size: 16.9px !important;
+  }
+}
+
