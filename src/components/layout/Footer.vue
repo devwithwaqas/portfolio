@@ -114,7 +114,7 @@
           </div>
                   </div>
 
-        <!-- Explore (discover site: blog + case studies; services are in Services column below) -->
+        <!-- Explore (blog index, top articles from llms.txt flagship, case studies) -->
         <div class="col-lg-2 col-md-6 mb-4">
           <div class="footer-section">
             <h2 class="footer-section-title txt-footer-header-lg">
@@ -124,6 +124,15 @@
               <li class="footer-list-item txt-p-sm">
                 <router-link to="/blog" class="footer-service-link">
                   <i class="bi bi-journal-text me-2 footer-list-icon icon-xs"></i>Blog
+                </router-link>
+              </li>
+              <li
+                v-for="article in flagshipArticles"
+                :key="article.slug"
+                class="footer-list-item txt-p-sm"
+              >
+                <router-link :to="`/blog/${article.slug}`" class="footer-service-link">
+                  <i class="bi bi-journal-text me-2 footer-list-icon icon-xs"></i>{{ article.title }}
                 </router-link>
               </li>
               <li class="footer-list-item txt-p-sm">
@@ -236,6 +245,7 @@
 
 <script>
 import { APP_CONFIG } from '../../config/constants.js'
+import { FLAGSHIP_BLOG_ARTICLES } from '../../config/flagshipBlogArticles.js'
 import { navigateToSection } from '../../utils/scrollToSection.js'
 
 export default {
@@ -243,7 +253,8 @@ export default {
   data() {
     return {
       ...APP_CONFIG,
-      isReady: false
+      isReady: false,
+      flagshipArticles: FLAGSHIP_BLOG_ARTICLES
     }
   },
   mounted() {

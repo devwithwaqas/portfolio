@@ -56,9 +56,16 @@ export function setKeywords(list) {
   ensureMeta('name', 'keywords', clean.join(', '))
 }
 
+/** Normalize URL for canonical: strip trailing slash so /path/ and /path resolve to the same canonical. */
+function normalizeCanonicalUrl(url) {
+  if (typeof url !== 'string' || !url) return url
+  return url.replace(/\/$/, '')
+}
+
 export function setCanonical(url) {
   const path = url || window.location.pathname
-  const finalUrl = path.startsWith('http') ? path : CANONICAL_ROOT + (path.startsWith('/') ? path : '/' + path)
+  let finalUrl = path.startsWith('http') ? path : CANONICAL_ROOT + (path.startsWith('/') ? path : '/' + path)
+  finalUrl = normalizeCanonicalUrl(finalUrl)
 
   let link = document.querySelector('link[rel="canonical"]')
   if (!link) {
@@ -71,7 +78,7 @@ export function setCanonical(url) {
 
 export function setSocialMeta({ title, description, image, url, type }) {
   const img = image || getDefaultOgImage()
-  const u = url || CANONICAL_ROOT + window.location.pathname
+  const u = normalizeCanonicalUrl(url || CANONICAL_ROOT + window.location.pathname)
 
   ensureMeta('property', 'og:title', title)
   ensureMeta('property', 'og:description', description)
