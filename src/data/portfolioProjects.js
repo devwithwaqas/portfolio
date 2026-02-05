@@ -1,19 +1,7 @@
 import { assetPath } from '../utils/assetPath.js'
 
+/** STEP 8: Top 5 projects first — AirAsia ID90, BAT, Chubb, G5 POS, Smart City */
 export const portfolioProjects = [
-  {
-    title: 'Heat Exchanger Portal',
-    subtitle: 'Enterprise Thermal Management',
-    bannerImage: assetPath('/assets/img/he1-thumb.jpg'),
-    detailsLink: '/projects/heat-exchanger',
-    techStack: [
-      { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
-      { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
-      { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' },
-      { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
-      { name: 'Redis', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg' }
-    ]
-  },
   {
     title: 'Air Asia ID90',
     subtitle: 'Allstars Portal & Refund System',
@@ -40,6 +28,29 @@ export const portfolioProjects = [
     ]
   },
   {
+    title: 'Confidential Insurance Clients',
+    subtitle: 'Enterprise Insurance Management Platform',
+    bannerImage: assetPath('/assets/img/in1-thumb.jpg'),
+    detailsLink: '/projects/chubb-insurance-applications',
+    techStack: [
+      { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
+      { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
+      { name: 'Azure', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg' },
+      { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' }
+    ]
+  },
+  {
+    title: 'G5 POS',
+    subtitle: 'Squad Cell Point of Sale System',
+    bannerImage: assetPath('/assets/img/g51-thumb.jpg'),
+    detailsLink: '/projects/g5-pos',
+    techStack: [
+      { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
+      { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' },
+      { name: 'jQuery', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-original.svg' }
+    ]
+  },
+  {
     title: 'PJ Smart City',
     subtitle: 'Petaling Jaya Smart City Platform',
     bannerImage: assetPath('/assets/img/pj1-thumb.jpg'),
@@ -49,6 +60,19 @@ export const portfolioProjects = [
       { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
       { name: 'Azure', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg' },
       { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' }
+    ]
+  },
+  {
+    title: 'Heat Exchanger Portal',
+    subtitle: 'Enterprise Thermal Management',
+    bannerImage: assetPath('/assets/img/he1-thumb.jpg'),
+    detailsLink: '/projects/heat-exchanger',
+    techStack: [
+      { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
+      { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
+      { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' },
+      { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+      { name: 'Redis', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg' }
     ]
   },
   {
@@ -90,29 +114,6 @@ export const portfolioProjects = [
     subtitle: 'Azure-Based Residential Property Management System',
     bannerImage: assetPath('/assets/img/gpc1-thumb.jpg'),
     detailsLink: '/projects/uk-property-management',
-    techStack: [
-      { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
-      { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },
-      { name: 'Azure', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg' },
-      { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' }
-    ]
-  },
-  {
-    title: 'G5 POS',
-    subtitle: 'Squad Cell Point of Sale System',
-    bannerImage: assetPath('/assets/img/g51-thumb.jpg'),
-    detailsLink: '/projects/g5-pos',
-    techStack: [
-      { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
-      { name: 'SQL Server', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-original.svg' },
-      { name: 'jQuery', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jquery/jquery-original.svg' }
-    ]
-  },
-  {
-    title: 'Confidential Insurance Clients',
-    subtitle: 'Enterprise Insurance Management Platform',
-    bannerImage: assetPath('/assets/img/in1-thumb.jpg'),
-    detailsLink: '/projects/chubb-insurance-applications',
     techStack: [
       { name: '.NET Core', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg' },
       { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg' },

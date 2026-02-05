@@ -4,9 +4,9 @@
 
 **Scope:** 81 URLs in sitemap (indexable) + 1 catch-all 404 = 82 page types. Firebase canonical base: `https://waqasahmad-portfolio.web.app`.
 
-**References:** `docs/SEO_BLOG_AND_SITEWIDE_PLAN.md`, `docs/SEO_UPGRADE_IMPLEMENTATION_PLAN.md`, `src/utils/seo.js`, `src/utils/structuredData.js`, `src/config/semanticKeywords.js`, `src/config/topicClusters.js`, `public/llms.txt`, `public/robots.txt`, `scripts/generate-sitemap.js`, `scripts/generate-llms-blog-articles.js`, `scripts/update-blog-keywords-to-plan.js`.
+**References:** `docs/SEO_BLOG_AND_SITEWIDE_PLAN.md`, `docs/SEO_UPGRADE_IMPLEMENTATION_PLAN.md`, `docs/SEO_REVAMP_CHANGELOG.md`, `src/utils/seo.js`, `src/utils/structuredData.js`, `src/config/semanticKeywords.js`, `src/config/topicClusters.js`, `public/llms.txt`, `public/robots.txt`, `scripts/generate-sitemap.js`, `scripts/copy-llms-txt.js`, `scripts/write-robots-firebase.js`.
 
-**Audit date:** 2026-02-03.
+**Audit date:** 2026-02-03. **Revamp (Feb 2026):** Authority and spam cleanup applied; see **§ Revamp (Feb 2026)** and **`docs/SEO_REVAMP_CHANGELOG.md`** for the full list.
 
 ---
 
@@ -70,10 +70,26 @@ Another gap: many posts say “use schema” but don’t specify where in the ap
 
 - Meta, canonical, OG, Twitter, and JSON-LD are set per URL from a single source (config + router); no duplicate definitions.
 - SEO-critical code lives in the critical path (router beforeEnter), not in lazy-loaded components, so crawlers that run JS see it consistently.
-- Blog articles have 200–1200 deduped, article-related keywords per URL, used in meta, BlogPosting.keywords, and llms.txt; count scales with content length.
-- llms.txt has a dedicated block per article (and per service, project, home, blog index), generated at build from the same config that drives the app.
+- **Meta keywords:** Site-wide cap of **5–8 topic-cluster phrases**; blog articles use 5–8 from topic cluster (not large arrays). See `docs/SEO_REVAMP_CHANGELOG.md`.
+- **llms.txt:** **Static site summary** in `public/llms.txt`; build runs `copy-llms-txt.js` only (no per-article blocks). See `docs/LLMS_TXT_GUIDE.md`.
+- **Structured data (Option B):** Person, WebSite, Organization, Service only (no Offer/ProfessionalService/JobPosting/reviews in schema). See `docs/SEO_REVAMP_CHANGELOG.md` §1.
 - Speakable, ItemList (blog index), and FAQPage are used only where the underlying content exists; we don’t invent schema for missing content.
 - Optional Phase 8 (uniqueness audit) and Phase 9 (schema copy audit) remain for manual follow-up; the implementation is complete without them.
+
+---
+
+## Revamp (Feb 2026) – authority & anti-spam
+
+| Area | Current state (post-revamp) |
+|------|-----------------------------|
+| **Structured data** | Option B: Person/WebSite/Organization, Service (no Offer/ProfessionalService), Article+SoftwareApplication on projects, BlogPosting+BreadcrumbList+optional FAQ/Speakable on blog; Home: no testimonials/reviews/JobPosting. **Ref:** `docs/SEO_REVAMP_CHANGELOG.md` §1. |
+| **Meta keywords** | 5–8 topic phrases site-wide; `seo.js` apply* + setPageSEO. |
+| **llms.txt** | Static `public/llms.txt`; build: `copy-llms-txt.js` only. |
+| **robots.txt** | `Allow: /`; no duplicate Bingbot; Disallow /admin/, /api/. |
+| **Sitemap** | 81 URLs; strict order; normalized priority/changefreq; lastmod preserved. |
+| **Service pages** | No sticky CTA bar; Full Stack = same structure as other services. |
+
+**Full list:** **`docs/SEO_REVAMP_CHANGELOG.md`**.
 
 ---
 

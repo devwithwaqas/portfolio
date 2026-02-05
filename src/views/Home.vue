@@ -178,18 +178,12 @@ export default {
       }
     }
 
-    // Set dynamic SEO meta tags (router sets basic SEO, but we enhance it here)
+    // Set dynamic SEO meta tags (router already calls applyHomeSEO; re-apply on client for consistency)
     runWhenIdle(async () => {
       try {
-        const { setPageSEO, getHomePageSEO } = await import('../utils/seo.js')
-        const { SITE_URL } = await import('../config/constants.js')
-        const seo = getHomePageSEO()
-        setPageSEO({
-          ...seo,
-          url: SITE_URL
-        })
+        const { applyHomeSEO } = await import('../utils/seo.js')
+        applyHomeSEO()
       } catch (error) {
-        // Silently fail - SEO is optional
         console.warn('[Home] Failed to set SEO:', error.message)
       }
     })

@@ -8,23 +8,41 @@ This guide helps you validate all structured data (JSON-LD) schemas on your port
 
 Structured data (Schema.org markup) helps search engines understand your content better, enabling rich snippets in search results. This improves click-through rates and SEO performance.
 
-## 🎯 Schemas Implemented
+## 🎯 Schemas Implemented (Option B – clean, no spam)
+
+**Ref:** `docs/SEO_REVAMP_CHANGELOG.md` §1.
 
 ### Home Page (`/`)
-- ✅ **Person Schema** - Your professional profile
-- ✅ **ProfessionalService Schema** - Your services
-- ✅ **Organization Schema** - Your business/organization
+- ✅ **Person Schema** - Professional profile (jobTitle, knowsAbout, alumniOf)
+- ✅ **WebSite Schema** - Site with publisher → Person, SearchAction
+- ✅ **Organization Schema** - Consultant identity (founder → Person)
+- ✅ **Speakable** - Where applicable
+- ❌ No ProfessionalService, JobPosting, or reviews in schema
 
 ### Project Pages (`/projects/*`)
 - ✅ **Article Schema** - Project as article
 - ✅ **SoftwareApplication Schema** - Project as software
 - ✅ **BreadcrumbList Schema** - Navigation breadcrumbs
+- ✅ **Speakable** - Where applicable
 
 ### Service Pages (`/services/*`)
-- ✅ **Service Schema** - Service details
+- ✅ **Service Schema** - Service details (provider → Person); capability-only, no Offer
 - ✅ **BreadcrumbList Schema** - Navigation breadcrumbs
 - ✅ **FAQPage Schema** - FAQ section (if present)
-- ✅ **Offer Schema** - Availability information
+- ✅ **Speakable** - Where applicable
+- ❌ No Offer or ProfessionalService schema
+
+### Blog Index (`/blog`)
+- ✅ **CollectionPage** - Page identity
+- ✅ **BreadcrumbList** - Navigation
+- ✅ **ItemList** - Article list
+- ✅ **Speakable** - Where applicable
+
+### Blog Articles (`/blog/*`)
+- ✅ **BlogPosting** - Article identity, author, dates, keywords (5–8 from topic)
+- ✅ **BreadcrumbList** - Navigation
+- ✅ **Speakable** - Where applicable
+- ✅ **FAQPage** - If article has FAQs
 
 ---
 

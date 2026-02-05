@@ -24,40 +24,13 @@ if (!isFirebase()) {
   process.exit(0)
 }
 
-const robots = `# robots.txt for Waqas Ahmad Portfolio (Firebase)
-# ${baseUrl}
-#
-# This file: crawl rules for web crawlers (User-agent, Allow, Disallow, Sitemap).
-# For AI-oriented content (titles, descriptions, keywords): see /llms.txt .
-# AI agents use llms.txt for accurate citing and summarization; it provides both
-# descriptions and keywords. robots.txt does not contain descriptions or keywords.
+// Minimal, standards-compliant robots.txt. Allow: / permits all; sub-allows removed as redundant.
+// Bingbot inherits User-agent: *; duplicate block removed.
+const robots = `# robots.txt for ${baseUrl}
+# Crawl rules only. /llms.txt is optional for some agents; not an official standard.
 
 User-agent: *
 Allow: /
-Allow: /projects/
-Allow: /services/
-Allow: /assets/
-Allow: /favicon.ico
-Allow: /favicon-48x48.png
-Allow: /favicon-32x32.png
-Allow: /favicon-16x16.png
-Allow: /site.webmanifest
-Allow: /sitemap.xml
-Allow: /llms.txt
-Allow: /cbe5cb9f88984691af7d581e94e409f6.txt
-
-Disallow: /admin/
-Disallow: /api/
-
-User-agent: Bingbot
-Allow: /
-Allow: /projects/
-Allow: /services/
-Allow: /assets/
-Allow: /sitemap.xml
-Allow: /llms.txt
-Allow: /cbe5cb9f88984691af7d581e94e409f6.txt
-
 Disallow: /admin/
 Disallow: /api/
 

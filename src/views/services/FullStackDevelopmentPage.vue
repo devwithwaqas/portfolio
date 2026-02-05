@@ -12,79 +12,53 @@
         class="service-section-first"
       />
 
-      <!-- Topics index (anchor links to sections below) -->
-      <ServicePageTopics
-        title="In this page"
-        :items="topicIndexItems"
-        class="mb-4"
+      <!-- Service Overview -->
+      <ServiceOverview
+        title="Full Stack Development"
+        :content="overviewContent"
+        :banner-images="overviewBannerImages"
       />
 
-      <!-- Service Overview -->
-      <div id="overview" class="service-section-anchor mb-4">
-        <ServiceOverview
-          title="Full Stack Development"
-          :content="overviewContent"
-          :banner-images="overviewBannerImages"
-        />
-      </div>
-
-      <!-- Full stack in practice: code explanation and working examples -->
-      <div id="full-stack-in-practice" class="service-section-anchor mb-4">
-        <FullStackInPracticeSection :code-examples="fullStackCodeExamples" />
-      </div>
-
       <!-- Capabilities -->
-      <div id="capabilities" class="service-section-anchor mb-4">
-        <ServiceCapabilities
-          :capabilities="capabilities"
-          :methodologies="methodologies"
-          :deliverables="deliverables"
-        />
-      </div>
+      <ServiceCapabilities
+        :capabilities="capabilities"
+        :methodologies="methodologies"
+        :deliverables="deliverables"
+      />
 
       <!-- Process -->
-      <div id="process" class="service-section-anchor mb-4">
-        <ServiceProcess
-          :steps="processSteps"
-          timeline="8-12 weeks (typical project)"
-          :engagement-models="engagementModels"
-          :process-image="$assetPath('/assets/img/services/full-stack-process.jpg')"
-        />
-      </div>
+      <ServiceProcess
+        :steps="processSteps"
+        timeline="8-12 weeks (typical project)"
+        :engagement-models="engagementModels"
+        :process-image="$assetPath('/assets/img/services/full-stack-process.jpg')"
+      />
 
       <!-- Technologies -->
-      <div id="technology-stack" class="service-section-anchor mb-4">
-        <TechnologyStack
-          title="Technology Stack"
-          :technologies="technologies"
-        />
-      </div>
+      <TechnologyStack
+        title="Technology Stack"
+        :technologies="technologies"
+      />
 
       <!-- Case Studies -->
-      <div id="case-studies" class="service-section-anchor mb-4">
-        <ServiceCaseStudies
+      <ServiceCaseStudies
           introduction="Here are some examples of full stack applications I've developed:"
           :case-studies="caseStudies"
-        />
-      </div>
+      />
 
       <!-- FAQ (first 6 visible; "Show more" reveals rest) -->
-      <div id="faq" class="service-section-anchor mb-4">
-        <ServiceFAQ
-          :faq-items="faqItems"
-          :initial-visible-count="6"
-        />
-      </div>
+      <ServiceFAQ
+        :faq-items="faqItems"
+        :initial-visible-count="6"
+      />
 
       <!-- Related Projects -->
-      <div id="related-projects" class="service-section-anchor mb-4">
-        <RelatedProjects
-          :projects="relatedProjects"
-          introduction="Explore related full stack projects I've worked on:"
-        />
-      </div>
+      <RelatedProjects
+        :projects="relatedProjects"
+        introduction="Explore related full stack projects I've worked on:"
+      />
 
-      <!-- Related services (internal links for reach) -->
+      <ServiceRelatedReading current-path="/services/full-stack-development" />
       <RelatedServices current-path="/services/full-stack-development" />
       <TopicClusterLinks current-path="/services/full-stack-development" />
 
@@ -111,6 +85,7 @@ import RelatedServices from '@/components/services/RelatedServices.vue'
 import TopicClusterLinks from '@/components/services/TopicClusterLinks.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
+import ServiceRelatedReading from '@/components/services/ServiceRelatedReading.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
 import ServicePageTemplate from '@/components/common/ServicePageTemplate.vue'
 import { TECH_CATEGORIES } from '@/config/constants.js'
@@ -129,6 +104,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    ServiceRelatedReading,
     RelatedServices,
     TopicClusterLinks,
     TechnologyStack,
@@ -446,15 +422,8 @@ export default {
       }
     ])
 
-    // Related Projects
+    // Related Projects (STEP 3: G5 POS, UK Property Mgmt, BAT in-house app, Gamified employee management)
     const relatedProjects = ref([
-      {
-        title: 'Heat Exchanger Portal',
-        description: 'Enterprise .NET Core microservices platform with Angular frontend, processing 2.5M data points daily',
-        path: '/projects/heat-exchanger',
-        image: assetPath('/assets/img/he1-thumb.jpg'),
-        technologies: ['.NET Core', 'Angular', 'Microservices', 'Azure']
-      },
       {
         title: 'G5 POS',
         description: 'Full stack restaurant management system with .NET Core and Angular, handling 1M+ daily transactions',
@@ -468,6 +437,20 @@ export default {
         path: '/projects/uk-property-management',
         image: assetPath('/assets/img/gpc1-thumb.jpg'),
         technologies: ['.NET Core', 'Angular', 'Azure', 'SQL Server']
+      },
+      {
+        title: 'BAT Inhouse App',
+        description: 'Enterprise full stack application for British American Tobacco with .NET Core and Angular',
+        path: '/projects/bat-inhouse-app',
+        image: assetPath('/assets/img/bat1-thumb.jpg'),
+        technologies: ['.NET Core', 'Azure Service Fabric', 'Angular']
+      },
+      {
+        title: 'Gamified Employee Management',
+        description: 'Enterprise gamification platform with full stack .NET Core and Angular',
+        path: '/projects/gamified-employee-management',
+        image: assetPath('/assets/img/sf1-thumb.jpg'),
+        technologies: ['.NET Core', 'Angular', 'SQL Server', 'Microservices']
       }
     ])
 

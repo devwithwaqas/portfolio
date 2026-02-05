@@ -58,6 +58,7 @@
         introduction="Explore related microservices projects I've worked on:"
       />
 
+      <ServiceRelatedReading current-path="/services/microservices-architecture" />
       <RelatedServices current-path="/services/microservices-architecture" />
       <TopicClusterLinks current-path="/services/microservices-architecture" />
 
@@ -82,6 +83,7 @@ import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
+import ServiceRelatedReading from '@/components/services/ServiceRelatedReading.vue'
 import RelatedServices from '@/components/services/RelatedServices.vue'
 import TopicClusterLinks from '@/components/services/TopicClusterLinks.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
@@ -101,6 +103,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    ServiceRelatedReading,
     RelatedServices,
     TopicClusterLinks,
     TechnologyStack,
@@ -341,29 +344,28 @@ export default {
       }
     ])
 
-    // FAQ
-    // Related Projects
+    // Related Projects (STEP 3: AirAsia ID90, Chubb Insurance, G5 POS, Smart City, UK Property Mgmt)
     const relatedProjects = ref([
-      {
-        title: 'Heat Exchanger Portal',
-        description: 'Enterprise .NET Core microservices platform with Angular frontend, processing 2.5M data points daily',
-        path: '/projects/heat-exchanger',
-        image: assetPath('/assets/img/he1-thumb.jpg'),
-        technologies: ['.NET Core', 'Angular', 'Microservices', 'Azure']
-      },
       {
         title: 'AirAsia ID90',
         description: 'Microservices-based employee travel discount system with .NET Core and Angular',
         path: '/projects/airasia-id90',
-        image: assetPath('/assets/img/aa1.jpg'),
+        image: assetPath('/assets/img/aa1-thumb.jpg'),
         technologies: ['.NET Core', 'Angular', 'Microservices', 'Azure']
       },
       {
-        title: 'BAT Inhouse App',
-        description: 'Enterprise microservices application using Azure Service Fabric for British American Tobacco',
-        path: '/projects/bat-inhouse-app',
-        image: assetPath('/assets/img/bat1-thumb.jpg'),
-        technologies: ['.NET Core', 'Azure Service Fabric', 'Microservices']
+        title: 'Confidential Insurance Clients',
+        description: 'Enterprise microservices platform for insurance management with high availability',
+        path: '/projects/chubb-insurance-applications',
+        image: assetPath('/assets/img/in1-thumb.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Azure', 'Microservices']
+      },
+      {
+        title: 'G5 POS',
+        description: 'Restaurant management system with microservices architecture for order processing and reporting',
+        path: '/projects/g5-pos',
+        image: assetPath('/assets/img/g51-thumb.jpg'),
+        technologies: ['.NET Core', 'Microservices', 'Azure']
       },
       {
         title: 'PJ Smart City',
@@ -371,6 +373,13 @@ export default {
         path: '/projects/pj-smart-city',
         image: assetPath('/assets/img/pj1-thumb.jpg'),
         technologies: ['.NET Core', 'Angular', 'Microservices', 'Azure']
+      },
+      {
+        title: 'UK Property Management',
+        description: 'Azure-native property management platform with .NET Core and Angular, managing 9,000+ properties',
+        path: '/projects/uk-property-management',
+        image: assetPath('/assets/img/gpc1-thumb.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Azure', 'SQL Server']
       }
     ])
 

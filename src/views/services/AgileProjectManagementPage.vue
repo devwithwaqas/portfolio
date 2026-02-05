@@ -58,6 +58,7 @@
         introduction="Explore major enterprise projects managed with agile methodologies:"
       />
 
+      <ServiceRelatedReading current-path="/services/agile-project-management" />
       <RelatedServices current-path="/services/agile-project-management" />
       <TopicClusterLinks current-path="/services/agile-project-management" />
 
@@ -82,6 +83,7 @@ import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
+import ServiceRelatedReading from '@/components/services/ServiceRelatedReading.vue'
 import RelatedServices from '@/components/services/RelatedServices.vue'
 import TopicClusterLinks from '@/components/services/TopicClusterLinks.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
@@ -101,6 +103,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    ServiceRelatedReading,
     RelatedServices,
     TopicClusterLinks,
     TechnologyStack,

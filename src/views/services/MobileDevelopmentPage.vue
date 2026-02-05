@@ -58,6 +58,7 @@
         introduction="Explore related mobile development projects I've worked on:"
       />
 
+      <ServiceRelatedReading current-path="/services/mobile-development" />
       <RelatedServices current-path="/services/mobile-development" />
       <TopicClusterLinks current-path="/services/mobile-development" />
 
@@ -82,6 +83,7 @@ import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
+import ServiceRelatedReading from '@/components/services/ServiceRelatedReading.vue'
 import RelatedServices from '@/components/services/RelatedServices.vue'
 import TopicClusterLinks from '@/components/services/TopicClusterLinks.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
@@ -101,6 +103,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    ServiceRelatedReading,
     RelatedServices,
     TopicClusterLinks,
     TechnologyStack,
@@ -360,7 +363,7 @@ export default {
       }
     ])
 
-    // Related Projects
+    // Related Projects (STEP 3: Mobile Games, Gamified employee mgmt, Valet Parking)
     const relatedProjects = ref([
       {
         title: 'Mobile Games Collection',
@@ -368,6 +371,20 @@ export default {
         path: '/projects/mobile-games',
         image: assetPath('/assets/img/gd1-thumb.jpg'),
         technologies: ['Java', 'Android', 'AndEngine']
+      },
+      {
+        title: 'Gamified Employee Management',
+        description: 'Cross-platform employee engagement app with mobile and web components',
+        path: '/projects/gamified-employee-management',
+        image: assetPath('/assets/img/sf1-thumb.jpg'),
+        technologies: ['.NET Core', 'Angular', 'Mobile']
+      },
+      {
+        title: 'Valet Parking',
+        description: 'Mobile and web valet parking management system with real-time tracking',
+        path: '/projects/valet-parking',
+        image: assetPath('/assets/img/vp1.jpg'),
+        technologies: ['.NET Core', 'Angular', 'MongoDB', 'Mobile']
       }
     ])
 

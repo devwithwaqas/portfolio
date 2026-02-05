@@ -114,6 +114,72 @@
           </div>
                   </div>
 
+        <!-- Explore (STEP 7: topic/cluster links for authority) -->
+        <div class="col-lg-2 col-md-6 mb-4">
+          <div class="footer-section">
+            <h2 class="footer-section-title txt-footer-header-lg">
+              <i class="bi bi-compass me-2 footer-icon-purple icon-md"></i>Explore
+            </h2>
+            <ul class="footer-list">
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/services/azure-cloud-architecture" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Azure Cloud Architecture
+                </router-link>
+              </li>
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/services/full-stack-development" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>.NET Backend & APIs
+                </router-link>
+              </li>
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/services/microservices-architecture" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Software Architecture
+                </router-link>
+              </li>
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/services/microservices-architecture" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Microservices
+                </router-link>
+              </li>
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/services/azure-cloud-architecture" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>DevOps / CI-CD
+                </router-link>
+              </li>
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/blog" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>AI in Engineering
+                </router-link>
+              </li>
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/services/full-stack-development" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Full-Stack Development
+                </router-link>
+              </li>
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/services/mobile-development" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Mobile Development
+                </router-link>
+              </li>
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/services/technical-leadership" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Technical Leadership
+                </router-link>
+              </li>
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/#portfolio" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Case Studies
+                </router-link>
+              </li>
+              <li class="footer-list-item txt-p-sm">
+                <router-link to="/blog" class="footer-service-link">
+                  <i class="bi bi-check-circle me-2 footer-list-icon icon-xs"></i>Blog
+                </router-link>
+              </li>
+            </ul>
+          </div>
+        </div>
+
         <!-- Services -->
         <div class="col-lg-2 col-md-6 mb-4">
           <div class="footer-section">

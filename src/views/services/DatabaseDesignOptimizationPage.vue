@@ -58,6 +58,7 @@
         introduction="Explore related database optimization projects I've worked on:"
       />
 
+      <ServiceRelatedReading current-path="/services/database-design-optimization" />
       <RelatedServices current-path="/services/database-design-optimization" />
       <TopicClusterLinks current-path="/services/database-design-optimization" />
 
@@ -100,6 +101,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    ServiceRelatedReading,
     RelatedServices,
     TopicClusterLinks,
     TechnologyStack,
@@ -332,7 +334,7 @@ export default {
       }
     ])
 
-    // Related Projects
+    // Related Projects (STEP 3: Heat Exchanger, G5 POS, UK Property Mgmt, Chubb Insurance)
     const relatedProjects = ref([
       {
         title: 'Heat Exchanger Portal',
@@ -342,11 +344,11 @@ export default {
         technologies: ['SQL Server', '.NET Core', 'Entity Framework']
       },
       {
-        title: 'BAT Inhouse App',
-        description: 'Enterprise database design for British American Tobacco with SQL Server optimization',
-        path: '/projects/bat-inhouse-app',
-        image: assetPath('/assets/img/bat1-thumb.jpg'),
-        technologies: ['SQL Server', '.NET Core', 'Azure SQL']
+        title: 'G5 POS',
+        description: 'Restaurant management system with SQL Server optimization for high transaction volume',
+        path: '/projects/g5-pos',
+        image: assetPath('/assets/img/g51-thumb.jpg'),
+        technologies: ['SQL Server', '.NET Core', 'Entity Framework']
       },
       {
         title: 'UK Property Management',
@@ -354,13 +356,6 @@ export default {
         path: '/projects/uk-property-management',
         image: assetPath('/assets/img/gpc1-thumb.jpg'),
         technologies: ['SQL Server', 'Azure SQL', '.NET Core']
-      },
-      {
-        title: 'Valet Parking',
-        description: 'NoSQL database architecture using MongoDB and Redis for high-performance parking system',
-        path: '/projects/valet-parking',
-        image: assetPath('/assets/img/vp1.jpg'),
-        technologies: ['MongoDB', 'Redis', '.NET Core']
       },
       {
         title: 'Confidential Insurance Clients',

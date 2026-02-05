@@ -58,6 +58,7 @@
         introduction="Explore related Azure cloud projects I've worked on:"
       />
 
+      <ServiceRelatedReading current-path="/services/azure-cloud-architecture" />
       <RelatedServices current-path="/services/azure-cloud-architecture" />
       <TopicClusterLinks current-path="/services/azure-cloud-architecture" />
 
@@ -82,6 +83,7 @@ import ServiceCaseStudies from '@/components/services/ServiceCaseStudies.vue'
 import ServiceFAQ from '@/components/services/ServiceFAQ.vue'
 import ServiceCTA from '@/components/services/ServiceCTA.vue'
 import RelatedProjects from '@/components/common/RelatedProjects.vue'
+import ServiceRelatedReading from '@/components/services/ServiceRelatedReading.vue'
 import RelatedServices from '@/components/services/RelatedServices.vue'
 import TopicClusterLinks from '@/components/services/TopicClusterLinks.vue'
 import TechnologyStack from '@/components/projects/TechnologyStack.vue'
@@ -101,6 +103,7 @@ export default {
     ServiceFAQ,
     ServiceCTA,
     RelatedProjects,
+    ServiceRelatedReading,
     RelatedServices,
     TopicClusterLinks,
     TechnologyStack,
@@ -346,15 +349,8 @@ export default {
       }
     ])
 
-    // Related Projects
+    // Related Projects (STEP 3: AirAsia ID90, Heat Exchanger, Chubb Insurance Apps, PJ Smart City)
     const relatedProjects = ref([
-      {
-        title: 'Heat Exchanger Portal',
-        description: 'Enterprise Azure cloud platform with .NET Core microservices, processing 2.5M data points daily',
-        path: '/projects/heat-exchanger',
-        image: assetPath('/assets/img/he1-thumb.jpg'),
-        technologies: ['Azure', '.NET Core', 'Angular', 'Microservices']
-      },
       {
         title: 'AirAsia ID90',
         description: 'Azure-native employee travel discount system with Azure App Service and Azure SQL',
@@ -363,18 +359,11 @@ export default {
         technologies: ['Azure App Service', 'Azure SQL', 'Azure Service Bus', '.NET Core']
       },
       {
-        title: 'PJ Smart City',
-        description: 'Azure-based smart city platform with IoT integration and municipal management',
-        path: '/projects/pj-smart-city',
-        image: assetPath('/assets/img/pj1-thumb.jpg'),
-        technologies: ['Azure', '.NET Core', 'Angular', 'Azure IoT']
-      },
-      {
-        title: 'UK Property Management',
-        description: 'Azure-native property management platform managing 9,000+ properties',
-        path: '/projects/uk-property-management',
-        image: assetPath('/assets/img/gpc1.jpg'),
-        technologies: ['Azure', '.NET Core', 'Angular', 'Azure SQL']
+        title: 'Heat Exchanger Portal',
+        description: 'Enterprise Azure cloud platform with .NET Core microservices, processing 2.5M data points daily',
+        path: '/projects/heat-exchanger',
+        image: assetPath('/assets/img/he1-thumb.jpg'),
+        technologies: ['Azure', '.NET Core', 'Angular', 'Microservices']
       },
       {
         title: 'Confidential Insurance Clients',
@@ -382,6 +371,13 @@ export default {
         path: '/projects/chubb-insurance-applications',
         image: assetPath('/assets/img/in1-thumb.jpg'),
         technologies: ['Azure', '.NET Core', 'Angular', 'Azure SQL']
+      },
+      {
+        title: 'PJ Smart City',
+        description: 'Azure-based smart city platform with IoT integration and municipal management',
+        path: '/projects/pj-smart-city',
+        image: assetPath('/assets/img/pj1-thumb.jpg'),
+        technologies: ['Azure', '.NET Core', 'Angular', 'Azure IoT']
       }
     ])
 

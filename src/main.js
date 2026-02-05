@@ -159,7 +159,7 @@ if (typeof window !== 'undefined') {
     recordReloadAttempt
   }
   
-  // Show error log on page load if there are recent errors
+  // Show error log on page load if there are recent errors; auto-clear old log after stable load
   if (import.meta.env.DEV) {
     window.addEventListener('load', () => {
       setTimeout(() => {
@@ -167,24 +167,22 @@ if (typeof window !== 'undefined') {
         if (errors.length > 0) {
           const now = Date.now()
           const RECENT_THRESHOLD = 2 * 60 * 1000 // 2 minutes
-          
-          // Filter to only recent errors
           const recentErrors = errors.filter(err => {
             const errorTime = new Date(err.timestamp).getTime()
             return (now - errorTime) < RECENT_THRESHOLD
           })
-          
           if (recentErrors.length > 0) {
             console.group('%c[Error Tracker] Recent Errors Detected', 'color: #ef4444; font-weight: bold; font-size: 14px;')
             console.log(`Found ${recentErrors.length} recent error(s) (${errors.length} total in localStorage)`)
             console.log('Run: window.__portfolioErrorTracker.getLog() to see all errors')
             console.log('Run: window.__portfolioErrorTracker.clearLog() to clear all errors')
-            console.table(recentErrors.slice(-10)) // Show last 10 recent errors
+            console.table(recentErrors.slice(-10))
             console.groupEnd()
-          } else if (errors.length > 0) {
-            // Only old errors - just mention it briefly
-            console.log(`[Error Tracker] ${errors.length} old error(s) in localStorage (will auto-clear after 30s of stable page)`)
-            console.log('Run: window.__portfolioErrorTracker.clearLog() to clear now')
+          } else {
+            // Only old errors: clear log so next load is clean
+            try {
+              localStorage.removeItem('portfolio_error_log')
+            } catch {}
           }
         }
       }, 1000)
@@ -234,7 +232,7 @@ router.isReady().then(() => {
 // Expected service worker version - AUTO-GENERATED ON BUILD (from git commit hash)
 // Version is automatically updated by scripts/generate-sw-version.js during build
 // MUST MATCH the version in public/sw.js
-const EXPECTED_SW_VERSION = '12345'
+const EXPECTED_SW_VERSION = '8aa8305'
 
 if ('serviceWorker' in navigator) {
   // CRITICAL: In dev mode, unregister ALL service workers immediately (not on load)

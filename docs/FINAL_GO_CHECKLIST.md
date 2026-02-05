@@ -9,10 +9,10 @@
 - **§1 (robots.txt):** Read `public/robots.txt` — Allow /, /projects/, /services/, /sitemap.xml, /llms.txt; Disallow only /admin/, /api/; Sitemap URL present.
 - **§2 (sitemap):** Grep count of `<url>` in `public/sitemap.xml` = 81; grep for 404/not-found/pathMatch = no matches; blog slugs in sitemap match `src/config/blog/articles/*.js` (61 articles).
 - **§3 (meta at load):** `src/router/index.js` — `beforeEach` calls `setPageSEO` and `generate*StructuredData`/`injectStructuredData`. `src/utils/seo.js` — `setPageSEO` uses `setTitle`, `setDescription`, `setKeywords`, `setCanonical`, `setRobots` (via setMetaTag('robots', ...)), `setOpenGraph`, `setTwitterCard`; `FIREBASE_CANONICAL_URL` used. `index.html` — static `<title>`, `<meta name="description">`, `<meta name="keywords">`, `<script type="application/ld+json">` present.
-- **§4 (per-URL):** Same router/seo/structuredData flow covers Home, Services (7), Projects (10), Blog index, Blog articles (61), Privacy, 404. `public/llms.txt` contains Home block, 7 service blocks, 10 project blocks, Blog section and 61 article blocks.
+- **§4 (per-URL):** Same router/seo/structuredData flow covers Home, Services (7), Projects (10), Blog index, Blog articles (61), Privacy, 404. `public/llms.txt` is a **static site summary** (identity, expertise, flagship URLs, breadth); no per-article blocks. See `docs/LLMS_TXT_GUIDE.md` and `docs/SEO_REVAMP_CHANGELOG.md`.
 - **§5 (authority):** Ran `node scripts/audit-blog-authority-sections.js` — Summary: missingWmgm: 0, missingTradeOffs: 0, weakWmgm: 0, weakTradeOffs: 0.
 - **§4.5 SEO/crawl:** Ran `node scripts/audit-blog-seo-compliance.js` — All 61 articles have slug, title, excerpt, topic, keywords; slug matches filename; sitemap blog count = 61; no noindex on articles; meta + schema set in router (critical path).
-- **§6–§8:** Confirmed by §1–§5 and `package.json` build scripts (generate-sitemap.js, generate-llms-blog-articles.js, copy-llms-txt.js, write-robots-firebase.js).
+- **§6–§8:** Confirmed by §1–§5 and `package.json` build scripts (generate-sitemap.js, copy-llms-txt.js, write-robots-firebase.js). llms.txt: build runs copy-llms-txt.js only (no generate-llms-blog-articles.js in build). Structured data: Option B (see `docs/SEO_REVAMP_CHANGELOG.md`).
 
 **References:** `docs/SEO_POST_IMPLEMENTATION_AUDIT.md`, `docs/BLOG_AUTHORITY_SECTIONS_AUDIT.md`, `public/robots.txt`, `public/sitemap.xml`, `public/llms.txt`, `src/router/index.js`, `src/utils/seo.js`, `src/utils/structuredData.js`.
 

@@ -11,21 +11,7 @@
 
               <div class="services-grid" v-if="showServices">
 
-                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
-                  <div class="service-item item-cyan position-relative">
-                    <div class="icon">
-                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,521.0016835830174C376.1290562159157,517.8887921683347,466.0731472004068,529.7835943286574,510.70327084640275,468.03025145048787C554.3714126377745,407.6079735673963,508.03601936045806,328.9844924480964,491.2728898941984,256.3432110539036C474.5976632858925,184.082847569629,479.9380746630129,96.60480741107993,416.23090153303,58.64404602377083C348.86323505073057,18.502131276798302,261.93793281208167,40.57373210992963,193.5410806939664,78.93577620505333C130.42746243093433,114.334589627462,98.30271207620316,179.96522072025542,76.75703585869454,249.04625023123273C51.97151888228291,328.5150500222984,13.704378332031375,421.85034740162234,66.52175969318436,486.19268352777647C119.04800174914682,550.1803526380478,217.28368757567262,524.383925680826,300,521.0016835830174"></path>
-                      </svg>
-                      <i class="bi bi-activity icon-2xl"></i>
-                    </div>
-                    <router-link to="/services/full-stack-development" class="stretched-link" @click="rememberReturnSection">
-                      <h3 class="txt-h3-xl">Full Stack Development</h3>
-                    </router-link>
-                    <p class="txt-p-lg">End-to-end development of enterprise applications using .NET Core, Angular, SQL Server, and modern web technologies with focus on performance and scalability.</p>
-                  </div>
-                </div><!-- End Service Item -->
-
+                <!-- STEP 8: Top 5 first — Azure, Microservices, Full-Stack, Database, Technical Leadership -->
                 <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
                   <div class="service-item item-orange position-relative">
                     <div class="icon">
@@ -40,22 +26,6 @@
                     <p class="txt-p-lg">Design and implementation of cloud-native solutions using Microsoft Azure services including App Services, Service Fabric, Functions, and comprehensive DevOps practices.</p>
                   </div>
                 </div><!-- End Service Item -->
-
-                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
-                  <div class="service-item item-teal position-relative">
-                    <div class="icon">
-                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,541.5067337569781C382.14930387511276,545.0595476570109,479.8736841581634,548.3450877840088,526.4010558755058,480.5488172755941C571.5218469581645,414.80211281144784,517.5187510058486,332.0715597781072,496.52539010469104,255.14436215662573C477.37192572678356,184.95920475031193,473.57363656557914,105.61284051026155,413.0603344069578,65.22779650032875C343.27470386102294,18.654635553484475,251.2091493199835,5.337323636656869,175.0934190732945,40.62881213300186C97.87086631185822,76.43348514350839,51.98124368387456,156.15599469081315,36.44837278890362,239.84606092416172C21.716077023791087,319.22268207091537,43.775223500013084,401.1760424656574,96.891909868211,461.97329694683043C147.22146801428983,519.5804099606455,223.5754009179313,538.201503339737,300,541.5067337569781"></path>
-                      </svg>
-                      <i class="bi bi-easel icon-2xl"></i>
-                    </div>
-                    <router-link to="/services/technical-leadership" class="stretched-link" @click="rememberReturnSection">
-                      <h3 class="txt-h3-xl">Technical Leadership</h3>
-                    </router-link>
-                    <p class="txt-p-lg">Leading development teams, mentoring junior developers, conducting code reviews, and establishing best practices for software development and architecture.</p>
-                  </div>
-                </div><!-- End Service Item -->
-
                 <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
                   <div class="service-item item-red position-relative">
                     <div class="icon">
@@ -70,22 +40,20 @@
                     <p class="txt-p-lg">Design and implementation of scalable microservices-based applications using Azure Service Fabric, Docker containers, and modern architectural patterns.</p>
                   </div>
                 </div><!-- End Service Item -->
-
                 <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
-                  <div class="service-item item-indigo position-relative">
+                  <div class="service-item item-cyan position-relative">
                     <div class="icon">
                       <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,532.3542879108572C369.38199826031484,532.3153073249985,429.10787420159085,491.63046689027357,474.5244479745417,439.17860296908856C522.8885846962883,383.3225815378663,569.1668002868075,314.3205725914397,550.7432151929288,242.7694973846089C532.6665558377875,172.5657663291529,456.2379748765914,142.6223662098291,390.3689995646985,112.34683881706744C326.66090330228417,83.06452184765237,258.84405631176094,53.51806209861945,193.32584062364296,78.48882559362697C121.61183558270385,105.82097193414197,62.805066853699245,167.19869350419734,48.57481801355237,242.6138429142374C34.843463184063346,315.3850353017275,76.69343916112496,383.4422959591041,125.22947124332185,439.3748458443577C170.7312796277747,491.8107796887764,230.57421082200815,532.3932930995766,300,532.3542879108572"></path>
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,521.0016835830174C376.1290562159157,517.8887921683347,466.0731472004068,529.7835943286574,510.70327084640275,468.03025145048787C554.3714126377745,407.6079735673963,508.03601936045806,328.9844924480964,491.2728898941984,256.3432110539036C474.5976632858925,184.082847569629,479.9380746630129,96.60480741107993,416.23090153303,58.64404602377083C348.86323505073057,18.502131276798302,261.93793281208167,40.57373210992963,193.5410806939664,78.93577620505333C130.42746243093433,114.334589627462,98.30271207620316,179.96522072025542,76.75703585869454,249.04625023123273C51.97151888228291,328.5150500222984,13.704378332031375,421.85034740162234,66.52175969318436,486.19268352777647C119.04800174914682,550.1803526380478,217.28368757567262,524.383925680826,300,521.0016835830174"></path>
                       </svg>
-                      <i class="bi bi-calendar4-week icon-2xl"></i>
+                      <i class="bi bi-activity icon-2xl"></i>
                     </div>
-                    <router-link to="/services/agile-project-management" class="stretched-link" @click="rememberReturnSection">
-                      <h3 class="txt-h3-xl">Agile Project Management</h3>
+                    <router-link to="/services/full-stack-development" class="stretched-link" @click="rememberReturnSection">
+                      <h3 class="txt-h3-xl">Full Stack Development</h3>
                     </router-link>
-                    <p class="txt-p-lg">Leading agile development teams, conducting sprint planning, retrospectives, and ensuring timely delivery of high-quality software products.</p>
+                    <p class="txt-p-lg">End-to-end development of enterprise applications using .NET Core, Angular, SQL Server, and modern web technologies with focus on performance and scalability.</p>
                   </div>
                 </div><!-- End Service Item -->
-
                 <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
                   <div class="service-item item-pink position-relative">
                     <div class="icon">
@@ -100,7 +68,34 @@
                     <p class="txt-p-lg">Designing and optimizing SQL Server databases, implementing Entity Framework best practices, and ensuring high-performance data access patterns.</p>
                   </div>
                 </div><!-- End Service Item -->
-
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
+                  <div class="service-item item-teal position-relative">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,541.5067337569781C382.14930387511276,545.0595476570109,479.8736841581634,548.3450877840088,526.4010558755058,480.5488172755941C571.5218469581645,414.80211281144784,517.5187510058486,332.0715597781072,496.52539010469104,255.14436215662573C477.37192572678356,184.95920475031193,473.57363656557914,105.61284051026155,413.0603344069578,65.22779650032875C343.27470386102294,18.654635553484475,251.2091493199835,5.337323636656869,175.0934190732945,40.62881213300186C97.87086631185822,76.43348514350839,51.98124368387456,156.15599469081315,36.44837278890362,239.84606092416172C21.716077023791087,319.22268207091537,43.775223500013084,401.1760424656574,96.891909868211,461.97329694683043C147.22146801428983,519.5804099606455,223.5754009179313,538.201503339737,300,541.5067337569781"></path>
+                      </svg>
+                      <i class="bi bi-easel icon-2xl"></i>
+                    </div>
+                    <router-link to="/services/technical-leadership" class="stretched-link" @click="rememberReturnSection">
+                      <h3 class="txt-h3-xl">Technical Leadership</h3>
+                    </router-link>
+                    <p class="txt-p-lg">Leading development teams, mentoring junior developers, conducting code reviews, and establishing best practices for software development and architecture.</p>
+                  </div>
+                </div><!-- End Service Item -->
+                <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
+                  <div class="service-item item-indigo position-relative">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,532.3542879108572C369.38199826031484,532.3153073249985,429.10787420159085,491.63046689027357,474.5244479745417,439.17860296908856C522.8885846962883,383.3225815378663,569.1668002868075,314.3205725914397,550.7432151929288,242.7694973846089C532.6665558377875,172.5657663291529,456.2379748765914,142.6223662098291,390.3689995646985,112.34683881706744C326.66090330228417,83.06452184765237,258.84405631176094,53.51806209861945,193.32584062364296,78.48882559362697C121.61183558270385,105.82097193414197,62.805066853699245,167.19869350419734,48.57481801355237,242.6138429142374C34.843463184063346,315.3850353017275,76.69343916112496,383.4422959591041,125.22947124332185,439.3748458443577C170.7312796277747,491.8107796887764,230.57421082200815,532.3932930995766,300,532.3542879108572"></path>
+                      </svg>
+                      <i class="bi bi-calendar4-week icon-2xl"></i>
+                    </div>
+                    <router-link to="/services/agile-project-management" class="stretched-link" @click="rememberReturnSection">
+                      <h3 class="txt-h3-xl">Agile Project Management</h3>
+                    </router-link>
+                    <p class="txt-p-lg">Leading agile development teams, conducting sprint planning, retrospectives, and ensuring timely delivery of high-quality software products.</p>
+                  </div>
+                </div><!-- End Service Item -->
                 <div class="col-xxl-120-30 col-xl-120-40 col-lg-120-40 col-md-120-60 col-sm-120-60 col-xs-120-60 col-us-120-60 col-120-120">
                   <div class="service-item item-green position-relative">
                     <div class="icon">

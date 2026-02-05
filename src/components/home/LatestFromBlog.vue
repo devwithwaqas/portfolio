@@ -26,6 +26,15 @@
             View all articles <i class="bi bi-arrow-right"></i>
           </router-link>
         </div>
+        <!-- STEP 8: Top 5 blog clusters — Azure, .NET, AI, Architecture Patterns, Leadership -->
+        <p class="blog-explore-label txt-p-md mt-4 mb-2">Explore by topic:</p>
+        <div class="blog-explore-clusters">
+          <router-link to="/services/azure-cloud-architecture" class="blog-cluster-link">Azure</router-link>
+          <router-link to="/services/full-stack-development" class="blog-cluster-link">.NET</router-link>
+          <router-link to="/blog" class="blog-cluster-link">AI</router-link>
+          <router-link to="/services/microservices-architecture" class="blog-cluster-link">Architecture Patterns</router-link>
+          <router-link to="/services/technical-leadership" class="blog-cluster-link">Leadership</router-link>
+        </div>
       </ReusableCard>
     </div>
   </section>
@@ -77,6 +86,36 @@ export default {
   border-color: rgba(139, 92, 246, 0.5);
   color: #7c3aed;
   background: rgba(139, 92, 246, 0.06);
+}
+
+.blog-explore-label {
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+.blog-explore-clusters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.blog-cluster-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 8px;
+  color: #5b21b6;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.blog-cluster-link:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  color: #7c3aed;
+  background: rgba(139, 92, 246, 0.12);
 }
 
 /* Equal-height columns in same row (same as blog index) */

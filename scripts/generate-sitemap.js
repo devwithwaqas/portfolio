@@ -1,155 +1,94 @@
 /**
- * Generate sitemap.xml dynamically from Vue Router routes
- * Run this after build: node scripts/generate-sitemap.js
- * 
- * This script:
- * 1. Automatically reads routes from router configuration
- * 2. Filters out redirects and 404 routes
- * 3. Generates sitemap.xml with proper formatting
- * 4. Writes to both dist/ and public/ folders
+ * Generate sitemap.xml from Vue Router routes and blog articles.
+ * Run after build: node scripts/generate-sitemap.js
+ *
+ * Follows sitemap protocol: namespace, schemaLocation, UTF-8, YYYY-MM-DD lastmod.
+ * Priority: home 1.0, services 0.8, projects 0.7, blog index 0.8, blog posts 0.6, privacy 0.3 (max 5 distinct).
+ * Changefreq: / and /blog weekly; /blog/*, /services/*, /projects/* monthly; /privacy yearly.
+ * Order: Homepage → core (blog, privacy) → services → projects → blog posts.
+ * Preserves existing lastmod from public/sitemap.xml; does not auto-update dates.
  */
 
 const fs = require('fs')
 const path = require('path')
 
 const BLOG_ARTICLES_DIR = path.resolve(__dirname, '../src/config/blog/articles')
-
-// Detect build mode from environment or check dist/index.html for base path
-// Primary site: Firebase (waqasahmad-portfolio). GitHub Pages was legacy and redirects to Firebase.
 const DIST_DIR = path.resolve(__dirname, '../dist')
 const PUBLIC_DIR = path.resolve(__dirname, '../public')
 const ROUTER_FILE = path.resolve(__dirname, '../src/router/index.js')
 
-// Default to Firebase – single source of truth. No GitHub Pages default.
 let BASE_URL = 'https://waqasahmad-portfolio.web.app'
-
-// Priority 1: Explicit environment variable
 if (process.env.FIREBASE_SITE_URL) {
   BASE_URL = process.env.FIREBASE_SITE_URL.replace(/\/$/, '')
-  console.log(`[Sitemap] Using FIREBASE_SITE_URL: ${BASE_URL}`)
-} 
-// Priority 2: Check dist/index.html for base path (most reliable after build)
-else {
+} else {
   const indexPath = path.join(DIST_DIR, 'index.html')
   if (fs.existsSync(indexPath)) {
     const htmlContent = fs.readFileSync(indexPath, 'utf8')
-    // Firebase builds: base="/" or no base tag (defaults to "/")
-    // GitHub Pages builds: base="/portfolio/"
     const hasPortfolioBase = htmlContent.includes('base="/portfolio/"') || htmlContent.includes('base="/portfolio"')
-    const hasRootBase = htmlContent.includes('base="/"') || htmlContent.includes('base="/"') || !htmlContent.includes('<base')
-    
-    if (hasRootBase && !hasPortfolioBase) {
-      // Firebase build detected
-      BASE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
-      BASE_URL = BASE_URL.replace(/\/$/, '')
-      console.log(`[Sitemap] Firebase build detected from index.html, using: ${BASE_URL}`)
-    } else if (hasPortfolioBase) {
-      // Legacy GitHub Pages build (redirect only)
-      BASE_URL = 'https://waqasahmad-portfolio.web.app'
-      console.log(`[Sitemap] Legacy build detected, using Firebase URL: ${BASE_URL}`)
-    } else {
-      // Fallback: check environment
-      if (process.env.MODE === 'firebase' || process.env.NODE_ENV === 'firebase') {
-        BASE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
-        BASE_URL = BASE_URL.replace(/\/$/, '')
-        console.log(`[Sitemap] Firebase mode from env, using: ${BASE_URL}`)
-      } else {
-        BASE_URL = (process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app').replace(/\/$/, '')
-        console.log(`[Sitemap] Defaulting to Firebase: ${BASE_URL}`)
-      }
+    if (!hasPortfolioBase) {
+      BASE_URL = (process.env.VITE_FIREBASE_SITE_URL || BASE_URL).replace(/\/$/, '')
     }
   } else {
-    // dist/index.html doesn't exist yet - use Firebase
-    BASE_URL = (process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app').replace(/\/$/, '')
-    console.log(`[Sitemap] No dist yet, using Firebase: ${BASE_URL}`)
+    BASE_URL = (process.env.VITE_FIREBASE_SITE_URL || BASE_URL).replace(/\/$/, '')
   }
+}
+BASE_URL = BASE_URL.replace(/\/$/, '')
+
+/** Parse existing public/sitemap.xml for lastmod by URL. Returns Map<normalizedUrl, YYYY-MM-DD>. Keeps existing dates unchanged. */
+function parseExistingLastmod() {
+  const p = path.join(PUBLIC_DIR, 'sitemap.xml')
+  if (!fs.existsSync(p)) return new Map()
+  const xml = fs.readFileSync(p, 'utf8')
+  const map = new Map()
+  const locRe = /<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g
+  let m
+  while ((m = locRe.exec(xml)) !== null) {
+    const raw = m[1].trim()
+    const norm = raw.replace(/\/$/, '') || raw
+    const lastmod = m[2].trim()
+    if (/^\d{4}-\d{2}-\d{2}$/.test(lastmod)) {
+      map.set(norm, lastmod)
+      if (raw !== norm) map.set(raw, lastmod)
+    }
+  }
+  return map
+}
+
+/** Normalize path: lowercase, no query, no fragment, single leading slash. */
+function normalizePath(routePath) {
+  let p = (routePath || '').split('?')[0].split('#')[0].trim().toLowerCase()
+  if (!p.startsWith('/')) p = '/' + p
+  return p.replace(/\/+/g, '/')
+}
+
+/** Build full URL for sitemap (no trailing slash except for home). */
+function toLoc(path) {
+  const base = BASE_URL.replace(/\/$/, '')
+  if (path === '/' || path === '') return base + '/'
+  return base + normalizePath(path)
 }
 
 /**
- * Extract routes from router file
- * Parses the router configuration to get all valid routes
+ * Extract static routes from router (no redirects, no 404, no /blog/:slug).
+ * Returns array of { path }.
  */
 function extractRoutesFromRouter() {
   const routerContent = fs.readFileSync(ROUTER_FILE, 'utf8')
-  const routes = []
-  
-  // Match route objects in the routes array
-  // Pattern: { path: '...', name: '...', component: ... }
   const routePattern = /\{\s*path:\s*['"`]([^'"`]+)['"`]\s*,\s*name:\s*['"`]([^'"`]+)['"`]\s*(?:,\s*component:\s*[^}]+)?\s*\}/g
   const redirectPattern = /\{\s*path:\s*['"`]([^'"`]+)['"`]\s*,\s*redirect:/g
-  const catchAllPattern = /path:\s*['"`]\/:pathMatch\(\.\*\)\*['"`]/g
-  
-  let match
-  
-  // Extract all route definitions
   const allRoutes = []
+  let match
   while ((match = routePattern.exec(routerContent)) !== null) {
     const routePath = match[1]
     const routeName = match[2]
-    
-    // Skip if it's a catch-all route (404)
-    if (routePath.includes('pathMatch')) {
-      continue
-    }
-    
+    if (routePath.includes('pathMatch')) continue
     allRoutes.push({ path: routePath, name: routeName })
   }
-  
-  // Check for redirects and exclude them
   const redirectPaths = new Set()
-  while ((match = redirectPattern.exec(routerContent)) !== null) {
-    redirectPaths.add(match[1])
-  }
-  
-  // Filter out redirects and assign priorities
-  allRoutes.forEach(route => {
-    // Skip redirects
-    if (redirectPaths.has(route.path)) {
-      return
-    }
-    
-    // Skip 404 route
-    if (route.name === 'NotFound' || route.path.includes('pathMatch')) {
-      return
-    }
-    // Skip dynamic /blog/:slug - we add blog article URLs separately
-    if (route.path === '/blog/:slug') {
-      return
-    }
-    
-    // Determine priority and changefreq based on path
-    let priority = 0.5
-    let changefreq = 'monthly'
-    
-    if (route.path === '/') {
-      priority = 1.0
-      changefreq = 'weekly'
-    } else if (route.path === '/blog') {
-      priority = 0.9
-      changefreq = 'weekly'
-    } else if (route.path.startsWith('/projects/')) {
-      priority = 0.8
-      changefreq = 'monthly'
-    } else if (route.path.startsWith('/services/')) {
-      priority = 0.9
-      changefreq = 'monthly'
-    }
-    
-    const routeEntry = {
-      path: route.path,
-      priority,
-      changefreq
-    }
-    
-    // Add lastmod for home page
-    if (route.path === '/') {
-      routeEntry.lastmod = new Date().toISOString().split('T')[0]
-    }
-    
-    routes.push(routeEntry)
-  })
-  
-  return routes
+  while ((match = redirectPattern.exec(routerContent)) !== null) redirectPaths.add(match[1])
+  return allRoutes
+    .filter((r) => !redirectPaths.has(r.path) && r.name !== 'NotFound' && r.path !== '/blog/:slug')
+    .map((r) => ({ path: r.path }))
 }
 
 /**
@@ -164,80 +103,75 @@ function getBlogArticleSlugs() {
 }
 
 function generateSitemap() {
-  // Automatically extract routes from router
-  const routes = extractRoutesFromRouter()
-  
-  // Add /blog/:slug for each article (router has /blog as static route already)
+  const existingLastmod = parseExistingLastmod()
+  const fallbackDate = '2026-02-04' // Used only for new URLs; do not auto-update existing.
+
+  const staticRoutes = extractRoutesFromRouter()
   const blogSlugs = getBlogArticleSlugs()
-  blogSlugs.forEach(slug => {
-    routes.push({ path: `/blog/${slug}`, priority: 0.8, changefreq: 'monthly' })
+
+  // Build ordered entries: Home → core (blog, privacy) → services → projects → blog posts.
+  // Priority: home 1.0, services 0.8, projects 0.7, blog index 0.8, blog posts 0.6, privacy 0.3.
+  // Changefreq: / and /blog weekly; /blog/*, /services/*, /projects/* monthly; /privacy yearly.
+  const entries = []
+
+  const home = staticRoutes.find((r) => r.path === '/')
+  if (home) {
+    entries.push({ path: '/', priority: 1.0, changefreq: 'weekly' })
+  }
+
+  const blogIndex = staticRoutes.find((r) => r.path === '/blog')
+  if (blogIndex) {
+    entries.push({ path: '/blog', priority: 0.8, changefreq: 'weekly' })
+  }
+
+  const privacy = staticRoutes.find((r) => r.path === '/privacy')
+  if (privacy) {
+    entries.push({ path: '/privacy', priority: 0.3, changefreq: 'yearly' })
+  }
+
+  const services = staticRoutes.filter((r) => r.path.startsWith('/services/')).sort((a, b) => a.path.localeCompare(b.path))
+  services.forEach((r) => entries.push({ path: r.path, priority: 0.8, changefreq: 'monthly' }))
+
+  const projects = staticRoutes.filter((r) => r.path.startsWith('/projects/')).sort((a, b) => a.path.localeCompare(b.path))
+  projects.forEach((r) => entries.push({ path: r.path, priority: 0.7, changefreq: 'monthly' }))
+
+  blogSlugs.sort().forEach((slug) => {
+    entries.push({ path: `/blog/${slug}`, priority: 0.6, changefreq: 'monthly' })
   })
-  
-  // Use current date for lastmod - ensures sitemap is always "fresh"
-  const today = new Date().toISOString().split('T')[0]
-  
-  // Start with XML declaration and root element (no trailing newline in header)
+
   let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n'
   sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
   sitemap += '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n'
   sitemap += '        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9\n'
   sitemap += '        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n'
 
-  routes.forEach(route => {
-    // Ensure path starts with / and ends correctly
-    let routePath = route.path
-    if (!routePath.startsWith('/')) {
-      routePath = '/' + routePath
-    }
-    
-    // Ensure URL is properly encoded (escape special characters if any)
-    const url = `${BASE_URL}${routePath}`.replace(/&/g, '&amp;')
-    const lastmod = route.lastmod || today
-    const changefreq = route.changefreq || 'monthly'
-    const priority = route.priority || 0.5
-    
-    // Ensure priority is a valid number between 0.0 and 1.0
-    // Format as decimal string (e.g., "1.0" not "1") for better Google compatibility
-    const validPriority = Math.max(0.0, Math.min(1.0, priority))
-    const formattedPriority = validPriority.toFixed(1) // Always format as "1.0", "0.8", etc.
-    
+  entries.forEach((entry) => {
+    const loc = toLoc(entry.path)
+    const locNorm = loc.replace(/\/$/, '') || loc
+    const lastmod = existingLastmod.get(loc) ?? existingLastmod.get(locNorm) ?? fallbackDate
+    const changefreq = entry.changefreq
+    const priority = Math.max(0, Math.min(1, entry.priority)).toFixed(1)
+    const locEscaped = loc.replace(/&/g, '&amp;')
     sitemap += '  <url>\n'
-    sitemap += `    <loc>${url}</loc>\n`
+    sitemap += `    <loc>${locEscaped}</loc>\n`
     sitemap += `    <lastmod>${lastmod}</lastmod>\n`
     sitemap += `    <changefreq>${changefreq}</changefreq>\n`
-    sitemap += `    <priority>${formattedPriority}</priority>\n`
+    sitemap += `    <priority>${priority}</priority>\n`
     sitemap += '  </url>\n'
   })
 
   sitemap += '</urlset>\n'
 
-  // Ensure dist directory exists
-  if (!fs.existsSync(DIST_DIR)) {
-    fs.mkdirSync(DIST_DIR, { recursive: true })
-    console.log('[OK] Created dist directory')
-  }
-  
-  // Ensure directories exist
-  if (!fs.existsSync(DIST_DIR)) {
-    fs.mkdirSync(DIST_DIR, { recursive: true })
-  }
-  if (!fs.existsSync(PUBLIC_DIR)) {
-    fs.mkdirSync(PUBLIC_DIR, { recursive: true })
-  }
-  
-  // Write to dist directory (for deployment)
-  const distSitemapPath = path.join(DIST_DIR, 'sitemap.xml')
-  fs.writeFileSync(distSitemapPath, sitemap, 'utf8')
-  console.log('[OK] Generated sitemap.xml at:', distSitemapPath)
-  
-  // Also write to public directory (as backup and for Vite to copy)
-  const publicSitemapPath = path.join(PUBLIC_DIR, 'sitemap.xml')
-  fs.writeFileSync(publicSitemapPath, sitemap, 'utf8')
-  console.log('[OK] Copied sitemap.xml to public/ folder')
-  
-  console.log(`[OK] Sitemap URL: ${BASE_URL}/sitemap.xml`)
-  console.log(`[OK] Total URLs: ${routes.length} (auto-discovered from router)`)
-  console.log(`[OK] Last modified: ${today}`)
+  if (!fs.existsSync(DIST_DIR)) fs.mkdirSync(DIST_DIR, { recursive: true })
+  if (!fs.existsSync(PUBLIC_DIR)) fs.mkdirSync(PUBLIC_DIR, { recursive: true })
+
+  const distPath = path.join(DIST_DIR, 'sitemap.xml')
+  const publicPath = path.join(PUBLIC_DIR, 'sitemap.xml')
+  fs.writeFileSync(distPath, sitemap, 'utf8')
+  fs.writeFileSync(publicPath, sitemap, 'utf8')
+  console.log('[OK] Generated sitemap.xml at:', distPath)
+  console.log('[OK] Wrote sitemap.xml to public/')
+  console.log(`[OK] Total URLs: ${entries.length}`)
 }
 
 // Run if called directly
