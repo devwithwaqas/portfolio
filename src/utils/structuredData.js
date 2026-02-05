@@ -53,39 +53,6 @@ export function generatePersonSchema() {
     'Distributed Systems'
   ]
 
-  const reviews = [
-    {
-      '@type': 'Review',
-      reviewBody: 'Handy asset to any team. Strong technical and debugging skills, always eager to learn something new. He has unique elements for game design and his ideas were awesome most of the time.',
-      author: { '@type': 'Person', name: 'Muhammad Farhan Khan' },
-      publisher: { '@type': 'Organization', name: 'LinkedIn' }
-    },
-    {
-      '@type': 'Review',
-      reviewBody: 'He demonstrated excellent programming and analytical skills in national level competitions. His zeal to learn new technical skills and ability to systematically solve problems make him suitable for teamwork.',
-      author: { '@type': 'Person', name: 'Atif Ghulam Nabi' },
-      publisher: { '@type': 'Organization', name: 'LinkedIn' }
-    },
-    {
-      '@type': 'Review',
-      reviewBody: "Waqas was a real hard worker. I'm impressed how he accomplished all challenges during his study life. He keeps his promises and delivers.",
-      author: { '@type': 'Person', name: 'Waleed Mahmood' },
-      publisher: { '@type': 'Organization', name: 'LinkedIn' }
-    },
-    {
-      '@type': 'Review',
-      reviewBody: 'Waqas is a very good programmer and has sound knowledge. He is also a competition winner.',
-      author: { '@type': 'Person', name: 'Rafaqat Ali' },
-      publisher: { '@type': 'Organization', name: 'LinkedIn' }
-    },
-    {
-      '@type': 'Review',
-      reviewBody: 'Waqas Ahmad is a talented professional. He accepts challenges and does his best to accomplish them. He is cooperative, friendly, and delivers projects early.',
-      author: { '@type': 'Person', name: 'Muhammad Samiullah' },
-      publisher: { '@type': 'Organization', name: 'LinkedIn' }
-    }
-  ]
-
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -106,7 +73,6 @@ export function generatePersonSchema() {
     jobTitle: ['Software Architect', 'Senior Software Engineer', 'Technical Lead'],
     knowsAbout: coreSkills,
     specialty,
-    review: reviews,
     alumniOf: {
       '@type': 'EducationalOrganization',
       name: 'University of Engineering and Technology, Lahore'
