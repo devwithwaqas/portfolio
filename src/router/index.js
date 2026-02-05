@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 // Lazy load all views for better code splitting
 import { setPageSEO, applyHomeSEO, applyProjectSEO, applyServiceSEO, applyBlogIndexSEO, applyBlogSEO } from '../utils/seo.js'
 import { generateProjectPageStructuredData, generateServicePageStructuredData, generateBlogArticleStructuredData, generateBlogIndexStructuredData, generateBreadcrumbSchema, injectStructuredData } from '../utils/structuredData.js'
-import { getArticleBySlug } from '../config/blogArticles.js'
+// Blog data loaded only when navigating to /blog or /blog/:slug (dynamic import) to avoid chunk TDZ in prod
 import { trackPageView, trackServicePageView, trackProjectPageView } from '../utils/analytics.js'
 import { SITE_URL } from '../config/constants.js'
 import { handleError } from '../utils/errorHandler.js'
@@ -561,27 +561,31 @@ router.beforeEach((to, from, next) => {
     generateServicePageStructuredData(serviceData, [])
   } else if (to.path === '/blog') {
     applyBlogIndexSEO()
-    generateBlogIndexStructuredData()
+    import('../config/blogArticles.js').then(({ BLOG_ARTICLES }) => {
+      generateBlogIndexStructuredData([...BLOG_ARTICLES])
+    })
   } else if (to.path.startsWith('/blog/') && to.params.slug) {
-    const article = getArticleBySlug(to.params.slug)
-    if (article) {
-      applyBlogSEO(article)
-      generateBlogArticleStructuredData(article)
-    } else {
-      setPageSEO({
-        title: 'Article Not Found',
-        description: 'The requested article was not found. Return to the blog to explore more articles.',
-        keywords: ['blog', 'Waqas Ahmad'],
-        url: `${SITE_URL}${to.path}`,
-        noindex: true
-      })
-      const notFoundBreadcrumbs = generateBreadcrumbSchema([
-        { name: 'Home', url: SITE_URL },
-        { name: 'Blog', url: `${SITE_URL}blog` },
-        { name: 'Article Not Found', url: `${SITE_URL}${to.path}` }
-      ])
-      injectStructuredData([notFoundBreadcrumbs])
-    }
+    import('../config/blogArticles.js').then(({ getArticleBySlug }) => {
+      const article = getArticleBySlug(to.params.slug)
+      if (article) {
+        applyBlogSEO(article)
+        generateBlogArticleStructuredData(article)
+      } else {
+        setPageSEO({
+          title: 'Article Not Found',
+          description: 'The requested article was not found. Return to the blog to explore more articles.',
+          keywords: ['blog', 'Waqas Ahmad'],
+          url: `${SITE_URL}${to.path}`,
+          noindex: true
+        })
+        const notFoundBreadcrumbs = generateBreadcrumbSchema([
+          { name: 'Home', url: SITE_URL },
+          { name: 'Blog', url: `${SITE_URL}blog` },
+          { name: 'Article Not Found', url: `${SITE_URL}${to.path}` }
+        ])
+        injectStructuredData([notFoundBreadcrumbs])
+      }
+    })
   } else if (to.name === 'Privacy') {
     setPageSEO({
       title: 'Privacy & Analytics | Waqas Ahmad',

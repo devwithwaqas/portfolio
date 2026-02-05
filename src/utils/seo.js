@@ -8,7 +8,10 @@ import { SITE_URL, APP_CONFIG } from '../config/constants.js'
 
 const CANONICAL_ROOT = 'https://waqasahmad-portfolio.web.app'
 const MAX_KEYWORDS = 8
-const DEFAULT_OG_IMAGE = `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
+/** Default OG image — computed at call time to avoid TDZ when SITE_URL is minified and chunk order runs this before constants. */
+function getDefaultOgImage() {
+  return `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
+}
 
 /* --------------------------- Core Helpers --------------------------- */
 
@@ -67,7 +70,7 @@ export function setCanonical(url) {
 }
 
 export function setSocialMeta({ title, description, image, url, type }) {
-  const img = image || DEFAULT_OG_IMAGE
+  const img = image || getDefaultOgImage()
   const u = url || CANONICAL_ROOT + window.location.pathname
 
   ensureMeta('property', 'og:title', title)
@@ -102,7 +105,7 @@ function applySEO({ title, description, keywords, image, url, type, noindex = fa
   setSocialMeta({
     title: finalTitle,
     description,
-    image: image || DEFAULT_OG_IMAGE,
+    image: image || getDefaultOgImage(),
     url: canonicalUrl,
     type: type || 'website'
   })
@@ -127,7 +130,7 @@ export function applyHomeSEO() {
     description,
     keywords: keywords.slice(0, MAX_KEYWORDS),
     type: 'profile',
-    image: DEFAULT_OG_IMAGE,
+    image: getDefaultOgImage(),
     url: CANONICAL_ROOT + '/'
   })
 }
@@ -146,7 +149,7 @@ export function applyBlogIndexSEO() {
       'best practices'
     ].slice(0, MAX_KEYWORDS),
     type: 'website',
-    image: DEFAULT_OG_IMAGE,
+    image: getDefaultOgImage(),
     url: CANONICAL_ROOT + '/blog'
   })
 }
@@ -162,7 +165,7 @@ export function applyBlogSEO(article) {
     description,
     keywords: topics,
     type: 'article',
-    image: article.image || DEFAULT_OG_IMAGE,
+    image: article.image || getDefaultOgImage(),
     url: CANONICAL_ROOT + '/blog/' + (article.slug || '')
   })
 }
@@ -181,7 +184,7 @@ export function applyProjectSEO(project) {
     description,
     keywords,
     type: 'article',
-    image: project.image || DEFAULT_OG_IMAGE,
+    image: project.image || getDefaultOgImage(),
     url: project.url ? CANONICAL_ROOT + project.url : undefined
   })
 }
@@ -203,7 +206,7 @@ export function applyServiceSEO(service) {
     description,
     keywords,
     type: 'website',
-    image: service.image || DEFAULT_OG_IMAGE,
+    image: service.image || getDefaultOgImage(),
     url: service.url ? CANONICAL_ROOT + service.url : undefined
   })
 }
@@ -225,7 +228,7 @@ export function setPageSEO({ title, description, keywords = [], image, url, type
   setSocialMeta({
     title: finalTitle,
     description,
-    image: image || DEFAULT_OG_IMAGE,
+    image: image || getDefaultOgImage(),
     url: canonicalUrl,
     type
   })
@@ -235,7 +238,7 @@ export function setPageSEO({ title, description, keywords = [], image, url, type
 /* --------------------------- Legacy compatibility (getters for structured data / callers that expect object) --------------------------- */
 
 export function getHomePageSEO() {
-  return { title: APP_CONFIG.fullName, description: '', keywords: [], type: 'profile', image: DEFAULT_OG_IMAGE }
+  return { title: APP_CONFIG.fullName, description: '', keywords: [], type: 'profile', image: getDefaultOgImage() }
 }
 
 export function getProjectPageSEO(projectData) {
@@ -244,7 +247,7 @@ export function getProjectPageSEO(projectData) {
     description: projectData.description || projectData.title,
     keywords: [],
     type: 'article',
-    image: projectData.image || DEFAULT_OG_IMAGE
+    image: projectData.image || getDefaultOgImage()
   }
 }
 
@@ -254,12 +257,12 @@ export function getServicePageSEO(serviceData) {
     description: serviceData.description || '',
     keywords: [],
     type: 'website',
-    image: serviceData.image || DEFAULT_OG_IMAGE
+    image: serviceData.image || getDefaultOgImage()
   }
 }
 
 export function getBlogIndexSEO() {
-  return { title: 'Blog', description: '', keywords: [], type: 'website', image: DEFAULT_OG_IMAGE }
+  return { title: 'Blog', description: '', keywords: [], type: 'website', image: getDefaultOgImage() }
 }
 
 export function getBlogArticleSEO(article) {
@@ -268,7 +271,7 @@ export function getBlogArticleSEO(article) {
     description: article.excerpt || article.title,
     keywords: (article.topics || [article.topic]).filter(Boolean).slice(0, MAX_KEYWORDS),
     type: 'article',
-    image: article.image || DEFAULT_OG_IMAGE
+    image: article.image || getDefaultOgImage()
   }
 }
 

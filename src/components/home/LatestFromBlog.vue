@@ -43,7 +43,6 @@
 <script>
 import ReusableCard from '@/components/common/ReusableCard.vue'
 import BlogCard from '@/components/blog/BlogCard.vue'
-import { BLOG_ARTICLES } from '@/config/blogArticles.js'
 
 export default {
   name: 'LatestFromBlog',
@@ -51,12 +50,18 @@ export default {
     ReusableCard,
     BlogCard
   },
-  computed: {
-    latestArticles() {
-      return [...BLOG_ARTICLES]
+  data() {
+    return {
+      latestArticles: []
+    }
+  },
+  mounted() {
+    // Load blog list async so the blog chunk is not in the initial bundle (avoids prod chunk TDZ)
+    import('@/config/blogArticles.js').then(({ BLOG_ARTICLES }) => {
+      this.latestArticles = [...BLOG_ARTICLES]
         .sort((a, b) => new Date(b.date) - new Date(a.date))
         .slice(0, 3)
-    }
+    })
   }
 }
 </script>

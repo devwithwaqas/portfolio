@@ -4,7 +4,6 @@
  */
 
 import { SITE_URL, APP_CONFIG } from '../config/constants.js'
-import { BLOG_ARTICLES } from '../config/blogArticles.js'
 
 /* -----------------------------------------------------------
    Base injector
@@ -390,7 +389,10 @@ export function generateBlogArticleStructuredData(article, options = {}) {
    BLOG INDEX
 ----------------------------------------------------------- */
 
-export function generateBlogIndexStructuredData() {
+/**
+ * @param {Array<{ slug: string, title: string, date: string }>} [articles] - Blog articles list (passed from router to avoid pulling blog chunk into main bundle)
+ */
+export function generateBlogIndexStructuredData(articles = []) {
   const fullName = APP_CONFIG.fullName
   const url = `${SITE_URL}blog`
 
@@ -408,7 +410,7 @@ export function generateBlogIndexStructuredData() {
     { name: 'Blog', url }
   ])
 
-  const items = [...BLOG_ARTICLES]
+  const items = [...articles]
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .map((a, i) => ({
       '@type': 'ListItem',

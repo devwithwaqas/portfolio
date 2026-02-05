@@ -97,6 +97,23 @@ manualChunks: (id) => {
 
 ---
 
+## Preload vs Crawlers (Chunked JS)
+
+### Clarification
+
+- **Preload** (`<link rel="preload">`) is a **performance hint** for the browser (e.g. to improve LCP). It does **not** put content “into” the HTML for crawlers; it only tells the browser to fetch a URL early.
+- **Crawlers** (Googlebot, etc.) get their **critical SEO** from the **initial HTML**:
+  - Meta tags (title, description, `og:*`, `twitter:*`) and **image URLs** (`og:image`, `twitter:image`) are in `index.html`.
+  - JSON-LD (Person, WebSite, ProfessionalService, BreadcrumbList, and `Person.image`) is in `index.html`.
+- Because JS loads in **chunks**, the **preload** can sometimes show a “preloaded but not used within a few seconds” warning (the `<img>` is rendered only after the app mounts). That is a **rendering-timing** issue, not a **crawling** issue.
+
+### Conclusion
+
+- **Removing or not using preload does not affect SEO.** Crawlers do not rely on preload to discover or index content.
+- **We do not need to face issues** from chunked JS for **crawling/indexing**: the important metadata and structured data are already in the static HTML. Preload is optional and only for user-facing performance (LCP).
+
+---
+
 ## Runtime Verification
 
 ### When SEO Functions Are Called

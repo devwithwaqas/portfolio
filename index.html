@@ -169,23 +169,8 @@
       };
       
       if (isHome) {
-        // Home page hero images
-        var mobile = document.createElement('link');
-        mobile.rel = 'preload';
-        mobile.as = 'image';
-        mobile.type = 'image/jpeg';
-        mobile.href = base + 'assets/img/waqas-microsoft-profile-mobile.jpg';
-        mobile.setAttribute('fetchpriority', 'high');
-        mobile.media = '(max-width: 768px)';
-        document.head.appendChild(mobile);
-        var desktop = document.createElement('link');
-        desktop.rel = 'preload';
-        desktop.as = 'image';
-        desktop.type = 'image/jpeg';
-        desktop.href = base + 'assets/img/waqas-microsoft-profile-optimized.jpg';
-        desktop.setAttribute('fetchpriority', 'high');
-        desktop.media = '(min-width: 769px)';
-        document.head.appendChild(desktop);
+        // Home hero: no preload — Vue mounts after load so preload would often go unused and trigger console warning.
+        // Hero image loads with priority via OptimizedImage once Hero component mounts.
       } else if (serviceHeroMap[p]) {
         // Service page hero images - preload responsive variants with imagesrcset
         // This ensures browser selects the correct image from srcset for LCP

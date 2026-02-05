@@ -112,23 +112,18 @@ Every article in a cluster should link to 2–3 others in the same cluster.
 
 ## STEP 7 — Footer links
 
-Include these in the footer (existing styling):
+Footer has two columns that must not duplicate each other:
 
-| Link label | Target | Status |
-|------------|--------|--------|
-| Azure Cloud Architecture | /services/azure-cloud-architecture | ✅ |
-| .NET Backend & APIs | /services/full-stack-development | ✅ |
-| Software Architecture | /services/microservices-architecture | ✅ |
-| Microservices | /services/microservices-architecture | ✅ |
-| DevOps / CI-CD | /services/azure-cloud-architecture | ✅ |
-| AI in Engineering | /blog | ✅ |
-| Full-Stack Development | /services/full-stack-development | ✅ |
-| Mobile Development | /services/mobile-development | ✅ |
-| Technical Leadership | /services/technical-leadership | ✅ |
-| Case Studies | /#portfolio | ✅ |
-| Blog | /blog | ✅ |
+- **Explore** — For “discover the site”: **Blog** (/blog) and **Case Studies** (navigate to home + scroll to `#portfolio`, works from any page). No service links here; services live in the Services column.
+- **Services** — All 7 service page links (Full Stack, Azure Cloud, Microservices, Database, Mobile, Technical Leadership, Agile PM).
 
-**Done:** Footer has "Explore" column with all STEP 7 links (footer-service-link styling).
+| Link label   | Target / behavior | Column  | Status |
+|-------------|--------------------|---------|--------|
+| Blog        | /blog              | Explore | ✅     |
+| Case Studies| Home → scroll to #portfolio | Explore | ✅ |
+| (all 7 services) | /services/…   | Services | ✅     |
+
+**Done:** Footer “Explore” = Blog + Case Studies only. “Services” = the 7 service pages. Topic-cluster coverage for services is via the Services column and in-page links (e.g. TopicClusterLinks, ServiceRelatedReading).
 
 ---
 
