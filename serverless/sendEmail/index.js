@@ -2,7 +2,10 @@
  * Google Cloud Function: Send Email via Gmail SMTP
  *
  * Receives contact form submissions and sends via Gmail SMTP.
- * Security: strict origin, rate limit (5/min per IP), field length limits, optional API key.
+ * Security: strict origin (CORS), rate limit (5/min per IP), field length limits, optional API key.
+ *
+ * CORS: ALLOWED_ORIGINS includes waqasahmad-portfolio and ragnorx-waqas (and waqas.ragnorx.com).
+ * Deploy this function to each Firebase/Cloud project that hosts the site (e.g. waqasahmad-portfolio, ragnorx-waqas).
  *
  * Env required: GMAIL_USER, GMAIL_APP_PASSWORD, TO_EMAIL
  * Env optional: API_KEY (X-API-Key header)
@@ -14,6 +17,9 @@ const functions = require('@google-cloud/functions-framework');
 const ALLOWED_ORIGINS = [
   'https://waqasahmad-portfolio.web.app',
   'https://waqasahmad-portfolio.firebaseapp.com',
+  'https://ragnorx-waqas.web.app',
+  'https://ragnorx-waqas.firebaseapp.com',
+  'https://waqas.ragnorx.com',
   'http://localhost:3001',
   'http://localhost:5173',
   'http://localhost:4173',

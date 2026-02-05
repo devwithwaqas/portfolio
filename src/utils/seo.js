@@ -6,11 +6,14 @@
 
 import { SITE_URL, APP_CONFIG } from '../config/constants.js'
 
-const CANONICAL_ROOT = 'https://waqasahmad-portfolio.web.app'
 const MAX_KEYWORDS = 8
+/** Root URL for canonicals/OG (no trailing slash). Uses SITE_URL so runtime origin works for multi-deploy. */
+function getSeoRoot() {
+  return (typeof SITE_URL === 'string' ? SITE_URL : '').replace(/\/$/, '') || 'https://waqasahmad-portfolio.web.app'
+}
 /** Default OG image — computed at call time to avoid TDZ when SITE_URL is minified and chunk order runs this before constants. */
 function getDefaultOgImage() {
-  return `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
+  return `${getSeoRoot()}/assets/img/waqas-profile-hoodie.jpg`
 }
 
 /* --------------------------- Core Helpers --------------------------- */
@@ -64,7 +67,8 @@ function normalizeCanonicalUrl(url) {
 
 export function setCanonical(url) {
   const path = url || window.location.pathname
-  let finalUrl = path.startsWith('http') ? path : CANONICAL_ROOT + (path.startsWith('/') ? path : '/' + path)
+  const root = getSeoRoot()
+  let finalUrl = path.startsWith('http') ? path : root + (path.startsWith('/') ? path : '/' + path)
   finalUrl = normalizeCanonicalUrl(finalUrl)
 
   let link = document.querySelector('link[rel="canonical"]')
@@ -78,7 +82,7 @@ export function setCanonical(url) {
 
 export function setSocialMeta({ title, description, image, url, type }) {
   const img = image || getDefaultOgImage()
-  const u = normalizeCanonicalUrl(url || CANONICAL_ROOT + window.location.pathname)
+  const u = normalizeCanonicalUrl(url || getSeoRoot() + window.location.pathname)
 
   ensureMeta('property', 'og:title', title)
   ensureMeta('property', 'og:description', description)
@@ -138,7 +142,7 @@ export function applyHomeSEO() {
     keywords: keywords.slice(0, MAX_KEYWORDS),
     type: 'profile',
     image: getDefaultOgImage(),
-    url: CANONICAL_ROOT + '/'
+    url: getSeoRoot() + '/'
   })
 }
 
@@ -173,7 +177,7 @@ export function applyBlogSEO(article) {
     keywords: topics,
     type: 'article',
     image: article.image || getDefaultOgImage(),
-    url: CANONICAL_ROOT + '/blog/' + (article.slug || '')
+    url: getSeoRoot() + '/blog/' + (article.slug || '')
   })
 }
 
@@ -214,7 +218,7 @@ export function applyServiceSEO(service) {
     keywords,
     type: 'website',
     image: service.image || getDefaultOgImage(),
-    url: service.url ? CANONICAL_ROOT + service.url : undefined
+    url: service.url ? getSeoRoot() + service.url : undefined
   })
 }
 
@@ -224,8 +228,9 @@ export function applyServiceSEO(service) {
  */
 export function setPageSEO({ title, description, keywords = [], image, url, type = 'website', noindex = false }) {
   const name = APP_CONFIG.fullName
+  const root = (typeof SITE_URL === 'string' ? SITE_URL : '').replace(/\/$/, '') || 'https://waqasahmad-portfolio.web.app'
   const finalTitle = title && title.includes(name) ? title : `${title} | ${name}`
-  const canonicalUrl = url || CANONICAL_ROOT + window.location.pathname
+  const canonicalUrl = url || root + window.location.pathname
   const kw = Array.isArray(keywords) ? withoutAuthorName(keywords, name).slice(0, MAX_KEYWORDS) : []
 
   setTitle(finalTitle)

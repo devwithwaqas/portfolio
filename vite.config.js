@@ -119,11 +119,10 @@ export default defineConfig(({ mode }) => {
           // Match CSS links that don't already have media attribute
           html = html.replace(
             /<link([^>]*rel=["']stylesheet["'][^>]*)>/gi,
-            (match, attrs) => {
+            (match, attrs, offset) => {
               // Skip if already has media attribute, is in noscript, or is a vendor/external CSS
               // ALSO skip split CSS files (handled by split-css-plugin)
-              if (attrs.includes('media=') || 
-                  attrs.includes('noscript') || 
+              if (attrs.includes('media=') ||
                   attrs.includes('vendor/') ||
                   attrs.includes('shared.css') ||
                   attrs.includes('mobile.css') ||
@@ -133,6 +132,11 @@ export default defineConfig(({ mode }) => {
                   attrs.includes('cdn.jsdelivr.net')) {
                 return match
               }
+              // Skip links inside <noscript> (fallback copy) — avoid double-wrapping
+              const before = html.substring(0, offset)
+              const lastOpen = before.lastIndexOf('<noscript')
+              const lastClose = before.lastIndexOf('</noscript>')
+              if (lastOpen > lastClose) return match
               // Defer Vite-generated CSS (main bundle)
               return `<link${attrs} media="print" onload="this.media='all'"><noscript>${match}</noscript>`
             }

@@ -1,0 +1,18 @@
+{
+  "hosting": {
+    "public": "dist-redirect",
+    "ignore": ["firebase.json", "firebase.*.json", "**/node_modules/**", ".git/**"],
+    "redirects": [
+      {
+        "source": "/",
+        "destination": "https://waqas.ragnorx.com/",
+        "type": 301
+      },
+      {
+        "source": "/:path*",
+        "destination": "https://waqas.ragnorx.com/:path",
+        "type": 301
+      }
+    ]
+  }
+}

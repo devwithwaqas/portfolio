@@ -7,6 +7,9 @@
 const ALLOWED_ORIGINS = [
   'https://waqasahmad-portfolio.web.app',
   'https://waqasahmad-portfolio.firebaseapp.com',
+  'https://ragnorx-waqas.web.app',
+  'https://ragnorx-waqas.firebaseapp.com',
+  'https://waqas.ragnorx.com',
 ];
 
 /**

@@ -20,10 +20,14 @@ const totalExperience = calculateTotalExperience()
 const techLeadExperience = calculateTechLeadExperience()
 
 // Site URL Configuration - Firebase Hosting (Primary)
-// GitHub Pages redirects to Firebase - all builds use Firebase URL
+// In browser: use actual origin so one build works for waqas, ragnorx, and CNAME (e.g. waqas.ragnorx.com).
+// At build/SSR: use env or default.
 const BASE_URL = import.meta.env.BASE_URL || '/'
 const FIREBASE_SITE_URL = import.meta.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app/'
-export const SITE_URL = FIREBASE_SITE_URL
+export const SITE_URL =
+  typeof window !== 'undefined' && window.location?.origin
+    ? window.location.origin.replace(/\/$/, '') + '/'
+    : (FIREBASE_SITE_URL.replace(/\/$/, '') + '/')
 
 // Basic constants for the portfolio application
 // All personal information comes from environment variables (.env file)

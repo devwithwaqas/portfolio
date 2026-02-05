@@ -34,6 +34,9 @@ if (process.env.FIREBASE_SITE_URL) {
 }
 BASE_URL = BASE_URL.replace(/\/$/, '')
 
+/** When set, only write sitemap to dist/ (used at deploy time per target). Do not overwrite public/. */
+const DIST_ONLY = process.env.DEPLOY_SITEMAP_DIST_ONLY === '1' || process.env.DEPLOY_SITEMAP_DIST_ONLY === 'true'
+
 /** Parse existing public/sitemap.xml for lastmod by URL. Returns Map<normalizedUrl, YYYY-MM-DD>. Keeps existing dates unchanged. */
 function parseExistingLastmod() {
   const p = path.join(PUBLIC_DIR, 'sitemap.xml')
@@ -163,15 +166,17 @@ function generateSitemap() {
   sitemap += '</urlset>\n'
 
   if (!fs.existsSync(DIST_DIR)) fs.mkdirSync(DIST_DIR, { recursive: true })
-  if (!fs.existsSync(PUBLIC_DIR)) fs.mkdirSync(PUBLIC_DIR, { recursive: true })
 
   const distPath = path.join(DIST_DIR, 'sitemap.xml')
-  const publicPath = path.join(PUBLIC_DIR, 'sitemap.xml')
   fs.writeFileSync(distPath, sitemap, 'utf8')
-  fs.writeFileSync(publicPath, sitemap, 'utf8')
-  console.log('[OK] Generated sitemap.xml at:', distPath)
-  console.log('[OK] Wrote sitemap.xml to public/')
-  console.log(`[OK] Total URLs: ${entries.length}`)
+  console.log('[OK] Generated sitemap.xml at:', distPath, DIST_ONLY ? '(dist only)' : '')
+  if (!DIST_ONLY) {
+    if (!fs.existsSync(PUBLIC_DIR)) fs.mkdirSync(PUBLIC_DIR, { recursive: true })
+    const publicPath = path.join(PUBLIC_DIR, 'sitemap.xml')
+    fs.writeFileSync(publicPath, sitemap, 'utf8')
+    console.log('[OK] Wrote sitemap.xml to public/')
+  }
+  console.log(`[OK] Base URL: ${BASE_URL} | Total URLs: ${entries.length}`)
 }
 
 // Run if called directly

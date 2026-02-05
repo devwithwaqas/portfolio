@@ -1,12 +1,11 @@
 // Service Worker Version - AUTO-GENERATED ON BUILD (from git commit hash)
 // This ensures old service workers are automatically unregistered
 // Version is automatically updated by scripts/generate-sw-version.js during build
-const SERVICE_WORKER_VERSION = '8aa8305'
+const SERVICE_WORKER_VERSION = '7ad4d40'
 const CACHE_VERSION = `portfolio-static-${SERVICE_WORKER_VERSION}`
-const CORE_ASSETS = [
-  '/',
-  '/index.html'
-]
+// Do NOT cache index.html or / — otherwise after deploy users get stale HTML
+// and request old chunk URLs (CSS/JS) that no longer exist → 404 → index.html → MIME type errors.
+const CORE_ASSETS = []
 
 // Store version in service worker scope for client-side checks
 self.serviceWorkerVersion = SERVICE_WORKER_VERSION
@@ -163,6 +162,11 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return
 
   const isDocument = request.mode === 'navigate' || request.destination === 'document'
+  const pathname = url.pathname
+  // Manifest and PWA icons: network-first so we never serve cached 404/HTML (avoids "icon isn't a valid image").
+  const isManifestOrIcon = pathname === '/site.webmanifest' ||
+    /^\/assets\/img\/(favicon|apple-touch-icon)/.test(pathname) ||
+    /^\/favicon(-?\d*x\d*)?\.(png|ico)$/.test(pathname)
 
   event.respondWith(
     (async () => {
@@ -170,12 +174,21 @@ self.addEventListener('fetch', (event) => {
         const cache = await caches.open(CACHE_VERSION)
 
         if (isDocument) {
+          // Network-first for HTML: never cache so deploy always serves fresh index.html
+          // and correct chunk URLs (avoids "MIME type text/html" for CSS when old chunks 404).
           try {
             const response = await fetch(request)
-            if (response && response.ok && response.status === 200) {
-              const clone = response.clone()
-              cache.put(request, clone).catch(function () {})
-            }
+            return response
+          } catch (fetchErr) {
+            const fallback = await cache.match(request)
+            if (fallback) return fallback
+            return new Response('Network error', { status: 408, statusText: 'Request Timeout' })
+          }
+        }
+
+        if (isManifestOrIcon) {
+          try {
+            const response = await fetch(request)
             return response
           } catch (fetchErr) {
             const fallback = await cache.match(request)
