@@ -1,15 +1,9 @@
+# Deploy only 301 redirect to GitHub Pages. No full build.
+# Trigger: npm run deploy:github-pages (or Actions tab → Run workflow). Branch does not matter.
 name: Deploy Redirect to GitHub Pages
 
 on:
-  push:
-    branches: [ main ]
-  workflow_dispatch: # Allow manual trigger from any branch
-    inputs:
-      branch:
-        description: 'Branch to deploy from'
-        required: false
-        default: 'main'
-        type: string
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -31,47 +25,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.branch || github.ref }}
-      
-      - name: Create redirect HTML
-        run: |
-          mkdir -p dist/portfolio
-          # Create redirect HTML for /portfolio/ path
-          cat > dist/portfolio/index.html << 'EOF'
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8">
-            <meta name="robots" content="noindex, nofollow">
-            <meta http-equiv="refresh" content="0; url=https://waqasahmad-portfolio.web.app/">
-            <link rel="canonical" href="https://waqasahmad-portfolio.web.app/">
-            <title>Redirecting to Waqas Ahmad Portfolio...</title>
-            <script>
-              // Redirect to Firebase, preserving path and query params
-              const path = window.location.pathname.replace('/portfolio', '') || '/';
-              const search = window.location.search;
-              const hash = window.location.hash;
-              window.location.replace('https://waqasahmad-portfolio.web.app' + path + search + hash);
-            </script>
-          </head>
-          <body>
-            <p>This site has moved to <a href="https://waqasahmad-portfolio.web.app/">https://waqasahmad-portfolio.web.app/</a></p>
-            <p>Redirecting...</p>
-          </body>
-          </html>
-          EOF
-          # Also create root redirect for custom domain scenarios
-          mkdir -p dist
-          cp dist/portfolio/index.html dist/index.html
-          
-          # Create robots.txt to prevent indexing of GitHub Pages (it's just a redirect)
-          cat > dist/robots.txt << 'EOF'
-          User-agent: *
-          Disallow: /
-          EOF
-          
-          # Create robots.txt in portfolio folder too
-          cp dist/robots.txt dist/portfolio/robots.txt
+          ref: main
+
+      - name: Create redirect for GitHub Pages
+        run: node scripts/ensure-dist-github-pages-redirect.js
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
