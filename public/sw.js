@@ -1,7 +1,7 @@
 // Service Worker Version - AUTO-GENERATED ON BUILD (from git commit hash)
 // This ensures old service workers are automatically unregistered
 // Version is automatically updated by scripts/generate-sw-version.js during build
-const SERVICE_WORKER_VERSION = '7ad4d40'
+const SERVICE_WORKER_VERSION = '1234'
 const CACHE_VERSION = `portfolio-static-${SERVICE_WORKER_VERSION}`
 // Do NOT cache index.html or / — otherwise after deploy users get stale HTML
 // and request old chunk URLs (CSS/JS) that no longer exist → 404 → index.html → MIME type errors.

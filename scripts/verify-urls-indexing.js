@@ -1,59 +1,30 @@
 /**
- * Verify all 18 IndexNow/sitemap URLs are allowed for indexing.
- * Checks: robots.txt rules, fetch 200.
- * Run: node scripts/verify-urls-indexing.js
+ * Verify all IndexNow/sitemap URLs are allowed for indexing (robots + fetch 200).
+ * Reads URL list from dist/sitemap.xml so it stays in sync with generate-sitemap and submit-bing.
+ * Run after build: node scripts/verify-urls-indexing.js
  */
 
 const path = require('path')
 const fs = require('fs')
 
-const BASE = 'https://waqasahmad-portfolio.web.app'
-const ROUTER_FILE = path.resolve(__dirname, '../src/router/index.js')
-
-function getPaths() {
-  const content = fs.readFileSync(ROUTER_FILE, 'utf8')
-  const routePattern = /\{\s*path:\s*['"`]([^'"`]+)['"`]\s*,\s*name:\s*['"`]([^'"`]+)['"`]\s*(?:,\s*component:\s*[^}]+)?\s*\}/g
-  const redirectPattern = /\{\s*path:\s*['"`]([^'"`]+)['"`]\s*,\s*redirect:/g
-  const redirects = new Set()
-  let m
-  while ((m = redirectPattern.exec(content)) !== null) redirects.add(m[1])
-  const paths = []
-  while ((m = routePattern.exec(content)) !== null) {
-    const p = m[1]
-    const name = m[2]
-    if (p.includes('pathMatch') || redirects.has(p) || name === 'NotFound') continue
-    paths.push(p.startsWith('/') ? p : `/${p}`)
-  }
-  return paths
-}
-
 function robotsAllowed(pathname) {
-  if (pathname === '/' || pathname.startsWith('/projects/') || pathname.startsWith('/services/')) return true
   if (pathname.startsWith('/admin') || pathname.startsWith('/api')) return false
-  return false
+  return true
 }
 
 async function main() {
-  const paths = getPaths()
-  const urls = paths.map((p) => `${BASE}${p}`)
-
-  console.log('Verify URLs for indexing (robots + sitemap + fetch)')
-  console.log('====================================================')
-  console.log('')
-
   const sitemapPath = path.resolve(__dirname, '../dist/sitemap.xml')
-  if (fs.existsSync(sitemapPath)) {
-    const xml = fs.readFileSync(sitemapPath, 'utf8')
-    const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].replace(/&amp;/g, '&'))
-    const missing = urls.filter((u) => !locs.includes(u))
-    if (missing.length) {
-      console.log('Sitemap missing URLs:', missing.join(', '))
-      process.exit(1)
-    }
-    console.log('Sitemap: all 18 URLs present.')
-  } else {
-    console.log('Sitemap: dist/sitemap.xml not found (run build first). Skip.')
+  if (!fs.existsSync(sitemapPath)) {
+    console.log('dist/sitemap.xml not found. Run build first (e.g. npm run build:firebase).')
+    process.exit(1)
   }
+
+  const xml = fs.readFileSync(sitemapPath, 'utf8')
+  const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].replace(/&amp;/g, '&'))
+
+  console.log('Verify URLs for indexing (robots + fetch)')
+  console.log('====================================================')
+  console.log(`Sitemap: ${urls.length} URLs`)
   console.log('')
 
   let ok = 0
@@ -79,7 +50,7 @@ async function main() {
   console.log('')
   console.log(`Total: ${urls.length}  OK: ${ok}  FAIL: ${fail}`)
   if (fail) process.exit(1)
-  console.log('All 18 URLs allowed by robots and return 200.')
+  console.log('All sitemap URLs allowed by robots and return 200.')
 }
 
 main().catch((e) => {

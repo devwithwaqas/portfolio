@@ -27,9 +27,9 @@ export default defineConfig(({ mode }) => {
     process.env.VITE_SMTP_ENDPOINT = 'https://us-central1-robust-builder-484406-b3.cloudfunctions.net/sendEmail'
   }
   
-  // Set Firebase site URL for Firebase builds if not provided via env
+  // Set Firebase site URL for Firebase builds if not provided via env (main site = ragnorx)
   if (isFirebase && !process.env.VITE_FIREBASE_SITE_URL) {
-    process.env.VITE_FIREBASE_SITE_URL = 'https://waqasahmad-portfolio.web.app'
+    process.env.VITE_FIREBASE_SITE_URL = 'https://waqas.ragnorx.com'
   }
   
   // Set GA4 Measurement ID for Firebase builds
@@ -48,7 +48,7 @@ export default defineConfig(({ mode }) => {
 
   // Pass Firebase site URL to sitemap generation script
   if (isFirebase) {
-    process.env.FIREBASE_SITE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
+    process.env.FIREBASE_SITE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqas.ragnorx.com'
   }
   
   // Production mode: strip console and hide errors

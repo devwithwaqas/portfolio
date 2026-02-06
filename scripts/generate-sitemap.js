@@ -17,7 +17,8 @@ const DIST_DIR = path.resolve(__dirname, '../dist')
 const PUBLIC_DIR = path.resolve(__dirname, '../public')
 const ROUTER_FILE = path.resolve(__dirname, '../src/router/index.js')
 
-let BASE_URL = 'https://waqasahmad-portfolio.web.app'
+// Canonical site URL (sitemap and IndexNow should use the same base)
+let BASE_URL = 'https://waqas.ragnorx.com'
 if (process.env.FIREBASE_SITE_URL) {
   BASE_URL = process.env.FIREBASE_SITE_URL.replace(/\/$/, '')
 } else {

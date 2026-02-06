@@ -1,15 +1,19 @@
 /**
  * seo.js — Clean, strict, future-proof SEO engine
  * Dynamic metadata for SPA environments (Vue/Vite)
- * Spam-free, geo-free, hiring-free, AI-compatible. Max 8 meta keywords (topic clusters only).
+ * Spam-free, geo-free, hiring-free, AI-compatible.
+ * Best practice: 5–8 meta keywords per page (topic clusters only); all apply* and setPageSEO respect this.
  */
 
 import { SITE_URL, APP_CONFIG } from '../config/constants.js'
 
+/** Max meta keywords per page (Google-friendly; no stuffing). Target 5–8 per page type. */
 const MAX_KEYWORDS = 8
+/** Target length for <title> to avoid truncation in SERPs (Bing/Google ~50–60). */
+const TITLE_MAX_LENGTH = 60
 /** Root URL for canonicals/OG (no trailing slash). Uses SITE_URL so runtime origin works for multi-deploy. */
 function getSeoRoot() {
-  return (typeof SITE_URL === 'string' ? SITE_URL : '').replace(/\/$/, '') || 'https://waqasahmad-portfolio.web.app'
+  return (typeof SITE_URL === 'string' ? SITE_URL : '').replace(/\/$/, '') || 'https://waqas.ragnorx.com'
 }
 /** Default OG image — computed at call time to avoid TDZ when SITE_URL is minified and chunk order runs this before constants. */
 function getDefaultOgImage() {
@@ -101,13 +105,36 @@ function setRobots(indexFollow = true) {
   ensureMeta('name', 'robots', indexFollow ? 'index, follow' : 'noindex, nofollow')
 }
 
+/** Truncate at word boundary so SERP title stays under maxLen; no ellipsis (clean for SEO). */
+function truncateAtWordBoundary(str, maxLen) {
+  if (typeof str !== 'string' || str.length <= maxLen) return str
+  const cut = str.slice(0, maxLen)
+  const lastSpace = cut.lastIndexOf(' ')
+  return lastSpace > 0 ? cut.slice(0, lastSpace) : cut
+}
+
+/**
+ * Build page title for SERPs: "Title Part | Name", clamped to TITLE_MAX_LENGTH.
+ * Shared for blog, project, and service pages so Google/Bing get consistent, non-truncated titles.
+ */
+function buildSEOTitle(titlePart, name) {
+  const part = typeof titlePart === 'string' && titlePart.trim() ? titlePart.trim() : 'Page'
+  const hasName = part.includes(name)
+  const suffix = hasName ? '' : ` | ${name}`
+  const candidate = hasName ? part : `${part} | ${name}`
+  if (candidate.length <= TITLE_MAX_LENGTH) return candidate
+  const maxPartLen = TITLE_MAX_LENGTH - suffix.length
+  const truncated = truncateAtWordBoundary(part, maxPartLen)
+  return truncated + suffix
+}
+
 /* --------------------------- Page-Level SEO --------------------------- */
 
 function applySEO({ title, description, keywords, image, url, type, noindex = false }) {
   const name = APP_CONFIG.fullName
   // Avoid repeating name in title when it's already present (e.g. slug or custom title)
   const finalTitle = title && title.includes(name) ? title : `${title} | ${name}`
-  const canonicalUrl = url || CANONICAL_ROOT + window.location.pathname
+  const canonicalUrl = url || getSeoRoot() + window.location.pathname
 
   setTitle(finalTitle)
   setDescription(description)
@@ -127,6 +154,9 @@ function applySEO({ title, description, keywords, image, url, type, noindex = fa
 
 export function applyHomeSEO() {
   const name = APP_CONFIG.fullName
+  const tagline = APP_CONFIG.titleTagline || 'Software Consultant, Architect & Tech Lead'
+  // Pipe separator: SEO-standard for segment separation; ~50–60 chars total avoids truncation (Bing/Google).
+  const title = `${name} | ${tagline}`
   const description = `${name} — software engineering portfolio showcasing experience, projects, and technical capabilities.`
   const keywords = [
     'software engineering',
@@ -137,7 +167,7 @@ export function applyHomeSEO() {
     'technical lead'
   ]
   applySEO({
-    title: name,
+    title,
     description,
     keywords: keywords.slice(0, MAX_KEYWORDS),
     type: 'profile',
@@ -148,8 +178,10 @@ export function applyHomeSEO() {
 
 export function applyBlogIndexSEO() {
   const name = APP_CONFIG.fullName
+  // Descriptive, ~50–60 chars: topic first (authority), then brand. Pipe for segment separation.
+  const title = `Software Architecture & Engineering Blog | ${name}`
   applySEO({
-    title: 'Blog',
+    title,
     description: `Technical articles and engineering insights authored by ${name}.`,
     keywords: [
       'engineering blog',
@@ -161,18 +193,19 @@ export function applyBlogIndexSEO() {
     ].slice(0, MAX_KEYWORDS),
     type: 'website',
     image: getDefaultOgImage(),
-    url: CANONICAL_ROOT + '/blog'
+    url: getSeoRoot() + '/blog'
   })
 }
 
 export function applyBlogSEO(article) {
   const name = APP_CONFIG.fullName
+  const title = buildSEOTitle(article.title || 'Article', name)
   const description = article.excerpt || `${article.title} — an engineering insight authored by ${name}.`
   const topics = Array.isArray(article.topics) && article.topics.length
     ? article.topics.slice(0, MAX_KEYWORDS)
     : [article.title, article.topic].filter(Boolean).slice(0, MAX_KEYWORDS)
   applySEO({
-    title: article.title,
+    title,
     description,
     keywords: topics,
     type: 'article',
@@ -183,6 +216,7 @@ export function applyBlogSEO(article) {
 
 export function applyProjectSEO(project) {
   const name = APP_CONFIG.fullName
+  const title = buildSEOTitle(project.title, name)
   const summary = project.summary || project.description
   const description = summary || `${project.title} — a technical case study demonstrating engineering execution by ${name}.`
   const techKeywords = (project.technologies || [])
@@ -191,17 +225,18 @@ export function applyProjectSEO(project) {
     .slice(0, 5)
   const keywords = [project.title, 'case study', 'project', ...techKeywords].filter(Boolean).slice(0, MAX_KEYWORDS)
   applySEO({
-    title: project.title,
+    title,
     description,
     keywords,
     type: 'article',
     image: project.image || getDefaultOgImage(),
-    url: project.url ? CANONICAL_ROOT + project.url : undefined
+    url: project.url ? getSeoRoot() + project.url : undefined
   })
 }
 
 export function applyServiceSEO(service) {
   const name = APP_CONFIG.fullName
+  const title = buildSEOTitle(service.title, name)
   const description = service.description || `${service.title} — overview of capabilities, technologies, and experience.`
   const topics = (service.topics || service.keywords || []).slice(0, 3)
   const keywords = [
@@ -213,7 +248,7 @@ export function applyServiceSEO(service) {
     ...topics
   ].filter(Boolean).slice(0, MAX_KEYWORDS)
   applySEO({
-    title: service.title,
+    title,
     description,
     keywords,
     type: 'website',
@@ -228,7 +263,7 @@ export function applyServiceSEO(service) {
  */
 export function setPageSEO({ title, description, keywords = [], image, url, type = 'website', noindex = false }) {
   const name = APP_CONFIG.fullName
-  const root = (typeof SITE_URL === 'string' ? SITE_URL : '').replace(/\/$/, '') || 'https://waqasahmad-portfolio.web.app'
+  const root = (typeof SITE_URL === 'string' ? SITE_URL : '').replace(/\/$/, '') || 'https://waqas.ragnorx.com'
   const finalTitle = title && title.includes(name) ? title : `${title} | ${name}`
   const canonicalUrl = url || root + window.location.pathname
   const kw = Array.isArray(keywords) ? withoutAuthorName(keywords, name).slice(0, MAX_KEYWORDS) : []

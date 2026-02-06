@@ -9,18 +9,101 @@ import { SITE_URL, APP_CONFIG } from '../config/constants.js'
    Base injector
 ----------------------------------------------------------- */
 
-export function injectStructuredData(data) {
-  const existing = document.querySelectorAll('script[type="application/ld+json"]')
-  existing.forEach(s => s.remove())
-
+/**
+ * @param {object|object[]} data - One or more JSON-LD schema objects to inject.
+ * @param {{ merge?: boolean }} [options] - If merge is true, append to existing ld+json instead of replacing (avoids components overwriting router-injected schemas).
+ */
+export function injectStructuredData(data, options = {}) {
   const list = Array.isArray(data) ? data : [data]
-  list.forEach((item, index) => {
+  let toInject = list
+
+  if (options.merge) {
+    const existing = document.querySelectorAll('script[type="application/ld+json"]')
+    const existingSchemas = []
+    existing.forEach((s) => {
+      try {
+        const parsed = JSON.parse(s.textContent || '{}')
+        if (parsed && (parsed['@context'] || parsed['@graph'])) existingSchemas.push(parsed)
+      } catch (_) { /* ignore invalid */ }
+    })
+    existing.forEach((s) => s.remove())
+    toInject = [...existingSchemas, ...list]
+  } else {
+    document.querySelectorAll('script[type="application/ld+json"]').forEach((s) => s.remove())
+  }
+
+  toInject.forEach((item, index) => {
     const script = document.createElement('script')
     script.type = 'application/ld+json'
     script.id = `structured-data-${index}`
     script.textContent = JSON.stringify(item, null, 2)
     document.head.appendChild(script)
   })
+}
+
+/* -----------------------------------------------------------
+   Dev-only: assert expected JSON-LD types after navigation
+----------------------------------------------------------- */
+
+/** Collect all @type values from current ld+json scripts (including @graph). */
+export function getCurrentStructuredDataTypes() {
+  if (typeof document === 'undefined') return []
+  const scripts = document.querySelectorAll('script[type="application/ld+json"]')
+  const types = []
+  scripts.forEach((s) => {
+    try {
+      const parsed = JSON.parse(s.textContent || '{}')
+      if (!parsed) return
+      if (parsed['@graph'] && Array.isArray(parsed['@graph'])) {
+        parsed['@graph'].forEach((node) => {
+          if (node && node['@type']) types.push(...(Array.isArray(node['@type']) ? node['@type'] : [node['@type']]))
+        })
+      } else if (parsed['@type']) {
+        types.push(...(Array.isArray(parsed['@type']) ? parsed['@type'] : [parsed['@type']]))
+      }
+    } catch (_) { /* ignore */ }
+  })
+  return types
+}
+
+/**
+ * In dev, assert that the current page has the expected schema types. Call after navigation (e.g. in router afterEach with a short delay so component-injected schemas are present).
+ * @param {{ path: string, name?: string }} route - Current route (to)
+ */
+export function assertStructuredData(route) {
+  if (import.meta.env.PROD) return
+  const path = route?.path || ''
+  const name = route?.name
+
+  const expected = (() => {
+    if (name === 'Home' || path === '/') return ['Person', 'Organization', 'WebSite', 'WebPage']
+    if (path.startsWith('/projects/')) return ['Project', 'BreadcrumbList', 'WebPage']
+    if (path.startsWith('/services/')) return ['Service', 'BreadcrumbList', 'WebPage']
+    if (path === '/blog') return ['CollectionPage', 'BreadcrumbList', 'WebPage']
+    // /blog/:slug: valid article has BlogPosting; article-not-found has only BreadcrumbList + WebPage
+    if (path.startsWith('/blog/')) return ['BreadcrumbList', 'WebPage']
+    if (name === 'Privacy' || name === 'NotFound') return ['BreadcrumbList', 'WebPage']
+    return null
+  })()
+
+  if (!expected) return
+
+  const types = getCurrentStructuredDataTypes()
+  const missing = expected.filter((t) => !types.includes(t))
+  const duplicates = types.filter((t, i) => types.indexOf(t) !== i)
+  const duplicateSet = [...new Set(duplicates)]
+
+  if (missing.length) {
+    console.warn(
+      `[structuredData] Missing expected schema types for ${path}:`,
+      missing.join(', '),
+      '| Current types:',
+      [...new Set(types)]
+    )
+  }
+  if (duplicateSet.length) {
+    console.warn('[structuredData] Duplicate schema types (may be intentional, e.g. multiple BreadcrumbList):', duplicateSet)
+  }
 }
 
 /* -----------------------------------------------------------
@@ -58,7 +141,7 @@ export function generatePersonSchema() {
     '@type': 'Person',
     '@id': `${SITE_URL}#person`,
     name: fullName,
-    description: 'Senior Software Engineer, Technical Lead, and Architect with 17+ years designing and delivering enterprise systems, distributed architectures, and cloud-native platforms.',
+    description: 'Senior Software Engineer, Technical Lead, and Architect; designing and delivering enterprise systems, distributed architectures, and cloud-native platforms.',
     url: website,
     image: {
       '@type': 'ImageObject',
@@ -155,18 +238,26 @@ export function generateBreadcrumbSchema(items) {
    WebPage (per-page identity for Google / AI)
 ----------------------------------------------------------- */
 
-export function generateWebPageSchema({ path, title }) {
+/**
+ * Valid WebPage schema: @context, @type, name, url (required). description optional.
+ * Keywords stay in meta only (5–8 per page via setPageSEO/apply*SEO); do not put in schema.
+ */
+export function generateWebPageSchema({ path, title, description }) {
   const base = SITE_URL.replace(/\/$/, '')
   const pathNorm = (path && path.replace(/^\//, '')) || ''
   const url = pathNorm ? `${base}/${pathNorm}` : base + '/'
   const urlNoTrail = url.replace(/\/$/, '') || base
-  return {
+  const page = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     '@id': `${urlNoTrail}#webpage`,
     name: title || 'Page',
     url: url
   }
+  if (description && typeof description === 'string' && description.trim()) {
+    page.description = description.trim()
+  }
+  return page
 }
 
 /* -----------------------------------------------------------
@@ -395,7 +486,8 @@ export function generateBlogIndexStructuredData(articles = []) {
 
   const speakable = generateSpeakableSchema(['.blog-intro', '.container'])
 
-  const webPage = generateWebPageSchema({ path: '/blog', title: `Blog — ${fullName}` })
+  const blogIndexTitle = `Software Architecture & Engineering Blog | ${fullName}`
+  const webPage = generateWebPageSchema({ path: '/blog', title: blogIndexTitle })
   const all = [page, breadcrumbs, itemList, webPage]
   if (speakable) all.push(speakable)
 
@@ -475,7 +567,8 @@ export function generateHomePageStructuredData(testimonials = []) {
     '.container'
   ])
 
-  const webPage = generateWebPageSchema({ path: '/', title: `${APP_CONFIG.fullName} — Portfolio` })
+  const tagline = APP_CONFIG.titleTagline || 'Software Consultant, Architect & Tech Lead'
+  const webPage = generateWebPageSchema({ path: '/', title: `${APP_CONFIG.fullName} | ${tagline}` })
   const schemas = [person, organization, website, webPage]
   if (speakable) schemas.push(speakable)
 
@@ -484,6 +577,8 @@ export function generateHomePageStructuredData(testimonials = []) {
 
 export default {
   injectStructuredData,
+  getCurrentStructuredDataTypes,
+  assertStructuredData,
   generatePersonSchema,
   generateWebSiteSchema,
   generateOrganizationSchema,

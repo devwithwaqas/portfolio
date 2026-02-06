@@ -3,10 +3,13 @@
  * Same idea as ensure-dist-redirect.js for Firebase waqas project.
  * Canonical main site: waqas.ragnorx.com
  *
+ * Indexable (no noindex) so GSC "Request indexing" works; canonical + redirect
+ * tell Google the main URL and consolidate to waqas.ragnorx.com.
+ *
  * Creates:
- *   dist/portfolio/index.html  - redirect + noindex + canonical
+ *   dist/portfolio/index.html  - redirect + canonical (no noindex)
  *   dist/index.html            - copy for root
- *   dist/robots.txt            - Disallow: /
+ *   dist/robots.txt            - allow crawl so Google can see canonical
  *   dist/portfolio/robots.txt  - copy
  *
  * Run: node scripts/ensure-dist-github-pages-redirect.js
@@ -24,7 +27,6 @@ const INDEX_HTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="robots" content="noindex, nofollow">
   <link rel="canonical" href="${TARGET_SLASH}">
   <meta http-equiv="refresh" content="0; url=${TARGET_SLASH}">
   <title>Redirecting to Waqas Ahmad Portfolio...</title>
@@ -43,9 +45,9 @@ const INDEX_HTML = `<!DOCTYPE html>
 </html>
 `
 
-const ROBOTS_TXT = `# Redirect-only; do not index
+const ROBOTS_TXT = `# Redirect page; allow crawl so Google sees canonical + redirect to main site
 User-agent: *
-Disallow: /
+Allow: /
 `
 
 if (!fs.existsSync(DIST)) {

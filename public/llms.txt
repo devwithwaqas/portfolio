@@ -3,7 +3,7 @@
 # ===============================
 
 Title: Waqas Ahmad — Senior Software Engineer, Technical Lead & Architect
-URL: https://waqasahmad-portfolio.web.app/
+URL: https://waqas.ragnorx.com/
 Author: Waqas Ahmad
 
 Description:

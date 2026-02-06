@@ -1,7 +1,7 @@
 /**
  * Ensure dist-redirect/ exists with a minimal index.html for Firebase Hosting.
- * Used when deploying waqasahmad-portfolio as 301-redirect-only (no full site).
- * Page is blank/invisible so if it ever flashes before 301, user sees no text.
+ * Used when deploying waqasahmad-portfolio as redirect-only (no full site).
+ * Indexable so GSC "Request indexing" works; canonical + redirect consolidate to main site.
  */
 
 const fs = require('fs')
@@ -13,10 +13,9 @@ const INDEX_HTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="robots" content="noindex, nofollow">
   <link rel="canonical" href="${TARGET}">
   <meta http-equiv="refresh" content="0;url=${TARGET}">
-  <script>location.replace("${TARGET}");</script>
+  <script>var b="${TARGET.replace(/\/$/, '')}";location.replace(b+location.pathname+location.search+location.hash);</script>
   <title>Redirect</title>
 </head>
 <body style="margin:0;background:#0d1117"></body>

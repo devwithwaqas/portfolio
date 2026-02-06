@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import { generateBreadcrumbSchema, injectStructuredData } from '../../utils/structuredData.js'
 import { SITE_URL } from '../../config/constants.js'
 import { navigateToSection } from '../../utils/scrollToSection.js'
 
@@ -121,16 +120,7 @@ export default {
       // If anything fails, keep the default SITE_URL
       this.currentUrl = SITE_URL
     }
-    
-    // Generate and inject BreadcrumbList structured data for SEO
-    const breadcrumbItems = [
-      { name: 'Home', url: SITE_URL },
-      ...(this.showParent ? [{ name: this.parentLabel, url: `${SITE_URL}${this.parentLink.replace(/^\/#/, '')}` }] : []),
-      { name: this.currentPage, url: this.currentUrl }
-    ]
-    
-    const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems)
-    injectStructuredData(breadcrumbSchema)
+    // BreadcrumbList JSON-LD is injected by the router per route (project/service/blog/privacy/404), not here, to avoid overwriting other page schemas.
   }
 }
 </script>

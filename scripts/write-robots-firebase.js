@@ -9,7 +9,7 @@ const path = require('path')
 const DIST = path.resolve(__dirname, '../dist')
 const indexPath = path.join(DIST, 'index.html')
 
-let baseUrl = (process.env.FIREBASE_SITE_URL || process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app').replace(/\/$/, '')
+let baseUrl = (process.env.FIREBASE_SITE_URL || process.env.VITE_FIREBASE_SITE_URL || 'https://waqas.ragnorx.com').replace(/\/$/, '')
 
 const isFirebase = () => {
   if (process.env.FIREBASE_SITE_URL || process.env.VITE_FIREBASE_SITE_URL) return true

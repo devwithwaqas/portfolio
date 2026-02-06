@@ -1,16 +1,22 @@
 /**
  * Microsoft Clarity – behavioral analytics (heatmaps, session recordings).
- * Firebase site only: waqasahmad-portfolio.web.app (NOT GitHub Pages "Waqas Ahmad portfolio").
- * Use the project ID for your "waqasahmad-portfolio" Clarity project. Delete the old
- * "Waqas Ahmad portfolio" (GitHub Pages) project in clarity.microsoft.com if both show the same URL.
  *
- * Clarity recommendations (dashboard-only): Masking settings; privacy = /privacy + footer.
+ * Primary install: script tag in index.html (clarity.ms/tag/vcvk2ym4an). That’s what the dashboard
+ * checks for “set up” and what sends POSTs to https://www.clarity.ms/collect. See:
+ * https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-setup
+ * https://learn.microsoft.com/en-us/clarity/setup-and-installation/troubleshooting-installation
+ *
+ * This module (NPM) runs in prod after app mount; if the script tag already loaded Clarity, init is
+ * effectively a no-op. Kept for optional use of Identify/Custom Tags APIs later.
+ *
+ * "Not yet configured with analytics": Link GA4 in the Clarity dashboard (Settings → Setup →
+ * Google Analytics integration → Get Started). Not in code.
+ * https://learn.microsoft.com/en-us/clarity/ga-integration/ga4-integration
  */
 
 import Clarity from '@microsoft/clarity'
 
-// Must be the project ID for waqasahmad-portfolio (Firebase). Set VITE_CLARITY_PROJECT_ID if different.
-const PROJECT_ID = import.meta.env.VITE_CLARITY_PROJECT_ID || 'v8ko15lcwu'
+const PROJECT_ID = import.meta.env.VITE_CLARITY_PROJECT_ID || 'vcvk2ym4an'
 
 export function initClarity() {
   if (typeof window === 'undefined') return

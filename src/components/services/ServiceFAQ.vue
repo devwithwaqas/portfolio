@@ -84,7 +84,7 @@ export default {
       const faqSchema = generateFAQPageSchema(this.faqItems)
       // Inject FAQ schema - injectStructuredData will create a separate script tag
       // This works alongside existing schemas from the router
-      injectStructuredData([faqSchema])
+      injectStructuredData([faqSchema], { merge: true })
     }
   },
   methods: {

@@ -1,9 +1,9 @@
-# robots.txt for https://waqasahmad-portfolio.web.app
-# Crawl rules only. /llms.txt is optional for some agents; not an official standard.
+# robots.txt — crawl rules. /llms.txt optional for some agents; not an official standard.
+# Canonical site: https://waqas.ragnorx.com (Firebase build overwrites this in dist/ with correct base.)
 
 User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://waqasahmad-portfolio.web.app/sitemap.xml
+Sitemap: https://waqas.ragnorx.com/sitemap.xml

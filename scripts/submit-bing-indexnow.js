@@ -13,8 +13,9 @@
 const fs = require('fs')
 const path = require('path')
 
-const INDEXNOW_KEY = process.env.BING_INDEXNOW_KEY || 'cbe5cb9f88984691af7d581e94e409f6'
-const BASE_URL = (process.env.FIREBASE_SITE_URL || process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app').replace(/\/$/, '')
+const INDEXNOW_KEY = process.env.BING_INDEXNOW_KEY || '73e43e4aa58341fbb416f06913dcabda'
+// Canonical site (Bing/IndexNow must submit URLs for the live site where the key file is hosted)
+const BASE_URL = (process.env.FIREBASE_SITE_URL || process.env.VITE_FIREBASE_SITE_URL || 'https://waqas.ragnorx.com').replace(/\/$/, '')
 const KEY_FILE = `${INDEXNOW_KEY}.txt`
 const KEY_LOCATION = `${BASE_URL}/${KEY_FILE}`
 // Official IndexNow endpoint (works for all IndexNow-compatible engines: Bing, Yandex, etc.)
@@ -95,9 +96,8 @@ async function submit() {
 
   const resText = await res.text()
 
-  // Handle official IndexNow response codes
-  if (res.status === 200) {
-    // Success
+  // Handle official IndexNow response codes (200 = processed, 202 = accepted for processing)
+  if (res.status === 200 || res.status === 202) {
     if (process.env.DEBUG) {
       console.log('Response:', res.status, resText || '(empty)')
     }

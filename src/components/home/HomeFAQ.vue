@@ -67,7 +67,7 @@ export default {
       }
       runWhenIdle(() => {
         const faqSchema = generateFAQPageSchema(this.faqItems)
-        injectStructuredData([faqSchema])
+        injectStructuredData([faqSchema], { merge: true })
       })
     }
   },

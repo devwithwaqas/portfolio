@@ -23,7 +23,7 @@ const techLeadExperience = calculateTechLeadExperience()
 // In browser: use actual origin so one build works for waqas, ragnorx, and CNAME (e.g. waqas.ragnorx.com).
 // At build/SSR: use env or default.
 const BASE_URL = import.meta.env.BASE_URL || '/'
-const FIREBASE_SITE_URL = import.meta.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app/'
+const FIREBASE_SITE_URL = import.meta.env.VITE_FIREBASE_SITE_URL || 'https://waqas.ragnorx.com/'
 export const SITE_URL =
   typeof window !== 'undefined' && window.location?.origin
     ? window.location.origin.replace(/\/$/, '') + '/'
@@ -32,8 +32,11 @@ export const SITE_URL =
 // Basic constants for the portfolio application
 // All personal information comes from environment variables (.env file)
 // See .env.example for setup instructions
+// SEO: single source for home & brand title tagline (50–60 chars total title; pipes are standard for segment separation).
+const DEFAULT_TITLE_TAGLINE = 'Software Consultant, Architect & Tech Lead'
 export const APP_CONFIG = {
   fullName: import.meta.env.VITE_FULL_NAME || "Your Name",
+  titleTagline: import.meta.env.VITE_TITLE_TAGLINE || DEFAULT_TITLE_TAGLINE,
   location: import.meta.env.VITE_LOCATION || "Your Location",
   linkedin: import.meta.env.VITE_LINKEDIN_URL || "",
   github: import.meta.env.VITE_GITHUB_URL || "",

@@ -10,7 +10,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const SOURCE_PNG = path.join(__dirname, '../public/assets/img/favicon-512.png');
+// Prefer favicon-sample.png so one source drives all icons; fallback to existing 512.
+const SOURCE_PNG = fs.existsSync(path.join(__dirname, '../public/favicon-sample.png'))
+  ? path.join(__dirname, '../public/favicon-sample.png')
+  : path.join(__dirname, '../public/assets/img/favicon-512.png');
 const OUTPUT_ICO = path.join(__dirname, '../public/favicon.ico');
 const OUTPUT_PNG_48 = path.join(__dirname, '../public/favicon-48x48.png');
 const OUTPUT_PNG_32 = path.join(__dirname, '../public/favicon-32x32.png');

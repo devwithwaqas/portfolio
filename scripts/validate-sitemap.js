@@ -80,7 +80,7 @@ let validCount = 0
 let invalidCount = 0
 
 // Validate Firebase URLs only (GitHub Pages now redirects to Firebase)
-const FIREBASE_URL = process.env.VITE_FIREBASE_SITE_URL || 'https://waqasahmad-portfolio.web.app'
+const FIREBASE_URL = (process.env.FIREBASE_SITE_URL || process.env.VITE_FIREBASE_SITE_URL || 'https://waqas.ragnorx.com').replace(/\/$/, '')
 const isValidBaseUrl = (url) => url.startsWith(FIREBASE_URL)
 
 urls.forEach((url, index) => {

@@ -220,6 +220,15 @@ function deployFirebase(environment = 'prod', manualBuildNumber = null, projectT
     ? 'npm run build:firebase:dev'
     : 'npm run build:firebase'
 
+  // Use the full-site (canonical) base URL for build so sitemap/validate output and built assets use correct URLs.
+  const fullSiteTarget = deployTargets.find((t) => !FIREBASE_PROJECTS[t].redirectOnly)
+  const buildBaseUrl = fullSiteTarget
+    ? (FIREBASE_PROJECTS[fullSiteTarget].canonicalUrl || FIREBASE_PROJECTS[fullSiteTarget].siteUrl).replace(/\/$/, '')
+    : null
+  const buildEnv = buildBaseUrl
+    ? { ...process.env, FIREBASE_SITE_URL: buildBaseUrl, VITE_FIREBASE_SITE_URL: buildBaseUrl + '/' }
+    : process.env
+
   let actualNewBuild = null
   try {
     if (redirectOnlyDeploy) {
@@ -298,9 +307,9 @@ function deployFirebase(environment = 'prod', manualBuildNumber = null, projectT
             'node scripts/generate-sw.js'
           ]
       
-      // Run each step
+      // Run each step with build env so sitemap/robots/validate use canonical URL
       for (const step of buildSteps) {
-        execSync(step, { stdio: 'inherit', cwd: path.resolve(__dirname, '..') })
+        execSync(step, { stdio: 'inherit', cwd: path.resolve(__dirname, '..'), env: buildEnv })
       }
       
       // After build, verify the manual build number is in dist/sw.js (the deployed file)
@@ -318,7 +327,7 @@ function deployFirebase(environment = 'prod', manualBuildNumber = null, projectT
         }
       }
     } else {
-      execSync(buildCommand, { stdio: 'inherit' })
+      execSync(buildCommand, { stdio: 'inherit', env: buildEnv })
     }
     }
 
