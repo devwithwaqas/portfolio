@@ -9,7 +9,7 @@
           <div class="header-particles">
             <span class="particle" v-for="n in 5" :key="n"></span>
           </div>
-          <h3 class="header-title-enhanced txt-h3-2xl" :style="titleStyle">
+          <component :is="titleTag" class="header-title-enhanced txt-h3-2xl" :style="titleStyle">
             <!-- Icon Resolver Support -->
             <span v-if="iconName && iconData" class="title-icon icon-wrapper-lg">
               <i v-if="iconData.type === 'devicon'" :class="deviconClass + ' icon-lg'"></i>
@@ -29,7 +29,7 @@
             
             <span class="title-text">{{ extractedTitle }}</span>
             <div class="title-underline"></div>
-          </h3>
+          </component>
           <div class="header-glow-effect"></div>
         </div>
 
@@ -52,6 +52,12 @@ export default {
     OptimizedImage
   },
   props: {
+    /** When 'h1', card title is the main page heading (one per page for Bing/SEO). Default 'h3'. */
+    titleTag: {
+      type: String,
+      default: 'h3',
+      validator: (v) => ['h1', 'h2', 'h3'].includes(v)
+    },
     title: {
       type: String,
       required: true

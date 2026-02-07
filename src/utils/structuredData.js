@@ -4,6 +4,7 @@
  */
 
 import { SITE_URL, APP_CONFIG } from '../config/constants.js'
+import { getMetaKeywords } from '../config/seoKeywords.js'
 
 /* -----------------------------------------------------------
    Base injector
@@ -115,47 +116,124 @@ export function generatePersonSchema() {
   const fullName = APP_CONFIG.fullName
   const website = APP_CONFIG.contactLinks.website || SITE_URL
 
-  const coreSkills = [
-    'Software Architecture',
-    'Enterprise Application Architecture',
-    'Distributed Systems Architecture',
-    'Microservices Architecture',
-    'Azure Cloud Architecture',
-    'Cloud-native Application Design',
-    'API Design & Architecture',
-    'REST API Design',
-    'Event-driven Architecture',
-    'Observability & Distributed Tracing',
-    'System Reliability Engineering',
-    '.NET Platform Engineering'
-  ]
-
-  const specialty = [
-    'Cloud Systems',
-    'Enterprise Software',
-    'Distributed Systems'
-  ]
-
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
     '@id': `${SITE_URL}#person`,
     name: fullName,
-    description: 'Senior Software Engineer, Technical Lead, and Architect; designing and delivering enterprise systems, distributed architectures, and cloud-native platforms.',
-    url: website,
+    headline: 'Software Architect & Technical Lead specializing in enterprise-scale .NET, microservices, distributed systems, and full-stack cloud-native application development.',
+    description: 'Software Architect and Senior Engineer with expertise in designing enterprise applications, distributed systems, microservices, cloud-native .NET platforms, Azure cloud architectures, event-driven systems, and full-stack solutions. Strong background in technical leadership, backend engineering, API design, scalability, reliability engineering, SQL optimization, and guiding high-performing remote engineering teams.',
     image: {
       '@type': 'ImageObject',
       url: `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
     },
+    url: website,
+    jobTitle: 'Software Architect',
+    hasOccupation: [
+      {
+        '@type': 'Occupation',
+        name: 'Software Architect',
+        description: 'Architecting cloud-native, event-driven, and distributed software systems using .NET, Azure, microservices, and domain-driven design.',
+        skills: [
+          'Distributed systems design',
+          'Microservices architecture',
+          'Event-driven architecture',
+          'Cloud-native systems',
+          'API engineering',
+          'High-scale software design'
+        ]
+      },
+      {
+        '@type': 'Occupation',
+        name: 'Technical Lead',
+        description: 'Leading engineering teams, establishing architecture standards, mentoring developers, and ensuring high-quality delivery across remote teams.',
+        skills: [
+          'Technical leadership',
+          'Architecture governance',
+          'Team mentorship',
+          'Engineering strategy',
+          'Code review and standards',
+          'Distributed team coordination'
+        ]
+      },
+      {
+        '@type': 'Occupation',
+        name: 'Senior Software Engineer',
+        description: 'Building high-performance backend systems, optimizing enterprise applications, and engineering scalable services using .NET and SQL Server.',
+        skills: [
+          'Backend engineering',
+          'Performance tuning',
+          'Database optimization',
+          'API development',
+          'Enterprise .NET engineering',
+          'Reliability engineering'
+        ]
+      },
+      {
+        '@type': 'Occupation',
+        name: 'Full Stack .NET Developer',
+        description: 'Developing end-to-end enterprise applications using .NET, Angular, Vue, SQL, and Azure services.',
+        skills: [
+          'Full-stack development',
+          'Angular architecture',
+          'Vue.js enterprise design',
+          'Frontend integration',
+          'UI/UX engineering',
+          'API integration patterns'
+        ]
+      },
+      {
+        '@type': 'Occupation',
+        name: '.NET Developer',
+        description: 'Specializing in .NET Core, C#, scalable REST APIs, microservices, and Azure-native backend engineering.',
+        skills: [
+          '.NET Core',
+          'C# engineering',
+          'REST API design',
+          'Azure service integration',
+          'Clean architecture patterns',
+          'Microservices engineering'
+        ]
+      }
+    ],
     sameAs: [
       APP_CONFIG.contactLinks.linkedin,
       APP_CONFIG.contactLinks.github,
-      website,
-      'https://www.linkedin.com/in/waqas1430/details/recommendations/?detailScreenTabIndex=0'
+      website
     ].filter(Boolean),
-    jobTitle: ['Software Architect', 'Senior Software Engineer', 'Technical Lead'],
-    knowsAbout: coreSkills,
-    specialty,
+    knowsAbout: [
+      'Software Architecture',
+      'Enterprise Application Architecture',
+      'Distributed Systems Architecture',
+      'Microservices Architecture',
+      'Cloud-native Application Design',
+      'Azure Cloud Architecture',
+      'API Design & Architecture',
+      'REST API Design',
+      'Event-driven Architecture',
+      'System Reliability Engineering',
+      'Observability & Distributed Tracing',
+      '.NET Platform Engineering',
+      'Domain-driven Design',
+      'CQRS and Event Sourcing',
+      'SQL Server Optimization',
+      'Entity Framework Core Optimization',
+      'Full stack .NET development',
+      'Angular and Vue enterprise applications',
+      'Technical leadership for distributed teams'
+    ],
+    specialty: [
+      'Cloud Systems',
+      'Enterprise Software',
+      'Distributed Systems',
+      'Full-stack Engineering',
+      'Technical Leadership'
+    ],
+    worksFor: {
+      '@type': 'Organization',
+      name: 'Freelance / Consulting',
+      url: website
+    },
     alumniOf: {
       '@type': 'EducationalOrganization',
       name: 'University of Engineering and Technology, Lahore'
@@ -397,9 +475,12 @@ export function generateBlogArticleStructuredData(article, options = {}) {
   const fullName = APP_CONFIG.fullName
   const url = `${SITE_URL}blog/${article.slug}`
   const imageUrl = article.image || `${SITE_URL}assets/img/waqas-profile-hoodie.jpg`
+  const pathKeywords = getMetaKeywords(`/blog/${article.slug || ''}`)
   const kwArray = options.keywords && options.keywords.length
     ? options.keywords.slice(0, BLOG_KEYWORDS_MAX)
-    : (article.topic ? [article.topic] : [])
+    : pathKeywords.length
+      ? pathKeywords.slice(0, BLOG_KEYWORDS_MAX)
+      : (article.topic ? [article.topic] : [])
   const keywords = (Array.isArray(kwArray) ? kwArray : [kwArray]).filter(Boolean).slice(0, BLOG_KEYWORDS_MAX).join(', ')
 
   const blogPosting = {

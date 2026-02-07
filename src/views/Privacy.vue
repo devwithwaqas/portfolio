@@ -9,6 +9,7 @@
       <ReusableCard 
         title="Privacy & Analytics" 
         icon-name="privacy"
+        title-tag="h1"
         :card-padding="'30px'"
         :body-padding="'20px'"
       >

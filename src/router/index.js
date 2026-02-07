@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // Lazy load all views for better code splitting
 import { setPageSEO, applyHomeSEO, applyProjectSEO, applyServiceSEO, applyBlogIndexSEO, applyBlogSEO } from '../utils/seo.js'
+import { getMetaKeywords } from '../config/seoKeywords.js'
 import { generateProjectPageStructuredData, generateServicePageStructuredData, generateBlogArticleStructuredData, generateBlogIndexStructuredData, generateBreadcrumbSchema, generateWebPageSchema, injectStructuredData, assertStructuredData } from '../utils/structuredData.js'
 // Blog data loaded only when navigating to /blog or /blog/:slug (dynamic import) to avoid chunk TDZ in prod
 import { trackPageView, trackServicePageView, trackProjectPageView } from '../utils/analytics.js'
@@ -574,7 +575,7 @@ router.beforeEach((to, from, next) => {
         setPageSEO({
           title: 'Article Not Found',
           description: 'The requested article was not found. Return to the blog to explore more articles.',
-          keywords: ['blog', 'articles', 'technical blog', 'engineering'],
+          keywords: getMetaKeywords('/blog').length ? getMetaKeywords('/blog') : ['blog', 'articles', 'technical blog', 'engineering'],
           url: `${SITE_URL}${to.path}`,
           noindex: true
         })
@@ -595,7 +596,7 @@ router.beforeEach((to, from, next) => {
     setPageSEO({
       title: 'Privacy & Analytics | Waqas Ahmad',
       description: 'Privacy and analytics disclosure: Google Analytics (GA4), Microsoft Clarity. What we collect, your choices, and how to contact us.',
-      keywords: ['privacy', 'analytics', 'Google Analytics', 'Microsoft Clarity', 'data', 'cookies'],
+      keywords: getMetaKeywords('/privacy').length ? getMetaKeywords('/privacy') : ['privacy', 'analytics', 'Google Analytics', 'Microsoft Clarity', 'data', 'cookies'],
       url: `${SITE_URL}${to.path}`
     })
     const privacyBreadcrumbs = generateBreadcrumbSchema([
@@ -608,7 +609,7 @@ router.beforeEach((to, from, next) => {
     setPageSEO({
       title: '404 - Page Not Found',
       description: 'The page you are looking for does not exist. Return to the homepage to explore the portfolio and services.',
-      keywords: ['404', 'page not found', 'portfolio', 'home'],
+      keywords: getMetaKeywords('/404').length ? getMetaKeywords('/404') : ['404', 'page not found', 'portfolio', 'home'],
       url: `${SITE_URL}${to.path}`,
       noindex: true
     })
@@ -626,7 +627,7 @@ router.beforeEach((to, from, next) => {
     setPageSEO({
       title: 'Senior Software Engineer & Technical Lead',
       description: 'Senior Software Engineer & Technical Lead. Portfolio of experience in .NET, Azure Cloud, and enterprise architecture.',
-      keywords: ['Senior Software Engineer', 'Technical Lead', 'software engineering', 'cloud architecture', '.NET'],
+      keywords: getMetaKeywords('/').length ? getMetaKeywords('/') : ['Senior Software Engineer', 'Technical Lead', 'software engineering', 'cloud architecture', '.NET'],
       url: `${SITE_URL}${to.path}`
     })
     const fallbackWebPage = generateWebPageSchema({

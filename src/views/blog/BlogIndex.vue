@@ -9,6 +9,7 @@
       <ReusableCard
         title="Blog"
         icon-name="services"
+        title-tag="h1"
         body-padding="20px"
         class="mb-4"
       >

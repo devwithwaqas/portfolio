@@ -6,6 +6,7 @@
  */
 
 import { SITE_URL, APP_CONFIG } from '../config/constants.js'
+import { getMetaKeywords } from '../config/seoKeywords.js'
 
 /** Max meta keywords per page (Google-friendly; no stuffing). Target 5–8 per page type. */
 const MAX_KEYWORDS = 8
@@ -155,21 +156,15 @@ function applySEO({ title, description, keywords, image, url, type, noindex = fa
 export function applyHomeSEO() {
   const name = APP_CONFIG.fullName
   const tagline = APP_CONFIG.titleTagline || 'Software Consultant, Architect & Tech Lead'
-  // Pipe separator: SEO-standard for segment separation; ~50–60 chars total avoids truncation (Bing/Google).
   const title = `${name} | ${tagline}`
   const description = `${name} — software engineering portfolio showcasing experience, projects, and technical capabilities.`
-  const keywords = [
-    'software engineering',
-    'system design',
-    'cloud architecture',
-    'backend development',
-    'full stack',
-    'technical lead'
-  ]
+  const keywords = getMetaKeywords('/').length
+    ? getMetaKeywords('/')
+    : ['software engineering', 'system design', 'cloud architecture', 'backend development', 'full stack', 'technical lead'].slice(0, MAX_KEYWORDS)
   applySEO({
     title,
     description,
-    keywords: keywords.slice(0, MAX_KEYWORDS),
+    keywords,
     type: 'profile',
     image: getDefaultOgImage(),
     url: getSeoRoot() + '/'
@@ -201,16 +196,17 @@ export function applyBlogSEO(article) {
   const name = APP_CONFIG.fullName
   const title = buildSEOTitle(article.title || 'Article', name)
   const description = article.excerpt || `${article.title} — an engineering insight authored by ${name}.`
-  const topics = Array.isArray(article.topics) && article.topics.length
-    ? article.topics.slice(0, MAX_KEYWORDS)
-    : [article.title, article.topic].filter(Boolean).slice(0, MAX_KEYWORDS)
+  const path = '/blog/' + (article.slug || '')
+  const keywords = getMetaKeywords(path).length
+    ? getMetaKeywords(path)
+    : (Array.isArray(article.topics) && article.topics.length ? article.topics : [article.title, article.topic].filter(Boolean)).slice(0, MAX_KEYWORDS)
   applySEO({
     title,
     description,
-    keywords: topics,
+    keywords,
     type: 'article',
     image: article.image || getDefaultOgImage(),
-    url: getSeoRoot() + '/blog/' + (article.slug || '')
+    url: getSeoRoot() + path
   })
 }
 
@@ -219,11 +215,10 @@ export function applyProjectSEO(project) {
   const title = buildSEOTitle(project.title, name)
   const summary = project.summary || project.description
   const description = summary || `${project.title} — a technical case study demonstrating engineering execution by ${name}.`
-  const techKeywords = (project.technologies || [])
-    .map((t) => (typeof t === 'string' ? t : t.name))
-    .filter(Boolean)
-    .slice(0, 5)
-  const keywords = [project.title, 'case study', 'project', ...techKeywords].filter(Boolean).slice(0, MAX_KEYWORDS)
+  const path = project.url && typeof project.url === 'string' ? project.url : ''
+  const fromConfig = path ? getMetaKeywords(path) : []
+  const fallback = (project.technologies || []).map((t) => (typeof t === 'string' ? t : t.name)).filter(Boolean).slice(0, 5)
+  const keywords = fromConfig.length ? fromConfig : [project.title, 'case study', 'project', ...fallback].filter(Boolean).slice(0, MAX_KEYWORDS)
   applySEO({
     title,
     description,
@@ -238,15 +233,10 @@ export function applyServiceSEO(service) {
   const name = APP_CONFIG.fullName
   const title = buildSEOTitle(service.title, name)
   const description = service.description || `${service.title} — overview of capabilities, technologies, and experience.`
-  const topics = (service.topics || service.keywords || []).slice(0, 3)
-  const keywords = [
-    service.title,
-    'software engineering',
-    'capabilities',
-    'system design',
-    'architecture',
-    ...topics
-  ].filter(Boolean).slice(0, MAX_KEYWORDS)
+  const path = service.url && typeof service.url === 'string' ? service.url : ''
+  const fromConfig = path ? getMetaKeywords(path) : []
+  const fallback = (service.topics || service.keywords || []).slice(0, 3)
+  const keywords = fromConfig.length ? fromConfig : [service.title, 'software engineering', 'capabilities', 'system design', 'architecture', ...fallback].filter(Boolean).slice(0, MAX_KEYWORDS)
   applySEO({
     title,
     description,

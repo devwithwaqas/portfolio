@@ -1,5 +1,5 @@
 /**
- * SEO Analyzer: Score HTML by categories (same as docs/SEO_GOOGLE_GUIDELINES_COMPLIANCE chart).
+ * SEO Analyzer: Score HTML by categories (aligned with docs/SEO_SINGLE_SOURCE_OF_TRUTH.md authority rules).
  *
  * Reads HTML from:
  *   - Live URL (fetch as Googlebot): default, or --url=...

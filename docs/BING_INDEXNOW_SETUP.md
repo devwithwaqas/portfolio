@@ -1,5 +1,7 @@
 # Bing / IndexNow URL Submission
 
+> **Single source of truth:** See **docs/SEO_SINGLE_SOURCE_OF_TRUTH.md** for current implementation (IndexNow script, base URL, key file, and all other SEO: keywords, structured data, meta, sitemap, llms.txt).
+
 The **canonical site** for this project is **https://waqas.ragnorx.com**. Bing/IndexNow must use this domain (where the key file is hosted and the sitemap lives).
 
 ---

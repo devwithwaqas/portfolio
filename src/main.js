@@ -232,7 +232,7 @@ router.isReady().then(() => {
 // Expected service worker version - AUTO-GENERATED ON BUILD (from git commit hash)
 // Version is automatically updated by scripts/generate-sw-version.js during build
 // MUST MATCH the version in public/sw.js
-const EXPECTED_SW_VERSION = '1234'
+const EXPECTED_SW_VERSION = 'a46a5b4'
 
 if ('serviceWorker' in navigator) {
   // CRITICAL: In dev mode, unregister ALL service workers immediately (not on load)

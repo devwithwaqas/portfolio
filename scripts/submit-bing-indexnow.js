@@ -14,8 +14,10 @@ const fs = require('fs')
 const path = require('path')
 
 const INDEXNOW_KEY = process.env.BING_INDEXNOW_KEY || '73e43e4aa58341fbb416f06913dcabda'
-// Canonical site (Bing/IndexNow must submit URLs for the live site where the key file is hosted)
-const BASE_URL = (process.env.FIREBASE_SITE_URL || process.env.VITE_FIREBASE_SITE_URL || 'https://waqas.ragnorx.com').replace(/\/$/, '')
+// Canonical site (Bing/IndexNow must submit URLs for the live site where the key file is hosted).
+// Priority: CLI arg > FIREBASE_SITE_URL > VITE_FIREBASE_SITE_URL > default (ragnorx).
+const baseFromArgv = process.argv[2] && process.argv[2].startsWith('http') ? process.argv[2] : null
+const BASE_URL = (baseFromArgv || process.env.FIREBASE_SITE_URL || process.env.VITE_FIREBASE_SITE_URL || 'https://waqas.ragnorx.com').replace(/\/$/, '')
 const KEY_FILE = `${INDEXNOW_KEY}.txt`
 const KEY_LOCATION = `${BASE_URL}/${KEY_FILE}`
 // Official IndexNow endpoint (works for all IndexNow-compatible engines: Bing, Yandex, etc.)

@@ -6,9 +6,9 @@
 
 ## Kept (required)
 
-**SEO (final checklist + procedures):**
-- `docs/FINAL_GO_CHECKLIST.md` — final SEO go checklist
-- `docs/SEO_POST_IMPLEMENTATION_AUDIT.md` — SEO implementation audit / procedures
+**SEO (single source + procedures):**
+- `docs/SEO_SINGLE_SOURCE_OF_TRUTH.md` — **single source** for all SEO implementation (keywords, schema, meta, llms.txt, sitemap, IndexNow, pre-launch checklist)
+- `docs/SEO_KEYWORDS_UPGRADE.md` — keyword **data** (82 URL sets)
 - `docs/BLOG_AUTHORITY_SECTIONS_AUDIT.md` — authority audit (generated; referenced by checklist)
 
 **Setup (for new projects — Bing, GA4, Google, etc.):**
@@ -32,9 +32,6 @@
 - `docs/DIAGRAM_SETUP_GUIDE.md`
 - `docs/KROKI_DIAGRAMS.md`
 - `docs/IMAGE_OPTIMIZATION_GUIDE.md`
-- `docs/STRUCTURED_DATA_VALIDATION_GUIDE.md`
-- `docs/SEO_GOOGLE_GUIDELINES_COMPLIANCE.md`
-- `docs/SEO_CODE_SPLITTING_SAFETY.md`
 - `docs/STYLE_RULES.md`
 - `docs/FREE_TIER_CAPACITY_AND_OPTIONS.md`
 

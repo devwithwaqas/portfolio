@@ -1,5 +1,5 @@
 <template>
-  <ReusableCard :title="title" :icon-name="iconName" class="mb-4">
+  <ReusableCard :title="title" :icon-name="iconName" title-tag="h1" class="mb-4">
     <div class="service-hero-content">
       <!-- Hero Image -->
       <div v-if="heroImage" class="hero-image-container mb-4">

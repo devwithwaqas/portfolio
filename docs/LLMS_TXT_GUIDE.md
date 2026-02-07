@@ -1,5 +1,7 @@
 # llms.txt: Purpose, Format, and Why We Use This Version
 
+> **Single source of truth:** See **docs/SEO_SINGLE_SOURCE_OF_TRUTH.md** for current implementation (llms.txt build, content rules, and all other SEO: keywords, structured data, meta, sitemap, IndexNow).
+
 **Site:** https://waqasahmad-portfolio.web.app  
 **File:** `public/llms.txt` (copied to `dist/llms.txt` on build)
 
@@ -60,4 +62,4 @@ Do **not** reintroduce per-article blocks or build-time generation unless you ex
 - **File:** `public/llms.txt`
 - **Copy script:** `scripts/copy-llms-txt.js`
 - **Legacy generator (not in build):** `scripts/generate-llms-blog-articles.js`
-- **SEO context:** `docs/SEO_81_PAGES_FULL_PLAN.md`, `docs/SEO_AI_81_PAGES_IMPLEMENTATION_PLAN.md` (llms.txt sections updated to reflect this format).
+- **SEO context:** See **`docs/SEO_SINGLE_SOURCE_OF_TRUTH.md`** §5 (llms.txt) for build, content, and when to update.
